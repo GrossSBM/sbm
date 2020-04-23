@@ -10,7 +10,7 @@ Authors@R:
            comment = c(ORCID = "0000-0002-3629-3429")),
       person(given = "Sophie", family = "Donnet", role = c("aut"),
            email = "sophie.donnet@inrae.fr"))
-Description: A collection of tools and function to adjust a variaty of stochastic blockmodels (SBM), 
+Description: A collection of tools and function to adjust a variety of stochastic blockmodels (SBM), 
   such as Simple (directed/undirected) SBM, Bipartite SBM, Multipartite SBM, Multilevel SBM and more.
 License: GPL-3 + file LICENSE
 Encoding: UTF-8
@@ -18,4 +18,6 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.0
 Suggests: 
-    testthat
+    testthat,
+    spelling
+Language: en-US

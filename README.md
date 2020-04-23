@@ -12,7 +12,7 @@ status](https://ci.appveyor.com/api/projects/status/github/GrossSBM/GSBM?branch=
 <!-- badges: end -->
 
 The goal of GSBM is to regroup into a unique framework tools for
-estimating and manipulatinf variants of the stochastic blockmodel.
+estimating and manipulating variants of the stochastic blockmodel.
 
 ## Installation
 
