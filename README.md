@@ -5,6 +5,8 @@
 
 <!-- badges: start -->
 
+[![Travis build
+status](https://travis-ci.com/GrossSBM/GSBM.svg?branch=master)](https://travis-ci.com/GrossSBM/GSBM)
 <!-- badges: end -->
 
 The goal of GSBM is to regroup into a unique framework tools for
