@@ -12,7 +12,7 @@ estimateBipartiteSBM(
 )
 }
 \arguments{
-\item{netMat}{a matrix describing the network: either an adjacency (square) or incidence matrix with possibly weigthed entries.}
+\item{netMat}{a matrix describing the network: either an adjacency (square) or incidence matrix with possibly weighted entries.}
 
 \item{model}{character describing the model for the relation between nodes (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'}, ...). Default is \code{'bernoulli'}.}
 

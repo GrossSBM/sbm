@@ -9,6 +9,36 @@ This class is designed to give a representation and adjust an LBM fitted with bl
 \section{Super classes}{
 \code{\link[GSBM:SBM]{GSBM::SBM}} -> \code{\link[GSBM:SBM_fit]{GSBM::SBM_fit}} -> \code{BipartiteSBM_fit}
 }
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
+\describe{
+\item{\code{function}}{to perform optimization.}
+
+\item{\code{vector}}{of size 2: number of nodes (rows, columns)}
+
+\item{\code{vector}}{of size 2: number of blocks (rows, columns)}
+
+\item{\code{number}}{of dyads (potential edges in the network)}
+
+\item{\code{list}}{of size 2: vector of memberships in row, in column.}
+}
+\if{html}{\out{</div>}}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{function}}{to perform optimization.}
+
+\item{\code{vector}}{of size 2: number of nodes (rows, columns)}
+
+\item{\code{vector}}{of size 2: number of blocks (rows, columns)}
+
+\item{\code{number}}{of dyads (potential edges in the network)}
+
+\item{\code{list}}{of size 2: vector of memberships in row, in column.}
+}
+\if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{

@@ -21,6 +21,7 @@ BipartiteSBM_fit <-
 
       },
       ## optimizer = call to blockmodels
+      #' @field function to perform optimization.
       optimize = function(verbosity     = 3,
                           plot          = "",
                           explorFactor  = 1.5,
@@ -64,10 +65,59 @@ BipartiteSBM_fit <-
       }
     ),
     active = list(
+      #' @field vector of size 2: number of nodes (rows, columns)
       nbNodes         = function(value) {private$dim},
+      #' @field vector of size 2: number of blocks (rows, columns)
       nbBlocks        = function(value) {sapply(private$pi, length)},
+      #' @field number of dyads (potential edges in the network)
       nbDyads         = function(value) {private$dim[1] * private$dim[2]},
+      #' @field list of size 2: vector of memberships in row, in column.
       memberships     = function(value) {lapply(private$tau, as_clustering)}
+    )
+  )
+
+
+#' R6 class for Simple SBM sampler
+#'
+#' @import R6
+BipartiteSBM_sampler <-
+  R6::R6Class(classname = "BipartiteSBM_sampler",
+    inherit = SBM,
+    ## fields for internal use (referring to the mathematical notation)
+    private = list(
+      Z            = NULL  # the sampled indicator of blocks
+    ),
+    public = list(
+      #' @description a method to generate a vector of clusters indicators
+      rBlocks = function() {
+        private$Z <- list(
+          row = t(rmultinom(private$dim[1], size = 1, prob = private$pi[[1]])),
+          col = t(rmultinom(private$dim[2], size = 1, prob = private$pi[[2]]))
+          )
+
+      }
+      # ,
+      # ## a method to sample an adjacency matrix for the current SBM
+      # rAdjMatrix = function() {
+      #
+      #
+      #   Y <- matrix(rbinom(private$N^2, 1, self$connectProb), private$N)
+      #
+      #   if (!private$directed) Y <- Y * lower.tri(Y) + t(Y * lower.tri(Y))
+      #
+      #   private$Y <- Y
+      # }
+    ),
+    active = list(
+      indMemberships = function(value) {private$Z}
+      # ,
+      # connectProb = function(value) {
+      #   PI <- private$Z %*% private$theta %*% t(private$Z)
+      #   if (self$nbCovariates > 0) {
+      #     PI <- logistic(PI + roundProduct(simplify2array(private$X), private$beta))
+      #   }
+      #   PI
+      # }
     )
   )
 

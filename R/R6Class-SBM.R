@@ -1,41 +1,51 @@
+#' R6 virtual class for SBM representation (mother class of Simple and Bipartite SBM fit and sampler)
+#'
 #' @import R6
 SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipartite)
   R6::R6Class(classname = "SBM",
     ## fields for internal use (referring to the mathematical notation)
     private = list(
-      family   = NULL, # (vector of) character(s), the model family (bernoulli, poisson, etc.) for the edges
-      dim      = NULL, # (list of) vector(s): number of nodes in row and in col
-      pi       = NULL, # (list of) block prior probabilities
-      theta    = NULL, # (list of) connectivity parameters between edges
-      beta     = NULL, # vector of covariates parameters
-      Y        = NULL, # (list of) data matrix(ces)  (dim[1] x dim[2] with dim[1] == dim[2] for simple SBM)
-      X        = NULL  # list of covariates (list of dim[1] x dim[2] matrices)
+      model_  = NULL, # characters, the model family (bernoulli, poisson, etc.) for the edges
+      dim     = NULL, # vector: number of nodes in row and in col
+      pi      = NULL, # vector of parameters for block prior probabilities
+      theta   = NULL, # connectivity parameters between edges
+      beta    = NULL, # vector of covariates parameters
+      Y       = NULL, # data matrix  (dim[1] x dim[2])
+      X       = NULL  # list of covariates (list of dim[1] x dim[2] matrices)
     ),
     public = list(
-      ## constructor
+      #' @description constructor for SBM
       initialize = function(model=NA, dimension=NA, blockProp=NA, connectParam=NA, covarParam=numeric(0), covarList=list()) {
         ## MODEL & PARAMETERS
-        private$family   <- model
-        private$dim      <- dimension
-        private$X        <- covarList
-        private$pi       <- blockProp
-        private$theta    <- connectParam
-        private$beta     <- covarParam
+        private$model_ <- model
+        private$dim    <- dimension
+        private$X      <- covarList
+        private$pi     <- blockProp
+        private$theta  <- connectParam
+        private$beta   <- covarParam
       }
     ),
+    ## active binding to access fields outside the class
     active = list(
-      ## active binding to access fields outside the class
+      #' @field integer, the number of covariates
       nbCovariates  = function(value) {length(private$X)},
+      #' @field character, the family of model for the distribution of the edges
       model         = function(value) {private$family   },
-      ## TODO --- CHECK IF WE SHOULD LET THE POSSIBILITY TO UPDATE THESE FIELDS ---
+      #' @field vector of block proportions (aka prior probabilities of each block)
       blockProp     = function(value) {if (missing(value)) return(private$pi)     else private$pi     <- value},
+      #' @field parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli
       connectParam  = function(value) {if (missing(value)) return(private$theta)  else private$theta  <- value},
+      #' @field vector of regression parameters assocaited with the covariates.
       covarParam    = function(value) {if (missing(value)) return(private$beta)   else private$beta   <- value},
+      #' @field list of matrices of covariates
       covarList     = function(value) {if (missing(value)) return(private$X)      else private$X      <- value},
-      netData       = function(value) {if (missing(value)) return(private$Y)      else private$Y      <- value}
+      #' @field the matrix (adjacency or incidence) encoding the network
+      netMatrix     = function(value) {if (missing(value)) return(private$Y)      else private$Y      <- value}
     )
   )
 
+#' R6 virtual class for SBM fit (mother class of Simple and Bipartite SBM fit)
+#'
 #' @import R6
 SBM_fit <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipartite)
   R6::R6Class(classname = "SBM_fit",
@@ -51,26 +61,25 @@ SBM_fit <- # this virtual class is the mother of all subtypes of SBM (Simple or 
     public = list(
       initialize = function(data, model, covarList) {
 
-        if (is.list(data)) dimension <- lapply(data, dim) else dimension <- dim(data)
-
-        super$initialize(model = model, dimension = dimension, covarList = covarList)
+        super$initialize(model = model, dimension = dim(data), covarList = covarList)
         private$Y <- data
 
         ## OPTIMIZATION FUNCTION NAME
-        ### TODO -- check that all models are covered
-        if (is.list(data)) {
-
-        } else {
-          private$optimizer_name <- paste0("BM_", model, ifelse(self$nbCovariates > 0, "_covariates", ""))
-        }
+        private$optimizer_name <- paste0("BM_", model, ifelse(self$nbCovariates > 0, "_covariates", ""))
 
       }
     ),
     active = list(
+      #' @field size-2 vector: dimension of the network
       dimension       = function(value) {private$dim  },
+      #' @field matrix -- or list of 2 matrices for Bipartite network -- of estimated probabilities for block memberships for all nodes
       probMemberships = function(value) {private$tau  },
+      #' @field double: approximation of the log-likelihood (variational lower bound) reached
       loglik          = function(value) {private$J    },
+      #' @field double: value of tje integrated classification loglielihood
       ICL             = function(value) {private$vICL },
+      #' @field matrix of predicted value of the network
       fitted          = function(value) {private$Y_hat}
     )
   )
+

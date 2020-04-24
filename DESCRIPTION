@@ -26,11 +26,17 @@ Imports:
     blockmodels,
     R6,
     corrplot,
-    Matrix
+    Matrix,
+    Rcpp
 Collate: 
+    'GSBM-package.R'
     'R6Class-SBM.R'
     'R6Class-BipartiteSBM.R'
     'R6Class-SimpleSBM.R'
+    'RcppExports.R'
     'estimate.R'
     'utils-pipe.R'
     'utils.R'
+LinkingTo: 
+    Rcpp,
+    RcppArmadillo

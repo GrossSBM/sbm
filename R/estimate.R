@@ -6,7 +6,7 @@
 #' @param netMat a matrix describing the network: either an adjacency (square) or incidence matrix with possibly weighted entries.
 #' @param model character describing the model for the relation between nodes (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'}, ...). Default is \code{'bernoulli'}.
 #' @param directed logical: is the network directed or not? Only relevant whent \code{type} is \code{'Simple'}. Default is \code{TRUE} if \code{netMat} is symmetric, \code{FALSE} otherwise
-#' @param covariates a list of matrices with same dimension as mat describiung covariates at the edge level. No covariate per Default.
+#' @param covariates a list of matrices with same dimension as mat describing covariates at the edge level. No covariate per Default.
 #' @param estimOptions a list of parameters controlling the inference algorithm and model selection. See details.
 #'
 #' @details The list of parameters \code{estimOptions} essentially tunes the optimization process and the variational EM algorithm, with the following parameters
@@ -49,7 +49,7 @@ estimateSimpleSBM <- function(netMat,
   ## Set default options for estimation
   currentOptions <- list(
     verbosity     = 6,
-    plot          = character(0),
+    plot          = TRUE,
     explorFactor  = 1.5,
     nbBlocksRange = c(4,Inf),
     nbCores       = 1
@@ -73,7 +73,7 @@ estimateSimpleSBM <- function(netMat,
 #' This function performs variational inference of bipartite Stochastic Block Models, with various model
 #' for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models.
 #'
-#' @param netMat a matrix describing the network: either an adjacency (square) or incidence matrix with possibly weigthed entries.
+#' @param netMat a matrix describing the network: either an adjacency (square) or incidence matrix with possibly weighted entries.
 #' @param model character describing the model for the relation between nodes (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'}, ...). Default is \code{'bernoulli'}.
 #' @param covariates a list of matrices with same dimension as mat describing covariates at the edge level. No covariate per Default.
 #' @param estimOptions a list of parameters controlling the inference algorithm and model selection. See details.

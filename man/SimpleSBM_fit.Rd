@@ -4,10 +4,41 @@
 \alias{SimpleSBM_fit}
 \title{R6 Class definition of an Simple SBM fit}
 \description{
+R6 Class definition of an Simple SBM fit
+
+R6 Class definition of an Simple SBM fit
+}
+\details{
 This class is designed to give a representation and adjust an SBM fitted with blockmodels.
 }
 \section{Super classes}{
 \code{\link[GSBM:SBM]{GSBM::SBM}} -> \code{\link[GSBM:SBM_fit]{GSBM::SBM_fit}} -> \code{SimpleSBM_fit}
+}
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
+\describe{
+\item{\code{number}}{of nodes}
+
+\item{\code{number}}{of blocks}
+
+\item{\code{number}}{of dyads (potential edges in the network)}
+
+\item{\code{vector}}{of clustering}
+}
+\if{html}{\out{</div>}}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{number}}{of nodes}
+
+\item{\code{number}}{of blocks}
+
+\item{\code{number}}{of dyads (potential edges in the network)}
+
+\item{\code{vector}}{of clustering}
+}
+\if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
@@ -36,16 +67,28 @@ This class is designed to give a representation and adjust an SBM fitted with bl
 \if{html}{\out{<a id="method-optimize"></a>}}
 \if{latex}{\out{\hypertarget{method-optimize}{}}}
 \subsection{Method \code{optimize()}}{
+function to perform optimization
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{SimpleSBM_fit$optimize(
   verbosity = 3,
-  plot = "",
+  plot = TRUE,
   explorFactor = 1.5,
   nbBlocksRange = c(4, Inf),
   nbCores = parallel::detectCores()
 )}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{verbosity}}{integer, the level of verbosity. Default to 3}
+
+\item{\code{plot}}{logical, if TRUE ploting is done dynamically on the screen. Default to \code{TRUE}}
+
+\item{\code{nbCores}}{integer, the number of cores to use. Default is \code{parallel::detectCores()}.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
