@@ -11,9 +11,9 @@ R6 virtual class for SBM representation (mother class of Simple and Bipartite SB
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{integer, }}{the number of covariates}
-
 \item{\code{character, }}{the family of model for the distribution of the edges}
+
+\item{\code{integer, }}{the number of covariates}
 
 \item{\code{vector}}{of block proportions (aka prior probabilities of each block)}
 
@@ -22,6 +22,8 @@ R6 virtual class for SBM representation (mother class of Simple and Bipartite SB
 \item{\code{vector}}{of regression parameters assocaited with the covariates.}
 
 \item{\code{list}}{of matrices of covariates}
+
+\item{\code{effect}}{of covariates}
 
 \item{\code{the}}{matrix (adjacency or incidence) encoding the network}
 }
@@ -30,9 +32,9 @@ R6 virtual class for SBM representation (mother class of Simple and Bipartite SB
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{integer, }}{the number of covariates}
-
 \item{\code{character, }}{the family of model for the distribution of the edges}
+
+\item{\code{integer, }}{the number of covariates}
 
 \item{\code{vector}}{of block proportions (aka prior probabilities of each block)}
 
@@ -41,6 +43,8 @@ R6 virtual class for SBM representation (mother class of Simple and Bipartite SB
 \item{\code{vector}}{of regression parameters assocaited with the covariates.}
 
 \item{\code{list}}{of matrices of covariates}
+
+\item{\code{effect}}{of covariates}
 
 \item{\code{the}}{matrix (adjacency or incidence) encoding the network}
 }

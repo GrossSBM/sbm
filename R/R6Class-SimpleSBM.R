@@ -51,7 +51,7 @@ SimpleSBM_fit <-
         args <- c(args, blockmodelsOptions)
 
         ## model construction
-        BMobject <- do.call(private$optimizer_name, args)
+        BMobject <- do.call(paste0("BM_", private$model), args)
 
         ## performing estimation
         BMobject$estimate()
@@ -61,13 +61,19 @@ SimpleSBM_fit <-
         private$J     <- BMobject$PL[ind_best]
         private$vICL  <- BMobject$ICL[ind_best]
         private$Y_hat <- BMobject$prediction(ind_best)
+        private$tau   <- BMobject$memberships[[ind_best]]$Z
+        private$pi    <- colMeans(private$tau)
+        parameters    <- BMobject$model_parameters[[ind_best]]
+        private$beta  <- parameters$beta ## NULL if no covariates
 
-        res <- extractParamBM(BMobject, ind_best)
-
-        private$pi    <- res$blockProp
-        private$theta <- res$connectParam
-        private$beta  <- res$covarParam
-        private$tau   <- res$probMemberships
+        private$theta <- switch(private$model,
+          "bernoulli"           = list(mu = parameters$pi),
+          "bernoull_covariates" = list(mu = .logistic(parameters$m)),
+          "poisson"             = list(mu = parameters$lambda),
+          "poisson_covariates"  = list(mu = parameters$lambda),
+          "gaussian"            = list(mu = parameters$mu, sigma = parameters$sigma2),
+          "gaussian_covariates" = list(mu = parameters$mu, sigma = parameters$sigma2)
+        )
 
         invisible(BMobject)
       }
@@ -80,7 +86,13 @@ SimpleSBM_fit <-
       #' @field number of dyads (potential edges in the network)
       nbDyads     = function(value) {ifelse(private$directed, self$nbNodes*(self$nbNodes - 1), self$nbNodes*(self$nbNodes - 1)/2)},
       #' @field vector of clustering
-      memberships = function(value) {as_clustering(private$tau)}
+      memberships = function(value) {as_clustering(private$tau)},
+      #' @field matrix of expected (predicted) values
+      predicted = function(value) {
+        mu <- private$Z %*% private$theta$mu %*% t(private$Z)
+        if (self$nbCovariates > 0) mu <- private$invlink(private$link(mu) + self$covarEffect)
+        mu
+      }
     )
   )
 
@@ -95,7 +107,7 @@ SimpleSBM_sampler <- # this virtual class is the mother of all subtypes of SBM (
       Z            = NULL  # the sampled indicator of blocks
     ),
     public = list(
-      #' @description a method to generate a vector of clusters indicators
+      #' @description a method to generate a vector of block indicators
       rBlocks = function() {
         private$Z <- t(rmultinom(private$dim[1], size = 1, prob = private$pi))
       }
@@ -115,12 +127,12 @@ SimpleSBM_sampler <- # this virtual class is the mother of all subtypes of SBM (
       indMemberships = function(value) {private$Z}
       # ,
       # connectProb = function(value) {
-      #   PI <- private$Z %*% private$theta %*% t(private$Z)
-      #   if (self$nbCovariates > 0) {
-      #     PI <- logistic(PI + roundProduct(simplify2array(private$X), private$beta))
+      #    PI <- private$Z %*% private$theta %*% t(private$Z)
+      #    if (self$nbCovariates > 0) {
+      #      PI <- logistic(PI + roundProduct(simplify2array(private$X), private$beta))
+      #    }
+      #    PI
       #   }
-      #   PI
-      # }
     )
   )
 

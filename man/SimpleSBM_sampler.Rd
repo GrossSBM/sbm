@@ -29,7 +29,7 @@ R6 class for Simple SBM sampler
 \if{html}{\out{<a id="method-rBlocks"></a>}}
 \if{latex}{\out{\hypertarget{method-rBlocks}{}}}
 \subsection{Method \code{rBlocks()}}{
-a method to generate a vector of clusters indicators
+a method to generate a vector of block indicators
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{SimpleSBM_sampler$rBlocks()}\if{html}{\out{</div>}}
 }

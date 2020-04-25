@@ -48,7 +48,7 @@ estimateSimpleSBM <- function(netMat,
 
   ## Set default options for estimation
   currentOptions <- list(
-    verbosity     = 6,
+    verbosity     = 3,
     plot          = TRUE,
     explorFactor  = 1.5,
     nbBlocksRange = c(4,Inf),
@@ -115,8 +115,8 @@ estimateBipartiteSBM <- function(netMat,
 
   ## Set default options for estimation
   currentOptions <- list(
-    verbosity     = 6,
-    plot          = character(0),
+    verbosity     = 3,
+    plot          = TRUE,
     explorFactor  = 1.5,
     nbBlocksRange = c(4,Inf),
     nbCores       = 1

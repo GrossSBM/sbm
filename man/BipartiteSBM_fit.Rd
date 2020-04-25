@@ -21,6 +21,8 @@ This class is designed to give a representation and adjust an LBM fitted with bl
 \item{\code{number}}{of dyads (potential edges in the network)}
 
 \item{\code{list}}{of size 2: vector of memberships in row, in column.}
+
+\item{\code{matrix}}{of expected (predicted) values}
 }
 \if{html}{\out{</div>}}
 }
@@ -36,6 +38,8 @@ This class is designed to give a representation and adjust an LBM fitted with bl
 \item{\code{number}}{of dyads (potential edges in the network)}
 
 \item{\code{list}}{of size 2: vector of memberships in row, in column.}
+
+\item{\code{matrix}}{of expected (predicted) values}
 }
 \if{html}{\out{</div>}}
 }
@@ -69,7 +73,7 @@ This class is designed to give a representation and adjust an LBM fitted with bl
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{BipartiteSBM_fit$optimize(
   verbosity = 3,
-  plot = "",
+  plot = TRUE,
   explorFactor = 1.5,
   nbBlocksRange = c(4, Inf),
   nbCores = parallel::detectCores()

@@ -24,6 +24,8 @@ This class is designed to give a representation and adjust an SBM fitted with bl
 \item{\code{number}}{of dyads (potential edges in the network)}
 
 \item{\code{vector}}{of clustering}
+
+\item{\code{matrix}}{of expected (predicted) values}
 }
 \if{html}{\out{</div>}}
 }
@@ -37,6 +39,8 @@ This class is designed to give a representation and adjust an SBM fitted with bl
 \item{\code{number}}{of dyads (potential edges in the network)}
 
 \item{\code{vector}}{of clustering}
+
+\item{\code{matrix}}{of expected (predicted) values}
 }
 \if{html}{\out{</div>}}
 }

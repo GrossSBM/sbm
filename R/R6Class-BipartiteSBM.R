@@ -23,7 +23,7 @@ BipartiteSBM_fit <-
       ## optimizer = call to blockmodels
       #' @field function to perform optimization.
       optimize = function(verbosity     = 3,
-                          plot          = "",
+                          plot          = TRUE,
                           explorFactor  = 1.5,
                           nbBlocksRange = c(4,Inf),
                           nbCores       = parallel::detectCores()) {
@@ -31,7 +31,7 @@ BipartiteSBM_fit <-
         ## translate to blockmodels list of options
         blockmodelsOptions <- list(
           verbosity          = verbosity,
-          plotting           = plot,
+          plotting           = ifelse(plot, character(0), ""),
           explore_min        = nbBlocksRange[1],
           explore_max        = nbBlocksRange[2],
           ncores             = nbCores,
@@ -44,7 +44,7 @@ BipartiteSBM_fit <-
         args <- c(args, blockmodelsOptions)
 
         ## model construction
-        BMobject <- do.call(private$optimizer_name, args)
+        BMobject <- do.call(paste0("BM_", private$model), args)
 
         ## performing estimation
         BMobject$estimate()
@@ -54,12 +54,19 @@ BipartiteSBM_fit <-
         private$J     <- BMobject$PL[ind_best]
         private$vICL  <- BMobject$ICL[ind_best]
         private$Y_hat <- BMobject$prediction(ind_best)
+        private$tau   <- list(row = BMobject$memberships[[ind_best]]$Z1, col = BMobject$memberships[[ind_best]]$Z2)
+        private$pi    <- lapply(private$tau, colMeans)
+        parameters    <- BMobject$model_parameters[[ind_best]]
+        private$beta  <- parameters$beta ## NULL if no covariates
 
-        res <- extractParamBM(BMobject, ind_best)
-        private$pi    <- res$blockProp
-        private$theta <- res$connectParam
-        private$beta  <- res$covarParam
-        private$tau   <- res$probMemberships
+        private$theta <- switch(private$model,
+          "bernoulli"           = list(mu = parameters$pi),
+          "bernoull_covariates" = list(mu = .logistic(parameters$m)),
+          "poisson"             = list(mu = parameters$lambda),
+          "poisson_covariates"  = list(mu = parameters$lambda),
+          "gaussian"            = list(mu = parameters$mu, sigma = parameters$sigma2),
+          "gaussian_covariates" = list(mu = parameters$mu, sigma = parameters$sigma2)
+        )
 
         invisible(BMobject)
       }
@@ -72,7 +79,13 @@ BipartiteSBM_fit <-
       #' @field number of dyads (potential edges in the network)
       nbDyads         = function(value) {private$dim[1] * private$dim[2]},
       #' @field list of size 2: vector of memberships in row, in column.
-      memberships     = function(value) {lapply(private$tau, as_clustering)}
+      memberships     = function(value) {lapply(private$tau, as_clustering)},
+      #' @field matrix of expected (predicted) values
+      predicted = function(value) {
+        mu <- private$Z1 %*% private$theta$mu %*% t(private$Z2)
+        if (self$nbCovariates > 0) mu <- private$invlink(private$link(mu) + self$covarEffect)
+        mu
+      }
     )
   )
 
@@ -111,13 +124,6 @@ BipartiteSBM_sampler <-
     active = list(
       indMemberships = function(value) {private$Z}
       # ,
-      # connectProb = function(value) {
-      #   PI <- private$Z %*% private$theta %*% t(private$Z)
-      #   if (self$nbCovariates > 0) {
-      #     PI <- logistic(PI + roundProduct(simplify2array(private$X), private$beta))
-      #   }
-      #   PI
-      # }
     )
   )
 

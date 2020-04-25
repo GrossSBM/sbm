@@ -5,7 +5,9 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
   R6::R6Class(classname = "SBM",
     ## fields for internal use (referring to the mathematical notation)
     private = list(
-      model_  = NULL, # characters, the model family (bernoulli, poisson, etc.) for the edges
+      model   = NULL, # characters, the model name: distribution of the deges (bernoulli, poisson, gaussian) + covariates or not
+      link    = NULL, # the link function like  in GLM setup
+      invlink = NULL, # the inverse link function like in GLM setup
       dim     = NULL, # vector: number of nodes in row and in col
       pi      = NULL, # vector of parameters for block prior probabilities
       theta   = NULL, # connectivity parameters between edges
@@ -16,31 +18,44 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
     public = list(
       #' @description constructor for SBM
       initialize = function(model=NA, dimension=NA, blockProp=NA, connectParam=NA, covarParam=numeric(0), covarList=list()) {
+
         ## MODEL & PARAMETERS
-        private$model_ <- model
-        private$dim    <- dimension
-        private$X      <- covarList
-        private$pi     <- blockProp
-        private$theta  <- connectParam
-        private$beta   <- covarParam
+        private$model <- ifelse(length(covarList) > 0, paste0(model,"_covariates"), model)
+        private$dim   <- dimension
+        private$X     <- covarList
+        private$pi    <- blockProp
+        private$theta <- connectParam
+        private$beta  <- covarParam
+        private$link  <- switch(model,
+                "gaussian"  = function(x) {x},
+                "poisson"   = function(x) {log(x)},
+                "bernoulli" = function(x) {log(x/(1 - x))},
+                )
+        private$invlink  <- switch(model,
+                "gaussian"  = function(x) {x},
+                "poisson"   = function(x) {exp(x)},
+                "bernoulli" = function(x) {1/(1 + exp(-x))},
+                )
       }
     ),
     ## active binding to access fields outside the class
     active = list(
-      #' @field integer, the number of covariates
-      nbCovariates  = function(value) {length(private$X)},
       #' @field character, the family of model for the distribution of the edges
-      model         = function(value) {private$family   },
+      modelName    = function(value) {length(private$model)},
+      #' @field integer, the number of covariates
+      nbCovariates = function(value) {length(private$X)},
       #' @field vector of block proportions (aka prior probabilities of each block)
       blockProp     = function(value) {if (missing(value)) return(private$pi)     else private$pi     <- value},
       #' @field parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli
-      connectParam  = function(value) {if (missing(value)) return(private$theta)  else private$theta  <- value},
+      connectParam = function(value) {if (missing(value)) return(private$theta)  else private$theta  <- value},
       #' @field vector of regression parameters assocaited with the covariates.
-      covarParam    = function(value) {if (missing(value)) return(private$beta)   else private$beta   <- value},
+      covarParam   = function(value) {if (missing(value)) return(private$beta)   else private$beta   <- value},
       #' @field list of matrices of covariates
-      covarList     = function(value) {if (missing(value)) return(private$X)      else private$X      <- value},
+      covarList    = function(value) {if (missing(value)) return(private$X)      else private$X      <- value},
+      #' @field effect of covariates
+      covarEffect = function(value) {roundProduct(simplify2array(private$X), private$beta)},
       #' @field the matrix (adjacency or incidence) encoding the network
-      netMatrix     = function(value) {if (missing(value)) return(private$Y)      else private$Y      <- value}
+      netMatrix    = function(value) {if (missing(value)) return(private$Y)      else private$Y      <- value}
     )
   )
 
@@ -52,7 +67,6 @@ SBM_fit <- # this virtual class is the mother of all subtypes of SBM (Simple or 
     inherit = SBM,
     ## fields for internal use (referring to the mathematical notation)
     private = list(
-      optimizer_name = NULL,
       J              = NULL, # variational approximation of the log-likelihood
       vICL           = NULL, # variational approximation of the ICL
       tau            = NULL, # variational parameters for posterior probablility of class belonging
@@ -60,13 +74,8 @@ SBM_fit <- # this virtual class is the mother of all subtypes of SBM (Simple or 
     ),
     public = list(
       initialize = function(data, model, covarList) {
-
         super$initialize(model = model, dimension = dim(data), covarList = covarList)
         private$Y <- data
-
-        ## OPTIMIZATION FUNCTION NAME
-        private$optimizer_name <- paste0("BM_", model, ifelse(self$nbCovariates > 0, "_covariates", ""))
-
       }
     ),
     active = list(
