@@ -1,6 +1,6 @@
 Package: GSBM
 Title: Generalized Stochastic Blockmodels
-Version: 0.0.9005
+Version: 0.1.9000
 Authors@R: 
     c(person(given = "Pierre", family = "Barbillon", role = c("aut"),
            email = "pierre.barbillon@agroparistech.fr",
