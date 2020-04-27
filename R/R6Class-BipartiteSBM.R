@@ -4,11 +4,15 @@
 #'
 #' @include R6Class-SBM.R
 #' @import R6 blockmodels
+#' @export
 BipartiteSBM_fit <-
   R6::R6Class(classname = "BipartiteSBM_fit",
     inherit = SBM_fit,
     public = list(
-      ## constructor
+      #' @description constructor for a Bipartite SBM fit
+      #' @param incidenceMatrix rectangular (weighted) matrix
+      #' @param model character (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'})
+      #' @param covarList and optional list of covariates, each of whom must have the same dimension as \code{incidenceMatrix}
       initialize = function(incidenceMatrix, model, covarList=list()) {
 
         ### TODO - GET MORE CHECKS
@@ -17,11 +21,15 @@ BipartiteSBM_fit <-
         stopifnot(all(sapply(covarList, ncol) == ncol(incidenceMatrix))) # dimension of the adjancecy matrix
 
         ## INITIALIZE THE SBM OBJECT ACCORDING TO THE DATA
-        super$initialize(data = incidenceMatrix, model = model, covarList = covarList)
+        super$initialize(incidenceMatrix, model, covarList)
 
       },
-      ## optimizer = call to blockmodels
-      #' @field function to perform optimization.
+      #' @description function to perform optimization
+      #' @param verbosity integer, the level of verbosity. Default to 3
+      #' @param plot logical, if TRUE ploting is done dynamically on the screen. Default to \code{TRUE}
+      #' @param nbCores integer, the number of cores to use. Default is \code{parallel::detectCores()}.
+      #' @param explorFactor double factor for exploraing succesive model
+      #' @param nbBlocksRange 2-size vector: range of exploration
       optimize = function(verbosity     = 3,
                           plot          = TRUE,
                           explorFactor  = 1.5,
@@ -68,27 +76,36 @@ BipartiteSBM_fit <-
           "gaussian_covariates" = list(mu = parameters$mu, sigma = parameters$sigma2)
         )
 
+        browser()
+        ## record fitted/expected value
+        private$Y_hat <- self$predict()
+
         invisible(BMobject)
+      },
+      #' @description prediction under the currently estimated model
+      #' @param covarList a list of covariates. By default, we use the covariates with which the model was estimated.
+      predict = function(covarList = self$covarList) {
+        stopifnot(is.list(covarList), self$nbCovariates == length(covarList))
+        if (length(covarList) > 0) {
+          stopifnot(all.equal(self$dimension[1], sapply(covarList, nrow)),
+                    all.equal(self$dimension[2], sapply(covarList, ncol)))
+        }
+        mu <- private$tau[[1]] %*% private$theta$mu %*% t(private$tau[[2]])
+        if (length(self$covList) > 0) mu <- private$invlink(private$link(mu) + self$covarEffect)
+        mu
       }
     ),
     active = list(
-      #' @field vector of size 2: number of nodes (rows, columns)
+      #' @field nbNodes vector of size 2: number of nodes (rows, columns)
       nbNodes         = function(value) {private$dim},
-      #' @field vector of size 2: number of blocks (rows, columns)
+      #' @field nbBlocks vector of size 2: number of blocks (rows, columns)
       nbBlocks        = function(value) {sapply(private$pi, length)},
-      #' @field number of dyads (potential edges in the network)
+      #' @field nbDyads number of dyads (potential edges in the network)
       nbDyads         = function(value) {private$dim[1] * private$dim[2]},
-      #' @field list of size 2: vector of memberships in row, in column.
-      memberships     = function(value) {lapply(private$tau, as_clustering)},
-      #' @field matrix of expected (predicted) values
-      predicted = function(value) {
-        mu <- private$Z1 %*% private$theta$mu %*% t(private$Z2)
-        if (self$nbCovariates > 0) mu <- private$invlink(private$link(mu) + self$covarEffect)
-        mu
-      }
+      #' @field memberships list of size 2: vector of memberships in row, in column.
+      memberships     = function(value) {lapply(private$tau, as_clustering)}
     )
   )
-
 
 #' R6 class for Simple SBM sampler
 #'
@@ -120,10 +137,10 @@ BipartiteSBM_sampler <-
       #
       #   private$Y <- Y
       # }
-    ),
-    active = list(
-      indMemberships = function(value) {private$Z}
-      # ,
-    )
+    )#,
+    # active = list(
+    #   indMemberships = function(value) {private$Z}
+    #   # ,
+    # )
   )
 

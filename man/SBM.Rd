@@ -8,45 +8,26 @@ R6 virtual class for SBM representation (mother class of Simple and Bipartite SB
 
 R6 virtual class for SBM representation (mother class of Simple and Bipartite SBM fit and sampler)
 }
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{character, }}{the family of model for the distribution of the edges}
-
-\item{\code{integer, }}{the number of covariates}
-
-\item{\code{vector}}{of block proportions (aka prior probabilities of each block)}
-
-\item{\code{parameters}}{associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli}
-
-\item{\code{vector}}{of regression parameters assocaited with the covariates.}
-
-\item{\code{list}}{of matrices of covariates}
-
-\item{\code{effect}}{of covariates}
-
-\item{\code{the}}{matrix (adjacency or incidence) encoding the network}
-}
-\if{html}{\out{</div>}}
-}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{character, }}{the family of model for the distribution of the edges}
+\item{\code{dimension}}{size-2 vector: dimension of the network}
 
-\item{\code{integer, }}{the number of covariates}
+\item{\code{modelName}}{character, the family of model for the distribution of the edges}
 
-\item{\code{vector}}{of block proportions (aka prior probabilities of each block)}
+\item{\code{nbCovariates}}{integer, the number of covariates}
 
-\item{\code{parameters}}{associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli}
+\item{\code{blockProp}}{vector of block proportions (aka prior probabilities of each block)}
 
-\item{\code{vector}}{of regression parameters assocaited with the covariates.}
+\item{\code{connectParam}}{parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli}
 
-\item{\code{list}}{of matrices of covariates}
+\item{\code{covarParam}}{vector of regression parameters assocaited with the covariates.}
 
-\item{\code{effect}}{of covariates}
+\item{\code{covarList}}{list of matrices of covariates}
 
-\item{\code{the}}{matrix (adjacency or incidence) encoding the network}
+\item{\code{covarEffect}}{effect of covariates}
+
+\item{\code{netMatrix}}{the matrix (adjacency or incidence) encoding the network}
 }
 \if{html}{\out{</div>}}
 }
@@ -73,6 +54,23 @@ constructor for SBM
 )}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{model}}{character describing the type of model}
+
+\item{\code{dimension}}{dimension of the network matrix}
+
+\item{\code{blockProp}}{parameters for block proportions (vector of list of vectors)}
+
+\item{\code{connectParam}}{matrix of parameters for connectivity}
+
+\item{\code{covarParam}}{optional vector of covariates effect}
+
+\item{\code{covarList}}{optional list of covariates data}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

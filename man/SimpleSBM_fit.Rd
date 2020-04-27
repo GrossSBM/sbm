@@ -14,33 +14,16 @@ This class is designed to give a representation and adjust an SBM fitted with bl
 \section{Super classes}{
 \code{\link[GSBM:SBM]{GSBM::SBM}} -> \code{\link[GSBM:SBM_fit]{GSBM::SBM_fit}} -> \code{SimpleSBM_fit}
 }
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{number}}{of nodes}
-
-\item{\code{number}}{of blocks}
-
-\item{\code{number}}{of dyads (potential edges in the network)}
-
-\item{\code{vector}}{of clustering}
-
-\item{\code{matrix}}{of expected (predicted) values}
-}
-\if{html}{\out{</div>}}
-}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{number}}{of nodes}
+\item{\code{nbNodes}}{number of nodes}
 
-\item{\code{number}}{of blocks}
+\item{\code{nbBlocks}}{number of blocks}
 
-\item{\code{number}}{of dyads (potential edges in the network)}
+\item{\code{nbDyads}}{number of dyads (potential edges in the network)}
 
-\item{\code{vector}}{of clustering}
-
-\item{\code{matrix}}{of expected (predicted) values}
+\item{\code{memberships}}{vector of clustering}
 }
 \if{html}{\out{</div>}}
 }
@@ -49,6 +32,7 @@ This class is designed to give a representation and adjust an SBM fitted with bl
 \itemize{
 \item \href{#method-new}{\code{SimpleSBM_fit$new()}}
 \item \href{#method-optimize}{\code{SimpleSBM_fit$optimize()}}
+\item \href{#method-predict}{\code{SimpleSBM_fit$predict()}}
 \item \href{#method-clone}{\code{SimpleSBM_fit$clone()}}
 }
 }
@@ -62,10 +46,24 @@ This class is designed to give a representation and adjust an SBM fitted with bl
 \if{html}{\out{<a id="method-new"></a>}}
 \if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
+constructor for a Simple SBM fit
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{SimpleSBM_fit$new(adjacencyMatrix, model, directed, covarList = list())}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{adjacencyMatrix}}{square (weighted) matrix}
+
+\item{\code{model}}{character (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'})}
+
+\item{\code{directed}}{logical, directed networkor not. In not, \code{adjacencyMatrix} must be symmetric.}
+
+\item{\code{covarList}}{and optional list of covariates, each of whom must have the same dimension as \code{adjacencyMatrix}}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-optimize"></a>}}
@@ -89,7 +87,28 @@ function to perform optimization
 
 \item{\code{plot}}{logical, if TRUE ploting is done dynamically on the screen. Default to \code{TRUE}}
 
+\item{\code{explorFactor}}{double factor for exploraing succesive model}
+
+\item{\code{nbBlocksRange}}{2-size vector: range of exploration}
+
 \item{\code{nbCores}}{integer, the number of cores to use. Default is \code{parallel::detectCores()}.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-predict"></a>}}
+\if{latex}{\out{\hypertarget{method-predict}{}}}
+\subsection{Method \code{predict()}}{
+prediction under the currently estimated model
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{SimpleSBM_fit$predict(covarList = self$covarList)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{covarList}}{a list of covariates. By default, we use the covariates with which the model was estimated.}
 }
 \if{html}{\out{</div>}}
 }

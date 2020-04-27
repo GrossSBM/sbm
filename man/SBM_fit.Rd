@@ -11,33 +11,16 @@ R6 virtual class for SBM fit (mother class of Simple and Bipartite SBM fit)
 \section{Super class}{
 \code{\link[GSBM:SBM]{GSBM::SBM}} -> \code{SBM_fit}
 }
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{size-2}}{vector: dimension of the network}
-
-\item{\code{matrix}}{-- or list of 2 matrices for Bipartite network -- of estimated probabilities for block memberships for all nodes}
-
-\item{\code{double:}}{approximation of the log-likelihood (variational lower bound) reached}
-
-\item{\code{double:}}{value of tje integrated classification loglielihood}
-
-\item{\code{matrix}}{of predicted value of the network}
-}
-\if{html}{\out{</div>}}
-}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{size-2}}{vector: dimension of the network}
+\item{\code{probMemberships}}{matrix -- or list of 2 matrices for Bipartite network -- of estimated probabilities for block memberships for all nodes}
 
-\item{\code{matrix}}{-- or list of 2 matrices for Bipartite network -- of estimated probabilities for block memberships for all nodes}
+\item{\code{loglik}}{double: approximation of the log-likelihood (variational lower bound) reached}
 
-\item{\code{double:}}{approximation of the log-likelihood (variational lower bound) reached}
+\item{\code{ICL}}{double: value of tje integrated classification loglielihood}
 
-\item{\code{double:}}{value of tje integrated classification loglielihood}
-
-\item{\code{matrix}}{of predicted value of the network}
+\item{\code{fitted}}{matrix of predicted value of the network}
 }
 \if{html}{\out{</div>}}
 }
@@ -58,10 +41,22 @@ R6 virtual class for SBM fit (mother class of Simple and Bipartite SBM fit)
 \if{html}{\out{<a id="method-new"></a>}}
 \if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
+constructor for SBM fit
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{SBM_fit$new(data, model, covarList)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{data}}{the data matrix of the networj}
+
+\item{\code{model}}{character describing the type of model}
+
+\item{\code{covarList}}{optional list of matrices for covariates}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

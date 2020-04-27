@@ -4,42 +4,26 @@
 \alias{BipartiteSBM_fit}
 \title{R6 Class definition of an Bipartite SBM fit}
 \description{
+R6 Class definition of an Bipartite SBM fit
+
+R6 Class definition of an Bipartite SBM fit
+}
+\details{
 This class is designed to give a representation and adjust an LBM fitted with blockmodels.
 }
 \section{Super classes}{
 \code{\link[GSBM:SBM]{GSBM::SBM}} -> \code{\link[GSBM:SBM_fit]{GSBM::SBM_fit}} -> \code{BipartiteSBM_fit}
 }
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{function}}{to perform optimization.}
-
-\item{\code{vector}}{of size 2: number of nodes (rows, columns)}
-
-\item{\code{vector}}{of size 2: number of blocks (rows, columns)}
-
-\item{\code{number}}{of dyads (potential edges in the network)}
-
-\item{\code{list}}{of size 2: vector of memberships in row, in column.}
-
-\item{\code{matrix}}{of expected (predicted) values}
-}
-\if{html}{\out{</div>}}
-}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{function}}{to perform optimization.}
+\item{\code{nbNodes}}{vector of size 2: number of nodes (rows, columns)}
 
-\item{\code{vector}}{of size 2: number of nodes (rows, columns)}
+\item{\code{nbBlocks}}{vector of size 2: number of blocks (rows, columns)}
 
-\item{\code{vector}}{of size 2: number of blocks (rows, columns)}
+\item{\code{nbDyads}}{number of dyads (potential edges in the network)}
 
-\item{\code{number}}{of dyads (potential edges in the network)}
-
-\item{\code{list}}{of size 2: vector of memberships in row, in column.}
-
-\item{\code{matrix}}{of expected (predicted) values}
+\item{\code{memberships}}{list of size 2: vector of memberships in row, in column.}
 }
 \if{html}{\out{</div>}}
 }
@@ -48,6 +32,7 @@ This class is designed to give a representation and adjust an LBM fitted with bl
 \itemize{
 \item \href{#method-new}{\code{BipartiteSBM_fit$new()}}
 \item \href{#method-optimize}{\code{BipartiteSBM_fit$optimize()}}
+\item \href{#method-predict}{\code{BipartiteSBM_fit$predict()}}
 \item \href{#method-clone}{\code{BipartiteSBM_fit$clone()}}
 }
 }
@@ -61,15 +46,28 @@ This class is designed to give a representation and adjust an LBM fitted with bl
 \if{html}{\out{<a id="method-new"></a>}}
 \if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
+constructor for a Bipartite SBM fit
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{BipartiteSBM_fit$new(incidenceMatrix, model, covarList = list())}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{incidenceMatrix}}{rectangular (weighted) matrix}
+
+\item{\code{model}}{character (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'})}
+
+\item{\code{covarList}}{and optional list of covariates, each of whom must have the same dimension as \code{incidenceMatrix}}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-optimize"></a>}}
 \if{latex}{\out{\hypertarget{method-optimize}{}}}
 \subsection{Method \code{optimize()}}{
+function to perform optimization
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{BipartiteSBM_fit$optimize(
   verbosity = 3,
@@ -80,6 +78,38 @@ This class is designed to give a representation and adjust an LBM fitted with bl
 )}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{verbosity}}{integer, the level of verbosity. Default to 3}
+
+\item{\code{plot}}{logical, if TRUE ploting is done dynamically on the screen. Default to \code{TRUE}}
+
+\item{\code{explorFactor}}{double factor for exploraing succesive model}
+
+\item{\code{nbBlocksRange}}{2-size vector: range of exploration}
+
+\item{\code{nbCores}}{integer, the number of cores to use. Default is \code{parallel::detectCores()}.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-predict"></a>}}
+\if{latex}{\out{\hypertarget{method-predict}{}}}
+\subsection{Method \code{predict()}}{
+prediction under the currently estimated model
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{BipartiteSBM_fit$predict(covarList = self$covarList)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{covarList}}{a list of covariates. By default, we use the covariates with which the model was estimated.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

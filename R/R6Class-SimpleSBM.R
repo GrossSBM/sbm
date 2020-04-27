@@ -4,6 +4,7 @@
 #'
 #' @import R6 blockmodels
 #' @include R6Class-SBM.R
+#' @export
 SimpleSBM_fit <-
   R6::R6Class(classname = "SimpleSBM_fit",
     inherit = SBM_fit,
@@ -11,7 +12,11 @@ SimpleSBM_fit <-
       directed_ = NULL
     ),
     public = list(
-      ## constructor
+      #' @description constructor for a Simple SBM fit
+      #' @param adjacencyMatrix square (weighted) matrix
+      #' @param model character (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'})
+      #' @param directed logical, directed networkor not. In not, \code{adjacencyMatrix} must be symmetric.
+      #' @param covarList and optional list of covariates, each of whom must have the same dimension as \code{adjacencyMatrix}
       initialize = function(adjacencyMatrix, model, directed, covarList=list()) {
 
         ## SANITY CHECKS
@@ -29,6 +34,8 @@ SimpleSBM_fit <-
       #' @param verbosity integer, the level of verbosity. Default to 3
       #' @param plot logical, if TRUE ploting is done dynamically on the screen. Default to \code{TRUE}
       #' @param nbCores integer, the number of cores to use. Default is \code{parallel::detectCores()}.
+      #' @param explorFactor double factor for exploraing succesive model
+      #' @param nbBlocksRange 2-size vector: range of exploration
       optimize = function(verbosity     = 3,
                           plot          = TRUE,
                           explorFactor  = 1.5,
@@ -75,24 +82,32 @@ SimpleSBM_fit <-
           "gaussian_covariates" = list(mu = parameters$mu, sigma = parameters$sigma2)
         )
 
+        ## record fitted/expected value
+        private$Y_hat <- self$predict()
+
         invisible(BMobject)
+      },
+      #' @description prediction under the currently estimated model
+      #' @param covarList a list of covariates. By default, we use the covariates with which the model was estimated.
+      predict = function(covarList = self$covarList) {
+        stopifnot(is.list(covarList), self$nbCovariates == length(covarList))
+        if (length(covarList) > 0) {
+          stopifnot(all.equal(self$nbNodes, sapply(covarList, nrow), sapply(covarList, ncol)))
+        }
+        mu <- private$tau %*% private$theta$mu %*% t(private$tau)
+        if (length(self$covList) > 0) mu <- private$invlink(private$link(mu) + self$covarEffect)
+        mu
       }
     ),
     active = list(
-      #' @field number of nodes
+      #' @field nbNodes number of nodes
       nbNodes     = function(value) {private$dim[1]},
-      #' @field number of blocks
+      #' @field nbBlocks number of blocks
       nbBlocks    = function(value) {length(private$pi)},
-      #' @field number of dyads (potential edges in the network)
+      #' @field nbDyads number of dyads (potential edges in the network)
       nbDyads     = function(value) {ifelse(private$directed, self$nbNodes*(self$nbNodes - 1), self$nbNodes*(self$nbNodes - 1)/2)},
-      #' @field vector of clustering
-      memberships = function(value) {as_clustering(private$tau)},
-      #' @field matrix of expected (predicted) values
-      predicted = function(value) {
-        mu <- private$Z %*% private$theta$mu %*% t(private$Z)
-        if (self$nbCovariates > 0) mu <- private$invlink(private$link(mu) + self$covarEffect)
-        mu
-      }
+      #' @field memberships vector of clustering
+      memberships = function(value) {as_clustering(private$tau)}
     )
   )
 
@@ -122,9 +137,9 @@ SimpleSBM_sampler <- # this virtual class is the mother of all subtypes of SBM (
       #
       #   private$Y <- Y
       # }
-    ),
-    active = list(
-      indMemberships = function(value) {private$Z}
+    )#,
+#    active = list(
+#      indMemberships = function(value) {private$Z}
       # ,
       # connectProb = function(value) {
       #    PI <- private$Z %*% private$theta %*% t(private$Z)
@@ -133,6 +148,6 @@ SimpleSBM_sampler <- # this virtual class is the mother of all subtypes of SBM (
       #    }
       #    PI
       #   }
-    )
+#    )
   )
 

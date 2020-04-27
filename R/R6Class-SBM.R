@@ -17,6 +17,12 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
     ),
     public = list(
       #' @description constructor for SBM
+      #' @param model character describing the type of model
+      #' @param dimension dimension of the network matrix
+      #' @param blockProp parameters for block proportions (vector of list of vectors)
+      #' @param connectParam matrix of parameters for connectivity
+      #' @param covarParam optional vector of covariates effect
+      #' @param covarList optional list of covariates data
       initialize = function(model=NA, dimension=NA, blockProp=NA, connectParam=NA, covarParam=numeric(0), covarList=list()) {
 
         ## MODEL & PARAMETERS
@@ -29,32 +35,34 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
         private$link  <- switch(model,
                 "gaussian"  = function(x) {x},
                 "poisson"   = function(x) {log(x)},
-                "bernoulli" = function(x) {log(x/(1 - x))},
+                "bernoulli" = function(x) {.logit(x)},
                 )
         private$invlink  <- switch(model,
                 "gaussian"  = function(x) {x},
                 "poisson"   = function(x) {exp(x)},
-                "bernoulli" = function(x) {1/(1 + exp(-x))},
+                "bernoulli" = function(x) {.logistic(x)},
                 )
       }
     ),
     ## active binding to access fields outside the class
     active = list(
-      #' @field character, the family of model for the distribution of the edges
+      #' @field dimension size-2 vector: dimension of the network
+      dimension       = function(value) {private$dim  },
+      #' @field modelName character, the family of model for the distribution of the edges
       modelName    = function(value) {length(private$model)},
-      #' @field integer, the number of covariates
+      #' @field nbCovariates integer, the number of covariates
       nbCovariates = function(value) {length(private$X)},
-      #' @field vector of block proportions (aka prior probabilities of each block)
+      #' @field blockProp vector of block proportions (aka prior probabilities of each block)
       blockProp     = function(value) {if (missing(value)) return(private$pi)     else private$pi     <- value},
-      #' @field parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli
+      #' @field connectParam parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli
       connectParam = function(value) {if (missing(value)) return(private$theta)  else private$theta  <- value},
-      #' @field vector of regression parameters assocaited with the covariates.
+      #' @field covarParam vector of regression parameters assocaited with the covariates.
       covarParam   = function(value) {if (missing(value)) return(private$beta)   else private$beta   <- value},
-      #' @field list of matrices of covariates
+      #' @field covarList list of matrices of covariates
       covarList    = function(value) {if (missing(value)) return(private$X)      else private$X      <- value},
-      #' @field effect of covariates
+      #' @field covarEffect effect of covariates
       covarEffect = function(value) {roundProduct(simplify2array(private$X), private$beta)},
-      #' @field the matrix (adjacency or incidence) encoding the network
+      #' @field netMatrix the matrix (adjacency or incidence) encoding the network
       netMatrix    = function(value) {if (missing(value)) return(private$Y)      else private$Y      <- value}
     )
   )
@@ -73,22 +81,63 @@ SBM_fit <- # this virtual class is the mother of all subtypes of SBM (Simple or 
       Y_hat          = NULL
     ),
     public = list(
+      #' @description constructor for SBM fit
+      #' @param data the data matrix of the networj
+      #' @param model character describing the type of model
+      #' @param covarList optional list of matrices for covariates
       initialize = function(data, model, covarList) {
         super$initialize(model = model, dimension = dim(data), covarList = covarList)
         private$Y <- data
       }
     ),
     active = list(
-      #' @field size-2 vector: dimension of the network
-      dimension       = function(value) {private$dim  },
-      #' @field matrix -- or list of 2 matrices for Bipartite network -- of estimated probabilities for block memberships for all nodes
+      #' @field probMemberships matrix -- or list of 2 matrices for Bipartite network -- of estimated probabilities for block memberships for all nodes
       probMemberships = function(value) {private$tau  },
-      #' @field double: approximation of the log-likelihood (variational lower bound) reached
+      #' @field loglik double: approximation of the log-likelihood (variational lower bound) reached
       loglik          = function(value) {private$J    },
-      #' @field double: value of tje integrated classification loglielihood
+      #' @field ICL double: value of tje integrated classification loglielihood
       ICL             = function(value) {private$vICL },
-      #' @field matrix of predicted value of the network
+      #' @field fitted matrix of predicted value of the network
       fitted          = function(value) {private$Y_hat}
     )
   )
+
+## PUBLIC S3 METHODS FOR SBM
+## =========================================================================================
+
+## Auxiliary functions to check the given class of an objet
+is_SBM <- function(Robject) {inherits(Robject, "SBM")}
+is_SBM_fit <- function(Robject) {inherits(Robject, "SBM_fit")}
+
+#' Extract model coefficients
+#'
+#' Extracts model coefficients from objects with class \code{\link[=SBM]{SBM}} and children (\code{\link[=SimpleSBM]{SimpleSBM}},
+#' \code{\link[=SimpleSBM]{BipartiteSBM}})
+#'
+#' @param object an R6 object inheriting from class SBM_fit (like SimpleSBM_fit or BipartiteSBM_fit)
+#' @param type type of parameter that should be extracted. Either 'memberships' for \deqn{\pi}, 'connectivity' for \deqn{\theta},
+#'  or "covariates" for \deqn{\beta}. Default is 'connectivity'.
+#' @param ... additional parameters for S3 compatibility. Not used
+#' @return vector or list of parameters.
+#' @export
+coef.SBM <- function(object, type = c( 'connectivity','membership', 'covariates'), ...) {
+  stopifnot(is_SBM(object))
+  switch(match.arg(type),
+         membership   = object$blockParam,
+         connectivity = object$connectParam,
+         covariates   = object$covarParam)
+}
+
+#' @importFrom stats fitted
+#' @export
+predict.SBM_fit <- function(object, ...) {
+  stopifnot(is_SBM(object))
+  object$connectProb
+}
+
+#' @export
+summary.SBM <- function(object, ...) {
+  stopifnot(is_SBM(object))
+  object$show()
+}
 
