@@ -43,6 +43,34 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
                 "bernoulli" = function(x) {.logistic(x)},
                 )
       },
+      #' @description basic matrix plot method for SBM object
+      #' @param type character for the type of plot: either 'data' (true connection) or 'expected' (fitted connection). Default to 'data'.
+      #' @param ordered logical: should the rows and columns be reoredered accordigin to the clustering? Default to \code{TRUE}.
+      #' @param color logical. Adapt colormap to the clustering. Default to \code{TRUE}.
+      #' @importFrom corrplot corrplot
+      plot = function(type = c('data', 'expected'), ordered = TRUE, color = TRUE) {
+        mat <- switch(match.arg(type), data = self$netMatrix, expected = self$predict())
+        cl <- self$memberships
+        if (is.list(cl)) {
+          Z1 <- as_indicator(as.factor(cl[[1]]))
+          Z2 <- as_indicator(as.factor(cl[[2]]))
+          colors <- matrix(-(ncol(Z1) + ncol(Z2)), ncol(Z1), ncol(Z2));
+          colorMat <- Z1 %*% colors %*% t(Z2)
+          if (ordered) {
+            colorMat <- colorMat[order(cl[[1]]),order(cl[[2]])]
+            mat <- mat[order(cl[[1]]), order(cl[[2]])]
+          }
+        } else {
+          Z <- as_indicator(as.factor(cl))
+          colors <- matrix(-ncol(Z), ncol(Z), ncol(Z)); diag(colors) <- floor(ncol(Z)/2) + (1:ncol(Z)) # discriminate intra/inter cols
+          colorMat <- Z %*% colors %*% t(Z)
+          if (ordered) {
+            colorMat <- colorMat[order(cl),order(cl)]
+            mat <- mat[order(cl), order(cl)]
+          }
+        }
+        corrplot(mat * colorMat, is.corr = FALSE, tl.pos = "n", method = "color", cl.pos = "n", mar = c(0,0,1,0))
+      },
       #' @description print method
       #' @param type character to tune the displayed name
       show = function(type = "Stochastic Block Model") {
@@ -123,3 +151,15 @@ predict.SBM <- function(object, covarList = object$covarList, ...) {
   object$predict(covarList)
 }
 
+#' SBM Plot
+#'
+#' Basic matrix plot method for SBM object
+#' @param x an R6 object inheriting from class SBM_fit (like SimpleSBM_fit or BipartiteSBM_fit)
+#' @param type character for the type of plot: either 'data' (true connection) or 'expected' (fitted connection). Default to 'data'.
+#' @param ordered logical: should the rows and columns be reoredered accordigin to the clustering? Default to \code{TRUE}.
+#' @param color logical. Adapt colormap to the clustering. Default to \code{TRUE}.
+#' @param ... additional parameters for S3 compatibility. Not used
+#' @export
+plot.SBM = function(x, type = c('data', 'expected'), ordered = TRUE, color = TRUE, ...){
+  x$plot(type, ordered, color)
+}

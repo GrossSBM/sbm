@@ -55,7 +55,6 @@ adjacencyMatrix <- 1 * (support | t(support))
 
 ## Estimation
 mySimpleSBM <- estimateSimpleSBM(adjacencyMatrix)
-mySimpleSBM$fitted[order(mySimpleSBM$memberships), order(mySimpleSBM$memberships)] \%>\%
-   corrplot::corrplot(is.corr = FALSE, method = "color")
+plot(mySimpleSBM)
 
 }

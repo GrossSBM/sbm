@@ -36,8 +36,7 @@
 #'
 #' ## Estimation
 #' mySimpleSBM <- estimateSimpleSBM(adjacencyMatrix)
-#' mySimpleSBM$fitted[order(mySimpleSBM$memberships), order(mySimpleSBM$memberships)] %>%
-#'    corrplot::corrplot(is.corr = FALSE, method = "color")
+#' plot(mySimpleSBM)
 #'
 #' @export
 estimateSimpleSBM <- function(netMat,
@@ -105,8 +104,7 @@ estimateSimpleSBM <- function(netMat,
 #'
 #' ## Estimation
 #' myBipartiteSBM <- estimateBipartiteSBM(IncMatrix)
-#' myBipartiteSBM$fitted[order(myBipartiteSBM$memberships[[1]]), order(myBipartiteSBM$memberships[[2]])] %>%
-#'  corrplot::corrplot(is.corr = FALSE, method = "color")
+#' plot(myBipartiteSBM, 'expected')
 #' @export
 estimateBipartiteSBM <- function(netMat,
                               model        = 'bernoulli',

@@ -40,6 +40,7 @@ This class is designed to give a representation and adjust an LBM fitted with bl
 \if{html}{
 \out{<details open ><summary>Inherited methods</summary>}
 \itemize{
+\item \out{<span class="pkg-link" data-pkg="GSBM" data-topic="SBM" data-id="plot">}\href{../../GSBM/html/SBM.html#method-plot}{\code{GSBM::SBM$plot()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="GSBM" data-topic="SBM" data-id="print">}\href{../../GSBM/html/SBM.html#method-print}{\code{GSBM::SBM$print()}}\out{</span>}
 }
 \out{</details>}

@@ -52,6 +52,5 @@ IncMatrix <- 1 * (matrix(runif(dim[1] * dim[2]), dim[1], dim [2]) < edgeProb)
 
 ## Estimation
 myBipartiteSBM <- estimateBipartiteSBM(IncMatrix)
-myBipartiteSBM$fitted[order(myBipartiteSBM$memberships[[1]]), order(myBipartiteSBM$memberships[[2]])] \%>\%
- corrplot::corrplot(is.corr = FALSE, method = "color")
+plot(myBipartiteSBM, 'expected')
 }

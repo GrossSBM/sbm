@@ -35,6 +35,7 @@ R6 virtual class for SBM representation (mother class of Simple and Bipartite SB
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{SBM$new()}}
+\item \href{#method-plot}{\code{SBM$plot()}}
 \item \href{#method-show}{\code{SBM$show()}}
 \item \href{#method-print}{\code{SBM$print()}}
 \item \href{#method-clone}{\code{SBM$clone()}}
@@ -70,6 +71,27 @@ constructor for SBM
 \item{\code{covarParam}}{optional vector of covariates effect}
 
 \item{\code{covarList}}{optional list of covariates data}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-plot"></a>}}
+\if{latex}{\out{\hypertarget{method-plot}{}}}
+\subsection{Method \code{plot()}}{
+basic matrix plot method for SBM object
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{SBM$plot(type = c("data", "expected"), ordered = TRUE, color = TRUE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{type}}{character for the type of plot: either 'data' (true connection) or 'expected' (fitted connection). Default to 'data'.}
+
+\item{\code{ordered}}{logical: should the rows and columns be reoredered accordigin to the clustering? Default to \code{TRUE}.}
+
+\item{\code{color}}{logical. Adapt colormap to the clustering. Default to \code{TRUE}.}
 }
 \if{html}{\out{</div>}}
 }
