@@ -28,26 +28,3 @@ check_boundaries <- function(x, zero = .Machine$double.eps) {
   x
 }
 
-#' @importFrom corrplot corrplot
-.prepare_plot <-  function(mat, cl, ordered) {
-  if (is.list(cl)) {
-    Z1 <- as_indicator(as.factor(cl[[1]]))
-    Z2 <- as_indicator(as.factor(cl[[2]]))
-    colors <- matrix(-(ncol(Z1) + ncol(Z2)), ncol(Z1), ncol(2));
-    colorMat <- Z1 %*% colors %*% t(Z2)
-    if (ordered) {
-      colorMap <- colorMat[order(cl[[1]]),order(cl[[2]])]
-      mat <- mat[order(cl[[1]]), order(cl[[2]])]
-    }
-  } else {
-    Z <- as_indicator(as.factor(cl))
-    colors <- matrix(-ncol(Z), ncol(Z), ncol(Z)); diag(colors) <- floor(ncol(Z)/2) + (1:ncol(Z)) # discriminate intra/inter cols
-    colorMat <- Z %*% colors %*% t(Z)
-    if (ordered) {
-      colorMap <- colorMat[order(cl),order(cl)]
-      mat <- mat[order(cl), order(cl)]
-    }
-  }
-  mat * colorMap
-}
-

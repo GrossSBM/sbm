@@ -62,9 +62,3 @@ fitted.SBM_fit <- function(object,  ...) {
   object$fitted
 }
 
-#' #' @export
-#' summary.SBM <- function(object, ...) {
-#'   stopifnot(is_SBM(object))
-#'   object$show()
-#' }
-#'

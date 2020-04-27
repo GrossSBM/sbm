@@ -156,7 +156,7 @@ predict.SBM <- function(object, covarList = object$covarList, ...) {
 #' Basic matrix plot method for SBM object
 #' @param x an R6 object inheriting from class SBM_fit (like SimpleSBM_fit or BipartiteSBM_fit)
 #' @param type character for the type of plot: either 'data' (true connection) or 'expected' (fitted connection). Default to 'data'.
-#' @param ordered logical: should the rows and columns be reoredered accordigin to the clustering? Default to \code{TRUE}.
+#' @param ordered logical: should the rows and columns be reordered according to the clustering? Default to \code{TRUE}.
 #' @param color logical. Adapt colormap to the clustering. Default to \code{TRUE}.
 #' @param ... additional parameters for S3 compatibility. Not used
 #' @export

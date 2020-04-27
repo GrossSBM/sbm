@@ -11,7 +11,7 @@
 
 \item{type}{character for the type of plot: either 'data' (true connection) or 'expected' (fitted connection). Default to 'data'.}
 
-\item{ordered}{logical: should the rows and columns be reoredered accordigin to the clustering? Default to \code{TRUE}.}
+\item{ordered}{logical: should the rows and columns be reordered according to the clustering? Default to \code{TRUE}.}
 
 \item{color}{logical. Adapt colormap to the clustering. Default to \code{TRUE}.}
 
