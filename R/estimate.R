@@ -5,7 +5,7 @@
 #'
 #' @param netMat a matrix describing the network: either an adjacency (square) or incidence matrix with possibly weighted entries.
 #' @param model character describing the model for the relation between nodes (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'}, ...). Default is \code{'bernoulli'}.
-#' @param directed logical: is the network directed or not? Only relevant whent \code{type} is \code{'Simple'}. Default is \code{TRUE} if \code{netMat} is symmetric, \code{FALSE} otherwise
+#' @param directed logical: is the network directed or not? Only relevant when \code{type} is \code{'Simple'}. Default is \code{TRUE} if \code{netMat} is symmetric, \code{FALSE} otherwise
 #' @param covariates a list of matrices with same dimension as mat describing covariates at the edge level. No covariate per Default.
 #' @param estimOptions a list of parameters controlling the inference algorithm and model selection. See details.
 #'

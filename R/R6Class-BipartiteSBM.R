@@ -2,8 +2,8 @@
 #'
 #' This class is designed to give a representation and adjust an LBM fitted with blockmodels.
 #'
-#' @include R6Class-SBM.R
 #' @import R6 blockmodels
+#' @include R6Class-SBM_fit.R
 #' @export
 BipartiteSBM_fit <-
   R6::R6Class(classname = "BipartiteSBM_fit",
@@ -28,7 +28,7 @@ BipartiteSBM_fit <-
       #' @param verbosity integer, the level of verbosity. Default to 3
       #' @param plot logical, if TRUE ploting is done dynamically on the screen. Default to \code{TRUE}
       #' @param nbCores integer, the number of cores to use. Default is \code{parallel::detectCores()}.
-      #' @param explorFactor double factor for exploraing succesive model
+      #' @param explorFactor double factor for exploring successive model
       #' @param nbBlocksRange 2-size vector: range of exploration
       optimize = function(verbosity     = 3,
                           plot          = TRUE,

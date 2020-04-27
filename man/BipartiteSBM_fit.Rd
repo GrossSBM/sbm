@@ -85,7 +85,7 @@ function to perform optimization
 
 \item{\code{plot}}{logical, if TRUE ploting is done dynamically on the screen. Default to \code{TRUE}}
 
-\item{\code{explorFactor}}{double factor for exploraing succesive model}
+\item{\code{explorFactor}}{double factor for exploring successive model}
 
 \item{\code{nbBlocksRange}}{2-size vector: range of exploration}
 

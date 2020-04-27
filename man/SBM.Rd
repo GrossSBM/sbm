@@ -21,7 +21,7 @@ R6 virtual class for SBM representation (mother class of Simple and Bipartite SB
 
 \item{\code{connectParam}}{parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli}
 
-\item{\code{covarParam}}{vector of regression parameters assocaited with the covariates.}
+\item{\code{covarParam}}{vector of regression parameters associated with the covariates.}
 
 \item{\code{covarList}}{list of matrices of covariates}
 

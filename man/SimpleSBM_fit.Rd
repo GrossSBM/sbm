@@ -87,7 +87,7 @@ function to perform optimization
 
 \item{\code{plot}}{logical, if TRUE ploting is done dynamically on the screen. Default to \code{TRUE}}
 
-\item{\code{explorFactor}}{double factor for exploraing succesive model}
+\item{\code{explorFactor}}{double factor for exploraing successive model}
 
 \item{\code{nbBlocksRange}}{2-size vector: range of exploration}
 
@@ -108,9 +108,12 @@ prediction under the currently estimated model
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{covarList}}{a list of covariates. By default, we use the covariates with which the model was estimated.}
+\item{\code{covarList}}{a list of covariates. By default, we use the covariates with which the model was estimated}
 }
 \if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+a matrix of expected values for each dyad
 }
 }
 \if{html}{\out{<hr>}}
