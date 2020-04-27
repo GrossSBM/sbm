@@ -33,12 +33,14 @@ This class is designed to give a representation and adjust an SBM fitted with bl
 \item \href{#method-new}{\code{SimpleSBM_fit$new()}}
 \item \href{#method-optimize}{\code{SimpleSBM_fit$optimize()}}
 \item \href{#method-predict}{\code{SimpleSBM_fit$predict()}}
+\item \href{#method-show}{\code{SimpleSBM_fit$show()}}
 \item \href{#method-clone}{\code{SimpleSBM_fit$clone()}}
 }
 }
 \if{html}{
 \out{<details open ><summary>Inherited methods</summary>}
 \itemize{
+\item \out{<span class="pkg-link" data-pkg="GSBM" data-topic="SBM" data-id="print">}\href{../../GSBM/html/SBM.html#method-print}{\code{GSBM::SBM$print()}}\out{</span>}
 }
 \out{</details>}
 }
@@ -87,7 +89,7 @@ function to perform optimization
 
 \item{\code{plot}}{logical, if TRUE ploting is done dynamically on the screen. Default to \code{TRUE}}
 
-\item{\code{explorFactor}}{double factor for exploraing successive model}
+\item{\code{explorFactor}}{double factor for exploring successive model}
 
 \item{\code{nbBlocksRange}}{2-size vector: range of exploration}
 
@@ -114,6 +116,23 @@ prediction under the currently estimated model
 }
 \subsection{Returns}{
 a matrix of expected values for each dyad
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-show"></a>}}
+\if{latex}{\out{\hypertarget{method-show}{}}}
+\subsection{Method \code{show()}}{
+show method
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{SimpleSBM_fit$show(type = "Fit of a Simple Stochastic Block Model")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{type}}{character used to specify the type of SBM}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}

@@ -18,7 +18,7 @@ R6 virtual class for SBM fit (mother class of Simple and Bipartite SBM fit)
 
 \item{\code{loglik}}{double: approximation of the log-likelihood (variational lower bound) reached}
 
-\item{\code{ICL}}{double: value of the integrated classification loglielihood}
+\item{\code{ICL}}{double: value of the integrated classification log-likelihood}
 
 \item{\code{fitted}}{matrix of predicted value of the network}
 }
@@ -28,12 +28,14 @@ R6 virtual class for SBM fit (mother class of Simple and Bipartite SBM fit)
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{SBM_fit$new()}}
+\item \href{#method-show}{\code{SBM_fit$show()}}
 \item \href{#method-clone}{\code{SBM_fit$clone()}}
 }
 }
 \if{html}{
 \out{<details open ><summary>Inherited methods</summary>}
 \itemize{
+\item \out{<span class="pkg-link" data-pkg="GSBM" data-topic="SBM" data-id="print">}\href{../../GSBM/html/SBM.html#method-print}{\code{GSBM::SBM$print()}}\out{</span>}
 }
 \out{</details>}
 }
@@ -54,6 +56,23 @@ constructor for SBM fit
 \item{\code{model}}{character describing the type of model}
 
 \item{\code{covarList}}{optional list of matrices for covariates}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-show"></a>}}
+\if{latex}{\out{\hypertarget{method-show}{}}}
+\subsection{Method \code{show()}}{
+print/show method
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{SBM_fit$show(type = "Fit of a Stochastic Block Model")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{type}}{character to tune the displayed name}
 }
 \if{html}{\out{</div>}}
 }

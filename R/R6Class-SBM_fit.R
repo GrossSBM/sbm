@@ -20,6 +20,14 @@ SBM_fit <- # this virtual class is the mother of all subtypes of SBM (Simple or 
       initialize = function(data, model, covarList) {
         super$initialize(model = model, dimension = dim(data), covarList = covarList)
         private$Y <- data
+      },
+      #' @description print/show method
+      #' @param type character to tune the displayed name
+      show = function(type = "Fit of a Stochastic Block Model") {
+        super$show(type)
+        cat("  $probMemberships, $memberships, $loglik, $ICL\n")
+        cat("* S3 methods \n")
+        cat("  plot, print, coef, predict, fitted \n")
       }
     ),
     active = list(

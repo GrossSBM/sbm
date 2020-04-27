@@ -33,12 +33,14 @@ This class is designed to give a representation and adjust an LBM fitted with bl
 \item \href{#method-new}{\code{BipartiteSBM_fit$new()}}
 \item \href{#method-optimize}{\code{BipartiteSBM_fit$optimize()}}
 \item \href{#method-predict}{\code{BipartiteSBM_fit$predict()}}
+\item \href{#method-show}{\code{BipartiteSBM_fit$show()}}
 \item \href{#method-clone}{\code{BipartiteSBM_fit$clone()}}
 }
 }
 \if{html}{
 \out{<details open ><summary>Inherited methods</summary>}
 \itemize{
+\item \out{<span class="pkg-link" data-pkg="GSBM" data-topic="SBM" data-id="print">}\href{../../GSBM/html/SBM.html#method-print}{\code{GSBM::SBM$print()}}\out{</span>}
 }
 \out{</details>}
 }
@@ -107,6 +109,23 @@ prediction under the currently estimated model
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{covarList}}{a list of covariates. By default, we use the covariates with which the model was estimated.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-show"></a>}}
+\if{latex}{\out{\hypertarget{method-show}{}}}
+\subsection{Method \code{show()}}{
+show method
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{BipartiteSBM_fit$show(type = "Fit of a Bipartite Stochastic Block Model")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{type}}{character used to specify the type of SBM}
 }
 \if{html}{\out{</div>}}
 }

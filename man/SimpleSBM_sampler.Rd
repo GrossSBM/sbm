@@ -22,6 +22,8 @@ R6 class for Simple SBM sampler
 \out{<details open ><summary>Inherited methods</summary>}
 \itemize{
 \item \out{<span class="pkg-link" data-pkg="GSBM" data-topic="SBM" data-id="initialize">}\href{../../GSBM/html/SBM.html#method-initialize}{\code{GSBM::SBM$initialize()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="GSBM" data-topic="SBM" data-id="print">}\href{../../GSBM/html/SBM.html#method-print}{\code{GSBM::SBM$print()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="GSBM" data-topic="SBM" data-id="show">}\href{../../GSBM/html/SBM.html#method-show}{\code{GSBM::SBM$show()}}\out{</span>}
 }
 \out{</details>}
 }

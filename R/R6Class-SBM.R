@@ -42,14 +42,29 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
                 "poisson"   = function(x) {exp(x)},
                 "bernoulli" = function(x) {.logistic(x)},
                 )
-      }
+      },
+      #' @description print method
+      #' @param type character to tune the displayed name
+      show = function(type = "Stochastic Block Model") {
+        cat(type, "--", self$modelName, "variant\n")
+        cat("=====================================================================\n")
+        cat("Dimension = (", self$dimension, ") - (",
+            self$nbBlocks, ") blocks and",
+          ifelse(self$nbCovariates > 0, self$nbCovariates, "no"), "covariate(s).\n")
+        cat("=====================================================================\n")
+        cat("* Useful fields \n")
+        cat("  $dimension, $modelName, $nbNodes, $nbBlocks, $nbCovariates, $nbDyads\n")
+        cat("  $blockProp, $connectParam, covarParam, $covarList, $covarEffect \n")
+      },
+      #' @description print method
+      print =  function() self$show()
     ),
     ## active binding to access fields outside the class
     active = list(
       #' @field dimension size-2 vector: dimension of the network
-      dimension       = function(value) {private$dim  },
+      dimension       = function(value) {private$dim},
       #' @field modelName character, the family of model for the distribution of the edges
-      modelName    = function(value) {length(private$model)},
+      modelName    = function(value) {private$model},
       #' @field nbCovariates integer, the number of covariates
       nbCovariates = function(value) {length(private$X)},
       #' @field blockProp vector of block proportions (aka prior probabilities of each block)
@@ -66,6 +81,7 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       netMatrix    = function(value) {if (missing(value)) return(private$Y)      else private$Y      <- value}
     )
   )
+
 
 # ========================================================================================
 # PUBLIC S3 METHODS FOR SBM
@@ -102,7 +118,7 @@ coef.SBM <- function(object, type = c( 'connectivity', 'membership', 'covariates
 #' @return a matrix of expected values for each dyad
 #' @importFrom stats predict
 #' @export
-predict.SBM_fit <- function(object, covarList = object$covarList, ...) {
+predict.SBM <- function(object, covarList = object$covarList, ...) {
   stopifnot(is_SBM(object))
   object$predict(covarList)
 }

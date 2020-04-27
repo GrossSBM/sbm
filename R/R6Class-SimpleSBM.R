@@ -98,7 +98,10 @@ SimpleSBM_fit <-
         mu <- private$tau %*% private$theta$mu %*% t(private$tau)
         if (length(self$covList) > 0) mu <- private$invlink(private$link(mu) + self$covarEffect)
         mu
-      }
+      },
+      #' @description show method
+      #' @param type character used to specify the type of SBM
+      show = function(type = "Fit of a Simple Stochastic Block Model") super$show(type)
     ),
     active = list(
       #' @field nbNodes number of nodes

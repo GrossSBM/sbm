@@ -35,6 +35,8 @@ R6 virtual class for SBM representation (mother class of Simple and Bipartite SB
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{SBM$new()}}
+\item \href{#method-show}{\code{SBM$show()}}
+\item \href{#method-print}{\code{SBM$print()}}
 \item \href{#method-clone}{\code{SBM$clone()}}
 }
 }
@@ -71,6 +73,33 @@ constructor for SBM
 }
 \if{html}{\out{</div>}}
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-show"></a>}}
+\if{latex}{\out{\hypertarget{method-show}{}}}
+\subsection{Method \code{show()}}{
+print method
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{SBM$show(type = "Stochastic Block Model")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{type}}{character to tune the displayed name}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-print"></a>}}
+\if{latex}{\out{\hypertarget{method-print}{}}}
+\subsection{Method \code{print()}}{
+print method
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{SBM$print()}\if{html}{\out{</div>}}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

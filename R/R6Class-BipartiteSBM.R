@@ -76,7 +76,6 @@ BipartiteSBM_fit <-
           "gaussian_covariates" = list(mu = parameters$mu, sigma = parameters$sigma2)
         )
 
-        browser()
         ## record fitted/expected value
         private$Y_hat <- self$predict()
 
@@ -93,17 +92,20 @@ BipartiteSBM_fit <-
         mu <- private$tau[[1]] %*% private$theta$mu %*% t(private$tau[[2]])
         if (length(self$covList) > 0) mu <- private$invlink(private$link(mu) + self$covarEffect)
         mu
-      }
+      },
+      #' @description show method
+      #' @param type character used to specify the type of SBM
+      show = function(type = "Fit of a Bipartite Stochastic Block Model") super$show(type)
     ),
     active = list(
       #' @field nbNodes vector of size 2: number of nodes (rows, columns)
-      nbNodes         = function(value) {private$dim},
+      nbNodes     = function(value) {private$dim},
       #' @field nbBlocks vector of size 2: number of blocks (rows, columns)
-      nbBlocks        = function(value) {sapply(private$pi, length)},
+      nbBlocks    = function(value) {sapply(private$pi, length)},
       #' @field nbDyads number of dyads (potential edges in the network)
-      nbDyads         = function(value) {private$dim[1] * private$dim[2]},
+      nbDyads     = function(value) {private$dim[1] * private$dim[2]},
       #' @field memberships list of size 2: vector of memberships in row, in column.
-      memberships     = function(value) {lapply(private$tau, as_clustering)}
+      memberships = function(value) {lapply(private$tau, as_clustering)}
     )
   )
 
