@@ -26,7 +26,6 @@ Imports:
     blockmodels,
     R6,
     corrplot,
-    Matrix,
     Rcpp
 Collate: 
     'GSBM-package.R'
