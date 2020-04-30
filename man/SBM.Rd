@@ -48,10 +48,10 @@ R6 virtual class for SBM representation (mother class of Simple and Bipartite SB
 constructor for SBM
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{SBM$new(
-  model = NA,
-  dimension = NA,
-  blockProp = NA,
-  connectParam = NA,
+  model = "",
+  dimension = numeric(2),
+  blockProp = numeric(0),
+  connectParam = list(mu = matrix()),
   covarParam = numeric(0),
   covarList = list()
 )}\if{html}{\out{</div>}}
@@ -66,7 +66,7 @@ constructor for SBM
 
 \item{\code{blockProp}}{parameters for block proportions (vector of list of vectors)}
 
-\item{\code{connectParam}}{matrix of parameters for connectivity}
+\item{\code{connectParam}}{list of parameters for connectivity}
 
 \item{\code{covarParam}}{optional vector of covariates effect}
 

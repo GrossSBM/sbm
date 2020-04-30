@@ -14,19 +14,55 @@ R6 class for Simple SBM sampler
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
+\item \href{#method-new}{\code{SimpleSBM_sampler$new()}}
 \item \href{#method-rBlocks}{\code{SimpleSBM_sampler$rBlocks()}}
+\item \href{#method-rAdjMatrix}{\code{SimpleSBM_sampler$rAdjMatrix()}}
+\item \href{#method-expectation}{\code{SimpleSBM_sampler$expectation()}}
 \item \href{#method-clone}{\code{SimpleSBM_sampler$clone()}}
 }
 }
 \if{html}{
 \out{<details open ><summary>Inherited methods</summary>}
 \itemize{
-\item \out{<span class="pkg-link" data-pkg="GSBM" data-topic="SBM" data-id="initialize">}\href{../../GSBM/html/SBM.html#method-initialize}{\code{GSBM::SBM$initialize()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="GSBM" data-topic="SBM" data-id="plot">}\href{../../GSBM/html/SBM.html#method-plot}{\code{GSBM::SBM$plot()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="GSBM" data-topic="SBM" data-id="print">}\href{../../GSBM/html/SBM.html#method-print}{\code{GSBM::SBM$print()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="GSBM" data-topic="SBM" data-id="show">}\href{../../GSBM/html/SBM.html#method-show}{\code{GSBM::SBM$show()}}\out{</span>}
 }
 \out{</details>}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
+\subsection{Method \code{new()}}{
+constructor for SBM
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{SimpleSBM_sampler$new(
+  model,
+  nbNodes,
+  blockProp,
+  connectParam,
+  covarParam = numeric(0),
+  covarList = list()
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{model}}{character describing the type of model}
+
+\item{\code{nbNodes}}{number of nodes in the network}
+
+\item{\code{blockProp}}{parameters for block proportions (vector of list of vectors)}
+
+\item{\code{connectParam}}{matrix of parameters for connectivity}
+
+\item{\code{covarParam}}{optional vector of covariates effect}
+
+\item{\code{covarList}}{optional list of covariates data}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-rBlocks"></a>}}
@@ -35,6 +71,24 @@ R6 class for Simple SBM sampler
 a method to generate a vector of block indicators
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{SimpleSBM_sampler$rBlocks()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-rAdjMatrix"></a>}}
+\if{latex}{\out{\hypertarget{method-rAdjMatrix}{}}}
+\subsection{Method \code{rAdjMatrix()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{SimpleSBM_sampler$rAdjMatrix()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-expectation"></a>}}
+\if{latex}{\out{\hypertarget{method-expectation}{}}}
+\subsection{Method \code{expectation()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{SimpleSBM_sampler$expectation()}\if{html}{\out{</div>}}
 }
 
 }

@@ -5,9 +5,9 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
   R6::R6Class(classname = "SBM",
     ## fields for internal use (referring to the mathematical notation)
     private = list(
-      model   = NULL, # characters, the model name: distribution of the deges (bernoulli, poisson, gaussian) + covariates or not
-      link    = NULL, # the link function like  in GLM setup
-      invlink = NULL, # the inverse link function like in GLM setup
+      model   = NULL, # characters, the model name: distribution of the edges (bernoulli, poisson, gaussian)
+      link    = NULL, # the link function (GLM-like)
+      invlink = NULL, # the inverse link function (GLM-like)
       dim     = NULL, # vector: number of nodes in row and in col
       pi      = NULL, # vector of parameters for block prior probabilities
       theta   = NULL, # connectivity parameters between edges
@@ -20,13 +20,21 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       #' @param model character describing the type of model
       #' @param dimension dimension of the network matrix
       #' @param blockProp parameters for block proportions (vector of list of vectors)
-      #' @param connectParam matrix of parameters for connectivity
+      #' @param connectParam list of parameters for connectivity
       #' @param covarParam optional vector of covariates effect
       #' @param covarList optional list of covariates data
-      initialize = function(model=NA, dimension=NA, blockProp=NA, connectParam=NA, covarParam=numeric(0), covarList=list()) {
+      initialize = function(model='', dimension=numeric(2), blockProp=numeric(0), connectParam=list(mu = matrix()), covarParam=numeric(0), covarList=list()) {
+
+        ## SANITY CHECK
+        stopifnot(is.character(model))
+        stopifnot(is.numeric(dimension), length(dimension) == 2)
+        stopifnot(is.list(connectParam), is.matrix(connectParam$mu))
+        stopifnot(all.equal(length(covarParam), length(covarList)))
+        stopifnot(all(sapply(covarList, nrow) == dimension[1])) # all covariate matrices match the dimension
+        stopifnot(all(sapply(covarList, ncol) == dimension[2]))
 
         ## MODEL & PARAMETERS
-        private$model <- ifelse(length(covarList) > 0, paste0(model,"_covariates"), model)
+        private$model <- model
         private$dim   <- dimension
         private$X     <- covarList
         private$pi    <- blockProp
@@ -85,28 +93,28 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
         cat("  $blockProp, $connectParam, covarParam, $covarList, $covarEffect \n")
       },
       #' @description print method
-      print =  function() self$show()
+      print = function() self$show()
     ),
     ## active binding to access fields outside the class
     active = list(
       #' @field dimension size-2 vector: dimension of the network
-      dimension       = function(value) {private$dim},
+      dimension    = function(value) {private$dim},
       #' @field modelName character, the family of model for the distribution of the edges
       modelName    = function(value) {private$model},
       #' @field nbCovariates integer, the number of covariates
       nbCovariates = function(value) {length(private$X)},
       #' @field blockProp vector of block proportions (aka prior probabilities of each block)
-      blockProp     = function(value) {if (missing(value)) return(private$pi)     else private$pi     <- value},
+      blockProp    = function(value) {if (missing(value)) return(private$pi) else private$pi <- value},
       #' @field connectParam parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli
-      connectParam = function(value) {if (missing(value)) return(private$theta)  else private$theta  <- value},
+      connectParam = function(value) {if (missing(value)) return(private$theta) else private$theta <- value},
       #' @field covarParam vector of regression parameters associated with the covariates.
-      covarParam   = function(value) {if (missing(value)) return(private$beta)   else private$beta   <- value},
+      covarParam   = function(value) {if (missing(value)) return(private$beta) else private$beta <- value},
       #' @field covarList list of matrices of covariates
-      covarList    = function(value) {if (missing(value)) return(private$X)      else private$X      <- value},
+      covarList    = function(value) {if (missing(value)) return(private$X) else private$X <- value},
       #' @field covarEffect effect of covariates
-      covarEffect = function(value) {roundProduct(simplify2array(private$X), private$beta)},
+      covarEffect  = function(value) {roundProduct(simplify2array(private$X), private$beta)},
       #' @field netMatrix the matrix (adjacency or incidence) encoding the network
-      netMatrix    = function(value) {if (missing(value)) return(private$Y)      else private$Y      <- value}
+      netMatrix    = function(value) {if (missing(value)) return(private$Y) else private$Y <- value}
     )
   )
 

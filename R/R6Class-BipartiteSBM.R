@@ -14,12 +14,6 @@ BipartiteSBM_fit <-
       #' @param model character (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'})
       #' @param covarList and optional list of covariates, each of whom must have the same dimension as \code{incidenceMatrix}
       initialize = function(incidenceMatrix, model, covarList=list()) {
-
-        ### TODO - GET MORE CHECKS
-        ## SANITY CHECKS
-        stopifnot(all(sapply(covarList, nrow) == nrow(incidenceMatrix))) # all covariate matrices match the
-        stopifnot(all(sapply(covarList, ncol) == ncol(incidenceMatrix))) # dimension of the adjancecy matrix
-
         ## INITIALIZE THE SBM OBJECT ACCORDING TO THE DATA
         super$initialize(incidenceMatrix, model, covarList)
 
@@ -52,7 +46,8 @@ BipartiteSBM_fit <-
         args <- c(args, blockmodelsOptions)
 
         ## model construction
-        BMobject <- do.call(paste0("BM_", private$model), args)
+        model_type <- ifelse(self$nbCovariates > 0, paste0(model,"_covariates"), private$model)
+        BMobject <- do.call(paste0("BM_", model_type), args)
 
         ## performing estimation
         BMobject$estimate()
@@ -67,7 +62,7 @@ BipartiteSBM_fit <-
         parameters    <- BMobject$model_parameters[[ind_best]]
         private$beta  <- parameters$beta ## NULL if no covariates
 
-        private$theta <- switch(private$model,
+        private$theta <- switch(model_type,
           "bernoulli"           = list(mu = parameters$pi),
           "bernoull_covariates" = list(mu = .logistic(parameters$m)),
           "poisson"             = list(mu = parameters$lambda),
@@ -117,7 +112,7 @@ BipartiteSBM_sampler <-
     inherit = SBM,
     ## fields for internal use (referring to the mathematical notation)
     private = list(
-      Z            = NULL  # the sampled indicator of blocks
+      Z = NULL  # the sampled indicator of blocks
     ),
     public = list(
       #' @description a method to generate a vector of clusters indicators
@@ -126,7 +121,6 @@ BipartiteSBM_sampler <-
           row = t(rmultinom(private$dim[1], size = 1, prob = private$pi[[1]])),
           col = t(rmultinom(private$dim[2], size = 1, prob = private$pi[[2]]))
           )
-
       }
       # ,
       # ## a method to sample an adjacency matrix for the current SBM

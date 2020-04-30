@@ -9,7 +9,7 @@ SimpleSBM_fit <-
   R6::R6Class(classname = "SimpleSBM_fit",
     inherit = SBM_fit,
     private = list(
-      directed_ = NULL
+      directed_ = NULL # is the network directed or not
     ),
     public = list(
       #' @description constructor for a Simple SBM fit
@@ -22,8 +22,6 @@ SimpleSBM_fit <-
         ## SANITY CHECKS
         stopifnot(all.equal(nrow(adjacencyMatrix), ncol(adjacencyMatrix)))  # matrix must be square
         stopifnot(isSymmetric(adjacencyMatrix) == !directed)                # symmetry and direction must agree
-        stopifnot(all(c(sapply(covarList, nrow),                            # all covariate matrices match the
-                        sapply(covarList, ncol)) == nrow(adjacencyMatrix))) # dimension of the adjancecy matrix
 
         ## INITIALIZE THE SBM OBJECT ACCORDING TO THE DATA
         super$initialize(adjacencyMatrix, model, covarList)
@@ -58,7 +56,8 @@ SimpleSBM_fit <-
         args <- c(args, blockmodelsOptions)
 
         ## model construction
-        BMobject <- do.call(paste0("BM_", private$model), args)
+        model_type <- ifelse(self$nbCovariates > 0, paste0(model,"_covariates"), private$model)
+        BMobject <- do.call(paste0("BM_", model_type), args)
 
         ## performing estimation
         BMobject$estimate()
@@ -73,7 +72,7 @@ SimpleSBM_fit <-
         parameters    <- BMobject$model_parameters[[ind_best]]
         private$beta  <- parameters$beta ## NULL if no covariates
 
-        private$theta <- switch(private$model,
+        private$theta <- switch(model_type,
           "bernoulli"           = list(mu = parameters$pi),
           "bernoull_covariates" = list(mu = .logistic(parameters$m)),
           "poisson"             = list(mu = parameters$lambda),
@@ -92,11 +91,11 @@ SimpleSBM_fit <-
       #' @return a matrix of expected values for each dyad
       predict = function(covarList = self$covarList) {
         stopifnot(is.list(covarList), self$nbCovariates == length(covarList))
-        if (length(covarList) > 0) {
-          stopifnot(all.equal(self$nbNodes, sapply(covarList, nrow), sapply(covarList, ncol)))
-        }
         mu <- private$tau %*% private$theta$mu %*% t(private$tau)
-        if (length(self$covList) > 0) mu <- private$invlink(private$link(mu) + self$covarEffect)
+        if (self$nbCovariates > 0) {
+          stopifnot(all.equal(self$nbNodes, sapply(covarList, nrow), sapply(covarList, ncol)))
+          mu <- private$invlink(private$link(mu) + self$covarEffect)
+        }
         mu
       },
       #' @description show method
@@ -123,12 +122,48 @@ SimpleSBM_sampler <- # this virtual class is the mother of all subtypes of SBM (
     inherit = SBM,
     ## fields for internal use (referring to the mathematical notation)
     private = list(
-      Z            = NULL  # the sampled indicator of blocks
+      directed_ = NULL, # is the network directed or not (Symmetric netMatrix)
+      Z         = NULL, # the sampled indicator of blocks
+      sampling_func = NULL #
     ),
     public = list(
+      #' @description constructor for SBM
+      #' @param model character describing the type of model
+      #' @param nbNodes number of nodes in the network
+      #' @param blockProp parameters for block proportions (vector of list of vectors)
+      #' @param connectParam matrix of parameters for connectivity
+      #' @param covarParam optional vector of covariates effect
+      #' @param covarList optional list of covariates data
+      initialize = function(model, nbNodes, blockProp, connectParam, covarParam=numeric(0), covarList=list()) {
+
+        super$initialize(model = model, dimension = c(nbNodes, nbNodes), connectParam = connectParam, covarParam = covarParam, covarList = covarList)
+
+        ## ADDITIONAL SANITY CHECKS
+        stopifnot(all.equal(length(blockProp),                # dimensions match between vector of block proportion
+                            ncol(connectParam$mu),            # and connectParam
+                            nrow(connectParam$mu)))
+
+        private$sampling_func <- switch(model,
+            "gaussian"  = function() rnorm(self$expected ) ,
+            "poisson"   = rpois() ,
+            "bernoulli" = rbinom(),
+          )
+      },
       #' @description a method to generate a vector of block indicators
       rBlocks = function() {
         private$Z <- t(rmultinom(private$dim[1], size = 1, prob = private$pi))
+      },
+      ## a method to sample an adjacency matrix for the current SBM
+      rAdjMatrix = function() {
+        Y <- matrix(private$sampling_func(), private$dim[1], private$dim[2])
+        if (!private$directed_) Y <- Y * lower.tri(Y) + t(Y * lower.tri(Y))
+        private$Y <- Y
+      },
+      expectation = function() {
+        mu <- private$Z %*% private$theta$mu %*% t(private$Z)
+        if (self$nbCovariates > 0)
+          mu <- private$invlink(private$link(mu) + self$covarEffect)
+        mu
       }
       # ,
       # ## a method to sample an adjacency matrix for the current SBM
@@ -144,7 +179,7 @@ SimpleSBM_sampler <- # this virtual class is the mother of all subtypes of SBM (
     )#,
 #    active = list(
 #      indMemberships = function(value) {private$Z}
-      # ,
+      #
       # connectProb = function(value) {
       #    PI <- private$Z %*% private$theta %*% t(private$Z)
       #    if (self$nbCovariates > 0) {

@@ -36,7 +36,11 @@
 #'
 #' ## Estimation
 #' mySimpleSBM <- estimateSimpleSBM(adjacencyMatrix)
-#' plot(mySimpleSBM)
+#' par(mfrow = c(2,2))
+#' plot(mySimpleSBM, 'data', ordered = FALSE)
+#' plot(mySimpleSBM, 'data')
+#' plot(mySimpleSBM, 'expected', ordered = FALSE)
+#' plot(mySimpleSBM, 'expected')
 #'
 #' @export
 estimateSimpleSBM <- function(netMat,
