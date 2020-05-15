@@ -1,1 +1,24 @@
-destination: docs
+templates:
+  params:
+    bootswatch: readable
+
+navbar:
+  title: "GroßBM"
+  type: inverse
+  left:
+    - icon: fa-home
+    - text: "Home"
+      href: index.html
+    - text: "Reference"
+      href: "reference/index.html"
+#    - text: "Vignettes"
+#      menu:
+#      - text: "GGM inference with latent SBM organization"
+#        href: articles/janine_SBM.html
+#      - text: "GGM inference with latent MBM organization (hierarchical SBM)"
+#        href: articles/janine_MBM.html
+    - text: "Changelog"
+      href: news/index.html
+  right:
+    - icon: fa-github
+      href: https://github.com/GrossSBM/GSBM

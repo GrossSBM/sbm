@@ -1,5 +1,6 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 # Changelog:
+#  - 2020-05-15: pkgdown support
 #  - 2020-04-23: creation
 
 language: R
@@ -33,8 +34,6 @@ matrix:
 #          github-token: $GITHUB_PAT
 #          keep-history: true
 #          local-dir: docs
-#          on:
-#            branch: master
 #        - provider: releases
 #          api_key: $GITHUB_PAT
 #          file: $PKG_TARBALL
