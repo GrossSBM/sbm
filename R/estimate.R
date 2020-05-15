@@ -22,17 +22,15 @@
 #'
 #' @examples
 #' ### SIMPLE SBM
-#' ## graph parameters
-#' nbNodes  <- 90
-#' blockProp <- c(.5, .25, .25)   # group proportions
-#' nbBlock   <- length(blockProp) # number of blocks
-#' connectParam <- diag(.4, nbBlock) + 0.05 # connectivity matrix: affiliation network
-#' Z <- t(rmultinom(nbNodes, 1, blockProp))
 #'
-#' ## Graph Sampling
-#' edgeProb <- Z %*% connectParam %*% t(Z)
-#' support <- matrix(runif(nbNodes**2), nbNodes, nbNodes) < edgeProb
-#' adjacencyMatrix <- 1 * (support | t(support))
+#' ## Graph parameters
+#' nbNodes  <- 90
+#' blockProp <- c(.5, .25, .25)      # group proportions
+#' connectProb <- diag(.4, 3) + 0.05 # connectivity matrix: affiliation network
+#'
+#' ## Sampling
+#' mySampler <- sampleSimpleSBM(nbNodes, blockProp, list(mu = connectProb))
+#' adjacencyMatrix <- mySampler$netMatrix
 #'
 #' ## Estimation
 #' mySimpleSBM <- estimateSimpleSBM(adjacencyMatrix)
@@ -62,7 +60,7 @@ estimateSimpleSBM <- function(netMat,
   currentOptions[names(estimOptions)] <- estimOptions
 
   ## Construct the SBM model
-  mySBM <- SimpleSBM_fit$new   (netMat, model, directed, covariates)
+  mySBM <- SimpleSBM_fit$new(netMat, model, directed, covariates)
 
   ## Perform optimization
   do.call(mySBM$optimize, currentOptions)
@@ -111,9 +109,9 @@ estimateSimpleSBM <- function(netMat,
 #' plot(myBipartiteSBM, 'expected')
 #' @export
 estimateBipartiteSBM <- function(netMat,
-                              model        = 'bernoulli',
-                              covariates   = list(),
-                              estimOptions = list()) {
+                                 model        = 'bernoulli',
+                                 covariates   = list(),
+                                 estimOptions = list()) {
 
   ## Set default options for estimation
   currentOptions <- list(

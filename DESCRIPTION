@@ -32,9 +32,11 @@ Collate:
     'R6Class-SBM.R'
     'R6Class-SBM_fit.R'
     'R6Class-BipartiteSBM.R'
-    'R6Class-SimpleSBM.R'
+    'R6Class-SimpleSBM_fit.R'
+    'R6Class-SimpleSBM_sampler.R'
     'RcppExports.R'
     'estimate.R'
+    'sample.R'
     'utils-pipe.R'
     'utils.R'
 LinkingTo: 

@@ -41,17 +41,15 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 }
 \examples{
 ### SIMPLE SBM
-## graph parameters
-nbNodes  <- 90
-blockProp <- c(.5, .25, .25)   # group proportions
-nbBlock   <- length(blockProp) # number of blocks
-connectParam <- diag(.4, nbBlock) + 0.05 # connectivity matrix: affiliation network
-Z <- t(rmultinom(nbNodes, 1, blockProp))
 
-## Graph Sampling
-edgeProb <- Z \%*\% connectParam \%*\% t(Z)
-support <- matrix(runif(nbNodes**2), nbNodes, nbNodes) < edgeProb
-adjacencyMatrix <- 1 * (support | t(support))
+## Graph parameters
+nbNodes  <- 90
+blockProp <- c(.5, .25, .25)      # group proportions
+connectProb <- diag(.4, 3) + 0.05 # connectivity matrix: affiliation network
+
+## Sampling
+mySampler <- sampleSimpleSBM(nbNodes, blockProp, list(mu = connectProb))
+adjacencyMatrix <- mySampler$netMatrix
 
 ## Estimation
 mySimpleSBM <- estimateSimpleSBM(adjacencyMatrix)
