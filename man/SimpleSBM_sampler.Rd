@@ -34,8 +34,8 @@ R6 class for Simple SBM sampler
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{SimpleSBM_sampler$new()}}
-\item \href{#method-rBlocks}{\code{SimpleSBM_sampler$rBlocks()}}
-\item \href{#method-rAdjMatrix}{\code{SimpleSBM_sampler$rAdjMatrix()}}
+\item \href{#method-rMemberships}{\code{SimpleSBM_sampler$rMemberships()}}
+\item \href{#method-rAdjacency}{\code{SimpleSBM_sampler$rAdjacency()}}
 \item \href{#method-clone}{\code{SimpleSBM_sampler$clone()}}
 }
 }
@@ -86,26 +86,29 @@ constructor for SBM
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-rBlocks"></a>}}
-\if{latex}{\out{\hypertarget{method-rBlocks}{}}}
-\subsection{Method \code{rBlocks()}}{
+\if{html}{\out{<a id="method-rMemberships"></a>}}
+\if{latex}{\out{\hypertarget{method-rMemberships}{}}}
+\subsection{Method \code{rMemberships()}}{
 a method to generate a vector of block indicators
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{SimpleSBM_sampler$rBlocks()}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-rAdjMatrix"></a>}}
-\if{latex}{\out{\hypertarget{method-rAdjMatrix}{}}}
-\subsection{Method \code{rAdjMatrix()}}{
-a method to sample an adjacency matrix for the current SBM
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{SimpleSBM_sampler$rAdjMatrix()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{SimpleSBM_sampler$rMemberships()}\if{html}{\out{</div>}}
 }
 
 \subsection{Returns}{
-nothing (sampled matrix is store in the current object, accessible via $netMatrix)
+nothing (sampled memberships is stored in the current object)
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-rAdjacency"></a>}}
+\if{latex}{\out{\hypertarget{method-rAdjacency}{}}}
+\subsection{Method \code{rAdjacency()}}{
+a method to sample an adjacency matrix for the current SBM
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{SimpleSBM_sampler$rAdjacency()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+nothing (sampled adjacency matrix is stored in the current object)
 }
 }
 \if{html}{\out{<hr>}}

@@ -38,19 +38,16 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 }
 \examples{
 ### BIPARTITE SBM
-## bipartite graph parameters
-npc      <- c(50,40) # nodes per class
-nbBlocks <- c(2,3)   # nb group per nodes
-dim      <- npc * nbBlocks  # dimension (nb nodes in row/col)
-Z1 <- diag(nbBlocks[1]) \%x\% matrix(1, npc[1], 1)
-Z2 <- diag(nbBlocks[2]) \%x\% matrix(1, npc[2], 1)
-connectParam <- matrix(runif(nbBlocks[1]*nbBlocks[2]), nbBlocks[1], nbBlocks[2])
+
+## Graph parameters
+nbNodes <- c(100, 120)
+blockProp <- list(c(.5, .5), c(1/3,1/3,1/3)) # group proportions
+connectProb <- matrix(runif(6), 2, 3)
 
 ## Graph Sampling
-edgeProb <- Z1 \%*\% connectParam \%*\% t(Z2)
-IncMatrix <- 1 * (matrix(runif(dim[1] * dim[2]), dim[1], dim [2]) < edgeProb)
+mySampler <- sampleBipartiteSBM(nbNodes, blockProp, list(mu = connectProb))
 
 ## Estimation
-myBipartiteSBM <- estimateBipartiteSBM(IncMatrix)
+myBipartiteSBM <- estimateBipartiteSBM(mySampler$netMatrix)
 plot(myBipartiteSBM, 'expected')
 }
