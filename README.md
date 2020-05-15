@@ -5,10 +5,7 @@
 
 <!-- badges: start -->
 
-[![Travis build
-status](https://travis-ci.com/GrossSBM/GSBM.svg?branch=master)](https://travis-ci.com/GrossSBM/GSBM)
-[![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/GrossSBM/GSBM?branch=master&svg=true)](https://ci.appveyor.com/project/GrossSBM/GSBM)
+![R-CMD-check](https://github.com/GrossSBM/GSBM/workflows/R-CMD-check/badge.svg?branch=master)
 <!-- badges: end -->
 
 The goal of GSBM is to regroup into a unique framework tools for
