@@ -3,7 +3,7 @@
 #' @import R6
 #' @include R6Class-SBM.R
 #' @export
-SimpleSBM_sampler <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipartite)
+SimpleSBM_sampler <-
   R6::R6Class(classname = "SimpleSBM_sampler",
     inherit = SBM,
     ## fields for internal use (referring to the mathematical notation)
@@ -18,7 +18,7 @@ SimpleSBM_sampler <- # this virtual class is the mother of all subtypes of SBM (
       #' @param nbNodes number of nodes in the network
       #' @param directed logical, directed network or not.
       #' @param blockProp parameters for block proportions (vector of list of vectors)
-      #' @param connectParam list of parameters for connectivity with a matrix of means 'mu' and an optional matrix of variances 'sigma2', the sizes of which must match \code{blockProp} length
+      #' @param connectParam list of parameters for connectivity with a matrix of means 'mu' and an optional scalar for the variance 'sigma2'. The size of mu must match \code{blockProp} length
       #' @param covarParam optional vector of covariates effect
       #' @param covarList optional list of covariates data
       initialize = function(model, nbNodes, directed, blockProp, connectParam, covarParam=numeric(0), covarList=list()) {
@@ -31,10 +31,7 @@ SimpleSBM_sampler <- # this virtual class is the mother of all subtypes of SBM (
                             nrow(connectParam$mu)))
         stopifnot(isSymmetric(connectParam$mu) == !directed) # connectivity and direction must agree
 
-        if (model == 'gaussian')
-          stopifnot(all.equal(length(blockProp),      # dimensions match between vector of
-                              ncol(connectParam$sigma2),  # block proportion and connectParam$mu
-                              nrow(connectParam$sigma2)))
+        if (model == 'gaussian') stopifnot(length(connectParam$sigma2) == 1)
 
         private$sampling_func <- switch(model,
             "gaussian"  = function(n, param)  rnorm(n = n, mean   = param$mu, sd = sqrt(param$sigma2)) ,
@@ -77,13 +74,8 @@ SimpleSBM_sampler <- # this virtual class is the mother of all subtypes of SBM (
         if (self$nbCovariates > 0) mu <- private$invlink(private$link(mu) + self$covarEffect)
         mu
       },
-      #' @field variance variances of each dyad under the current model
-      variance = function() {
-        if (private$model == 'gaussian')
-          return(private$Z %*% private$theta$sigma2 %*% t(private$Z))
-        else
-          return(NULL)
-      }
+      #' @field variance variance of each dyad under the current model
+      variance = function() {if (private$model == 'gaussian') return(private$theta$sigma2) else return(NULL) }
     )
   )
 

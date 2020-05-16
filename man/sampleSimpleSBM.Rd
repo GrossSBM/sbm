@@ -30,23 +30,58 @@ sampleSimpleSBM(
 \item{covariatesParam}{optional vector of covariates effect. A zero length numeric vector by default.}
 }
 \value{
-an object with class SimpleSBM_sampler
+an object with class \code{\link{SimpleSBM_sampler}}
 }
 \description{
 This function samples a simple Stochastic Block Models, with various model
 for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models, and possibly with covariates
 }
 \examples{
-### SIMPLE SBM - Bernoulli
+### =======================================
+### SIMPLE BINARY SBM (Bernoulli model)
 ## Graph parameters
 nbNodes  <- 90
-blockProp <- c(.5, .25, .25)      # group proportions
-connectProb <- diag(.4, 3) + 0.05 # connectivity matrix: affiliation network
+blockProp <- c(.5, .25, .25) # group proportions
+means <- diag(.4, 3) + 0.05  # connectivity matrix: affiliation network
+# In Bernoulli SBM, parameters is a list with a matrix of means mu which are probabilities of connexion
+connectParam <- list(mu = means)
 
 ## Graph Sampling
-mySampler <- sampleSimpleSBM(nbNodes, blockProp, list(mu = connectProb))
+mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam, model = 'bernoulli')
 plot(mySampler)
 mySampler$rMemberships() # sample new memberships
 mySampler$rAdjacency()   # sample new adjacency matrix
+par(mfrow = c(1,2))
 plot(mySampler)
+hist(mySampler$netMatrix)
+
+### =======================================
+### SIMPLE POISSON SBM
+## Graph parameters
+nbNodes  <- 90
+blockProp <- c(.5, .25, .25) # group proportions
+means <- diag(15., 3) + 5    # connectivity matrix: affiliation network
+# In Poisson SBM, parameters is a list with a matrix of means mu which are a mean integer value taken by edges
+connectParam <- list(mu = means)
+
+## Graph Sampling
+mySampler <- sampleSimpleSBM(nbNodes, blockProp, list(mu = means), model = "poisson")
+par(mfrow = c(1,2))
+plot(mySampler)
+hist(mySampler$netMatrix)
+
+### =======================================
+### SIMPLE GAUSSIAN SBM
+## Graph parameters
+nbNodes  <- 90
+blockProp <- c(.5, .25, .25)      # group proportions
+means <- diag(15., 3) + 5 # connectivity matrix: affiliation network
+# In Gaussian SBM, parameters is a list with a matrix of means mu and a matrix of variances sigma2
+connectParam <- list(mu = means, sigma2 = 2)
+
+## Graph Sampling
+mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam, model = "gaussian")
+par(mfrow = c(1,2))
+plot(mySampler)
+hist(mySampler$netMatrix)
 }

@@ -40,19 +40,56 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 }
 }
 \examples{
-### SIMPLE SBM
+### =======================================
+### SIMPLE BINARY SBM (Bernoulli model)
 
-## Graph parameters
+## Graph parameters & Sampling
 nbNodes  <- 90
-blockProp <- c(.5, .25, .25)      # group proportions
-connectProb <- diag(.4, 3) + 0.05 # connectivity matrix: affiliation network
-
-## Sampling
-mySampler <- sampleSimpleSBM(nbNodes, blockProp, list(mu = connectProb))
+blockProp <- c(.5, .25, .25) # group proportions
+means <- diag(.4, 3) + 0.05  # connectivity matrix: affiliation network
+connectParam <- list(mu = means)
+mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam)
 adjacencyMatrix <- mySampler$netMatrix
 
 ## Estimation
-mySimpleSBM <- estimateSimpleSBM(adjacencyMatrix)
+mySimpleSBM <- estimateSimpleSBM(adjacencyMatrix, 'bernoulli')
+par(mfrow = c(2,2))
+plot(mySimpleSBM, 'data', ordered = FALSE)
+plot(mySimpleSBM, 'data')
+plot(mySimpleSBM, 'expected', ordered = FALSE)
+plot(mySimpleSBM, 'expected')
+
+### =======================================
+### SIMPLE POISSON SBM
+
+## Graph parameters & Sampling
+nbNodes  <- 90
+blockProp <- c(.5, .25, .25) # group proportions
+means <- diag(15., 3) + 5    # connectivity matrix: affiliation network
+connectParam <- list(mu = means)
+mySampler <- sampleSimpleSBM(nbNodes, blockProp, list(mu = means), model = "poisson")
+adjacencyMatrix <- mySampler$netMatrix
+
+## Estimation
+mySimpleSBM <- estimateSimpleSBM(adjacencyMatrix, 'poisson')
+par(mfrow = c(2,2))
+plot(mySimpleSBM, 'data', ordered = FALSE)
+plot(mySimpleSBM, 'data')
+plot(mySimpleSBM, 'expected', ordered = FALSE)
+plot(mySimpleSBM, 'expected')
+
+### =======================================
+### SIMPLE GAUSSIAN SBM
+
+## Graph parameters & Sampling
+nbNodes  <- 90
+blockProp <- c(.5, .25, .25)      # group proportions
+means <- diag(15., 3) + 5 # connectivity matrix: affiliation network
+connectParam <- list(mu = means, sigma2 = 2)
+mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam, model = "gaussian")
+
+## Estimation
+mySimpleSBM <- estimateSimpleSBM(adjacencyMatrix, 'gaussian')
 par(mfrow = c(2,2))
 plot(mySimpleSBM, 'data', ordered = FALSE)
 plot(mySimpleSBM, 'data')

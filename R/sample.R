@@ -28,6 +28,7 @@
 #' plot(mySampler)
 #' mySampler$rMemberships() # sample new memberships
 #' mySampler$rAdjacency()   # sample new adjacency matrix
+#' par(mfrow = c(1,2))
 #' plot(mySampler)
 #' hist(mySampler$netMatrix)
 #'
@@ -42,6 +43,7 @@
 #'
 #' ## Graph Sampling
 #' mySampler <- sampleSimpleSBM(nbNodes, blockProp, list(mu = means), model = "poisson")
+#' par(mfrow = c(1,2))
 #' plot(mySampler)
 #' hist(mySampler$netMatrix)
 #'
@@ -51,12 +53,12 @@
 #' nbNodes  <- 90
 #' blockProp <- c(.5, .25, .25)      # group proportions
 #' means <- diag(15., 3) + 5 # connectivity matrix: affiliation network
-#' vars  <- diag(1, 3) + 2 # connectivity matrix: affiliation network
 #' # In Gaussian SBM, parameters is a list with a matrix of means mu and a matrix of variances sigma2
-#' connectParam <- list(mu = means, sigma2 = vars)
+#' connectParam <- list(mu = means, sigma2 = 2)
 #'
 #' ## Graph Sampling
 #' mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam, model = "gaussian")
+#' par(mfrow = c(1,2))
 #' plot(mySampler)
 #' hist(mySampler$netMatrix)
 #' @export
@@ -101,7 +103,9 @@ sampleSimpleSBM <- function(nbNodes,
 #' plot(mySampler)
 #' mySampler$rMemberships() # sample new memberships
 #' mySampler$rIncidence()   # sample new incidence matrix
+#' par(mfrow = c(1,2))
 #' plot(mySampler)
+#' hist(mySampler$netMatrix)
 #'
 #' ### =======================================
 #' ### BIPARTITE POISSON SBM
@@ -114,6 +118,7 @@ sampleSimpleSBM <- function(nbNodes,
 #'
 #' ## Graph Sampling
 #' mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'poisson')
+#' par(mfrow = c(1,2))
 #' plot(mySampler)
 #' hist(mySampler$netMatrix)
 #'
@@ -123,12 +128,12 @@ sampleSimpleSBM <- function(nbNodes,
 #' nbNodes <- c(100, 120)
 #' blockProp <- list(c(.5, .5), c(1/3, 1/3, 1/3)) # group proportions
 #' means <- 20 * matrix(runif(6), 2, 3)  # connectivity matrix
-#' vars  <- 2  * matrix(runif(6), 2, 3)  # connectivity matrix
 #' # In Gaussian SBM, parameters is a list with a matrix of means mu and a matrix of variances sigma2
-#' connectParam <- list(mu = means, sigma2 = vars)
+#' connectParam <- list(mu = means, sigma2 = 1)
 #'
 #' ## Graph Sampling
 #' mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'gaussian')
+#' par(mfrow = c(1,2))
 #' plot(mySampler)
 #' hist(mySampler$netMatrix)
 #'

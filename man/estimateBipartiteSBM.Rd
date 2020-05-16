@@ -37,17 +37,46 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 }
 }
 \examples{
-### BIPARTITE SBM
+### =======================================
+### BIPARTITE BINARY SBM (Bernoulli model)
 
-## Graph parameters
+## Graph parameters and Sampling
 nbNodes <- c(100, 120)
-blockProp <- list(c(.5, .5), c(1/3,1/3,1/3)) # group proportions
-connectProb <- matrix(runif(6), 2, 3)
-
-## Graph Sampling
-mySampler <- sampleBipartiteSBM(nbNodes, blockProp, list(mu = connectProb))
+blockProp <- list(c(.5, .5), c(1/3, 1/3, 1/3)) # group proportions
+means <- matrix(runif(6), 2, 3)  # connectivity matrix
+# In Bernoulli SBM, parameters is a list with a matrix of means mu which are probabilities of connexion
+connectParam <- list(mu = means)
+mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'bernoulli')
 
 ## Estimation
 myBipartiteSBM <- estimateBipartiteSBM(mySampler$netMatrix)
 plot(myBipartiteSBM, 'expected')
+
+### =======================================
+### BIPARTITE POISSON SBM
+
+## Graph parameters & Sampling
+nbNodes <- c(100, 120)
+blockProp <- list(c(.5, .5), c(1/3, 1/3, 1/3)) # group proportions
+means <- matrix(rbinom(6, 30, 0.25), 2, 3)  # connectivity matrix
+connectParam <- list(mu = means)
+mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'poisson')
+
+## Estimation
+myBipartiteSBM <- estimateBipartiteSBM(mySampler$netMatrix, 'poisson')
+plot(myBipartiteSBM, 'expected')
+
+### =======================================
+### BIPARTITE GAUSSIAN SBM
+## Graph parameters & ssampling
+nbNodes <- c(100, 120)
+blockProp <- list(c(.5, .5), c(1/3, 1/3, 1/3)) # group proportions
+means <- 20 * matrix(runif(6), 2, 3)  # connectivity matrix
+connectParam <- list(mu = means, sigma2 = 1)
+mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'gaussian')
+
+## Estimation
+myBipartiteSBM <- estimateBipartiteSBM(mySampler$netMatrix, 'gaussian')
+plot(myBipartiteSBM, 'expected')
+
 }

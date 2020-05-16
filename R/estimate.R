@@ -21,19 +21,56 @@
 #' @importFrom corrplot corrplot
 #'
 #' @examples
-#' ### SIMPLE SBM
+#' ### =======================================
+#' ### SIMPLE BINARY SBM (Bernoulli model)
 #'
-#' ## Graph parameters
+#' ## Graph parameters & Sampling
 #' nbNodes  <- 90
-#' blockProp <- c(.5, .25, .25)      # group proportions
-#' connectProb <- diag(.4, 3) + 0.05 # connectivity matrix: affiliation network
-#'
-#' ## Sampling
-#' mySampler <- sampleSimpleSBM(nbNodes, blockProp, list(mu = connectProb))
+#' blockProp <- c(.5, .25, .25) # group proportions
+#' means <- diag(.4, 3) + 0.05  # connectivity matrix: affiliation network
+#' connectParam <- list(mu = means)
+#' mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam)
 #' adjacencyMatrix <- mySampler$netMatrix
 #'
 #' ## Estimation
-#' mySimpleSBM <- estimateSimpleSBM(adjacencyMatrix)
+#' mySimpleSBM <- estimateSimpleSBM(adjacencyMatrix, 'bernoulli')
+#' par(mfrow = c(2,2))
+#' plot(mySimpleSBM, 'data', ordered = FALSE)
+#' plot(mySimpleSBM, 'data')
+#' plot(mySimpleSBM, 'expected', ordered = FALSE)
+#' plot(mySimpleSBM, 'expected')
+#'
+#' ### =======================================
+#' ### SIMPLE POISSON SBM
+#'
+#' ## Graph parameters & Sampling
+#' nbNodes  <- 90
+#' blockProp <- c(.5, .25, .25) # group proportions
+#' means <- diag(15., 3) + 5    # connectivity matrix: affiliation network
+#' connectParam <- list(mu = means)
+#' mySampler <- sampleSimpleSBM(nbNodes, blockProp, list(mu = means), model = "poisson")
+#' adjacencyMatrix <- mySampler$netMatrix
+#'
+#' ## Estimation
+#' mySimpleSBM <- estimateSimpleSBM(adjacencyMatrix, 'poisson')
+#' par(mfrow = c(2,2))
+#' plot(mySimpleSBM, 'data', ordered = FALSE)
+#' plot(mySimpleSBM, 'data')
+#' plot(mySimpleSBM, 'expected', ordered = FALSE)
+#' plot(mySimpleSBM, 'expected')
+#'
+#' ### =======================================
+#' ### SIMPLE GAUSSIAN SBM
+#'
+#' ## Graph parameters & Sampling
+#' nbNodes  <- 90
+#' blockProp <- c(.5, .25, .25)      # group proportions
+#' means <- diag(15., 3) + 5 # connectivity matrix: affiliation network
+#' connectParam <- list(mu = means, sigma2 = 2)
+#' mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam, model = "gaussian")
+#'
+#' ## Estimation
+#' mySimpleSBM <- estimateSimpleSBM(adjacencyMatrix, 'gaussian')
 #' par(mfrow = c(2,2))
 #' plot(mySimpleSBM, 'data', ordered = FALSE)
 #' plot(mySimpleSBM, 'data')
@@ -91,19 +128,48 @@ estimateSimpleSBM <- function(netMat,
 #' @importFrom corrplot corrplot
 #'
 #' @examples
-#' ### BIPARTITE SBM
+#' ### =======================================
+#' ### BIPARTITE BINARY SBM (Bernoulli model)
 #'
-#' ## Graph parameters
+#' ## Graph parameters and Sampling
 #' nbNodes <- c(100, 120)
-#' blockProp <- list(c(.5, .5), c(1/3,1/3,1/3)) # group proportions
-#' connectProb <- matrix(runif(6), 2, 3)
-#'
-#' ## Graph Sampling
-#' mySampler <- sampleBipartiteSBM(nbNodes, blockProp, list(mu = connectProb))
+#' blockProp <- list(c(.5, .5), c(1/3, 1/3, 1/3)) # group proportions
+#' means <- matrix(runif(6), 2, 3)  # connectivity matrix
+#' # In Bernoulli SBM, parameters is a list with a matrix of means mu which are probabilities of connexion
+#' connectParam <- list(mu = means)
+#' mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'bernoulli')
 #'
 #' ## Estimation
 #' myBipartiteSBM <- estimateBipartiteSBM(mySampler$netMatrix)
 #' plot(myBipartiteSBM, 'expected')
+#'
+#' ### =======================================
+#' ### BIPARTITE POISSON SBM
+#'
+#' ## Graph parameters & Sampling
+#' nbNodes <- c(100, 120)
+#' blockProp <- list(c(.5, .5), c(1/3, 1/3, 1/3)) # group proportions
+#' means <- matrix(rbinom(6, 30, 0.25), 2, 3)  # connectivity matrix
+#' connectParam <- list(mu = means)
+#' mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'poisson')
+#'
+#' ## Estimation
+#' myBipartiteSBM <- estimateBipartiteSBM(mySampler$netMatrix, 'poisson')
+#' plot(myBipartiteSBM, 'expected')
+#'
+#' ### =======================================
+#' ### BIPARTITE GAUSSIAN SBM
+#' ## Graph parameters & ssampling
+#' nbNodes <- c(100, 120)
+#' blockProp <- list(c(.5, .5), c(1/3, 1/3, 1/3)) # group proportions
+#' means <- 20 * matrix(runif(6), 2, 3)  # connectivity matrix
+#' connectParam <- list(mu = means, sigma2 = 1)
+#' mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'gaussian')
+#'
+#' ## Estimation
+#' myBipartiteSBM <- estimateBipartiteSBM(mySampler$netMatrix, 'gaussian')
+#' plot(myBipartiteSBM, 'expected')
+#'
 #' @export
 estimateBipartiteSBM <- function(netMat,
                                  model        = 'bernoulli',

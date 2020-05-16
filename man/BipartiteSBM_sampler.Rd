@@ -26,7 +26,7 @@ R6 class for Bipartite SBM sampler
 
 \item{\code{expectation}}{expected values of connection under the current model}
 
-\item{\code{variance}}{variances of each dyad under the current model}
+\item{\code{variance}}{variance of each dyad under the current model}
 }
 \if{html}{\out{</div>}}
 }
@@ -73,7 +73,7 @@ constructor for SBM
 
 \item{\code{blockProp}}{parameters for block proportions (vector of list of vectors)}
 
-\item{\code{connectParam}}{list of parameters for connectivity with a matrix of means 'mu' and an optional matrix of variances 'sigma2', the sizes of which must match \code{blockProp} length}
+\item{\code{connectParam}}{list of parameters for connectivity with a matrix of means 'mu' and an optional scalar for the variance 'sigma2'. The dimensions of mu must match \code{blockProp} lengths}
 
 \item{\code{covarParam}}{optional vector of covariates effect}
 

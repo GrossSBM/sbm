@@ -4,14 +4,16 @@
 ## BINARY
 
 ## generation of one SBM network
-npc <- 30 # nodes per class
-Q <- 3 # classes
-n <- npc * Q # nodes
-Z<-diag(Q)%x%matrix(1,npc,1)
-P<-matrix(runif(Q*Q),Q,Q)
-M<-1*(matrix(runif(n*n),n,n)<Z%*%P%*%t(Z)) ## adjacency matrix
+nbNodes  <- 90
+blockProp <- c(.5, .25, .25)      # group proportions
+connectProb <- diag(.4, 3) + 0.05 # connectivity matrix: affiliation network
+
+## Sampling
+mySampler <- sampleSimpleSBM(nbNodes, blockProp, list(mu = connectProb))
+adjacencyMatrix <- mySampler$netMatrix
+
 ## estimation
-my_model <- BM_bernoulli("SBM", M, explore_max = 3, explore_max = 3, plotting = "")
+my_model <- BM_bernoulli("SBM", adjacencyMatrix, explore_max = 3, explore_max = 3, plotting = "")
 my_model$estimate()
 my_model_bernoulli <- my_model
 
