@@ -61,7 +61,7 @@ constructor for a Simple SBM fit
 
 \item{\code{model}}{character (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'})}
 
-\item{\code{directed}}{logical, directed networkor not. In not, \code{adjacencyMatrix} must be symmetric.}
+\item{\code{directed}}{logical, directed network or not. In not, \code{adjacencyMatrix} must be symmetric.}
 
 \item{\code{covarList}}{and optional list of covariates, each of whom must have the same dimension as \code{adjacencyMatrix}}
 }

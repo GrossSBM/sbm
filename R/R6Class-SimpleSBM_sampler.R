@@ -1,16 +1,14 @@
 #' R6 class for Simple SBM sampler
 #'
 #' @import R6
-#' @include R6Class-SBM.R
+#' @include R6Class-SBM_sampler.R
 #' @export
 SimpleSBM_sampler <-
   R6::R6Class(classname = "SimpleSBM_sampler",
-    inherit = SBM,
-    ## fields for internal use (referring to the mathematical notation)
+   inherit = SBM_sampler,
+   ## fields for internal use (referring to the mathematical notation)
     private = list(
-      directed_ = NULL, # is the network directed or not (Symmetric netMatrix)
-      Z         = NULL, # the sampled indicator of blocks
-      sampling_func = NULL #
+      directed_ = NULL # is the network directed or not (Symmetric netMatrix)
     ),
     public = list(
       #' @description constructor for SBM
@@ -23,24 +21,13 @@ SimpleSBM_sampler <-
       #' @param covarList optional list of covariates data
       initialize = function(model, nbNodes, directed, blockProp, connectParam, covarParam=numeric(0), covarList=list()) {
 
-        super$initialize(model = model, dimension = c(nbNodes, nbNodes), blockProp = blockProp, connectParam = connectParam, covarParam = covarParam, covarList = covarList)
-
         ## ADDITIONAL SANITY CHECKS
         stopifnot(all.equal(length(blockProp),      # dimensions match between vector of
                             ncol(connectParam$mu),  # block proportion and connectParam$mu
                             nrow(connectParam$mu)))
         stopifnot(isSymmetric(connectParam$mu) == !directed) # connectivity and direction must agree
-
-        if (model == 'gaussian') stopifnot(length(connectParam$sigma2) == 1)
-
-        private$sampling_func <- switch(model,
-            "gaussian"  = function(n, param)  rnorm(n = n, mean   = param$mu, sd = sqrt(param$sigma2)) ,
-            "poisson"   = function(n, param)  rpois(n = n, lambda = param$mu) ,
-            "bernoulli" = function(n, param) rbinom(n = n, size = 1, prob   = param$mu),
-          )
+        super$initialize(model, c(nbNodes, nbNodes), blockProp, connectParam, covarParam, covarList)
         private$directed_ <- directed
-
-        self$rMemberships()
         self$rAdjacency()
       },
       #' @description a method to generate a vector of block indicators
@@ -55,6 +42,13 @@ SimpleSBM_sampler <-
           matrix(private$dim[1], private$dim[2])
         if (!private$directed_) Y <- Y * lower.tri(Y) + t(Y * lower.tri(Y))
         private$Y <- Y
+      },
+      #' @description show method
+      #' @param type character used to specify the type of SBM
+      show = function(type = "Sampler for a Simple Stochastic Block Model") {
+        super$show(type)
+        cat("* R6 methods \n")
+        cat("  $rMemberships(), $rAdjacency() \n")
       }
     ),
     active = list(
@@ -73,9 +67,7 @@ SimpleSBM_sampler <-
         mu <- private$Z %*% private$theta$mu %*% t(private$Z)
         if (self$nbCovariates > 0) mu <- private$invlink(private$link(mu) + self$covarEffect)
         mu
-      },
-      #' @field variance variance of each dyad under the current model
-      variance = function() {if (private$model == 'gaussian') return(private$theta$sigma2) else return(NULL) }
+      }
     )
   )
 

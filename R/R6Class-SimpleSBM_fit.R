@@ -15,7 +15,7 @@ SimpleSBM_fit <-
       #' @description constructor for a Simple SBM fit
       #' @param adjacencyMatrix square (weighted) matrix
       #' @param model character (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'})
-      #' @param directed logical, directed networkor not. In not, \code{adjacencyMatrix} must be symmetric.
+      #' @param directed logical, directed network or not. In not, \code{adjacencyMatrix} must be symmetric.
       #' @param covarList and optional list of covariates, each of whom must have the same dimension as \code{adjacencyMatrix}
       initialize = function(adjacencyMatrix, model, directed, covarList=list()) {
 

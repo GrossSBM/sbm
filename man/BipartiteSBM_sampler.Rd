@@ -8,8 +8,8 @@ R6 class for Bipartite SBM sampler
 
 R6 class for Bipartite SBM sampler
 }
-\section{Super class}{
-\code{\link[GSBM:SBM]{GSBM::SBM}} -> \code{BipartiteSBM_sampler}
+\section{Super classes}{
+\code{\link[GSBM:SBM]{GSBM::SBM}} -> \code{\link[GSBM:SBM_sampler]{GSBM::SBM_sampler}} -> \code{BipartiteSBM_sampler}
 }
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
@@ -25,8 +25,6 @@ R6 class for Bipartite SBM sampler
 \item{\code{indMemberships}}{list of 2 matrix for clustering memberships}
 
 \item{\code{expectation}}{expected values of connection under the current model}
-
-\item{\code{variance}}{variance of each dyad under the current model}
 }
 \if{html}{\out{</div>}}
 }
@@ -36,6 +34,7 @@ R6 class for Bipartite SBM sampler
 \item \href{#method-new}{\code{BipartiteSBM_sampler$new()}}
 \item \href{#method-rMemberships}{\code{BipartiteSBM_sampler$rMemberships()}}
 \item \href{#method-rIncidence}{\code{BipartiteSBM_sampler$rIncidence()}}
+\item \href{#method-show}{\code{BipartiteSBM_sampler$show()}}
 \item \href{#method-clone}{\code{BipartiteSBM_sampler$clone()}}
 }
 }
@@ -44,7 +43,6 @@ R6 class for Bipartite SBM sampler
 \itemize{
 \item \out{<span class="pkg-link" data-pkg="GSBM" data-topic="SBM" data-id="plot">}\href{../../GSBM/html/SBM.html#method-plot}{\code{GSBM::SBM$plot()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="GSBM" data-topic="SBM" data-id="print">}\href{../../GSBM/html/SBM.html#method-print}{\code{GSBM::SBM$print()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="GSBM" data-topic="SBM" data-id="show">}\href{../../GSBM/html/SBM.html#method-show}{\code{GSBM::SBM$show()}}\out{</span>}
 }
 \out{</details>}
 }
@@ -103,6 +101,25 @@ a method to sample an adjacency matrix for the current SBM
 
 \subsection{Returns}{
 nothing (sampled matrix is store in the current object, accessible via $netMatrix)
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-show"></a>}}
+\if{latex}{\out{\hypertarget{method-show}{}}}
+\subsection{Method \code{show()}}{
+show method
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{BipartiteSBM_sampler$show(
+  type = "Sampler for a Bipartite Stochastic Block Model"
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{type}}{character used to specify the type of SBM}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}

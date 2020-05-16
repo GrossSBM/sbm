@@ -1,16 +1,11 @@
 #' R6 class for Bipartite SBM sampler
 #'
 #' @import R6
-#' @include R6Class-SBM.R
+#' @include R6Class-SBM_sampler.R
 #' @export
 BipartiteSBM_sampler <-
   R6::R6Class(classname = "BipartiteSBM_sampler",
-    inherit = SBM,
-    ## fields for internal use (referring to the mathematical notation)
-    private = list(
-      Z         = NULL, # the sampled indicator of blocks
-      sampling_func = NULL #
-    ),
+    inherit = SBM_sampler,
     public = list(
       #' @description constructor for SBM
       #' @param model character describing the type of model
@@ -20,23 +15,11 @@ BipartiteSBM_sampler <-
       #' @param covarParam optional vector of covariates effect
       #' @param covarList optional list of covariates data
       initialize = function(model, nbNodes, blockProp, connectParam, covarParam=numeric(0), covarList=list()) {
-
-        super$initialize(model = model, dimension = nbNodes, blockProp = blockProp, connectParam = connectParam, covarParam = covarParam, covarList = covarList)
-
-        ## ADDITIONAL SANITY CHECKS
+        ## SANITY CHECKS
         stopifnot(length(blockProp) ==  2,
                   length(blockProp[[1]]) ==  nrow(connectParam$mu),
                   length(blockProp[[2]]) ==  ncol(connectParam$mu))
-
-        if (model == 'gaussian') stopifnot(length(connectParam$sigma2) == 1)
-
-        private$sampling_func <- switch(model,
-            "gaussian"  = function(n, param)  rnorm(n = n, mean   = param$mu, sd = sqrt(param$sigma2)) ,
-            "poisson"   = function(n, param)  rpois(n = n, lambda = param$mu) ,
-            "bernoulli" = function(n, param) rbinom(n = n, size = 1, prob   = param$mu),
-          )
-
-        self$rMemberships()
+        super$initialize(model, nbNodes, blockProp, connectParam, covarParam, covarList)
         self$rIncidence()
       },
       #' @description a method to generate a vector of block indicators
@@ -52,6 +35,13 @@ BipartiteSBM_sampler <-
         Y <- private$sampling_func(private$dim[1]*private$dim[2], list(mu = self$expectation, sigma2 = self$variance)) %>%
           matrix(private$dim[1], private$dim[2])
         private$Y <- Y
+      },
+      #' @description show method
+      #' @param type character used to specify the type of SBM
+      show = function(type = "Sampler for a Bipartite Stochastic Block Model") {
+        super$show(type)
+        cat("* R6 methods \n")
+        cat("  $rMemberships(), $rIncidence() \n")
       }
     ),
     active = list(
@@ -70,9 +60,7 @@ BipartiteSBM_sampler <-
         mu <- private$Z[[1]] %*% private$theta$mu %*% t(private$Z[[2]])
         if (self$nbCovariates > 0) mu <- private$invlink(private$link(mu) + self$covarEffect)
         mu
-      },
-      #' @field variance variance of each dyad under the current model
-      variance = function() {if (private$model == 'gaussian') return(private$theta$sigma2) else return(NULL) }
+      }
     )
   )
 

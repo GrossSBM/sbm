@@ -8,8 +8,8 @@ R6 class for Simple SBM sampler
 
 R6 class for Simple SBM sampler
 }
-\section{Super class}{
-\code{\link[GSBM:SBM]{GSBM::SBM}} -> \code{SimpleSBM_sampler}
+\section{Super classes}{
+\code{\link[GSBM:SBM]{GSBM::SBM}} -> \code{\link[GSBM:SBM_sampler]{GSBM::SBM_sampler}} -> \code{SimpleSBM_sampler}
 }
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
@@ -25,8 +25,6 @@ R6 class for Simple SBM sampler
 \item{\code{indMemberships}}{matrix for clustering memberships}
 
 \item{\code{expectation}}{expected values of connection under the current model}
-
-\item{\code{variance}}{variance of each dyad under the current model}
 }
 \if{html}{\out{</div>}}
 }
@@ -36,6 +34,7 @@ R6 class for Simple SBM sampler
 \item \href{#method-new}{\code{SimpleSBM_sampler$new()}}
 \item \href{#method-rMemberships}{\code{SimpleSBM_sampler$rMemberships()}}
 \item \href{#method-rAdjacency}{\code{SimpleSBM_sampler$rAdjacency()}}
+\item \href{#method-show}{\code{SimpleSBM_sampler$show()}}
 \item \href{#method-clone}{\code{SimpleSBM_sampler$clone()}}
 }
 }
@@ -44,7 +43,6 @@ R6 class for Simple SBM sampler
 \itemize{
 \item \out{<span class="pkg-link" data-pkg="GSBM" data-topic="SBM" data-id="plot">}\href{../../GSBM/html/SBM.html#method-plot}{\code{GSBM::SBM$plot()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="GSBM" data-topic="SBM" data-id="print">}\href{../../GSBM/html/SBM.html#method-print}{\code{GSBM::SBM$print()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="GSBM" data-topic="SBM" data-id="show">}\href{../../GSBM/html/SBM.html#method-show}{\code{GSBM::SBM$show()}}\out{</span>}
 }
 \out{</details>}
 }
@@ -109,6 +107,23 @@ a method to sample an adjacency matrix for the current SBM
 
 \subsection{Returns}{
 nothing (sampled adjacency matrix is stored in the current object)
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-show"></a>}}
+\if{latex}{\out{\hypertarget{method-show}{}}}
+\subsection{Method \code{show()}}{
+show method
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{SimpleSBM_sampler$show(type = "Sampler for a Simple Stochastic Block Model")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{type}}{character used to specify the type of SBM}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}
