@@ -21,10 +21,23 @@ SBM_sampler <- # Virtual call for SBM sampler (children: Simple and Bipartite SB
       initialize = function(model, nbNodes, blockProp, connectParam, covarParam=numeric(0), covarList=list()) {
 
         super$initialize(model = model, dimension = nbNodes, blockProp = blockProp, connectParam = connectParam, covarParam = covarParam, covarList = covarList)
-        if (model == 'gaussian') stopifnot(length(connectParam$sigma2) == 1)
+
+        ## ADDITIONAL CHECKS
+        if (model == 'bernoulli') {
+          stopifnot(all(connectParam$mu >= 0))
+          stopifnot(all(connectParam$mu <= 1))
+        }
+        if (model == 'poisson') {
+          stopifnot(all(connectParam$mu >= 0))
+        }
+        if (model == 'gaussian') {
+          stopifnot(length(connectParam$sigma2) == 1)
+          stopifnot(connectParam$sigma2 > 0)
+        }
+
         private$sampling_func <- switch(model,
-            "gaussian"  = function(n, param)  rnorm(n = n, mean   = param$mu, sd = sqrt(param$sigma2)) ,
-            "poisson"   = function(n, param)  rpois(n = n, lambda = param$mu) ,
+            "gaussian"  = function(n, param) rnorm(n = n, mean   = param$mu, sd = sqrt(param$sigma2)) ,
+            "poisson"   = function(n, param) rpois(n = n, lambda = param$mu) ,
             "bernoulli" = function(n, param) rbinom(n = n, size = 1, prob   = param$mu),
           )
         self$rMemberships()
@@ -33,7 +46,7 @@ SBM_sampler <- # Virtual call for SBM sampler (children: Simple and Bipartite SB
       #' @param type character to tune the displayed name
       show = function(type = "Sampler for a Stochastic Block Model") {
         super$show(type)
-        cat("  $infMemberships, $memberships, $expectation\n")
+        cat("  $indMemberships, $memberships, $expectation\n")
         cat("* S3 methods \n")
         cat("  plot, print, coef \n")
       }

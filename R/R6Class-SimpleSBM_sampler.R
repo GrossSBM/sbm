@@ -22,6 +22,7 @@ SimpleSBM_sampler <-
       initialize = function(model, nbNodes, directed, blockProp, connectParam, covarParam=numeric(0), covarList=list()) {
 
         ## ADDITIONAL SANITY CHECKS
+        stopifnot(all(blockProp > 0))
         stopifnot(all.equal(length(blockProp),      # dimensions match between vector of
                             ncol(connectParam$mu),  # block proportion and connectParam$mu
                             nrow(connectParam$mu)))
@@ -38,8 +39,9 @@ SimpleSBM_sampler <-
       #' @description a method to sample an adjacency matrix for the current SBM
       #' @return nothing (sampled adjacency matrix is stored in the current object)
       rAdjacency = function() {
-        Y <- private$sampling_func(self$nbNodes**2, list(mu = self$expectation, sigma2 = self$variance)) %>%
+        Y <- suppressWarnings(private$sampling_func(self$nbNodes**2, list(mu = self$expectation, sigma2 = self$variance))) %>%
           matrix(private$dim[1], private$dim[2])
+        diag(Y) <- NA
         if (!private$directed_) Y <- Y * lower.tri(Y) + t(Y * lower.tri(Y))
         private$Y <- Y
       },
@@ -57,7 +59,7 @@ SimpleSBM_sampler <-
       #' @field nbBlocks number of blocks
       nbBlocks    = function(value) {length(private$pi)},
       #' @field nbDyads number of dyads (potential edges in the network)
-      nbDyads     = function(value) {ifelse(private$directed, self$nbNodes*(self$nbNodes - 1), self$nbNodes*(self$nbNodes - 1)/2)},
+      nbDyads     = function(value) {ifelse(private$directed_, self$nbNodes*(self$nbNodes - 1), self$nbNodes*(self$nbNodes - 1)/2)},
       #' @field memberships vector of clustering
       memberships = function(value) {if (!is.null(private$Z)) as_clustering(private$Z)},
       #' @field indMemberships matrix for clustering memberships
@@ -66,8 +68,11 @@ SimpleSBM_sampler <-
       expectation = function() {
         mu <- private$Z %*% private$theta$mu %*% t(private$Z)
         if (self$nbCovariates > 0) mu <- private$invlink(private$link(mu) + self$covarEffect)
+        diag(mu) <- NA
         mu
-      }
+      },
+      #' @field directed is the network directed or not
+      directed = function(value) {private$directed_}
     )
   )
 

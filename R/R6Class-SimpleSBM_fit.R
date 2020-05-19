@@ -108,8 +108,10 @@ SimpleSBM_fit <-
       #' @field nbBlocks number of blocks
       nbBlocks    = function(value) {length(private$pi)},
       #' @field nbDyads number of dyads (potential edges in the network)
-      nbDyads     = function(value) {ifelse(private$directed, self$nbNodes*(self$nbNodes - 1), self$nbNodes*(self$nbNodes - 1)/2)},
+      nbDyads     = function(value) {ifelse(private$directed_, self$nbNodes*(self$nbNodes - 1), self$nbNodes*(self$nbNodes - 1)/2)},
       #' @field memberships vector of clustering
-      memberships = function(value) {as_clustering(private$tau)}
+      memberships = function(value) {as_clustering(private$tau)},
+      #' @field directed is the network directed or not
+      directed = function(value) {private$directed_}
     )
   )

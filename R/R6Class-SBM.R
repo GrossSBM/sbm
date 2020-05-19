@@ -1,3 +1,5 @@
+available_models_edges <- c('bernoulli', 'poisson', 'gaussian')
+
 #' R6 virtual class for SBM representation (mother class of Simple and Bipartite SBM fit and sampler)
 #'
 #' @import R6
@@ -27,10 +29,11 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
 
         ## SANITY CHECK
         stopifnot(is.character(model))
+        stopifnot(model %in% available_models_edges)
         stopifnot(is.numeric(dimension), length(dimension) == 2)
         stopifnot(is.list(connectParam), is.matrix(connectParam$mu))
         stopifnot(all.equal(length(covarParam), length(covarList)))
-        stopifnot(all(sapply(covarList, nrow) == dimension[1])) # all covariate matrices match the dimension
+        stopifnot(all(sapply(covarList, nrow) == dimension[1]))
         stopifnot(all(sapply(covarList, ncol) == dimension[2]))
 
         ## MODEL & PARAMETERS
