@@ -11,14 +11,31 @@ navbar:
       href: index.html
     - text: "Reference"
       href: "reference/index.html"
-#    - text: "Vignettes"
-#      menu:
-#      - text: "GGM inference with latent SBM organization"
-#        href: articles/janine_SBM.html
-#      - text: "GGM inference with latent MBM organization (hierarchical SBM)"
-#        href: articles/janine_MBM.html
+    - text: "Vignettes"
+      menu:
+      - text: "sampling and estimating with Simple SBM: Coming"
+      - text: "sampling and estimating with Bipartite SBM: Coming"
     - text: "Changelog"
       href: news/index.html
   right:
     - icon: fa-github
       href: https://github.com/GrossSBM/GSBM
+
+reference:
+- title: 'Simple SBM'
+  desc: >
+      Set of classes and functions for manipulating simple stochastic block models
+  contents:
+    - '`simpleSBM_sampler`'
+    - '`simpleSBM_fit`'
+    - '`sampleSimpleSBM`'
+    - '`estimatSimpleSBM`'
+- title: 'Bipartite Stochastic block models'
+  desc: >
+    Set of classes and functions for manipulating bipartite stochastic block models
+  contents:
+    - '`BipartiteSBM_sampler`'
+    - '`BipartiteSBM_fit`'
+    - '`sampleBipartiteSBM`'
+    - '`estimateBipartiteSBM`'
+
