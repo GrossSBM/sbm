@@ -33,9 +33,12 @@ Collate:
     'R6Class-SBM.R'
     'R6Class-SBM_fit.R'
     'R6Class-BipartiteSBM.R'
+    'R6Class-ScoreSBM.R'
     'R6Class-SimpleSBM.R'
     'RcppExports.R'
+    'VEM-ScoreSBM.R'
     'estimate.R'
+    'utils-ScoreSBM.R'
     'utils-pipe.R'
     'utils.R'
 LinkingTo: 

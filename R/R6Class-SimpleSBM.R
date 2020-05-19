@@ -115,43 +115,4 @@ SimpleSBM_fit <-
     )
   )
 
-#' R6 class for Simple SBM sampler
-#'
-#' @import R6
-SimpleSBM_sampler <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipartite)
-  R6::R6Class(classname = "SimpleSBM_sampler",
-    inherit = SBM,
-    ## fields for internal use (referring to the mathematical notation)
-    private = list(
-      Z            = NULL  # the sampled indicator of blocks
-    ),
-    public = list(
-      #' @description a method to generate a vector of block indicators
-      rBlocks = function() {
-        private$Z <- t(rmultinom(private$dim[1], size = 1, prob = private$pi))
-      }
-      # ,
-      # ## a method to sample an adjacency matrix for the current SBM
-      # rAdjMatrix = function() {
-      #
-      #
-      #   Y <- matrix(rbinom(private$N^2, 1, self$connectProb), private$N)
-      #
-      #   if (!private$directed) Y <- Y * lower.tri(Y) + t(Y * lower.tri(Y))
-      #
-      #   private$Y <- Y
-      # }
-    )#,
-#    active = list(
-#      indMemberships = function(value) {private$Z}
-      # ,
-      # connectProb = function(value) {
-      #    PI <- private$Z %*% private$theta %*% t(private$Z)
-      #    if (self$nbCovariates > 0) {
-      #      PI <- logistic(PI + roundProduct(simplify2array(private$X), private$beta))
-      #    }
-      #    PI
-      #   }
-#    )
-  )
 

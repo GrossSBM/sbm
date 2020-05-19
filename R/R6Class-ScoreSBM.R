@@ -6,7 +6,7 @@ ScoreSBM <- # this virtual class is the mother of all subtypes of SBM (Simple or
   R6::R6Class(classname = "ScoreSBM",
               ## fields for internal use (referring to the mathematical notation)
               private = list(
-                model    = NULL, # distribution of the scores (gaussian by )
+                model    = NULL, # distribution of the scores (gaussian by default )
                 dim      = NULL, # nbNodes of the underlying network
                 d        = NULL, # nb de Scores
                 directed = NULL, # TRUE or FALSE
@@ -33,12 +33,12 @@ ScoreSBM <- # this virtual class is the mother of all subtypes of SBM (Simple or
                   private$theta$emissionParam <- emissionParam
                 },
                 #' @description basic matrix plot method for Noisy SBM object
-                #' @param type character for the type of plot: either 'data' (true connection) or 'estimatedNetwork' (fitted connection). Default to 'data'.
+                #' @param type character for the type of plot: either 'data' (true connection) or 'predictedNetwork' (fitted connection). Default to 'data'.
                 #' @param ordered logical: should the rows and columns be reoredered accordigin to the clustering? Default to \code{TRUE}.
                 #' @param color logical. Adapt colormap to the clustering. Default to \code{TRUE}.
                 #' @importFrom corrplot corrplot
-                plot = function(type = c('data', 'estimatedNetwork'), ordered = TRUE, color = TRUE) {
-                  mat <- switch(match.arg(type), data = self$listScore, estimatedNetwork = list(self$estimatedG()))
+                plot = function(type = c('data', 'predictedNetwork'), ordered = TRUE, color = TRUE) {
+                  mat <- switch(match.arg(type), data = self$listScore, predictedNetwork = list(self$predictedG()))
                   d <- length(mat)
                   cl <- self$memberships
                   Z <- as_indicator(as.factor(cl))
@@ -81,12 +81,22 @@ ScoreSBM <- # this virtual class is the mother of all subtypes of SBM (Simple or
                 blockProp     = function(value) {if (missing(value)) return(private$theta$blockProp)     else private$theta$blockProp     <- value},
                 #' @field connectParam parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli
                 connectParam = function(value) {if (missing(value)) return(private$theta$connectParam)  else private$theta$connectParam  <- value},
-                #' @field covarParam vector of regression parameters associated with the covariates.
+                #' @field emissionParam emission parameters for the Scores.
                 emissionParam   = function(value) {if (missing(value)) return(private$theta$emissionParam)   else private$theta$emissionParam  <- value},
                 #' @field listScore the matrix (adjacency or incidence) encoding the network
                 listScore    = function(value) {if (missing(value)) return(private$Y)      else private$Y      <- listScore}
               )
   )
+
+
+
+# ScoreSBM$set("public", "sample", function(x = 1){
+#
+# }
+#
+# )
+
+
 
 
 # ========================================================================================
@@ -113,21 +123,6 @@ coef.ScoreSBM <- function(object, type = c( 'connectivity', 'membership', 'emiss
          emission   = object$emissionParam)
 }
 
-#' Model Predictions
-#'
-#' Make predictions from an SBM.
-#'
-#' @param object an R6 object inheriting from class ScoreSBM_fit (like SimpleSBM_fit or BipartiteSBM_fit)
-#' @param covarList a list of covariates. By default, we use the covariates associated with the model.
-#' @param ... additional parameters for S3 compatibility. Not used
-#' @return a matrix of expected values for each dyad
-#' @importFrom stats predict
-#' @export
-predict.SBM <- function(object, covarList = object$covarList, ...) {
-  stopifnot(is_SBM(object))
-  object$predict(covarList)
-}
-
 #' ScoreSBM Plot
 #'
 #' Basic matrix plot method for ScoreSBM object
@@ -137,6 +132,22 @@ predict.SBM <- function(object, covarList = object$covarList, ...) {
 #' @param color logical. Adapt colormap to the clustering. Default to \code{TRUE}.
 #' @param ... additional parameters for S3 compatibility. Not used
 #' @export
-plot.ScoreSBM = function(x, type = c('data', 'estimatedNetwork'), ordered = TRUE, color = TRUE, ...){
+plot.ScoreSBM = function(x, type = c('data', 'predictedNetwork'), ordered = TRUE, color = TRUE, ...){
   x$plot(type, ordered, color)
 }
+
+#' Model Predictions
+#'
+#' Make predictions from a Score  SBM.
+#'
+#' @param object an R6 object inheriting from class ScoreSBM_fit
+#' @param ... additional parameters for S3 compatibility. Not used
+#' @return a matrix of expected values for each dyad of the underlying network G
+#' @importFrom stats predict
+#' @export
+predict.ScoreSBM <- function(object, ...) {
+  stopifnot(is_ScoreSBM(object))
+  object$predict()
+}
+
+
