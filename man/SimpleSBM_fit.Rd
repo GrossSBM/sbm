@@ -24,6 +24,8 @@ This class is designed to give a representation and adjust an SBM fitted with bl
 \item{\code{nbDyads}}{number of dyads (potential edges in the network)}
 
 \item{\code{memberships}}{vector of clustering}
+
+\item{\code{directed}}{is the network directed or not}
 }
 \if{html}{\out{</div>}}
 }

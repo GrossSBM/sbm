@@ -25,6 +25,8 @@ R6 class for Simple SBM sampler
 \item{\code{indMemberships}}{matrix for clustering memberships}
 
 \item{\code{expectation}}{expected values of connection under the current model}
+
+\item{\code{directed}}{is the network directed or not}
 }
 \if{html}{\out{</div>}}
 }
