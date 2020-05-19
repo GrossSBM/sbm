@@ -21,10 +21,16 @@ as_clustering <- function(indicator) {
   exp(x - b) / sum(exp(x - b))
 }
 
+.na2zero <- function(x) {
+  x[is.na(x)] <- 0
+  x
+}
+
 check_boundaries <- function(x, zero = .Machine$double.eps) {
   x[is.nan(x)] <- zero
   x[x > 1 - zero] <- 1 - zero
   x[x <     zero] <-     zero
   x
 }
+
 
