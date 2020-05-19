@@ -26,10 +26,10 @@ reference:
   desc: >
       Set of classes and functions for manipulating simple stochastic block models
   contents:
-    - '`simpleSBM_sampler`'
-    - '`simpleSBM_fit`'
+    - '`SimpleSBM_sampler`'
+    - '`SimpleSBM_fit`'
     - '`sampleSimpleSBM`'
-    - '`estimatSimpleSBM`'
+    - '`estimateSimpleSBM`'
 - title: 'Bipartite Stochastic block models'
   desc: >
     Set of classes and functions for manipulating bipartite stochastic block models
