@@ -1,6 +1,8 @@
 ###############################################################################
 # M step of the VEM algorithm
 ###############################################################################
+#'
+#' @importFrom mvtnorm dmvnorm
 mStepScoreSBM <- function(scoreMat, qDist, directed){
 
   # scoreMat <- scoreMat; qDist <- qDist; directed <- FALSE

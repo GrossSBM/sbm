@@ -15,5 +15,5 @@
 a matrix of expected values for each dyad of the underlying network G
 }
 \description{
-Make predictions from an SBM.
+Make predictions from a Score  SBM.
 }
