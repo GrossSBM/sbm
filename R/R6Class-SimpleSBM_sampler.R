@@ -26,7 +26,7 @@ SimpleSBM_sampler <-
         stopifnot(all.equal(length(blockProp),      # dimensions match between vector of
                             ncol(connectParam$mu),  # block proportion and connectParam$mu
                             nrow(connectParam$mu)))
-        stopifnot(isSymmetric(connectParam$mu) == !directed) # connectivity and direction must agree
+        if (!directed) stopifnot(isSymmetric(connectParam$mu)) # connectivity and direction must agree
         super$initialize(model, c(nbNodes, nbNodes), blockProp, connectParam, covarParam, covarList)
         private$directed_ <- directed
         self$rAdjacency()

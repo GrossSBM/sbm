@@ -12,7 +12,6 @@ test_that("Construction, fields access and other basics work in class SimpleSBM_
   ## Basic construction - check for wrong specifications
   mySampler <- SimpleSBM_sampler$new('bernoulli', nbNodes, FALSE, blockProp, connectParam)
   expect_error(SimpleSBM_sampler$new('bernouilli',nbNodes, FALSE, blockProp, connectParam))
-  expect_error(SimpleSBM_sampler$new('bernoulli' ,nbNodes, TRUE, blockProp, connectParam))
   expect_error(SimpleSBM_sampler$new('bernoulli', -10    , FALSE, blockProp, connectParam))
   expect_error(SimpleSBM_sampler$new('bernoulli', c(1,2) , FALSE, blockProp, connectParam))
   expect_error(SimpleSBM_sampler$new('bernoulli', nbNodes, FALSE, -2, connectParam))
@@ -73,7 +72,6 @@ test_that("Construction, fields access and other basics work in class SimpleSBM_
   expect_error(SimpleSBM_sampler$new('bernoulli', nbNodes, TRUE,  c(0,1), connectParam))
   expect_error(SimpleSBM_sampler$new('bernoulli', nbNodes, TRUE, blockProp, list(mu = matrix( 2, nbBlocks, nbBlocks))))
   expect_error(SimpleSBM_sampler$new('bernoulli', nbNodes, TRUE, blockProp, list(mu = matrix(-2, nbBlocks, nbBlocks))))
-  expect_error(SimpleSBM_sampler$new('bernoulli', nbNodes, TRUE, blockProp, list(mu = matrix(0.5)))) # symmetric matrix
   expect_error(SimpleSBM_sampler$new('bernoulli', nbNodes, TRUE, blockProp, list(mu = matrix(0, nbBlocks - 1, nbBlocks))))
 
   ## Checking class
@@ -120,7 +118,6 @@ test_that("Construction, fields access and other basics work in class SimpleSBM_
   ## Basic construction - check for wrong specifications
   mySampler <- SimpleSBM_sampler$new('poisson', nbNodes, FALSE, blockProp, connectParam)
   expect_error(SimpleSBM_sampler$new('poison' , nbNodes, FALSE, blockProp, connectParam))
-  expect_error(SimpleSBM_sampler$new('poisson', nbNodes, TRUE, blockProp, connectParam))
   expect_error(SimpleSBM_sampler$new('poisson', -10    , FALSE, blockProp, connectParam))
   expect_error(SimpleSBM_sampler$new('poisson', c(1,2) , FALSE, blockProp, connectParam))
   expect_error(SimpleSBM_sampler$new('poisson', nbNodes, FALSE, -2, connectParam))
@@ -172,13 +169,11 @@ test_that("Construction, fields access and other basics work in class SimpleSBM_
   ## Basic construction - check for wrong specifications
   mySampler <- SimpleSBM_sampler$new('poisson', nbNodes, TRUE, blockProp, connectParam)
   expect_error(SimpleSBM_sampler$new('poison' , nbNodes, TRUE, blockProp, connectParam))
-  expect_error(SimpleSBM_sampler$new('poisson', nbNodes, FALSE, blockProp, connectParam))
   expect_error(SimpleSBM_sampler$new('poisson', -10    , TRUE, blockProp, connectParam))
   expect_error(SimpleSBM_sampler$new('poisson', c(1,2) , TRUE, blockProp, connectParam))
   expect_error(SimpleSBM_sampler$new('poisson', nbNodes, TRUE, -2, connectParam))
   expect_error(SimpleSBM_sampler$new('poisson', nbNodes, TRUE,  c(0,1), connectParam))
   expect_error(SimpleSBM_sampler$new('poisson', nbNodes, TRUE, blockProp, list(mu = matrix(-2, nbBlocks, nbBlocks))))
-  expect_error(SimpleSBM_sampler$new('poisson', nbNodes, TRUE, blockProp, list(mu = matrix(2, nbBlocks, nbBlocks))))
   expect_error(SimpleSBM_sampler$new('poisson', nbNodes, TRUE, blockProp, list(mu = matrix(2 , nbBlocks - 1, nbBlocks))))
 
   ## Checking class
@@ -225,7 +220,6 @@ test_that("Construction, fields access and other basics work in class SimpleSBM_
   ## Basic construction - check for wrong specifications
   mySampler <- SimpleSBM_sampler$new('gaussian', nbNodes, FALSE, blockProp, connectParam)
   expect_error(SimpleSBM_sampler$new('normal'  , nbNodes, FALSE, blockProp, connectParam))
-  expect_error(SimpleSBM_sampler$new('gaussian', nbNodes, TRUE, blockProp, connectParam))
   expect_error(SimpleSBM_sampler$new('gaussian', -10    , FALSE, blockProp, connectParam))
   expect_error(SimpleSBM_sampler$new('gaussian', c(1,2) , FALSE, blockProp, connectParam))
   expect_error(SimpleSBM_sampler$new('gaussian', nbNodes, FALSE, -2, connectParam))
@@ -281,7 +275,6 @@ test_that("Construction, fields access and other basics work in class SimpleSBM_
   expect_error(SimpleSBM_sampler$new('gaussian', nbNodes, TRUE, -2, connectParam))
   expect_error(SimpleSBM_sampler$new('gaussian', nbNodes, TRUE,  c(0,1), connectParam))
   expect_error(SimpleSBM_sampler$new('gaussian', nbNodes, TRUE, blockProp, list(sigma2 = -1, mu = means)))
-  expect_error(SimpleSBM_sampler$new('gaussian', nbNodes, TRUE, blockProp, list(sigma2 = 1, mu = matrix(2,  nbBlocks, nbBlocks))))
   expect_error(SimpleSBM_sampler$new('gaussian', nbNodes, TRUE, blockProp, list(sigma2 = 1, mu = matrix(2 , nbBlocks - 1, nbBlocks))))
 
   ## Checking class
