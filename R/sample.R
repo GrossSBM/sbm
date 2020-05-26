@@ -148,3 +148,52 @@ sampleBipartiteSBM <- function(nbNodes,
   mySampler <- BipartiteSBM_sampler$new(model, nbNodes, blockProp, connectParam, covariatesParam, covariates)
   mySampler
 }
+
+
+#' Sampling of Score  SBMs
+#'
+#' This function samples a score Stochastic Block Models
+#'
+#' @param nbNodes number of nodes in the network
+#' @param blockProp parameters for block proportions
+#' @param connectParam list of parameters for connectivity with a matrix of means 'mu' and an optional matrix of variances 'sigma2', the sizes of which must match \code{blockProp} length
+#' @param directed logical, directed network or not. Default is \code{FALSE}.
+#' @param emissionParam parameters of the emission of the Score SBM. List of two terms : noEdgeParam and edgeParam. Each element is a list of mu (mean vector of length  the nb of Scores) and covariance matrix (sigma2)
+#' @param seed integer to set seed
+#'
+#' @return  an object with class \code{\link{ScoreSBM_sampler}}
+#'
+#' @examples
+#' ### =======================================
+#' ### SCORE BINARY SBM (Multiple Scores on each edge of a SBM model)
+#' ## Underlying Graph parameters
+#' nbNodes  <- 90
+#' nbBlocks <- 3
+#' blockProp <- c(.5, .25, .25) # group proportions
+#' connectParam <- list(mu = diag(.4, 3) + 0.05)
+#' ## Emission of scores
+#' nbScores <- 3;
+#' emissionParam <- list(edgeParam = list(),noEdgeParam = list())
+#' emissionParam$noEdgeParam$mu <- c(-1,0,1)
+#' emissionParam$edgeParam$mu <- c(10,13,15)
+#' emissionParam$noEdgeParam$sigma2 <- matrix(0.1, nbScores,nbScores);
+#' diag(emissionParam$noEdgeParam$sigma2)  = 1;
+#' emissionParam$edgeParam$sigma2 <- matrix(1, nbScores,nbScores)
+#' diag(emissionParam$edgeParam$sigma2)  = 2;
+#' ## Score sampling
+#' seed = 3
+#' mySampler <- sampleScoreSBM(nbNodes, blockProp, connectParam, emissionParam, seed)
+#' mySampler$rMemberships() # sample new memberships
+#' mySampler$rAdjacency()   # sample new adjacency matrix
+#' mySampler$rScores()      # sample new score matrices
+#'
+#' @export
+sampleScoreSBM <- function(nbNodes,
+                            blockProp,
+                            connectParam,
+                            directed = FALSE,
+                            emissionParam, seed = NULL) {
+
+  mySampler <- ScoreSBM_sampler$new(nbNodes, directed, blockProp, connectParam, emissionParam, seed)
+  mySampler
+}

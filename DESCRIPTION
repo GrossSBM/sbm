@@ -27,7 +27,9 @@ Imports:
     R6,
     corrplot,
     Rcpp,
-    mvtnorm
+    mvtnorm,
+    mclust,
+    pbmcapply
 Collate: 
     'GSBM-package.R'
     'R6Class-SBM.R'
@@ -35,14 +37,14 @@ Collate:
     'R6Class-BipartiteSBM_fit.R'
     'R6Class-SBM_sampler.R'
     'R6Class-BipartiteSBM_sampler.R'
-    'R6Class-ScoreSBM.R'
-    'R6Class-SimpleSBM_fit.R'
+    'R6Class-ScoreSBM_fit.R'
     'R6Class-SimpleSBM_sampler.R'
+    'R6Class-ScoreSBM_sampler.R'
+    'R6Class-SimpleSBM_fit.R'
     'RcppExports.R'
-    'VEM-ScoreSBM.R'
+    'ScoreSBM-optimize.R'
     'estimate.R'
     'sample.R'
-    'utils-ScoreSBM.R'
     'utils-pipe.R'
     'utils.R'
 LinkingTo: 
