@@ -110,8 +110,6 @@ distTau  <- function(tau,tauOld)
 #' @param scoreList a list of the Scores (matrices of size nbNodes x nbNodes)
 #' @param directed  a logical : TRUE if the underlying network is directed,  FALSE otherwise (default value FALSE).
 #' @param estimOptions a list of parameters controlling the initialisation step of the inference method. See details.
-#' @importFrom mclust mclustBIC Mclust
-#' @importFrom parallel detectCores
 #'
 initInferenceScoreSBM <- function(scoreList, directed = FALSE, estimOptions = list()){
 

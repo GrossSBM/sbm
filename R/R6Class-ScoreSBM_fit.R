@@ -3,6 +3,8 @@
 #' This class is designed to give a representation and adjust an SBM fitted with blockmodels from Score matrices.
 #'
 #' @import R6 blockmodels
+#' @importFrom mclust mclustBIC Mclust
+#' @importFrom parallel detectCores
 #' @include R6Class-SBM_fit.R
 #' @export
 ScoreSBM_fit <-
