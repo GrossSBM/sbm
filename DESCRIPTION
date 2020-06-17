@@ -1,8 +1,8 @@
-Package: GSBM
-Title: Generalized Stochastic Blockmodels
+Package: sbm
+Title: Stochastic Blockmodels
 Version: 0.1.9000
 Authors@R: 
-    c(person(given = "Pierre", family = "Barbillon", role = c("aut"),
+    c(person(given = "Pierre", family = "Barbillon", role = c("ctb"),
            email = "pierre.barbillon@agroparistech.fr",
            comment = c(ORCID = "0000-0002-7766-7693")),
       person(given = "Julien", family = "Chiquet", role = c("aut", "cre"),
@@ -29,7 +29,6 @@ Imports:
     Rcpp,
     mvtnorm
 Collate: 
-    'GSBM-package.R'
     'R6Class-SBM.R'
     'R6Class-SBM_fit.R'
     'R6Class-BipartiteSBM_fit.R'
@@ -42,6 +41,7 @@ Collate:
     'VEM-ScoreSBM.R'
     'estimate.R'
     'sample.R'
+    'sbm-package.R'
     'utils-ScoreSBM.R'
     'utils-pipe.R'
     'utils.R'

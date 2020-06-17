@@ -9,7 +9,7 @@ R6 class for SBM sampler
 R6 class for SBM sampler
 }
 \section{Super class}{
-\code{\link[GSBM:SBM]{GSBM::SBM}} -> \code{SBM_sampler}
+\code{\link[sbm:SBM]{sbm::SBM}} -> \code{SBM_sampler}
 }
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
@@ -29,8 +29,8 @@ R6 class for SBM sampler
 \if{html}{
 \out{<details open ><summary>Inherited methods</summary>}
 \itemize{
-\item \out{<span class="pkg-link" data-pkg="GSBM" data-topic="SBM" data-id="plot">}\href{../../GSBM/html/SBM.html#method-plot}{\code{GSBM::SBM$plot()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="GSBM" data-topic="SBM" data-id="print">}\href{../../GSBM/html/SBM.html#method-print}{\code{GSBM::SBM$print()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="plot">}\href{../../sbm/html/SBM.html#method-plot}{\code{sbm::SBM$plot()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="print">}\href{../../sbm/html/SBM.html#method-print}{\code{sbm::SBM$print()}}\out{</span>}
 }
 \out{</details>}
 }

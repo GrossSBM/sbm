@@ -1,15 +1,19 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# GSBM
+# sbm
 
 <!-- badges: start -->
 
-![R-CMD-check](https://github.com/GrossSBM/GSBM/workflows/R-CMD-check/badge.svg?branch=master)
+![R-CMD-check](https://github.com/GrossSBM/sbm/workflows/R-CMD-check/badge.svg?branch=master)
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![](https://img.shields.io/github/last-commit/grossSBM/sbm.svg)](https://github.com/GrossSBM/sbm/commits/master)
 <!-- badges: end -->
 
-The goal of GSBM is to regroup into a unique framework tools for
-estimating and manipulating variants of the stochastic blockmodel.
+The goal of the package `sbm` is to regroup into a unique framework
+tools for estimating and manipulating variants of the stochastic
+blockmodel.
 
 ## Installation
 
@@ -18,5 +22,5 @@ You can install the development version from
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("GrossSBM/GSBM")
+devtools::install_github("GrossSBM/sbm")
 ```

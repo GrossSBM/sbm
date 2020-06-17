@@ -8,7 +8,7 @@ using namespace Rcpp;
 
 // roundProduct
 Rcpp::NumericMatrix roundProduct(arma::cube phi, arma::vec beta);
-RcppExport SEXP _GSBM_roundProduct(SEXP phiSEXP, SEXP betaSEXP) {
+RcppExport SEXP _sbm_roundProduct(SEXP phiSEXP, SEXP betaSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -20,11 +20,11 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_GSBM_roundProduct", (DL_FUNC) &_GSBM_roundProduct, 2},
+    {"_sbm_roundProduct", (DL_FUNC) &_sbm_roundProduct, 2},
     {NULL, NULL, 0}
 };
 
-RcppExport void R_init_GSBM(DllInfo *dll) {
+RcppExport void R_init_sbm(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }
