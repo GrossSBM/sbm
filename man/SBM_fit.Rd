@@ -29,6 +29,7 @@ R6 virtual class for SBM fit (mother class of Simple and Bipartite SBM fit)
 \itemize{
 \item \href{#method-new}{\code{SBM_fit$new()}}
 \item \href{#method-show}{\code{SBM_fit$show()}}
+\item \href{#method-setModel}{\code{SBM_fit$setModel()}}
 \item \href{#method-clone}{\code{SBM_fit$clone()}}
 }
 }
@@ -74,6 +75,24 @@ print/show method
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{type}}{character to tune the displayed name}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-setModel"></a>}}
+\if{latex}{\out{\hypertarget{method-setModel}{}}}
+\subsection{Method \code{setModel()}}{
+method to select a specific model among the ones fitted during the optimization.
+Fields of the current SBM_fit will be updated accordingly.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{SBM_fit$setModel(index)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{index}}{integer, the index of the model to be selected (row number in storedModels)}
 }
 \if{html}{\out{</div>}}
 }

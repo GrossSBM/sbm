@@ -24,6 +24,8 @@ This class is designed to give a representation and adjust an LBM fitted with bl
 \item{\code{nbDyads}}{number of dyads (potential edges in the network)}
 
 \item{\code{memberships}}{list of size 2: vector of memberships in row, in column.}
+
+\item{\code{storedModels}}{data.frame of all models fitted (and stored) during the optimization}
 }
 \if{html}{\out{</div>}}
 }
@@ -42,6 +44,7 @@ This class is designed to give a representation and adjust an LBM fitted with bl
 \itemize{
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="plot">}\href{../../sbm/html/SBM.html#method-plot}{\code{sbm::SBM$plot()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="print">}\href{../../sbm/html/SBM.html#method-print}{\code{sbm::SBM$print()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM_fit" data-id="setModel">}\href{../../sbm/html/SBM_fit.html#method-setModel}{\code{sbm::SBM_fit$setModel()}}\out{</span>}
 }
 \out{</details>}
 }

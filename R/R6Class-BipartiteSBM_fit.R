@@ -8,6 +8,16 @@
 BipartiteSBM_fit <-
   R6::R6Class(classname = "BipartiteSBM_fit",
     inherit = SBM_fit,
+    private = list(
+      import_from_BM  = function(index = which.max(private$BMobject$ICL)) {
+        super$import_from_BM(index)
+        private$tau <- list(
+          row = private$BMobject$memberships[[index]]$Z1,
+          col = private$BMobject$memberships[[index]]$Z2
+        )
+        private$pi  <- lapply(private$tau, colMeans)
+      }
+    ),
     public = list(
       #' @description constructor for a Bipartite SBM fit
       #' @param incidenceMatrix rectangular (weighted) matrix
@@ -47,34 +57,18 @@ BipartiteSBM_fit <-
 
         ## model construction
         model_type <- ifelse(self$nbCovariates > 0, paste0(model,"_covariates"), private$model)
-        BMobject <- do.call(paste0("BM_", model_type), args)
+        private$BMobject <- do.call(paste0("BM_", model_type), args)
 
         ## performing estimation
-        BMobject$estimate()
+        private$BMobject$estimate()
 
         ## Exporting blockmodels output to BipartiteSBM_fit fields
-        ind_best      <- which.max(BMobject$ICL)
-        private$J     <- BMobject$PL[ind_best]
-        private$vICL  <- BMobject$ICL[ind_best]
-        private$Y_hat <- BMobject$prediction(ind_best)
-        private$tau   <- list(row = BMobject$memberships[[ind_best]]$Z1, col = BMobject$memberships[[ind_best]]$Z2)
-        private$pi    <- lapply(private$tau, colMeans)
-        parameters    <- BMobject$model_parameters[[ind_best]]
-        private$beta  <- parameters$beta ## NULL if no covariates
-
-        private$theta <- switch(model_type,
-          "bernoulli"           = list(mean = parameters$pi),
-          "bernoull_covariates" = list(mean = .logistic(parameters$m)),
-          "poisson"             = list(mean = parameters$lambda),
-          "poisson_covariates"  = list(mean = parameters$lambda),
-          "gaussian"            = list(mean = parameters$mu, var = parameters$sigma2),
-          "gaussian_covariates" = list(mean = parameters$mu, var = parameters$sigma2)
-        )
+        private$import_from_BM()
 
         ## record fitted/expected value
         private$Y_hat <- self$predict()
 
-        invisible(BMobject)
+        invisible(private$BMobject)
       },
       #' @description prediction under the currently estimated model
       #' @param covarList a list of covariates. By default, we use the covariates with which the model was estimated.
@@ -100,7 +94,21 @@ BipartiteSBM_fit <-
       #' @field nbDyads number of dyads (potential edges in the network)
       nbDyads     = function(value) {private$dim[1] * private$dim[2]},
       #' @field memberships list of size 2: vector of memberships in row, in column.
-      memberships = function(value) {lapply(private$tau, as_clustering)}
+      memberships = function(value) {lapply(private$tau, as_clustering)},
+      #' @field storedModels data.frame of all models fitted (and stored) during the optimization
+      storedModels = function(value) {
+        rowBlocks <- c(0, unlist(sapply(private$BMobject$memberships, function(m) ncol(m$Z1))))
+        colBlocks <- c(0, unlist(sapply(private$BMobject$memberships, function(m) ncol(m$Z2))))
+        nbConnectParam <- c(NA, unlist(sapply(private$BMobject$model_parameters, function(param) param$n_parameters)))
+        data.frame(
+          nbParams  = nbConnectParam + rowBlocks + colBlocks - 2,
+          rowBlocks = rowBlocks,
+          colBlocks = colBlocks,
+          nbBlocks  = rowBlocks + colBlocks,
+          ICL       = private$BMobject$ICL,
+          loglik    = private$BMobject$PL
+        )
+      }
     )
   )
 

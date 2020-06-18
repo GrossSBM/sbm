@@ -10,7 +10,22 @@ SBM_fit <- # this virtual class is the mother of all subtypes of SBM (Simple or 
       J              = NULL, # variational approximation of the log-likelihood
       vICL           = NULL, # variational approximation of the ICL
       tau            = NULL, # variational parameters for posterior probablility of class belonging
-      Y_hat          = NULL
+      Y_hat          = NULL,
+      BMobject       = NULL,
+      import_from_BM  = function(index = which.max(private$BMobject$ICL)) {
+        private$J     <- private$BMobject$PL[index]
+        private$vICL  <- private$BMobject$ICL[index]
+        parameters    <- private$BMobject$model_parameters[[index]]
+        private$beta  <- parameters$beta ## NULL if no covariates
+        private$theta <- switch(private$BMobject$model_name,
+          "bernoulli"           = list(mean = parameters$pi),
+          "bernoull_covariates" = list(mean = .logistic(parameters$m)),
+          "poisson"             = list(mean = parameters$lambda),
+          "poisson_covariates"  = list(mean = parameters$lambda),
+          "gaussian"            = list(mean = parameters$mu, var = parameters$sigma2),
+          "gaussian_covariates" = list(mean = parameters$mu, var = parameters$sigma2)
+        )
+      }
     ),
     public = list(
       #' @description constructor for SBM fit
@@ -25,9 +40,17 @@ SBM_fit <- # this virtual class is the mother of all subtypes of SBM (Simple or 
       #' @param type character to tune the displayed name
       show = function(type = "Fit of a Stochastic Block Model") {
         super$show(type)
-        cat("  $probMemberships, $memberships, $loglik, $ICL\n")
+        cat("  $probMemberships, $memberships, $loglik, $ICL, $storedModels, $setModel \n")
         cat("* S3 methods \n")
         cat("  plot, print, coef, predict, fitted \n")
+      },
+      #' @description method to select a specific model among the ones fitted during the optimization.
+      #'  Fields of the current SBM_fit will be updated accordingly.
+      #' @param index integer, the index of the model to be selected (row number in storedModels)
+      setModel = function(index) {
+        stopifnot(!is.null(private$BMobject))
+        stopifnot(index %in% seq.int(nrow(self$storedModels)))
+        private$import_from_BM(index)
       }
     ),
     active = list(

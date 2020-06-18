@@ -89,7 +89,7 @@ connectParam <- list(mean = means, var = 2)
 mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam, model = "gaussian")
 
 ## Estimation
-mySimpleSBM <- estimateSimpleSBM(adjacencyMatrix, 'gaussian')
+mySimpleSBM <- estimateSimpleSBM(mySampler$netMatrix, 'gaussian')
 par(mfrow = c(2,2))
 plot(mySimpleSBM, 'data', ordered = FALSE)
 plot(mySimpleSBM, 'data')

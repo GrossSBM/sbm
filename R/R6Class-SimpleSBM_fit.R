@@ -9,7 +9,12 @@ SimpleSBM_fit <-
   R6::R6Class(classname = "SimpleSBM_fit",
     inherit = SBM_fit,
     private = list(
-      directed_ = NULL # is the network directed or not
+      directed_ = NULL, # is the network directed or not
+      import_from_BM = function(index = which.max(private$BMobject$ICL)) { # a function updating the Class
+        super$import_from_BM(index)
+        private$tau <- private$BMobject$memberships[[index]]$Z
+        private$pi  <- colMeans(private$tau)
+      }
     ),
     public = list(
       #' @description constructor for a Simple SBM fit
@@ -57,34 +62,18 @@ SimpleSBM_fit <-
 
         ## model construction
         model_type <- ifelse(self$nbCovariates > 0, paste0(private$model,"_covariates"), private$model)
-        BMobject <- do.call(paste0("BM_", model_type), args)
+        private$BMobject <- do.call(paste0("BM_", model_type), args)
 
         ## performing estimation
-        BMobject$estimate()
+        private$BMobject$estimate()
 
         ## Exporting blockmodels output to simpleSBM_fit fields
-        ind_best      <- which.max(BMobject$ICL)
-        private$J     <- BMobject$PL[ind_best]
-        private$vICL  <- BMobject$ICL[ind_best]
-        private$Y_hat <- BMobject$prediction(ind_best)
-        private$tau   <- BMobject$memberships[[ind_best]]$Z
-        private$pi    <- colMeans(private$tau)
-        parameters    <- BMobject$model_parameters[[ind_best]]
-        private$beta  <- parameters$beta ## NULL if no covariates
-
-        private$theta <- switch(model_type,
-          "bernoulli"           = list(mean = parameters$pi),
-          "bernoull_covariates" = list(mean = .logistic(parameters$m)),
-          "poisson"             = list(mean = parameters$lambda),
-          "poisson_covariates"  = list(mean = parameters$lambda),
-          "gaussian"            = list(mean = parameters$mu, var = parameters$sigma2),
-          "gaussian_covariates" = list(mean = parameters$mu, var = parameters$sigma2)
-        )
+        private$import_from_BM()
 
         ## record fitted/expected value
         private$Y_hat <- self$predict()
 
-        invisible(BMobject)
+        invisible(private$BMobject)
       },
       #' @description prediction under the currently estimated model
       #' @param covarList a list of covariates. By default, we use the covariates with which the model was estimated
@@ -112,6 +101,17 @@ SimpleSBM_fit <-
       #' @field memberships vector of clustering
       memberships = function(value) {as_clustering(private$tau)},
       #' @field directed is the network directed or not
-      directed = function(value) {private$directed_}
+      directed = function(value) {private$directed_},
+      #' @field storedModels data.frame of all models fitted (and stored) during the optimization
+      storedModels = function(value) {
+        nbBlocks <- unlist(sapply(private$BMobject$memberships, function(m) ncol(m$Z)))
+        nbConnectParam <- unlist(sapply(private$BMobject$model_parameters, function(param) param$n_parameters))
+        data.frame(
+          nbParams = nbConnectParam + nbBlocks - 1,
+          nbBlocks = nbBlocks,
+          ICL      = private$BMobject$ICL,
+          loglik   = private$BMobject$PL
+          )
+      }
     )
   )
