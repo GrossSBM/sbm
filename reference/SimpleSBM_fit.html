@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>R6 Class definition of an Simple SBM fit — SimpleSBM_fit • GSBM</title>
+<title>R6 Class definition of an Simple SBM fit — SimpleSBM_fit • sbm</title>
 
 
 <!-- jquery -->
@@ -72,8 +72,8 @@ R6 Class definition of an Simple SBM fit" />
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">GSBM</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.9000</span>
+        <a class="navbar-link" href="../index.html">sbm</a>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.9005</span>
       </span>
     </div>
 
@@ -143,7 +143,7 @@ R6 Class definition of an Simple SBM fit" />
     <p>This class is designed to give a representation and adjust an SBM fitted with blockmodels.</p>
     <h2 class="hasAnchor" id="super-classes"><a class="anchor" href="#super-classes"></a>Super classes</h2>
 
-    <p><code><a href='SBM.html'>GSBM::SBM</a></code> -&gt; <code><a href='SBM_fit.html'>GSBM::SBM_fit</a></code> -&gt; <code>SimpleSBM_fit</code></p>
+    <p><code><a href='https://rdrr.io/pkg/sbm/man/SBM.html'>sbm::SBM</a></code> -&gt; <code><a href='https://rdrr.io/pkg/sbm/man/SBM_fit.html'>sbm::SBM_fit</a></code> -&gt; <code>SimpleSBM_fit</code></p>
     <h2 class="hasAnchor" id="active-bindings"><a class="anchor" href="#active-bindings"></a>Active bindings</h2>
 
     <p><div class="r6-active-bindings"></p><dl>
@@ -172,15 +172,15 @@ R6 Class definition of an Simple SBM fit" />
 </ul>
 <p><details open ><summary>Inherited methods</summary>
 <ul>
-<li><p><span class="pkg-link" data-pkg="GSBM" data-topic="SBM" data-id="plot"><a href='../../GSBM/html/SBM.html#method-plot'><code>GSBM::SBM$plot()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="GSBM" data-topic="SBM" data-id="print"><a href='../../GSBM/html/SBM.html#method-print'><code>GSBM::SBM$print()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="plot"><a href='../../sbm/html/SBM.html#method-plot'><code>sbm::SBM$plot()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="print"><a href='../../sbm/html/SBM.html#method-print'><code>sbm::SBM$print()</code></a></span></p></li>
 </ul>
 </details>
 
 <hr>
 <a id="method-new"></a></p><h3>Method <code>new()</code></h3>
 <p>constructor for a Simple SBM fit</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>SimpleSBM_fit</span>$<span class='fu'>new</span>(<span class='no'>adjacencyMatrix</span>, <span class='no'>model</span>, <span class='no'>directed</span>, <span class='kw'>covarList</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())</pre><p></div></p>
+<p><div class="r"></p><pre><span class='kw'>SimpleSBM_fit</span><span class='op'>$</span><span class='fu'>new</span>(<span class='kw'>adjacencyMatrix</span>, <span class='kw'>model</span>, <span class='kw'>directed</span>, covarList = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl>
@@ -196,12 +196,12 @@ R6 Class definition of an Simple SBM fit" />
 <p><hr>
 <a id="method-optimize"></a></p><h3>Method <code><a href='https://rdrr.io/r/stats/optimize.html'>optimize()</a></code></h3>
 <p>function to perform optimization</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>SimpleSBM_fit</span>$<span class='fu'><a href='https://rdrr.io/r/stats/optimize.html'>optimize</a></span>(
-  <span class='kw'>verbosity</span> <span class='kw'>=</span> <span class='fl'>3</span>,
-  <span class='kw'>plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>explorFactor</span> <span class='kw'>=</span> <span class='fl'>1.5</span>,
-  <span class='kw'>nbBlocksRange</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4</span>, <span class='fl'>Inf</span>),
-  <span class='kw'>nbCores</span> <span class='kw'>=</span> <span class='kw pkg'>parallel</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/r/parallel/detectCores.html'>detectCores</a></span>()
+<p><div class="r"></p><pre><span class='kw'>SimpleSBM_fit</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/stats/optimize.html'>optimize</a></span>(
+  verbosity = <span class='fl'>3</span>,
+  plot = <span class='fl'>TRUE</span>,
+  explorFactor = <span class='fl'>1.5</span>,
+  nbBlocksRange = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4</span>, <span class='fl'>Inf</span>),
+  nbCores = <span class='kw'>parallel</span>::<span class='fu'><a href='https://rdrr.io/r/parallel/detectCores.html'>detectCores</a></span>()
 )</pre><p></div></p>
 
 <h3>Arguments</h3>
@@ -220,7 +220,7 @@ R6 Class definition of an Simple SBM fit" />
 <p><hr>
 <a id="method-predict"></a></p><h3>Method <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code></h3>
 <p>prediction under the currently estimated model</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>SimpleSBM_fit</span>$<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='kw'>covarList</span> <span class='kw'>=</span> <span class='no'>self</span>$<span class='no'>covarList</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='kw'>SimpleSBM_fit</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(covarList = <span class='kw'>self</span><span class='op'>$</span><span class='kw'>covarList</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl>
@@ -232,7 +232,7 @@ R6 Class definition of an Simple SBM fit" />
 <p><hr>
 <a id="method-show"></a></p><h3>Method <code>show()</code></h3>
 <p>show method</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>SimpleSBM_fit</span>$<span class='fu'>show</span>(<span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"Fit of a Simple Stochastic Block Model"</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='kw'>SimpleSBM_fit</span><span class='op'>$</span><span class='fu'>show</span>(type = <span class='st'>"Fit of a Simple Stochastic Block Model"</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl>
@@ -242,7 +242,7 @@ R6 Class definition of an Simple SBM fit" />
 <p><hr>
 <a id="method-clone"></a></p><h3>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>SimpleSBM_fit</span>$<span class='fu'>clone</span>(<span class='kw'>deep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='kw'>SimpleSBM_fit</span><span class='op'>$</span><span class='fu'>clone</span>(deep = <span class='fl'>FALSE</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl>
@@ -263,7 +263,7 @@ R6 Class definition of an Simple SBM fit" />
 
       <footer>
       <div class="copyright">
-  <p>Developed by Pierre Barbillon, Julien Chiquet, Sophie Donnet.</p>
+  <p>Developed by Julien Chiquet, Sophie Donnet.</p>
 </div>
 
 <div class="pkgdown">
