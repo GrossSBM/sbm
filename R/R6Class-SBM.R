@@ -25,7 +25,7 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       #' @param connectParam list of parameters for connectivity
       #' @param covarParam optional vector of covariates effect
       #' @param covarList optional list of covariates data
-      initialize = function(model='', dimension=numeric(2), blockProp=numeric(0), connectParam=list(mu = matrix()), covarParam=numeric(0), covarList=list()) {
+      initialize = function(model='', dimension=numeric(2), blockProp=numeric(0), connectParam=list(mu = matrix()), covarParam=numeric(length(covarList)), covarList=list()) {
 
         ## SANITY CHECK
         stopifnot(is.character(model))

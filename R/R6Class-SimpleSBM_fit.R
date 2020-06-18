@@ -56,7 +56,7 @@ SimpleSBM_fit <-
         args <- c(args, blockmodelsOptions)
 
         ## model construction
-        model_type <- ifelse(self$nbCovariates > 0, paste0(model,"_covariates"), private$model)
+        model_type <- ifelse(self$nbCovariates > 0, paste0(private$model,"_covariates"), private$model)
         BMobject <- do.call(paste0("BM_", model_type), args)
 
         ## performing estimation
@@ -93,7 +93,7 @@ SimpleSBM_fit <-
         stopifnot(is.list(covarList), self$nbCovariates == length(covarList))
         mu <- private$tau %*% private$theta$mu %*% t(private$tau)
         if (self$nbCovariates > 0) {
-          stopifnot(all.equal(self$nbNodes, sapply(covarList, nrow), sapply(covarList, ncol)))
+          all(sapply(covarList, nrow) == self$nbNodes, sapply(covarList, ncol) == self$nbNodes)
           mu <- private$invlink(private$link(mu) + self$covarEffect)
         }
         mu
