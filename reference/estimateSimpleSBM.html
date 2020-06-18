@@ -272,7 +272,7 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models.</p>
 <span class='kw'>mySampler</span> <span class='op'>&lt;-</span> <span class='fu'>sampleSimpleSBM</span>(<span class='kw'>nbNodes</span>, <span class='kw'>blockProp</span>, <span class='kw'>connectParam</span>, model = <span class='st'>"gaussian"</span>)
 
 <span class='co'>## Estimation</span>
-<span class='kw'>mySimpleSBM</span> <span class='op'>&lt;-</span> <span class='fu'>estimateSimpleSBM</span>(<span class='kw'>adjacencyMatrix</span>, <span class='st'>'gaussian'</span>)</div><div class='output co'>#&gt; -&gt; Estimation for 1 groups
+<span class='kw'>mySimpleSBM</span> <span class='op'>&lt;-</span> <span class='fu'>estimateSimpleSBM</span>(<span class='kw'>mySampler</span><span class='op'>$</span><span class='kw'>netMatrix</span>, <span class='st'>'gaussian'</span>)</div><div class='output co'>#&gt; -&gt; Estimation for 1 groups
 #&gt; </div><div class='output co'>#&gt; -&gt; Computation of eigen decomposition used for initalizations
 #&gt; 
 #&gt; -&gt; Pass 1
@@ -286,16 +286,6 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models.</p>
 #&gt; </div><div class='output co'>#&gt;         -&gt; For 3 groups
 #&gt; </div><div class='output co'>#&gt;         -&gt; For 2 groups
 #&gt; </div><div class='output co'>#&gt; -&gt; Pass 2
-#&gt;     -&gt; With ascending number of groups
-#&gt;         -&gt; For 2 groups
-#&gt;         -&gt; For 3 groups
-#&gt;         -&gt; For 4 groups
-#&gt;         -&gt; For 5 groups
-#&gt; </div><div class='output co'>#&gt;     -&gt; With descending number of groups
-#&gt;         -&gt; For 4 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 3 groups
-#&gt;         -&gt; For 2 groups
-#&gt; -&gt; Pass 3
 #&gt;     -&gt; With ascending number of groups
 #&gt;         -&gt; For 2 groups
 #&gt;         -&gt; For 3 groups

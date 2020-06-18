@@ -161,6 +161,7 @@ R6 virtual class for SBM fit (mother class of Simple and Bipartite SBM fit)" />
 <ul>
 <li><p><a href='#method-new'><code>SBM_fit$new()</code></a></p></li>
 <li><p><a href='#method-show'><code>SBM_fit$show()</code></a></p></li>
+<li><p><a href='#method-setModel'><code>SBM_fit$setModel()</code></a></p></li>
 <li><p><a href='#method-clone'><code>SBM_fit$clone()</code></a></p></li>
 </ul>
 <p><details open ><summary>Inherited methods</summary>
@@ -192,6 +193,17 @@ R6 virtual class for SBM fit (mother class of Simple and Bipartite SBM fit)" />
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl>
 <dt><code>type</code></dt><dd><p>character to tune the displayed name</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-setModel"></a></p><h3>Method <code>setModel()</code></h3>
+<p>method to select a specific model among the ones fitted during the optimization.
+Fields of the current SBM_fit will be updated accordingly.</p><h3>Usage</h3>
+<p><div class="r"></p><pre><span class='kw'>SBM_fit</span><span class='op'>$</span><span class='fu'>setModel</span>(<span class='kw'>index</span>)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl>
+<dt><code>index</code></dt><dd><p>integer, the index of the model to be selected (row number in storedModels)</p></dd>
 
 </dl><p></div></p>
 <p><hr>
