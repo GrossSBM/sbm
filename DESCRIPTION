@@ -1,6 +1,6 @@
 Package: sbm
 Title: Stochastic Blockmodels
-Version: 0.1.9000
+Version: 0.1.9005
 Authors@R: 
     c(person(given = "Pierre", family = "Barbillon", role = c("ctb"),
            email = "pierre.barbillon@agroparistech.fr",
