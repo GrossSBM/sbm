@@ -47,7 +47,7 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 nbNodes  <- 90
 blockProp <- c(.5, .25, .25) # group proportions
 means <- diag(.4, 3) + 0.05  # connectivity matrix: affiliation network
-connectParam <- list(mu = means)
+connectParam <- list(mean = means)
 mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam)
 adjacencyMatrix <- mySampler$netMatrix
 
@@ -66,8 +66,8 @@ plot(mySimpleSBM, 'expected')
 nbNodes  <- 90
 blockProp <- c(.5, .25, .25) # group proportions
 means <- diag(15., 3) + 5    # connectivity matrix: affiliation network
-connectParam <- list(mu = means)
-mySampler <- sampleSimpleSBM(nbNodes, blockProp, list(mu = means), model = "poisson")
+connectParam <- list(mean = means)
+mySampler <- sampleSimpleSBM(nbNodes, blockProp, list(mean = means), model = "poisson")
 adjacencyMatrix <- mySampler$netMatrix
 
 ## Estimation
@@ -85,7 +85,7 @@ plot(mySimpleSBM, 'expected')
 nbNodes  <- 90
 blockProp <- c(.5, .25, .25)      # group proportions
 means <- diag(15., 3) + 5 # connectivity matrix: affiliation network
-connectParam <- list(mu = means, sigma2 = 2)
+connectParam <- list(mean = means, var = 2)
 mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam, model = "gaussian")
 
 ## Estimation

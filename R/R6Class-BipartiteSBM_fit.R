@@ -63,12 +63,12 @@ BipartiteSBM_fit <-
         private$beta  <- parameters$beta ## NULL if no covariates
 
         private$theta <- switch(model_type,
-          "bernoulli"           = list(mu = parameters$pi),
-          "bernoull_covariates" = list(mu = .logistic(parameters$m)),
-          "poisson"             = list(mu = parameters$lambda),
-          "poisson_covariates"  = list(mu = parameters$lambda),
-          "gaussian"            = list(mu = parameters$mu, sigma = parameters$sigma2),
-          "gaussian_covariates" = list(mu = parameters$mu, sigma = parameters$sigma2)
+          "bernoulli"           = list(mean = parameters$pi),
+          "bernoull_covariates" = list(mean = .logistic(parameters$m)),
+          "poisson"             = list(mean = parameters$lambda),
+          "poisson_covariates"  = list(mean = parameters$lambda),
+          "gaussian"            = list(mean = parameters$mu, var = parameters$sigma2),
+          "gaussian_covariates" = list(mean = parameters$mu, var = parameters$sigma2)
         )
 
         ## record fitted/expected value
@@ -84,7 +84,7 @@ BipartiteSBM_fit <-
           stopifnot(all.equal(self$dimension[1], sapply(covarList, nrow)),
                     all.equal(self$dimension[2], sapply(covarList, ncol)))
         }
-        mu <- private$tau[[1]] %*% private$theta$mu %*% t(private$tau[[2]])
+        mu <- private$tau[[1]] %*% private$theta$mean %*% t(private$tau[[2]])
         if (length(self$covList) > 0) mu <- private$invlink(private$link(mu) + self$covarEffect)
         mu
       },

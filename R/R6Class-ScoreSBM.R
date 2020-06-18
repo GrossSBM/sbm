@@ -34,7 +34,7 @@ ScoreSBM <- # this virtual class is the mother of all subtypes of SBM (Simple or
                 },
                 #' @description basic matrix plot method for Noisy SBM object
                 #' @param type character for the type of plot: either 'data' (true connection) or 'predictedNetwork' (fitted connection). Default to 'data'.
-                #' @param ordered logical: should the rows and columns be reoredered accordigin to the clustering? Default to \code{TRUE}.
+                #' @param ordered logical: should the rows and columns be reoredered according to the clustering? Default to \code{TRUE}.
                 #' @param color logical. Adapt colormap to the clustering. Default to \code{TRUE}.
                 #' @importFrom corrplot corrplot
                 plot = function(type = c('data', 'predictedNetwork'), ordered = TRUE, color = TRUE) {

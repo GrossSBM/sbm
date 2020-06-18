@@ -51,8 +51,8 @@ constructor for SBM
   model = "",
   dimension = numeric(2),
   blockProp = numeric(0),
-  connectParam = list(mu = matrix()),
-  covarParam = numeric(0),
+  connectParam = list(mean = matrix()),
+  covarParam = numeric(length(covarList)),
   covarList = list()
 )}\if{html}{\out{</div>}}
 }
@@ -89,7 +89,7 @@ basic matrix plot method for SBM object
 \describe{
 \item{\code{type}}{character for the type of plot: either 'data' (true connection) or 'expected' (fitted connection). Default to 'data'.}
 
-\item{\code{ordered}}{logical: should the rows and columns be reoredered accordigin to the clustering? Default to \code{TRUE}.}
+\item{\code{ordered}}{logical: should the rows and columns be reoredered according to the clustering? Default to \code{TRUE}.}
 
 \item{\code{color}}{logical. Adapt colormap to the clustering. Default to \code{TRUE}.}
 }

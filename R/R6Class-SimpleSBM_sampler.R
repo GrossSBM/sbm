@@ -16,7 +16,7 @@ SimpleSBM_sampler <-
       #' @param nbNodes number of nodes in the network
       #' @param directed logical, directed network or not.
       #' @param blockProp parameters for block proportions (vector of list of vectors)
-      #' @param connectParam list of parameters for connectivity with a matrix of means 'mu' and an optional scalar for the variance 'sigma2'. The size of mu must match \code{blockProp} length
+      #' @param connectParam list of parameters for connectivity with a matrix of means 'mean' and an optional scalar for the variance 'var'. The size of mu must match \code{blockProp} length
       #' @param covarParam optional vector of covariates effect
       #' @param covarList optional list of covariates data
       initialize = function(model, nbNodes, directed, blockProp, connectParam, covarParam=numeric(0), covarList=list()) {
@@ -24,9 +24,9 @@ SimpleSBM_sampler <-
         ## ADDITIONAL SANITY CHECKS
         stopifnot(all(blockProp > 0))
         stopifnot(all.equal(length(blockProp),      # dimensions match between vector of
-                            ncol(connectParam$mu),  # block proportion and connectParam$mu
-                            nrow(connectParam$mu)))
-        if (!directed) stopifnot(isSymmetric(connectParam$mu)) # connectivity and direction must agree
+                            ncol(connectParam$mean),  # block proportion and connectParam$mean
+                            nrow(connectParam$mean)))
+        if (!directed) stopifnot(isSymmetric(connectParam$mean)) # connectivity and direction must agree
         super$initialize(model, c(nbNodes, nbNodes), blockProp, connectParam, covarParam, covarList)
         private$directed_ <- directed
         self$rAdjacency()
@@ -39,7 +39,7 @@ SimpleSBM_sampler <-
       #' @description a method to sample an adjacency matrix for the current SBM
       #' @return nothing (sampled adjacency matrix is stored in the current object)
       rAdjacency = function() {
-        Y <- suppressWarnings(private$sampling_func(self$nbNodes**2, list(mu = self$expectation, sigma2 = self$variance))) %>%
+        Y <- suppressWarnings(private$sampling_func(self$nbNodes**2, list(mean = self$expectation, var = self$variance))) %>%
           matrix(private$dim[1], private$dim[2])
         diag(Y) <- NA
         if (!private$directed_) Y <- Y * lower.tri(Y) + t(Y * lower.tri(Y))
@@ -66,7 +66,7 @@ SimpleSBM_sampler <-
       indMemberships = function(value) {private$Z},
       #' @field expectation expected values of connection under the current model
       expectation = function() {
-        mu <- private$Z %*% private$theta$mu %*% t(private$Z)
+        mu <- private$Z %*% private$theta$mean %*% t(private$Z)
         if (self$nbCovariates > 0) mu <- private$invlink(private$link(mu) + self$covarEffect)
         diag(mu) <- NA
         mu

@@ -15,7 +15,7 @@ SBM_sampler <- # Virtual call for SBM sampler (children: Simple and Bipartite SB
       #' @param model character describing the type of model
       #' @param nbNodes number of nodes in the network
       #' @param blockProp parameters for block proportions (vector of list of vectors)
-      #' @param connectParam list of parameters for connectivity with a matrix of means 'mu' and an optional scalar for the variance 'sigma2'. The dimensions of mu must match \code{blockProp} lengths
+      #' @param connectParam list of parameters for connectivity with a matrix of means 'mean' and an optional scalar for the variance 'var'. The dimensions of mu must match \code{blockProp} lengths
       #' @param covarParam optional vector of covariates effect
       #' @param covarList optional list of covariates data
       initialize = function(model, nbNodes, blockProp, connectParam, covarParam=numeric(0), covarList=list()) {
@@ -24,21 +24,21 @@ SBM_sampler <- # Virtual call for SBM sampler (children: Simple and Bipartite SB
 
         ## ADDITIONAL CHECKS
         if (model == 'bernoulli') {
-          stopifnot(all(connectParam$mu >= 0))
-          stopifnot(all(connectParam$mu <= 1))
+          stopifnot(all(connectParam$mean >= 0))
+          stopifnot(all(connectParam$mean <= 1))
         }
         if (model == 'poisson') {
-          stopifnot(all(connectParam$mu >= 0))
+          stopifnot(all(connectParam$mean >= 0))
         }
         if (model == 'gaussian') {
-          stopifnot(length(connectParam$sigma2) == 1)
-          stopifnot(connectParam$sigma2 > 0)
+          stopifnot(length(connectParam$var) == 1)
+          stopifnot(connectParam$var > 0)
         }
 
         private$sampling_func <- switch(model,
-            "gaussian"  = function(n, param) rnorm(n = n, mean   = param$mu, sd = sqrt(param$sigma2)) ,
-            "poisson"   = function(n, param) rpois(n = n, lambda = param$mu) ,
-            "bernoulli" = function(n, param) rbinom(n = n, size = 1, prob   = param$mu),
+            "gaussian"  = function(n, param) rnorm(n = n, mean   = param$mean, sd = sqrt(param$var)) ,
+            "poisson"   = function(n, param) rpois(n = n, lambda = param$mean) ,
+            "bernoulli" = function(n, param) rbinom(n = n, size = 1, prob   = param$mean),
           )
         self$rMemberships()
       },
@@ -53,7 +53,7 @@ SBM_sampler <- # Virtual call for SBM sampler (children: Simple and Bipartite SB
     ),
     active = list(
       #' @field variance variance of each dyad under the current model
-      variance = function() {if (private$model == 'gaussian') return(private$theta$sigma2) else return(NULL) }
+      variance = function() {if (private$model == 'gaussian') return(private$theta$var) else return(NULL) }
     )
   )
 

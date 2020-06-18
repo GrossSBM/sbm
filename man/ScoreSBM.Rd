@@ -90,7 +90,7 @@ basic matrix plot method for Noisy SBM object
 \describe{
 \item{\code{type}}{character for the type of plot: either 'data' (true connection) or 'predictedNetwork' (fitted connection). Default to 'data'.}
 
-\item{\code{ordered}}{logical: should the rows and columns be reoredered accordigin to the clustering? Default to \code{TRUE}.}
+\item{\code{ordered}}{logical: should the rows and columns be reoredered according to the clustering? Default to \code{TRUE}.}
 
 \item{\code{color}}{logical. Adapt colormap to the clustering. Default to \code{TRUE}.}
 }

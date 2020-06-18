@@ -73,12 +73,12 @@ SimpleSBM_fit <-
         private$beta  <- parameters$beta ## NULL if no covariates
 
         private$theta <- switch(model_type,
-          "bernoulli"           = list(mu = parameters$pi),
-          "bernoull_covariates" = list(mu = .logistic(parameters$m)),
-          "poisson"             = list(mu = parameters$lambda),
-          "poisson_covariates"  = list(mu = parameters$lambda),
-          "gaussian"            = list(mu = parameters$mu, sigma = parameters$sigma2),
-          "gaussian_covariates" = list(mu = parameters$mu, sigma = parameters$sigma2)
+          "bernoulli"           = list(mean = parameters$pi),
+          "bernoull_covariates" = list(mean = .logistic(parameters$m)),
+          "poisson"             = list(mean = parameters$lambda),
+          "poisson_covariates"  = list(mean = parameters$lambda),
+          "gaussian"            = list(mean = parameters$mu, var = parameters$sigma2),
+          "gaussian_covariates" = list(mean = parameters$mu, var = parameters$sigma2)
         )
 
         ## record fitted/expected value
@@ -91,7 +91,7 @@ SimpleSBM_fit <-
       #' @return a matrix of expected values for each dyad
       predict = function(covarList = self$covarList) {
         stopifnot(is.list(covarList), self$nbCovariates == length(covarList))
-        mu <- private$tau %*% private$theta$mu %*% t(private$tau)
+        mu <- private$tau %*% private$theta$mean %*% t(private$tau)
         if (self$nbCovariates > 0) {
           all(sapply(covarList, nrow) == self$nbNodes, sapply(covarList, ncol) == self$nbNodes)
           mu <- private$invlink(private$link(mu) + self$covarEffect)

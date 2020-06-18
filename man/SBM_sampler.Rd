@@ -59,7 +59,7 @@ constructor for SBM
 
 \item{\code{blockProp}}{parameters for block proportions (vector of list of vectors)}
 
-\item{\code{connectParam}}{list of parameters for connectivity with a matrix of means 'mu' and an optional scalar for the variance 'sigma2'. The dimensions of mu must match \code{blockProp} lengths}
+\item{\code{connectParam}}{list of parameters for connectivity with a matrix of means 'mean' and an optional scalar for the variance 'var'. The dimensions of mu must match \code{blockProp} lengths}
 
 \item{\code{covarParam}}{optional vector of covariates effect}
 

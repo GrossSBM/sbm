@@ -18,7 +18,7 @@ sampleBipartiteSBM(
 
 \item{blockProp}{parameters for block proportions: list of size two with row and column block proportions}
 
-\item{connectParam}{list of parameters for connectivity with a matrix of means 'mu' and an optional matrix of variances 'sigma2', the sizes of which must match \code{blockProp} length (in row, respectively in column)}
+\item{connectParam}{list of parameters for connectivity with a matrix of means 'mean' and an optional matrix of variances 'var', the sizes of which must match \code{blockProp} length (in row, respectively in column)}
 
 \item{model}{character describing the model for the relation between nodes (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'}, ...). Default is \code{'bernoulli'}.}
 
@@ -40,8 +40,8 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models, and 
 nbNodes <- c(100, 120)
 blockProp <- list(c(.5, .5), c(1/3, 1/3, 1/3)) # group proportions
 means <- matrix(runif(6), 2, 3)  # connectivity matrix
-# In Bernoulli SBM, parameters is a list with a matrix of means mu which are probabilities of connexion
-connectParam <- list(mu = means)
+# In Bernoulli SBM, parameters is a list with a matrix of means 'mean' which are probabilities of connection
+connectParam <- list(mean = means)
 
 ## Graph Sampling
 mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'bernoulli')
@@ -58,8 +58,8 @@ hist(mySampler$netMatrix)
 nbNodes <- c(100, 120)
 blockProp <- list(c(.5, .5), c(1/3, 1/3, 1/3)) # group proportions
 means <- matrix(rbinom(6, 30, 0.25), 2, 3)  # connectivity matrix
-# In Poisson SBM, parameters is a list with a matrix of means mu which are a mean integer value taken by edges
-connectParam <- list(mu = means)
+# In Poisson SBM, parameters is a list with a matrix of means 'mean' which are a mean integer value taken by edges
+connectParam <- list(mean = means)
 
 ## Graph Sampling
 mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'poisson')
@@ -73,8 +73,8 @@ hist(mySampler$netMatrix)
 nbNodes <- c(100, 120)
 blockProp <- list(c(.5, .5), c(1/3, 1/3, 1/3)) # group proportions
 means <- 20 * matrix(runif(6), 2, 3)  # connectivity matrix
-# In Gaussian SBM, parameters is a list with a matrix of means mu and a matrix of variances sigma2
-connectParam <- list(mu = means, sigma2 = 1)
+# In Gaussian SBM, parameters is a list with a matrix of means 'mean' and a matrix of variances 'var'
+connectParam <- list(mean = means, var = 1)
 
 ## Graph Sampling
 mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'gaussian')

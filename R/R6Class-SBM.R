@@ -25,13 +25,13 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       #' @param connectParam list of parameters for connectivity
       #' @param covarParam optional vector of covariates effect
       #' @param covarList optional list of covariates data
-      initialize = function(model='', dimension=numeric(2), blockProp=numeric(0), connectParam=list(mu = matrix()), covarParam=numeric(length(covarList)), covarList=list()) {
+      initialize = function(model='', dimension=numeric(2), blockProp=numeric(0), connectParam=list(mean = matrix()), covarParam=numeric(length(covarList)), covarList=list()) {
 
         ## SANITY CHECK
         stopifnot(is.character(model))
         stopifnot(model %in% available_models_edges)
         stopifnot(is.numeric(dimension), length(dimension) == 2)
-        stopifnot(is.list(connectParam), is.matrix(connectParam$mu))
+        stopifnot(is.list(connectParam), is.matrix(connectParam$mean))
         stopifnot(all.equal(length(covarParam), length(covarList)))
         stopifnot(all(sapply(covarList, nrow) == dimension[1]))
         stopifnot(all(sapply(covarList, ncol) == dimension[2]))
@@ -56,7 +56,7 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       },
       #' @description basic matrix plot method for SBM object
       #' @param type character for the type of plot: either 'data' (true connection) or 'expected' (fitted connection). Default to 'data'.
-      #' @param ordered logical: should the rows and columns be reoredered accordigin to the clustering? Default to \code{TRUE}.
+      #' @param ordered logical: should the rows and columns be reoredered according to the clustering? Default to \code{TRUE}.
       #' @param color logical. Adapt colormap to the clustering. Default to \code{TRUE}.
       #' @importFrom corrplot corrplot
       plot = function(type = c('data', 'expected'), ordered = TRUE, color = TRUE) {

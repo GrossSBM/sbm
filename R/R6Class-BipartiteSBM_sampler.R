@@ -11,14 +11,14 @@ BipartiteSBM_sampler <-
       #' @param model character describing the type of model
       #' @param nbNodes number of nodes in the network
       #' @param blockProp parameters for block proportions (vector of list of vectors)
-      #' @param connectParam list of parameters for connectivity with a matrix of means 'mu' and an optional scalar for the variance 'sigma2'. The dimensions of mu must match \code{blockProp} lengths
+      #' @param connectParam list of parameters for connectivity with a matrix of means 'mean' and an optional scalar for the variance 'var'. The dimensions of mu must match \code{blockProp} lengths
       #' @param covarParam optional vector of covariates effect
       #' @param covarList optional list of covariates data
       initialize = function(model, nbNodes, blockProp, connectParam, covarParam=numeric(0), covarList=list()) {
         ## SANITY CHECKS
         stopifnot(length(blockProp) ==  2,
-                  length(blockProp[[1]]) ==  nrow(connectParam$mu),
-                  length(blockProp[[2]]) ==  ncol(connectParam$mu))
+                  length(blockProp[[1]]) ==  nrow(connectParam$mean),
+                  length(blockProp[[2]]) ==  ncol(connectParam$mean))
         super$initialize(model, nbNodes, blockProp, connectParam, covarParam, covarList)
         self$rIncidence()
       },
@@ -32,7 +32,7 @@ BipartiteSBM_sampler <-
       #' @description a method to sample an adjacency matrix for the current SBM
       #' @return nothing (sampled matrix is store in the current object, accessible via $netMatrix)
       rIncidence = function() {
-        Y <- private$sampling_func(private$dim[1]*private$dim[2], list(mu = self$expectation, sigma2 = self$variance)) %>%
+        Y <- private$sampling_func(private$dim[1]*private$dim[2], list(mean = self$expectation, var = self$variance)) %>%
           matrix(private$dim[1], private$dim[2])
         private$Y <- Y
       },
@@ -57,7 +57,7 @@ BipartiteSBM_sampler <-
       indMemberships = function(value) {private$Z},
       #' @field expectation expected values of connection under the current model
       expectation = function() {
-        mu <- private$Z[[1]] %*% private$theta$mu %*% t(private$Z[[2]])
+        mu <- private$Z[[1]] %*% private$theta$mean %*% t(private$Z[[2]])
         if (self$nbCovariates > 0) mu <- private$invlink(private$link(mu) + self$covarEffect)
         mu
       }

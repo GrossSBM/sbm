@@ -28,7 +28,7 @@
 #' nbNodes  <- 90
 #' blockProp <- c(.5, .25, .25) # group proportions
 #' means <- diag(.4, 3) + 0.05  # connectivity matrix: affiliation network
-#' connectParam <- list(mu = means)
+#' connectParam <- list(mean = means)
 #' mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam)
 #' adjacencyMatrix <- mySampler$netMatrix
 #'
@@ -47,8 +47,8 @@
 #' nbNodes  <- 90
 #' blockProp <- c(.5, .25, .25) # group proportions
 #' means <- diag(15., 3) + 5    # connectivity matrix: affiliation network
-#' connectParam <- list(mu = means)
-#' mySampler <- sampleSimpleSBM(nbNodes, blockProp, list(mu = means), model = "poisson")
+#' connectParam <- list(mean = means)
+#' mySampler <- sampleSimpleSBM(nbNodes, blockProp, list(mean = means), model = "poisson")
 #' adjacencyMatrix <- mySampler$netMatrix
 #'
 #' ## Estimation
@@ -66,7 +66,7 @@
 #' nbNodes  <- 90
 #' blockProp <- c(.5, .25, .25)      # group proportions
 #' means <- diag(15., 3) + 5 # connectivity matrix: affiliation network
-#' connectParam <- list(mu = means, sigma2 = 2)
+#' connectParam <- list(mean = means, var = 2)
 #' mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam, model = "gaussian")
 #'
 #' ## Estimation
@@ -135,8 +135,8 @@ estimateSimpleSBM <- function(netMat,
 #' nbNodes <- c(100, 120)
 #' blockProp <- list(c(.5, .5), c(1/3, 1/3, 1/3)) # group proportions
 #' means <- matrix(runif(6), 2, 3)  # connectivity matrix
-#' # In Bernoulli SBM, parameters is a list with a matrix of means mu which are probabilities of connexion
-#' connectParam <- list(mu = means)
+#' # In Bernoulli SBM, parameters is a list with a matrix of means 'mean' which are probabilities of connexion
+#' connectParam <- list(mean = means)
 #' mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'bernoulli')
 #'
 #' ## Estimation
@@ -150,7 +150,7 @@ estimateSimpleSBM <- function(netMat,
 #' nbNodes <- c(100, 120)
 #' blockProp <- list(c(.5, .5), c(1/3, 1/3, 1/3)) # group proportions
 #' means <- matrix(rbinom(6, 30, 0.25), 2, 3)  # connectivity matrix
-#' connectParam <- list(mu = means)
+#' connectParam <- list(mean = means)
 #' mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'poisson')
 #'
 #' ## Estimation
@@ -163,7 +163,7 @@ estimateSimpleSBM <- function(netMat,
 #' nbNodes <- c(100, 120)
 #' blockProp <- list(c(.5, .5), c(1/3, 1/3, 1/3)) # group proportions
 #' means <- 20 * matrix(runif(6), 2, 3)  # connectivity matrix
-#' connectParam <- list(mu = means, sigma2 = 1)
+#' connectParam <- list(mean = means, var = 1)
 #' mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'gaussian')
 #'
 #' ## Estimation

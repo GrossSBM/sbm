@@ -5,7 +5,7 @@
 #'
 #' @param nbNodes number of nodes in the network
 #' @param blockProp parameters for block proportions
-#' @param connectParam list of parameters for connectivity with a matrix of means 'mu' and an optional matrix of variances 'sigma2', the sizes of which must match \code{blockProp} length
+#' @param connectParam list of parameters for connectivity with a matrix of means 'mean' and an optional matrix of variances 'var', the sizes of which must match \code{blockProp} length
 #' @param model character describing the model for the relation between nodes (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'}, ...). Default is \code{'bernoulli'}.
 #' @param directed logical, directed network or not. Default is \code{FALSE}.
 #' @param covariates a list of matrices with same dimension as mat describing covariates at the edge level. No covariate per Default.
@@ -21,7 +21,7 @@
 #' blockProp <- c(.5, .25, .25) # group proportions
 #' means <- diag(.4, 3) + 0.05  # connectivity matrix: affiliation network
 #' # In Bernoulli SBM, parameters is a list with a matrix of means mu which are probabilities of connexion
-#' connectParam <- list(mu = means)
+#' connectParam <- list(mean = means)
 #'
 #' ## Graph Sampling
 #' mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam, model = 'bernoulli')
@@ -38,11 +38,11 @@
 #' nbNodes  <- 90
 #' blockProp <- c(.5, .25, .25) # group proportions
 #' means <- diag(15., 3) + 5    # connectivity matrix: affiliation network
-#' # In Poisson SBM, parameters is a list with a matrix of means mu which are a mean integer value taken by edges
-#' connectParam <- list(mu = means)
+#' # In Poisson SBM, parameters is a list with a matrix of means 'mean' which are a mean integer value taken by edges
+#' connectParam <- list(mean = means)
 #'
 #' ## Graph Sampling
-#' mySampler <- sampleSimpleSBM(nbNodes, blockProp, list(mu = means), model = "poisson")
+#' mySampler <- sampleSimpleSBM(nbNodes, blockProp, list(mean = means), model = "poisson")
 #' par(mfrow = c(1,2))
 #' plot(mySampler)
 #' hist(mySampler$netMatrix)
@@ -53,8 +53,8 @@
 #' nbNodes  <- 90
 #' blockProp <- c(.5, .25, .25)      # group proportions
 #' means <- diag(15., 3) + 5 # connectivity matrix: affiliation network
-#' # In Gaussian SBM, parameters is a list with a matrix of means mu and a matrix of variances sigma2
-#' connectParam <- list(mu = means, sigma2 = 2)
+#' # In Gaussian SBM, parameters is a list with a matrix of means 'mean' and a matrix of variances 'var'
+#' connectParam <- list(mean = means, var = 2)
 #'
 #' ## Graph Sampling
 #' mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam, model = "gaussian")
@@ -81,7 +81,7 @@ sampleSimpleSBM <- function(nbNodes,
 #'
 #' @param nbNodes number of nodes in the network
 #' @param blockProp parameters for block proportions: list of size two with row and column block proportions
-#' @param connectParam list of parameters for connectivity with a matrix of means 'mu' and an optional matrix of variances 'sigma2', the sizes of which must match \code{blockProp} length (in row, respectively in column)
+#' @param connectParam list of parameters for connectivity with a matrix of means 'mean' and an optional matrix of variances 'var', the sizes of which must match \code{blockProp} length (in row, respectively in column)
 #' @param model character describing the model for the relation between nodes (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'}, ...). Default is \code{'bernoulli'}.
 #' @param covariates a list of matrices with same dimension as mat describing covariates at the edge level. No covariate per Default.
 #' @param covariatesParam optional vector of covariates effect. A zero length numeric vector by default.
@@ -95,8 +95,8 @@ sampleSimpleSBM <- function(nbNodes,
 #' nbNodes <- c(100, 120)
 #' blockProp <- list(c(.5, .5), c(1/3, 1/3, 1/3)) # group proportions
 #' means <- matrix(runif(6), 2, 3)  # connectivity matrix
-#' # In Bernoulli SBM, parameters is a list with a matrix of means mu which are probabilities of connexion
-#' connectParam <- list(mu = means)
+#' # In Bernoulli SBM, parameters is a list with a matrix of means 'mean' which are probabilities of connection
+#' connectParam <- list(mean = means)
 #'
 #' ## Graph Sampling
 #' mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'bernoulli')
@@ -113,8 +113,8 @@ sampleSimpleSBM <- function(nbNodes,
 #' nbNodes <- c(100, 120)
 #' blockProp <- list(c(.5, .5), c(1/3, 1/3, 1/3)) # group proportions
 #' means <- matrix(rbinom(6, 30, 0.25), 2, 3)  # connectivity matrix
-#' # In Poisson SBM, parameters is a list with a matrix of means mu which are a mean integer value taken by edges
-#' connectParam <- list(mu = means)
+#' # In Poisson SBM, parameters is a list with a matrix of means 'mean' which are a mean integer value taken by edges
+#' connectParam <- list(mean = means)
 #'
 #' ## Graph Sampling
 #' mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'poisson')
@@ -128,8 +128,8 @@ sampleSimpleSBM <- function(nbNodes,
 #' nbNodes <- c(100, 120)
 #' blockProp <- list(c(.5, .5), c(1/3, 1/3, 1/3)) # group proportions
 #' means <- 20 * matrix(runif(6), 2, 3)  # connectivity matrix
-#' # In Gaussian SBM, parameters is a list with a matrix of means mu and a matrix of variances sigma2
-#' connectParam <- list(mu = means, sigma2 = 1)
+#' # In Gaussian SBM, parameters is a list with a matrix of means 'mean' and a matrix of variances 'var'
+#' connectParam <- list(mean = means, var = 1)
 #'
 #' ## Graph Sampling
 #' mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'gaussian')
