@@ -20,7 +20,8 @@
 #' nbNodes  <- 90
 #' blockProp <- c(.5, .25, .25) # group proportions
 #' means <- diag(.4, 3) + 0.05  # connectivity matrix: affiliation network
-#' # In Bernoulli SBM, parameters is a list with a matrix of means mu which are probabilities of connexion
+#' # In Bernoulli SBM, parameters is a list with a
+#' # matrix of means 'mean' which are probabilities of connection
 #' connectParam <- list(mean = means)
 #'
 #' ## Graph Sampling
@@ -38,7 +39,8 @@
 #' nbNodes  <- 90
 #' blockProp <- c(.5, .25, .25) # group proportions
 #' means <- diag(15., 3) + 5    # connectivity matrix: affiliation network
-#' # In Poisson SBM, parameters is a list with a matrix of means 'mean' which are a mean integer value taken by edges
+#' # In Poisson SBM, parameters is a list with
+#' # a matrix of means 'mean' which are a mean integer value taken by edges
 #' connectParam <- list(mean = means)
 #'
 #' ## Graph Sampling
@@ -53,7 +55,8 @@
 #' nbNodes  <- 90
 #' blockProp <- c(.5, .25, .25)      # group proportions
 #' means <- diag(15., 3) + 5 # connectivity matrix: affiliation network
-#' # In Gaussian SBM, parameters is a list with a matrix of means 'mean' and a matrix of variances 'var'
+#' # In Gaussian SBM, parameters is a list with
+#' # a matrix of means 'mean' and a matrix of variances 'var'
 #' connectParam <- list(mean = means, var = 2)
 #'
 #' ## Graph Sampling
@@ -95,7 +98,8 @@ sampleSimpleSBM <- function(nbNodes,
 #' nbNodes <- c(100, 120)
 #' blockProp <- list(c(.5, .5), c(1/3, 1/3, 1/3)) # group proportions
 #' means <- matrix(runif(6), 2, 3)  # connectivity matrix
-#' # In Bernoulli SBM, parameters is a list with a matrix of means 'mean' which are probabilities of connection
+#' # In Bernoulli SBM, parameters is a list with
+#' # a matrix of means 'mean' which are probabilities of connection
 #' connectParam <- list(mean = means)
 #'
 #' ## Graph Sampling
@@ -113,7 +117,8 @@ sampleSimpleSBM <- function(nbNodes,
 #' nbNodes <- c(100, 120)
 #' blockProp <- list(c(.5, .5), c(1/3, 1/3, 1/3)) # group proportions
 #' means <- matrix(rbinom(6, 30, 0.25), 2, 3)  # connectivity matrix
-#' # In Poisson SBM, parameters is a list with a matrix of means 'mean' which are a mean integer value taken by edges
+#' # In Poisson SBM, parameters is a list with a matrix of
+#' # means 'mean' which are a mean integer value taken by edges
 #' connectParam <- list(mean = means)
 #'
 #' ## Graph Sampling
@@ -128,7 +133,8 @@ sampleSimpleSBM <- function(nbNodes,
 #' nbNodes <- c(100, 120)
 #' blockProp <- list(c(.5, .5), c(1/3, 1/3, 1/3)) # group proportions
 #' means <- 20 * matrix(runif(6), 2, 3)  # connectivity matrix
-#' # In Gaussian SBM, parameters is a list with a matrix of means 'mean' and a matrix of variances 'var'
+#' # In Gaussian SBM, parameters is a list with a matrix
+#' # of means 'mean' and a matrix of variances 'var'
 #' connectParam <- list(mean = means, var = 1)
 #'
 #' ## Graph Sampling

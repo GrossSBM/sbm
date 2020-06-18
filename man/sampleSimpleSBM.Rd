@@ -43,7 +43,8 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models, and 
 nbNodes  <- 90
 blockProp <- c(.5, .25, .25) # group proportions
 means <- diag(.4, 3) + 0.05  # connectivity matrix: affiliation network
-# In Bernoulli SBM, parameters is a list with a matrix of means mu which are probabilities of connexion
+# In Bernoulli SBM, parameters is a list with a
+# matrix of means 'mean' which are probabilities of connection
 connectParam <- list(mean = means)
 
 ## Graph Sampling
@@ -61,7 +62,8 @@ hist(mySampler$netMatrix)
 nbNodes  <- 90
 blockProp <- c(.5, .25, .25) # group proportions
 means <- diag(15., 3) + 5    # connectivity matrix: affiliation network
-# In Poisson SBM, parameters is a list with a matrix of means 'mean' which are a mean integer value taken by edges
+# In Poisson SBM, parameters is a list with
+# a matrix of means 'mean' which are a mean integer value taken by edges
 connectParam <- list(mean = means)
 
 ## Graph Sampling
@@ -76,7 +78,8 @@ hist(mySampler$netMatrix)
 nbNodes  <- 90
 blockProp <- c(.5, .25, .25)      # group proportions
 means <- diag(15., 3) + 5 # connectivity matrix: affiliation network
-# In Gaussian SBM, parameters is a list with a matrix of means 'mean' and a matrix of variances 'var'
+# In Gaussian SBM, parameters is a list with
+# a matrix of means 'mean' and a matrix of variances 'var'
 connectParam <- list(mean = means, var = 2)
 
 ## Graph Sampling

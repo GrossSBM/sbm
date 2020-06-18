@@ -135,7 +135,8 @@ estimateSimpleSBM <- function(netMat,
 #' nbNodes <- c(100, 120)
 #' blockProp <- list(c(.5, .5), c(1/3, 1/3, 1/3)) # group proportions
 #' means <- matrix(runif(6), 2, 3)  # connectivity matrix
-#' # In Bernoulli SBM, parameters is a list with a matrix of means 'mean' which are probabilities of connexion
+#' # In Bernoulli SBM, parameters is a list with a
+#' # matrix of means 'mean' which are probabilities of connection
 #' connectParam <- list(mean = means)
 #' mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'bernoulli')
 #'
