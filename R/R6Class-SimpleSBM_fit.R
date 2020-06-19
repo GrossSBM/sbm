@@ -87,6 +87,13 @@ SimpleSBM_fit <-
         }
         mu
       },
+      #' @description permute group labels by order of decreasing probability
+      reorder = function() {
+        o <- order(self$connectParam$mean %*% self$blockProp, decreasing = TRUE)
+        private$pi <- private$pi[o]
+        private$theta$mean <- private$theta$mean[o,o]
+        private$tau <- private$tau[, o, drop = FALSE]
+      },
       #' @description show method
       #' @param type character used to specify the type of SBM
       show = function(type = "Fit of a Simple Stochastic Block Model") super$show(type)

@@ -35,6 +35,7 @@ This class is designed to give a representation and adjust an LBM fitted with bl
 \item \href{#method-new}{\code{BipartiteSBM_fit$new()}}
 \item \href{#method-optimize}{\code{BipartiteSBM_fit$optimize()}}
 \item \href{#method-predict}{\code{BipartiteSBM_fit$predict()}}
+\item \href{#method-reorder}{\code{BipartiteSBM_fit$reorder()}}
 \item \href{#method-show}{\code{BipartiteSBM_fit$show()}}
 \item \href{#method-clone}{\code{BipartiteSBM_fit$clone()}}
 }
@@ -116,6 +117,16 @@ prediction under the currently estimated model
 }
 \if{html}{\out{</div>}}
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-reorder"></a>}}
+\if{latex}{\out{\hypertarget{method-reorder}{}}}
+\subsection{Method \code{reorder()}}{
+permute group labels by order of decreasing probability
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{BipartiteSBM_fit$reorder()}\if{html}{\out{</div>}}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-show"></a>}}

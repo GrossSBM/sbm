@@ -19,6 +19,7 @@ BipartiteSBM_sampler <-
         stopifnot(length(blockProp) ==  2,
                   length(blockProp[[1]]) ==  nrow(connectParam$mean),
                   length(blockProp[[2]]) ==  ncol(connectParam$mean))
+        names(blockProp) <- c("row", "col")
         super$initialize(model, nbNodes, blockProp, connectParam, covarParam, covarList)
         self$rIncidence()
       },

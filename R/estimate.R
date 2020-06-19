@@ -102,6 +102,9 @@ estimateSimpleSBM <- function(netMat,
   ## Perform optimization
   do.call(mySBM$optimize, currentOptions)
 
+  ## reordering according to large block/large probabilities
+  mySBM$reorder()
+
   ## Send back the SimpleSBM_fit Object
   mySBM
 }
@@ -194,6 +197,9 @@ estimateBipartiteSBM <- function(netMat,
 
   ## Perform optimization
   do.call(mySBM$optimize, currentOptions)
+
+  ## reordering according to large block/large probabilities
+  mySBM$reorder()
 
   ## Send back the SimpleSBM_fit Object
   mySBM

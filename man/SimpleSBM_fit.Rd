@@ -37,6 +37,7 @@ This class is designed to give a representation and adjust an SBM fitted with bl
 \item \href{#method-new}{\code{SimpleSBM_fit$new()}}
 \item \href{#method-optimize}{\code{SimpleSBM_fit$optimize()}}
 \item \href{#method-predict}{\code{SimpleSBM_fit$predict()}}
+\item \href{#method-reorder}{\code{SimpleSBM_fit$reorder()}}
 \item \href{#method-show}{\code{SimpleSBM_fit$show()}}
 \item \href{#method-clone}{\code{SimpleSBM_fit$clone()}}
 }
@@ -123,6 +124,16 @@ prediction under the currently estimated model
 \subsection{Returns}{
 a matrix of expected values for each dyad
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-reorder"></a>}}
+\if{latex}{\out{\hypertarget{method-reorder}{}}}
+\subsection{Method \code{reorder()}}{
+permute group labels by order of decreasing probability
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{SimpleSBM_fit$reorder()}\if{html}{\out{</div>}}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-show"></a>}}

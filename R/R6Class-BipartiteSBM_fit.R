@@ -82,6 +82,16 @@ BipartiteSBM_fit <-
         if (length(self$covList) > 0) mu <- private$invlink(private$link(mu) + self$covarEffect)
         mu
       },
+      #' @description permute group labels by order of decreasing probability
+      reorder = function() {
+        oRow <- order(self$connectParam$mean %*% self$blockProp$col, decreasing = TRUE)
+        oCol <- order(self$blockProp$row %*% self$connectParam$mean, decreasing = TRUE)
+        private$pi[[1]] <- private$pi[[1]][oRow]
+        private$pi[[2]] <- private$pi[[2]][oCol]
+        private$theta$mean <- private$theta$mean[oRow, oCol]
+        private$tau[[1]] <- private$tau[[1]][, oRow, drop = FALSE]
+        private$tau[[2]] <- private$tau[[2]][, oCol, drop = FALSE]
+      },
       #' @description show method
       #' @param type character used to specify the type of SBM
       show = function(type = "Fit of a Bipartite Stochastic Block Model") super$show(type)
