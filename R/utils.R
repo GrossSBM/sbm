@@ -37,8 +37,6 @@ check_boundaries <- function(x, zero = .Machine$double.eps) {
 #----------------------------------------------------------------------------------
 plotMatrix = function(Mat,rowFG,colFG, fileNameSave = NULL, clustering = NULL){
 
-
-
   n1 <- dim(Mat)[1]
   n2 <- dim(Mat)[2]
   u <- range(c(Mat))
