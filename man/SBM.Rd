@@ -94,13 +94,16 @@ basic matrix plot method for SBM object
 \describe{
 \item{\code{type}}{character for the type of plot: either 'data' (true connection) or 'expected' (fitted connection). Default to 'data'.}
 
-\item{\code{ordered}}{logical: should the rows and columns be reoredered according to the clustering? Default to \code{TRUE}.}
+\item{\code{ordered}}{logical: should the rows and columns be reordered according to the clustering? Default to \code{TRUE}.}
 
 \item{\code{rowLabel}}{character : type of the individual in row. Default to \code{NULL}.}
 
 \item{\code{colLabel}}{character : type of the individual in col. Default to \code{NULL}.}
 }
 \if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+a ggplot2 object
 }
 }
 \if{html}{\out{<hr>}}
