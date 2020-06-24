@@ -4,19 +4,29 @@
 \alias{plot.SBM}
 \title{SBM Plot}
 \usage{
-\method{plot}{SBM}(x, type = c("data", "expected"), ordered = TRUE, color = TRUE, ...)
+\method{plot}{SBM}(
+  x,
+  type = c("data", "expected"),
+  ordered = TRUE,
+  rowLabel = NULL,
+  colLabel = NULL,
+  ...
+)
 }
 \arguments{
-\item{x}{an R6 object inheriting from class SBM_fit (like SimpleSBM_fit or BipartiteSBM_fit)}
-
 \item{type}{character for the type of plot: either 'data' (true connection) or 'expected' (fitted connection). Default to 'data'.}
 
-\item{ordered}{logical: should the rows and columns be reordered according to the clustering? Default to \code{TRUE}.}
+\item{ordered}{logical: should the rows and columns be reoredered according to the clustering? Default to \code{TRUE}.}
 
-\item{color}{logical. Adapt colormap to the clustering. Default to \code{TRUE}.}
+\item{rowLabel}{character : type of the individual in row. Default to \code{NULL}.}
+
+\item{colLabel}{character : type of the individual in col. Default to \code{NULL}.}
 
 \item{...}{additional parameters for S3 compatibility. Not used}
 }
 \description{
+basic matrix plot method for SBM object
+}
+\details{
 Basic matrix plot method for SBM object
 }

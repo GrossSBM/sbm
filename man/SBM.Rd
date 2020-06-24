@@ -81,7 +81,12 @@ constructor for SBM
 \subsection{Method \code{plot()}}{
 basic matrix plot method for SBM object
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{SBM$plot(type = c("data", "expected"), ordered = TRUE, color = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{SBM$plot(
+  type = c("data", "expected"),
+  ordered = TRUE,
+  rowLabel = NULL,
+  colLabel = NULL
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -91,7 +96,9 @@ basic matrix plot method for SBM object
 
 \item{\code{ordered}}{logical: should the rows and columns be reoredered according to the clustering? Default to \code{TRUE}.}
 
-\item{\code{color}}{logical. Adapt colormap to the clustering. Default to \code{TRUE}.}
+\item{\code{rowLabel}}{character : type of the individual in row. Default to \code{NULL}.}
+
+\item{\code{colLabel}}{character : type of the individual in col. Default to \code{NULL}.}
 }
 \if{html}{\out{</div>}}
 }

@@ -32,7 +32,8 @@ Imports:
     R6,
     corrplot,
     Rcpp,
-    mvtnorm
+    mvtnorm,
+    ggplot2
 Collate: 
     'R6Class-SBM.R'
     'R6Class-SBM_fit.R'
@@ -45,6 +46,7 @@ Collate:
     'RcppExports.R'
     'VEM-ScoreSBM.R'
     'estimate.R'
+    'plotMyMatrix.R'
     'sample.R'
     'sbm-package.R'
     'utils-ScoreSBM.R'
