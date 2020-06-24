@@ -35,7 +35,7 @@ check_boundaries <- function(x, zero = .Machine$double.eps) {
 
 
 #----------------------------------------------------------------------------------
-plotMatrix = function(Mat,rowFG,colFG, fileNameSave = NULL, clustering = NULL){
+plotMatrix = function(Mat,rowFG,colFG, clustering = NULL){
 
   n1 <- dim(Mat)[1]
   n2 <- dim(Mat)[2]
@@ -87,7 +87,7 @@ plotMatrix = function(Mat,rowFG,colFG, fileNameSave = NULL, clustering = NULL){
     g <- g + geom_vline(data = sepCol,mapping = aes(xintercept = sep),col = 'grey')
     g <- g + geom_hline(data = sepRow,mapping = aes(yintercept = sep),col = 'grey')
   }
-  if (!is.null(fileNameSave)) { ggsave(fileNameSave, width = 20, height = 20, units = "cm") }else{g}
+  #if (!is.null(fileNameSave)) { ggsave(fileNameSave, width = 20, height = 20, units = "cm") }else{g}
   return(g)
 }
 

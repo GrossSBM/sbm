@@ -2,9 +2,9 @@
 % Please edit documentation in R/plotMyMatrix.R
 \name{plotMyMatrix}
 \alias{plotMyMatrix}
-\title{Plot my adjacency or incidence Matrix}
+\title{Plot an adjacency or incidence Matrix}
 \usage{
-plotMyMatrix(Mat, rowLabel = NULL, colLabel = NULL, fileNameSave = NULL)
+plotMyMatrix(Mat, rowLabel = NULL, colLabel = NULL)
 }
 \arguments{
 \item{Mat}{: a matrix representing the network}
@@ -12,14 +12,12 @@ plotMyMatrix(Mat, rowLabel = NULL, colLabel = NULL, fileNameSave = NULL)
 \item{rowLabel}{character : type of nodes in rows (functional group) (Default is \code{NULL})}
 
 \item{colLabel}{character :  type of nodes in columns (functional group) (Default is \code{NULL})}
-
-\item{fileNameSave}{character : name o fthe file to save the plot (Default is \code{NULL})}
 }
 \value{
 a ggplot object corresponding to the plot
 }
 \description{
-Plot my adjacency or incidence Matrix
+Plot an adjacency or incidence Matrix
 }
 \examples{
 M <-  matrix(sample(90,c(0,1),replace=TRUE),10,9)

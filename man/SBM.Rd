@@ -85,8 +85,7 @@ basic matrix plot method for SBM object
   type = c("data", "expected"),
   ordered = TRUE,
   rowLabel = NULL,
-  colLabel = NULL,
-  fileNameSave = NULL
+  colLabel = NULL
 )}\if{html}{\out{</div>}}
 }
 
@@ -100,8 +99,6 @@ basic matrix plot method for SBM object
 \item{\code{rowLabel}}{character : type of the individual in row. Default to \code{NULL}.}
 
 \item{\code{colLabel}}{character : type of the individual in col. Default to \code{NULL}.}
-
-\item{\code{fileNameSave}}{character : name of the file to save the plot Default to \code{NULL}.}
 }
 \if{html}{\out{</div>}}
 }

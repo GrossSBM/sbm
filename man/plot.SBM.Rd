@@ -10,7 +10,6 @@
   ordered = TRUE,
   rowLabel = NULL,
   colLabel = NULL,
-  fileNameSave = NULL,
   ...
 )
 }
@@ -22,8 +21,6 @@
 \item{rowLabel}{character : type of the individual in row. Default to \code{NULL}.}
 
 \item{colLabel}{character : type of the individual in col. Default to \code{NULL}.}
-
-\item{fileNameSave}{character : name of the file to save the plot Default to \code{NULL}.}
 
 \item{...}{additional parameters for S3 compatibility. Not used}
 }

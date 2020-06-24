@@ -59,9 +59,8 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       #' @param ordered logical: should the rows and columns be reoredered according to the clustering? Default to \code{TRUE}.
       #' @param rowLabel character : type of the individual in row. Default to \code{NULL}.
       #' @param colLabel character : type of the individual in col. Default to \code{NULL}.
-      #' @param fileNameSave character : name of the file to save the plot Default to \code{NULL}.
       #' @import ggplot2
-      plot = function(type = c('data', 'expected'), ordered = TRUE, rowLabel = NULL, colLabel = NULL, fileNameSave = NULL) {
+      plot = function(type = c('data', 'expected'), ordered = TRUE, rowLabel = NULL, colLabel = NULL) {
 
 
         Mat <- switch(match.arg(type), data = self$netMatrix, expected = self$predict())
@@ -78,7 +77,8 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
         if (is.null(rowLabel)) {rowLabel = ''}
 
 
-        P <- plotMatrix(Mat = Mat,rowFG = rowLabel,colFG = colLabel, fileNameSave = fileNameSave , clustering = cl)
+        P <- plotMatrix(Mat = Mat,rowFG = rowLabel,colFG = colLabel, clustering = cl)
+        P
         return(P)
       },
       #' @description print method
@@ -169,11 +169,10 @@ predict.SBM <- function(object, covarList = object$covarList, ...) {
 #' @param ordered logical: should the rows and columns be reoredered according to the clustering? Default to \code{TRUE}.
 #' @param rowLabel character : type of the individual in row. Default to \code{NULL}.
 #' @param colLabel character : type of the individual in col. Default to \code{NULL}.
-#' @param fileNameSave character : name of the file to save the plot Default to \code{NULL}.
 #' @param ... additional parameters for S3 compatibility. Not used
 #' @export
-plot.SBM = function(x, type = c('data', 'expected'), ordered = TRUE, rowLabel = NULL, colLabel = NULL, fileNameSave = NULL, ...){
-  x$plot(type, ordered, rowLabel, colLabel , fileNameSave)
+plot.SBM = function(x, type = c('data', 'expected'), ordered = TRUE, rowLabel = NULL, colLabel = NULL, ...){
+  x$plot(type, ordered, rowLabel, colLabel)
 }
 
 
