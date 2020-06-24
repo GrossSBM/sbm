@@ -56,15 +56,14 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       },
       #' @description basic matrix plot method for SBM object
       #' @param type character for the type of plot: either 'data' (true connection) or 'expected' (fitted connection). Default to 'data'.
-      #' @param ordered logical: should the rows and columns be reoredered according to the clustering? Default to \code{TRUE}.
+      #' @param ordered logical: should the rows and columns be reordered according to the clustering? Default to \code{TRUE}.
       #' @param rowLabel character : type of the individual in row. Default to \code{NULL}.
       #' @param colLabel character : type of the individual in col. Default to \code{NULL}.
+      #' @return a ggplot2 object
       #' @import ggplot2
       plot = function(type = c('data', 'expected'), ordered = TRUE, rowLabel = NULL, colLabel = NULL) {
 
-
         Mat <- switch(match.arg(type), data = self$netMatrix, expected = self$predict())
-
 
         if (ordered) {
           if (is.vector(self$memberships)) {cl = list(row = self$memberships)}
@@ -76,10 +75,8 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
         if (is.null(colLabel)) {colLabel = ''}
         if (is.null(rowLabel)) {rowLabel = ''}
 
-
         P <- plotMatrix(Mat = Mat,rowFG = rowLabel,colFG = colLabel, clustering = cl)
         P
-        return(P)
       },
       #' @description print method
       #' @param type character to tune the displayed name
@@ -165,14 +162,17 @@ predict.SBM <- function(object, covarList = object$covarList, ...) {
 #'
 #' Basic matrix plot method for SBM object
 #' @description basic matrix plot method for SBM object
+#' @param x a object inheriting from class SBM
 #' @param type character for the type of plot: either 'data' (true connection) or 'expected' (fitted connection). Default to 'data'.
 #' @param ordered logical: should the rows and columns be reoredered according to the clustering? Default to \code{TRUE}.
 #' @param rowLabel character : type of the individual in row. Default to \code{NULL}.
 #' @param colLabel character : type of the individual in col. Default to \code{NULL}.
 #' @param ... additional parameters for S3 compatibility. Not used
+#' @return a ggplot2 object
 #' @export
 plot.SBM = function(x, type = c('data', 'expected'), ordered = TRUE, rowLabel = NULL, colLabel = NULL, ...){
-  x$plot(type, ordered, rowLabel, colLabel)
+  p <- x$plot(type, ordered, rowLabel, colLabel)
+  p
 }
 
 

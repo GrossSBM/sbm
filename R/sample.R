@@ -29,7 +29,6 @@
 #' plot(mySampler)
 #' mySampler$rMemberships() # sample new memberships
 #' mySampler$rAdjacency()   # sample new adjacency matrix
-#' par(mfrow = c(1,2))
 #' plot(mySampler)
 #' hist(mySampler$netMatrix)
 #'
@@ -45,7 +44,6 @@
 #'
 #' ## Graph Sampling
 #' mySampler <- sampleSimpleSBM(nbNodes, blockProp, list(mean = means), model = "poisson")
-#' par(mfrow = c(1,2))
 #' plot(mySampler)
 #' hist(mySampler$netMatrix)
 #'
@@ -61,7 +59,6 @@
 #'
 #' ## Graph Sampling
 #' mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam, model = "gaussian")
-#' par(mfrow = c(1,2))
 #' plot(mySampler)
 #' hist(mySampler$netMatrix)
 #' @export
@@ -107,7 +104,6 @@ sampleSimpleSBM <- function(nbNodes,
 #' plot(mySampler)
 #' mySampler$rMemberships() # sample new memberships
 #' mySampler$rIncidence()   # sample new incidence matrix
-#' par(mfrow = c(1,2))
 #' plot(mySampler)
 #' hist(mySampler$netMatrix)
 #'
@@ -123,7 +119,6 @@ sampleSimpleSBM <- function(nbNodes,
 #'
 #' ## Graph Sampling
 #' mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'poisson')
-#' par(mfrow = c(1,2))
 #' plot(mySampler)
 #' hist(mySampler$netMatrix)
 #'
@@ -139,7 +134,6 @@ sampleSimpleSBM <- function(nbNodes,
 #'
 #' ## Graph Sampling
 #' mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'gaussian')
-#' par(mfrow = c(1,2))
 #' plot(mySampler)
 #' hist(mySampler$netMatrix)
 #'

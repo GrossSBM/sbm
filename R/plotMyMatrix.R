@@ -8,13 +8,9 @@
 #' @export
 #'
 #' @examples
-#' M <-  matrix(sample(90,c(0,1),replace=TRUE),10,9)
-#' plot.MyMatrix(M)
-plotMyMatrix = function(Mat,rowLabel = NULL, colLabel = NULL){
-
-  g <- plotMatrix(Mat,rowFG  = rowLabel,colFG = colLabel, clustering = NULL)
+#' M <- matrix(sample(90,c(0,1),replace=TRUE),10,9)
+#' plotMyMatrix(M)
+plotMyMatrix = function(Mat, rowLabel = NULL, colLabel = NULL){
+  g <- plotMatrix(Mat, rowFG = rowLabel, colFG = colLabel, clustering = NULL)
   g
-  return(g)
-
 }
-
