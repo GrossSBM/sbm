@@ -1,0 +1,98 @@
+---
+title: "Simple and Bipartite Stochastic Block Models"
+subtitle: "An illustration on antogonistic tree/fungus network"
+author: "team großBM"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 4
+bibliography: references.bib
+link-citations: yes
+vignette: >
+  %\VignetteIndexEntry{SBM_tree_fungus_network}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Preliminaries
+
+This vignette illustrates the use of the `estimateSBM` function and the methods accompanying the R6 classes `SimpleSBMfit` and `BipartiteSBMfit`. 
+
+### Requirements
+
+The packages required for the analysis are **sbm** plus some others for data manipulation and representation:
+
+```{r setup, message=FALSE, warning=FALSE}
+library(sbm)
+library(ggplot2)
+theme_set(theme_bw())
+library(igraph)
+library(alluvial)
+```
+
+### Data set: antagonistic tree/fungus interaction network
+
+We consider the fungus-tree interazction network studied by @tree_fungus_network, available with the package **sbm**:
+
+```{r import dataset}
+data("fungus_tree_network")
+str(fungus_tree_network, max.level = 1)
+```
+
+This data set provides information about $154$ fungi sampled on $51$ tree species. It is a list with the following entries:
+
+  - `fungi_list`: list of the fungus species names
+  - `tree_list` : list of the tree species names
+  - `fungus_tree` : binary fungus-tree interactions
+  - `tree_tree` : weighted tree-tree interactions (number of common fungal species two tree species host) 
+  - `covar_tree` : covariates associated to pairs of trees (namely genetic, taxonomic and geographic distances)
+
+### Mathematical Background
+
+See @blockmodels for details.
+
+## Analysis of the tree/fungus data
+
+### Tree-tree binary interaction networks
+
+```{r tree_tree_binary network}
+tree_tree_binary <- 1 * (fungus_tree_network$tree_tree != 0)
+```
+
+```{r tree_tree_binary network plot data}
+corrplot::corrplot(tree_tree_binary, is.corr = FALSE, method = "color", cl.pos = "n")
+```
+
+```{r simpleSBM}
+mySimpleSBM <- tree_tree_binary %>% 
+  estimateSimpleSBM("bernoulli", estimOptions = list(verbosity = 0))
+```
+
+```{r}
+mySimpleSBM$nbBlocks
+mySimpleSBM$plot(type = 'expected')
+```
+```{r simpleSBM ICL}
+mySimpleSBM$storedModels %>% 
+  ggplot() + aes(x = nbBlocks, y = ICL) + geom_line() + geom_point(alpha = 0.5)
+```
+```{r changeModel}
+mySimpleSBM$setModel(4)
+mySimpleSBM$nbBlocks
+mySimpleSBM$plot(type = 'expected')
+```
+
+
+### Analysis of weigthed interaction network
+
+
+## References
+

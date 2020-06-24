@@ -19,7 +19,12 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.0
 Suggests: 
     testthat,
-    spelling
+    spelling,
+    knitr,
+    rmarkdown,
+    alluvial,
+    igraph,
+    ggplot2
 Language: en-US
 Imports: 
     magrittr,
@@ -48,3 +53,6 @@ Collate:
 LinkingTo: 
     Rcpp,
     RcppArmadillo
+VignetteBuilder: knitr
+Depends: 
+    R (>= 2.10)
