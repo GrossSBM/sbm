@@ -37,9 +37,15 @@ check_boundaries <- function(x, zero = .Machine$double.eps) {
 #----------------------------------------------------------------------------------
 plotMatrix = function(Mat, rowFG, colFG, clustering = NULL){
 
+
+
   n1 <- dim(Mat)[1]
   n2 <- dim(Mat)[2]
   u <- range(c(Mat))
+
+  binary = FALSE
+  val <- sort(unique(c(Mat)))
+  if (setequal(val ,c(0,1))) {binary = TRUE}
 
   if (!is.null(clustering)) {
     l <- length(clustering)
@@ -72,11 +78,14 @@ plotMatrix = function(Mat, rowFG, colFG, clustering = NULL){
   link = rep(-10,dim(Mat)[2]*dim(Mat)[1])
   for (k in 1:(dim(Mat)[2] * dim(Mat)[1])) {link[k] = Mat[index_row[k],index_col[k]]}
   melted_Mat$link = link
+  if (binary){melted_Mat$link <- as.factor(melted_Mat$link)}
   colnames(melted_Mat) <- c('index_row', 'index_col', 'link')
 
   g <- ggplot(data = melted_Mat, aes(y = index_row, x = index_col, fill = link))
-  g <- g + geom_tile() + scale_fill_gradient(low = "white", high = "black", limits = u)
-  g <- g + theme_bw() +  scale_x_discrete(drop = FALSE) + scale_y_discrete(drop = FALSE)
+  g <- g + geom_tile()
+  if (!binary) {g <-  g +  scale_fill_gradient(low = "white", high = "black", limits = u,na.value = "transparent")}
+  if (binary) {g <- g + scale_fill_manual(breaks = c("0", "1"),values = c("white", "black"),na.value = "transparent")}
+  g <- g  +  scale_x_discrete(drop = FALSE) + scale_y_discrete(drop = FALSE)
   g <- g + theme(axis.text.x = element_text(angle = 270, hjust = 0))
   g <- g +  labs(x = colFG, y = rowFG) +  theme(aspect.ratio = n1/n2)
 

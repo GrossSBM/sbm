@@ -56,15 +56,18 @@ This data set provides information about $154$ fungi sampled on $51$ tree specie
   - `tree_tree` : weighted tree-tree interactions (number of common fungal species two tree species host) 
   - `covar_tree` : covariates associated to pairs of trees (namely genetic, taxonomic and geographic distances)
 
+
+We first consider the tree-tree interactions resulting into a Simple Network. Then we consider the bipartite network between trees and  fungi. 
+
 ### Mathematical Background
 
 See @blockmodels for details.
 
-## Analysis of the tree/fungus data
+## Analysis of the tree/tree data
 
 ### Tree-tree binary interaction networks
 
-We first the binary network where an edge is drawn between two trees when they do share a least one common fungi:
+We first consider the binary network where an edge is drawn between two trees when they do share a least one common fungi:
 
 ```{r tree_tree_binary network}
 tree_tree_binary <- 1 * (fungus_tree_network$tree_tree != 0)
@@ -74,7 +77,6 @@ The simple function `plotMyMatrix` can be use to represent simple or bipartite S
 
 ```{r tree_tree_binary network plot data}
 plotMyMatrix(tree_tree_binary, rowLabel = 'tree', colLabel = 'tree')
-
 ```
 We look for some latent structure of the network by adjusting a simple SBM with the function `estimateSimpleSBM`.
 
@@ -98,15 +100,18 @@ mySimpleSBM$nbBlocks
 mySimpleSBM$nbNodes
 mySimpleSBM$nbCovariates
 ```
+
 The plot method is available as a S3 or R6 method. The default represents the network data reordered according to the memberships estimated in the SBM
 ```{r simpleSBMfit plot1}
 plot(mySimpleSBM, type = "data", rowLabel = 'tree', colLabel = 'tree')
 ```
+
 One can also plot the expected network which, in case of the Bernoulli model, corresponds to the probability of connection between any pair of nodes in the network.
 ```{r simpleSBMfit plot2}
 plot(mySimpleSBM, type = "expected", rowLabel = 'tree', colLabel = 'tree')
 ```
-### About model selection and choice of the number of blocks
+
+#### About model selection and choice of the number of blocks
 
 During the estimation, a certain range of models are explored corresponding to different number of blocks. By default, the best model in terms of Integrated Classification Likelihood is sent back. IN fact, all the model are stored internally. The user can have a quick glance at them via the `$storedModels` field:
 
@@ -129,9 +134,104 @@ mySimpleSBM$nbBlocks
 mySimpleSBM$plot(type = 'expected', rowLabel = 'tree', colLabel = 'tree')
 ```
 
-### Analysis of weighted interaction network
+### Analysis of the weighted interaction network
 
-In progress
+Instead of considering the binay network tree-tree we may consider the weighted network where the linik between two trees is the number of fungi they share. 
+
+We plot the matrix with function `plotMyMatrix`: 
+
+```{r tree_tree network plot data}
+tree_tree <- fungus_tree_network$tree_tree
+plotMyMatrix(tree_tree, rowLabel = 'tree', colLabel = 'tree')
+```
+
+Here again, we look for some latent structure of the network by adjusting a simple SBM with the function `estimateSimpleSBM`, considering a Poisson distribution on the edges. 
+
+```{r simpleSBM Poisson} 
+mySimpleSBMPoisson <- tree_tree %>% 
+  estimateSimpleSBM("poisson", estimOptions = list(verbosity = 0))
+```
+
+Once fitted, the user can manipulate the fitted model by accessing the various fields and methods enjoyed by the class `simpleSBMfit`. Most important fields and methods are recalled to the user via the `show` method:
+
+
+```{r simpleSBMfitPoisson}
+class(mySimpleSBMPoisson)
+mySimpleSBMPoisson
+```
+
+For instance, 
+
+```{r impleSBMfitPoison fields}
+mySimpleSBMPoisson$nbBlocks
+mySimpleSBMPoisson$nbNodes
+mySimpleSBMPoisson$nbCovariates
+```
+
+We now plot the matrix reordered according to the memberships estimated in the SBM
+```{r simpleSBMfitPoisson plot1}
+plot(mySimpleSBMPoisson, type = "data", rowLabel = 'tree', colLabel = 'tree')
+```
+
+One can also plot the expected network which, in case of the Poisson model, corresponds to the expection  of connection between any pair of nodes in the network.
+```{r simpleSBMfitPoisson plot2}
+plot(mySimpleSBMPoisson, type = "expected", rowLabel = 'tree', colLabel = 'tree')
+```
+
+The same manipulations can be made on the models as before. 
+
+### Introduction of covariates
+
+We have on each pair of trees 3 covariates, namely the genetic distance, the taxonomic distance and the geographic distance. 
+Each covariate has to be introduced as a  matrix: $X^k_{ij}$ corresponds to the value of the $k$-th covariate describing the couple $(i,j)$. 
+
+```{r covar SBM,echo=TRUE,eval= TRUE}
+sbm.cov <- estimateSimpleSBM(netMat = as.matrix(tree_tree),model = 'poisson',directed =FALSE, covariates  = fungus_tree_network$covar_tree,estimOptions = list(verbosity = 0))
+```
+
+- We select the best number of clusters (with respect to the ICL criteria)
+
+```{r select SBM covar, echo=TRUE, eval = TRUE}
+Q <- sbm.cov$nbBlocks
+Q
+``` 
+
+- We can now extract the parameters of interest, namely ($\lambda$, $\pi$) and the clustering of the nodes. 
+```{r extract param SBM poisson covar, echo=TRUE, eval = TRUE}
+sbm.cov$connnectParam
+sbm.cov$blockProp
+sbm.cov$memberships
+sbm.cov$covarParam
+```
+
+
+ 
+  
+## Analysis of the tree/fungi data
+
+We now analyse the bipartite tree/fungi interactions. The incidence matrix can be plotted with the function \cote{plotMyMatrix}
+
+```{r plot incidence}
+plotMyMatrix(fungus_tree_network$fungus_tree, rowLabel = 'fungis',colLabel = 'tree')
+```
+
+
+```{r tree_fungi_bipartite network}
+bipartite.sbm <- estimateBipartiteSBM(netMat = as.matrix(fungus_tree_network$fungus_tree),model = 'bernoulli',estimOptions = list(verbosity = 0))
+```
+
+```{r bipartite.sbm fields}
+bipartite.sbm$nbNodes
+bipartite.sbm$nbBlocks
+bipartite.sbm$connectParam
+```
+
+We can now plot the reorganized matrix. 
+
+```{r plot bipartite}
+plot(bipartite.sbm, rowLabel = 'fungis',colLabel = 'tree')
+```
+
 
 ## References
 
