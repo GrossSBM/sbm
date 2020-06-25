@@ -8,13 +8,12 @@
 #' @export
 #'
 #' @examples
-#' M <-  matrix(sample(90,c(0,1),replace=TRUE),10,9)
-#' plot.MyMatrix(M)
-plotMyMatrix = function(Mat,rowLabel = NULL, colLabel = NULL){
-
-  g <- plotMatrix(Mat,rowFG  = rowLabel,colFG = colLabel, clustering = NULL)
+#' M <- matrix(sample(c(0,1),900,replace=TRUE),30,30)
+#' plotMyMatrix(M)
+#' M2 <- matrix(rpois(800,10),40,20)
+#' plotMyMatrix(M2,rowLabel='ind',colLabel = 'book')
+#'
+plotMyMatrix = function(Mat, rowLabel = NULL, colLabel = NULL){
+  g <- plotMatrix(Mat, rowFG = rowLabel, colFG = colLabel, clustering = NULL)
   g
-  return(g)
-
 }
-
