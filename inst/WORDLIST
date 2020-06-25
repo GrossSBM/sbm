@@ -13,6 +13,7 @@ estimatedNetwork
 exploreFactor
 ggplot
 ICL
+ij
 Laure
 LBM
 Lifecycle
@@ -26,12 +27,14 @@ ORCID
 Piou
 PloS
 ploting
+plotMyMatrix
 predictedNetwork
 reoredered
 SBMs
 ScoreSBM
 SimpleSBM
 storedModels
+th
 undirected
 Vacher
 variational

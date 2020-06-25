@@ -136,7 +136,7 @@ mySimpleSBM$plot(type = 'expected', rowLabel = 'tree', colLabel = 'tree')
 
 ### Analysis of the weighted interaction network
 
-Instead of considering the binay network tree-tree we may consider the weighted network where the linik between two trees is the number of fungi they share. 
+Instead of considering the binary network tree-tree we may consider the weighted network where the link between two trees is the number of fungi they share. 
 
 We plot the matrix with function `plotMyMatrix`: 
 
@@ -173,7 +173,7 @@ We now plot the matrix reordered according to the memberships estimated in the S
 plot(mySimpleSBMPoisson, type = "data", rowLabel = 'tree', colLabel = 'tree')
 ```
 
-One can also plot the expected network which, in case of the Poisson model, corresponds to the expection  of connection between any pair of nodes in the network.
+One can also plot the expected network which, in case of the Poisson model, corresponds to the expectation of connection between any pair of nodes in the network.
 ```{r simpleSBMfitPoisson plot2}
 plot(mySimpleSBMPoisson, type = "expected", rowLabel = 'tree', colLabel = 'tree')
 ```
@@ -209,7 +209,7 @@ sbm.cov$covarParam
   
 ## Analysis of the tree/fungi data
 
-We now analyse the bipartite tree/fungi interactions. The incidence matrix can be plotted with the function \cote{plotMyMatrix}
+We now analyze the bipartite tree/fungi interactions. The incidence matrix can be plotted with the function \cote{plotMyMatrix}
 
 ```{r plot incidence}
 plotMyMatrix(fungus_tree_network$fungus_tree, rowLabel = 'fungis',colLabel = 'tree')

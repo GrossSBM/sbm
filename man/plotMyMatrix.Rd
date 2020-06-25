@@ -20,6 +20,9 @@ a ggplot object corresponding to the plot
 Plot an adjacency or incidence Matrix
 }
 \examples{
-M <- matrix(sample(90,c(0,1),replace=TRUE),10,9)
+M <- matrix(sample(c(0,1),900,replace=TRUE),30,30)
 plotMyMatrix(M)
+M2 <- matrix(rpois(800,10),40,20)
+plotMyMatrix(M2,rowLabel='ind',colLabel = 'book')
+
 }
