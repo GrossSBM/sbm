@@ -89,7 +89,7 @@
             <h3 class="subtitle">An illustration on antogonistic tree/fungus network</h3>
                         <h4 class="author">team großBM</h4>
             
-            <h4 class="date">2020-06-24</h4>
+            <h4 class="date">2020-06-25</h4>
       
       
       <div class="hidden name"><code>SBM_fungus_tree_network.Rmd</code></div>
@@ -142,6 +142,7 @@
 <li>
 <code>covar_tree</code> : covariates associated to pairs of trees (namely genetic, taxonomic and geographic distances)</li>
 </ul>
+<p>We first consider the tree-tree interactions resulting into a Simple Network. Then we consider the bipartite network between trees and fungi.</p>
 </div>
 <div id="mathematical-background" class="section level3">
 <h3 class="hasAnchor">
@@ -149,13 +150,13 @@
 <p>See <span class="citation">Leger (<a href="#ref-blockmodels" role="doc-biblioref">2016</a>)</span> for details.</p>
 </div>
 </div>
-<div id="analysis-of-the-treefungus-data" class="section level2">
+<div id="analysis-of-the-treetree-data" class="section level2">
 <h2 class="hasAnchor">
-<a href="#analysis-of-the-treefungus-data" class="anchor"></a>Analysis of the tree/fungus data</h2>
+<a href="#analysis-of-the-treetree-data" class="anchor"></a>Analysis of the tree/tree data</h2>
 <div id="tree-tree-binary-interaction-networks" class="section level3">
 <h3 class="hasAnchor">
 <a href="#tree-tree-binary-interaction-networks" class="anchor"></a>Tree-tree binary interaction networks</h3>
-<p>We first the binary network where an edge is drawn between two trees when they do share a least one common fungi:</p>
+<p>We first consider the binary network where an edge is drawn between two trees when they do share a least one common fungi:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit">
 <span class="kw">tree_tree_binary</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">*</span> (<span class="kw">fungus_tree_network</span><span class="op">$</span><span class="kw">tree_tree</span> != <span class="fl">0</span>)
 </pre></div>
@@ -197,11 +198,15 @@
 <div class="sourceCode" id="cb8"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">mySimpleSBM</span>, type = <span class="st">"data"</span>, rowLabel = <span class="st">'tree'</span>, colLabel = <span class="st">'tree'</span>)
 </pre></div>
-<p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBMfit%20plot1-1.png" width="700"> One can also plot the expected network which, in case of the Bernoulli model, corresponds to the probability of connection between any pair of nodes in the network.</p>
+<p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBMfit%20plot1-1.png" width="700"></p>
+<p>One can also plot the expected network which, in case of the Bernoulli model, corresponds to the probability of connection between any pair of nodes in the network.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">mySimpleSBM</span>, type = <span class="st">"expected"</span>, rowLabel = <span class="st">'tree'</span>, colLabel = <span class="st">'tree'</span>)
 </pre></div>
-<p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBMfit%20plot2-1.png" width="700"> ### About model selection and choice of the number of blocks</p>
+<p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBMfit%20plot2-1.png" width="700"></p>
+<div id="about-model-selection-and-choice-of-the-number-of-blocks" class="section level4">
+<h4 class="hasAnchor">
+<a href="#about-model-selection-and-choice-of-the-number-of-blocks" class="anchor"></a>About model selection and choice of the number of blocks</h4>
 <p>During the estimation, a certain range of models are explored corresponding to different number of blocks. By default, the best model in terms of Integrated Classification Likelihood is sent back. IN fact, all the model are stored internally. The user can have a quick glance at them via the <code>$storedModels</code> field:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit">
 <span class="kw">mySimpleSBM</span><span class="op">$</span><span class="kw">storedModels</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>()
@@ -279,11 +284,123 @@
 </pre></div>
 <p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBMfit%20changeModel-1.png" width="700"></p>
 </div>
-<div id="analysis-of-weighted-interaction-network" class="section level3">
-<h3 class="hasAnchor">
-<a href="#analysis-of-weighted-interaction-network" class="anchor"></a>Analysis of weighted interaction network</h3>
-<p>In progress</p>
 </div>
+<div id="analysis-of-the-weighted-interaction-network" class="section level3">
+<h3 class="hasAnchor">
+<a href="#analysis-of-the-weighted-interaction-network" class="anchor"></a>Analysis of the weighted interaction network</h3>
+<p>Instead of considering the binay network tree-tree we may consider the weighted network where the linik between two trees is the number of fungi they share.</p>
+<p>We plot the matrix with function <code>plotMyMatrix</code>:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit">
+<span class="kw">tree_tree</span> <span class="op">&lt;-</span> <span class="kw">fungus_tree_network</span><span class="op">$</span><span class="kw">tree_tree</span>
+<span class="fu"><a href="../reference/plotMyMatrix.html">plotMyMatrix</a></span>(<span class="kw">tree_tree</span>, rowLabel = <span class="st">'tree'</span>, colLabel = <span class="st">'tree'</span>)
+</pre></div>
+<p><img src="SBM_fungus_tree_network_files/figure-html/tree_tree%20network%20plot%20data-1.png" width="700"></p>
+<p>Here again, we look for some latent structure of the network by adjusting a simple SBM with the function <code>estimateSimpleSBM</code>, considering a Poisson distribution on the edges.</p>
+<div class="sourceCode" id="cb14"><pre class="downlit">
+<span class="kw">mySimpleSBMPoisson</span> <span class="op">&lt;-</span> <span class="kw">tree_tree</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/estimateSimpleSBM.html">estimateSimpleSBM</a></span>(<span class="st">"poisson"</span>, estimOptions = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(verbosity = <span class="fl">0</span>))
+</pre></div>
+<p>Once fitted, the user can manipulate the fitted model by accessing the various fields and methods enjoyed by the class <code>simpleSBMfit</code>. Most important fields and methods are recalled to the user via the <code>show</code> method:</p>
+<div class="sourceCode" id="cb15"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span>(<span class="kw">mySimpleSBMPoisson</span>)
+<span class="co">#&gt; [1] "SimpleSBM_fit" "SBM_fit"       "SBM"           "R6"</span>
+<span class="kw">mySimpleSBMPoisson</span>
+<span class="co">#&gt; Fit of a Simple Stochastic Block Model -- poisson variant</span>
+<span class="co">#&gt; =====================================================================</span>
+<span class="co">#&gt; Dimension = ( 51 51 ) - ( 7 ) blocks and no covariate(s).</span>
+<span class="co">#&gt; =====================================================================</span>
+<span class="co">#&gt; * Useful fields </span>
+<span class="co">#&gt;   $dimension, $modelName, $nbNodes, $nbBlocks, $nbCovariates, $nbDyads</span>
+<span class="co">#&gt;   $blockProp, $connectParam, covarParam, $covarList, $covarEffect </span>
+<span class="co">#&gt;   $probMemberships, $memberships, $loglik, $ICL, $storedModels, $setModel </span>
+<span class="co">#&gt; * S3 methods </span>
+<span class="co">#&gt;   plot, print, coef, predict, fitted</span>
+</pre></div>
+<p>For instance,</p>
+<div class="sourceCode" id="cb16"><pre class="downlit">
+<span class="kw">mySimpleSBMPoisson</span><span class="op">$</span><span class="kw">nbBlocks</span>
+<span class="co">#&gt; [1] 7</span>
+<span class="kw">mySimpleSBMPoisson</span><span class="op">$</span><span class="kw">nbNodes</span>
+<span class="co">#&gt; [1] 51</span>
+<span class="kw">mySimpleSBMPoisson</span><span class="op">$</span><span class="kw">nbCovariates</span>
+<span class="co">#&gt; [1] 0</span>
+</pre></div>
+<p>We now plot the matrix reordered according to the memberships estimated in the SBM</p>
+<div class="sourceCode" id="cb17"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">mySimpleSBMPoisson</span>, type = <span class="st">"data"</span>, rowLabel = <span class="st">'tree'</span>, colLabel = <span class="st">'tree'</span>)
+</pre></div>
+<p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBMfitPoisson%20plot1-1.png" width="700"></p>
+<p>One can also plot the expected network which, in case of the Poisson model, corresponds to the expection of connection between any pair of nodes in the network.</p>
+<div class="sourceCode" id="cb18"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">mySimpleSBMPoisson</span>, type = <span class="st">"expected"</span>, rowLabel = <span class="st">'tree'</span>, colLabel = <span class="st">'tree'</span>)
+</pre></div>
+<p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBMfitPoisson%20plot2-1.png" width="700"></p>
+<p>The same manipulations can be made on the models as before.</p>
+</div>
+<div id="introduction-of-covariates" class="section level3">
+<h3 class="hasAnchor">
+<a href="#introduction-of-covariates" class="anchor"></a>Introduction of covariates</h3>
+<p>We have on each pair of trees 3 covariates, namely the genetic distance, the taxonomic distance and the geographic distance. Each covariate has to be introduced as a matrix: <span class="math inline">\(X^k_{ij}\)</span> corresponds to the value of the <span class="math inline">\(k\)</span>-th covariate describing the couple <span class="math inline">\((i,j)\)</span>.</p>
+<div class="sourceCode" id="cb19"><pre class="downlit">
+<span class="kw">sbm.cov</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/estimateSimpleSBM.html">estimateSimpleSBM</a></span>(netMat = <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span>(<span class="kw">tree_tree</span>),model = <span class="st">'poisson'</span>,directed =<span class="fl">FALSE</span>, covariates  = <span class="kw">fungus_tree_network</span><span class="op">$</span><span class="kw">covar_tree</span>,estimOptions = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(verbosity = <span class="fl">0</span>))
+</pre></div>
+<ul>
+<li>We select the best number of clusters (with respect to the ICL criteria)</li>
+</ul>
+<div class="sourceCode" id="cb20"><pre class="downlit">
+<span class="kw">Q</span> <span class="op">&lt;-</span> <span class="kw">sbm.cov</span><span class="op">$</span><span class="kw">nbBlocks</span>
+<span class="kw">Q</span>
+<span class="co">#&gt; [1] 4</span>
+</pre></div>
+<ul>
+<li>We can now extract the parameters of interest, namely (<span class="math inline">\(\lambda\)</span>, <span class="math inline">\(\pi\)</span>) and the clustering of the nodes.</li>
+</ul>
+<div class="sourceCode" id="cb21"><pre class="downlit">
+<span class="kw">sbm.cov</span><span class="op">$</span><span class="kw">connnectParam</span>
+<span class="co">#&gt; NULL</span>
+<span class="kw">sbm.cov</span><span class="op">$</span><span class="kw">blockProp</span>
+<span class="co">#&gt; [1] 0.3715916 0.2159544 0.2354119 0.1770422</span>
+<span class="kw">sbm.cov</span><span class="op">$</span><span class="kw">memberships</span>
+<span class="co">#&gt;  [1] 1 1 2 1 2 2 4 4 2 1 3 1 1 1 1 2 1 2 3 3 2 1 2 1 3 3 2 1 3 2 3 1 4 1 1 3 1 3</span>
+<span class="co">#&gt; [39] 4 1 1 3 2 4 4 1 4 4 3 3 4</span>
+<span class="kw">sbm.cov</span><span class="op">$</span><span class="kw">covarParam</span>
+<span class="co">#&gt;            [,1]</span>
+<span class="co">#&gt; [1,]  0.1976271</span>
+<span class="co">#&gt; [2,] -2.0549301</span>
+<span class="co">#&gt; [3,] -0.3582397</span>
+</pre></div>
+</div>
+</div>
+<div id="analysis-of-the-treefungi-data" class="section level2">
+<h2 class="hasAnchor">
+<a href="#analysis-of-the-treefungi-data" class="anchor"></a>Analysis of the tree/fungi data</h2>
+<p>We now analyse the bipartite tree/fungi interactions. The incidence matrix can be plotted with the function </p>
+<div class="sourceCode" id="cb22"><pre class="downlit">
+<span class="fu"><a href="../reference/plotMyMatrix.html">plotMyMatrix</a></span>(<span class="kw">fungus_tree_network</span><span class="op">$</span><span class="kw">fungus_tree</span>, rowLabel = <span class="st">'fungis'</span>,colLabel = <span class="st">'tree'</span>)
+</pre></div>
+<p><img src="SBM_fungus_tree_network_files/figure-html/plot%20incidence-1.png" width="700"></p>
+<div class="sourceCode" id="cb23"><pre class="downlit">
+<span class="kw">bipartite.sbm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/estimateBipartiteSBM.html">estimateBipartiteSBM</a></span>(netMat = <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span>(<span class="kw">fungus_tree_network</span><span class="op">$</span><span class="kw">fungus_tree</span>),model = <span class="st">'bernoulli'</span>,estimOptions = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(verbosity = <span class="fl">0</span>))
+</pre></div>
+<div class="sourceCode" id="cb24"><pre class="downlit">
+<span class="kw">bipartite.sbm</span><span class="op">$</span><span class="kw">nbNodes</span>
+<span class="co">#&gt; [1] 154  51</span>
+<span class="kw">bipartite.sbm</span><span class="op">$</span><span class="kw">nbBlocks</span>
+<span class="co">#&gt; row col </span>
+<span class="co">#&gt;   4   4</span>
+<span class="kw">bipartite.sbm</span><span class="op">$</span><span class="kw">connectParam</span>
+<span class="co">#&gt; $mean</span>
+<span class="co">#&gt;            [,1]        [,2]        [,3]        [,4]</span>
+<span class="co">#&gt; [1,] 0.96813478 0.077538579 0.840370657 0.067563355</span>
+<span class="co">#&gt; [2,] 0.52055882 0.584398216 0.230893917 0.107930384</span>
+<span class="co">#&gt; [3,] 0.32450427 0.003624764 0.098526840 0.005780612</span>
+<span class="co">#&gt; [4,] 0.01834547 0.154334411 0.001330278 0.019219920</span>
+</pre></div>
+<p>We can now plot the reorganized matrix.</p>
+<div class="sourceCode" id="cb25"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">bipartite.sbm</span>, rowLabel = <span class="st">'fungis'</span>,colLabel = <span class="st">'tree'</span>)
+</pre></div>
+<p><img src="SBM_fungus_tree_network_files/figure-html/plot%20bipartite-1.png" width="700"></p>
 </div>
 <div id="references" class="section level2 unnumbered">
 <h2 class="hasAnchor">
