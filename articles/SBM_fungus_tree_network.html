@@ -288,7 +288,7 @@
 <div id="analysis-of-the-weighted-interaction-network" class="section level3">
 <h3 class="hasAnchor">
 <a href="#analysis-of-the-weighted-interaction-network" class="anchor"></a>Analysis of the weighted interaction network</h3>
-<p>Instead of considering the binay network tree-tree we may consider the weighted network where the linik between two trees is the number of fungi they share.</p>
+<p>Instead of considering the binary network tree-tree we may consider the weighted network where the link between two trees is the number of fungi they share.</p>
 <p>We plot the matrix with function <code>plotMyMatrix</code>:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit">
 <span class="kw">tree_tree</span> <span class="op">&lt;-</span> <span class="kw">fungus_tree_network</span><span class="op">$</span><span class="kw">tree_tree</span>
@@ -330,7 +330,7 @@
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">mySimpleSBMPoisson</span>, type = <span class="st">"data"</span>, rowLabel = <span class="st">'tree'</span>, colLabel = <span class="st">'tree'</span>)
 </pre></div>
 <p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBMfitPoisson%20plot1-1.png" width="700"></p>
-<p>One can also plot the expected network which, in case of the Poisson model, corresponds to the expection of connection between any pair of nodes in the network.</p>
+<p>One can also plot the expected network which, in case of the Poisson model, corresponds to the expectation of connection between any pair of nodes in the network.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">mySimpleSBMPoisson</span>, type = <span class="st">"expected"</span>, rowLabel = <span class="st">'tree'</span>, colLabel = <span class="st">'tree'</span>)
 </pre></div>
@@ -374,7 +374,7 @@
 <div id="analysis-of-the-treefungi-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#analysis-of-the-treefungi-data" class="anchor"></a>Analysis of the tree/fungi data</h2>
-<p>We now analyse the bipartite tree/fungi interactions. The incidence matrix can be plotted with the function </p>
+<p>We now analyze the bipartite tree/fungi interactions. The incidence matrix can be plotted with the function </p>
 <div class="sourceCode" id="cb22"><pre class="downlit">
 <span class="fu"><a href="../reference/plotMyMatrix.html">plotMyMatrix</a></span>(<span class="kw">fungus_tree_network</span><span class="op">$</span><span class="kw">fungus_tree</span>, rowLabel = <span class="st">'fungis'</span>,colLabel = <span class="st">'tree'</span>)
 </pre></div>
