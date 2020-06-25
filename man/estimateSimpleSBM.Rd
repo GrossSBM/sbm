@@ -53,7 +53,6 @@ adjacencyMatrix <- mySampler$netMatrix
 
 ## Estimation
 mySimpleSBM <- estimateSimpleSBM(adjacencyMatrix, 'bernoulli')
-par(mfrow = c(2,2))
 plot(mySimpleSBM, 'data', ordered = FALSE)
 plot(mySimpleSBM, 'data')
 plot(mySimpleSBM, 'expected', ordered = FALSE)
@@ -72,7 +71,6 @@ adjacencyMatrix <- mySampler$netMatrix
 
 ## Estimation
 mySimpleSBM <- estimateSimpleSBM(adjacencyMatrix, 'poisson')
-par(mfrow = c(2,2))
 plot(mySimpleSBM, 'data', ordered = FALSE)
 plot(mySimpleSBM, 'data')
 plot(mySimpleSBM, 'expected', ordered = FALSE)
@@ -90,7 +88,6 @@ mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam, model = "gaussian
 
 ## Estimation
 mySimpleSBM <- estimateSimpleSBM(mySampler$netMatrix, 'gaussian')
-par(mfrow = c(2,2))
 plot(mySimpleSBM, 'data', ordered = FALSE)
 plot(mySimpleSBM, 'data')
 plot(mySimpleSBM, 'expected', ordered = FALSE)

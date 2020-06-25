@@ -14,6 +14,8 @@
 )
 }
 \arguments{
+\item{x}{a object inheriting from class SBM}
+
 \item{type}{character for the type of plot: either 'data' (true connection) or 'expected' (fitted connection). Default to 'data'.}
 
 \item{ordered}{logical: should the rows and columns be reoredered according to the clustering? Default to \code{TRUE}.}
@@ -23,6 +25,9 @@
 \item{colLabel}{character : type of the individual in col. Default to \code{NULL}.}
 
 \item{...}{additional parameters for S3 compatibility. Not used}
+}
+\value{
+a ggplot2 object
 }
 \description{
 basic matrix plot method for SBM object

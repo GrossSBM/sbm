@@ -49,7 +49,6 @@ mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'berno
 plot(mySampler)
 mySampler$rMemberships() # sample new memberships
 mySampler$rIncidence()   # sample new incidence matrix
-par(mfrow = c(1,2))
 plot(mySampler)
 hist(mySampler$netMatrix)
 
@@ -65,7 +64,6 @@ connectParam <- list(mean = means)
 
 ## Graph Sampling
 mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'poisson')
-par(mfrow = c(1,2))
 plot(mySampler)
 hist(mySampler$netMatrix)
 
@@ -81,7 +79,6 @@ connectParam <- list(mean = means, var = 1)
 
 ## Graph Sampling
 mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'gaussian')
-par(mfrow = c(1,2))
 plot(mySampler)
 hist(mySampler$netMatrix)
 

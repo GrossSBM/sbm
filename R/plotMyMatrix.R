@@ -13,6 +13,7 @@
 #' M2 <- matrix(rpois(800,10),40,20)
 #' plotMyMatrix(M2,rowLabel='ind',colLabel = 'book')
 #'
+
 plotMyMatrix = function(Mat, rowLabel = NULL, colLabel = NULL){
   g <- plotMatrix(Mat, rowFG = rowLabel, colFG = colLabel, clustering = NULL)
   g

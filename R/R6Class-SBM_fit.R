@@ -51,6 +51,7 @@ SBM_fit <- # this virtual class is the mother of all subtypes of SBM (Simple or 
         stopifnot(!is.null(private$BMobject))
         stopifnot(index %in% seq.int(nrow(self$storedModels)))
         private$import_from_BM(index)
+        self$reorder()
       }
     ),
     active = list(

@@ -1,6 +1,6 @@
 Package: sbm
 Title: Stochastic Blockmodels
-Version: 0.1.9005
+Version: 0.1.9010
 Authors@R: 
     c(person(given = "Pierre", family = "Barbillon", role = c("ctb"),
            email = "pierre.barbillon@agroparistech.fr",
@@ -19,7 +19,11 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.0
 Suggests: 
     testthat,
-    spelling
+    spelling,
+    knitr,
+    rmarkdown,
+    alluvial,
+    igraph
 Language: en-US
 Imports: 
     magrittr,
@@ -41,6 +45,7 @@ Collate:
     'RcppExports.R'
     'VEM-ScoreSBM.R'
     'estimate.R'
+    'fungus_tree_network.R'
     'plotMyMatrix.R'
     'sample.R'
     'sbm-package.R'
@@ -50,3 +55,6 @@ Collate:
 LinkingTo: 
     Rcpp,
     RcppArmadillo
+VignetteBuilder: knitr
+Depends: 
+    R (>= 2.10)

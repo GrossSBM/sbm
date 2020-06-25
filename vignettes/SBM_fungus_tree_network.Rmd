@@ -1,0 +1,137 @@
+---
+title: "Simple and Bipartite Stochastic Block Models"
+subtitle: "An illustration on antogonistic tree/fungus network"
+author: "team großBM"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 4
+bibliography: references.bib
+link-citations: yes
+vignette: >
+  %\VignetteIndexEntry{SBM_tree_fungus_network}
+  %\VignetteEngine{knitr::rmarkdown}dim(tree_tree_binary)
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Preliminaries
+
+This vignette illustrates the use of the `estimateSBM` function and the methods accompanying the R6 classes `SimpleSBMfit` and `BipartiteSBMfit`. 
+
+### Requirements
+
+The packages required for the analysis are **sbm** plus some others for data manipulation and representation:
+
+```{r setup, message=FALSE, warning=FALSE}
+library(sbm)
+library(ggplot2)
+library(igraph)
+library(knitr)
+library(alluvial)
+theme_set(theme_bw())
+```
+
+### Data set: antagonistic tree/fungus interaction network
+
+We consider the fungus-tree interaction network studied by @tree_fungus_network, available with the package **sbm**:
+
+```{r import dataset}
+data("fungus_tree_network")
+str(fungus_tree_network, max.level = 1)
+```
+
+This data set provides information about $154$ fungi sampled on $51$ tree species. It is a list with the following entries:
+
+  - `fungi_list`: list of the fungus species names
+  - `tree_list` : list of the tree species names
+  - `fungus_tree` : binary fungus-tree interactions
+  - `tree_tree` : weighted tree-tree interactions (number of common fungal species two tree species host) 
+  - `covar_tree` : covariates associated to pairs of trees (namely genetic, taxonomic and geographic distances)
+
+### Mathematical Background
+
+See @blockmodels for details.
+
+## Analysis of the tree/fungus data
+
+### Tree-tree binary interaction networks
+
+We first the binary network where an edge is drawn between two trees when they do share a least one common fungi:
+
+```{r tree_tree_binary network}
+tree_tree_binary <- 1 * (fungus_tree_network$tree_tree != 0)
+```
+
+The simple function `plotMyMatrix` can be use to represent simple or bipartite SBM:
+
+```{r tree_tree_binary network plot data}
+plotMyMatrix(tree_tree_binary, rowLabel = 'tree', colLabel = 'tree')
+
+```
+We look for some latent structure of the network by adjusting a simple SBM with the function `estimateSimpleSBM`.
+
+```{r simpleSBM}
+mySimpleSBM <- tree_tree_binary %>% 
+  estimateSimpleSBM("bernoulli", estimOptions = list(verbosity = 0))
+```
+
+Once fitted, the user can manipulate the fitted model by accessing the various fields and methods enjoyed by the class `simpleSBMfit`. Most important fields and methods are recalled to the user via the `show` method:
+
+
+```{r simpleSBMfit}
+class(mySimpleSBM)
+mySimpleSBM
+```
+
+For instance, 
+
+```{r impleSBMfit fields}
+mySimpleSBM$nbBlocks
+mySimpleSBM$nbNodes
+mySimpleSBM$nbCovariates
+```
+The plot method is available as a S3 or R6 method. The default represents the network data reordered according to the memberships estimated in the SBM
+```{r simpleSBMfit plot1}
+plot(mySimpleSBM, type = "data", rowLabel = 'tree', colLabel = 'tree')
+```
+One can also plot the expected network which, in case of the Bernoulli model, corresponds to the probability of connection between any pair of nodes in the network.
+```{r simpleSBMfit plot2}
+plot(mySimpleSBM, type = "expected", rowLabel = 'tree', colLabel = 'tree')
+```
+### About model selection and choice of the number of blocks
+
+During the estimation, a certain range of models are explored corresponding to different number of blocks. By default, the best model in terms of Integrated Classification Likelihood is sent back. IN fact, all the model are stored internally. The user can have a quick glance at them via the `$storedModels` field:
+
+```{r simpleSBM storedModel}
+mySimpleSBM$storedModels %>% kable()
+```
+
+We can then what models are competitive in terms of model selection by checking the ICL
+
+```{r simpleSBM ICL}
+mySimpleSBM$storedModels %>% 
+  ggplot() + aes(x = nbBlocks, y = ICL) + geom_line() + geom_point(alpha = 0.5)
+```
+
+The 4-block model could have been a good choice too, in place of the 5-block model. The user can update the current `simpleSBMfit` thanks to the the `setModel` method:
+
+```{r simpleSBMfit changeModel}
+mySimpleSBM$setModel(4)
+mySimpleSBM$nbBlocks
+mySimpleSBM$plot(type = 'expected', rowLabel = 'tree', colLabel = 'tree')
+```
+
+### Analysis of weighted interaction network
+
+In progress
+
+## References
+

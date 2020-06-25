@@ -121,4 +121,3 @@ BipartiteSBM_fit <-
       }
     )
   )
-

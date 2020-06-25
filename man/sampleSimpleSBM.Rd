@@ -52,7 +52,6 @@ mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam, model = 'bernoull
 plot(mySampler)
 mySampler$rMemberships() # sample new memberships
 mySampler$rAdjacency()   # sample new adjacency matrix
-par(mfrow = c(1,2))
 plot(mySampler)
 hist(mySampler$netMatrix)
 
@@ -68,7 +67,6 @@ connectParam <- list(mean = means)
 
 ## Graph Sampling
 mySampler <- sampleSimpleSBM(nbNodes, blockProp, list(mean = means), model = "poisson")
-par(mfrow = c(1,2))
 plot(mySampler)
 hist(mySampler$netMatrix)
 
@@ -84,7 +82,6 @@ connectParam <- list(mean = means, var = 2)
 
 ## Graph Sampling
 mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam, model = "gaussian")
-par(mfrow = c(1,2))
 plot(mySampler)
 hist(mySampler$netMatrix)
 }

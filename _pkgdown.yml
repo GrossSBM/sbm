@@ -13,8 +13,8 @@ navbar:
       href: "reference/index.html"
     - text: "Vignettes"
       menu:
-      - text: "sampling and estimating with Simple SBM: Coming"
-      - text: "sampling and estimating with Bipartite SBM: Coming"
+      - text: "Fungus-tree interaction with simple and bipartite SBM"
+        href: articles/SBM_fungus_tree_network.html
     - text: "Changelog"
       href: news/index.html
   right:
