@@ -136,7 +136,9 @@ mySimpleSBM$plot(type = 'expected', rowLabel = 'tree', colLabel = 'tree')
 
 ### Analysis of the weighted interaction network
 
+
 Instead of considering the binary network tree-tree we may consider the weighted network where the link between two trees is the number of fungi they share. 
+
 
 We plot the matrix with function `plotMyMatrix`: 
 
@@ -172,8 +174,10 @@ We now plot the matrix reordered according to the memberships estimated in the S
 ```{r simpleSBMfitPoisson plot1}
 plot(mySimpleSBMPoisson, type = "data", rowLabel = 'tree', colLabel = 'tree')
 ```
-
+ 
 One can also plot the expected network which, in case of the Poisson model, corresponds to the expectation of connection between any pair of nodes in the network.
+
+
 ```{r simpleSBMfitPoisson plot2}
 plot(mySimpleSBMPoisson, type = "expected", rowLabel = 'tree', colLabel = 'tree')
 ```
@@ -186,28 +190,28 @@ We have on each pair of trees 3 covariates, namely the genetic distance, the tax
 Each covariate has to be introduced as a  matrix: $X^k_{ij}$ corresponds to the value of the $k$-th covariate describing the couple $(i,j)$. 
 
 ```{r covar SBM,echo=TRUE,eval= TRUE}
-sbm.cov <- estimateSimpleSBM(netMat = as.matrix(tree_tree),model = 'poisson',directed =FALSE, covariates  = fungus_tree_network$covar_tree,estimOptions = list(verbosity = 0))
+mySimpleSBMCov<- estimateSimpleSBM(netMat = as.matrix(tree_tree),model = 'poisson',directed =FALSE, covariates  = fungus_tree_network$covar_tree,estimOptions = list(verbosity = 0))
 ```
 
 - We select the best number of clusters (with respect to the ICL criteria)
 
 ```{r select SBM covar, echo=TRUE, eval = TRUE}
-Q <- sbm.cov$nbBlocks
-Q
+mySimpleSBMCov$nbBlocks
 ``` 
 
 - We can now extract the parameters of interest, namely ($\lambda$, $\pi$) and the clustering of the nodes. 
 ```{r extract param SBM poisson covar, echo=TRUE, eval = TRUE}
-sbm.cov$connnectParam
-sbm.cov$blockProp
-sbm.cov$memberships
-sbm.cov$covarParam
+mySimpleSBMCov$connnectParam
+mySimpleSBMCov$blockProp
+mySimpleSBMCov$memberships
+mySimpleSBMCov$covarParam
 ```
 
 
  
   
 ## Analysis of the tree/fungi data
+
 
 We now analyze the bipartite tree/fungi interactions. The incidence matrix can be plotted with the function \cote{plotMyMatrix}
 
@@ -217,20 +221,22 @@ plotMyMatrix(fungus_tree_network$fungus_tree, rowLabel = 'fungis',colLabel = 'tr
 
 
 ```{r tree_fungi_bipartite network}
-bipartite.sbm <- estimateBipartiteSBM(netMat = as.matrix(fungus_tree_network$fungus_tree),model = 'bernoulli',estimOptions = list(verbosity = 0))
+myBipartiteSBM <- estimateBipartiteSBM(netMat = as.matrix(fungus_tree_network$fungus_tree),model = 'bernoulli',estimOptions = list(verbosity = 0))
 ```
 
 ```{r bipartite.sbm fields}
-bipartite.sbm$nbNodes
-bipartite.sbm$nbBlocks
-bipartite.sbm$connectParam
+myBipartiteSBM$nbNodes
+myBipartiteSBM$nbBlocks
+myBipartiteSBM$connectParam
 ```
 
 We can now plot the reorganized matrix. 
 
 ```{r plot bipartite}
-plot(bipartite.sbm, rowLabel = 'fungis',colLabel = 'tree')
+plot(myBipartiteSBM, rowLabel = 'fungis',colLabel = 'tree')
 ```
+
+
 
 
 ## References
