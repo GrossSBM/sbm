@@ -8,7 +8,7 @@ nbBlocks <- sapply(blockProp, length)
 test_that("BipartiteSBM_fit 'Bernoulli' model, undirected, no covariate", {
 
   ## BIPARTITE UNDIRECTED BERNOULLI SBM
-  means <- matrix(c(0.05, 0.95, 0.4, 0.98, 0.15, 0.6), 2, 3)  # connectivity matrix
+  means <- matrix(c(0.05, 0.95, 0.4, 0.75, 0.15, 0.6), 2, 3)  # connectivity matrix
   connectParam <- list(mean = means)
 
   ## Basic construction - check for wrong specifications
