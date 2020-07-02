@@ -39,7 +39,7 @@ SimpleSBM_fit <-
       #' @param nbCores integer, the number of cores to use. Default is \code{parallel::detectCores()}.
       #' @param explorFactor double factor for exploring successive model
       #' @param nbBlocksRange 2-size vector: range of exploration
-      #' @param fast logical: should approximation be used for Benoulli model with covariates. Default to \code{TRUE}
+      #' @param fast logical: should approximation be used for Bernoulli model with covariates. Default to \code{TRUE}
       optimize = function(verbosity     = 3,
                           plot          = FALSE,
                           explorFactor  = 1.5,
