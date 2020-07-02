@@ -103,7 +103,7 @@ function to perform optimization
 
 \item{\code{nbCores}}{integer, the number of cores to use. Default is \code{parallel::detectCores()}.}
 
-\item{\code{fast}}{logical: should approximation be used for Benoulli model with covariates. Default to \code{TRUE}}
+\item{\code{fast}}{logical: should approximation be used for Bernoulli model with covariates. Default to \code{TRUE}}
 }
 \if{html}{\out{</div>}}
 }
