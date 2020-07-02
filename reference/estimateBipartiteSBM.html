@@ -193,33 +193,33 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models.</p>
 
 <span class='co'>## Estimation</span>
 <span class='kw'>myBipartiteSBM</span> <span class='op'>&lt;-</span> <span class='fu'>estimateBipartiteSBM</span>(<span class='kw'>mySampler</span><span class='op'>$</span><span class='kw'>netMatrix</span>)</div><div class='output co'>#&gt; -&gt; Estimation for 2 groups (1+1)
-#&gt; </div><div class='output co'>#&gt; -&gt; Computation of eigen decomposition used for initalizations
+#&gt; </div><div class='img'><img src='estimateBipartiteSBM-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; -&gt; Computation of eigen decomposition used for initalizations
 #&gt;     -&gt; for rows
 #&gt;     -&gt; for cols
 #&gt; 
 #&gt; -&gt; Pass 1
 #&gt;     -&gt; With ascending number of groups
 #&gt;         -&gt; For 3 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 4 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 5 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 6 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 7 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 8 groups
-#&gt; </div><div class='output co'>#&gt;     -&gt; With descending number of groups
+#&gt; </div><div class='img'><img src='estimateBipartiteSBM-2.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 4 groups
+#&gt; </div><div class='img'><img src='estimateBipartiteSBM-3.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 5 groups
+#&gt; </div><div class='img'><img src='estimateBipartiteSBM-4.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 6 groups
+#&gt; </div><div class='img'><img src='estimateBipartiteSBM-5.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 7 groups
+#&gt; </div><div class='img'><img src='estimateBipartiteSBM-6.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 8 groups
+#&gt; </div><div class='img'><img src='estimateBipartiteSBM-7.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;     -&gt; With descending number of groups
 #&gt;         -&gt; For 7 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 6 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 5 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 4 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 3 groups
-#&gt; </div><div class='output co'>#&gt; -&gt; Pass 2
+#&gt; </div><div class='img'><img src='estimateBipartiteSBM-8.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 6 groups
+#&gt; </div><div class='img'><img src='estimateBipartiteSBM-9.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 5 groups
+#&gt; </div><div class='img'><img src='estimateBipartiteSBM-10.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 4 groups
+#&gt; </div><div class='img'><img src='estimateBipartiteSBM-11.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 3 groups
+#&gt; </div><div class='img'><img src='estimateBipartiteSBM-12.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; -&gt; Pass 2
 #&gt;     -&gt; With ascending number of groups
 #&gt;         -&gt; For 3 groups
 #&gt;         -&gt; For 4 groups
 #&gt;         -&gt; For 5 groups
 #&gt;         -&gt; For 6 groups
 #&gt;         -&gt; For 7 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 8 groups
-#&gt; </div><div class='output co'>#&gt;     -&gt; With descending number of groups
+#&gt; </div><div class='img'><img src='estimateBipartiteSBM-13.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 8 groups
+#&gt; </div><div class='img'><img src='estimateBipartiteSBM-14.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;     -&gt; With descending number of groups
 #&gt;         -&gt; For 7 groups
 #&gt;         -&gt; For 6 groups
 #&gt;         -&gt; For 5 groups
@@ -238,7 +238,7 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models.</p>
 #&gt;         -&gt; For 6 groups
 #&gt;         -&gt; For 5 groups
 #&gt;         -&gt; For 4 groups
-#&gt;         -&gt; For 3 groups</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>myBipartiteSBM</span>, <span class='st'>'expected'</span>)</div><div class='img'><img src='estimateBipartiteSBM-1.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt;         -&gt; For 3 groups</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>myBipartiteSBM</span>, <span class='st'>'expected'</span>)</div><div class='img'><img src='estimateBipartiteSBM-15.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>### =======================================</span>
 <span class='co'>### BIPARTITE POISSON SBM</span>
 
@@ -251,29 +251,29 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models.</p>
 
 <span class='co'>## Estimation</span>
 <span class='kw'>myBipartiteSBM</span> <span class='op'>&lt;-</span> <span class='fu'>estimateBipartiteSBM</span>(<span class='kw'>mySampler</span><span class='op'>$</span><span class='kw'>netMatrix</span>, <span class='st'>'poisson'</span>)</div><div class='output co'>#&gt; -&gt; Estimation for 2 groups (1+1)
-#&gt; </div><div class='output co'>#&gt; -&gt; Computation of eigen decomposition used for initalizations
+#&gt; </div><div class='img'><img src='estimateBipartiteSBM-16.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; -&gt; Computation of eigen decomposition used for initalizations
 #&gt;     -&gt; for rows
 #&gt;     -&gt; for cols
 #&gt; 
 #&gt; -&gt; Pass 1
 #&gt;     -&gt; With ascending number of groups
 #&gt;         -&gt; For 3 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 4 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 5 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 6 groups
-#&gt; </div><div class='output co'>#&gt;     -&gt; With descending number of groups
+#&gt; </div><div class='img'><img src='estimateBipartiteSBM-17.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 4 groups
+#&gt; </div><div class='img'><img src='estimateBipartiteSBM-18.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 5 groups
+#&gt; </div><div class='img'><img src='estimateBipartiteSBM-19.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 6 groups
+#&gt; </div><div class='img'><img src='estimateBipartiteSBM-20.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;     -&gt; With descending number of groups
 #&gt;         -&gt; For 5 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 4 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 3 groups
-#&gt; </div><div class='output co'>#&gt; -&gt; Pass 2
+#&gt; </div><div class='img'><img src='estimateBipartiteSBM-21.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 4 groups
+#&gt; </div><div class='img'><img src='estimateBipartiteSBM-22.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 3 groups
+#&gt; </div><div class='img'><img src='estimateBipartiteSBM-23.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; -&gt; Pass 2
 #&gt;     -&gt; With ascending number of groups
 #&gt;         -&gt; For 3 groups
 #&gt;         -&gt; For 4 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 5 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 6 groups
-#&gt; </div><div class='output co'>#&gt;     -&gt; With descending number of groups
+#&gt; </div><div class='img'><img src='estimateBipartiteSBM-24.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 5 groups
+#&gt; </div><div class='img'><img src='estimateBipartiteSBM-25.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 6 groups
+#&gt; </div><div class='img'><img src='estimateBipartiteSBM-26.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;     -&gt; With descending number of groups
 #&gt;         -&gt; For 5 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 4 groups
+#&gt; </div><div class='img'><img src='estimateBipartiteSBM-27.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 4 groups
 #&gt;         -&gt; For 3 groups
 #&gt; -&gt; Pass 3
 #&gt;     -&gt; With ascending number of groups
@@ -284,10 +284,10 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models.</p>
 #&gt;     -&gt; With descending number of groups
 #&gt;         -&gt; For 5 groups
 #&gt;         -&gt; For 4 groups
-#&gt;         -&gt; For 3 groups</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>myBipartiteSBM</span>, <span class='st'>'expected'</span>)</div><div class='img'><img src='estimateBipartiteSBM-2.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt;         -&gt; For 3 groups</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>myBipartiteSBM</span>, <span class='st'>'expected'</span>)</div><div class='img'><img src='estimateBipartiteSBM-28.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>### =======================================</span>
 <span class='co'>### BIPARTITE GAUSSIAN SBM</span>
-<span class='co'>## Graph parameters &amp; ssampling</span>
+<span class='co'>## Graph parameters &amp; sampling</span>
 <span class='kw'>nbNodes</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>100</span>, <span class='fl'>120</span>)
 <span class='kw'>blockProp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>.5</span>, <span class='fl'>.5</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span><span class='op'>/</span><span class='fl'>3</span>, <span class='fl'>1</span><span class='op'>/</span><span class='fl'>3</span>, <span class='fl'>1</span><span class='op'>/</span><span class='fl'>3</span>)) <span class='co'># group proportions</span>
 <span class='kw'>means</span> <span class='op'>&lt;-</span> <span class='fl'>20</span> <span class='op'>*</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>6</span>), <span class='fl'>2</span>, <span class='fl'>3</span>)  <span class='co'># connectivity matrix</span>
@@ -296,38 +296,38 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models.</p>
 
 <span class='co'>## Estimation</span>
 <span class='kw'>myBipartiteSBM</span> <span class='op'>&lt;-</span> <span class='fu'>estimateBipartiteSBM</span>(<span class='kw'>mySampler</span><span class='op'>$</span><span class='kw'>netMatrix</span>, <span class='st'>'gaussian'</span>)</div><div class='output co'>#&gt; -&gt; Estimation for 2 groups (1+1)
-#&gt; </div><div class='output co'>#&gt; -&gt; Computation of eigen decomposition used for initalizations
+#&gt; </div><div class='img'><img src='estimateBipartiteSBM-29.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; -&gt; Computation of eigen decomposition used for initalizations
 #&gt;     -&gt; for rows
 #&gt;     -&gt; for cols
 #&gt; 
 #&gt; -&gt; Pass 1
 #&gt;     -&gt; With ascending number of groups
 #&gt;         -&gt; For 3 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 4 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 5 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 6 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 7 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 8 groups
-#&gt; </div><div class='output co'>#&gt;     -&gt; With descending number of groups
+#&gt; </div><div class='img'><img src='estimateBipartiteSBM-30.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 4 groups
+#&gt; </div><div class='img'><img src='estimateBipartiteSBM-31.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 5 groups
+#&gt; </div><div class='img'><img src='estimateBipartiteSBM-32.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 6 groups
+#&gt; </div><div class='img'><img src='estimateBipartiteSBM-33.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 7 groups
+#&gt; </div><div class='img'><img src='estimateBipartiteSBM-34.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 8 groups
+#&gt; </div><div class='img'><img src='estimateBipartiteSBM-35.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;     -&gt; With descending number of groups
 #&gt;         -&gt; For 7 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 6 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 5 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 4 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 3 groups
-#&gt; </div><div class='output co'>#&gt; -&gt; Pass 2
+#&gt; </div><div class='img'><img src='estimateBipartiteSBM-36.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 6 groups
+#&gt; </div><div class='img'><img src='estimateBipartiteSBM-37.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 5 groups
+#&gt; </div><div class='img'><img src='estimateBipartiteSBM-38.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 4 groups
+#&gt; </div><div class='img'><img src='estimateBipartiteSBM-39.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 3 groups
+#&gt; </div><div class='img'><img src='estimateBipartiteSBM-40.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; -&gt; Pass 2
 #&gt;     -&gt; With ascending number of groups
 #&gt;         -&gt; For 3 groups
 #&gt;         -&gt; For 4 groups
 #&gt;         -&gt; For 5 groups
 #&gt;         -&gt; For 6 groups
 #&gt;         -&gt; For 7 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 8 groups
+#&gt; </div><div class='img'><img src='estimateBipartiteSBM-41.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 8 groups
 #&gt;     -&gt; With descending number of groups
 #&gt;         -&gt; For 7 groups
 #&gt;         -&gt; For 6 groups
 #&gt;         -&gt; For 5 groups
 #&gt;         -&gt; For 4 groups
-#&gt;         -&gt; For 3 groups</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>myBipartiteSBM</span>, <span class='st'>'expected'</span>)</div><div class='img'><img src='estimateBipartiteSBM-3.png' alt='' width='700' height='433' /></div><div class='input'></div></pre>
+#&gt;         -&gt; For 3 groups</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>myBipartiteSBM</span>, <span class='st'>'expected'</span>)</div><div class='img'><img src='estimateBipartiteSBM-42.png' alt='' width='700' height='433' /></div><div class='input'></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

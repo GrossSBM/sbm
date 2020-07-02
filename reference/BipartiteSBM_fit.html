@@ -199,10 +199,11 @@ R6 Class definition of an Bipartite SBM fit" />
 <p>function to perform optimization</p><h3>Usage</h3>
 <p><div class="r"></p><pre><span class='kw'>BipartiteSBM_fit</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/stats/optimize.html'>optimize</a></span>(
   verbosity = <span class='fl'>3</span>,
-  plot = <span class='fl'>TRUE</span>,
+  plot = <span class='fl'>FALSE</span>,
   explorFactor = <span class='fl'>1.5</span>,
   nbBlocksRange = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4</span>, <span class='fl'>Inf</span>),
-  nbCores = <span class='kw'>parallel</span>::<span class='fu'><a href='https://rdrr.io/r/parallel/detectCores.html'>detectCores</a></span>()
+  nbCores = <span class='kw'>parallel</span>::<span class='fu'><a href='https://rdrr.io/r/parallel/detectCores.html'>detectCores</a></span>(),
+  fast = <span class='fl'>TRUE</span>
 )</pre><p></div></p>
 
 <h3>Arguments</h3>
@@ -216,6 +217,8 @@ R6 Class definition of an Bipartite SBM fit" />
 <dt><code>nbBlocksRange</code></dt><dd><p>2-size vector: range of exploration</p></dd>
 
 <dt><code>nbCores</code></dt><dd><p>integer, the number of cores to use. Default is <code><a href='https://rdrr.io/r/parallel/detectCores.html'>parallel::detectCores()</a></code>.</p></dd>
+
+<dt><code>fast</code></dt><dd><p>logical: should approximation be used for Bernoulli model with covariates. Default to <code>TRUE</code></p></dd>
 
 </dl><p></div></p>
 <p><hr>

@@ -197,19 +197,19 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models.</p>
 
 <span class='co'>## Estimation</span>
 <span class='kw'>mySimpleSBM</span> <span class='op'>&lt;-</span> <span class='fu'>estimateSimpleSBM</span>(<span class='kw'>adjacencyMatrix</span>, <span class='st'>'bernoulli'</span>)</div><div class='output co'>#&gt; -&gt; Estimation for 1 groups
-#&gt; </div><div class='output co'>#&gt; -&gt; Computation of eigen decomposition used for initalizations
+#&gt; </div><div class='img'><img src='estimateSimpleSBM-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; -&gt; Computation of eigen decomposition used for initalizations
 #&gt; 
 #&gt; -&gt; Pass 1
 #&gt;     -&gt; With ascending number of groups
 #&gt;         -&gt; For 2 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 3 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 4 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 5 groups
-#&gt; </div><div class='output co'>#&gt;     -&gt; With descending number of groups
+#&gt; </div><div class='img'><img src='estimateSimpleSBM-2.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 3 groups
+#&gt; </div><div class='img'><img src='estimateSimpleSBM-3.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 4 groups
+#&gt; </div><div class='img'><img src='estimateSimpleSBM-4.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 5 groups
+#&gt; </div><div class='img'><img src='estimateSimpleSBM-5.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;     -&gt; With descending number of groups
 #&gt;         -&gt; For 4 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 3 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 2 groups
-#&gt; </div><div class='output co'>#&gt; -&gt; Pass 2
+#&gt; </div><div class='img'><img src='estimateSimpleSBM-6.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 3 groups
+#&gt; </div><div class='img'><img src='estimateSimpleSBM-7.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 2 groups
+#&gt; </div><div class='img'><img src='estimateSimpleSBM-8.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; -&gt; Pass 2
 #&gt;     -&gt; With ascending number of groups
 #&gt;         -&gt; For 2 groups
 #&gt;         -&gt; For 3 groups
@@ -218,7 +218,7 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models.</p>
 #&gt;     -&gt; With descending number of groups
 #&gt;         -&gt; For 4 groups
 #&gt;         -&gt; For 3 groups
-#&gt;         -&gt; For 2 groups</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>mySimpleSBM</span>, <span class='st'>'data'</span>, ordered = <span class='fl'>FALSE</span>)</div><div class='img'><img src='estimateSimpleSBM-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>mySimpleSBM</span>, <span class='st'>'data'</span>)</div><div class='img'><img src='estimateSimpleSBM-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>mySimpleSBM</span>, <span class='st'>'expected'</span>, ordered = <span class='fl'>FALSE</span>)</div><div class='img'><img src='estimateSimpleSBM-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>mySimpleSBM</span>, <span class='st'>'expected'</span>)</div><div class='img'><img src='estimateSimpleSBM-4.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt;         -&gt; For 2 groups</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>mySimpleSBM</span>, <span class='st'>'data'</span>, ordered = <span class='fl'>FALSE</span>)</div><div class='img'><img src='estimateSimpleSBM-9.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>mySimpleSBM</span>, <span class='st'>'data'</span>)</div><div class='img'><img src='estimateSimpleSBM-10.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>mySimpleSBM</span>, <span class='st'>'expected'</span>, ordered = <span class='fl'>FALSE</span>)</div><div class='img'><img src='estimateSimpleSBM-11.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>mySimpleSBM</span>, <span class='st'>'expected'</span>)</div><div class='img'><img src='estimateSimpleSBM-12.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>### =======================================</span>
 <span class='co'>### SIMPLE POISSON SBM</span>
 
@@ -232,19 +232,19 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models.</p>
 
 <span class='co'>## Estimation</span>
 <span class='kw'>mySimpleSBM</span> <span class='op'>&lt;-</span> <span class='fu'>estimateSimpleSBM</span>(<span class='kw'>adjacencyMatrix</span>, <span class='st'>'poisson'</span>)</div><div class='output co'>#&gt; -&gt; Estimation for 1 groups
-#&gt; </div><div class='output co'>#&gt; -&gt; Computation of eigen decomposition used for initalizations
+#&gt; </div><div class='img'><img src='estimateSimpleSBM-13.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; -&gt; Computation of eigen decomposition used for initalizations
 #&gt; 
 #&gt; -&gt; Pass 1
 #&gt;     -&gt; With ascending number of groups
 #&gt;         -&gt; For 2 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 3 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 4 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 5 groups
-#&gt; </div><div class='output co'>#&gt;     -&gt; With descending number of groups
+#&gt; </div><div class='img'><img src='estimateSimpleSBM-14.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 3 groups
+#&gt; </div><div class='img'><img src='estimateSimpleSBM-15.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 4 groups
+#&gt; </div><div class='img'><img src='estimateSimpleSBM-16.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 5 groups
+#&gt; </div><div class='img'><img src='estimateSimpleSBM-17.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;     -&gt; With descending number of groups
 #&gt;         -&gt; For 4 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 3 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 2 groups
-#&gt; </div><div class='output co'>#&gt; -&gt; Pass 2
+#&gt; </div><div class='img'><img src='estimateSimpleSBM-18.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 3 groups
+#&gt; </div><div class='img'><img src='estimateSimpleSBM-19.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 2 groups
+#&gt; </div><div class='img'><img src='estimateSimpleSBM-20.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; -&gt; Pass 2
 #&gt;     -&gt; With ascending number of groups
 #&gt;         -&gt; For 2 groups
 #&gt;         -&gt; For 3 groups
@@ -253,7 +253,7 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models.</p>
 #&gt;     -&gt; With descending number of groups
 #&gt;         -&gt; For 4 groups
 #&gt;         -&gt; For 3 groups
-#&gt;         -&gt; For 2 groups</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>mySimpleSBM</span>, <span class='st'>'data'</span>, ordered = <span class='fl'>FALSE</span>)</div><div class='img'><img src='estimateSimpleSBM-5.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>mySimpleSBM</span>, <span class='st'>'data'</span>)</div><div class='img'><img src='estimateSimpleSBM-6.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>mySimpleSBM</span>, <span class='st'>'expected'</span>, ordered = <span class='fl'>FALSE</span>)</div><div class='img'><img src='estimateSimpleSBM-7.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>mySimpleSBM</span>, <span class='st'>'expected'</span>)</div><div class='img'><img src='estimateSimpleSBM-8.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt;         -&gt; For 2 groups</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>mySimpleSBM</span>, <span class='st'>'data'</span>, ordered = <span class='fl'>FALSE</span>)</div><div class='img'><img src='estimateSimpleSBM-21.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>mySimpleSBM</span>, <span class='st'>'data'</span>)</div><div class='img'><img src='estimateSimpleSBM-22.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>mySimpleSBM</span>, <span class='st'>'expected'</span>, ordered = <span class='fl'>FALSE</span>)</div><div class='img'><img src='estimateSimpleSBM-23.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>mySimpleSBM</span>, <span class='st'>'expected'</span>)</div><div class='img'><img src='estimateSimpleSBM-24.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>### =======================================</span>
 <span class='co'>### SIMPLE GAUSSIAN SBM</span>
 
@@ -266,19 +266,19 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models.</p>
 
 <span class='co'>## Estimation</span>
 <span class='kw'>mySimpleSBM</span> <span class='op'>&lt;-</span> <span class='fu'>estimateSimpleSBM</span>(<span class='kw'>mySampler</span><span class='op'>$</span><span class='kw'>netMatrix</span>, <span class='st'>'gaussian'</span>)</div><div class='output co'>#&gt; -&gt; Estimation for 1 groups
-#&gt; </div><div class='output co'>#&gt; -&gt; Computation of eigen decomposition used for initalizations
+#&gt; </div><div class='img'><img src='estimateSimpleSBM-25.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; -&gt; Computation of eigen decomposition used for initalizations
 #&gt; 
 #&gt; -&gt; Pass 1
 #&gt;     -&gt; With ascending number of groups
 #&gt;         -&gt; For 2 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 3 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 4 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 5 groups
-#&gt; </div><div class='output co'>#&gt;     -&gt; With descending number of groups
+#&gt; </div><div class='img'><img src='estimateSimpleSBM-26.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 3 groups
+#&gt; </div><div class='img'><img src='estimateSimpleSBM-27.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 4 groups
+#&gt; </div><div class='img'><img src='estimateSimpleSBM-28.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 5 groups
+#&gt; </div><div class='img'><img src='estimateSimpleSBM-29.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;     -&gt; With descending number of groups
 #&gt;         -&gt; For 4 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 3 groups
-#&gt; </div><div class='output co'>#&gt;         -&gt; For 2 groups
-#&gt; </div><div class='output co'>#&gt; -&gt; Pass 2
+#&gt; </div><div class='img'><img src='estimateSimpleSBM-30.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 3 groups
+#&gt; </div><div class='img'><img src='estimateSimpleSBM-31.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 2 groups
+#&gt; </div><div class='img'><img src='estimateSimpleSBM-32.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; -&gt; Pass 2
 #&gt;     -&gt; With ascending number of groups
 #&gt;         -&gt; For 2 groups
 #&gt;         -&gt; For 3 groups
@@ -287,7 +287,7 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models.</p>
 #&gt;     -&gt; With descending number of groups
 #&gt;         -&gt; For 4 groups
 #&gt;         -&gt; For 3 groups
-#&gt;         -&gt; For 2 groups</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>mySimpleSBM</span>, <span class='st'>'data'</span>, ordered = <span class='fl'>FALSE</span>)</div><div class='img'><img src='estimateSimpleSBM-9.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>mySimpleSBM</span>, <span class='st'>'data'</span>)</div><div class='img'><img src='estimateSimpleSBM-10.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>mySimpleSBM</span>, <span class='st'>'expected'</span>, ordered = <span class='fl'>FALSE</span>)</div><div class='img'><img src='estimateSimpleSBM-11.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>mySimpleSBM</span>, <span class='st'>'expected'</span>)</div><div class='img'><img src='estimateSimpleSBM-12.png' alt='' width='700' height='433' /></div><div class='input'></div></pre>
+#&gt;         -&gt; For 2 groups</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>mySimpleSBM</span>, <span class='st'>'data'</span>, ordered = <span class='fl'>FALSE</span>)</div><div class='img'><img src='estimateSimpleSBM-33.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>mySimpleSBM</span>, <span class='st'>'data'</span>)</div><div class='img'><img src='estimateSimpleSBM-34.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>mySimpleSBM</span>, <span class='st'>'expected'</span>, ordered = <span class='fl'>FALSE</span>)</div><div class='img'><img src='estimateSimpleSBM-35.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>mySimpleSBM</span>, <span class='st'>'expected'</span>)</div><div class='img'><img src='estimateSimpleSBM-36.png' alt='' width='700' height='433' /></div><div class='input'></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
