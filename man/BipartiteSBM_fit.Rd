@@ -78,7 +78,7 @@ function to perform optimization
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{BipartiteSBM_fit$optimize(
   verbosity = 3,
-  plot = TRUE,
+  plot = FALSE,
   explorFactor = 1.5,
   nbBlocksRange = c(4, Inf),
   nbCores = parallel::detectCores()

@@ -20,6 +20,8 @@ R6 virtual class for SBM fit (mother class of Simple and Bipartite SBM fit)
 
 \item{\code{ICL}}{double: value of the integrated classification log-likelihood}
 
+\item{\code{expectation}}{expected values of connection under the currently adjusted model}
+
 \item{\code{fitted}}{matrix of predicted value of the network}
 }
 \if{html}{\out{</div>}}

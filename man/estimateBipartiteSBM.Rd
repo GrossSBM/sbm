@@ -69,7 +69,7 @@ plot(myBipartiteSBM, 'expected')
 
 ### =======================================
 ### BIPARTITE GAUSSIAN SBM
-## Graph parameters & ssampling
+## Graph parameters & sampling
 nbNodes <- c(100, 120)
 blockProp <- list(c(.5, .5), c(1/3, 1/3, 1/3)) # group proportions
 means <- 20 * matrix(runif(6), 2, 3)  # connectivity matrix
