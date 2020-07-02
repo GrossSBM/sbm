@@ -87,7 +87,8 @@ estimateSimpleSBM <- function(netMat,
     plot          = TRUE,
     explorFactor  = 1.5,
     nbBlocksRange = c(4,Inf),
-    nbCores       = 1
+    nbCores       = 1,
+    fast          = TRUE
   )
 
   ## Current options are default expect for those passed by the user
@@ -183,7 +184,8 @@ estimateBipartiteSBM <- function(netMat,
     plot          = TRUE,
     explorFactor  = 1.5,
     nbBlocksRange = c(4,Inf),
-    nbCores       = 1
+    nbCores       = 1,
+    fast          = TRUE
   )
 
   ## Current options are default expect for those passed by the user

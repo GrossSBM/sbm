@@ -85,7 +85,8 @@ function to perform optimization
   plot = FALSE,
   explorFactor = 1.5,
   nbBlocksRange = c(4, Inf),
-  nbCores = parallel::detectCores()
+  nbCores = parallel::detectCores(),
+  fast = TRUE
 )}\if{html}{\out{</div>}}
 }
 
@@ -101,6 +102,8 @@ function to perform optimization
 \item{\code{nbBlocksRange}}{2-size vector: range of exploration}
 
 \item{\code{nbCores}}{integer, the number of cores to use. Default is \code{parallel::detectCores()}.}
+
+\item{\code{fast}}{logical: should approximation be used for Benoulli model with covariates. Default to \code{TRUE}}
 }
 \if{html}{\out{</div>}}
 }

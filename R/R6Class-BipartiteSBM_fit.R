@@ -34,11 +34,13 @@ BipartiteSBM_fit <-
       #' @param nbCores integer, the number of cores to use. Default is \code{parallel::detectCores()}.
       #' @param explorFactor double factor for exploring successive model
       #' @param nbBlocksRange 2-size vector: range of exploration
+      #' @param fast logical: should approximation be used for Benoulli model with covariates. Default to \code{TRUE}
       optimize = function(verbosity     = 3,
                           plot          = FALSE,
                           explorFactor  = 1.5,
                           nbBlocksRange = c(4,Inf),
-                          nbCores       = parallel::detectCores()) {
+                          nbCores       = parallel::detectCores(),
+                          fast          = TRUE) {
 
         ## translate to blockmodels list of options
         blockmodelsOptions <- list(
@@ -57,6 +59,7 @@ BipartiteSBM_fit <-
 
         ## model construction
         model_type <- ifelse(self$nbCovariates > 0, paste0(model,"_covariates"), private$model)
+        if (model_type == 'bernoulli_covariates' & fast == TRUE) model_type <- 'bernoulli_covariates_fast'
         private$BMobject <- do.call(paste0("BM_", model_type), args)
 
         ## performing estimation
