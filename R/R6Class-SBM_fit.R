@@ -9,7 +9,7 @@ SBM_fit <- # this virtual class is the mother of all subtypes of SBM (Simple or 
     private = list(
       J              = NULL, # variational approximation of the log-likelihood
       vICL           = NULL, # variational approximation of the ICL
-      tau            = NULL, # variational parameters for posterior probablility of class belonging
+      tau            = NULL, # variational parameters for posterior probability of class belonging
       BMobject       = NULL,
       import_from_BM  = function(index = which.max(private$BMobject$ICL)) {
         private$J     <- private$BMobject$PL[index]
@@ -17,12 +17,13 @@ SBM_fit <- # this virtual class is the mother of all subtypes of SBM (Simple or 
         parameters    <- private$BMobject$model_parameters[[index]]
         private$beta  <- parameters$beta ## NULL if no covariates
         private$theta <- switch(private$BMobject$model_name,
-          "bernoulli"           = list(mean = parameters$pi),
-          "bernoull_covariates" = list(mean = .logistic(parameters$m)),
-          "poisson"             = list(mean = parameters$lambda),
-          "poisson_covariates"  = list(mean = parameters$lambda),
-          "gaussian"            = list(mean = parameters$mu, var = parameters$sigma2),
-          "gaussian_covariates" = list(mean = parameters$mu, var = parameters$sigma2)
+          "bernoulli"                 = list(mean = parameters$pi),
+          "bernoulli_covariates"      = list(mean = .logistic(parameters$m)),
+          "bernoulli_covariates_fast" = list(mean = .logistic(parameters$m)),
+          "poisson"                   = list(mean = parameters$lambda),
+          "poisson_covariates"        = list(mean = parameters$lambda),
+          "gaussian"                  = list(mean = parameters$mu, var = parameters$sigma2),
+          "gaussian_covariates"       = list(mean = parameters$mu, var = parameters$sigma2)
         )
       }
     ),
