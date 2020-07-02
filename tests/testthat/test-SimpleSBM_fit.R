@@ -42,6 +42,7 @@ test_that("SimpleSBM_fit 'Bernoulli' model, undirected, no covariate", {
 
   ## Estimation-----------------------------------------------------------------
   mySBM$optimize(verbosity = 0, nbCores = 1)
+  mySBM$setModel(3)
 
   ## Expectation
   expect_equal(dim(mySBM$expectation), c(nbNodes, nbNodes))
@@ -100,6 +101,7 @@ test_that("SimpleSBM_fit 'Poisson' model, undirected, no covariate", {
 
   ## Estimation-----------------------------------------------------------------
   mySBM$optimize(verbosity = 0, nbCores = 1)
+  mySBM$setModel(3)
 
   ## Expectation
   expect_equal(dim(mySBM$expectation), c(nbNodes, nbNodes))
@@ -157,6 +159,7 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, no covariate", {
 
   ## Estimation-----------------------------------------------------------------
   mySBM$optimize(verbosity = 0, nbCores = 1)
+  mySBM$setModel(3)
 
   ## Expectation
   expect_equal(dim(mySBM$expectation), c(nbNodes, nbNodes))
