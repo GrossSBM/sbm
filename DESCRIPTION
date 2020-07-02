@@ -24,6 +24,7 @@ Suggests:
     rmarkdown,
     alluvial,
     igraph,
+    aricode,
     covr
 Language: en-US
 Imports: 
@@ -33,8 +34,7 @@ Imports:
     corrplot,
     Rcpp,
     mvtnorm,
-    ggplot2,
-    aricode
+    ggplot2
 Collate: 
     'R6Class-SBM.R'
     'R6Class-SBM_fit.R'
