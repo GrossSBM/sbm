@@ -9,6 +9,8 @@
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![](https://img.shields.io/github/last-commit/grossSBM/sbm.svg)](https://github.com/GrossSBM/sbm/commits/master)
+[![Codecov test
+coverage](https://codecov.io/gh/GrossSBM/sbm/branch/master/graph/badge.svg)](https://codecov.io/gh/GrossSBM/sbm?branch=master)
 <!-- badges: end -->
 
 The goal of the package `sbm` is to regroup into a unique framework

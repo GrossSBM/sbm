@@ -23,7 +23,8 @@ Suggests:
     knitr,
     rmarkdown,
     alluvial,
-    igraph
+    igraph,
+    covr
 Language: en-US
 Imports: 
     magrittr,
