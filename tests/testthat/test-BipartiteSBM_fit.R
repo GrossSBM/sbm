@@ -1,3 +1,5 @@
+rmse <- function(theta, theta_star) { sqrt(sum((theta - theta_star)^2)/sum(theta_star^2)) }
+
 ## Common parameters
 nbNodes  <- c(100, 120)
 blockProp <- list(row = c(.5, .5), col = c(1/3, 1/3, 1/3)) # group proportions
@@ -6,7 +8,7 @@ nbBlocks <- sapply(blockProp, length)
 test_that("BipartiteSBM_fit 'Bernoulli' model, undirected, no covariate", {
 
   ## BIPARTITE UNDIRECTED BERNOULLI SBM
-  means <- matrix(runif(6), 2, 3)  # connectivity matrix
+  means <- matrix(c(0.05, 0.95, 0.4, 0.98, 0.15, 0.6), 2, 3)  # connectivity matrix
   connectParam <- list(mean = means)
 
   ## Basic construction - check for wrong specifications
@@ -54,15 +56,15 @@ test_that("BipartiteSBM_fit 'Bernoulli' model, undirected, no covariate", {
 
   ## correctness
   expect_lt(rmse(sort(mySBM$connectParam$mean), sort(means)), 1e-1)
-  expect_lt(1 - aricode::ARI(mySBM$memberships[[1]], mySampler$memberships[[1]]), 1e-1)
-  expect_lt(1 - aricode::ARI(mySBM$memberships[[2]], mySampler$memberships[[2]]), 1e-1)
+  expect_lt(1 - aricode::ARI(mySBM$memberships[[1]], mySampler$memberships[[1]]), .1)
+  expect_lt(1 - aricode::ARI(mySBM$memberships[[2]], mySampler$memberships[[2]]), .1)
 
 })
 
 test_that("BipartiteSBM_fit 'Poisson' model, undirected, no covariate", {
 
   ## SIMPLE DIRECTED POISSON SBM
-  means <- matrix(rbinom(6, 30, 0.25), 2, 3)  # connectivity matrix
+  means <- matrix(c(10, 5, 7, 15, 20, 8), 2, 3)  # connectivity matrix
   connectParam <- list(mean = means)
 
   ## Basic construction - check for wrong specifications
@@ -117,8 +119,8 @@ test_that("BipartiteSBM_fit 'Poisson' model, undirected, no covariate", {
 test_that("BipartiteSBM_fit 'Gaussian' model, undirected, no covariate", {
 
   ## SIMPLE UNDIRECTED GAUSSIAN SBM
-  means <- 20 * matrix(runif(6), 2, 3)  # connectivity matrix
-  connectParam <- list(mean = means, var = 1)
+  means <- matrix(c(0.05, 0.95, 0.4, 0.98, 0.15, 0.6), 2, 3)  # connectivity matrix
+  connectParam <- list(mean = means, var = .1)
 
   ## Basic construction - check for wrong specifications
   mySampler <- BipartiteSBM_sampler$new('gaussian', nbNodes, blockProp, connectParam)
