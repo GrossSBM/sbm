@@ -35,7 +35,7 @@ BipartiteSBM_fit <-
       #' @param explorFactor double factor for exploring successive model
       #' @param nbBlocksRange 2-size vector: range of exploration
       optimize = function(verbosity     = 3,
-                          plot          = TRUE,
+                          plot          = FALSE,
                           explorFactor  = 1.5,
                           nbBlocksRange = c(4,Inf),
                           nbCores       = parallel::detectCores()) {
@@ -43,7 +43,7 @@ BipartiteSBM_fit <-
         ## translate to blockmodels list of options
         blockmodelsOptions <- list(
           verbosity          = verbosity,
-          plotting           = ifelse(plot, character(0), ""),
+          plotting           = if(plot) character(0) else "",
           explore_min        = nbBlocksRange[1],
           explore_max        = nbBlocksRange[2],
           ncores             = nbCores,
@@ -64,9 +64,6 @@ BipartiteSBM_fit <-
 
         ## Exporting blockmodels output to BipartiteSBM_fit fields
         private$import_from_BM()
-
-        ## record fitted/expected value
-        private$Y_hat <- self$predict()
 
         invisible(private$BMobject)
       },

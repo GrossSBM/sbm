@@ -63,7 +63,7 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       #' @import ggplot2
       plot = function(type = c('data', 'expected'), ordered = TRUE, rowLabel = NULL, colLabel = NULL) {
 
-        Mat <- switch(match.arg(type), data = self$netMatrix, expected = self$predict())
+        Mat <- switch(match.arg(type), data = self$netMatrix, expected = self$expectation)
 
         if (ordered) {
           if (is.vector(self$memberships)) {cl = list(row = self$memberships)}
@@ -111,7 +111,7 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       #' @field covarList list of matrices of covariates
       covarList    = function(value) {if (missing(value)) return(private$X) else private$X <- value},
       #' @field covarEffect effect of covariates
-      covarEffect  = function(value) {roundProduct(simplify2array(private$X), private$beta)},
+      covarEffect  = function(value) {if (self$nbCovariates > 0) return(roundProduct(simplify2array(private$X), private$beta)) else return(numeric(0))},
       #' @field netMatrix the matrix (adjacency or incidence) encoding the network
       netMatrix    = function(value) {if (missing(value)) return(private$Y) else private$Y <- value}
     )

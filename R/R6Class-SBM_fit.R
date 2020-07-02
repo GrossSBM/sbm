@@ -10,7 +10,6 @@ SBM_fit <- # this virtual class is the mother of all subtypes of SBM (Simple or 
       J              = NULL, # variational approximation of the log-likelihood
       vICL           = NULL, # variational approximation of the ICL
       tau            = NULL, # variational parameters for posterior probablility of class belonging
-      Y_hat          = NULL,
       BMobject       = NULL,
       import_from_BM  = function(index = which.max(private$BMobject$ICL)) {
         private$J     <- private$BMobject$PL[index]
@@ -61,8 +60,10 @@ SBM_fit <- # this virtual class is the mother of all subtypes of SBM (Simple or 
       loglik          = function(value) {private$J    },
       #' @field ICL double: value of the integrated classification log-likelihood
       ICL             = function(value) {private$vICL },
+      #' @field expectation expected values of connection under the currently adjusted model
+      expectation = function() {self$predict()},
       #' @field fitted matrix of predicted value of the network
-      fitted          = function(value) {private$Y_hat}
+      fitted          = function(value) {private$predict()}
     )
   )
 
