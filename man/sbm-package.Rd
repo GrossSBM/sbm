@@ -7,8 +7,16 @@
 \title{sbm: Stochastic Blockmodels}
 \description{
 A collection of tools and function to adjust a variety of stochastic blockmodels (SBM). 
-  Support at the moment Simple and Bipartite SBM (undirect and directed) for Bernoulli, Poisson and 
-  Gaussian emission laws of the edges.
+  Support at the moment Simple and Bipartite SBM (undirected and directed) for Bernoulli, Poisson and 
+  Gaussian emission laws of the edges as described in <arxiv:1602.07587>.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://grosssbm.github.io/sbm/}
+  \item Report bugs at \url{https://github.com/GrossSBM/sbm/issues}
+}
+
 }
 \author{
 \strong{Maintainer}: Julien Chiquet \email{julien.chiquet@inrae.fr} (\href{https://orcid.org/0000-0002-3629-3429}{ORCID})

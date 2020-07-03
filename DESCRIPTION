@@ -12,8 +12,10 @@ Authors@R:
            email = "pierre.barbillon@agroparistech.fr",
            comment = c(ORCID = "0000-0002-7766-7693")))
 Description: A collection of tools and function to adjust a variety of stochastic blockmodels (SBM). 
-  Support at the moment Simple and Bipartite SBM (undirect and directed) for Bernoulli, Poisson and 
-  Gaussian emission laws of the edges.
+  Support at the moment Simple and Bipartite SBM (undirected and directed) for Bernoulli, Poisson and 
+  Gaussian emission laws of the edges as described in <arxiv:1602.07587>.
+URL: https://grosssbm.github.io/sbm/
+BugReports: https://github.com/GrossSBM/sbm/issues
 License: GPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: true
