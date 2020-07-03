@@ -19,6 +19,7 @@ Authors:
 
 Other contributors:
 \itemize{
+  \item großBM team [contributor]
   \item Pierre Barbillon \email{pierre.barbillon@agroparistech.fr} (\href{https://orcid.org/0000-0002-7766-7693}{ORCID}) [contributor]
 }
 
