@@ -37,7 +37,6 @@ Imports:
     R6,
     corrplot,
     Rcpp,
-    mvtnorm,
     ggplot2
 Collate: 
     'R6Class-SBM.R'
