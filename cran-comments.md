@@ -1,4 +1,8 @@
 
+## Resubmission
+
+Deleting the LICENSE file add after error
+
 ## New submission
 
 This package is a new submission to CRAN. It aims to provide a series of tools for the popular 
