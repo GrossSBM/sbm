@@ -1,4 +1,4 @@
-# sbm 0.1.9005
+# sbm 0.2 - first CRAN release
 
-* Basic support for Simple and Bipartite SBM
+* Support for Simple and Bipartite SBM, undirect and directed with Bernoulli, Poisson and Gaussian emission law of the edges
 * Added a `NEWS.md` file to track changes to the package.

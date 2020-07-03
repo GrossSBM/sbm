@@ -6,8 +6,9 @@
 \alias{sbm-package}
 \title{sbm: Stochastic Blockmodels}
 \description{
-A collection of tools and function to adjust a variety of stochastic blockmodels (SBM), 
-  such as Simple (directed/undirected) SBM, Bipartite SBM, Multipartite SBM, Multilevel SBM and more.
+A collection of tools and function to adjust a variety of stochastic blockmodels (SBM). 
+  Support at the moment Simple and Bipartite SBM (undirect and directed) for Bernoulli, Poisson and 
+  Gaussian emission laws of the edges.
 }
 \author{
 \strong{Maintainer}: Julien Chiquet \email{julien.chiquet@inrae.fr} (\href{https://orcid.org/0000-0002-3629-3429}{ORCID})
