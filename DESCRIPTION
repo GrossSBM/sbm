@@ -1,15 +1,16 @@
 Package: sbm
 Title: Stochastic Blockmodels
-Version: 0.1.9200
+Version: 0.2
 Authors@R: 
-    c(person(given = "Pierre", family = "Barbillon", role = c("ctb"),
-           email = "pierre.barbillon@agroparistech.fr",
-           comment = c(ORCID = "0000-0002-7766-7693")),
-      person(given = "Julien", family = "Chiquet", role = c("aut", "cre"),
+    c(person(given = "Julien", family = "Chiquet", role = c("aut", "cre"),
            email = "julien.chiquet@inrae.fr",
            comment = c(ORCID = "0000-0002-3629-3429")),
       person(given = "Sophie", family = "Donnet", role = c("aut"),
-           email = "sophie.donnet@inrae.fr"))
+           email = "sophie.donnet@inrae.fr"),
+      person("großBM team", role = c("ctb")),
+      person(given = "Pierre", family = "Barbillon", role = c("ctb"),
+           email = "pierre.barbillon@agroparistech.fr",
+           comment = c(ORCID = "0000-0002-7766-7693")))
 Description: A collection of tools and function to adjust a variety of stochastic blockmodels (SBM), 
   such as Simple (directed/undirected) SBM, Bipartite SBM, Multipartite SBM, Multilevel SBM and more.
 License: GPL-3 + file LICENSE
@@ -41,17 +42,14 @@ Collate:
     'R6Class-BipartiteSBM_fit.R'
     'R6Class-SBM_sampler.R'
     'R6Class-BipartiteSBM_sampler.R'
-    'R6Class-ScoreSBM.R'
     'R6Class-SimpleSBM_fit.R'
     'R6Class-SimpleSBM_sampler.R'
     'RcppExports.R'
-    'VEM-ScoreSBM.R'
     'estimate.R'
     'fungus_tree_network.R'
     'plotMyMatrix.R'
     'sample.R'
     'sbm-package.R'
-    'utils-ScoreSBM.R'
     'utils-pipe.R'
     'utils.R'
 LinkingTo: 
