@@ -59,8 +59,8 @@ test_that("SimpleSBM_fit 'Bernoulli' model, undirected, no covariate", {
   expect_equal(length(mySBM$memberships), nbNodes)
 
   ## correctness
-  expect_lt(rmse(mySBM$connectParam$mean, means), 1e-1)
-  expect_lt(1 - aricode::ARI(mySBM$memberships, mySampler$memberships), 1e-1)
+  expect_lt(rmse(mySBM$connectParam$mean, means), 0.2)
+  expect_lt(1 - aricode::ARI(mySBM$memberships, mySampler$memberships), 0.2)
 
 })
 
