@@ -168,7 +168,8 @@ estimateSimpleSBM <- function(netMat,
 #' mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'gaussian')
 #'
 #' ## Estimation
-#' myBipartiteSBM <- estimateBipartiteSBM(mySampler$netMatrix, 'gaussian', estimOptions = list(plot = FALSE))
+#' myBipartiteSBM <-
+#'   estimateBipartiteSBM(mySampler$netMatrix, 'gaussian', estimOptions = list(plot = FALSE))
 #' plot(myBipartiteSBM, 'expected')
 #'
 #' @export
