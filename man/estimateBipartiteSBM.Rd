@@ -79,7 +79,8 @@ connectParam <- list(mean = means, var = 1)
 mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'gaussian')
 
 ## Estimation
-myBipartiteSBM <- estimateBipartiteSBM(mySampler$netMatrix, 'gaussian', estimOptions = list(plot = FALSE))
+myBipartiteSBM <-
+  estimateBipartiteSBM(mySampler$netMatrix, 'gaussian', estimOptions = list(plot = FALSE))
 plot(myBipartiteSBM, 'expected')
 
 }
