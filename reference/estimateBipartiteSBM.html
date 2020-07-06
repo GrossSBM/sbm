@@ -184,7 +184,7 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models.</p>
 <span class='co'>### BIPARTITE BINARY SBM (Bernoulli model)</span>
 
 <span class='co'>## Graph parameters and Sampling</span>
-<span class='kw'>nbNodes</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>100</span>, <span class='fl'>120</span>)
+<span class='kw'>nbNodes</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>60</span>, <span class='fl'>80</span>)
 <span class='kw'>blockProp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>.5</span>, <span class='fl'>.5</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span><span class='op'>/</span><span class='fl'>3</span>, <span class='fl'>1</span><span class='op'>/</span><span class='fl'>3</span>, <span class='fl'>1</span><span class='op'>/</span><span class='fl'>3</span>)) <span class='co'># group proportions</span>
 <span class='kw'>means</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>6</span>), <span class='fl'>2</span>, <span class='fl'>3</span>)  <span class='co'># connectivity matrix</span>
 <span class='co'># In Bernoulli SBM, parameters is a list with a</span>
@@ -220,20 +220,6 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models.</p>
 #&gt;         -&gt; For 6 groups
 #&gt;         -&gt; For 7 groups
 #&gt;         -&gt; For 8 groups
-#&gt;     -&gt; With descending number of groups
-#&gt;         -&gt; For 7 groups
-#&gt;         -&gt; For 6 groups
-#&gt;         -&gt; For 5 groups
-#&gt;         -&gt; For 4 groups
-#&gt;         -&gt; For 3 groups
-#&gt; -&gt; Pass 3
-#&gt;     -&gt; With ascending number of groups
-#&gt;         -&gt; For 3 groups
-#&gt;         -&gt; For 4 groups
-#&gt;         -&gt; For 5 groups
-#&gt;         -&gt; For 6 groups
-#&gt;         -&gt; For 7 groups
-#&gt;         -&gt; For 8 groups
 #&gt;     -&gt; With descending number of groups
 #&gt;         -&gt; For 7 groups
 #&gt;         -&gt; For 6 groups
@@ -244,7 +230,7 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models.</p>
 <span class='co'>### BIPARTITE POISSON SBM</span>
 
 <span class='co'>## Graph parameters &amp; Sampling</span>
-<span class='kw'>nbNodes</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>100</span>, <span class='fl'>120</span>)
+<span class='kw'>nbNodes</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>60</span>, <span class='fl'>80</span>)
 <span class='kw'>blockProp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>.5</span>, <span class='fl'>.5</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span><span class='op'>/</span><span class='fl'>3</span>, <span class='fl'>1</span><span class='op'>/</span><span class='fl'>3</span>, <span class='fl'>1</span><span class='op'>/</span><span class='fl'>3</span>)) <span class='co'># group proportions</span>
 <span class='kw'>means</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Binomial.html'>rbinom</a></span>(<span class='fl'>6</span>, <span class='fl'>30</span>, <span class='fl'>0.25</span>), <span class='fl'>2</span>, <span class='fl'>3</span>)  <span class='co'># connectivity matrix</span>
 <span class='kw'>connectParam</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(mean = <span class='kw'>means</span>)
@@ -263,34 +249,32 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models.</p>
 #&gt;         -&gt; For 4 groups
 #&gt;         -&gt; For 5 groups
 #&gt;         -&gt; For 6 groups
-#&gt;     -&gt; With descending number of groups
-#&gt;         -&gt; For 5 groups
+#&gt;         -&gt; For 7 groups
+#&gt;         -&gt; For 8 groups
+#&gt;     -&gt; With descending number of groups
+#&gt;         -&gt; For 7 groups
+#&gt;         -&gt; For 6 groups
+#&gt;         -&gt; For 5 groups
 #&gt;         -&gt; For 4 groups
 #&gt;         -&gt; For 3 groups
 #&gt; -&gt; Pass 2
 #&gt;     -&gt; With ascending number of groups
 #&gt;         -&gt; For 3 groups
 #&gt;         -&gt; For 4 groups
-#&gt;         -&gt; For 5 groups
-#&gt;         -&gt; For 6 groups
-#&gt;     -&gt; With descending number of groups
-#&gt;         -&gt; For 5 groups
-#&gt;         -&gt; For 4 groups
-#&gt;         -&gt; For 3 groups
-#&gt; -&gt; Pass 3
-#&gt;     -&gt; With ascending number of groups
-#&gt;         -&gt; For 3 groups
-#&gt;         -&gt; For 4 groups
 #&gt;         -&gt; For 5 groups
 #&gt;         -&gt; For 6 groups
+#&gt;         -&gt; For 7 groups
+#&gt;         -&gt; For 8 groups
 #&gt;     -&gt; With descending number of groups
+#&gt;         -&gt; For 7 groups
+#&gt;         -&gt; For 6 groups
 #&gt;         -&gt; For 5 groups
 #&gt;         -&gt; For 4 groups
 #&gt;         -&gt; For 3 groups</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>myBipartiteSBM</span>, <span class='st'>'expected'</span>)</div><div class='img'><img src='estimateBipartiteSBM-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>### =======================================</span>
 <span class='co'>### BIPARTITE GAUSSIAN SBM</span>
 <span class='co'>## Graph parameters &amp; sampling</span>
-<span class='kw'>nbNodes</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>100</span>, <span class='fl'>120</span>)
+<span class='kw'>nbNodes</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>60</span>, <span class='fl'>80</span>)
 <span class='kw'>blockProp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>.5</span>, <span class='fl'>.5</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span><span class='op'>/</span><span class='fl'>3</span>, <span class='fl'>1</span><span class='op'>/</span><span class='fl'>3</span>, <span class='fl'>1</span><span class='op'>/</span><span class='fl'>3</span>)) <span class='co'># group proportions</span>
 <span class='kw'>means</span> <span class='op'>&lt;-</span> <span class='fl'>20</span> <span class='op'>*</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>6</span>), <span class='fl'>2</span>, <span class='fl'>3</span>)  <span class='co'># connectivity matrix</span>
 <span class='kw'>connectParam</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(mean = <span class='kw'>means</span>, var = <span class='fl'>1</span>)
@@ -325,6 +309,20 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models.</p>
 #&gt;         -&gt; For 6 groups
 #&gt;         -&gt; For 7 groups
 #&gt;         -&gt; For 8 groups
+#&gt;     -&gt; With descending number of groups
+#&gt;         -&gt; For 7 groups
+#&gt;         -&gt; For 6 groups
+#&gt;         -&gt; For 5 groups
+#&gt;         -&gt; For 4 groups
+#&gt;         -&gt; For 3 groups
+#&gt; -&gt; Pass 3
+#&gt;     -&gt; With ascending number of groups
+#&gt;         -&gt; For 3 groups
+#&gt;         -&gt; For 4 groups
+#&gt;         -&gt; For 5 groups
+#&gt;         -&gt; For 6 groups
+#&gt;         -&gt; For 7 groups
+#&gt;         -&gt; For 8 groups
 #&gt;     -&gt; With descending number of groups
 #&gt;         -&gt; For 7 groups
 #&gt;         -&gt; For 6 groups
