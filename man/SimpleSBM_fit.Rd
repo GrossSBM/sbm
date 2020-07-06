@@ -101,7 +101,7 @@ function to perform optimization
 
 \item{\code{nbBlocksRange}}{2-size vector: range of exploration}
 
-\item{\code{nbCores}}{integer, the number of cores to use. Default is \code{parallel::detectCores()}.}
+\item{\code{nbCores}}{integer, the number of cores to use. Default is 2.}
 
 \item{\code{fast}}{logical: should approximation be used for Bernoulli model with covariates. Default to \code{TRUE}}
 }

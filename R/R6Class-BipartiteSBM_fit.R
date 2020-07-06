@@ -31,7 +31,7 @@ BipartiteSBM_fit <-
       #' @description function to perform optimization
       #' @param verbosity integer, the level of verbosity. Default to 3
       #' @param plot logical, if TRUE ploting is done dynamically on the screen. Default to \code{TRUE}
-      #' @param nbCores integer, the number of cores to use. Default is \code{parallel::detectCores()}.
+      #' @param nbCores integer, the number of cores to use. Default is 2.
       #' @param explorFactor double factor for exploring successive model
       #' @param nbBlocksRange 2-size vector: range of exploration
       #' @param fast logical: should approximation be used for Bernoulli model with covariates. Default to \code{TRUE}

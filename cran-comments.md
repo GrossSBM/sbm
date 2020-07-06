@@ -2,7 +2,8 @@
 ## Resubmission
 
 * Added the author and year to the reference in the Description text.
-* Set NbCores to 2 by default in optimize() method of Simple and Bipartite SBM fit
+* Set NbCores to 2 by default in method optimize() for Simple and Bipartite SBM fit,
+  hopefully limitating the resource for testing/checking the package
 
 ## New submission
 
