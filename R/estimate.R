@@ -132,7 +132,7 @@ estimateSimpleSBM <- function(netMat,
 #' ### BIPARTITE BINARY SBM (Bernoulli model)
 #'
 #' ## Graph parameters and Sampling
-#' nbNodes <- c(100, 120)
+#' nbNodes <- c(60, 80)
 #' blockProp <- list(c(.5, .5), c(1/3, 1/3, 1/3)) # group proportions
 #' means <- matrix(runif(6), 2, 3)  # connectivity matrix
 #' # In Bernoulli SBM, parameters is a list with a
@@ -148,7 +148,7 @@ estimateSimpleSBM <- function(netMat,
 #' ### BIPARTITE POISSON SBM
 #'
 #' ## Graph parameters & Sampling
-#' nbNodes <- c(100, 120)
+#' nbNodes <- c(60, 80)
 #' blockProp <- list(c(.5, .5), c(1/3, 1/3, 1/3)) # group proportions
 #' means <- matrix(rbinom(6, 30, 0.25), 2, 3)  # connectivity matrix
 #' connectParam <- list(mean = means)
@@ -162,7 +162,7 @@ estimateSimpleSBM <- function(netMat,
 #' ### =======================================
 #' ### BIPARTITE GAUSSIAN SBM
 #' ## Graph parameters & sampling
-#' nbNodes <- c(100, 120)
+#' nbNodes <- c(60, 80)
 #' blockProp <- list(c(.5, .5), c(1/3, 1/3, 1/3)) # group proportions
 #' means <- 20 * matrix(runif(6), 2, 3)  # connectivity matrix
 #' connectParam <- list(mean = means, var = 1)
