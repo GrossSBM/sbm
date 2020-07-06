@@ -82,7 +82,7 @@ We look for some latent structure of the network by adjusting a simple SBM with 
 
 ```{r simpleSBM}
 mySimpleSBM <- tree_tree_binary %>% 
-  estimateSimpleSBM("bernoulli", estimOptions = list(verbosity = 0))
+  estimateSimpleSBM("bernoulli", estimOptions = list(verbosity = 0, plot = FALSE))
 ```
 
 Once fitted, the user can manipulate the fitted model by accessing the various fields and methods enjoyed by the class `simpleSBMfit`. Most important fields and methods are recalled to the user via the `show` method:
@@ -151,7 +151,7 @@ Here again, we look for some latent structure of the network by adjusting a simp
 
 ```{r simpleSBM Poisson} 
 mySimpleSBMPoisson <- tree_tree %>% 
-  estimateSimpleSBM("poisson", estimOptions = list(verbosity = 0))
+  estimateSimpleSBM("poisson", estimOptions = list(verbosity = 0, plot = FALSE))
 ```
 
 Once fitted, the user can manipulate the fitted model by accessing the various fields and methods enjoyed by the class `simpleSBMfit`. Most important fields and methods are recalled to the user via the `show` method:
@@ -190,7 +190,14 @@ We have on each pair of trees 3 covariates, namely the genetic distance, the tax
 Each covariate has to be introduced as a  matrix: $X^k_{ij}$ corresponds to the value of the $k$-th covariate describing the couple $(i,j)$. 
 
 ```{r covar SBM,echo=TRUE,eval= TRUE}
-mySimpleSBMCov<- estimateSimpleSBM(netMat = as.matrix(tree_tree),model = 'poisson',directed =FALSE, covariates  = fungus_tree_network$covar_tree,estimOptions = list(verbosity = 0))
+mySimpleSBMCov<- 
+  tree_tree %>% 
+  estimateSimpleSBM(
+    model = 'poisson', 
+    directed = FALSE, 
+    covariates  = fungus_tree_network$covar_tree, 
+    estimOptions = list(verbosity = 0, plot = FALSE)
+  )
 ```
 
 - We select the best number of clusters (with respect to the ICL criteria)
@@ -216,12 +223,14 @@ mySimpleSBMCov$covarParam
 We now analyze the bipartite tree/fungi interactions. The incidence matrix can be plotted with the function \cote{plotMyMatrix}
 
 ```{r plot incidence}
-plotMyMatrix(fungus_tree_network$fungus_tree, rowLabel = 'fungis',colLabel = 'tree')
+plotMyMatrix(fungus_tree_network$fungus_tree, rowLabel = 'fungis', colLabel = 'tree')
 ```
 
 
 ```{r tree_fungi_bipartite network}
-myBipartiteSBM <- estimateBipartiteSBM(netMat = as.matrix(fungus_tree_network$fungus_tree),model = 'bernoulli',estimOptions = list(verbosity = 0))
+myBipartiteSBM <- 
+  fungus_tree_network$fungus_tree %>% 
+  estimateBipartiteSBM(model = 'bernoulli', estimOptions = list(verbosity = 0, plot = FALSE))
 ```
 
 ```{r bipartite.sbm fields}
@@ -235,8 +244,6 @@ We can now plot the reorganized matrix.
 ```{r plot bipartite}
 plot(myBipartiteSBM, rowLabel = 'fungis',colLabel = 'tree')
 ```
-
-
 
 
 ## References

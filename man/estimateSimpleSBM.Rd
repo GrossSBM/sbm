@@ -33,8 +33,9 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models.
 \details{
 The list of parameters \code{estimOptions} essentially tunes the optimization process and the variational EM algorithm, with the following parameters
 \itemize{
-\item{"nbCores"}{integer for number of cores used. Default is 1.}
-\item{"verbosity"}{integer for verbosity (0, 1). Default is 1.}
+\item{"nbCores"}{integer for number of cores used. Default is 1}
+\item{"verbosity"}{integer for verbosity (0, 1). Default is 1}
+\item{"plot"}{boolean, should the ICL by dynamically plotted or not. Default is TRUE}
 \item{"exploreFactor"}{control the exploration of the number of groups}
 \item{"nbBlocksRange"}{minimal and maximal number or blocks explored}
 }
@@ -52,7 +53,7 @@ mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam)
 adjacencyMatrix <- mySampler$netMatrix
 
 ## Estimation
-mySimpleSBM <- estimateSimpleSBM(adjacencyMatrix, 'bernoulli')
+mySimpleSBM <- estimateSimpleSBM(adjacencyMatrix, 'bernoulli', estimOptions = list(plot = FALSE))
 plot(mySimpleSBM, 'data', ordered = FALSE)
 plot(mySimpleSBM, 'data')
 plot(mySimpleSBM, 'expected', ordered = FALSE)
@@ -70,7 +71,7 @@ mySampler <- sampleSimpleSBM(nbNodes, blockProp, list(mean = means), model = "po
 adjacencyMatrix <- mySampler$netMatrix
 
 ## Estimation
-mySimpleSBM <- estimateSimpleSBM(adjacencyMatrix, 'poisson')
+mySimpleSBM <- estimateSimpleSBM(adjacencyMatrix, 'poisson', estimOptions = list(plot = FALSE))
 plot(mySimpleSBM, 'data', ordered = FALSE)
 plot(mySimpleSBM, 'data')
 plot(mySimpleSBM, 'expected', ordered = FALSE)
@@ -87,7 +88,7 @@ connectParam <- list(mean = means, var = 2)
 mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam, model = "gaussian")
 
 ## Estimation
-mySimpleSBM <- estimateSimpleSBM(mySampler$netMatrix, 'gaussian')
+mySimpleSBM <- estimateSimpleSBM(mySampler$netMatrix, 'gaussian', estimOptions = list(plot = FALSE))
 plot(mySimpleSBM, 'data', ordered = FALSE)
 plot(mySimpleSBM, 'data')
 plot(mySimpleSBM, 'expected', ordered = FALSE)
