@@ -38,7 +38,7 @@ test_that("BipartiteSBM_fit 'Bernoulli' model, undirected, no covariate", {
   expect_equal(mySBM$covarParam, numeric(0))
 
   ## Estimation-----------------------------------------------------------------
-  mySBM$optimize(verbosity = 0, nbCores = 1)
+  mySBM$optimize(verbosity = 0)
   mySBM$setModel(5)
 
   ## Expectation
@@ -94,7 +94,7 @@ test_that("BipartiteSBM_fit 'Poisson' model, undirected, no covariate", {
   expect_equal(mySBM$covarParam, numeric(0))
 
   ## Estimation-----------------------------------------------------------------
-  mySBM$optimize(verbosity = 0, nbCores = 1)
+  mySBM$optimize(verbosity = 0)
   mySBM$setModel(5)
 
   ## Expectation
@@ -149,7 +149,7 @@ test_that("BipartiteSBM_fit 'Gaussian' model, undirected, no covariate", {
   expect_equal(mySBM$covarParam, numeric(0))
 
   ## Estimation-----------------------------------------------------------------
-  mySBM$optimize(verbosity = 0, nbCores = 1)
+  mySBM$optimize(verbosity = 0)
   mySBM$setModel(5)
 
   ## Expectation

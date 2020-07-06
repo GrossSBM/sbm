@@ -196,7 +196,7 @@ mySimpleSBMCov<-
     model = 'poisson', 
     directed = FALSE, 
     covariates  = fungus_tree_network$covar_tree, 
-    estimOptions = list(verbosity = 0, plot = FALSE)
+    estimOptions = list(verbosity = 0, plot = FALSE, nbCores = 1)
   )
 ```
 

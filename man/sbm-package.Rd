@@ -8,7 +8,7 @@
 \description{
 A collection of tools and function to adjust a variety of stochastic blockmodels (SBM). 
   Support at the moment Simple and Bipartite SBM (undirected and directed) for Bernoulli, Poisson and 
-  Gaussian emission laws of the edges as described in <arxiv:1602.07587>.
+  Gaussian emission laws of the edges as described in Léger, 2016 <arxiv:1602.07587>.
 }
 \seealso{
 Useful links:

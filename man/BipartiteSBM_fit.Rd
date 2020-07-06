@@ -81,7 +81,7 @@ function to perform optimization
   plot = FALSE,
   explorFactor = 1.5,
   nbBlocksRange = c(4, Inf),
-  nbCores = parallel::detectCores(),
+  nbCores = 2,
   fast = TRUE
 )}\if{html}{\out{</div>}}
 }

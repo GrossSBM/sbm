@@ -39,7 +39,7 @@ BipartiteSBM_fit <-
                           plot          = FALSE,
                           explorFactor  = 1.5,
                           nbBlocksRange = c(4,Inf),
-                          nbCores       = parallel::detectCores(),
+                          nbCores       = 2,
                           fast          = TRUE) {
 
         ## translate to blockmodels list of options

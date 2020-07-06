@@ -1,7 +1,8 @@
 
 ## Resubmission
 
-Deleting the LICENSE file add after error
+* Added the author and year to the reference in the Description text.
+* Set NbCores to 2 by default in optimize() method of Simple and Bipartite SBM fit
 
 ## New submission
 

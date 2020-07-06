@@ -43,7 +43,7 @@ test_that("SimpleSBM_fit 'Bernoulli' model, undirected, no covariate", {
   expect_equal(mySBM$covarParam, numeric(0))
 
   ## Estimation-----------------------------------------------------------------
-  mySBM$optimize(verbosity = 0, nbCores = 1)
+  mySBM$optimize(verbosity = 0)
   mySBM$setModel(3)
 
   ## Expectation
@@ -102,7 +102,7 @@ test_that("SimpleSBM_fit 'Poisson' model, undirected, no covariate", {
   expect_equal(mySBM$covarParam, numeric(0))
 
   ## Estimation-----------------------------------------------------------------
-  mySBM$optimize(verbosity = 0, nbCores = 1)
+  mySBM$optimize(verbosity = 0)
   mySBM$setModel(3)
 
   ## Expectation
@@ -160,7 +160,7 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, no covariate", {
   expect_equal(mySBM$covarParam, numeric(0))
 
   ## Estimation-----------------------------------------------------------------
-  mySBM$optimize(verbosity = 0, nbCores = 1)
+  mySBM$optimize(verbosity = 0)
   mySBM$setModel(3)
 
   ## Expectation
