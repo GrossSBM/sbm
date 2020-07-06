@@ -18,8 +18,6 @@
 #' }
 #' @return  a list with the estimated parameters. See details...
 #'
-#' @importFrom corrplot corrplot
-#'
 #' @examples
 #' ### =======================================
 #' ### SIMPLE BINARY SBM (Bernoulli model)
@@ -125,8 +123,6 @@ estimateSimpleSBM <- function(netMat,
 #'  \item{"nbBlocksRange"}{minimal and maximal number or blocks explored}
 #' }
 #' @return  a list with the estimated parameters. See details...
-#'
-#' @importFrom corrplot corrplot
 #'
 #' @examples
 #' ### =======================================
