@@ -58,7 +58,7 @@ SimpleSBM_fit <-
         )
 
         ## generating arguments for blockmodels call
-        args <- list(membership_type =  ifelse(private$directed_, "SBM_sym", "SBM"), adj = .na2zero(private$Y))
+        args <- list(membership_type =  ifelse(!private$directed_, "SBM_sym", "SBM"), adj = .na2zero(private$Y))
         if (self$nbCovariates > 0) args$covariates <- private$X
         args <- c(args, blockmodelsOptions)
 
