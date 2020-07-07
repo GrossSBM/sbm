@@ -6,6 +6,7 @@
 <!-- badges: start -->
 
 ![R-CMD-check](https://github.com/GrossSBM/sbm/workflows/R-CMD-check/badge.svg?branch=master)
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/sbm)](https://cran.r-project.org/package=sbm)
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![](https://img.shields.io/github/last-commit/grossSBM/sbm.svg)](https://github.com/GrossSBM/sbm/commits/master)
@@ -18,6 +19,13 @@ tools for estimating and manipulating variants of the stochastic
 blockmodel.
 
 ## Installation
+
+The last stable version is available on
+[CRAN](https://CRAN.R-project.org/package=sbm) with:
+
+``` r
+install.packages("sbm")
+```
 
 You can install the development version from
 [GitHub](https://github.com/) with:
