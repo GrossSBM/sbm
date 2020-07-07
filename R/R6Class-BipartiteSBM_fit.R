@@ -58,7 +58,7 @@ BipartiteSBM_fit <-
         args <- c(args, blockmodelsOptions)
 
         ## model construction
-        model_type <- ifelse(self$nbCovariates > 0, paste0(model,"_covariates"), private$model)
+        model_type <- ifelse(self$nbCovariates > 0, paste0(private_model,"_covariates"), private$model)
         if (model_type == 'bernoulli_covariates' & fast == TRUE) model_type <- 'bernoulli_covariates_fast'
         private$BMobject <- do.call(paste0("BM_", model_type), args)
 
