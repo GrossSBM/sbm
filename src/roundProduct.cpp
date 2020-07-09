@@ -9,7 +9,8 @@ using namespace arma;
 Rcpp::NumericMatrix roundProduct(arma::cube phi, arma::vec beta) {
 
   int N = phi.n_rows;
-  arma::mat M = arma::zeros<arma::mat>(N,N);
+  int P = phi.n_cols;
+  arma::mat M = arma::zeros<arma::mat>(N,P);
 
   for (unsigned int k = 0; k < beta.size(); k++) {
     M += phi.slice(k) * beta[k];
