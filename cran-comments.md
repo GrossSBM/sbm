@@ -1,14 +1,9 @@
 
-## Resubmission
+## Changes in 0.2.1 (minor)
 
-* Added the author and year to the reference in the Description text.
-* Set NbCores to 2 by default in method optimize() for Simple and Bipartite SBM fit,
-  hopefully limitating the resource for testing/checking the package
-
-## New submission
-
-This package is a new submission to CRAN. It aims to provide a series of tools for the popular 
-"Stochastic Block Model" and, in the future, for many of its variants into a single framework.
+* various bug fixes, especially for directed network in simpleSBM, covariates for BipartiteLBM
+* tests for consistency amended to avoid random errors during testthat
+* tests for covriates and directed networks
 
 ## Tested environments
 
