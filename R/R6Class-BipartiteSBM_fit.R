@@ -75,8 +75,8 @@ BipartiteSBM_fit <-
       predict = function(covarList = self$covarList) {
         stopifnot(is.list(covarList), self$nbCovariates == length(covarList))
         if (length(covarList) > 0) {
-          stopifnot(all.equal(self$dimension[1], sapply(covarList, nrow)),
-                    all.equal(self$dimension[2], sapply(covarList, ncol)))
+          stopifnot(all(sapply(covarList, nrow) == self$dimension[1]),
+                    all(sapply(covarList, ncol) == self$dimension[2]))
         }
         mu <- private$tau[[1]] %*% private$theta$mean %*% t(private$tau[[2]])
         if (length(self$covList) > 0) mu <- private$invlink(private$link(mu) + self$covarEffect)
