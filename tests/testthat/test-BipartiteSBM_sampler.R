@@ -1,3 +1,5 @@
+set.seed(1234)
+
 ## Common parameters
 nbNodes  <- c(100, 120)
 blockProp <- list(row = c(.5, .5), col = c(1/3, 1/3, 1/3)) # group proportions

@@ -1,3 +1,5 @@
+set.seed(1234)
+
 ## Common parameters
 nbNodes  <- 90
 nbBlocks <- 3

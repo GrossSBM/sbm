@@ -1,3 +1,5 @@
+set.seed(1234)
+
 rmse <- function(theta, theta_star) { sqrt(sum((theta - theta_star)^2)/sum(theta_star^2)) }
 
 ## Common parameters
