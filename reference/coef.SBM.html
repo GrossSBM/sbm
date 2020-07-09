@@ -73,7 +73,7 @@ BipartiteSBM_fit)" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sbm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0-9005</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
       </span>
     </div>
 
@@ -138,7 +138,7 @@ BipartiteSBM_fit)" />
     </div>
 
     <pre class="usage"><span class='co'># S3 method for SBM</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>(<span class='kw'>object</span>, type = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"connectivity"</span>, <span class='st'>"membership"</span>, <span class='st'>"covariates"</span>), <span class='kw'>...</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>(<span class='kw'>object</span>, type = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"connectivity"</span>, <span class='st'>"block"</span>, <span class='st'>"covariates"</span>), <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -149,7 +149,7 @@ BipartiteSBM_fit)" />
     </tr>
     <tr>
       <th>type</th>
-      <td><p>type of parameter that should be extracted. Either 'memberships' for $$\pi$$, 'connectivity' for $$\theta$$,
+      <td><p>type of parameter that should be extracted. Either 'block' for $$\pi$$, 'connectivity' for $$\theta$$,
 or "covariates" for $$\beta$$. Default is 'connectivity'.</p></td>
     </tr>
     <tr>
