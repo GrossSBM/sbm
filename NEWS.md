@@ -3,6 +3,7 @@
 * various bug fixes, especially for directed network in Simple SBM, covariates for Bipartite LBM
 * tests for consistency amended to hopefully avoid random errors on CRAN
 * tests for covariates and directed networks
+* tests for S3 methods (coef, fitted, predict)
 
 # sbm 0.2.0 - first CRAN release
 
