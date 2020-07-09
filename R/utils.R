@@ -7,7 +7,11 @@ as_indicator <- function(clustering) {
 }
 
 as_clustering <- function(indicator) {
-  cl <- apply(indicator, 1, which.max)
+  if (is.null(indicator)) {
+    cl <- numeric(0)
+  } else {
+    cl <- apply(indicator, 1, which.max)
+  }
   cl
 }
 

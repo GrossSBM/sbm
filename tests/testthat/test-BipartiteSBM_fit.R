@@ -39,6 +39,11 @@ test_that("BipartiteSBM_fit 'Bernoulli' model, undirected, no covariate", {
   expect_equal(mySBM$covarList, list())
   expect_equal(mySBM$covarParam, numeric(0))
 
+  ## S3 methods
+  expect_equal(coef(mySBM, 'connectivity'), mySBM$connectParam)
+  expect_equal(coef(mySBM, 'block')       , mySBM$blockProp)
+  expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
+
   ## Estimation-----------------------------------------------------------------
   mySBM$optimize(verbosity = 0)
   mySBM$setModel(5)
@@ -55,6 +60,14 @@ test_that("BipartiteSBM_fit 'Bernoulli' model, undirected, no covariate", {
   expect_equivalent(dim(mySBM$probMemberships[[2]]), c(nbNodes[2], nbBlocks[2]))
   expect_equal(sort(unique(mySBM$memberships[[1]])), 1:nbBlocks[1])
   expect_equal(sort(unique(mySBM$memberships[[2]])), 1:nbBlocks[2])
+
+  ## S3 methods
+  expect_equal(coef(mySBM, 'connectivity'), mySBM$connectParam)
+  expect_equal(coef(mySBM, 'block')       , mySBM$blockProp)
+  expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
+  expect_equal(mySBM$predict(), predict(mySBM))
+  expect_equal(mySBM$fitted, fitted(mySBM))
+  expect_equal(mySBM$fitted, predict(mySBM))
 
   ## correctness
   expect_lt(rmse(sort(mySBM$connectParam$mean), sort(means)), .2)
@@ -95,6 +108,11 @@ test_that("BipartiteSBM_fit 'Poisson' model, undirected, no covariate", {
   expect_equal(mySBM$covarList, list())
   expect_equal(mySBM$covarParam, numeric(0))
 
+  ## S3 methods
+  expect_equal(coef(mySBM, 'connectivity'), mySBM$connectParam)
+  expect_equal(coef(mySBM, 'block')       , mySBM$blockProp)
+  expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
+
   ## Estimation-----------------------------------------------------------------
   mySBM$optimize(verbosity = 0)
   mySBM$setModel(5)
@@ -110,6 +128,14 @@ test_that("BipartiteSBM_fit 'Poisson' model, undirected, no covariate", {
   expect_equivalent(dim(mySBM$probMemberships[[2]]), c(nbNodes[2], nbBlocks[2]))
   expect_equal(sort(unique(mySBM$memberships[[1]])), 1:nbBlocks[1])
   expect_equal(sort(unique(mySBM$memberships[[2]])), 1:nbBlocks[2])
+
+  ## S3 methods
+  expect_equal(coef(mySBM, 'connectivity'), mySBM$connectParam)
+  expect_equal(coef(mySBM, 'block')       , mySBM$blockProp)
+  expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
+  expect_equal(mySBM$predict(), predict(mySBM))
+  expect_equal(mySBM$fitted, fitted(mySBM))
+  expect_equal(mySBM$fitted, predict(mySBM))
 
   ## correctness
   expect_lt(rmse(sort(mySBM$connectParam$mean), sort(means)), 1e-1)
@@ -150,6 +176,11 @@ test_that("BipartiteSBM_fit 'Gaussian' model, undirected, no covariate", {
   expect_equal(mySBM$covarList, list())
   expect_equal(mySBM$covarParam, numeric(0))
 
+  ## S3 methods
+  expect_equal(coef(mySBM, 'connectivity'), mySBM$connectParam)
+  expect_equal(coef(mySBM, 'block')       , mySBM$blockProp)
+  expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
+
   ## Estimation-----------------------------------------------------------------
   mySBM$optimize(verbosity = 0)
   mySBM$setModel(5)
@@ -164,6 +195,14 @@ test_that("BipartiteSBM_fit 'Gaussian' model, undirected, no covariate", {
   expect_equivalent(dim(mySBM$probMemberships[[2]]), c(nbNodes[2], nbBlocks[2]))
   expect_equal(sort(unique(mySBM$memberships[[1]])), 1:nbBlocks[1])
   expect_equal(sort(unique(mySBM$memberships[[2]])), 1:nbBlocks[2])
+
+  ## S3 methods
+  expect_equal(coef(mySBM, 'connectivity'), mySBM$connectParam)
+  expect_equal(coef(mySBM, 'block')       , mySBM$blockProp)
+  expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
+  expect_equal(mySBM$predict(), predict(mySBM))
+  expect_equal(mySBM$fitted, fitted(mySBM))
+  expect_equal(mySBM$fitted, predict(mySBM))
 
   ## correctness
   expect_lt(rmse(sort(mySBM$connectParam$mean), sort(means)), 1e-1)

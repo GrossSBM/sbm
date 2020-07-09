@@ -53,6 +53,11 @@ test_that("SimpleSBM_fit 'Bernoulli' model, undirected, one covariate", {
   expect_equal(mySBM$covarList, covarList[1])
   expect_equal(mySBM$covarParam, c(0))
 
+  ## S3 methods
+  expect_equal(coef(mySBM, 'connectivity'), mySBM$connectParam)
+  expect_equal(coef(mySBM, 'block')       , mySBM$blockProp)
+  expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
+
   ## Estimation-----------------------------------------------------------------
   mySBM$optimize(verbosity = 0, fast = TRUE)
   mySBM$setModel(2)
@@ -68,6 +73,16 @@ test_that("SimpleSBM_fit 'Bernoulli' model, undirected, one covariate", {
   expect_equal(dim(mySBM$probMemberships), c(nbNodes, nbBlocks))
   expect_equal(sort(unique(mySBM$memberships)), 1:nbBlocks)
   expect_equal(length(mySBM$memberships), nbNodes)
+
+  ## S3 methods
+  expect_equal(coef(mySBM, 'connectivity'), mySBM$connectParam)
+  expect_equal(coef(mySBM, 'block')       , mySBM$blockProp)
+  expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
+  expect_equal(mySBM$predict(), predict(mySBM))
+  expect_equal(mySBM$fitted, fitted(mySBM))
+  expect_equal(mySBM$fitted, predict(mySBM))
+  expect_equal(predict(mySBM, covarList[1]), fitted(mySBM))
+  expect_error(predict(mySBM, covarList))
 
 })
 
@@ -108,6 +123,11 @@ test_that("SimpleSBM_fit 'Bernoulli' model, directed, one covariate", {
   expect_equal(mySBM$covarList, covarList_directed[1])
   expect_equal(mySBM$covarParam, c(0))
 
+  ## S3 methods
+  expect_equal(coef(mySBM, 'connectivity'), mySBM$connectParam)
+  expect_equal(coef(mySBM, 'block')       , mySBM$blockProp)
+  expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
+
   ## Estimation-----------------------------------------------------------------
   mySBM$optimize(verbosity = 0, fast = TRUE)
   mySBM$setModel(2)
@@ -123,6 +143,15 @@ test_that("SimpleSBM_fit 'Bernoulli' model, directed, one covariate", {
   expect_equal(dim(mySBM$probMemberships), c(nbNodes, nbBlocks))
   expect_equal(sort(unique(mySBM$memberships)), 1:nbBlocks)
   expect_equal(length(mySBM$memberships), nbNodes)
+
+  ## S3 methods
+  expect_equal(coef(mySBM, 'connectivity'), mySBM$connectParam)
+  expect_equal(coef(mySBM, 'block')       , mySBM$blockProp)
+  expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
+  expect_equal(mySBM$predict(), predict(mySBM))
+  expect_equal(mySBM$fitted, fitted(mySBM))
+  expect_equal(mySBM$fitted, predict(mySBM))
+  expect_equal(predict(mySBM, covarList[1]), fitted(mySBM))
 
 })
 
@@ -163,6 +192,11 @@ test_that("SimpleSBM_fit 'Poisson' model, undirected, two covariates", {
   expect_equal(mySBM$covarList, covarList[1])
   expect_equal(mySBM$covarParam, c(0))
 
+  ## S3 methods
+  expect_equal(coef(mySBM, 'connectivity'), mySBM$connectParam)
+  expect_equal(coef(mySBM, 'block')       , mySBM$blockProp)
+  expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
+
   ## Estimation-----------------------------------------------------------------
   mySBM$optimize(verbosity = 0)
   mySBM$setModel(2)
@@ -177,6 +211,15 @@ test_that("SimpleSBM_fit 'Poisson' model, undirected, two covariates", {
   expect_equal(dim(mySBM$probMemberships), c(nbNodes, nbBlocks))
   expect_equal(sort(unique(mySBM$memberships)), 1:nbBlocks)
   expect_equal(length(mySBM$memberships), nbNodes)
+
+  ## S3 methods
+  expect_equal(coef(mySBM, 'connectivity'), mySBM$connectParam)
+  expect_equal(coef(mySBM, 'block')       , mySBM$blockProp)
+  expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
+  expect_equal(mySBM$predict(), predict(mySBM))
+  expect_equal(mySBM$fitted, fitted(mySBM))
+  expect_equal(mySBM$fitted, predict(mySBM))
+  expect_equal(predict(mySBM, covarList[1]), fitted(mySBM))
 
 })
 
@@ -217,6 +260,11 @@ test_that("SimpleSBM_fit 'Poisson' model, directed, two covariates", {
   expect_equal(mySBM$covarList, covarList_directed[1])
   expect_equal(mySBM$covarParam, c(0))
 
+  ## S3 methods
+  expect_equal(coef(mySBM, 'connectivity'), mySBM$connectParam)
+  expect_equal(coef(mySBM, 'block')       , mySBM$blockProp)
+  expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
+
   ## Estimation-----------------------------------------------------------------
   mySBM$optimize(verbosity = 0)
   mySBM$setModel(2)
@@ -231,6 +279,15 @@ test_that("SimpleSBM_fit 'Poisson' model, directed, two covariates", {
   expect_equal(dim(mySBM$probMemberships), c(nbNodes, nbBlocks))
   expect_equal(sort(unique(mySBM$memberships)), 1:nbBlocks)
   expect_equal(length(mySBM$memberships), nbNodes)
+
+  ## S3 methods
+  expect_equal(coef(mySBM, 'connectivity'), mySBM$connectParam)
+  expect_equal(coef(mySBM, 'block')       , mySBM$blockProp)
+  expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
+  expect_equal(mySBM$predict(), predict(mySBM))
+  expect_equal(mySBM$fitted, fitted(mySBM))
+  expect_equal(mySBM$fitted, predict(mySBM))
+  expect_equal(predict(mySBM, covarList[1]), fitted(mySBM))
 
 })
 
@@ -272,6 +329,11 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, two covariates", {
   expect_equal(mySBM$covarList, covarList)
   expect_equal(mySBM$covarParam, c(0,0))
 
+  ## S3 methods
+  expect_equal(coef(mySBM, 'connectivity'), mySBM$connectParam)
+  expect_equal(coef(mySBM, 'block')       , mySBM$blockProp)
+  expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
+
   ## Estimation-----------------------------------------------------------------
   mySBM$optimize(verbosity = 0)
   mySBM$setModel(2)
@@ -290,6 +352,15 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, two covariates", {
   expect_lt(rmse(mySBM$connectParam$mean, means), 1e-1)
   expect_lt(rmse(mySBM$covarParam, covarParam), 0.1)
   expect_lt(1 - aricode::ARI(mySBM$memberships, mySampler$memberships), 1e-1)
+
+  ## S3 methods
+  expect_equal(coef(mySBM, 'connectivity'), mySBM$connectParam)
+  expect_equal(coef(mySBM, 'block')       , mySBM$blockProp)
+  expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
+  expect_equal(mySBM$predict(), predict(mySBM))
+  expect_equal(mySBM$fitted, fitted(mySBM))
+  expect_equal(mySBM$fitted, predict(mySBM))
+  expect_equal(predict(mySBM, covarList), fitted(mySBM))
 
 })
 
@@ -331,6 +402,11 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, two covariates", {
   expect_equal(mySBM$covarList, covarList_directed)
   expect_equal(mySBM$covarParam, c(0,0))
 
+  ## S3 methods
+  expect_equal(coef(mySBM, 'connectivity'), mySBM$connectParam)
+  expect_equal(coef(mySBM, 'block')       , mySBM$blockProp)
+  expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
+
   ## Estimation-----------------------------------------------------------------
   mySBM$optimize(verbosity = 0)
   mySBM$setModel(2)
@@ -349,5 +425,14 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, two covariates", {
   expect_lt(rmse(sort(mySBM$connectParam$mean), means), 1e-1)
   expect_lt(rmse(mySBM$covarParam, covarParam), 0.1)
   expect_lt(1 - aricode::ARI(mySBM$memberships, mySampler$memberships), 1e-1)
+
+  ## S3 methods
+  expect_equal(coef(mySBM, 'connectivity'), mySBM$connectParam)
+  expect_equal(coef(mySBM, 'block')       , mySBM$blockProp)
+  expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
+  expect_equal(mySBM$predict(), predict(mySBM))
+  expect_equal(mySBM$fitted, fitted(mySBM))
+  expect_equal(mySBM$fitted, predict(mySBM))
+  expect_equal(predict(mySBM, covarList), fitted(mySBM))
 
 })
