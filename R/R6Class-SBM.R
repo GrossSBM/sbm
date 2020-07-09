@@ -130,15 +130,15 @@ is_SBM <- function(Robject) {inherits(Robject, "SBM")}
 #' \code{\link[=BipartiteSBM_fit]{BipartiteSBM_fit}})
 #'
 #' @param object an R6 object inheriting from class SBM_fit (like SimpleSBM_fit or BipartiteSBM_fit)
-#' @param type type of parameter that should be extracted. Either 'memberships' for \deqn{\pi}, 'connectivity' for \deqn{\theta},
+#' @param type type of parameter that should be extracted. Either 'block' for \deqn{\pi}, 'connectivity' for \deqn{\theta},
 #'  or "covariates" for \deqn{\beta}. Default is 'connectivity'.
 #' @param ... additional parameters for S3 compatibility. Not used
 #' @return vector or list of parameters.
 #' @export
-coef.SBM <- function(object, type = c( 'connectivity', 'membership', 'covariates'), ...) {
+coef.SBM <- function(object, type = c( 'connectivity', 'block', 'covariates'), ...) {
   stopifnot(is_SBM(object))
   switch(match.arg(type),
-         membership   = object$blockProp,
+         block        = object$blockProp,
          connectivity = object$connectParam,
          covariates   = object$covarParam)
 }

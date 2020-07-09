@@ -64,7 +64,7 @@ SBM_fit <- # this virtual class is the mother of all subtypes of SBM (Simple or 
       #' @field expectation expected values of connection under the currently adjusted model
       expectation = function() {self$predict()},
       #' @field fitted matrix of predicted value of the network
-      fitted          = function(value) {private$predict()}
+      fitted          = function(value) {self$predict()}
     )
   )
 
