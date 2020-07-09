@@ -55,9 +55,9 @@ test_that("BipartiteSBM_fit 'Bernoulli' model, undirected, no covariate", {
   expect_equal(sort(unique(mySBM$memberships[[2]])), 1:nbBlocks[2])
 
   ## correctness
-  expect_lt(rmse(sort(mySBM$connectParam$mean), sort(means)), 1e-1)
-  expect_lt(1 - aricode::ARI(mySBM$memberships[[1]], mySampler$memberships[[1]]), .1)
-  expect_lt(1 - aricode::ARI(mySBM$memberships[[2]], mySampler$memberships[[2]]), .1)
+  expect_lt(rmse(sort(mySBM$connectParam$mean), sort(means)), .2)
+  expect_lt(1 - aricode::ARI(mySBM$memberships[[1]], mySampler$memberships[[1]]), .2)
+  expect_lt(1 - aricode::ARI(mySBM$memberships[[2]], mySampler$memberships[[2]]), .2)
 
 })
 
