@@ -111,6 +111,12 @@ One can also plot the expected network which, in case of the Bernoulli model, co
 plot(mySimpleSBM, type = "expected", rowLabel = 'tree', colLabel = 'tree')
 ```
 
+```{r simpleSBMfit coef}
+coef(mySimpleSBM, 'block')
+coef(mySimpleSBM, 'connectivity')
+```
+
+
 #### About model selection and choice of the number of blocks
 
 During the estimation, a certain range of models are explored corresponding to different number of blocks. By default, the best model in terms of Integrated Classification Likelihood is sent back. IN fact, all the model are stored internally. The user can have a quick glance at them via the `$storedModels` field:
@@ -184,6 +190,12 @@ plot(mySimpleSBMPoisson, type = "expected", rowLabel = 'tree', colLabel = 'tree'
 
 The same manipulations can be made on the models as before. 
 
+```{r simpleSBMfitPoisson coef}
+coef(mySimpleSBMPoisson, 'block')
+coef(mySimpleSBMPoisson, 'connectivity')
+```
+
+
 ### Introduction of covariates
 
 We have on each pair of trees 3 covariates, namely the genetic distance, the taxonomic distance and the geographic distance. 
@@ -215,6 +227,17 @@ mySimpleSBMCov$covarParam
 ```
 
 
+```{r simpleSBMfitPoisson covar coef}
+coef(mySimpleSBMCov, 'covariates')
+```
+
+S3 methods are also available for fit and prediction (results hidden here)
+
+```{r simpleSBMfitPoisson covar fitted, results='hide'}
+fitted(mySimpleSBMCov)
+predict(mySimpleSBMCov)
+predict(mySimpleSBMCov, fungus_tree_network$covar_tree)
+```
  
   
 ## Analysis of the tree/fungi data
@@ -237,6 +260,8 @@ myBipartiteSBM <-
 myBipartiteSBM$nbNodes
 myBipartiteSBM$nbBlocks
 myBipartiteSBM$connectParam
+coef(myBipartiteSBM, 'block')
+coef(myBipartiteSBM, 'connectivity')
 ```
 
 We can now plot the reorganized matrix. 
