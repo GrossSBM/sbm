@@ -3,9 +3,9 @@ set.seed(1234)
 rmse <- function(theta, theta_star) { sqrt(sum((theta - theta_star)^2)/sum(theta_star^2)) }
 
 ## Common parameters
-nbNodes  <- 30
+nbNodes  <- 40
 nbBlocks <- 2
-blockProp <- c(.75, .25) # group proportions
+blockProp <- c(.5, .5) # group proportions
 covarParam <- c(-2,2)
 covar1 <- matrix(rnorm(nbNodes**2), nbNodes, nbNodes)
 covar2 <- matrix(rnorm(nbNodes**2), nbNodes, nbNodes)
@@ -129,17 +129,17 @@ test_that("SimpleSBM_fit 'Bernoulli' model, directed, one covariate", {
 test_that("SimpleSBM_fit 'Poisson' model, undirected, two covariates", {
 
   ## SIMPLE UNDIRECTED POISSON SBM
-  means <- diag(15., 2) + 5
+  means <- diag(15, 2) + 5
   connectParam <- list(mean = means)
 
   ## Basic construction - check for wrong specifications
-  mySampler <- SimpleSBM_sampler$new('poisson', nbNodes, FALSE, blockProp, connectParam, covarParam, covarList)
+  mySampler <- SimpleSBM_sampler$new('poisson', nbNodes, FALSE, blockProp, connectParam, covarParam[1], covarList[1])
 
   ## Construction----------------------------------------------------------------
-  mySBM <- SimpleSBM_fit$new(mySampler$netMatrix, 'poisson', FALSE, covarList)
-  expect_error(SimpleSBM_fit$new(SamplerBernoulli$netMatrix, 'poison', FALSE, covarList))
-  expect_error(SimpleSBM_fit$new(SamplerBernoulli$netMatrix[1:20, 1:30], 'poisson', FALSE, covarList))
-  expect_error(SimpleSBM_fit$new(SamplerBernoulli$netMatrix, 'poisson', TRUE, covarList))
+  mySBM <- SimpleSBM_fit$new(mySampler$netMatrix, 'poisson', FALSE, covarList[1])
+  expect_error(SimpleSBM_fit$new(SamplerBernoulli$netMatrix, 'poison', FALSE, covarList[1]))
+  expect_error(SimpleSBM_fit$new(SamplerBernoulli$netMatrix[1:20, 1:30], 'poisson', FALSE, covarList[1]))
+  expect_error(SimpleSBM_fit$new(SamplerBernoulli$netMatrix, 'poisson', TRUE, covarList[1]))
 
   ## Checking class
   expect_true(inherits(mySBM, "SBM"))
@@ -159,9 +159,9 @@ test_that("SimpleSBM_fit 'Poisson' model, undirected, two covariates", {
 
   ## covariates
   expect_null(mySBM$covarExpect)
-  expect_equal(mySBM$nbCovariates, 2)
-  expect_equal(mySBM$covarList, covarList)
-  expect_equal(mySBM$covarParam, c(0,0))
+  expect_equal(mySBM$nbCovariates, 1)
+  expect_equal(mySBM$covarList, covarList[1])
+  expect_equal(mySBM$covarParam, c(0))
 
   ## Estimation-----------------------------------------------------------------
   mySBM$optimize(verbosity = 0)
@@ -187,13 +187,13 @@ test_that("SimpleSBM_fit 'Poisson' model, directed, two covariates", {
   connectParam <- list(mean = means)
 
   ## Basic construction - check for wrong specifications
-  mySampler <- SimpleSBM_sampler$new('poisson', nbNodes, TRUE, blockProp, connectParam, covarParam, covarList_directed)
+  mySampler <- SimpleSBM_sampler$new('poisson', nbNodes, TRUE, blockProp, connectParam, covarParam[1], covarList_directed[1])
 
   ## Construction----------------------------------------------------------------
-  mySBM <- SimpleSBM_fit$new(mySampler$netMatrix, 'poisson', TRUE, covarList_directed)
-  expect_error(SimpleSBM_fit$new(SamplerBernoulli$netMatrix, 'poison', TRUE, covarList_directed))
-  expect_error(SimpleSBM_fit$new(SamplerBernoulli$netMatrix[1:20, 1:30], 'poisson', FALSE, covarList_directed))
-  expect_error(SimpleSBM_fit$new(SamplerBernoulli$netMatrix, 'poisson', FALSE, covarList_directed))
+  mySBM <- SimpleSBM_fit$new(mySampler$netMatrix, 'poisson', TRUE, covarList_directed[1])
+  expect_error(SimpleSBM_fit$new(SamplerBernoulli$netMatrix, 'poison', TRUE, covarList_directed[1]))
+  expect_error(SimpleSBM_fit$new(SamplerBernoulli$netMatrix[1:20, 1:30], 'poisson', FALSE, covarList_directed[1]))
+  expect_error(SimpleSBM_fit$new(SamplerBernoulli$netMatrix, 'poisson', FALSE, covarList_directed[1]))
 
   ## Checking class
   expect_true(inherits(mySBM, "SBM"))
@@ -213,9 +213,9 @@ test_that("SimpleSBM_fit 'Poisson' model, directed, two covariates", {
 
   ## covariates
   expect_null(mySBM$covarExpect)
-  expect_equal(mySBM$nbCovariates, 2)
-  expect_equal(mySBM$covarList, covarList_directed)
-  expect_equal(mySBM$covarParam, c(0,0))
+  expect_equal(mySBM$nbCovariates, 1)
+  expect_equal(mySBM$covarList, covarList_directed[1])
+  expect_equal(mySBM$covarParam, c(0))
 
   ## Estimation-----------------------------------------------------------------
   mySBM$optimize(verbosity = 0)
@@ -292,9 +292,6 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, two covariates", {
   expect_lt(1 - aricode::ARI(mySBM$memberships, mySampler$memberships), 1e-1)
 
 })
-
-
-
 
 
 test_that("SimpleSBM_fit 'Gaussian' model, undirected, two covariates", {
