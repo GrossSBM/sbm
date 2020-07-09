@@ -4,12 +4,12 @@
 \alias{coef.SBM}
 \title{Extract model coefficients}
 \usage{
-\method{coef}{SBM}(object, type = c("connectivity", "membership", "covariates"), ...)
+\method{coef}{SBM}(object, type = c("connectivity", "block", "covariates"), ...)
 }
 \arguments{
 \item{object}{an R6 object inheriting from class SBM_fit (like SimpleSBM_fit or BipartiteSBM_fit)}
 
-\item{type}{type of parameter that should be extracted. Either 'memberships' for \deqn{\pi}, 'connectivity' for \deqn{\theta},
+\item{type}{type of parameter that should be extracted. Either 'block' for \deqn{\pi}, 'connectivity' for \deqn{\theta},
 or "covariates" for \deqn{\beta}. Default is 'connectivity'.}
 
 \item{...}{additional parameters for S3 compatibility. Not used}

@@ -1,13 +1,17 @@
 
 ## Changes in 0.2.1 (minor)
 
+Sorry to publish a new version just after yhe first release, but it is to correct
+some random error on CRAN during unitary tests
+
 * various bug fixes, especially for directed network in simpleSBM, covariates for BipartiteLBM
 * tests for consistency amended to avoid random errors during testthat
-* tests for covriates and directed networks
+* tests for covariates and directed networks
+* tests for S3 methods (coef, fitted, predict)
 
 ## Tested environments
 
-* local R installation, R 4.0.2, Ubuntu 18.04
+* local R installation, R 4.0.2, Ubuntu 20.04
 * macOS 10.13.6 High Sierra, R-release, CRAN's setup (R-hub builder)
 * Windows Server 2008 R2 SP1, R-release, 32/64 bit (R-hub builder)
 * Linux Debian, R-release (R-hub builder)
@@ -20,6 +24,4 @@
 
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note
-
-* New submission
+0 errors | 0 warnings | 0 note
