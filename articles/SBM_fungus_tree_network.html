@@ -89,7 +89,7 @@
             <h3 class="subtitle">An illustration on antogonistic tree/fungus network</h3>
                         <h4 class="author">team großBM</h4>
             
-            <h4 class="date">2020-07-09</h4>
+            <h4 class="date">2020-07-15</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/GrossSBM/sbm/blob/master/vignettes/SBM_fungus_tree_network.Rmd"><code>vignettes/SBM_fungus_tree_network.Rmd</code></a></small>
       <div class="hidden name"><code>SBM_fungus_tree_network.Rmd</code></div>
@@ -112,7 +112,7 @@
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://igraph.org">igraph</a></span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://yihui.org/knitr">knitr</a></span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/mbojan/alluvial">alluvial</a></span>)
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>())
+<span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/theme_get.html">theme_set</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggtheme.html">theme_bw</a></span>())
 </pre></div>
 </div>
 <div id="data-set-antagonistic-treefungus-interaction-network" class="section level3">
@@ -284,7 +284,7 @@
 <p>We can then what models are competitive in terms of model selection by checking the ICL</p>
 <div class="sourceCode" id="cb12"><pre class="downlit">
 <span class="kw">mySimpleSBM</span><span class="op">$</span><span class="kw">storedModels</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>() <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(x = <span class="kw">nbBlocks</span>, y = <span class="kw">ICL</span>) <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span>() <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>(alpha = <span class="fl">0.5</span>)
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span>() <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span>(x = <span class="kw">nbBlocks</span>, y = <span class="kw">ICL</span>) <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_path.html">geom_line</a></span>() <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_point.html">geom_point</a></span>(alpha = <span class="fl">0.5</span>)
 </pre></div>
 <p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM%20ICL-1.png" width="700"></p>
 <p>The 4-block model could have been a good choice too, in place of the 5-block model. The user can update the current <code>simpleSBMfit</code> thanks to the the <code>setModel</code> method:</p>
