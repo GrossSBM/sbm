@@ -1,9 +1,6 @@
 
 ## Changes in 0.2.1 (minor)
 
-Sorry to publish a new version just after yhe first release, but it is to correct
-some random error on CRAN during unitary tests
-
 * various bug fixes, especially for directed network in simpleSBM, covariates for BipartiteLBM
 * tests for consistency amended to avoid random errors during testthat
 * tests for covariates and directed networks
