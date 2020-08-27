@@ -11,6 +11,7 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       link    = NULL, # the link function (GLM-like)
       invlink = NULL, # the inverse link function (GLM-like)
       dim     = NULL, # vector: number of nodes in row and in col
+      dimlab  = NULL, # vector: the type of nodes in row and in col
       pi      = NULL, # vector of parameters for block prior probabilities
       theta   = NULL, # connectivity parameters between edges
       beta    = NULL, # vector of covariates parameters
@@ -21,15 +22,17 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       #' @description constructor for SBM
       #' @param model character describing the type of model
       #' @param dimension dimension of the network matrix
+      #' @param dimLabels labels of each dimension (in row, in columns)
       #' @param blockProp parameters for block proportions (vector of list of vectors)
       #' @param connectParam list of parameters for connectivity
       #' @param covarParam optional vector of covariates effect
       #' @param covarList optional list of covariates data
-      initialize = function(model='', dimension=numeric(2), blockProp=numeric(0), connectParam=list(mean = matrix()), covarParam=numeric(length(covarList)), covarList=list()) {
+      initialize = function(model='', dimension=numeric(2), dimLabels=vector("list",2), blockProp=numeric(0), connectParam=list(mean = matrix()), covarParam=numeric(length(covarList)), covarList=list()) {
 
         ## SANITY CHECK
         stopifnot(is.character(model))
         stopifnot(model %in% available_models_edges)
+        stopifnot(is.list(dimLabels), length(dimLabels) == 2)
         stopifnot(is.numeric(dimension), length(dimension) == 2)
         stopifnot(is.list(connectParam), is.matrix(connectParam$mean))
         stopifnot(all.equal(length(covarParam), length(covarList)))
@@ -37,13 +40,14 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
         stopifnot(all(sapply(covarList, ncol) == dimension[2]))
 
         ## MODEL & PARAMETERS
-        private$model <- model
-        private$dim   <- dimension
-        private$X     <- covarList
-        private$pi    <- blockProp
-        private$theta <- connectParam
-        private$beta  <- covarParam
-        private$link  <- switch(model,
+        private$model   <- model
+        private$dim     <- dimension
+        private$dimlab  <- dimLabels
+        private$X       <- covarList
+        private$pi      <- blockProp
+        private$theta   <- connectParam
+        private$beta    <- covarParam
+        private$link    <- switch(model,
                 "gaussian"  = function(x) {x},
                 "poisson"   = function(x) {log(x)},
                 "bernoulli" = function(x) {.logit(x)},
@@ -57,25 +61,20 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       #' @description basic matrix plot method for SBM object
       #' @param type character for the type of plot: either 'data' (true connection) or 'expected' (fitted connection). Default to 'data'.
       #' @param ordered logical: should the rows and columns be reordered according to the clustering? Default to \code{TRUE}.
-      #' @param rowLabel character : type of the individual in row. Default to \code{NULL}.
-      #' @param colLabel character : type of the individual in col. Default to \code{NULL}.
       #' @return a ggplot2 object
       #' @import ggplot2
-      plot = function(type = c('data', 'expected'), ordered = TRUE, rowLabel = NULL, colLabel = NULL) {
+      plot = function(type = c('data', 'expected'), ordered = TRUE) {
 
         Mat <- switch(match.arg(type), data = self$netMatrix, expected = self$expectation)
 
         if (ordered) {
           if (is.vector(self$memberships)) {cl = list(row = self$memberships)}
           if (is.list(self$memberships)) {cl =  self$memberships; names(cl) = c('row','col') }
-        }else{
+        } else {
           cl = NULL
         }
 
-        if (is.null(colLabel)) {colLabel = ''}
-        if (is.null(rowLabel)) {rowLabel = ''}
-
-        P <- plotMatrix(Mat = Mat,rowFG = rowLabel,colFG = colLabel, clustering = cl)
+        P <- plotMatrix(Mat = Mat, dimLabels = self$dimLabels, clustering = cl)
         P
       },
       #' @description print method
@@ -89,7 +88,7 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
         cat("=====================================================================\n")
         cat("* Useful fields \n")
         cat("  $dimension, $modelName, $nbNodes, $nbBlocks, $nbCovariates, $nbDyads\n")
-        cat("  $blockProp, $connectParam, covarParam, $covarList, $covarEffect \n")
+        cat("  $blockProp, $connectParam, covarParam, $covarList, $covarEffect, $dimLabels \n")
       },
       #' @description print method
       print = function() self$show()
@@ -100,6 +99,8 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       dimension    = function(value) {private$dim},
       #' @field modelName character, the family of model for the distribution of the edges
       modelName    = function(value) {private$model},
+      #' @field dimLabels vector of characters, the label of each dimension
+      dimLabels    = function(value) {private$dimlab},
       #' @field nbCovariates integer, the number of covariates
       nbCovariates = function(value) {length(private$X)},
       #' @field blockProp vector of block proportions (aka prior probabilities of each block)
@@ -165,13 +166,11 @@ predict.SBM <- function(object, covarList = object$covarList, ...) {
 #' @param x a object inheriting from class SBM
 #' @param type character for the type of plot: either 'data' (true connection) or 'expected' (fitted connection). Default to 'data'.
 #' @param ordered logical: should the rows and columns be reoredered according to the clustering? Default to \code{TRUE}.
-#' @param rowLabel character : type of the individual in row. Default to \code{NULL}.
-#' @param colLabel character : type of the individual in col. Default to \code{NULL}.
 #' @param ... additional parameters for S3 compatibility. Not used
 #' @return a ggplot2 object
 #' @export
-plot.SBM = function(x, type = c('data', 'expected'), ordered = TRUE, rowLabel = NULL, colLabel = NULL, ...){
-  p <- x$plot(type, ordered, rowLabel, colLabel)
+plot.SBM = function(x, type = c('data', 'expected'), ordered = TRUE, ...){
+  p <- x$plot(type, ordered)
   p
 }
 

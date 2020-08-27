@@ -15,6 +15,8 @@ R6 virtual class for SBM representation (mother class of Simple and Bipartite SB
 
 \item{\code{modelName}}{character, the family of model for the distribution of the edges}
 
+\item{\code{dimLabels}}{vector of characters, the label of each dimension}
+
 \item{\code{nbCovariates}}{integer, the number of covariates}
 
 \item{\code{blockProp}}{vector of block proportions (aka prior probabilities of each block)}
@@ -50,6 +52,7 @@ constructor for SBM
 \if{html}{\out{<div class="r">}}\preformatted{SBM$new(
   model = "",
   dimension = numeric(2),
+  dimLabels = vector("list", 2),
   blockProp = numeric(0),
   connectParam = list(mean = matrix()),
   covarParam = numeric(length(covarList)),
@@ -63,6 +66,8 @@ constructor for SBM
 \item{\code{model}}{character describing the type of model}
 
 \item{\code{dimension}}{dimension of the network matrix}
+
+\item{\code{dimLabels}}{labels of each dimension (in row, in columns)}
 
 \item{\code{blockProp}}{parameters for block proportions (vector of list of vectors)}
 
@@ -81,12 +86,7 @@ constructor for SBM
 \subsection{Method \code{plot()}}{
 basic matrix plot method for SBM object
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{SBM$plot(
-  type = c("data", "expected"),
-  ordered = TRUE,
-  rowLabel = NULL,
-  colLabel = NULL
-)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{SBM$plot(type = c("data", "expected"), ordered = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -95,10 +95,6 @@ basic matrix plot method for SBM object
 \item{\code{type}}{character for the type of plot: either 'data' (true connection) or 'expected' (fitted connection). Default to 'data'.}
 
 \item{\code{ordered}}{logical: should the rows and columns be reordered according to the clustering? Default to \code{TRUE}.}
-
-\item{\code{rowLabel}}{character : type of the individual in row. Default to \code{NULL}.}
-
-\item{\code{colLabel}}{character : type of the individual in col. Default to \code{NULL}.}
 }
 \if{html}{\out{</div>}}
 }

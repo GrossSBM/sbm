@@ -12,15 +12,16 @@ BipartiteSBM_sampler <-
       #' @param nbNodes number of nodes in the network
       #' @param blockProp parameters for block proportions (vector of list of vectors)
       #' @param connectParam list of parameters for connectivity with a matrix of means 'mean' and an optional scalar for the variance 'var'. The dimensions of mu must match \code{blockProp} lengths
+      #' @param dimLabels optional labels of each dimension (in row, in column)
       #' @param covarParam optional vector of covariates effect
       #' @param covarList optional list of covariates data
-      initialize = function(model, nbNodes, blockProp, connectParam, covarParam=numeric(0), covarList=list()) {
+      initialize = function(model, nbNodes, blockProp, connectParam, dimLabels=list(row="rowLabel", col="colLabel"), covarParam=numeric(0), covarList=list()) {
         ## SANITY CHECKS
         stopifnot(length(blockProp) ==  2,
                   length(blockProp[[1]]) ==  nrow(connectParam$mean),
                   length(blockProp[[2]]) ==  ncol(connectParam$mean))
         names(blockProp) <- c("row", "col")
-        super$initialize(model, nbNodes, blockProp, connectParam, covarParam, covarList)
+        super$initialize(model, nbNodes, blockProp, dimLabels, connectParam, covarParam, covarList)
         self$rIncidence()
       },
       #' @description a method to generate a vector of block indicators

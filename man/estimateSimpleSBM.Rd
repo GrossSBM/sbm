@@ -8,6 +8,7 @@ estimateSimpleSBM(
   netMat,
   model = "bernoulli",
   directed = !isSymmetric(netMat),
+  dimLabels = list(row = "rowLabel", col = "colLabels"),
   covariates = list(),
   estimOptions = list()
 )
@@ -18,6 +19,8 @@ estimateSimpleSBM(
 \item{model}{character describing the model for the relation between nodes (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'}, ...). Default is \code{'bernoulli'}.}
 
 \item{directed}{logical: is the network directed or not? Only relevant when \code{type} is \code{'Simple'}. Default is \code{TRUE} if \code{netMat} is symmetric, \code{FALSE} otherwise}
+
+\item{dimLabels}{an optional list of labels for each dimension (in row, in column)}
 
 \item{covariates}{a list of matrices with same dimension as mat describing covariates at the edge level. No covariate per Default.}
 

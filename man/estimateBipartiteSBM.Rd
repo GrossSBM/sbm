@@ -7,6 +7,7 @@
 estimateBipartiteSBM(
   netMat,
   model = "bernoulli",
+  dimLabels = list(row = "rowLabel", col = "colLabels"),
   covariates = list(),
   estimOptions = list()
 )
@@ -15,6 +16,8 @@ estimateBipartiteSBM(
 \item{netMat}{a matrix describing the network: either an adjacency (square) or incidence matrix with possibly weighted entries.}
 
 \item{model}{character describing the model for the relation between nodes (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'}, ...). Default is \code{'bernoulli'}.}
+
+\item{dimLabels}{an optional list of labels for each dimension (in row, in column)}
 
 \item{covariates}{a list of matrices with same dimension as mat describing covariates at the edge level. No covariate per Default.}
 

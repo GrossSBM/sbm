@@ -55,7 +55,12 @@ This class is designed to give a representation and adjust an LBM fitted with bl
 \subsection{Method \code{new()}}{
 constructor for a Bipartite SBM fit
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{BipartiteSBM_fit$new(incidenceMatrix, model, covarList = list())}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{BipartiteSBM_fit$new(
+  incidenceMatrix,
+  model,
+  dimLabels = list(row = "rowLabel", col = "colLabel"),
+  covarList = list()
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -64,6 +69,8 @@ constructor for a Bipartite SBM fit
 \item{\code{incidenceMatrix}}{rectangular (weighted) matrix}
 
 \item{\code{model}}{character (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'})}
+
+\item{\code{dimLabels}}{labels of each dimension (in row, in columns)}
 
 \item{\code{covarList}}{and optional list of covariates, each of whom must have the same dimension as \code{incidenceMatrix}}
 }
