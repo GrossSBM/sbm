@@ -9,6 +9,7 @@ sampleBipartiteSBM(
   blockProp,
   connectParam,
   model = "bernoulli",
+  dimLabels = list(row = "rowLabel", col = "colLabels"),
   covariates = list(),
   covariatesParam = numeric(0)
 )
@@ -21,6 +22,8 @@ sampleBipartiteSBM(
 \item{connectParam}{list of parameters for connectivity with a matrix of means 'mean' and an optional matrix of variances 'var', the sizes of which must match \code{blockProp} length (in row, respectively in column)}
 
 \item{model}{character describing the model for the relation between nodes (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'}, ...). Default is \code{'bernoulli'}.}
+
+\item{dimLabels}{an optional list of labels for each dimension (in row, in column)}
 
 \item{covariates}{a list of matrices with same dimension as mat describing covariates at the edge level. No covariate per Default.}
 
