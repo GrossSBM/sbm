@@ -73,7 +73,7 @@ R6 virtual class for SBM representation (mother class of Simple and Bipartite SB
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sbm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1-9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2-9105</span>
       </span>
     </div>
 
@@ -146,6 +146,8 @@ R6 virtual class for SBM representation (mother class of Simple and Bipartite SB
 
 <dt><code>modelName</code></dt><dd><p>character, the family of model for the distribution of the edges</p></dd>
 
+<dt><code>dimLabels</code></dt><dd><p>vector of characters, the label of each dimension</p></dd>
+
 <dt><code>nbCovariates</code></dt><dd><p>integer, the number of covariates</p></dd>
 
 <dt><code>blockProp</code></dt><dd><p>vector of block proportions (aka prior probabilities of each block)</p></dd>
@@ -164,7 +166,7 @@ R6 virtual class for SBM representation (mother class of Simple and Bipartite SB
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
-<h3>Public methods</h3>
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Public methods</h3>
 
 <ul>
 <li><p><a href='#method-new'><code>SBM$new()</code></a></p></li>
@@ -174,22 +176,25 @@ R6 virtual class for SBM representation (mother class of Simple and Bipartite SB
 <li><p><a href='#method-clone'><code>SBM$clone()</code></a></p></li>
 </ul>
 <p><hr>
-<a id="method-new"></a></p><h3>Method <code>new()</code></h3>
-<p>constructor for SBM</p><h3>Usage</h3>
+<a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
+<p>constructor for SBM</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='kw'>SBM</span><span class='op'>$</span><span class='fu'>new</span>(
   model = <span class='st'>""</span>,
   dimension = <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>numeric</a></span>(<span class='fl'>2</span>),
+  dimLabels = <span class='fu'><a href='https://rdrr.io/r/base/vector.html'>vector</a></span>(<span class='st'>"list"</span>, <span class='fl'>2</span>),
   blockProp = <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>numeric</a></span>(<span class='fl'>0</span>),
   connectParam = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(mean = <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>()),
   covarParam = <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>numeric</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='kw'>covarList</span>)),
   covarList = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()
 )</pre><p></div></p>
 
-<h3>Arguments</h3>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
 <dt><code>model</code></dt><dd><p>character describing the type of model</p></dd>
 
 <dt><code>dimension</code></dt><dd><p>dimension of the network matrix</p></dd>
+
+<dt><code>dimLabels</code></dt><dd><p>labels of each dimension (in row, in columns)</p></dd>
 
 <dt><code>blockProp</code></dt><dd><p>parameters for block proportions (vector of list of vectors)</p></dd>
 
@@ -201,49 +206,40 @@ R6 virtual class for SBM representation (mother class of Simple and Bipartite SB
 
 </dl><p></div></p>
 <p><hr>
-<a id="method-plot"></a></p><h3>Method <code><a href='https://rdrr.io/r/graphics/plot.default.html'>plot()</a></code></h3>
-<p>basic matrix plot method for SBM object</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='kw'>SBM</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(
-  type = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"data"</span>, <span class='st'>"expected"</span>),
-  ordered = <span class='fl'>TRUE</span>,
-  rowLabel = <span class='kw'>NULL</span>,
-  colLabel = <span class='kw'>NULL</span>
-)</pre><p></div></p>
+<a id="method-plot"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/graphics/plot.default.html'>plot()</a></code></h3>
+<p>basic matrix plot method for SBM object</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>SBM</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(type = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"data"</span>, <span class='st'>"expected"</span>), ordered = <span class='fl'>TRUE</span>)</pre><p></div></p>
 
-<h3>Arguments</h3>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
 <dt><code>type</code></dt><dd><p>character for the type of plot: either 'data' (true connection) or 'expected' (fitted connection). Default to 'data'.</p></dd>
 
 <dt><code>ordered</code></dt><dd><p>logical: should the rows and columns be reordered according to the clustering? Default to <code>TRUE</code>.</p></dd>
 
-<dt><code>rowLabel</code></dt><dd><p>character : type of the individual in row. Default to <code>NULL</code>.</p></dd>
-
-<dt><code>colLabel</code></dt><dd><p>character : type of the individual in col. Default to <code>NULL</code>.</p></dd>
-
 </dl><p></div></p>
-<h3>Returns</h3>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
 <p>a ggplot2 object</p>
 <p><hr>
-<a id="method-show"></a></p><h3>Method <code>show()</code></h3>
-<p>print method</p><h3>Usage</h3>
+<a id="method-show"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>show()</code></h3>
+<p>print method</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='kw'>SBM</span><span class='op'>$</span><span class='fu'>show</span>(type = <span class='st'>"Stochastic Block Model"</span>)</pre><p></div></p>
 
-<h3>Arguments</h3>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
 <dt><code>type</code></dt><dd><p>character to tune the displayed name</p></dd>
 
 </dl><p></div></p>
 <p><hr>
-<a id="method-print"></a></p><h3>Method <code><a href='https://rdrr.io/r/base/print.html'>print()</a></code></h3>
-<p>print method</p><h3>Usage</h3>
+<a id="method-print"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/base/print.html'>print()</a></code></h3>
+<p>print method</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='kw'>SBM</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>()</pre><p></div></p>
 
 <p><hr>
-<a id="method-clone"></a></p><h3>Method <code>clone()</code></h3>
-<p>The objects of this class are cloneable with this method.</p><h3>Usage</h3>
+<a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
+<p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='kw'>SBM</span><span class='op'>$</span><span class='fu'>clone</span>(deep = <span class='fl'>FALSE</span>)</pre><p></div></p>
 
-<h3>Arguments</h3>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
 <dt><code>deep</code></dt><dd><p>Whether to make a deep clone.</p></dd>
 

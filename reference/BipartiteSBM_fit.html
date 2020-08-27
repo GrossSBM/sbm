@@ -73,7 +73,7 @@ R6 Class definition of an Bipartite SBM fit" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sbm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1-9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2-9105</span>
       </span>
     </div>
 
@@ -144,7 +144,7 @@ R6 Class definition of an Bipartite SBM fit" />
     <p>This class is designed to give a representation and adjust an LBM fitted with blockmodels.</p>
     <h2 class="hasAnchor" id="super-classes"><a class="anchor" href="#super-classes"></a>Super classes</h2>
 
-    <p><code><a href='https://rdrr.io/pkg/sbm/man/SBM.html'>sbm::SBM</a></code> -&gt; <code><a href='https://rdrr.io/pkg/sbm/man/SBM_fit.html'>sbm::SBM_fit</a></code> -&gt; <code>BipartiteSBM_fit</code></p>
+    <p><code><a href='SBM.html'>sbm::SBM</a></code> -&gt; <code><a href='SBM_fit.html'>sbm::SBM_fit</a></code> -&gt; <code>BipartiteSBM_fit</code></p>
     <h2 class="hasAnchor" id="active-bindings"><a class="anchor" href="#active-bindings"></a>Active bindings</h2>
 
     <p><div class="r6-active-bindings"></p><dl>
@@ -162,7 +162,7 @@ R6 Class definition of an Bipartite SBM fit" />
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
-<h3>Public methods</h3>
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Public methods</h3>
 
 <ul>
 <li><p><a href='#method-new'><code>BipartiteSBM_fit$new()</code></a></p></li>
@@ -181,22 +181,29 @@ R6 Class definition of an Bipartite SBM fit" />
 </details>
 
 <hr>
-<a id="method-new"></a></p><h3>Method <code>new()</code></h3>
-<p>constructor for a Bipartite SBM fit</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='kw'>BipartiteSBM_fit</span><span class='op'>$</span><span class='fu'>new</span>(<span class='kw'>incidenceMatrix</span>, <span class='kw'>model</span>, covarList = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())</pre><p></div></p>
+<a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
+<p>constructor for a Bipartite SBM fit</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>BipartiteSBM_fit</span><span class='op'>$</span><span class='fu'>new</span>(
+  <span class='kw'>incidenceMatrix</span>,
+  <span class='kw'>model</span>,
+  dimLabels = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(row = <span class='st'>"rowLabel"</span>, col = <span class='st'>"colLabel"</span>),
+  covarList = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()
+)</pre><p></div></p>
 
-<h3>Arguments</h3>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
 <dt><code>incidenceMatrix</code></dt><dd><p>rectangular (weighted) matrix</p></dd>
 
 <dt><code>model</code></dt><dd><p>character (<code>'bernoulli'</code>, <code>'poisson'</code>, <code>'gaussian'</code>)</p></dd>
 
+<dt><code>dimLabels</code></dt><dd><p>labels of each dimension (in row, in columns)</p></dd>
+
 <dt><code>covarList</code></dt><dd><p>and optional list of covariates, each of whom must have the same dimension as <code>incidenceMatrix</code></p></dd>
 
 </dl><p></div></p>
 <p><hr>
-<a id="method-optimize"></a></p><h3>Method <code><a href='https://rdrr.io/r/stats/optimize.html'>optimize()</a></code></h3>
-<p>function to perform optimization</p><h3>Usage</h3>
+<a id="method-optimize"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/stats/optimize.html'>optimize()</a></code></h3>
+<p>function to perform optimization</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='kw'>BipartiteSBM_fit</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/stats/optimize.html'>optimize</a></span>(
   verbosity = <span class='fl'>3</span>,
   plot = <span class='fl'>FALSE</span>,
@@ -206,7 +213,7 @@ R6 Class definition of an Bipartite SBM fit" />
   fast = <span class='fl'>TRUE</span>
 )</pre><p></div></p>
 
-<h3>Arguments</h3>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
 <dt><code>verbosity</code></dt><dd><p>integer, the level of verbosity. Default to 3</p></dd>
 
@@ -222,36 +229,36 @@ R6 Class definition of an Bipartite SBM fit" />
 
 </dl><p></div></p>
 <p><hr>
-<a id="method-predict"></a></p><h3>Method <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code></h3>
-<p>prediction under the currently estimated model</p><h3>Usage</h3>
+<a id="method-predict"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code></h3>
+<p>prediction under the currently estimated model</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='kw'>BipartiteSBM_fit</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(covarList = <span class='kw'>self</span><span class='op'>$</span><span class='kw'>covarList</span>)</pre><p></div></p>
 
-<h3>Arguments</h3>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
 <dt><code>covarList</code></dt><dd><p>a list of covariates. By default, we use the covariates with which the model was estimated.</p></dd>
 
 </dl><p></div></p>
 <p><hr>
-<a id="method-reorder"></a></p><h3>Method <code><a href='https://rdrr.io/r/stats/reorder.factor.html'>reorder()</a></code></h3>
-<p>permute group labels by order of decreasing probability</p><h3>Usage</h3>
+<a id="method-reorder"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/stats/reorder.factor.html'>reorder()</a></code></h3>
+<p>permute group labels by order of decreasing probability</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='kw'>BipartiteSBM_fit</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/stats/reorder.factor.html'>reorder</a></span>()</pre><p></div></p>
 
 <p><hr>
-<a id="method-show"></a></p><h3>Method <code>show()</code></h3>
-<p>show method</p><h3>Usage</h3>
+<a id="method-show"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>show()</code></h3>
+<p>show method</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='kw'>BipartiteSBM_fit</span><span class='op'>$</span><span class='fu'>show</span>(type = <span class='st'>"Fit of a Bipartite Stochastic Block Model"</span>)</pre><p></div></p>
 
-<h3>Arguments</h3>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
 <dt><code>type</code></dt><dd><p>character used to specify the type of SBM</p></dd>
 
 </dl><p></div></p>
 <p><hr>
-<a id="method-clone"></a></p><h3>Method <code>clone()</code></h3>
-<p>The objects of this class are cloneable with this method.</p><h3>Usage</h3>
+<a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
+<p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='kw'>BipartiteSBM_fit</span><span class='op'>$</span><span class='fu'>clone</span>(deep = <span class='fl'>FALSE</span>)</pre><p></div></p>
 
-<h3>Arguments</h3>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
 <dt><code>deep</code></dt><dd><p>Whether to make a deep clone.</p></dd>
 

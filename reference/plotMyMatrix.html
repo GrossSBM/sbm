@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sbm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1-9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2-9105</span>
       </span>
     </div>
 
@@ -135,7 +135,7 @@
     <p>Plot an adjacency or incidence Matrix</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plotMyMatrix</span>(<span class='kw'>Mat</span>, rowLabel = <span class='kw'>NULL</span>, colLabel = <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>plotMyMatrix</span>(<span class='kw'>Mat</span>, dimLabels = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(row = <span class='kw'>NULL</span>, col = <span class='kw'>NULL</span>))</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -145,12 +145,8 @@
       <td><p>: a matrix representing the network</p></td>
     </tr>
     <tr>
-      <th>rowLabel</th>
-      <td><p>character : type of nodes in rows (functional group) (Default is <code>NULL</code>)</p></td>
-    </tr>
-    <tr>
-      <th>colLabel</th>
-      <td><p>character :  type of nodes in columns (functional group) (Default is <code>NULL</code>)</p></td>
+      <th>dimLabels</th>
+      <td><p>: a list of length 2 specifying the types of nodes in row and col  (functional group) (Default is <code>NULL</code>)</p></td>
     </tr>
     </table>
 
@@ -160,8 +156,11 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>M</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>1</span>),<span class='fl'>900</span>,replace=<span class='fl'>TRUE</span>),<span class='fl'>30</span>,<span class='fl'>30</span>)
-<span class='fu'>plotMyMatrix</span>(<span class='kw'>M</span>)</div><div class='img'><img src='plotMyMatrix-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw'>M2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Poisson.html'>rpois</a></span>(<span class='fl'>800</span>,<span class='fl'>10</span>),<span class='fl'>40</span>,<span class='fl'>20</span>)
-<span class='fu'>plotMyMatrix</span>(<span class='kw'>M2</span>,rowLabel=<span class='st'>'ind'</span>,colLabel = <span class='st'>'book'</span>)</div><div class='img'><img src='plotMyMatrix-2.png' alt='' width='700' height='433' /></div><div class='input'></div></pre>
+<span class='fu'>plotMyMatrix</span>(<span class='kw'>M</span>)
+</div><div class='img'><img src='plotMyMatrix-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw'>M2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Poisson.html'>rpois</a></span>(<span class='fl'>800</span>,<span class='fl'>10</span>),<span class='fl'>40</span>,<span class='fl'>20</span>)
+<span class='fu'>plotMyMatrix</span>(<span class='kw'>M2</span>,dimLabels=<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(row= <span class='st'>'reader'</span>,col = <span class='st'>'book'</span>))
+</div><div class='img'><img src='plotMyMatrix-2.png' alt='' width='700' height='433' /></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

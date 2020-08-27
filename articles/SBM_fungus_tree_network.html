@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sbm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1-9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2-9105</span>
       </span>
     </div>
 
@@ -89,7 +89,7 @@
             <h3 class="subtitle">An illustration on antogonistic tree/fungus network</h3>
                         <h4 class="author">team großBM</h4>
             
-            <h4 class="date">2020-07-17</h4>
+            <h4 class="date">2020-08-27</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/GrossSBM/sbm/blob/master/vignettes/SBM_fungus_tree_network.Rmd"><code>vignettes/SBM_fungus_tree_network.Rmd</code></a></small>
       <div class="hidden name"><code>SBM_fungus_tree_network.Rmd</code></div>
@@ -162,12 +162,12 @@
 </pre></div>
 <p>The simple function <code>plotMyMatrix</code> can be use to represent simple or bipartite SBM:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="fu"><a href="../reference/plotMyMatrix.html">plotMyMatrix</a></span>(<span class="kw">tree_tree_binary</span>, rowLabel = <span class="st">'tree'</span>, colLabel = <span class="st">'tree'</span>)
+<span class="fu"><a href="../reference/plotMyMatrix.html">plotMyMatrix</a></span>(<span class="kw">tree_tree_binary</span>, dimLabels = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(row = <span class="st">'tree'</span>, col = <span class="st">'tree'</span>) )
 </pre></div>
 <p><img src="SBM_fungus_tree_network_files/figure-html/tree_tree_binary%20network%20plot%20data-1.png" width="700"> We look for some latent structure of the network by adjusting a simple SBM with the function <code>estimateSimpleSBM</code>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit">
 <span class="kw">mySimpleSBM</span> <span class="op">&lt;-</span> <span class="kw">tree_tree_binary</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/estimateSimpleSBM.html">estimateSimpleSBM</a></span>(<span class="st">"bernoulli"</span>, estimOptions = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(verbosity = <span class="fl">0</span>, plot = <span class="fl">FALSE</span>))
+  <span class="fu"><a href="../reference/estimateSimpleSBM.html">estimateSimpleSBM</a></span>(<span class="st">"bernoulli"</span>, dimLabels = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(row = <span class="st">'tree'</span>, col=<span class="st">'tree'</span>), estimOptions = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(verbosity = <span class="fl">0</span>, plot = <span class="fl">FALSE</span>))
 </pre></div>
 <p>Once fitted, the user can manipulate the fitted model by accessing the various fields and methods enjoyed by the class <code>simpleSBMfit</code>. Most important fields and methods are recalled to the user via the <code>show</code> method:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit">
@@ -180,7 +180,7 @@
 <span class="co">#&gt; =====================================================================</span>
 <span class="co">#&gt; * Useful fields </span>
 <span class="co">#&gt;   $dimension, $modelName, $nbNodes, $nbBlocks, $nbCovariates, $nbDyads</span>
-<span class="co">#&gt;   $blockProp, $connectParam, covarParam, $covarList, $covarEffect </span>
+<span class="co">#&gt;   $blockProp, $connectParam, covarParam, $covarList, $covarEffect, $dimLabels </span>
 <span class="co">#&gt;   $probMemberships, $memberships, $loglik, $ICL, $storedModels, $setModel </span>
 <span class="co">#&gt; * S3 methods </span>
 <span class="co">#&gt;   plot, print, coef, predict, fitted</span>
@@ -196,12 +196,12 @@
 </pre></div>
 <p>The plot method is available as a S3 or R6 method. The default represents the network data reordered according to the memberships estimated in the SBM</p>
 <div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">mySimpleSBM</span>, type = <span class="st">"data"</span>, rowLabel = <span class="st">'tree'</span>, colLabel = <span class="st">'tree'</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">mySimpleSBM</span>, type = <span class="st">"data"</span>, dimLabels  = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(row = <span class="st">'tree'</span>, col= <span class="st">'tree'</span>))
 </pre></div>
 <p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBMfit%20plot1-1.png" width="700"></p>
 <p>One can also plot the expected network which, in case of the Bernoulli model, corresponds to the probability of connection between any pair of nodes in the network.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">mySimpleSBM</span>, type = <span class="st">"expected"</span>, rowLabel = <span class="st">'tree'</span>, colLabel = <span class="st">'tree'</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">mySimpleSBM</span>, type = <span class="st">"expected"</span>, dimLabels  = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(row = <span class="st">'tree'</span>, col= <span class="st">'tree'</span>))
 </pre></div>
 <p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBMfit%20plot2-1.png" width="700"></p>
 <div class="sourceCode" id="cb10"><pre class="downlit">
@@ -292,7 +292,7 @@
 <span class="kw">mySimpleSBM</span><span class="op">$</span><span class="fu">setModel</span>(<span class="fl">4</span>)
 <span class="kw">mySimpleSBM</span><span class="op">$</span><span class="kw">nbBlocks</span>
 <span class="co">#&gt; [1] 4</span>
-<span class="kw">mySimpleSBM</span><span class="op">$</span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(type = <span class="st">'expected'</span>, rowLabel = <span class="st">'tree'</span>, colLabel = <span class="st">'tree'</span>)
+<span class="kw">mySimpleSBM</span><span class="op">$</span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(type = <span class="st">'expected'</span>)
 </pre></div>
 <p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBMfit%20changeModel-1.png" width="700"></p>
 </div>
@@ -304,13 +304,13 @@
 <p>We plot the matrix with function <code>plotMyMatrix</code>:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit">
 <span class="kw">tree_tree</span> <span class="op">&lt;-</span> <span class="kw">fungus_tree_network</span><span class="op">$</span><span class="kw">tree_tree</span>
-<span class="fu"><a href="../reference/plotMyMatrix.html">plotMyMatrix</a></span>(<span class="kw">tree_tree</span>, rowLabel = <span class="st">'tree'</span>, colLabel = <span class="st">'tree'</span>)
+<span class="fu"><a href="../reference/plotMyMatrix.html">plotMyMatrix</a></span>(<span class="kw">tree_tree</span>, dimLabels = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(row = <span class="st">'tree'</span>, col = <span class="st">'tree'</span>))
 </pre></div>
 <p><img src="SBM_fungus_tree_network_files/figure-html/tree_tree%20network%20plot%20data-1.png" width="700"></p>
 <p>Here again, we look for some latent structure of the network by adjusting a simple SBM with the function <code>estimateSimpleSBM</code>, considering a Poisson distribution on the edges.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit">
 <span class="kw">mySimpleSBMPoisson</span> <span class="op">&lt;-</span> <span class="kw">tree_tree</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/estimateSimpleSBM.html">estimateSimpleSBM</a></span>(<span class="st">"poisson"</span>, estimOptions = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(verbosity = <span class="fl">0</span>, plot = <span class="fl">FALSE</span>))
+  <span class="fu"><a href="../reference/estimateSimpleSBM.html">estimateSimpleSBM</a></span>(<span class="st">"poisson"</span>, dimLabels = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(row = <span class="st">'tree'</span>, col= <span class="st">'tree'</span>),estimOptions = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(verbosity = <span class="fl">0</span>, plot = <span class="fl">FALSE</span>))
 </pre></div>
 <p>Once fitted, the user can manipulate the fitted model by accessing the various fields and methods enjoyed by the class <code>simpleSBMfit</code>. Most important fields and methods are recalled to the user via the <code>show</code> method:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit">
@@ -323,7 +323,7 @@
 <span class="co">#&gt; =====================================================================</span>
 <span class="co">#&gt; * Useful fields </span>
 <span class="co">#&gt;   $dimension, $modelName, $nbNodes, $nbBlocks, $nbCovariates, $nbDyads</span>
-<span class="co">#&gt;   $blockProp, $connectParam, covarParam, $covarList, $covarEffect </span>
+<span class="co">#&gt;   $blockProp, $connectParam, covarParam, $covarList, $covarEffect, $dimLabels </span>
 <span class="co">#&gt;   $probMemberships, $memberships, $loglik, $ICL, $storedModels, $setModel </span>
 <span class="co">#&gt; * S3 methods </span>
 <span class="co">#&gt;   plot, print, coef, predict, fitted</span>
@@ -339,12 +339,12 @@
 </pre></div>
 <p>We now plot the matrix reordered according to the memberships estimated in the SBM</p>
 <div class="sourceCode" id="cb18"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">mySimpleSBMPoisson</span>, type = <span class="st">"data"</span>, rowLabel = <span class="st">'tree'</span>, colLabel = <span class="st">'tree'</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">mySimpleSBMPoisson</span>, type = <span class="st">"data"</span>, dimLabels = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(row = <span class="st">'tree'</span>, col= <span class="st">'tree'</span>))
 </pre></div>
 <p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBMfitPoisson%20plot1-1.png" width="700"></p>
 <p>One can also plot the expected network which, in case of the Poisson model, corresponds to the expectation of connection between any pair of nodes in the network.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">mySimpleSBMPoisson</span>, type = <span class="st">"expected"</span>, rowLabel = <span class="st">'tree'</span>, colLabel = <span class="st">'tree'</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">mySimpleSBMPoisson</span>, type = <span class="st">"expected"</span>, dimLabels = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(row = <span class="st">'tree'</span>, col= <span class="st">'tree'</span>))
 </pre></div>
 <p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBMfitPoisson%20plot2-1.png" width="700"></p>
 <p>The same manipulations can be made on the models as before.</p>
@@ -372,6 +372,7 @@
   <span class="fu"><a href="../reference/estimateSimpleSBM.html">estimateSimpleSBM</a></span>(
     model = <span class="st">'poisson'</span>, 
     directed = <span class="fl">FALSE</span>, 
+    dimLabels = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(row = <span class="st">'tree'</span>, col= <span class="st">'tree'</span>),
     covariates  = <span class="kw">fungus_tree_network</span><span class="op">$</span><span class="kw">covar_tree</span>, 
     estimOptions = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(verbosity = <span class="fl">0</span>, plot = <span class="fl">FALSE</span>, nbCores = <span class="fl">1</span>)
   )
@@ -420,13 +421,13 @@
 <a href="#analysis-of-the-treefungi-data" class="anchor"></a>Analysis of the tree/fungi data</h2>
 <p>We now analyze the bipartite tree/fungi interactions. The incidence matrix can be plotted with the function </p>
 <div class="sourceCode" id="cb26"><pre class="downlit">
-<span class="fu"><a href="../reference/plotMyMatrix.html">plotMyMatrix</a></span>(<span class="kw">fungus_tree_network</span><span class="op">$</span><span class="kw">fungus_tree</span>, rowLabel = <span class="st">'fungis'</span>, colLabel = <span class="st">'tree'</span>)
+<span class="fu"><a href="../reference/plotMyMatrix.html">plotMyMatrix</a></span>(<span class="kw">fungus_tree_network</span><span class="op">$</span><span class="kw">fungus_tree</span>, dimLabels = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(row = <span class="st">'fungis'</span>, col= <span class="st">'tree'</span>))
 </pre></div>
 <p><img src="SBM_fungus_tree_network_files/figure-html/plot%20incidence-1.png" width="700"></p>
 <div class="sourceCode" id="cb27"><pre class="downlit">
 <span class="kw">myBipartiteSBM</span> <span class="op">&lt;-</span> 
   <span class="kw">fungus_tree_network</span><span class="op">$</span><span class="kw">fungus_tree</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/estimateBipartiteSBM.html">estimateBipartiteSBM</a></span>(model = <span class="st">'bernoulli'</span>, estimOptions = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(verbosity = <span class="fl">0</span>, plot = <span class="fl">FALSE</span>))
+  <span class="fu"><a href="../reference/estimateBipartiteSBM.html">estimateBipartiteSBM</a></span>(model = <span class="st">'bernoulli'</span>, dimLabels = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(row = <span class="st">'fungis'</span>, col= <span class="st">'tree'</span>),estimOptions = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(verbosity = <span class="fl">0</span>, plot = <span class="fl">FALSE</span>))
 </pre></div>
 <div class="sourceCode" id="cb28"><pre class="downlit">
 <span class="kw">myBipartiteSBM</span><span class="op">$</span><span class="kw">nbNodes</span>
@@ -457,7 +458,7 @@
 </pre></div>
 <p>We can now plot the reorganized matrix.</p>
 <div class="sourceCode" id="cb29"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">myBipartiteSBM</span>, rowLabel = <span class="st">'fungis'</span>,colLabel = <span class="st">'tree'</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">myBipartiteSBM</span>, dimLabels = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(row = <span class="st">'fungis'</span>, col= <span class="st">'tree'</span>))
 </pre></div>
 <p><img src="SBM_fungus_tree_network_files/figure-html/plot%20bipartite-1.png" width="700"></p>
 </div>
