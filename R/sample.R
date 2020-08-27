@@ -8,6 +8,7 @@
 #' @param connectParam list of parameters for connectivity with a matrix of means 'mean' and an optional matrix of variances 'var', the sizes of which must match \code{blockProp} length
 #' @param model character describing the model for the relation between nodes (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'}, ...). Default is \code{'bernoulli'}.
 #' @param directed logical, directed network or not. Default is \code{FALSE}.
+#' @param dimLabels an optional list of labels for each dimension (in row, in column)
 #' @param covariates a list of matrices with same dimension as mat describing covariates at the edge level. No covariate per Default.
 #' @param covariatesParam optional vector of covariates effect. A zero length numeric vector by default.
 #'
@@ -67,10 +68,11 @@ sampleSimpleSBM <- function(nbNodes,
                             connectParam,
                             model = 'bernoulli',
                             directed = FALSE,
+                            dimLabels    = list(row = "rowLabel", col = "colLabels"),
                             covariates = list(),
                             covariatesParam = numeric(0)) {
 
-  mySampler <- SimpleSBM_sampler$new(model, nbNodes, directed, blockProp, connectParam, covariatesParam, covariates)
+  mySampler <- SimpleSBM_sampler$new(model, nbNodes, directed, blockProp, connectParam, dimLabels, covariatesParam, covariates)
   mySampler
 }
 
@@ -83,6 +85,7 @@ sampleSimpleSBM <- function(nbNodes,
 #' @param blockProp parameters for block proportions: list of size two with row and column block proportions
 #' @param connectParam list of parameters for connectivity with a matrix of means 'mean' and an optional matrix of variances 'var', the sizes of which must match \code{blockProp} length (in row, respectively in column)
 #' @param model character describing the model for the relation between nodes (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'}, ...). Default is \code{'bernoulli'}.
+#' @param dimLabels an optional list of labels for each dimension (in row, in column)
 #' @param covariates a list of matrices with same dimension as mat describing covariates at the edge level. No covariate per Default.
 #' @param covariatesParam optional vector of covariates effect. A zero length numeric vector by default.
 #'
@@ -142,9 +145,10 @@ sampleBipartiteSBM <- function(nbNodes,
                             blockProp,
                             connectParam,
                             model = 'bernoulli',
+                            dimLabels    = list(row = "rowLabel", col = "colLabels"),
                             covariates = list(),
                             covariatesParam = numeric(0)) {
 
-  mySampler <- BipartiteSBM_sampler$new(model, nbNodes, blockProp, connectParam, covariatesParam, covariates)
+  mySampler <- BipartiteSBM_sampler$new(model, nbNodes, blockProp, connectParam, dimLabels, covariatesParam, covariates)
   mySampler
 }
