@@ -2,11 +2,11 @@
 % Please edit documentation in R/R6Class-SimpleSBM_fit.R
 \name{SimpleSBM_fit}
 \alias{SimpleSBM_fit}
-\title{R6 Class definition of an Simple SBM fit}
+\title{R6 Class definition of a Simple SBM fit}
 \description{
-R6 Class definition of an Simple SBM fit
+R6 Class definition of a Simple SBM fit
 
-R6 Class definition of an Simple SBM fit
+R6 Class definition of a Simple SBM fit
 }
 \details{
 This class is designed to give a representation and adjust an SBM fitted with blockmodels.
