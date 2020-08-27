@@ -44,6 +44,7 @@ constructor for SBM
   model,
   nbNodes,
   blockProp,
+  dimLabels,
   connectParam,
   covarParam = numeric(0),
   covarList = list()
@@ -58,6 +59,8 @@ constructor for SBM
 \item{\code{nbNodes}}{number of nodes in the network}
 
 \item{\code{blockProp}}{parameters for block proportions (vector of list of vectors)}
+
+\item{\code{dimLabels}}{labels of each dimension (in row, in column)}
 
 \item{\code{connectParam}}{list of parameters for connectivity with a matrix of means 'mean' and an optional scalar for the variance 'var'. The dimensions of mu must match \code{blockProp} lengths}
 

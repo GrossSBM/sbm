@@ -16,12 +16,13 @@ test_that("BipartiteSBM_fit 'Bernoulli' model, undirected, no covariate", {
   ## BIPARTITE UNDIRECTED BERNOULLI SBM
   means <- matrix(c(0.05, 0.95, 0.4, 0.75, 0.15, 0.6), 2, 3)  # connectivity matrix
   connectParam <- list(mean = means)
+  dimLabels    <- list(row = "rowLabel", col = "colLabel")
 
   ## Basic construction - check for wrong specifications
-  mySampler <- BipartiteSBM_sampler$new('bernoulli', nbNodes, blockProp, connectParam, covarParam[1], covarList[1])
+  mySampler <- BipartiteSBM_sampler$new('bernoulli', nbNodes, blockProp, connectParam, dimLabels, covarParam[1], covarList[1])
 
   ## Construction----------------------------------------------------------------
-  mySBM <- BipartiteSBM_fit$new(mySampler$netMatrix, 'bernoulli', covarList[1])
+  mySBM <- BipartiteSBM_fit$new(mySampler$netMatrix, 'bernoulli', dimLabels, covarList[1])
   expect_error(BipartiteSBM_fit$new(SamplerBernoulli$netMatrix, 'bernouilli', covarList[1]))
 
   ## Checking class
@@ -82,12 +83,13 @@ test_that("BipartiteSBM_fit 'Poisson' model, undirected, no covariate", {
   ## SIMPLE DIRECTED POISSON SBM
   means <- matrix(c(10, 5, 7, 15, 20, 8), 2, 3)  # connectivity matrix
   connectParam <- list(mean = means)
+  dimLabels <- list(row = "rowLabel", col = "colLabel")
 
   ## Basic construction - check for wrong specifications
-  mySampler <- BipartiteSBM_sampler$new('poisson', nbNodes, blockProp, connectParam, covarParam, covarList)
+  mySampler <- BipartiteSBM_sampler$new('poisson', nbNodes, blockProp, connectParam, dimLabels, covarParam, covarList)
 
   ## Construction----------------------------------------------------------------
-  mySBM <- BipartiteSBM_fit$new(mySampler$netMatrix, 'poisson', covarList)
+  mySBM <- BipartiteSBM_fit$new(mySampler$netMatrix, 'poisson', dimLabels, covarList)
   expect_error(BipartiteSBM_fit$new(SamplerBernoulli$netMatrix, 'poison', covarList))
 
   ## Checking class
@@ -152,12 +154,13 @@ test_that("BipartiteSBM_fit 'Gaussian' model, undirected, no covariate", {
   ## SIMPLE UNDIRECTED GAUSSIAN SBM
   means <- matrix(c(0.05, 0.95, 0.4, 0.98, 0.15, 0.6), 2, 3)  # connectivity matrix
   connectParam <- list(mean = means, var = .1)
+  dimLabels <- list(row = "rowLabel", col = "colLabel")
 
   ## Basic construction - check for wrong specifications
-  mySampler <- BipartiteSBM_sampler$new('gaussian', nbNodes, blockProp, connectParam, covarParam, covarList)
+  mySampler <- BipartiteSBM_sampler$new('gaussian', nbNodes, blockProp, connectParam, dimLabels, covarParam, covarList)
 
   ## Construction----------------------------------------------------------------
-  mySBM <- BipartiteSBM_fit$new(mySampler$netMatrix, 'gaussian', covarList)
+  mySBM <- BipartiteSBM_fit$new(mySampler$netMatrix, 'gaussian', dimLabels, covarList)
   expect_error(BipartiteSBM_fit$new(SamplerBernoulli$netMatrix, 'groß', covarList))
 
   ## Checking class

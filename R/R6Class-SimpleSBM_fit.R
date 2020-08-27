@@ -21,15 +21,16 @@ SimpleSBM_fit <-
       #' @param adjacencyMatrix square (weighted) matrix
       #' @param model character (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'})
       #' @param directed logical, directed network or not. In not, \code{adjacencyMatrix} must be symmetric.
+      #' @param dimLabels list of labels of each dimension (in row, in columns)
       #' @param covarList and optional list of covariates, each of whom must have the same dimension as \code{adjacencyMatrix}
-      initialize = function(adjacencyMatrix, model, directed, covarList=list()) {
+      initialize = function(adjacencyMatrix, model, directed, dimLabels=list(row="rowLabel", col="colLabel"), covarList=list()) {
 
         ## SANITY CHECKS
         stopifnot(all.equal(nrow(adjacencyMatrix), ncol(adjacencyMatrix)))  # matrix must be square
         stopifnot(isSymmetric(adjacencyMatrix) == !directed)                # symmetry and direction must agree
 
         ## INITIALIZE THE SBM OBJECT ACCORDING TO THE DATA
-        super$initialize(adjacencyMatrix, model, covarList)
+        super$initialize(adjacencyMatrix, model, dimLabels, covarList)
         private$directed_ <- directed
 
       },

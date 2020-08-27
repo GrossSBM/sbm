@@ -6,6 +6,7 @@
 #' @param netMat a matrix describing the network: either an adjacency (square) or incidence matrix with possibly weighted entries.
 #' @param model character describing the model for the relation between nodes (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'}, ...). Default is \code{'bernoulli'}.
 #' @param directed logical: is the network directed or not? Only relevant when \code{type} is \code{'Simple'}. Default is \code{TRUE} if \code{netMat} is symmetric, \code{FALSE} otherwise
+#' @param dimLabels an optional list of labels for each dimension (in row, in column)
 #' @param covariates a list of matrices with same dimension as mat describing covariates at the edge level. No covariate per Default.
 #' @param estimOptions a list of parameters controlling the inference algorithm and model selection. See details.
 #'
@@ -78,6 +79,7 @@
 estimateSimpleSBM <- function(netMat,
                               model        = 'bernoulli',
                               directed     = !isSymmetric(netMat),
+                              dimLabels    = list(row = "rowLabel", col = "colLabels"),
                               covariates   = list(),
                               estimOptions = list()) {
 
@@ -95,7 +97,7 @@ estimateSimpleSBM <- function(netMat,
   currentOptions[names(estimOptions)] <- estimOptions
 
   ## Construct the SBM model
-  mySBM <- SimpleSBM_fit$new(netMat, model, directed, covariates)
+  mySBM <- SimpleSBM_fit$new(netMat, model, directed, dimLabels, covariates)
 
   ## Perform optimization
   do.call(mySBM$optimize, currentOptions)
@@ -114,6 +116,7 @@ estimateSimpleSBM <- function(netMat,
 #'
 #' @param netMat a matrix describing the network: either an adjacency (square) or incidence matrix with possibly weighted entries.
 #' @param model character describing the model for the relation between nodes (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'}, ...). Default is \code{'bernoulli'}.
+#' @param dimLabels an optional list of labels for each dimension (in row, in column)
 #' @param covariates a list of matrices with same dimension as mat describing covariates at the edge level. No covariate per Default.
 #' @param estimOptions a list of parameters controlling the inference algorithm and model selection. See details.
 #'
@@ -176,6 +179,7 @@ estimateSimpleSBM <- function(netMat,
 #' @export
 estimateBipartiteSBM <- function(netMat,
                                  model        = 'bernoulli',
+                                 dimLabels    = list(row = "rowLabel", col = "colLabels"),
                                  covariates   = list(),
                                  estimOptions = list()) {
 
@@ -193,7 +197,7 @@ estimateBipartiteSBM <- function(netMat,
   currentOptions[names(estimOptions)] <- estimOptions
 
   ## Construct the SBM model
-  mySBM <-  BipartiteSBM_fit$new(netMat, model, covariates)
+  mySBM <-  BipartiteSBM_fit$new(netMat, model, dimLabels, covariates)
 
   ## Perform optimization
   do.call(mySBM$optimize, currentOptions)

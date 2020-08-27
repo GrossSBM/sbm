@@ -31,9 +31,10 @@ SBM_fit <- # this virtual class is the mother of all subtypes of SBM (Simple or 
       #' @description constructor for SBM fit
       #' @param data the data matrix of the network
       #' @param model character describing the type of model
+      #' @param dimLabels labels of each dimension (in row, in columns)
       #' @param covarList optional list of matrices for covariates
-      initialize = function(data, model, covarList) {
-        super$initialize(model = model, dimension = dim(data), covarList = covarList)
+      initialize = function(data, model, dimLabels, covarList) {
+        super$initialize(model = model, dimension = dim(data), dimLabels = dimLabels, covarList = covarList)
         private$Y <- data
       },
       #' @description print/show method
