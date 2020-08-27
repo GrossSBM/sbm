@@ -60,6 +60,7 @@ constructor for SBM
   directed,
   blockProp,
   connectParam,
+  dimLabels = list(row = "rowLabel", col = "colLabel"),
   covarParam = numeric(0),
   covarList = list()
 )}\if{html}{\out{</div>}}
@@ -77,6 +78,8 @@ constructor for SBM
 \item{\code{blockProp}}{parameters for block proportions (vector of list of vectors)}
 
 \item{\code{connectParam}}{list of parameters for connectivity with a matrix of means 'mean' and an optional scalar for the variance 'var'. The size of mu must match \code{blockProp} length}
+
+\item{\code{dimLabels}}{optional labels of each dimension (in row, in column)}
 
 \item{\code{covarParam}}{optional vector of covariates effect}
 

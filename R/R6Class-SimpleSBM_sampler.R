@@ -17,9 +17,10 @@ SimpleSBM_sampler <-
       #' @param directed logical, directed network or not.
       #' @param blockProp parameters for block proportions (vector of list of vectors)
       #' @param connectParam list of parameters for connectivity with a matrix of means 'mean' and an optional scalar for the variance 'var'. The size of mu must match \code{blockProp} length
+      #' @param dimLabels optional labels of each dimension (in row, in column)
       #' @param covarParam optional vector of covariates effect
       #' @param covarList optional list of covariates data
-      initialize = function(model, nbNodes, directed, blockProp, connectParam, covarParam=numeric(0), covarList=list()) {
+      initialize = function(model, nbNodes, directed, blockProp, connectParam, dimLabels=list(row="rowLabel", col="colLabel"), covarParam=numeric(0), covarList=list()) {
 
         ## ADDITIONAL SANITY CHECKS
         stopifnot(all(blockProp > 0))
@@ -27,7 +28,7 @@ SimpleSBM_sampler <-
                             ncol(connectParam$mean),  # block proportion and connectParam$mean
                             nrow(connectParam$mean)))
         if (!directed) stopifnot(isSymmetric(connectParam$mean)) # connectivity and direction must agree
-        super$initialize(model, c(nbNodes, nbNodes), blockProp, connectParam, covarParam, covarList)
+        super$initialize(model, c(nbNodes, nbNodes), blockProp, dimLabels, connectParam, covarParam, covarList)
         private$directed_ <- directed
         self$rAdjacency()
       },

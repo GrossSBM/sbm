@@ -49,7 +49,7 @@ R6 virtual class for SBM fit (mother class of Simple and Bipartite SBM fit)
 \subsection{Method \code{new()}}{
 constructor for SBM fit
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{SBM_fit$new(data, model, covarList)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{SBM_fit$new(data, model, dimLabels, covarList)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -58,6 +58,8 @@ constructor for SBM fit
 \item{\code{data}}{the data matrix of the network}
 
 \item{\code{model}}{character describing the type of model}
+
+\item{\code{dimLabels}}{labels of each dimension (in row, in columns)}
 
 \item{\code{covarList}}{optional list of matrices for covariates}
 }

@@ -2,11 +2,11 @@
 % Please edit documentation in R/R6Class-SimpleSBM_fit.R
 \name{SimpleSBM_fit}
 \alias{SimpleSBM_fit}
-\title{R6 Class definition of an Simple SBM fit}
+\title{R6 Class definition of a Simple SBM fit}
 \description{
-R6 Class definition of an Simple SBM fit
+R6 Class definition of a Simple SBM fit
 
-R6 Class definition of an Simple SBM fit
+R6 Class definition of a Simple SBM fit
 }
 \details{
 This class is designed to give a representation and adjust an SBM fitted with blockmodels.
@@ -57,7 +57,13 @@ This class is designed to give a representation and adjust an SBM fitted with bl
 \subsection{Method \code{new()}}{
 constructor for a Simple SBM fit
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{SimpleSBM_fit$new(adjacencyMatrix, model, directed, covarList = list())}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{SimpleSBM_fit$new(
+  adjacencyMatrix,
+  model,
+  directed,
+  dimLabels = list(row = "rowLabel", col = "colLabel"),
+  covarList = list()
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -68,6 +74,8 @@ constructor for a Simple SBM fit
 \item{\code{model}}{character (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'})}
 
 \item{\code{directed}}{logical, directed network or not. In not, \code{adjacencyMatrix} must be symmetric.}
+
+\item{\code{dimLabels}}{list of labels of each dimension (in row, in columns)}
 
 \item{\code{covarList}}{and optional list of covariates, each of whom must have the same dimension as \code{adjacencyMatrix}}
 }
