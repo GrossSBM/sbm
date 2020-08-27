@@ -1,4 +1,4 @@
-#' R6 Class definition of an Simple SBM fit
+#' R6 Class definition of a Simple SBM fit
 #'
 #' This class is designed to give a representation and adjust an SBM fitted with blockmodels.
 #'
