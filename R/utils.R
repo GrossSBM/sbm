@@ -39,8 +39,10 @@ check_boundaries <- function(x, zero = .Machine$double.eps) {
 
 
 #----------------------------------------------------------------------------------
-plotMatrix = function(Mat, rowFG, colFG, clustering = NULL){
+plotMatrix = function(Mat, dimLabels, clustering = NULL){
 
+  rowFG <- dimLabels$row
+  colFG <- dimLabels$col
 
 
   n1 <- dim(Mat)[1]
