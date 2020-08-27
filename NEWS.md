@@ -1,3 +1,7 @@
+# development version
+
+* added fields dimLabels to simple and bibpartite SBM
+
 # sbm 0.2.1 - minor release
 
 * various bug fixes, especially for directed network in Simple SBM, covariates for Bipartite LBM
