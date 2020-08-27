@@ -23,14 +23,14 @@ test_that("SimpleSBM_fit 'Bernoulli' model, undirected, one covariate", {
   connectParam <- list(mean = means)
 
   ## Basic construction - check for wrong specifications
-  mySampler <- SimpleSBM_sampler$new('bernoulli', nbNodes, FALSE, blockProp, connectParam, dimLabels, covarParam[1], covarList[1])
+  mySampler <- SimpleSBM_sampler$new('bernoulli', nbNodes, FALSE, blockProp, connectParam, covarParam = covarParam[1], covarList = covarList[1])
 
   ## Construction----------------------------------------------------------------
-  mySBM <- SimpleSBM_fit$new(mySampler$netMatrix, 'bernoulli', FALSE, dimLabels, covarList[1])
-  expect_error(SimpleSBM_fit$new(mySampler$netMatrix, 'bernouilli', FALSE, dimLabels, covarList[1]))
-  expect_error(SimpleSBM_fit$new(mySampler$netMatrix[1:20, 1:30], 'bernouilli', FALSE, dimLabels, covarList[1]))
-  expect_error(SimpleSBM_fit$new(mySampler$netMatrix, 'bernoulli', TRUE, dimLabels, covarList[1]))
-  expect_error(SimpleSBM_fit$new(mySampler$netMatrix, 'bernoulli', FALSE, dimLabels, covarList[[1]]))
+  mySBM <- SimpleSBM_fit$new(mySampler$netMatrix, 'bernoulli', FALSE, covarList = covarList[1])
+  expect_error(SimpleSBM_fit$new(mySampler$netMatrix, 'bernouilli', FALSE, covarList = covarList[1]))
+  expect_error(SimpleSBM_fit$new(mySampler$netMatrix[1:20, 1:30], 'bernouilli', FALSE, covarList = covarList[1]))
+  expect_error(SimpleSBM_fit$new(mySampler$netMatrix, 'bernoulli', TRUE, covarList = covarList[1]))
+  expect_error(SimpleSBM_fit$new(mySampler$netMatrix, 'bernoulli', FALSE, covarList = covarList[[1]]))
 
   ## Checking class
   expect_true(inherits(mySBM, "SBM"))
@@ -42,6 +42,7 @@ test_that("SimpleSBM_fit 'Bernoulli' model, undirected, one covariate", {
   expect_equal(mySBM$modelName, 'bernoulli')
   expect_equal(mySBM$nbNodes, nbNodes)
   expect_equal(mySBM$dimension, c(nbNodes, nbNodes))
+  expect_equal(mySBM$dimLabels, list(row="rowLabel", col="colLabel"))
   expect_equal(mySBM$nbDyads, nbNodes*(nbNodes - 1)/2)
   expect_true(all(is.na(diag(mySBM$netMatrix))))
   expect_true(isSymmetric(mySBM$netMatrix))
@@ -97,10 +98,10 @@ test_that("SimpleSBM_fit 'Bernoulli' model, directed, one covariate", {
   mySampler <- SimpleSBM_sampler$new('bernoulli', nbNodes, TRUE, blockProp, connectParam, dimLabels, covarParam[1], covarList_directed[1])
 
   ## Construction----------------------------------------------------------------
-  mySBM <- SimpleSBM_fit$new(mySampler$netMatrix, 'bernoulli', TRUE, dimLabels, covarList_directed[1])
-  expect_error(SimpleSBM_fit$new(mySampler$netMatrix, 'bernouilli', TRUE, dimLabels, covarList_directed[1]))
-  expect_error(SimpleSBM_fit$new(mySampler$netMatrix, 'bernoulli', FALSE, dimLabels, covarList_directed[1]))
-  expect_error(SimpleSBM_fit$new(mySampler$netMatrix[1:20, 1:30], 'bernouilli', FALSE, dimLabels, covarList_directed[1]))
+  mySBM <- SimpleSBM_fit$new(mySampler$netMatrix, 'bernoulli', TRUE, covarList = covarList_directed[1])
+  expect_error(SimpleSBM_fit$new(mySampler$netMatrix, 'bernouilli', TRUE, covarList = covarList_directed[1]))
+  expect_error(SimpleSBM_fit$new(mySampler$netMatrix, 'bernoulli', FALSE, covarList = covarList_directed[1]))
+  expect_error(SimpleSBM_fit$new(mySampler$netMatrix[1:20, 1:30], 'bernouilli', FALSE, covarList = covarList_directed[1]))
 
   ## Checking class
   expect_true(inherits(mySBM, "SBM"))
@@ -112,6 +113,7 @@ test_that("SimpleSBM_fit 'Bernoulli' model, directed, one covariate", {
   expect_equal(mySBM$modelName, 'bernoulli')
   expect_equal(mySBM$nbNodes, nbNodes)
   expect_equal(mySBM$dimension, c(nbNodes, nbNodes))
+  expect_equal(mySBM$dimLabels, list(row="rowLabel", col="colLabel"))
   expect_equal(mySBM$nbDyads, nbNodes*(nbNodes - 1))
   expect_true(all(is.na(diag(mySBM$netMatrix))))
   expect_true(!isSymmetric(mySBM$netMatrix))
@@ -163,13 +165,13 @@ test_that("SimpleSBM_fit 'Poisson' model, undirected, two covariates", {
   connectParam <- list(mean = means)
 
   ## Basic construction - check for wrong specifications
-  mySampler <- SimpleSBM_sampler$new('poisson', nbNodes, FALSE, blockProp, connectParam, dimLabels, covarParam[1], covarList[1])
+  mySampler <- SimpleSBM_sampler$new('poisson', nbNodes, FALSE, blockProp, connectParam, covarParam = covarParam[1], covarList = covarList[1])
 
   ## Construction----------------------------------------------------------------
-  mySBM <- SimpleSBM_fit$new(mySampler$netMatrix, 'poisson', FALSE, dimLabels, covarList[1])
-  expect_error(SimpleSBM_fit$new(SamplerBernoulli$netMatrix, 'poison', FALSE, dimLabels, covarList[1]))
-  expect_error(SimpleSBM_fit$new(SamplerBernoulli$netMatrix[1:20, 1:30], 'poisson', FALSE, dimLabels, covarList[1]))
-  expect_error(SimpleSBM_fit$new(SamplerBernoulli$netMatrix, 'poisson', TRUE, dimLabels, covarList[1]))
+  mySBM <- SimpleSBM_fit$new(mySampler$netMatrix, 'poisson', FALSE, covarList = covarList[1])
+  expect_error(SimpleSBM_fit$new(SamplerBernoulli$netMatrix, 'poison', FALSE, covarList = covarList[1]))
+  expect_error(SimpleSBM_fit$new(SamplerBernoulli$netMatrix[1:20, 1:30], 'poisson', FALSE, covarList = covarList[1]))
+  expect_error(SimpleSBM_fit$new(SamplerBernoulli$netMatrix, 'poisson', TRUE, covarList = covarList[1]))
 
   ## Checking class
   expect_true(inherits(mySBM, "SBM"))
@@ -181,6 +183,7 @@ test_that("SimpleSBM_fit 'Poisson' model, undirected, two covariates", {
   expect_equal(mySBM$modelName, 'poisson')
   expect_equal(mySBM$nbNodes, nbNodes)
   expect_equal(mySBM$dimension, c(nbNodes, nbNodes))
+  expect_equal(mySBM$dimLabels, list(row="rowLabel", col="colLabel"))
   expect_equal(mySBM$nbDyads, nbNodes*(nbNodes - 1)/2)
   expect_true(all(is.na(diag(mySBM$netMatrix))))
   expect_true(isSymmetric(mySBM$netMatrix))
@@ -231,13 +234,13 @@ test_that("SimpleSBM_fit 'Poisson' model, directed, two covariates", {
   connectParam <- list(mean = means)
 
   ## Basic construction - check for wrong specifications
-  mySampler <- SimpleSBM_sampler$new('poisson', nbNodes, TRUE, blockProp, connectParam, dimLabels, covarParam[1], covarList_directed[1])
+  mySampler <- SimpleSBM_sampler$new('poisson', nbNodes, TRUE, blockProp, connectParam, covarParam = covarParam[1], covarList = covarList_directed[1])
 
   ## Construction----------------------------------------------------------------
-  mySBM <- SimpleSBM_fit$new(mySampler$netMatrix, 'poisson', TRUE, dimLabels, covarList_directed[1])
-  expect_error(SimpleSBM_fit$new(SamplerBernoulli$netMatrix, 'poison', TRUE, dimLabels, covarList_directed[1]))
-  expect_error(SimpleSBM_fit$new(SamplerBernoulli$netMatrix[1:20, 1:30], 'poisson', FALSE, dimLabels, covarList_directed[1]))
-  expect_error(SimpleSBM_fit$new(SamplerBernoulli$netMatrix, 'poisson', FALSE, dimLabels, covarList_directed[1]))
+  mySBM <- SimpleSBM_fit$new(mySampler$netMatrix, 'poisson', TRUE, covarList = covarList_directed[1])
+  expect_error(SimpleSBM_fit$new(SamplerBernoulli$netMatrix, 'poison', TRUE, covarList = covarList_directed[1]))
+  expect_error(SimpleSBM_fit$new(SamplerBernoulli$netMatrix[1:20, 1:30], 'poisson', FALSE, covarList = covarList_directed[1]))
+  expect_error(SimpleSBM_fit$new(SamplerBernoulli$netMatrix, 'poisson', FALSE, covarList = covarList_directed[1]))
 
   ## Checking class
   expect_true(inherits(mySBM, "SBM"))
@@ -249,6 +252,7 @@ test_that("SimpleSBM_fit 'Poisson' model, directed, two covariates", {
   expect_equal(mySBM$modelName, 'poisson')
   expect_equal(mySBM$nbNodes, nbNodes)
   expect_equal(mySBM$dimension, c(nbNodes, nbNodes))
+  expect_equal(mySBM$dimLabels, list(row="rowLabel", col="colLabel"))
   expect_equal(mySBM$nbDyads, nbNodes*(nbNodes - 1))
   expect_true(all(is.na(diag(mySBM$netMatrix))))
   expect_true(!isSymmetric(mySBM$netMatrix))
@@ -300,13 +304,13 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, two covariates", {
   connectParam <- list(mean = means, var = 2)
 
   ## Basic construction - check for wrong specifications
-  mySampler <- SimpleSBM_sampler$new('gaussian', nbNodes, FALSE, blockProp, connectParam, dimLabels, covarParam, covarList)
+  mySampler <- SimpleSBM_sampler$new('gaussian', nbNodes, FALSE, blockProp, connectParam, covarParam = covarParam, covarList = covarList)
 
   ## Construction----------------------------------------------------------------
-  mySBM <- SimpleSBM_fit$new(mySampler$netMatrix, 'gaussian', FALSE, dimLabels, covarList)
-  expect_error(SimpleSBM_fit$new(SamplerBernoulli$netMatrix, 'normal', FALSE, dimLabels, covarList))
-  expect_error(SimpleSBM_fit$new(SamplerBernoulli$netMatrix[1:20, 1:30], 'gaussian', FALSE, dimLabels, covarList))
-  expect_error(SimpleSBM_fit$new(SamplerBernoulli$netMatrix, 'gaussian', TRUE, dimLabels, covarList))
+  mySBM <- SimpleSBM_fit$new(mySampler$netMatrix, 'gaussian', FALSE, covarList = covarList)
+  expect_error(SimpleSBM_fit$new(SamplerBernoulli$netMatrix, 'normal', FALSE, covarList = covarList))
+  expect_error(SimpleSBM_fit$new(SamplerBernoulli$netMatrix[1:20, 1:30], 'gaussian', FALSE, covarList = covarList))
+  expect_error(SimpleSBM_fit$new(SamplerBernoulli$netMatrix, 'gaussian', TRUE, covarList = covarList))
 
   ## Checking class
   expect_true(inherits(mySBM, "SBM"))
@@ -318,6 +322,7 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, two covariates", {
   expect_equal(mySBM$modelName, 'gaussian')
   expect_equal(mySBM$nbNodes, nbNodes)
   expect_equal(mySBM$dimension, c(nbNodes, nbNodes))
+  expect_equal(mySBM$dimLabels, list(row="rowLabel", col="colLabel"))
   expect_equal(mySBM$nbDyads, nbNodes*(nbNodes - 1)/2)
   expect_true(all(is.na(diag(mySBM$netMatrix))))
   expect_true(isSymmetric(mySBM$netMatrix))
@@ -373,13 +378,13 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, two covariates", {
   connectParam <- list(mean = means, var = 2)
 
   ## Basic construction - check for wrong specifications
-  mySampler <- SimpleSBM_sampler$new('gaussian', nbNodes, TRUE, blockProp, connectParam, dimLabels, covarParam, covarList_directed)
+  mySampler <- SimpleSBM_sampler$new('gaussian', nbNodes, TRUE, blockProp, connectParam, covarParam = covarParam, covarList = covarList_directed)
 
   ## Construction----------------------------------------------------------------
-  mySBM <- SimpleSBM_fit$new(mySampler$netMatrix, 'gaussian', TRUE, dimLabels, covarList_directed)
-  expect_error(SimpleSBM_fit$new(SamplerBernoulli$netMatrix, 'normal', TRUE, dimLabels, covarList_directed))
-  expect_error(SimpleSBM_fit$new(SamplerBernoulli$netMatrix[1:20, 1:30], 'gaussian', TRUE, dimLabels, covarList_directed))
-  expect_error(SimpleSBM_fit$new(SamplerBernoulli$netMatrix, 'gaussian', FALSE, dimLabels, covarList_directed))
+  mySBM <- SimpleSBM_fit$new(mySampler$netMatrix, 'gaussian', TRUE, covarList = covarList_directed)
+  expect_error(SimpleSBM_fit$new(SamplerBernoulli$netMatrix, 'normal', TRUE, covarList = covarList_directed))
+  expect_error(SimpleSBM_fit$new(SamplerBernoulli$netMatrix[1:20, 1:30], 'gaussian', TRUE, covarList = covarList_directed))
+  expect_error(SimpleSBM_fit$new(SamplerBernoulli$netMatrix, 'gaussian', FALSE, covarList = covarList_directed))
 
   ## Checking class
   expect_true(inherits(mySBM, "SBM"))
@@ -391,6 +396,7 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, two covariates", {
   expect_equal(mySBM$modelName, 'gaussian')
   expect_equal(mySBM$nbNodes, nbNodes)
   expect_equal(mySBM$dimension, c(nbNodes, nbNodes))
+  expect_equal(mySBM$dimLabels, list(row="rowLabel", col="colLabel"))
   expect_equal(mySBM$nbDyads, nbNodes*(nbNodes - 1))
   expect_true(all(is.na(diag(mySBM$netMatrix))))
   expect_true(!isSymmetric(mySBM$netMatrix))
