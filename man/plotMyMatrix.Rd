@@ -4,14 +4,12 @@
 \alias{plotMyMatrix}
 \title{Plot an adjacency or incidence Matrix}
 \usage{
-plotMyMatrix(Mat, rowLabel = NULL, colLabel = NULL)
+plotMyMatrix(Mat, dimLabels = list(row = NULL, col = NULL))
 }
 \arguments{
 \item{Mat}{: a matrix representing the network}
 
-\item{rowLabel}{character : type of nodes in rows (functional group) (Default is \code{NULL})}
-
-\item{colLabel}{character :  type of nodes in columns (functional group) (Default is \code{NULL})}
+\item{dimLabels}{: a list of length 2 specifying the types of nodes in row and col  (functional group) (Default is \code{NULL})}
 }
 \value{
 a ggplot object corresponding to the plot
@@ -23,6 +21,6 @@ Plot an adjacency or incidence Matrix
 M <- matrix(sample(c(0,1),900,replace=TRUE),30,30)
 plotMyMatrix(M)
 M2 <- matrix(rpois(800,10),40,20)
-plotMyMatrix(M2,rowLabel='ind',colLabel = 'book')
+plotMyMatrix(M2,dimLabels=list(row= 'reader',col = 'book'))
 
 }
