@@ -15,15 +15,22 @@ MultipartiteSBM_fit <-
                 },
                 #' @description estimation via GREMLIN
                 #' @param options options for MultipartiteBM
-                optimize = function(options) {
+                optimize = function(currentOptions) {
                   # formatting data for using GREMLIN
                   listNetG <- lapply(private$listNet,function(net){
                       if (substr(class(net)[1],1,6)=="Simple") {
-                        ifelse(net $directed,type<-"diradj",type<-"adj")
+                        ifelse(net$directed,type<-"diradj",type<-"adj")
                       }
                         else {type <-  "inc"}
-                      GREMLIN::defineNetwork(net$netMatrix,type)# TODO add names
+                      GREMLIN::defineNetwork(net$netMatrix,type,rowFG=net$dimLabels[[1]],colFG=net$dimLabels[[2]])
                   })
+                  vdistrib <- lapply(private$listNet,function(net){
+                    net$modelName
+                  })
+
+                  Res <- multipartiteBM(list_Net=listNetG,v_distrib=vdistrib)
+                  Res[[1]]
+
 
                 }
 

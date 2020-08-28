@@ -51,7 +51,7 @@ constructor for Multiparite SBM
 \subsection{Method \code{optimize()}}{
 estimation via GREMLIN
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MultipartiteSBM_fit$optimize()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{MultipartiteSBM_fit$optimize(currentOptions)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

@@ -225,7 +225,8 @@ estimateMultipartiteSBM <- function(ldefinedNet,
     myMSBM <- MultipartiteSBM_fit$new(ldefinedNet)
     # TODO currentOptions
     # TODO   do.call(myMBM$optimize, currentOptions)
-
+    currentOptions = list()
+    do.call(myMSBM$optimize, currentOptions)
 
 
 }

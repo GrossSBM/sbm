@@ -14,9 +14,17 @@ defineNetwork(
 )
 }
 \arguments{
+\item{netMat}{a matrix describing the network: either an adjacency (square) or incidence matrix with possibly weighted entries.}
+
+\item{model}{character describing the model for the relation between nodes (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'}, ...). Default is \code{'bernoulli'}.}
+
 \item{type}{Type of the matrix, choice between 'simple' and 'bipartite'}
 
+\item{directed}{logical: is the network directed or not? Only relevant when \code{type} is \code{'Simple'}. Default is \code{TRUE} if \code{netMat} is symmetric, \code{FALSE} otherwise}
+
 \item{dimLabels}{an optional list of labels for each dimension (in row, in column)}
+
+\item{covariates}{a list of matrices with same dimension as mat describing covariates at the edge level. No covariate per Default.}
 }
 \value{
 a network ready to be part of a multipartite network
@@ -27,5 +35,5 @@ Define a network
 \examples{
 A <- matrix(rbinom(100,1,.2),10,10)
 type <- "simple"
-defineNetwork(A,"poisson",type,directed=FALSE,dimLabels=c("Actor","Actor"))
+defineNetwork(A,"poisson",type,directed=TRUE,dimLabels=list("Actor","Actor"))
 }
