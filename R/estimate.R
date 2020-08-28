@@ -210,10 +210,21 @@ estimateBipartiteSBM <- function(netMat,
 }
 
 
+#' Estimation for multipartite SBM
+#'
+#' @param ldefinedNet list of networks that were defined by defineNetwork function
+#' @param estimOptions option for estimation
+#'
+#' @return
+#' @export
+#'
+#' @examples
 estimateMultipartiteSBM <- function(ldefinedNet,
                                     estimOptions = list())
 {
-
+    myMSBM <- MultipartiteSBM_fit$new(ldefinedNet)
+    # TODO currentOptions
+    # TODO   do.call(myMBM$optimize, currentOptions)
 
 
 
