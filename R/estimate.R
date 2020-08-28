@@ -209,3 +209,12 @@ estimateBipartiteSBM <- function(netMat,
   mySBM
 }
 
+
+estimateMultipartiteSBM <- function(ldefinedNet,
+                                    estimOptions = list())
+{
+
+
+
+
+}
