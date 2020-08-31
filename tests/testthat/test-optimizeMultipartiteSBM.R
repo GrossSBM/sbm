@@ -3,7 +3,10 @@ test_that("optimize for multipartite SBM runs GREMLIN", {
   type <- "simple"
   netA <- defineNetwork(A,"bernoulli",type,directed=TRUE,dimLabels=list("Actor","Actor"))
   B <- matrix(rpois(10*20,2),10,20)
-  netB <- defineNetwork(A,"poisson",type,directed=TRUE,dimLabels=list("Actor","Stuff"))
+  type <- "bipartite"
+  netB <- defineNetwork(B,"poisson",type,directed=TRUE,dimLabels=list("Actor","Stuff"))
+
+
   E <- estimateMultipartiteSBM(list(netA,netB))
 
 

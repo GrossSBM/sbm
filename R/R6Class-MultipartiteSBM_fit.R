@@ -2,6 +2,7 @@
 #'
 #' This class is designed to give a representation and adjust a Multiparite SBM fitted with GREMLIN.
 #'
+#' @import R6 GREMLIN
 #' @export
 MultipartiteSBM_fit <-
   R6::R6Class(classname = "MultipartiteSBM_fit",
@@ -24,9 +25,15 @@ MultipartiteSBM_fit <-
                         else {type <-  "inc"}
                       GREMLIN::defineNetwork(net$netMatrix,type,rowFG=net$dimLabels[[1]],colFG=net$dimLabels[[2]])
                   })
-                  vdistrib <- lapply(private$listNet,function(net){
+                 # print(length(private$listNet))
+                #  print(length(listNetG))
+                  vdistrib <- sapply(private$listNet,function(net){
                     net$modelName
                   })
+
+                 # print(vdistrib)
+                  print(listNetG[[1]])
+                  print(listNetG[[2]])
 
                   Res <- multipartiteBM(list_Net=listNetG,v_distrib=vdistrib)
                   Res[[1]]

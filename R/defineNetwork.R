@@ -20,7 +20,7 @@ defineNetwork = function(netMat,
 
   if (type=="simple")
     mySBM <- SimpleSBM_fit$new(netMat, model, directed, dimLabels, covariates)
-   else {mySBM <- SimpleSBM_fit$new(netMat, model, dimLabels, covariates)}
+   else {mySBM <- BipartiteSBM_fit$new(netMat, model, dimLabels, covariates)}
 
   mySBM
   }
