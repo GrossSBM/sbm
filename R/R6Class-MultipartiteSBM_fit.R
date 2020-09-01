@@ -8,6 +8,15 @@ MultipartiteSBM_fit <-
   R6::R6Class(classname = "MultipartiteSBM_fit",
               inherit = MultipartiteSBM,
               # fields for internal use (referring to the mathematical notation)
+              private = list(
+                GREMLINobject       = NULL,
+                import_from_GREMLIN = function(index = 1) {
+                lapply(private$listNet,function(net){
+                  net$tau <- private$GREMLINobject$fittedModel[[1]]$paramEstim
+
+                })
+              }
+              ),
               public = list(
                 #' @description constructor for Multiparite SBM
                 #' @param listSBM list of SBM object with
@@ -35,9 +44,10 @@ MultipartiteSBM_fit <-
                   print(listNetG[[1]])
                   print(listNetG[[2]])
 
-                  Res <- multipartiteBM(list_Net=listNetG,v_distrib=vdistrib)
-                  Res[[1]]
+                  private$GREMLINobject <- GREMLIN::multipartiteBM(list_Net=listNetG,v_distrib=vdistrib)
 
+                  private$import_from_GREMLIN()
+                  ### TODO find what to ouput???
 
                 }
 
