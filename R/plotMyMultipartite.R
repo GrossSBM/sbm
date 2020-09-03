@@ -54,7 +54,7 @@ plotmyMultipartiteMatrix = function(list_Net){
   g <- g  +  scale_x_discrete(drop = FALSE) + scale_y_discrete(drop = FALSE)
   g <- g + theme(axis.text.x = element_text(angle = 270, hjust = 0))
   g <- g +  labs(x = colFG, y = rowFG) +  theme(aspect.ratio = n1/n2)
-  g <- g + facet_wrap(~FG_row , ncol=1)
+ 
   
   
 } 
