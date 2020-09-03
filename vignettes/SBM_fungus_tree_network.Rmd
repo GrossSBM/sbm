@@ -44,8 +44,8 @@ theme_set(theme_bw())
 We consider the fungus-tree interaction network studied by @tree_fungus_network, available with the package **sbm**:
 
 ```{r import dataset}
-data("fungus_tree_network")
-str(fungus_tree_network, max.level = 1)
+data("fungusTreeNetwork")
+str(fungusTreeNetwork, max.level = 1)
 ```
 
 This data set provides information about $154$ fungi sampled on $51$ tree species. It is a list with the following entries:
@@ -70,7 +70,7 @@ See @blockmodels for details.
 We first consider the binary network where an edge is drawn between two trees when they do share a least one common fungi:
 
 ```{r tree_tree_binary network}
-tree_tree_binary <- 1 * (fungus_tree_network$tree_tree != 0)
+tree_tree_binary <- 1 * (fungusTreeNetwork$tree_tree != 0)
 ```
 
 The simple function `plotMyMatrix` can be use to represent simple or bipartite SBM:
@@ -149,7 +149,7 @@ Instead of considering the binary network tree-tree we may consider the weighted
 We plot the matrix with function `plotMyMatrix`: 
 
 ```{r tree_tree network plot data}
-tree_tree <- fungus_tree_network$tree_tree
+tree_tree <- fungusTreeNetwork$tree_tree
 plotMyMatrix(tree_tree, dimLabels = list(row = 'tree', col = 'tree'))
 ```
 
@@ -208,7 +208,7 @@ mySimpleSBMCov<-
     model = 'poisson', 
     directed = FALSE, 
     dimLabels = list(row = 'tree', col= 'tree'),
-    covariates  = fungus_tree_network$covar_tree, 
+    covariates  = fungusTreeNetwork$covar_tree, 
     estimOptions = list(verbosity = 0, plot = FALSE, nbCores = 1)
   )
 ```
@@ -237,7 +237,7 @@ S3 methods are also available for fit and prediction (results hidden here)
 ```{r simpleSBMfitPoisson covar fitted, results='hide'}
 fitted(mySimpleSBMCov)
 predict(mySimpleSBMCov)
-predict(mySimpleSBMCov, fungus_tree_network$covar_tree)
+predict(mySimpleSBMCov, fungusTreeNetwork$covar_tree)
 ```
  
   
@@ -247,13 +247,13 @@ predict(mySimpleSBMCov, fungus_tree_network$covar_tree)
 We now analyze the bipartite tree/fungi interactions. The incidence matrix can be plotted with the function \cote{plotMyMatrix}
 
 ```{r plot incidence}
-plotMyMatrix(fungus_tree_network$fungus_tree, dimLabels = list(row = 'fungis', col= 'tree'))
+plotMyMatrix(fungusTreeNetwork$fungus_tree, dimLabels = list(row = 'fungis', col= 'tree'))
 ```
 
 
 ```{r tree_fungi_bipartite network}
 myBipartiteSBM <- 
-  fungus_tree_network$fungus_tree %>% 
+  fungusTreeNetwork$fungus_tree %>% 
   estimateBipartiteSBM(model = 'bernoulli', dimLabels = list(row = 'fungis', col= 'tree'),estimOptions = list(verbosity = 0, plot = FALSE))
 ```
 
