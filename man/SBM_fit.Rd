@@ -45,7 +45,6 @@ R6 virtual class for SBM fit (mother class of Simple and Bipartite SBM fit)
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 constructor for SBM fit
 \subsection{Usage}{
@@ -68,7 +67,6 @@ constructor for SBM fit
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-show"></a>}}
-\if{latex}{\out{\hypertarget{method-show}{}}}
 \subsection{Method \code{show()}}{
 print/show method
 \subsection{Usage}{
@@ -85,7 +83,6 @@ print/show method
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-setModel"></a>}}
-\if{latex}{\out{\hypertarget{method-setModel}{}}}
 \subsection{Method \code{setModel()}}{
 method to select a specific model among the ones fitted during the optimization.
 Fields of the current SBM_fit will be updated accordingly.
@@ -103,7 +100,6 @@ Fields of the current SBM_fit will be updated accordingly.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

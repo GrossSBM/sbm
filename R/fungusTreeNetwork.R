@@ -11,4 +11,4 @@
 #'   \item{covar_tree}{covariates associated to pairs of trees (namely genetic, taxonomic and geographic distances)}
 #' }
 #' @source Vacher, Corinne, Dominique Piou, and Marie-Laure Desprez-Loustau. "Architecture of an antagonistic tree/fungus network: the asymmetric influence of past evolutionary history." PloS one 3.3 (2008): e1740.
-"fungus_tree_network"
+"fungusTreeNetwork"

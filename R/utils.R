@@ -100,7 +100,6 @@ plotMatrix = function(Mat, dimLabels, clustering = NULL){
     g <- g + geom_hline(data = sepRow,mapping = aes_string(yintercept = 'sep'),col = 'grey')
   }
   #if (!is.null(fileNameSave)) { ggsave(fileNameSave, width = 20, height = 20, units = "cm") }else{g}
-  g
 }
 
 

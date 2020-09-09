@@ -36,7 +36,8 @@ Imports:
     blockmodels,
     R6,
     Rcpp,
-    ggplot2
+    ggplot2,
+    GREMLIN
 Collate: 
     'R6Class-SBM.R'
     'R6Class-SBM_fit.R'
@@ -50,8 +51,9 @@ Collate:
     'RcppExports.R'
     'defineSBM.R'
     'estimate.R'
-    'fungus_tree_network.R'
+    'fungusTreeNetwork.R'
     'plotMyMatrix.R'
+    'plotMyMultipartite.R'
     'sample.R'
     'sbm-package.R'
     'utils-pipe.R'
