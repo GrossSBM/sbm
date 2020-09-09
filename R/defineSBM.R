@@ -9,7 +9,7 @@
 #' type <- "simple"
 #' defineNetwork(A,"poisson",type,directed=TRUE,dimLabels=list("Actor","Actor"))
 #' @export
-defineNetwork = function(netMat,
+defineSBM = function(netMat,
                          model        = 'bernoulli',
                          type,
                          directed     = !isSymmetric(netMat),
@@ -20,7 +20,7 @@ defineNetwork = function(netMat,
 
   if (type=="simple")
     mySBM <- SimpleSBM_fit$new(netMat, model, directed, dimLabels, covariates)
-   else {mySBM <- BipartiteSBM_fit$new(netMat, model, dimLabels, covariates)}
+   else {mySBM <- BipartiteSBM_fit$new(netMat, model, dimLabels, covariates)} # SimpleSBM_autre (sampler ou nouveau ?)
 
   mySBM
   }

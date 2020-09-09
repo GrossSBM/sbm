@@ -48,7 +48,7 @@ Collate:
     'R6Class-SimpleSBM_fit.R'
     'R6Class-SimpleSBM_sampler.R'
     'RcppExports.R'
-    'defineNetwork.R'
+    'defineSBM.R'
     'estimate.R'
     'fungus_tree_network.R'
     'plotMyMatrix.R'
