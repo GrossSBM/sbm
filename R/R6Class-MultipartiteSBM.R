@@ -12,7 +12,7 @@ MultipartiteSBM <-
                        ),
      public = list(
        #' @description constructor for Multiparite SBM
-       #' @param listSBM list of SBM object with
+       #' @param listSBM list of SimpleSBM or BipartiteSBM
        initialize = function(listSBM) {
           private$listNet = listSBM
           private$nbNet = length(listSBM)

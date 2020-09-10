@@ -17,9 +17,9 @@ Plot the matrices corresonding to a Multipartite Network
 }
 \examples{
 data(MPEcoNetwork, package = "GREMLIN")
-PlantFlovis = defineNetwork(MPEcoNetwork$Inc_plant_flovis,"inc","Plants","Flovis")
-PlantAnt = defineNetwork(MPEcoNetwork$Inc_plant_ant,"inc","Plants","Ants")
-PlantBird = defineNetwork(MPEcoNetwork$Inc_plant_bird,"inc","Plants","Birds")
+PlantFlovis = sbm::defineNetwork(MPEcoNetwork$Inc_plant_flovis, type = "bipartite",model = 'bernoulli',dimLabels = list(row="Plants",col="Flovis"))
+PlantAnt = sbm::defineNetwork(MPEcoNetwork$Inc_plant_ant,type = "bipartite",model = 'bernoulli',dimLabels =list(row = "Plants", col = "Ants"))
+PlantBird = sbm::defineNetwork(MPEcoNetwork$Inc_plant_bird,type = "bipartite",model = 'bernoulli',dimLabels =list(row = "Plants",col = "Birds"))
 plotMyMultipartiteMatrix(list(PlantFlovis,PlantAnt,PlantBird)
 
 

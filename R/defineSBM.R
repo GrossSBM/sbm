@@ -19,8 +19,8 @@ defineSBM = function(netMat,
   if (!type %in% c("simple","bipartite")) {stop("not allowed type")}
 
   if (type=="simple")
-    mySBM <- SimpleSBM_fit$new(netMat, model, directed, dimLabels, covariates)
-   else {mySBM <- BipartiteSBM_fit$new(netMat, model, dimLabels, covariates)} # SimpleSBM_autre (sampler ou nouveau ?)
+    mySBM <- SimpleSBM$new(netMat, model, directed, dimLabels, covariates)
+   else {mySBM <- BipartiteSBM$new(netMat, model, dimLabels, covariates)} # SimpleSBM_autre (sampler ou nouveau ?)
 
   mySBM
   }

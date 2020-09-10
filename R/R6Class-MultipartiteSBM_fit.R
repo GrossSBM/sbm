@@ -9,25 +9,29 @@ MultipartiteSBM_fit <-
               inherit = MultipartiteSBM,
               # fields for internal use (referring to the mathematical notation)
               private = list(
-                listFit = NULL, #objets estimes une liste d'une classe a creeer (simpleSBM ou bipartiteSBM...)
-                # listFit serait cree et rempli par optimize
-                # contains outputs of GREMLIN
                 GREMLINobject       = NULL,
                 import_from_GREMLIN = function(index = 1) {
                   GREMLINfit <- private$GREMLINobject$fittedModel[[index]]
-                  clusterings <- lapply(GREMLINfit$paramEstim$tau,as_clustering)
+                  listtau <- GREMLINfit$paramEstim$tau
+                  listpi <-  GREMLINfit$paramEstim$list_pi
+
+
                   lapply(private$listNet,function(net){
                     if (substr(class(net)[1],1,6)=="Simple") {
-                      net$memberships <- clusterings[[net$dimLabels[[1]]]]
-                      print(clusterings[[net$dimLabels[[1]]]])
-                      print(net$memberships)
+                      Lab <- net$dimLabels[[1]]
+                      net$varProb <- listtau[[Lab]]
+                      net$blockProp <- listpi[[Lab]]
                     }
                     else {
-                      net$memberships <- list(clusterings[[net$dimLabels[[1]]]],clusterings[[net$dimLabels[[2]]]])
+                      rowLab <- net$dimLabels[[1]]
+                      colLab <- net$dimLabels[[2]]
+                      net$varProb <- list(listtau[[rowLab]],listtau[[colLab]])
+                      net$blockProp <- list(listpi[[rowLab]],listpi[[colLab]])
                     }
-                    #net$tau <- private$GREMLINobject$fittedModel[[1]]$paramEstim
-
                   })
+                  #print(private$nbNet)
+                  for (i in 1:private$nbNet) {private$listNet[[i]]$connectParam <- GREMLINfit$paramEstim$list_theta[[i]]}
+                  #print(private$GREMLINfit$paramEstim$list_theta[[i]]);print(private$listNet[[i]]$connectParam)}
                 }
               ),
               public = list(
@@ -54,8 +58,8 @@ MultipartiteSBM_fit <-
                   })
 
                  # print(vdistrib)
-                  print(listNetG[[1]])
-                  print(listNetG[[2]])
+                  # print(listNetG[[1]])
+                  # print(listNetG[[2]])
 
                   private$GREMLINobject <- GREMLIN::multipartiteBM(list_Net=listNetG,v_distrib=vdistrib)
 
@@ -63,7 +67,7 @@ MultipartiteSBM_fit <-
                   ### TODO find what to ouput???
                   #import_from_GREMLIN doit remplir listFit
                 },
-                getBM = function(i) {private$listNet[[i]]} # a supprimer ?
+             getBM = function(i) {private$listNet[[i]]}
               )
               # ,
               # active=list(
