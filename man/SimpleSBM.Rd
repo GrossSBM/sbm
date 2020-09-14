@@ -47,7 +47,6 @@ R6 virtual class for SBM representation (mother class of Simple and Bipartite SB
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 constructor for a Simple SBM fit
 \subsection{Usage}{
@@ -78,7 +77,6 @@ constructor for a Simple SBM fit
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

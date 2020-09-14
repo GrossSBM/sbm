@@ -31,7 +31,6 @@ This class is designed to give a representation and adjust a Multiparite SBM fit
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 constructor for Multiparite SBM
 \subsection{Usage}{
@@ -48,7 +47,6 @@ constructor for Multiparite SBM
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-optimize"></a>}}
-\if{latex}{\out{\hypertarget{method-optimize}{}}}
 \subsection{Method \code{optimize()}}{
 estimation via GREMLIN
 \subsection{Usage}{
@@ -65,7 +63,6 @@ estimation via GREMLIN
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-getBM"></a>}}
-\if{latex}{\out{\hypertarget{method-getBM}{}}}
 \subsection{Method \code{getBM()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{MultipartiteSBM_fit$getBM(i)}\if{html}{\out{</div>}}
@@ -74,7 +71,6 @@ estimation via GREMLIN
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

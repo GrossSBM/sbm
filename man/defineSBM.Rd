@@ -27,7 +27,7 @@ defineSBM(
 \item{covariates}{a list of matrices with same dimension as mat describing covariates at the edge level. No covariate per Default.}
 }
 \value{
-a network ready to be part of a multipartite network
+an object SimpleSBM or BipartiteSBM with the informations required to define a future multipartite network
 }
 \description{
 Define a network
@@ -35,5 +35,5 @@ Define a network
 \examples{
 A <- matrix(rbinom(100,1,.2),10,10)
 type <- "simple"
-defineNetwork(A,"poisson",type,directed=TRUE,dimLabels=list("Actor","Actor"))
+myNet <- defineSBM(A,"poisson",type,directed=TRUE,dimLabels=list("Actor","Actor"))
 }

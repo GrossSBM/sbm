@@ -3,11 +3,11 @@
 #' @inheritParams estimateSimpleSBM
 #' @param type Type of the matrix, choice between 'simple' and 'bipartite'
 #' @param dimLabels an optional list of labels for each dimension (in row, in column)
-#' @return a network ready to be part of a multipartite network
+#' @return an object SimpleSBM or BipartiteSBM with the informations required to define a future multipartite network
 #' @examples
 #' A <- matrix(rbinom(100,1,.2),10,10)
 #' type <- "simple"
-#' defineNetwork(A,"poisson",type,directed=TRUE,dimLabels=list("Actor","Actor"))
+#' myNet <- defineSBM(A,"poisson",type,directed=TRUE,dimLabels=list("Actor","Actor"))
 #' @export
 defineSBM = function(netMat,
                          model        = 'bernoulli',

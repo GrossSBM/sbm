@@ -45,7 +45,6 @@ R6 virtual class for SBM representation (mother class of Simple and Bipartite SB
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 constructor for SBM
 \subsection{Usage}{
@@ -82,7 +81,6 @@ constructor for SBM
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-plot"></a>}}
-\if{latex}{\out{\hypertarget{method-plot}{}}}
 \subsection{Method \code{plot()}}{
 basic matrix plot method for SBM object
 \subsection{Usage}{
@@ -104,7 +102,6 @@ a ggplot2 object
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-show"></a>}}
-\if{latex}{\out{\hypertarget{method-show}{}}}
 \subsection{Method \code{show()}}{
 print method
 \subsection{Usage}{
@@ -121,7 +118,6 @@ print method
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-print"></a>}}
-\if{latex}{\out{\hypertarget{method-print}{}}}
 \subsection{Method \code{print()}}{
 print method
 \subsection{Usage}{
@@ -131,7 +127,6 @@ print method
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

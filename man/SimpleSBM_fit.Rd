@@ -53,7 +53,6 @@ This class is designed to give a representation and adjust an SBM fitted with bl
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 constructor for a Simple SBM fit
 \subsection{Usage}{
@@ -84,7 +83,6 @@ constructor for a Simple SBM fit
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-optimize"></a>}}
-\if{latex}{\out{\hypertarget{method-optimize}{}}}
 \subsection{Method \code{optimize()}}{
 function to perform optimization
 \subsection{Usage}{
@@ -118,7 +116,6 @@ function to perform optimization
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-predict"></a>}}
-\if{latex}{\out{\hypertarget{method-predict}{}}}
 \subsection{Method \code{predict()}}{
 prediction under the currently estimated model
 \subsection{Usage}{
@@ -138,7 +135,6 @@ a matrix of expected values for each dyad
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-reorder"></a>}}
-\if{latex}{\out{\hypertarget{method-reorder}{}}}
 \subsection{Method \code{reorder()}}{
 permute group labels by order of decreasing probability
 \subsection{Usage}{
@@ -148,7 +144,6 @@ permute group labels by order of decreasing probability
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-show"></a>}}
-\if{latex}{\out{\hypertarget{method-show}{}}}
 \subsection{Method \code{show()}}{
 show method
 \subsection{Usage}{
@@ -165,7 +160,6 @@ show method
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

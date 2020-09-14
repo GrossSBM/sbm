@@ -11,7 +11,7 @@ MultipartiteSBM <-
        listNet = NULL
                        ),
      public = list(
-       #' @description constructor for Multiparite SBM
+       #' @description constructor for Multipartite SBM
        #' @param listSBM list of SimpleSBM or BipartiteSBM
        initialize = function(listSBM) {
           private$listNet = listSBM
