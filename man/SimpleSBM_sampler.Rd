@@ -50,6 +50,7 @@ R6 class for Simple SBM sampler
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 constructor for SBM
 \subsection{Usage}{
@@ -89,6 +90,7 @@ constructor for SBM
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-rMemberships"></a>}}
+\if{latex}{\out{\hypertarget{method-rMemberships}{}}}
 \subsection{Method \code{rMemberships()}}{
 a method to generate a vector of block indicators
 \subsection{Usage}{
@@ -101,6 +103,7 @@ nothing (sampled memberships is stored in the current object)
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-rAdjacency"></a>}}
+\if{latex}{\out{\hypertarget{method-rAdjacency}{}}}
 \subsection{Method \code{rAdjacency()}}{
 a method to sample an adjacency matrix for the current SBM
 \subsection{Usage}{
@@ -113,6 +116,7 @@ nothing (sampled adjacency matrix is stored in the current object)
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-show"></a>}}
+\if{latex}{\out{\hypertarget{method-show}{}}}
 \subsection{Method \code{show()}}{
 show method
 \subsection{Usage}{
@@ -129,6 +133,7 @@ show method
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

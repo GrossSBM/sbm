@@ -11,6 +11,21 @@ R6 Class definition of a Multipartite SBM
 \details{
 R6 virtual class for Multipartite SBM representation
 }
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{nbNetworks}}{: number of networks in the multipartite network}
+
+\item{\code{listSBM}}{: list of SimpleSBMs or BipartiteSBMs}
+
+\item{\code{archiMultipartite}}{: organisation of the multipartite network}
+
+\item{\code{dimLabels}}{: labels of the functional groups}
+
+\item{\code{nbLabels}}{: number of Functional groups involved in the multipartite}
+}
+\if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
@@ -20,6 +35,7 @@ R6 virtual class for Multipartite SBM representation
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 constructor for Multipartite SBM
 \subsection{Usage}{
@@ -36,6 +52,7 @@ constructor for Multipartite SBM
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

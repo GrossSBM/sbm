@@ -11,17 +11,10 @@ R6 virtual class for SBM representation (mother class of Simple and Bipartite SB
 \section{Super class}{
 \code{\link[sbm:SBM]{sbm::SBM}} -> \code{SimpleSBM}
 }
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{variational}}{probabilities of nodes being in a block}
-}
-\if{html}{\out{</div>}}
-}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{variational}}{probabilities of nodes being in a block}
+\item{\code{varProb}}{variational probabilities of nodes being in a block}
 
 \item{\code{memberships}}{vector of clustering}
 
@@ -47,6 +40,7 @@ R6 virtual class for SBM representation (mother class of Simple and Bipartite SB
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 constructor for a Simple SBM fit
 \subsection{Usage}{
@@ -77,6 +71,7 @@ constructor for a Simple SBM fit
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

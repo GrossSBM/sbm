@@ -4,12 +4,12 @@
 \alias{estimateMultipartiteSBM}
 \title{Estimation for multipartite SBM}
 \usage{
-estimateMultipartiteSBM(ldefinedNet, estimOptions = list())
+estimateMultipartiteSBM(listSBM, estimOptions = list())
 }
 \arguments{
-\item{ldefinedNet}{list of networks that were defined by defineNetwork function}
+\item{estimOptions}{options for the inference procedure}
 
-\item{estimOptions}{option for estimation}
+\item{ldefinedNet}{list of networks that were defined by the \code{defineSBM} function}
 }
 \value{
 

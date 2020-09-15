@@ -32,7 +32,7 @@ SimpleSBM <- # this class inherit from SBM and allow to use multipartite as a li
                 }
               ),
               active = list(
-                #' @field variational probabilities of nodes being in a block
+                #' @field varProb variational probabilities of nodes being in a block
                 varProb    = function(value) {if (missing(value)) return(private$tau) else {stopifnot(nrow(value)==private$dim[1])
                    private$tau <- value}},
                 #' @field memberships vector of clustering

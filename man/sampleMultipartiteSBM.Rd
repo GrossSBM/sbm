@@ -20,7 +20,7 @@ sampleMultipartiteSBM(
 
 \item{blockProp}{a list of parameters for block proportions  in each functional group}
 
-\item{archiMultipartite}{a matrix with two columns and nbNetworks lines, each line specyfing the index of the functional groups in interaction.}
+\item{archiMultipartite}{a matrix with two columns and nbNetworks lines, each line specifying the index of the functional groups in interaction.}
 
 \item{connectParam}{list of parameters for connectivity (of length nbNetworks). Each element is a list of one or two elements: a matrix of means 'mean' and an optional matrix of variances 'var', the sizes of which must match \code{blockProp} length}
 
@@ -31,7 +31,7 @@ sampleMultipartiteSBM(
 \item{dimLabels}{an optional list of labels for functional group involved in the network}
 }
 \value{
-a list of  objects with  class \code{\link{MultipartiteSBM}}
+a list of two elements : \code{simulatedMemberships} are the clustering of each node in each Functiontal Group,  \code{multipartiteNetwork} is the list of the simulated networks (each one being  a simple or bipartite network)
 }
 \description{
 This function samples a Multipartite Stochastic Block Models, with various model
@@ -55,18 +55,18 @@ model <- c('bernoulli','poisson','bernoulli','gaussian') # type of distribution 
 directed <- c( NA, NA  ,  FALSE , NA) # for each network : directed or not (not required for an interaction wetween two different FG)
 connectParam <- list()
 E <- archiMultipartite
-connectParam[[1]] <- list(mean = matrix(rbeta(nbBlocks[E[1,1]] * nbBlocks[E[1,2]],1.5,1.5 ),nrow = nbBlocks[E[1,1]], ncol = nbBlocks[E[1,2]] ))
-connectParam[[2]] <- list(mean  =  matrix(rgamma(nbBlocks[E[2,1]] * nbBlocks[E[2,2]],7.5,1 ),nrow = nbBlocks[E[2,1]], ncol = nbBlocks[E[2,2]]))
-connectParam[[3]] <- list(mean  =  matrix(rbeta(nbBlocks[E[3,1]] * nbBlocks[E[3,2]],0.8,0.8 ), nrow = nbBlocks[E[3,1]], ncol = nbBlocks[E[3,2]]))
+connectParam[[1]] <- list(mean = matrix(rbeta(nbBlocks[E[1,1]] * nbBlocks[E[1,2]],1,1 ),nrow = nbBlocks[E[1,1]], ncol = nbBlocks[E[1,2]] ))
+connectParam[[2]] <- list(mean  =  matrix(rgamma(nbBlocks[E[2,1]] * nbBlocks[E[2,2]],7.5,0.01 ),nrow = nbBlocks[E[2,1]], ncol = nbBlocks[E[2,2]]))
+connectParam[[3]] <- list(mean  =  matrix(rbeta(nbBlocks[E[3,1]] * nbBlocks[E[3,2]],0.9,0.0 ), nrow = nbBlocks[E[3,1]], ncol = nbBlocks[E[3,2]]))
 connectParam[[3]]$mean <-  0.5*(connectParam[[3]]$mean + t(connectParam[[3]]$mean)) # symetrisation for network 3
-connectParam[[4]] <- list(mean = matrix(rnorm(nbBlocks[E[4,1]] * nbBlocks[E[4,2]],7.5,1 ), nrow = nbBlocks[E[4,1]], ncol = nbBlocks[E[4,2]]))
-connectParam[[4]]$var <- matrix(rgamma(nbBlocks[E[4,1]] * nbBlocks[E[4,2]],7.5,1 ), nrow = nbBlocks[E[4,1]], ncol = nbBlocks[E[4,2]])
+connectParam[[4]] <- list(mean = matrix(rnorm(nbBlocks[E[4,1]] * nbBlocks[E[4,2]],7.5,10 ), nrow = nbBlocks[E[4,1]], ncol = nbBlocks[E[4,2]]))
+connectParam[[4]]$var <- matrix(rgamma(nbBlocks[E[4,1]] * nbBlocks[E[4,2]],7.5,0.1 ), nrow = nbBlocks[E[4,1]], ncol = nbBlocks[E[4,2]])
 dimLabels <- as.list(c('A','B','C'))
 seed <- 10
 ## Graph Sampling
 dataSim <- sampleMultipartiteSBM(nbNodes, blockProp, archiMultipartite, connectParam, model, directed, dimLabels,seed)
-list_net <- dataSim$list_net
-classifTrue <- dataSim$classif
+listSBM <- dataSim$listSBM
+memberships <- dataSim$memberships
 plot(mySampler)
 hist(mySampler$netMatrix)
 }

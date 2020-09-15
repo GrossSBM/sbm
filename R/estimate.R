@@ -212,22 +212,32 @@ estimateBipartiteSBM <- function(netMat,
 
 #' Estimation for multipartite SBM
 #'
-#' @param ldefinedNet list of networks that were defined by defineNetwork function
-#' @param estimOptions option for estimation
+#' @param ldefinedNet list of networks that were defined by the \code{defineSBM} function
+#' @param estimOptions options for the inference procedure
 #'
 #' @return
 #' @export
 #'
 #' @examples
-estimateMultipartiteSBM <- function(ldefinedNet,
+estimateMultipartiteSBM <- function(listSBM,
                                     estimOptions = list())
 {
-    myMSBM <- MultipartiteSBM_fit$new(ldefinedNet)
-    # TODO currentOptions
-    # TODO   do.call(myMBM$optimize, currentOptions)
-    currentOptions = list()
-    #do.call(myMSBM$optimize, currentOptions)
-    myMSBM$optimize(currentOptions)
+
+  myMSBM <- MultipartiteSBM_fit$new(listSBM)
+
+
+  currentOptions <- list(
+    verbosity     = 3,
+    nbBlocksRange = lapply(1:myMSBM$nbLabels,function(l){c(1,10)}),
+    nbCores       = 2,
+    maxiterVE     = NULL,
+    maxiterVEM    = NULL
+    )
+  names(currentOptions$nbBlocksRange) <- myMSBM$dimLabels
+  ## Current options are default expect for those passed by the user
+  currentOptions[names(estimOptions)] <- estimOptions
+
+  myMSBM$optimize(currentOptions)
 
 
     # return MSBM fit object
