@@ -9,7 +9,7 @@ sampleBipartiteSBM(
   blockProp,
   connectParam,
   model = "bernoulli",
-  dimLabels = list(row = "rowLabel", col = "colLabels"),
+  dimLabels = list(row = "rowLabel", col = "colLabel"),
   covariates = list(),
   covariatesParam = numeric(0)
 )

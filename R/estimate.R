@@ -79,7 +79,7 @@
 estimateSimpleSBM <- function(netMat,
                               model        = 'bernoulli',
                               directed     = !isSymmetric(netMat),
-                              dimLabels    = list(row = "rowLabel", col = "colLabels"),
+                              dimLabels    = list(row = "rowLabel", col = "colLabel"),
                               covariates   = list(),
                               estimOptions = list()) {
 
@@ -179,7 +179,7 @@ estimateSimpleSBM <- function(netMat,
 #' @export
 estimateBipartiteSBM <- function(netMat,
                                  model        = 'bernoulli',
-                                 dimLabels    = list(row = "rowLabel", col = "colLabels"),
+                                 dimLabels    = list(row = "rowLabel", col = "colLabel"),
                                  covariates   = list(),
                                  estimOptions = list()) {
 
@@ -215,10 +215,35 @@ estimateBipartiteSBM <- function(netMat,
 #' @param ldefinedNet list of networks that were defined by the \code{defineSBM} function
 #' @param estimOptions options for the inference procedure
 #'
-#' @return
+#' @return a MultipartiteSBM_fit object with the estimated parameters and the blocks in each Functional Group
 #' @export
 #'
 #' @examples
+#' #' # About the Functional Groups (FG)
+#' nbFunctionalGroups <- 3  #number of functional groups
+#' nbBlocks  <- c(3,2,2) #number of clusters in each functional group
+#' nbNodes <-  c(100,50,40)
+#' blockProp <- vector("list", 3)  # parameters of clustering in each functional group
+#' blockProp[[1]] <- c(0.4,0.3,0.3) # in Functional Group 1
+#' blockProp[[2]] <- c(0.6,0.4) # in Functional Group 2
+#' blockProp[[3]]  <- c(0.6,0.4) # in Functional Group 3
+#' # About the interactions between the FG
+#' archiMultipartite  <-  rbind(c(1,2),c(2,3),c(2,2),c(1,3)) # architecture of the various networks (FG interaction : 1 with  2, 2 wih 3, 1 with 3 and interactions inside FG 2. )
+#' model <- c('bernoulli','poisson','bernoulli','gaussian') # type of distribution in each network
+#' directed <- c( NA, NA  ,  FALSE , NA) # for each network : directed or not (not required for an interaction wetween two different FG)
+#' connectParam <- list()
+#' E <- archiMultipartite
+#' connectParam[[1]] <- list(mean = matrix(rbeta(nbBlocks[E[1,1]] * nbBlocks[E[1,2]],1,1 ),nrow = nbBlocks[E[1,1]], ncol = nbBlocks[E[1,2]] ))
+#' connectParam[[2]] <- list(mean  =  matrix(rgamma(nbBlocks[E[2,1]] * nbBlocks[E[2,2]],7.5,0.01 ),nrow = nbBlocks[E[2,1]], ncol = nbBlocks[E[2,2]]))
+#' connectParam[[3]] <- list(mean  =  matrix(rbeta(nbBlocks[E[3,1]] * nbBlocks[E[3,2]],0.9,0.0 ), nrow = nbBlocks[E[3,1]], ncol = nbBlocks[E[3,2]]))
+#' connectParam[[3]]$mean <-  0.5*(connectParam[[3]]$mean + t(connectParam[[3]]$mean)) # symetrisation for network 3
+#' connectParam[[4]] <- list(mean = matrix(rnorm(nbBlocks[E[4,1]] * nbBlocks[E[4,2]],7.5,10 ), nrow = nbBlocks[E[4,1]], ncol = nbBlocks[E[4,2]]))
+#' connectParam[[4]]$var <- matrix(rgamma(nbBlocks[E[4,1]] * nbBlocks[E[4,2]],7.5,0.1 ), nrow = nbBlocks[E[4,1]], ncol = nbBlocks[E[4,2]])
+#' ## Graph Sampling
+#' mySampleMSBM <- sampleMultipartiteSBM(nbNodes, blockProp, archiMultipartite, connectParam, model, directed, dimLabels = as.list(c('A','B','C')))
+#' listSBM <- mySampleMSBM$listSBM
+#' estimOptions = list(initBM = FALSE)
+#' myMSBM <- estimateMultipartiteSBM(listSBM,estimOptions)
 estimateMultipartiteSBM <- function(listSBM,
                                     estimOptions = list())
 {
@@ -231,7 +256,8 @@ estimateMultipartiteSBM <- function(listSBM,
     nbBlocksRange = lapply(1:myMSBM$nbLabels,function(l){c(1,10)}),
     nbCores       = 2,
     maxiterVE     = NULL,
-    maxiterVEM    = NULL
+    maxiterVEM    = NULL,
+    initBM = TRUE
     )
   names(currentOptions$nbBlocksRange) <- myMSBM$dimLabels
   ## Current options are default expect for those passed by the user
@@ -239,7 +265,5 @@ estimateMultipartiteSBM <- function(listSBM,
 
   myMSBM$optimize(currentOptions)
 
-
-    # return MSBM fit object
-    myMSBM
+  myMSBM
 }

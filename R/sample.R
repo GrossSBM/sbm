@@ -68,7 +68,7 @@ sampleSimpleSBM <- function(nbNodes,
                             connectParam,
                             model = 'bernoulli',
                             directed = FALSE,
-                            dimLabels    = list(row = "rowLabel", col = "colLabels"),
+                            dimLabels    = list(row = "rowLabel", col = "colLabel"),
                             covariates = list(),
                             covariatesParam = numeric(0)) {
 
@@ -145,7 +145,7 @@ sampleBipartiteSBM <- function(nbNodes,
                             blockProp,
                             connectParam,
                             model = 'bernoulli',
-                            dimLabels    = list(row = "rowLabel", col = "colLabels"),
+                            dimLabels    = list(row = "rowLabel", col = "colLabel"),
                             covariates = list(),
                             covariatesParam = numeric(0)) {
 
@@ -187,18 +187,17 @@ sampleBipartiteSBM <- function(nbNodes,
 #' E <- archiMultipartite
 #' connectParam[[1]] <- list(mean = matrix(rbeta(nbBlocks[E[1,1]] * nbBlocks[E[1,2]],1,1 ),nrow = nbBlocks[E[1,1]], ncol = nbBlocks[E[1,2]] ))
 #' connectParam[[2]] <- list(mean  =  matrix(rgamma(nbBlocks[E[2,1]] * nbBlocks[E[2,2]],7.5,0.01 ),nrow = nbBlocks[E[2,1]], ncol = nbBlocks[E[2,2]]))
-#' connectParam[[3]] <- list(mean  =  matrix(rbeta(nbBlocks[E[3,1]] * nbBlocks[E[3,2]],0.9,0.0 ), nrow = nbBlocks[E[3,1]], ncol = nbBlocks[E[3,2]]))
+#' connectParam[[3]] <- list(mean  =  matrix(rbeta(nbBlocks[E[3,1]] * nbBlocks[E[3,2]],0.9,0.9 ), nrow = nbBlocks[E[3,1]], ncol = nbBlocks[E[3,2]]))
 #' connectParam[[3]]$mean <-  0.5*(connectParam[[3]]$mean + t(connectParam[[3]]$mean)) # symetrisation for network 3
 #' connectParam[[4]] <- list(mean = matrix(rnorm(nbBlocks[E[4,1]] * nbBlocks[E[4,2]],7.5,10 ), nrow = nbBlocks[E[4,1]], ncol = nbBlocks[E[4,2]]))
 #' connectParam[[4]]$var <- matrix(rgamma(nbBlocks[E[4,1]] * nbBlocks[E[4,2]],7.5,0.1 ), nrow = nbBlocks[E[4,1]], ncol = nbBlocks[E[4,2]])
 #' dimLabels <- as.list(c('A','B','C'))
 #' seed <- 10
 #' ## Graph Sampling
-#' dataSim <- sampleMultipartiteSBM(nbNodes, blockProp, archiMultipartite, connectParam, model, directed, dimLabels,seed)
-#' listSBM <- dataSim$listSBM
-#' memberships <- dataSim$memberships
-#' plot(mySampler)
-#' hist(mySampler$netMatrix)
+#' mySampleMBM <- sampleMultipartiteSBM(nbNodes, blockProp, archiMultipartite, connectParam, model, directed, dimLabels,seed)
+#' listSBM <- mySampleMBM$listSBM
+#' memberships <- mySampleMBM$memberships
+#' plotMyMultipartiteMatrix(listSBM,memberships)
 #' @export
 sampleMultipartiteSBM <- function(nbNodes,
                             blockProp,

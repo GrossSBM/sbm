@@ -10,7 +10,7 @@ sampleSimpleSBM(
   connectParam,
   model = "bernoulli",
   directed = FALSE,
-  dimLabels = list(row = "rowLabel", col = "colLabels"),
+  dimLabels = list(row = "rowLabel", col = "colLabel"),
   covariates = list(),
   covariatesParam = numeric(0)
 )

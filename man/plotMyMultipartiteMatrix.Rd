@@ -4,10 +4,12 @@
 \alias{plotMyMultipartiteMatrix}
 \title{Plot the matrices corresonding to a Multipartite Network}
 \usage{
-plotMyMultipartiteMatrix(list_Net)
+plotMyMultipartiteMatrix(listSBM, normalizing = FALSE, memberships = NULL)
 }
 \arguments{
-\item{list_Net}{: a list of objects representing the multipartite network (see)}
+\item{listSBM}{: a list of objects representing the multipartite network (see)}
+
+\item{memberships}{: a list of length number of Functional Groups with clusterings inside these FG}
 }
 \value{
 a ggplot object corresponding to the plot
@@ -17,10 +19,10 @@ Plot the matrices corresonding to a Multipartite Network
 }
 \examples{
 data(MPEcoNetwork, package = "GREMLIN")
-PlantFlovis = sbm::defineNetwork(MPEcoNetwork$Inc_plant_flovis, type = "bipartite",model = 'bernoulli',dimLabels = list(row="Plants",col="Flovis"))
-PlantAnt = sbm::defineNetwork(MPEcoNetwork$Inc_plant_ant,type = "bipartite",model = 'bernoulli',dimLabels =list(row = "Plants", col = "Ants"))
-PlantBird = sbm::defineNetwork(MPEcoNetwork$Inc_plant_bird,type = "bipartite",model = 'bernoulli',dimLabels =list(row = "Plants",col = "Birds"))
-plotMyMultipartiteMatrix(list(PlantFlovis,PlantAnt,PlantBird)
+PlantFlovis = defineSBM(MPEcoNetwork$Inc_plant_flovis, type = "bipartite",model = 'bernoulli',dimLabels = list(row="Plants",col="Flovis"))
+PlantAnt = defineSBM(MPEcoNetwork$Inc_plant_ant,type = "bipartite",model = 'bernoulli',dimLabels =list(row = "Plants", col = "Ants"))
+PlantBird = defineSBM(MPEcoNetwork$Inc_plant_bird,type = "bipartite",model = 'bernoulli',dimLabels =list(row = "Plants",col = "Birds"))
+plotMyMultipartiteMatrix(list(PlantFlovis,PlantAnt,PlantBird))
 
 
 }

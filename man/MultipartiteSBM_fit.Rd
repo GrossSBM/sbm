@@ -26,6 +26,7 @@ This class is designed to give a representation and adjust a Multiparite SBM fit
 \if{html}{
 \out{<details open ><summary>Inherited methods</summary>}
 \itemize{
+\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM" data-id="plot">}\href{../../sbm/html/MultipartiteSBM.html#method-plot}{\code{sbm::MultipartiteSBM$plot()}}\out{</span>}
 }
 \out{</details>}
 }

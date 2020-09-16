@@ -13,7 +13,7 @@ defineSBM = function(netMat,
                          model        = 'bernoulli',
                          type,
                          directed     = !isSymmetric(netMat),
-                         dimLabels    = list(row = "rowLabel", col = "colLabels"),
+                         dimLabels    = list(row = "rowLabel", col = "colLabel"),
                          covariates   = list())
   {
   if (!type %in% c("simple","bipartite")) {stop("not allowed type")}

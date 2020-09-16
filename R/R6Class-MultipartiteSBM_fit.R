@@ -69,20 +69,42 @@ MultipartiteSBM_fit <-
           net$modelName
         })
 
-        v_Kmin  <- sapply(1:private$nbFG, function(k){currentOptions$nbBlocksRange[[k]]})
+        v_Kmin  <- sapply(1:private$nbFG, function(k){currentOptions$nbBlocksRange[[k]][1]})
         v_Kmax  <- sapply(1:private$nbFG, function(k){currentOptions$nbBlocksRange[[k]][2]})
-        v_Kinit <- sapply(1:private$nbFG, function(k){currentOptions$nbBlocksRange[[k]]})
-        verbose <- (currentOptions$verbosity>0)
+        verbose <- (currentOptions$verbosity > 0)
         nbCores <- currentOptions$nbCores
         maxiterVE <- currentOptions$maxiterVE
         maxiterVEM <- currentOptions$maxiterVEM
         namesFG <- names(currentOptions$nbBlocksRange)
+        initBM <- currentOptions$initBM
 
-        private$GREMLINobject <- GREMLIN::multipartiteBM(list_Net = listNetG, v_distrib = vdistrib, initBM = TRUE)
-        #multipartiteBM(list_Net,  v_distrib = NULL ,namesFG = NULL, v_Kmin = 1 , v_Kmax = 10 , v_Kinit = NULL , save = TRUE , verbose = TRUE, nbCores = NULL, maxiterVE = NULL , maxiterVEM = NULL)
-
-
-        private$import_from_GREMLIN()
+        if ( sum(abs(v_Kmin - v_Kmax)) > 0) {
+          private$GREMLINobject <- GREMLIN::multipartiteBM(
+          list_Net = listNetG,
+          v_distrib = vdistrib ,
+          namesFG = namesFG,
+          v_Kmin = v_Kmin  ,
+          v_Kmax = v_Kmax ,
+          v_Kinit = NULL ,
+          initBM = initBM,
+          save = TRUE ,
+          verbose = verbose,
+          nbCores = nbCores,
+          maxiterVE =  maxiterVE ,
+          maxiterVEM =  maxiterVEM)
+          private$import_from_GREMLIN()
+        } else {
+          private$GREMLINobject <- GREMLIN::multipartiteBMFixedModel(
+            list_Net = listNetG,
+            v_distrib = vdistrib,
+            namesFG = namesFG ,
+            v_K = v_Kmax,
+            classifInit = NULL,
+            nbCores = nbCores,
+            maxiterVE = maxiterVE,
+            maxiterVEM = maxiterVEM,
+            verbose = verbose)
+        }
         ### TODO find what to ouput???
         #import_from_GREMLIN doit remplir listFit
       },

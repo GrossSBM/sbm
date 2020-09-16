@@ -23,6 +23,8 @@ R6 virtual class for Multipartite SBM representation
 \item{\code{dimLabels}}{: labels of the functional groups}
 
 \item{\code{nbLabels}}{: number of Functional groups involved in the multipartite}
+
+\item{\code{nbNodes}}{: number of Nodes in each FG,}
 }
 \if{html}{\out{</div>}}
 }
@@ -30,6 +32,7 @@ R6 virtual class for Multipartite SBM representation
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{MultipartiteSBM$new()}}
+\item \href{#method-plot}{\code{MultipartiteSBM$plot()}}
 \item \href{#method-clone}{\code{MultipartiteSBM$clone()}}
 }
 }
@@ -39,7 +42,7 @@ R6 virtual class for Multipartite SBM representation
 \subsection{Method \code{new()}}{
 constructor for Multipartite SBM
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MultipartiteSBM$new(listSBM)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{MultipartiteSBM$new(listSBM, memberships = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -49,6 +52,15 @@ constructor for Multipartite SBM
 }
 \if{html}{\out{</div>}}
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-plot"></a>}}
+\if{latex}{\out{\hypertarget{method-plot}{}}}
+\subsection{Method \code{plot()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MultipartiteSBM$plot(normMat)}\if{html}{\out{</div>}}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

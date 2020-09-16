@@ -9,7 +9,7 @@ defineSBM(
   model = "bernoulli",
   type,
   directed = !isSymmetric(netMat),
-  dimLabels = list(row = "rowLabel", col = "colLabels"),
+  dimLabels = list(row = "rowLabel", col = "colLabel"),
   covariates = list()
 )
 }
