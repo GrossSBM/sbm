@@ -39,6 +39,7 @@
 #' plot(mySimpleSBM, 'data')
 #' plot(mySimpleSBM, 'expected', ordered = FALSE)
 #' plot(mySimpleSBM, 'expected')
+#' plot.SimpleSBM.Meso(mySimpleSBM)
 #'
 #' ### =======================================
 #' ### SIMPLE POISSON SBM
@@ -209,7 +210,7 @@ estimateBipartiteSBM <- function(netMat,
   mySBM
 }
 
-
+#-----------------------------------------------------------------
 #' Estimation for multipartite SBM
 #'
 #' @param ldefinedNet list of networks that were defined by the \code{defineSBM} function

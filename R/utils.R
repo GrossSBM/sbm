@@ -99,12 +99,13 @@ plotMatrix = function(Mat, dimLabels, clustering = NULL){
     g <- g + geom_vline(data = sepCol,mapping = aes_string(xintercept = 'sep'),col = 'grey')
     g <- g + geom_hline(data = sepRow,mapping = aes_string(yintercept = 'sep'),col = 'grey')
   }
+  g
   #if (!is.null(fileNameSave)) { ggsave(fileNameSave, width = 20, height = 20, units = "cm") }else{g}
 }
 
 
 #----------------------------------------------------------------------------------
-plotMultipartite = function(list_Mat, E, nbNodes, namesFG,normalizing,clustering) {
+plotMultipartiteMatrix = function(list_Mat, E, nbNodes, namesFG,normalizing,clustering) {
 
 
   nbFG <- length(unique(c(E)))
@@ -255,6 +256,102 @@ plotMultipartite = function(list_Mat, E, nbNodes, namesFG,normalizing,clustering
 
   g
 }
+
+#-----------------------------------------------------------------
+plotMeso <- function(thetaMean, pi,directed,bipartite,nbNodes,nodeLabels,plotOptions){
+
+  currentOptions <- list(seed = NULL,
+                         title = NULL,
+                         layout = NULL,
+                         vertex.color = 'salmon2',
+                         vertex.frame.color = "black",#"white",                 # Node border color
+                         vertex.shape = "circle",                        # One of “none”, “circle”, “square”, “csquare”, “rectangle” “crectangle”, “vrectangle”, “pie”, “raster”, or “sphere”
+                         vertex.size = 2,                               # Size of the node (default is 15)
+                         vertex.size2 = NA,                              # The second size of the node (e.g. for a rectangle)
+                         # === vertex label
+                         vertex.label = nodeLabels,                   # Character vector used to label the nodes
+                         vertex.label.color =  "black",#"white",
+                         vertex.label.font = 2,                          # Font: 1 plain, 2 bold, 3, italic, 4 bold italic, 5 symbol
+                         vertex.label.cex = 0.9,                           # Font size (multiplication factor, device-dependent)
+                         vertex.label.dist = 0,                          # Distance between the label and the vertex
+                         vertex.label.degree = 0 ,                       # The position of the label in relation to the vertex (use pi)
+                         # === Edge
+                         edge.threshold = -Inf,
+                         edge.color = "gray",#"white",                           # Edge color
+                         edge.width = 10,                    # Edge width, defaults to 1
+                         edge.arrow.size = 1,                            # Arrow size, defaults to 1
+                         edge.arrow.width = 2,                           # Arrow width, defaults to 1
+                         edge.lty = "solid",                             # Line type, could be 0 or “blank”, 1 or “solid”, 2 or “dashed”, 3 or “dotted”, 4 or “dotdash”, 5 or “longdash”, 6 or “twodash”
+                         edge.curved = 0.3)
+
+
+
+  if (bipartite) {
+    currentOptions$vertex.color = c('salmon2','darkolivegreen3')
+    currentOptions$vertex.shape = c('circle','square')
+    Qrow <- length(pi$row)
+    Qcol <- length(pi$col)
+    currentOptions$vertex.color = c(rep(currentOptions$vertex.color[1],Qrow),rep(currentOptions$vertex.color[2],Qcol))
+    currentOptions$vertex.shape = c(rep(currentOptions$vertex.shape[1],Qrow),rep(currentOptions$vertex.shape[2],Qcol))
+    currentOptions$layout = layout_as_bipartite
+  }
+
+  currentOptions[names(plotOptions)] <- plotOptions
+
+  alpha <- thetaMean
+  alpha[alpha < currentOptions$edge.threshold] <- 0
+  alpha.norm = (alpha - min(alpha))/(max(alpha) - min(alpha))
+  if (currentOptions$threshold != Inf) {
+    cat(paste("Nota bene: threshold on connexions is",currentOptions$threshold,sep = ' '))
+  }
+
+  if (bipartite){
+    colnames(alphanorm) <- paste(currentOptions$vertex.label$col,1:length(pi$col),sep='')
+    rownames(alphanorm) <- paste(currentOptions$vertex.label$row,1:length(pi$row),sep='')
+    vlab <- c(rownames(alpha.norm),colnames(alpha.norm))
+    g <- graph_from_incidence_matrix(alpha.norm, weighted = TRUE)
+     u <- c(pi$row*nbNodes[1],pi$col*nbNodes[2])
+  }else{
+    vlab <- paste(currentOptions$vertex.label,1:length(pi),sep = "")
+    u <- pi*nbNodes
+    mode <- ifelse(directed,'directed','undirected')
+    g <- graph.adjacency(alpha.norm, mode = mode, weighted = TRUE)
+  }
+
+  E(g)$width <- 1 + as.integer(E(g)$weight*10)
+
+  set.seed(currentOptions$seed)
+
+
+  par(mar = rep(0.15,4))
+  plot(g, layout = currentOptions$layout, ## see https://www.r-graph-gallery.com/248-igraph-plotting-parameters.html
+       # === vertex
+       vertex.color = currentOptions$vertex.color,
+       vertex.frame.color = currentOptions$vertex.frame.color,
+       vertex.shape = currentOptions$vertex.shape,
+       vertex.size = currentOptions$vertex.size*u,
+       vertex.size2 = currentOptions$vertex.size2,
+       # === vertex label
+       vertex.label = vlab,
+       vertex.label.color = currentOptions$vertex.label.color,
+       vertex.label.family = currentOptions$vertex.label.family,
+       vertex.label.cex = currentOptions$vertex.label.cex,
+       vertex.label.dist = currentOptions$vertex.label.dist,
+       vertex.label.degree = currentOptions$vertex.label.degree,
+       # === Edge
+       edge.color = currentOptions$edge.color,
+       edge.width = E(g)$weight*currentOptions$edge.width,
+       edge.arrow.size = currentOptions$edge.arrow.size,
+       edge.arrow.width = currentOptions$edge.arrow.width,
+       edge.lty = currentOptions$edge.lty,
+       edge.curved = currentOptions$edge.curved,
+       main = currentOptions$title
+
+  )
+
+
+}
+
 
 
 

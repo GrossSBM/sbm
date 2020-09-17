@@ -18,6 +18,7 @@ MultipartiteSBM <-
      public = list(
        #' @description constructor for Multipartite SBM
        #' @param listSBM list of SimpleSBM or BipartiteSBM
+       #' @param memberships list of memberships for each node in each function group.Default value is NULL
        initialize = function(listSBM, memberships = NULL) {
          private$listNet <- listSBM
          private$nbNet <- length(listSBM)
@@ -29,14 +30,18 @@ MultipartiteSBM <-
          private$E <-  E
          private$dimFG <- sapply(1:private$nbFG ,function(k){
            u <- which(E[,1] == k); v = 1;
-           if (length(u) == 0){u <- which(E[,2] == k); v = 2}
+           if (length(u) == 0) {u <- which(E[,2] == k); v = 2}
            u <- u[1]
            dim(listSBM[[u]]$netMatrix)[v]})
          private$allZ <- memberships
          },
-       plot = function(normMat){
+         #' @description plot Multipartite Matrix
+         #' @param normalizing TRUE if the various matrices are renormalized. FALSE otherwise. Default value = FALSE
+         #' @param ordered TRUE is the matrices are plotted after reorganization with the blocks. Default value = TRUE
+        plot = function(normalizing = FALSE, ordered = TRUE){
          listNetMatrix = lapply(private$listNet,function(s){s$netMatrix})
-         plotMultipartite(listNetMatrix, private$E, private$dimFG, private$namesFG,normalizing = normMat, clustering = private$allZ)
+         if (ordered) { clust = private$allZ }else{ clust = NULL}
+         plotMultipartiteMatrix(listNetMatrix, private$E, private$dimFG, private$namesFG,normalizing = normalizing, clustering = clust)
        }
      ),
      active = list(

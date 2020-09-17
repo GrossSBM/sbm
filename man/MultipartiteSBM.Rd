@@ -49,6 +49,8 @@ constructor for Multipartite SBM
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{listSBM}}{list of SimpleSBM or BipartiteSBM}
+
+\item{\code{memberships}}{list of memberships for each node in each function group.Default value is NULL}
 }
 \if{html}{\out{</div>}}
 }
@@ -57,10 +59,20 @@ constructor for Multipartite SBM
 \if{html}{\out{<a id="method-plot"></a>}}
 \if{latex}{\out{\hypertarget{method-plot}{}}}
 \subsection{Method \code{plot()}}{
+plot Multipartite Matrix
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MultipartiteSBM$plot(normMat)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{MultipartiteSBM$plot(normalizing = FALSE, ordered = TRUE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{normalizing}}{TRUE if the various matrices are renormalized. FALSE otherwise. Default value = FALSE}
+
+\item{\code{ordered}}{TRUE is the matrices are plotted after reorganization with the blocks. Default value = TRUE}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
