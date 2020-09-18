@@ -18,7 +18,7 @@ R6 virtual class for Multipartite SBM representation
 
 \item{\code{listSBM}}{: list of SimpleSBMs or BipartiteSBMs}
 
-\item{\code{archiMultipartite}}{: organisation of the multipartite network}
+\item{\code{archiMultipartite}}{: organization of the multipartite network}
 
 \item{\code{dimLabels}}{: labels of the functional groups}
 

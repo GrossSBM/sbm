@@ -13,5 +13,5 @@ is_SBM(Robject)
 TRUE or FALSE
 }
 \description{
-Auxiliary function to check the given class of an objet
+Auxiliary function to check the given class of an object
 }

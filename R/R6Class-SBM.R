@@ -138,7 +138,7 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
 
 #' Auxiliary function to check the given class of an object
 #'
-#' Auxiliary function to check the given class of an objet
+#' Auxiliary function to check the given class of an object
 #' @param  Robject an R6 object inheriting from class SBM
 #' @return TRUE or FALSE
 #' @export

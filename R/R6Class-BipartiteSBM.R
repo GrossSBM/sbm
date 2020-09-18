@@ -27,7 +27,7 @@ BipartiteSBM <- # this class inherit from SBM and allow to use multipartite as a
                 }
               ),
               active = list(
-                #' @field varProb   variational probabilities of nodes being in a block. Either return the probabilities of clustering or may be used to set that probabilites
+                #' @field varProb   variational probabilities of nodes being in a block. Either return the probabilities of clustering or may be used to set that probabilities
                   varProb    = function(value) {if (missing(value)) return(private$tau) else {
                   stopifnot(is.list(value))
                   stopifnot(nrow(value[[1]])==private$dim[1])

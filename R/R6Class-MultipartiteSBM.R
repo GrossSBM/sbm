@@ -49,7 +49,7 @@ MultipartiteSBM <-
          nbNetworks    = function(value) {private$nbNet},
          #' @field listSBM : list of SimpleSBMs or BipartiteSBMs
          listSBM    = function(value) {private$listNet},
-         #' @field archiMultipartite : organisation of the multipartite network
+         #' @field archiMultipartite : organization of the multipartite network
          archiMultipartite     = function(value) {private$E},
          #' @field dimLabels  : labels of the functional groups
          dimLabels   = function(value){private$namesFG},

@@ -9,7 +9,7 @@ R6 Class definition of a Multipartite SBM fit
 R6 Class definition of a Multipartite SBM fit
 }
 \details{
-This class is designed to give a representation and adjust a Multiparite SBM fitted with GREMLIN.
+This class is designed to give a representation and adjust a Multipartite SBM fitted with GREMLIN.
 }
 \section{Super class}{
 \code{\link[sbm:MultipartiteSBM]{sbm::MultipartiteSBM}} -> \code{MultipartiteSBM_fit}
@@ -34,7 +34,7 @@ This class is designed to give a representation and adjust a Multiparite SBM fit
 \if{html}{\out{<a id="method-new"></a>}}
 \if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
-constructor for Multiparite SBM
+constructor for Multipartite SBM
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{MultipartiteSBM_fit$new(listSBM)}\if{html}{\out{</div>}}
 }

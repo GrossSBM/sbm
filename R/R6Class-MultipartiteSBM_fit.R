@@ -1,6 +1,6 @@
 #' R6 Class definition of a Multipartite SBM fit
 #'
-#' This class is designed to give a representation and adjust a Multiparite SBM fitted with GREMLIN.
+#' This class is designed to give a representation and adjust a Multipartite SBM fitted with GREMLIN.
 #'
 #' @import R6 GREMLIN
 #' @export
@@ -41,7 +41,7 @@ MultipartiteSBM_fit <-
       }
     ),
     public = list(
-      #' @description constructor for Multiparite SBM
+      #' @description constructor for Multipartite SBM
       #' @param listSBM list of SBM object with
       initialize = function(listSBM) {
         super$initialize(listSBM)
