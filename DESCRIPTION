@@ -38,6 +38,7 @@ Imports:
     igraph,
     ggplot2,
     GREMLIN
+Remotes: Demiperimetre/GREMLIN
 Collate: 
     'R6Class-SBM.R'
     'R6Class-BipartiteSBM.R'
