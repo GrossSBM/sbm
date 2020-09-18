@@ -168,7 +168,7 @@ sampleBipartiteSBM <- function(nbNodes,
 #' @param directed a vector of logical, directed network or not for each network. Default is \code{FALSE}.
 #' @param dimLabels an optional list of labels for functional group involved in the network
 #'
-#' @return  a list of two elements : \code{simulatedMemberships} are the clustering of each node in each Functiontal Group,  \code{multipartiteNetwork} is the list of the simulated networks (each one being  a simple or bipartite network)
+#' @return  a list of two elements : \code{simulatedMemberships} are the clustering of each node in each Functional Group,  \code{multipartiteNetwork} is the list of the simulated networks (each one being  a simple or bipartite network)
 #'
 #' @examples
 #' ### =======================================

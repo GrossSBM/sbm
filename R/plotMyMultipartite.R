@@ -1,4 +1,4 @@
-#' Plot the matrices corresonding to a Multipartite Network
+#' Plot the matrices corresponding to a Multipartite Network
 #'
 #' @param listSBM  : a list of objects representing the multipartite network (see)
 #' @param memberships : a list of length number of Functional Groups with clusterings inside these FG

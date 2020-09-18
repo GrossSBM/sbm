@@ -72,7 +72,7 @@ SBM_fit <- # this virtual class is the mother of all subtypes of SBM (Simple or 
 # ========================================================================================
 # PUBLIC S3 METHODS FOR SBM_fit
 
-## Auxiliary function to check the given class of an objet
+## Auxiliary function to check the given class of an object
 is_SBM_fit <- function(Robject) {inherits(Robject, "SBM_fit")}
 
 #' Extract model fitted values

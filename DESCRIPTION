@@ -27,7 +27,6 @@ Suggests:
     knitr,
     rmarkdown,
     alluvial,
-    igraph,
     aricode,
     covr
 Language: en-US
