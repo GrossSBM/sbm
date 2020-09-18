@@ -36,6 +36,7 @@ Imports:
     blockmodels,
     R6,
     Rcpp,
+    igraph,
     ggplot2,
     GREMLIN
 Collate: 

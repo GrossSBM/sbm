@@ -59,24 +59,43 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
                 )
       },
       #' @description basic matrix plot method for SBM object
-      #' @param type character for the type of plot: either 'data' (true connection) or 'expected' (fitted connection). Default to 'data'.
+      #' @param type character for the type of plot: either 'data' (true connection), 'expected' (fitted connection) or 'meso' (mesoscopic view). Default to 'data'.
       #' @param ordered logical: should the rows and columns be reordered according to the clustering? Default to \code{TRUE}.
-      #' @return a ggplot2 object
+      #' @param plotOptions list with the parameters for meso plot (see details in \code{plotMeso.SimpleSBM}
+      #' @return a ggplot2 object or a standard plot if mesoscopic view
       #' @import ggplot2
-      plot = function(type = c('data', 'expected'), ordered = TRUE) {
+      plot = function(type = c('data','expected','meso'), ordered = TRUE,plotOptions = list()) {
 
-        Mat <- switch(match.arg(type), data = self$netMatrix, expected = self$expectation)
+        if (length(type) > 1){type='data'}
+        if (type == 'meso'){
+          if (is.vector(self$memberships)){bipartite = FALSE}
+          if (is.list(self$memberships)) {bipartite = TRUE}
+          plotMeso(thetaMean =  private$theta$mean,
+                   pi = private$pi,
+                   model = private$model,
+                   directed= private$directed_,
+                   bipartite = bipartite,
+                   nbNodes  = self$dimension,
+                   nodeLabels = self$dimLabels,
+                   plotOptions)
+        }else{
+            Mat <- switch(match.arg(type), data = self$netMatrix, expected = self$expectation)
+            if (ordered) {
+              if (is.vector(self$memberships)) {
+                cl = list(row = self$memberships)
+              }
+              if (is.list(self$memberships)) {
+                cl =  self$memberships
+                names(cl) = c('row', 'col')
+              }
+            } else {
+              cl = NULL
+            }
+          P <- plotMatrix(Mat = Mat, dimLabels = self$dimLabels, clustering = cl)
+          P
+          }
 
-        if (ordered) {
-          if (is.vector(self$memberships)) {cl = list(row = self$memberships)}
-          if (is.list(self$memberships)) {cl =  self$memberships; names(cl) = c('row','col') }
-        } else {
-          cl = NULL
-        }
-
-        P <- plotMatrix(Mat = Mat, dimLabels = self$dimLabels, clustering = cl)
-        P
-      },
+        },
       #' @description print method
       #' @param type character to tune the displayed name
       show = function(type = "Stochastic Block Model") {
@@ -122,7 +141,12 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
 # ========================================================================================
 # PUBLIC S3 METHODS FOR SBM
 
-## Auxiliary function to check the given class of an objet
+#' Auxiliary function to check the given class of an object
+#'
+#' Auxiliary function to check the given class of an objet
+#' @param  object an R6 object inheriting from class SBM
+#' @return TRUE or FALSE
+#' @export
 is_SBM <- function(Robject) {inherits(Robject, "SBM")}
 
 #' Extract model coefficients
@@ -166,12 +190,38 @@ predict.SBM <- function(object, covarList = object$covarList, ...) {
 #' @param x a object inheriting from class SBM
 #' @param type character for the type of plot: either 'data' (true connection) or 'expected' (fitted connection). Default to 'data'.
 #' @param ordered logical: should the rows and columns be reoredered according to the clustering? Default to \code{TRUE}.
+#' @param plotOptions list  with parameters for 'meso' type plot
 #' @param ... additional parameters for S3 compatibility. Not used
-#' @return a ggplot2 object
+#' @details The list of parameters \code{plotOptions} is
+#'  \itemize{
+#'  \item{"seed": }{seed to control the layout}
+#'  \item{"title": }{chain of chararcter for the title. Default value is NULL}
+#'  \item{"layout": }{Default value = NULL}
+#'  \item{"vertex.color": }{Default value is "salmon2"}
+#'  \item{"vertex.frame.color": }{Node border color.Default value is "black" }
+#'  \item{"vertex.shape": }{One of "none", "circle", "square", "csquare", "rectangle" "crectangle", "vrectangle", "pie", "raster", or "sphere". Default value = "circle"}
+#'  \item{"vertex.size": }{Size of the node (default is 2)}
+#'  \item{"vertex.size2": }{The second size of the node (e.g. for a rectangle)}
+#'  \item{"vertex.label": }{Names of the vertices. Default value is the label of the nodes}
+#'  \item{"vertex.label.color": }{Default value is  "black"}
+#'  \item{"vertex.label.font": }{Default value is 2. Font: 1 plain, 2 bold, 3, italic, 4 bold italic, 5 symbol}
+#'  \item{"vertex.label.cex": }{Font size (multiplication factor, device-dependent).Default value is  0.9.}
+#'  \item{"vertex.label.dist": }{Distance between the label and the vertex. Default value is  0}
+#'  \item{"vertex.label.degree": }{The position of the label in relation to the vertex. default value is 0}
+#'  \item{"edge.threshold": }{Threshold under which the edge is not plotted. Default value is = -Inf}
+#'  \item{"edge.color": }{Default value is "gray"}
+#'  \item{"edge.width": }{Factor parameter. Default value is 10}
+#'  \item{"edge.arrow.size": }{Default value is 1}
+#'  \item{"edge.arrow.width": }{Default value is 2}
+#'  \item{"edge.lty": }{Line type, could be 0 or "blank", 1 or "solid", 2 or "dashed", 3 or "dotted", 4 or "dotdash", 5 or "longdash", 6 or "twodash". Default value is "solid"}
+#'  \item{"edge.curved": }{Default value is = 0.3}
+#' }
+#' @return a ggplot2 object of a standard plot for 'meso' plot
 #' @export
-plot.SBM = function(x, type = c('data', 'expected'), ordered = TRUE, ...){
-  p <- x$plot(type, ordered)
-  p
+plot.SBM = function(x, type = c('data', 'expected','meso'), ordered = TRUE, plotOptions=list(), ...){
+
+  x$plot(type, ordered,plotOptions)
+
 }
 
 

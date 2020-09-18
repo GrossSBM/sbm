@@ -26,7 +26,6 @@ R6 virtual class for SBM representation (mother class of Simple and Bipartite SB
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{SimpleSBM$new()}}
-\item \href{#method-plotMesoscopic}{\code{SimpleSBM$plotMesoscopic()}}
 \item \href{#method-clone}{\code{SimpleSBM$clone()}}
 }
 }
@@ -66,23 +65,6 @@ constructor for a Simple SBM fit
 \item{\code{dimLabels}}{list of labels of each dimension (in row, in columns)}
 
 \item{\code{covarList}}{and optional list of covariates, each of whom must have the same dimension as \code{adjacencyMatrix}}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-plotMesoscopic"></a>}}
-\if{latex}{\out{\hypertarget{method-plotMesoscopic}{}}}
-\subsection{Method \code{plotMesoscopic()}}{
-mesoscopic view for a Simple SBM
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{SimpleSBM$plotMesoscopic(plotOptions)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{plotOptions}}{(see details in \code{plot.SimpleSBM.Meso})}
 }
 \if{html}{\out{</div>}}
 }

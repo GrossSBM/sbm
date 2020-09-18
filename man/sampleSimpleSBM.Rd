@@ -56,6 +56,7 @@ plot(mySampler)
 mySampler$rMemberships() # sample new memberships
 mySampler$rAdjacency()   # sample new adjacency matrix
 plot(mySampler)
+plot(mySampler,type='meso')
 hist(mySampler$netMatrix)
 
 ### =======================================
@@ -71,6 +72,7 @@ connectParam <- list(mean = means)
 ## Graph Sampling
 mySampler <- sampleSimpleSBM(nbNodes, blockProp, list(mean = means), model = "poisson")
 plot(mySampler)
+plot(mySampler,type='meso')
 hist(mySampler$netMatrix)
 
 ### =======================================

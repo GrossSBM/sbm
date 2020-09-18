@@ -86,20 +86,26 @@ constructor for SBM
 \subsection{Method \code{plot()}}{
 basic matrix plot method for SBM object
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{SBM$plot(type = c("data", "expected"), ordered = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{SBM$plot(
+  type = c("data", "expected", "meso"),
+  ordered = TRUE,
+  plotOptions = list()
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{type}}{character for the type of plot: either 'data' (true connection) or 'expected' (fitted connection). Default to 'data'.}
+\item{\code{type}}{character for the type of plot: either 'data' (true connection), 'expected' (fitted connection) or 'meso' (mesoscopic view). Default to 'data'.}
 
 \item{\code{ordered}}{logical: should the rows and columns be reordered according to the clustering? Default to \code{TRUE}.}
+
+\item{\code{plotOptions}}{list with the parameters for meso plot (see details in \code{plotMeso.SimpleSBM}}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-a ggplot2 object
+a ggplot2 object or a standard plot if mesoscopic view
 }
 }
 \if{html}{\out{<hr>}}

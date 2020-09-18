@@ -258,7 +258,7 @@ plotMultipartiteMatrix = function(list_Mat, E, nbNodes, namesFG,normalizing,clus
 }
 
 #-----------------------------------------------------------------
-plotMeso <- function(thetaMean, pi,directed,bipartite,nbNodes,nodeLabels,plotOptions){
+plotMeso <- function(thetaMean, pi,model,directed,bipartite,nbNodes,nodeLabels,plotOptions){
 
   currentOptions <- list(seed = NULL,
                          title = NULL,
@@ -269,7 +269,7 @@ plotMeso <- function(thetaMean, pi,directed,bipartite,nbNodes,nodeLabels,plotOpt
                          vertex.size = 2,                               # Size of the node (default is 15)
                          vertex.size2 = NA,                              # The second size of the node (e.g. for a rectangle)
                          # === vertex label
-                         vertex.label = nodeLabels,                   # Character vector used to label the nodes
+                         vertex.label = NULL,                   # Character vector used to label the nodes
                          vertex.label.color =  "black",#"white",
                          vertex.label.font = 2,                          # Font: 1 plain, 2 bold, 3, italic, 4 bold italic, 5 symbol
                          vertex.label.cex = 0.9,                           # Font size (multiplication factor, device-dependent)
@@ -278,11 +278,13 @@ plotMeso <- function(thetaMean, pi,directed,bipartite,nbNodes,nodeLabels,plotOpt
                          # === Edge
                          edge.threshold = -Inf,
                          edge.color = "gray",#"white",                           # Edge color
-                         edge.width = 10,                    # Edge width, defaults to 1
+                         edge.width = 10,                    # Edge width, defaults to 10
                          edge.arrow.size = 1,                            # Arrow size, defaults to 1
                          edge.arrow.width = 2,                           # Arrow width, defaults to 1
                          edge.lty = "solid",                             # Line type, could be 0 or “blank”, 1 or “solid”, 2 or “dashed”, 3 or “dotted”, 4 or “dotdash”, 5 or “longdash”, 6 or “twodash”
                          edge.curved = 0.3)
+
+
 
 
 
@@ -293,38 +295,53 @@ plotMeso <- function(thetaMean, pi,directed,bipartite,nbNodes,nodeLabels,plotOpt
     Qcol <- length(pi$col)
     currentOptions$vertex.color = c(rep(currentOptions$vertex.color[1],Qrow),rep(currentOptions$vertex.color[2],Qcol))
     currentOptions$vertex.shape = c(rep(currentOptions$vertex.shape[1],Qrow),rep(currentOptions$vertex.shape[2],Qcol))
-    currentOptions$layout = layout_as_bipartite
+  }
+  layout <- currentOptions$layout
+  currentOptions[names(plotOptions)] <- plotOptions
+
+  vertex.label <- currentOptions$vertex.label
+  if (is.null(vertex.label)){
+    if (bipartite){
+       vertex.label <- substr(nodeLabels,1,1)
+       i = 1;
+       while ( length(unique(vertex.label))< 2 & (i <= 2)){i = i + 1; vertex.label<- substr(nodeLabels,1,i)}
+    }else{vertex.label <- ''}
   }
 
-  currentOptions[names(plotOptions)] <- plotOptions
 
   alpha <- thetaMean
   alpha[alpha < currentOptions$edge.threshold] <- 0
-  alpha.norm = (alpha - min(alpha))/(max(alpha) - min(alpha))
-  if (currentOptions$threshold != Inf) {
-    cat(paste("Nota bene: threshold on connexions is",currentOptions$threshold,sep = ' '))
+
+  if (model == "bernoulli"){alpha.norm  = alpha};
+  if (model == "poisson"){alpha.norm = alpha/max(alpha)}
+  if ( !(model %in% c("bernoulli","poisson"))){alpha.norm = (alpha - min(alpha))/(max(alpha) - min(alpha)) + 0.1}
+
+  if (currentOptions$edge.threshold != -Inf) {
+    cat(paste("Nota bene: threshold on connexions is",currentOptions$edge.threshold,sep = ' '))
   }
 
   if (bipartite){
-    colnames(alphanorm) <- paste(currentOptions$vertex.label$col,1:length(pi$col),sep='')
-    rownames(alphanorm) <- paste(currentOptions$vertex.label$row,1:length(pi$row),sep='')
+    colnames(alpha.norm) <- paste(currentOptions$vertex.label$col,1:length(pi$col),sep='')
+    rownames(alpha.norm) <- paste(currentOptions$vertex.label$row,1:length(pi$row),sep='')
     vlab <- c(rownames(alpha.norm),colnames(alpha.norm))
-    g <- graph_from_incidence_matrix(alpha.norm, weighted = TRUE)
-     u <- c(pi$row*nbNodes[1],pi$col*nbNodes[2])
+    g <- igraph::graph_from_incidence_matrix(alpha.norm, weighted = TRUE)
+    u <- c(pi$row*nbNodes[1],pi$col*nbNodes[2])
+    if (is.null(layout)){ layout <- igraph::layout_as_bipartite(g)}
+
   }else{
-    vlab <- paste(currentOptions$vertex.label,1:length(pi),sep = "")
-    u <- pi*nbNodes
+    vlab <- paste(vertex.label,1:length(pi),sep = "")
+    u <- pi*nbNodes[1]
     mode <- ifelse(directed,'directed','undirected')
-    g <- graph.adjacency(alpha.norm, mode = mode, weighted = TRUE)
+    g <- igraph::graph.adjacency(alpha.norm, mode = mode, weighted = TRUE)
   }
 
-  E(g)$width <- 1 + as.integer(E(g)$weight*10)
+  igraph::E(g)$width <- 1 + as.integer(igraph::E(g)$weight*10)
 
   set.seed(currentOptions$seed)
 
 
   par(mar = rep(0.15,4))
-  plot(g, layout = currentOptions$layout, ## see https://www.r-graph-gallery.com/248-igraph-plotting-parameters.html
+  plot(g, layout = layout, ## see https://www.r-graph-gallery.com/248-igraph-plotting-parameters.html
        # === vertex
        vertex.color = currentOptions$vertex.color,
        vertex.frame.color = currentOptions$vertex.frame.color,
@@ -340,7 +357,7 @@ plotMeso <- function(thetaMean, pi,directed,bipartite,nbNodes,nodeLabels,plotOpt
        vertex.label.degree = currentOptions$vertex.label.degree,
        # === Edge
        edge.color = currentOptions$edge.color,
-       edge.width = E(g)$weight*currentOptions$edge.width,
+       edge.width = igraph::E(g)$weight*currentOptions$edge.width,
        edge.arrow.size = currentOptions$edge.arrow.size,
        edge.arrow.width = currentOptions$edge.arrow.width,
        edge.lty = currentOptions$edge.lty,
