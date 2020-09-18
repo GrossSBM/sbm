@@ -43,6 +43,7 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
         private$model   <- model
         private$dim     <- dimension
         private$dimlab  <- dimLabels
+        names(private$dimlab) <- c("row","col") # names of dimlab
         private$X       <- covarList
         private$pi      <- blockProp
         private$theta   <- connectParam

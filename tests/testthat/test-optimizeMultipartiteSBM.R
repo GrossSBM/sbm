@@ -15,6 +15,7 @@ test_that("optimize for multipartite SBM runs GREMLIN", {
   netB <- defineSBM(B,"poisson",type,directed=TRUE,dimLabels=list("Actor","Stuff"))
 
 
+  #MultipartiteSBM_fit$new(list(netA,netB))
 
   E <- estimateMultipartiteSBM(list(netA,netB))
 
