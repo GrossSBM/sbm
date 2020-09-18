@@ -88,5 +88,6 @@ connectParam <- list(mean = means, var = 2)
 ## Graph Sampling
 mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam, model = "gaussian")
 plot(mySampler)
+plot(mySampler,type='meso')
 hist(mySampler$netMatrix)
 }

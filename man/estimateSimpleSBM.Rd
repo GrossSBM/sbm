@@ -62,6 +62,7 @@ plot(mySimpleSBM, 'data', ordered = FALSE)
 plot(mySimpleSBM, 'data')
 plot(mySimpleSBM, 'expected', ordered = FALSE)
 plot(mySimpleSBM, 'expected')
+plot(mySimpleSBM, 'meso')
 plot.SimpleSBM.Meso(mySimpleSBM)
 
 ### =======================================
