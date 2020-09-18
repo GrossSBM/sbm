@@ -2,7 +2,7 @@
 % Please edit documentation in R/plotMyMultipartite.R
 \name{plotMyMultipartiteMatrix}
 \alias{plotMyMultipartiteMatrix}
-\title{Plot the matrices corresonding to a Multipartite Network}
+\title{Plot the matrices corresponding to a Multipartite Network}
 \usage{
 plotMyMultipartiteMatrix(listSBM, normalizing = FALSE, memberships = NULL)
 }
@@ -15,7 +15,7 @@ plotMyMultipartiteMatrix(listSBM, normalizing = FALSE, memberships = NULL)
 a ggplot object corresponding to the plot
 }
 \description{
-Plot the matrices corresonding to a Multipartite Network
+Plot the matrices corresponding to a Multipartite Network
 }
 \examples{
 data(MPEcoNetwork, package = "GREMLIN")

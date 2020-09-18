@@ -65,36 +65,31 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       #' @return a ggplot2 object or a standard plot if mesoscopic view
       #' @import ggplot2
       plot = function(type = c('data','expected','meso'), ordered = TRUE,plotOptions = list()) {
-
-        if (length(type) > 1){type='data'}
+        type <- match.arg(type)
+        bipartite <- ifelse(is.list(self$memberships), TRUE, FALSE)
         if (type == 'meso'){
-          if (is.vector(self$memberships)){bipartite = FALSE}
-          if (is.list(self$memberships)) {bipartite = TRUE}
-          plotMeso(thetaMean =  private$theta$mean,
-                   pi = private$pi,
-                   model = private$model,
-                   directed= private$directed_,
-                   bipartite = bipartite,
-                   nbNodes  = self$dimension,
+          plotMeso(thetaMean  = private$theta$mean,
+                   pi         = private$pi,
+                   model      = private$model,
+                   directed   = private$directed_,
+                   bipartite  = bipartite,
+                   nbNodes    = self$dimension,
                    nodeLabels = self$dimLabels,
                    plotOptions)
-        }else{
-            Mat <- switch(match.arg(type), data = self$netMatrix, expected = self$expectation)
+        } else {
+            Mat <- switch(type, data = self$netMatrix, expected = self$expectation)
+            cl <- NULL
             if (ordered) {
-              if (is.vector(self$memberships)) {
-                cl = list(row = self$memberships)
-              }
-              if (is.list(self$memberships)) {
-                cl =  self$memberships
+              if (bipartite) {
+                cl <-  self$memberships
                 names(cl) = c('row', 'col')
+              } else {
+                cl <- list(row = self$memberships)
               }
-            } else {
-              cl = NULL
             }
           P <- plotMatrix(Mat = Mat, dimLabels = self$dimLabels, clustering = cl)
-          P
+          return(P)
           }
-
         },
       #' @description print method
       #' @param type character to tune the displayed name
@@ -144,7 +139,7 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
 #' Auxiliary function to check the given class of an object
 #'
 #' Auxiliary function to check the given class of an objet
-#' @param  object an R6 object inheriting from class SBM
+#' @param  Robject an R6 object inheriting from class SBM
 #' @return TRUE or FALSE
 #' @export
 is_SBM <- function(Robject) {inherits(Robject, "SBM")}
@@ -186,16 +181,16 @@ predict.SBM <- function(object, covarList = object$covarList, ...) {
 #' SBM Plot
 #'
 #' Basic matrix plot method for SBM object
-#' @description basic matrix plot method for SBM object
-#' @param x a object inheriting from class SBM
+#'
+#' @param x an object inheriting from class SBM
 #' @param type character for the type of plot: either 'data' (true connection) or 'expected' (fitted connection). Default to 'data'.
-#' @param ordered logical: should the rows and columns be reoredered according to the clustering? Default to \code{TRUE}.
-#' @param plotOptions list  with parameters for 'meso' type plot
+#' @param ordered logical: should the rows and columns be ordered according to the clustering? Default to \code{TRUE}.
+#' @param plotOptions list with parameters for 'meso' type plot
 #' @param ... additional parameters for S3 compatibility. Not used
 #' @details The list of parameters \code{plotOptions} is
 #'  \itemize{
 #'  \item{"seed": }{seed to control the layout}
-#'  \item{"title": }{chain of chararcter for the title. Default value is NULL}
+#'  \item{"title": }{character string for the title. Default value is NULL}
 #'  \item{"layout": }{Default value = NULL}
 #'  \item{"vertex.color": }{Default value is "salmon2"}
 #'  \item{"vertex.frame.color": }{Node border color.Default value is "black" }
@@ -218,9 +213,9 @@ predict.SBM <- function(object, covarList = object$covarList, ...) {
 #' }
 #' @return a ggplot2 object of a standard plot for 'meso' plot
 #' @export
-plot.SBM = function(x, type = c('data', 'expected','meso'), ordered = TRUE, plotOptions=list(), ...){
+plot.SBM = function(x, type = c('data', 'expected', 'meso'), ordered = TRUE, plotOptions = list(), ...){
 
-  x$plot(type, ordered,plotOptions)
+  x$plot(type, ordered, plotOptions)
 
 }
 

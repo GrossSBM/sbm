@@ -7,7 +7,7 @@
 is_SBM(Robject)
 }
 \arguments{
-\item{object}{an R6 object inheriting from class SBM}
+\item{Robject}{an R6 object inheriting from class SBM}
 }
 \value{
 TRUE or FALSE

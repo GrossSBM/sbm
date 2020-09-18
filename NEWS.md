@@ -1,6 +1,6 @@
 # development version
 
-* added fields dimLabels to simple and bibpartite SBM
+* added fields dimLabels to simple and bipartite SBM
 
 # sbm 0.2.1 - minor release
 

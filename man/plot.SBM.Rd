@@ -13,13 +13,13 @@
 )
 }
 \arguments{
-\item{x}{a object inheriting from class SBM}
+\item{x}{an object inheriting from class SBM}
 
 \item{type}{character for the type of plot: either 'data' (true connection) or 'expected' (fitted connection). Default to 'data'.}
 
-\item{ordered}{logical: should the rows and columns be reoredered according to the clustering? Default to \code{TRUE}.}
+\item{ordered}{logical: should the rows and columns be ordered according to the clustering? Default to \code{TRUE}.}
 
-\item{plotOptions}{list  with parameters for 'meso' type plot}
+\item{plotOptions}{list with parameters for 'meso' type plot}
 
 \item{...}{additional parameters for S3 compatibility. Not used}
 }
@@ -27,15 +27,13 @@
 a ggplot2 object of a standard plot for 'meso' plot
 }
 \description{
-basic matrix plot method for SBM object
+Basic matrix plot method for SBM object
 }
 \details{
-Basic matrix plot method for SBM object
-
 The list of parameters \code{plotOptions} is
 \itemize{
 \item{"seed": }{seed to control the layout}
-\item{"title": }{chain of chararcter for the title. Default value is NULL}
+\item{"title": }{character string for the title. Default value is NULL}
 \item{"layout": }{Default value = NULL}
 \item{"vertex.color": }{Default value is "salmon2"}
 \item{"vertex.frame.color": }{Node border color.Default value is "black" }

@@ -105,7 +105,7 @@ plotMatrix = function(Mat, dimLabels, clustering = NULL){
 
 
 #----------------------------------------------------------------------------------
-plotMultipartiteMatrix = function(list_Mat, E, nbNodes, namesFG,normalizing,clustering) {
+plotMultipartiteMatrix = function(list_Mat, E, nbNodes, namesFG, normalizing, clustering) {
 
 
   nbFG <- length(unique(c(E)))
@@ -258,6 +258,7 @@ plotMultipartiteMatrix = function(list_Mat, E, nbNodes, namesFG,normalizing,clus
 }
 
 #-----------------------------------------------------------------
+#' @importFrom graphics par
 plotMeso <- function(thetaMean, pi,model,directed,bipartite,nbNodes,nodeLabels,plotOptions){
 
   currentOptions <- list(seed = NULL,
@@ -339,8 +340,7 @@ plotMeso <- function(thetaMean, pi,model,directed,bipartite,nbNodes,nodeLabels,p
 
   set.seed(currentOptions$seed)
 
-
-  par(mar = rep(0.15,4))
+  old_par <- par(mar = rep(0.15,4))
   plot(g, layout = layout, ## see https://www.r-graph-gallery.com/248-igraph-plotting-parameters.html
        # === vertex
        vertex.color = currentOptions$vertex.color,
@@ -363,9 +363,8 @@ plotMeso <- function(thetaMean, pi,model,directed,bipartite,nbNodes,nodeLabels,p
        edge.lty = currentOptions$edge.lty,
        edge.curved = currentOptions$edge.curved,
        main = currentOptions$title
-
   )
-
+  par(old_par)
 
 }
 
