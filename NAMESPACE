@@ -2,6 +2,7 @@
 
 S3method(coef,SBM)
 S3method(fitted,SBM_fit)
+S3method(plot,MultipartiteSBM)
 S3method(plot,SBM)
 S3method(predict,SBM)
 export("%>%")

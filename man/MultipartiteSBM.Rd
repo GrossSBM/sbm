@@ -59,14 +59,20 @@ constructor for Multipartite SBM
 \if{html}{\out{<a id="method-plot"></a>}}
 \if{latex}{\out{\hypertarget{method-plot}{}}}
 \subsection{Method \code{plot()}}{
-plot Multipartite Matrix
+plot Multipartite Network
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MultipartiteSBM$plot(normalizing = FALSE, ordered = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{MultipartiteSBM$plot(
+  type = c("data", "expected", "meso"),
+  normalizing = FALSE,
+  ordered = TRUE
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
+\item{\code{type}}{character for the type of plot: either 'data' (true connection), 'expected' (fitted connection) or 'meso' (mesoscopic view). Default to 'data'.}
+
 \item{\code{normalizing}}{TRUE if the various matrices are renormalized. FALSE otherwise. Default value = FALSE}
 
 \item{\code{ordered}}{TRUE is the matrices are plotted after reorganization with the blocks. Default value = TRUE}

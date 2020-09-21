@@ -106,13 +106,13 @@ sampleSimpleSBM <- function(nbNodes,
 #' connectParam <- list(mean = means)
 #'
 #' ## Graph Sampling
-#' mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'bernoulli',dimLabels=c('Readers','Book'))
+#' mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'bernoulli',dimLabels = list(row='Reader',col='Book'))
 #' plot(mySampler)
+#' plot(mySampler,type='meso',plotOptions = list(vertex.label=list(row='Reader',col='Book')))
+#' plot(mySampler,type='meso',plotOptions = list(vertex.label=c('A','B'),vertex.size = 1.4))
 #' mySampler$rMemberships() # sample new memberships
 #' mySampler$rIncidence()   # sample new incidence matrix
-#' plot(mySampler,type='meso',plotOptions=list(vertex.size=1.4))
-#' hist(mySampler$netMatrix)
-#'
+
 #' ### =======================================
 #' ### BIPARTITE POISSON SBM
 #' ## Graph parameters
@@ -124,8 +124,9 @@ sampleSimpleSBM <- function(nbNodes,
 #' connectParam <- list(mean = means)
 #'
 #' ## Graph Sampling
-#' mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'poisson')
-#' plot(mySampler)
+#' mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'poisson',dimLabels = c('Ind','Service'))
+#' plot(mySampler,type='expected')
+#' plot(mySampler,type='meso',plotOptions = list(vertex.label=c('U','V'),vertex.size = 1.4))
 #' hist(mySampler$netMatrix)
 #'
 #' ### =======================================

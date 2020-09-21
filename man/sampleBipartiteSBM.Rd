@@ -48,7 +48,7 @@ means <- matrix(runif(6), 2, 3)  # connectivity matrix
 connectParam <- list(mean = means)
 
 ## Graph Sampling
-mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'bernoulli')
+mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'bernoulli',dimLabels = list(row='Reader',col='Book'))
 plot(mySampler)
 mySampler$rMemberships() # sample new memberships
 mySampler$rIncidence()   # sample new incidence matrix
