@@ -20,6 +20,7 @@ This class is designed to give a representation and adjust a Multipartite SBM fi
 \item \href{#method-new}{\code{MultipartiteSBM_fit$new()}}
 \item \href{#method-optimize}{\code{MultipartiteSBM_fit$optimize()}}
 \item \href{#method-getBM}{\code{MultipartiteSBM_fit$getBM()}}
+\item \href{#method-predict}{\code{MultipartiteSBM_fit$predict()}}
 \item \href{#method-clone}{\code{MultipartiteSBM_fit$clone()}}
 }
 }
@@ -79,6 +80,26 @@ getBM returns a given network from a Multipartite SBM
 \item{\code{i}}{index of the asked network}
 }
 \if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-predict"></a>}}
+\if{latex}{\out{\hypertarget{method-predict}{}}}
+\subsection{Method \code{predict()}}{
+prediction under the currently estimated model
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MultipartiteSBM_fit$predict()}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{covarList}}{a list of covariates. By default, we use the covariates with which the model was estimated}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+a list of matrices matrix of expected values for each dyad
 }
 }
 \if{html}{\out{<hr>}}

@@ -20,10 +20,34 @@ BipartiteSBM <- # this class inherit from SBM and allow to use multipartite as a
                 #' @param covarList and optional list of covariates, each of whom must have the same dimension as \code{incidenceMatrix}
                 initialize = function(incidenceMatrix, model,  dimLabels=list(row="rowLabel", col="colLabel"), covarList=list()) {
 
-                  ## INITIALIZE THE SBM OBJECT ACCORDING TO THE DATA
+                  ## INITIALIZE THE Bipartite SBM OBJECT ACCORDING TO THE DATA
                   super$initialize(model = model, dimension = dim(incidenceMatrix), dimLabels = dimLabels, covarList = covarList)
                   private$Y <- incidenceMatrix
 
+                },
+                #' @description prediction under the current parameters
+                #' @param covarList a list of covariates. By default, we use the covariates with which the model was estimated.
+                predict = function(covarList = self$covarList) {
+                   mu <- predict_lbm(self$dimension,
+                                     self$nbCovariates,
+                                     private$link,
+                                     private$invlink,
+                                     private$tau,
+                                     private$theta$mean,
+                                     self$covarEffect,
+                                     covarList)
+                  mu
+                },
+                #' @description permute group labels by order of decreasing probability
+                reorder = function() {
+                  O <- order_lbm(private$theta$mean,private$pi)
+                  oRow <-O$row
+                  oCol <-O$col
+                  private$pi[[1]] <- private$pi[[1]][oRow]
+                  private$pi[[2]] <- private$pi[[2]][oCol]
+                  private$theta$mean <- private$theta$mean[oRow, oCol]
+                  private$tau[[1]] <- private$tau[[1]][, oRow, drop = FALSE]
+                  private$tau[[2]] <- private$tau[[2]][, oCol, drop = FALSE]
                 }
               ),
               active = list(

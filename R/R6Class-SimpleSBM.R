@@ -29,6 +29,27 @@ SimpleSBM <- # this class inherit from SBM and allow to use multipartite as a li
         super$initialize(model = model, dimension = dim(adjacencyMatrix), dimLabels = dimLabels, covarList = covarList)
         private$Y <- adjacencyMatrix
         private$directed_ <- directed
+      },
+      #' @description prediction under the currently parameters
+      #' @param covarList a list of covariates. By default, we use the covariates with which the model was estimated
+      #' @return a matrix of expected values for each dyad
+      predict = function(covarList = self$covarList) {
+        mu <- predict_sbm(self$nbNodes,
+                          self$nbCovariates,
+                          private$link,
+                          private$invlink,
+                          private$tau,
+                          private$theta$mean,
+                          self$covarEffect,
+                          covarList)
+        mu
+      },
+      #' @description permute group labels by order of decreasing probability
+      reorder = function(){
+        o <- order_sbm(private$theta$mean,private$pi)
+        private$pi <- private$pi[o]
+        private$theta$mean <- private$theta$mean[o,o]
+        private$tau <- private$tau[, o, drop = FALSE]
       }
 
     ),

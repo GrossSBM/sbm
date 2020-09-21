@@ -25,6 +25,10 @@ R6 virtual class for Multipartite SBM representation
 \item{\code{nbLabels}}{: number of Functional groups involved in the multipartite}
 
 \item{\code{nbNodes}}{: number of Nodes in each FG,}
+
+\item{\code{expectation}}{expected values of connection under the currently adjusted model}
+
+\item{\code{allMemberships}}{a list with the memberships in all the functional groups}
 }
 \if{html}{\out{</div>}}
 }
@@ -63,8 +67,9 @@ plot Multipartite Network
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{MultipartiteSBM$plot(
   type = c("data", "expected", "meso"),
-  normalizing = FALSE,
-  ordered = TRUE
+  normalized = FALSE,
+  ordered = TRUE,
+  plotOptions = list()
 )}\if{html}{\out{</div>}}
 }
 
@@ -73,9 +78,11 @@ plot Multipartite Network
 \describe{
 \item{\code{type}}{character for the type of plot: either 'data' (true connection), 'expected' (fitted connection) or 'meso' (mesoscopic view). Default to 'data'.}
 
-\item{\code{normalizing}}{TRUE if the various matrices are renormalized. FALSE otherwise. Default value = FALSE}
+\item{\code{normalized}}{TRUE if the various matrices are renormalized. FALSE otherwise. Default value = FALSE}
 
 \item{\code{ordered}}{TRUE is the matrices are plotted after reorganization with the blocks. Default value = TRUE}
+
+\item{\code{plotOptions}}{list of plot options for the mesoscopic view}
 }
 \if{html}{\out{</div>}}
 }

@@ -3,4 +3,5 @@ test_that("Output type", {
   type <- "simple"
   netA <- defineSBM(A,"poisson",type,directed=TRUE,dimLabels=list("Actor","Actor"))
   expect_equal(netA$dimLabels[[1]],"Actor")
+  expect_true(is_SBM(netA))
 })

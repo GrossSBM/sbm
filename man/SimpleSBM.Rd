@@ -26,6 +26,8 @@ R6 virtual class for SBM representation (mother class of Simple and Bipartite SB
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{SimpleSBM$new()}}
+\item \href{#method-predict}{\code{SimpleSBM$predict()}}
+\item \href{#method-reorder}{\code{SimpleSBM$reorder()}}
 \item \href{#method-clone}{\code{SimpleSBM$clone()}}
 }
 }
@@ -68,6 +70,36 @@ constructor for a Simple SBM fit
 }
 \if{html}{\out{</div>}}
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-predict"></a>}}
+\if{latex}{\out{\hypertarget{method-predict}{}}}
+\subsection{Method \code{predict()}}{
+prediction under the currently parameters
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{SimpleSBM$predict(covarList = self$covarList)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{covarList}}{a list of covariates. By default, we use the covariates with which the model was estimated}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+a matrix of expected values for each dyad
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-reorder"></a>}}
+\if{latex}{\out{\hypertarget{method-reorder}{}}}
+\subsection{Method \code{reorder()}}{
+permute group labels by order of decreasing probability
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{SimpleSBM$reorder()}\if{html}{\out{</div>}}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

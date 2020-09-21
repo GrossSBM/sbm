@@ -34,10 +34,14 @@ MultipartiteSBM_fit <-
         })
         #print(private$nbNet)
         for (i in 1:private$nbNet) {
-          private$listNet[[i]]$connectParam <-
-            GREMLINfit$paramEstim$list_theta[[i]]
+          if (private$listNet[[i]]$modelName != 'gaussian'){
+            private$listNet[[i]]$connectParam <- list(mean = GREMLINfit$paramEstim$list_theta[[i]])
+          }
+          else{
+            private$listNet[[i]]$connectParam <-  GREMLINfit$paramEstim$list_theta[[i]]
+          }
         }
-        #print(private$GREMLINfit$paramEstim$list_theta[[i]]);print(private$listNet[[i]]$connectParam)}
+        private$allZ = GREMLINfit$paramEstim$Z;
       }
     ),
     public = list(
@@ -112,6 +116,12 @@ MultipartiteSBM_fit <-
       #' @param i index of the asked network
       getBM = function(i) {
         private$listNet[[i]]
+      },
+      #' @description prediction under the currently estimated model
+      #' @param covarList a list of covariates. By default, we use the covariates with which the model was estimated
+      #' @return a list of matrices matrix of expected values for each dyad
+      predict = function() {
+          lapply(1:private$nbNet,function(l){BMi <- self$getBM(l); BMi$predict()})
       }
     )
     # ,
@@ -119,3 +129,6 @@ MultipartiteSBM_fit <-
     #   getBM = function(i) {private$listNet[[i]]}
     # )
   )
+
+
+

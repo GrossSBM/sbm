@@ -71,22 +71,24 @@ BipartiteSBM_fit <-
 
         invisible(private$BMobject)
       },
-      #' @description prediction under the currently estimated model
+      #' @description prediction under the current parameters
       #' @param covarList a list of covariates. By default, we use the covariates with which the model was estimated.
       predict = function(covarList = self$covarList) {
-        stopifnot(is.list(covarList), self$nbCovariates == length(covarList))
-        if (length(covarList) > 0) {
-          stopifnot(all(sapply(covarList, nrow) == self$dimension[1]),
-                    all(sapply(covarList, ncol) == self$dimension[2]))
-        }
-        mu <- private$tau[[1]] %*% private$theta$mean %*% t(private$tau[[2]])
-        if (length(self$covList) > 0) mu <- private$invlink(private$link(mu) + self$covarEffect)
+        mu <- predict_lbm(self$dimension,
+                          self$nbCovariates,
+                          private$link,
+                          private$invlink,
+                          private$tau,
+                          private$theta$mean,
+                          self$covarEffect,
+                          covarList)
         mu
       },
       #' @description permute group labels by order of decreasing probability
       reorder = function() {
-        oRow <- order(self$connectParam$mean %*% self$blockProp$col, decreasing = TRUE)
-        oCol <- order(self$blockProp$row %*% self$connectParam$mean, decreasing = TRUE)
+        O <- order_lbm(private$theta$mean,private$pi)
+        oRow <-O$row
+        oCol <-O$col
         private$pi[[1]] <- private$pi[[1]][oRow]
         private$pi[[2]] <- private$pi[[2]][oCol]
         private$theta$mean <- private$theta$mean[oRow, oCol]

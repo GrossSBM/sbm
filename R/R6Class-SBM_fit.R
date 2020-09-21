@@ -53,6 +53,20 @@ SBM_fit <- # this virtual class is the mother of all subtypes of SBM (Simple or 
         stopifnot(index %in% seq.int(nrow(self$storedModels)))
         private$import_from_BM(index)
         self$reorder()
+      },
+      #' @description prediction under the currently parameters
+      #' @param covarList a list of covariates. By default, we use the covariates with which the model was estimated
+      #' @return a matrix of expected values for each dyad
+      predict = function(covarList = self$covarList) {
+        mu <- predict_sbm(self$nbNodes,self$nbCovariates,private$link,private$tau,private$theta$mean,self$covarEffect,covarlist)
+        mu
+      },
+      #' @description permute group labels by order of decreasing probability
+      reorder = function(){
+        o <- order_sbm(private$theta$mean,private$pi)
+        private$pi <- private$pi[o]
+        private$theta$mean <- private$theta$mean[o,o]
+        private$tau <- private$tau[, o, drop = FALSE]
       }
     ),
     active = list(
@@ -62,8 +76,6 @@ SBM_fit <- # this virtual class is the mother of all subtypes of SBM (Simple or 
       loglik          = function(value) {private$J    },
       #' @field ICL double: value of the integrated classification log-likelihood
       ICL             = function(value) {private$vICL },
-      #' @field expectation expected values of connection under the currently adjusted model
-      expectation = function() {self$predict()},
       #' @field fitted matrix of predicted value of the network
       fitted          = function(value) {self$predict()}
     )

@@ -4,10 +4,12 @@
 \alias{plotMyMultipartiteMatrix}
 \title{Plot the matrices corresponding to a Multipartite Network}
 \usage{
-plotMyMultipartiteMatrix(listSBM, normalizing = FALSE, memberships = NULL)
+plotMyMultipartiteMatrix(listSBM, normalized = FALSE, memberships = NULL)
 }
 \arguments{
 \item{listSBM}{: a list of objects representing the multipartite network (see)}
+
+\item{normalized}{TRUE if the various matrices are preseted in the same scale (between O and 1). FALSE otherwise. Default value FALSE}
 
 \item{memberships}{: a list of length number of Functional Groups with clusterings inside these FG}
 }

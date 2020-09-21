@@ -30,6 +30,8 @@ R6 virtual class for SBM representation (mother class of Simple and Bipartite SB
 \item{\code{covarEffect}}{effect of covariates}
 
 \item{\code{netMatrix}}{the matrix (adjacency or incidence) encoding the network}
+
+\item{\code{expectation}}{expected values of connection under the currently adjusted model}
 }
 \if{html}{\out{</div>}}
 }
@@ -84,7 +86,7 @@ constructor for SBM
 \if{html}{\out{<a id="method-plot"></a>}}
 \if{latex}{\out{\hypertarget{method-plot}{}}}
 \subsection{Method \code{plot()}}{
-basic matrix plot method for SBM object
+basic matrix plot method for SBM object or mesoscopic plot
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{SBM$plot(
   type = c("data", "expected", "meso"),
@@ -105,7 +107,7 @@ basic matrix plot method for SBM object
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-a ggplot2 object or a standard plot if mesoscopic view
+a ggplot2 object for \code{'data'} or \code{'expected'}; a list of two elements (g, igraph object and layout ) \code{'meso'} plot
 }
 }
 \if{html}{\out{<hr>}}
