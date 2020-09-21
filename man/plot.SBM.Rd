@@ -15,7 +15,7 @@
 \arguments{
 \item{x}{an object inheriting from class SBM}
 
-\item{type}{character for the type of plot: either 'data' (true connection) or 'expected' (fitted connection). Default to 'data'.}
+\item{type}{character for the type of plot: either 'data' (true connection), 'expected' (fitted connection) or 'meso' (mesoscopic). Default to 'data'.}
 
 \item{ordered}{logical: should the rows and columns be ordered according to the clustering? Default to \code{TRUE}.}
 
@@ -24,10 +24,10 @@
 \item{...}{additional parameters for S3 compatibility. Not used}
 }
 \value{
-a ggplot2 object of a standard plot for 'meso' plot
+a ggplot2 object for \code{'data'} or \code{'expected'}; a list of two elements (g, igraph object and layout ) \code{'meso'} plot
 }
 \description{
-Basic matrix plot method for SBM object
+Basic matrix plot method of mesoscopic view for SBM object
 }
 \details{
 The list of parameters \code{plotOptions} is

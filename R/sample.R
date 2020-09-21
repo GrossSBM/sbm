@@ -106,11 +106,11 @@ sampleSimpleSBM <- function(nbNodes,
 #' connectParam <- list(mean = means)
 #'
 #' ## Graph Sampling
-#' mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'bernoulli')
+#' mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'bernoulli',dimLabels=c('Readers','Book'))
 #' plot(mySampler)
 #' mySampler$rMemberships() # sample new memberships
 #' mySampler$rIncidence()   # sample new incidence matrix
-#' plot(mySampler)
+#' plot(mySampler,type='meso',plotOptions=list(vertex.size=1.4))
 #' hist(mySampler$netMatrix)
 #'
 #' ### =======================================

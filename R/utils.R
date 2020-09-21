@@ -297,16 +297,28 @@ plotMeso <- function(thetaMean, pi,model,directed,bipartite,nbNodes,nodeLabels,p
     currentOptions$vertex.color = c(rep(currentOptions$vertex.color[1],Qrow),rep(currentOptions$vertex.color[2],Qcol))
     currentOptions$vertex.shape = c(rep(currentOptions$vertex.shape[1],Qrow),rep(currentOptions$vertex.shape[2],Qcol))
   }
-  layout <- currentOptions$layout
-  currentOptions[names(plotOptions)] <- plotOptions
 
-  vertex.label <- currentOptions$vertex.label
+  currentOptions[names(plotOptions)] <- plotOptions
+  layout <- currentOptions$layout
+
+  vertex.label <- plotOptions$vertex.label
+  if (!is.null(vertex.label)) {
+    if (is.atomic(vertex.label)) {vertex.label = as.list(vertex.label)}
+    f <-  length(vertex.label)
+    if ((f == 1) & bipartite) {stop('For a Bipartite network, provide two vertices labels')}
+    if ((f == 1) & !bipartite) {vertex.label = list(row = vertex.label, col = vertex.label)}
+    names(vertex.label) = c('row','col')
+  }
+
   if (is.null(vertex.label)){
-    if (bipartite){
+    if (bipartite) {
        vertex.label <- substr(nodeLabels,1,1)
        i = 1;
-       while ( length(unique(vertex.label))< 2 & (i <= 2)){i = i + 1; vertex.label<- substr(nodeLabels,1,i)}
-    }else{vertex.label <- ''}
+       while (length(unique(vertex.label))< 2 & (i <= 2)){i = i + 1; vertex.label <- substr(nodeLabels,1,i)}
+       vertex.label = as.list(vertex.label)
+       names(vertex.label) = c('row','col')
+    }
+    else{vertex.label <- ''}
   }
 
 
@@ -322,8 +334,8 @@ plotMeso <- function(thetaMean, pi,model,directed,bipartite,nbNodes,nodeLabels,p
   }
 
   if (bipartite){
-    colnames(alpha.norm) <- paste(currentOptions$vertex.label$col,1:length(pi$col),sep='')
-    rownames(alpha.norm) <- paste(currentOptions$vertex.label$row,1:length(pi$row),sep='')
+    colnames(alpha.norm) <- paste(vertex.label$col,1:length(pi$col),sep='')
+    rownames(alpha.norm) <- paste(vertex.label$row,1:length(pi$row),sep='')
     vlab <- c(rownames(alpha.norm),colnames(alpha.norm))
     g <- igraph::graph_from_incidence_matrix(alpha.norm, weighted = TRUE)
     u <- c(pi$row*nbNodes[1],pi$col*nbNodes[2])
@@ -334,6 +346,7 @@ plotMeso <- function(thetaMean, pi,model,directed,bipartite,nbNodes,nodeLabels,p
     u <- pi*nbNodes[1]
     mode <- ifelse(directed,'directed','undirected')
     g <- igraph::graph.adjacency(alpha.norm, mode = mode, weighted = TRUE)
+    layout <- igraph::layout_with_fr(g)
   }
 
   igraph::E(g)$width <- 1 + as.integer(igraph::E(g)$weight*10)
@@ -365,6 +378,7 @@ plotMeso <- function(thetaMean, pi,model,directed,bipartite,nbNodes,nodeLabels,p
        main = currentOptions$title
   )
   par(old_par)
+  list(g = g, layout = layout)
 
 }
 
