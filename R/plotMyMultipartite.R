@@ -1,16 +1,23 @@
 #' Plot the matrices corresponding to a Multipartite Network
 #'
 #' @param listSBM  : a list of objects representing the multipartite network (see)
-#' @param normalized TRUE if the various matrices are preseted in the same scale (between O and 1). FALSE otherwise. Default value FALSE
+#' @param normalized TRUE if the various matrices are presented in the same scale (between O and 1). FALSE otherwise. Default value FALSE
 #' @param memberships : a list of length number of Functional Groups with clusterings inside these FG
 #' @return a ggplot object corresponding to the plot
 #' @export
 #'
 #' @examples
-#' data(MPEcoNetwork, package = "GREMLIN")
-#' PlantFlovis = defineSBM(MPEcoNetwork$Inc_plant_flovis, type = "bipartite",model = 'bernoulli',dimLabels = list(row="Plants",col="Flovis"))
-#' PlantAnt = defineSBM(MPEcoNetwork$Inc_plant_ant,type = "bipartite",model = 'bernoulli',dimLabels =list(row = "Plants", col = "Ants"))
-#' PlantBird = defineSBM(MPEcoNetwork$Inc_plant_bird,type = "bipartite",model = 'bernoulli',dimLabels =list(row = "Plants",col = "Birds"))
+#' data("multipartiteEcologicalNetwork")
+#' Net <- multipartiteEcologicalNetwork
+#' type='bipartite'
+#' model = 'bernoulli'
+#' directed = FALSE
+#' PlantFlovis = defineSBM(Net$Inc_plant_flovis, model,type,directed,
+#'                         dimLabels = list(row="Plants",col="Flovis"))
+#' PlantAnt = defineSBM(Net$Inc_plant_ant,model,type,directed,
+#'                      dimLabels =list(row = "Plants", col = "Ants"))
+#' PlantBird = defineSBM(Net$Inc_plant_bird,model,type,directed,
+#'                       dimLabels =list(row = "Plants",col = "Birds"))
 #' plotMyMultipartiteMatrix(list(PlantFlovis,PlantAnt,PlantBird))
 #'
 #'

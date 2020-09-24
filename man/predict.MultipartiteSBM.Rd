@@ -4,7 +4,7 @@
 \alias{predict.MultipartiteSBM}
 \title{Model Predictions}
 \usage{
-\method{predict}{MultipartiteSBM}(object)
+\method{predict}{MultipartiteSBM}(object, ...)
 }
 \arguments{
 \item{object}{an R6 object inheriting from class SBM_fit (like SimpleSBM_fit or BipartiteSBM_fit)}

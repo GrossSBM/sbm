@@ -107,7 +107,7 @@ basic matrix plot method for SBM object or mesoscopic plot
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-a ggplot2 object for \code{'data'} or \code{'expected'}; a list of two elements (g, igraph object and layout ) \code{'meso'} plot
+a ggplot2 object for the \code{'data'} and \code{'expected'}, a list with the igraph object \code{g}, the \code{layout} and the \code{plotOptions} for the \code{'meso'}
 }
 }
 \if{html}{\out{<hr>}}

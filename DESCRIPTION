@@ -26,11 +26,11 @@ Suggests:
     spelling,
     knitr,
     rmarkdown,
-    alluvial,
     aricode,
     covr
 Language: en-US
 Imports: 
+    alluvial,
     magrittr,
     blockmodels,
     R6,
@@ -55,6 +55,7 @@ Collate:
     'defineSBM.R'
     'estimate.R'
     'fungusTreeNetwork.R'
+    'multipartiteEcologicalNetwork.R'
     'plotMyMatrix.R'
     'plotMyMultipartite.R'
     'sample.R'

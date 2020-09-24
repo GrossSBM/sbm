@@ -16,16 +16,18 @@
 \arguments{
 \item{x}{an object inheriting from class MultipartiteSBM}
 
-\item{type}{character for the type of plot: either 'data' (true connection) or 'expected' (fitted connection) or 'meso' (mescospic). Default to 'data'.}
+\item{type}{character for the type of plot: either 'data' (true connection) or 'expected' (fitted connection) or 'meso' (meso-scopic). Default to 'data'.}
 
-\item{ordered}{logical: should the functiona group be ordered according to the clustering? Default to \code{TRUE}.}
+\item{normalized}{TRUE if the various matrices are renormalized. FALSE otherwise. Default value = FALSE}
+
+\item{ordered}{logical: should the functional group be ordered according to the clustering? Default to \code{TRUE}.}
 
 \item{plotOptions}{list with parameters for 'meso' type plot}
 
 \item{...}{additional parameters for S3 compatibility. Not used}
 }
 \value{
-a ggplot2 object for the \code{'data'} and \code{'expected'}, a list with the igraph object \code{g} and the \code{layout} for the \code{'meso'}
+a ggplot2 object for the \code{'data'} and \code{'expected'}, a list with the igraph object \code{g}, the \code{layout} and the \code{plotOptions} for the \code{'meso'}
 }
 \description{
 Basic matrix plot method for SBM object

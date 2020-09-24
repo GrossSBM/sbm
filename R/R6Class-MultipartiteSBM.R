@@ -37,8 +37,8 @@ MultipartiteSBM <-
          },
          #' @description plot Multipartite Network
          #' @param type character for the type of plot: either 'data' (true connection), 'expected' (fitted connection) or 'meso' (mesoscopic view). Default to 'data'.
-         #' @param ordered TRUE is the matrices are plotted after reorganization with the blocks. Default value = TRUE
          #' @param normalized TRUE if the various matrices are renormalized. FALSE otherwise. Default value = FALSE
+         #' @param ordered TRUE is the matrices are plotted after reorganization with the blocks. Default value = TRUE
          #' @param plotOptions list of plot options for the mesoscopic view
         plot = function(type=c('data','expected','meso'),normalized = FALSE, ordered = TRUE, plotOptions = list()){
 
@@ -91,8 +91,9 @@ MultipartiteSBM <-
 #' Basic matrix plot method for SBM object
 #'
 #' @param x an object inheriting from class MultipartiteSBM
-#' @param type character for the type of plot: either 'data' (true connection) or 'expected' (fitted connection) or 'meso' (mescospic). Default to 'data'.
-#' @param ordered logical: should the functiona group be ordered according to the clustering? Default to \code{TRUE}.
+#' @param type character for the type of plot: either 'data' (true connection) or 'expected' (fitted connection) or 'meso' (meso-scopic). Default to 'data'.
+#' @param normalized TRUE if the various matrices are renormalized. FALSE otherwise. Default value = FALSE
+#' @param ordered logical: should the functional group be ordered according to the clustering? Default to \code{TRUE}.
 #' @param plotOptions list with parameters for 'meso' type plot
 #' @param ... additional parameters for S3 compatibility. Not used
 #' @details The list of parameters \code{plotOptions} is
@@ -119,7 +120,7 @@ MultipartiteSBM <-
 #'  \item{"edge.lty": }{Line type, could be 0 or "blank", 1 or "solid", 2 or "dashed", 3 or "dotted", 4 or "dotdash", 5 or "longdash", 6 or "twodash". Default value is "solid"}
 #'  \item{"edge.curved": }{Default value is = 0.3}
 #' }
-#' @return a ggplot2 object for the \code{'data'} and \code{'expected'}, a list with the igraph object \code{g} and the \code{layout} for the \code{'meso'}
+#' @return a ggplot2 object for the \code{'data'} and \code{'expected'}, a list with the igraph object \code{g}, the \code{layout} and the \code{plotOptions} for the \code{'meso'}
 #' @export
 plot.MultipartiteSBM = function(x, type = c('data', 'expected', 'meso'), normalized = FALSE, ordered = TRUE, plotOptions = list(), ...){
 
@@ -150,7 +151,7 @@ is_MultipartiteSBM <- function(Robject) {inherits(Robject, " MultipartiteSBM")}
 #' @param ... additional parameters for S3 compatibility. Not used
 #' @return a list of matrices of expected values for each dyad
 #' @export
-predict.MultipartiteSBM <- function(object) {
+predict.MultipartiteSBM <- function(object,...) {
   stopifnot(is_MultipartiteSBM(object))
   object$predict()
 }

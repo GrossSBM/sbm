@@ -183,17 +183,16 @@ plotMultipartiteMatrix = function(list_Mat, E, nbNodes, namesFG, normalized, clu
 
   # plots
 
-  g <- ggplot(data = melted_Mat, aes(y = index_row, x = index_col, fill = link))
+  g <- ggplot(melted_Mat, aes(y = index_row, x = index_col, fill = link))
   g <- g + geom_tile()
   name_legend <- ifelse(normalized,"Norm. Link","Link")
   g <- g  +  scale_x_discrete(drop = FALSE) + scale_y_discrete(drop = FALSE)
   if (!binary) {
-    u <- range(c(melted_Mat$link))
     g <-
       g +  scale_fill_gradient(
         low = "white",
         high = "black",
-        limits = u,
+        limits = range(c(.data$link)),
         na.value = "transparent",
         name = name_legend
       )
@@ -342,7 +341,7 @@ plotMeso <- function(thetaMean, pi,model,directed,bipartite,nbNodes,nodeLabels,p
        main = currentOptions$title
   )
   par(old_par)
-  list(g = g,layout = layout)
+  list(g = g,layout = layout,plotOptions <- currentOptions)
 
 }
 

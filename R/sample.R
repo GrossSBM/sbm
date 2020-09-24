@@ -106,7 +106,8 @@ sampleSimpleSBM <- function(nbNodes,
 #' connectParam <- list(mean = means)
 #'
 #' ## Graph Sampling
-#' mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'bernoulli',dimLabels = list(row='Reader',col='Book'))
+#' dimLabels = list(row='Reader',col='Book')
+#' mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'bernoulli',dimLabels)
 #' plot(mySampler)
 #' plot(mySampler,type='meso',plotOptions = list(vertex.label=list(row='Reader',col='Book')))
 #' plot(mySampler,type='meso',plotOptions = list(vertex.label=c('A','B'),vertex.size = 1.4))
@@ -124,7 +125,8 @@ sampleSimpleSBM <- function(nbNodes,
 #' connectParam <- list(mean = means)
 #'
 #' ## Graph Sampling
-#' mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'poisson',dimLabels = c('Ind','Service'))
+#' dimLabels = c('Ind','Service')
+#' mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'poisson',dimLabels)
 #' plot(mySampler,type='expected')
 #' plot(mySampler,type='meso',plotOptions = list(vertex.label=c('U','V'),vertex.size = 1.4))
 #' hist(mySampler$netMatrix)
@@ -168,7 +170,7 @@ sampleBipartiteSBM <- function(nbNodes,
 #' @param model a vector of characters describing the model for  each network of the Multipartite relation between nodes (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'}, ...). Default is \code{'bernoulli'}.
 #' @param directed a vector of logical, directed network or not for each network. Default is \code{FALSE}.
 #' @param dimLabels an optional list of labels for functional group involved in the network
-#'
+#' @param seed numeric to set the seed.
 #' @return  a list of two elements : \code{simulatedMemberships} are the clustering of each node in each Functional Group,  \code{multipartiteNetwork} is the list of the simulated networks (each one being  a simple or bipartite network)
 #'
 #' @examples
@@ -184,24 +186,33 @@ sampleBipartiteSBM <- function(nbNodes,
 #' blockProp[[2]] <- c(0.6,0.4) # in Functional Group 2
 #' blockProp[[3]]  <- c(0.6,0.4) # in Functional Group 3
 #' # About the interactions between the FG
-#' archiMultipartite  <-  rbind(c(1,2),c(2,3),c(2,2),c(1,3)) # architecture of the various networks (FG interaction : 1 with  2, 2 wih 3, 1 with 3 and interactions inside FG 2. )
+#' archiMultipartite  <-  rbind(c(1,2),c(2,3),c(2,2),c(1,3)) #
 #' model <- c('bernoulli','poisson','bernoulli','gaussian') # type of distribution in each network
-#' directed <- c( NA, NA  ,  FALSE , NA) # for each network : directed or not (not required for an interaction wetween two different FG)
+#' # for each network : directed or not (not required for an interaction between two different FG)
+#' directed <- c( NA, NA  ,  FALSE , NA)
 #' connectParam <- list()
 #' E <- archiMultipartite
-#' connectParam[[1]] <- list(mean = matrix(rbeta(nbBlocks[E[1,1]] * nbBlocks[E[1,2]],1,1 ),nrow = nbBlocks[E[1,1]], ncol = nbBlocks[E[1,2]] ))
-#' connectParam[[2]] <- list(mean  =  matrix(rgamma(nbBlocks[E[2,1]] * nbBlocks[E[2,2]],7.5,0.01 ),nrow = nbBlocks[E[2,1]], ncol = nbBlocks[E[2,2]]))
-#' connectParam[[3]] <- list(mean  =  matrix(rbeta(nbBlocks[E[3,1]] * nbBlocks[E[3,2]],0.9,0.9 ), nrow = nbBlocks[E[3,1]], ncol = nbBlocks[E[3,2]]))
-#' connectParam[[3]]$mean <-  0.5*(connectParam[[3]]$mean + t(connectParam[[3]]$mean)) # symetrisation for network 3
-#' connectParam[[4]] <- list(mean = matrix(rnorm(nbBlocks[E[4,1]] * nbBlocks[E[4,2]],7.5,10 ), nrow = nbBlocks[E[4,1]], ncol = nbBlocks[E[4,2]]))
-#' connectParam[[4]]$var <- matrix(rgamma(nbBlocks[E[4,1]] * nbBlocks[E[4,2]],7.5,0.1 ), nrow = nbBlocks[E[4,1]], ncol = nbBlocks[E[4,2]])
+#' m <- rbeta(nbBlocks[E[1,1]] * nbBlocks[E[1,2]],1,1 )
+#' connectParam[[1]] <- list(mean = matrix(m,nrow = nbBlocks[E[1,1]], ncol = nbBlocks[E[1,2]] ))
+#' m <- rgamma(nbBlocks[E[2,1]] * nbBlocks[E[2,2]],7.5,0.01 )
+#' connectParam[[2]] <- list(mean  =  matrix(m,nrow = nbBlocks[E[2,1]], ncol = nbBlocks[E[2,2]]))
+#' p <- rbeta(nbBlocks[E[3,1]] * nbBlocks[E[3,2]],0.9,0.9 )
+#' p <- 1/2*(p + t(p))
+#' connectParam[[3]] <- list(mean  =  matrix(p, nrow = nbBlocks[E[3,1]], ncol = nbBlocks[E[3,2]]))
+#' m <- rnorm(nbBlocks[E[4,1]] * nbBlocks[E[4,2]],7.5,10 )
+#' connectParam[[4]] <- list(mean = matrix(m, nrow = nbBlocks[E[4,1]], ncol = nbBlocks[E[4,2]]))
+#' v <- rgamma(nbBlocks[E[4,1]] * nbBlocks[E[4,2]],7.5,0.1 )
+#' connectParam[[4]]$var <- matrix(v, nrow = nbBlocks[E[4,1]], ncol = nbBlocks[E[4,2]])
 #' dimLabels <- as.list(c('A','B','C'))
 #' seed <- 10
 #' ## Graph Sampling
-#' mySampleMBM <- sampleMultipartiteSBM(nbNodes, blockProp, archiMultipartite, connectParam, model, directed, dimLabels,seed)
+#' mySampleMBM <- sampleMultipartiteSBM(nbNodes, blockProp, archiMultipartite,
+#'                                       connectParam, model, directed, dimLabels,seed)
 #' listSBM <- mySampleMBM$listSBM
 #' memberships <- mySampleMBM$memberships
-#' plotMyMultipartiteMatrix(listSBM,memberships)
+#' plotMyMultipartiteMatrix(listSBM)
+#' plotMyMultipartiteMatrix(listSBM,normalized = TRUE)
+#' plotMyMultipartiteMatrix(listSBM,normalized = TRUE,memberships = memberships)
 #' @export
 sampleMultipartiteSBM <- function(nbNodes,
                             blockProp,

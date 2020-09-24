@@ -14,9 +14,10 @@ test_that("optimize for multipartite SBM runs GREMLIN", {
   type <- "bipartite"
   netB <- defineSBM(B,"poisson",type,directed=TRUE,dimLabels=list("Actor","Stuff"))
 
+  estimOptions = list(initBM = FALSE,verbosity = 0)
+  E  <- estimateMultipartiteSBM(list(netA,netB),estimOptions)
 
 
-  E <- estimateMultipartiteSBM(list(netA,netB))
 
   # private
   #print(E$GREMLINobject)

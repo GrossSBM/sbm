@@ -68,7 +68,7 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       #' @param type character for the type of plot: either 'data' (true connection), 'expected' (fitted connection) or 'meso' (mesoscopic view). Default to 'data'.
       #' @param ordered logical: should the rows and columns be reordered according to the clustering? Default to \code{TRUE}.
       #' @param plotOptions list with the parameters for meso plot (see details in \code{plotMeso.SimpleSBM}
-      #' @return a ggplot2 object for \code{'data'} or \code{'expected'}; a list of two elements (g, igraph object and layout ) \code{'meso'} plot
+      #' @return a ggplot2 object for the \code{'data'} and \code{'expected'}, a list with the igraph object \code{g}, the \code{layout} and the \code{plotOptions} for the \code{'meso'}
       #' @import ggplot2
       plot = function(type = c('data','expected','meso'), ordered = TRUE, plotOptions = list()) {
         if (length(type) > 1) {type = 'data'}
