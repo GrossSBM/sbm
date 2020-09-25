@@ -33,9 +33,7 @@ The packages required for the analysis are **sbm** plus some others for data man
 ```{r setup, message=FALSE, warning=FALSE}
 library(sbm)
 library(ggplot2)
-library(igraph)
 library(knitr)
-library(alluvial)
 theme_set(theme_bw())
 ```
 
@@ -78,6 +76,7 @@ The simple function `plotMyMatrix` can be use to represent simple or bipartite S
 ```{r tree_tree_binary network plot data}
 plotMyMatrix(tree_tree_binary, dimLabels = list(row = 'tree', col = 'tree') )
 ```
+
 We look for some latent structure of the network by adjusting a simple SBM with the function `estimateSimpleSBM`.
 
 ```{r simpleSBM}
@@ -108,7 +107,11 @@ plot(mySimpleSBM, type = "data", dimLabels  = list(row = 'tree', col= 'tree'))
 
 One can also plot the expected network which, in case of the Bernoulli model, corresponds to the probability of connection between any pair of nodes in the network.
 ```{r simpleSBMfit plot2}
-plot(mySimpleSBM, type = "expected", dimLabels  = list(row = 'tree', col= 'tree'))
+plot(mySimpleSBM, type = "expected")
+```
+
+```{r simpleSBMfit plotmeso}
+plot(mySimpleSBM, type = "meso")
 ```
 
 ```{r simpleSBMfit coef}
@@ -128,8 +131,7 @@ mySimpleSBM$storedModels %>% kable()
 We can then what models are competitive in terms of model selection by checking the ICL
 
 ```{r simpleSBM ICL}
-mySimpleSBM$storedModels %>% 
-  ggplot() + aes(x = nbBlocks, y = ICL) + geom_line() + geom_point(alpha = 0.5)
+mySimpleSBM$storedModels %>%  ggplot() + aes(x = nbBlocks, y = ICL)  + geom_line() + geom_point(alpha = 0.5)
 ```
 
 The 4-block model could have been a good choice too, in place of the 5-block model. The user can update the current `simpleSBMfit` thanks to the the `setModel` method:
@@ -138,7 +140,10 @@ The 4-block model could have been a good choice too, in place of the 5-block mod
 mySimpleSBM$setModel(4)
 mySimpleSBM$nbBlocks
 mySimpleSBM$plot(type = 'expected')
+mySimpleSBM$setModel(5)
 ```
+
+
 
 ### Analysis of the weighted interaction network
 
@@ -187,6 +192,11 @@ One can also plot the expected network which, in case of the Poisson model, corr
 ```{r simpleSBMfitPoisson plot2}
 plot(mySimpleSBMPoisson, type = "expected", dimLabels = list(row = 'tree', col= 'tree'))
 ```
+
+```{r simpleSBMfitPoisson plotmeso}
+plot(mySimpleSBMPoisson, type = "meso")
+```
+
 
 The same manipulations can be made on the models as before. 
 
@@ -270,6 +280,15 @@ We can now plot the reorganized matrix.
 ```{r plot bipartite}
 plot(myBipartiteSBM, dimLabels = list(row = 'fungis', col= 'tree'))
 ```
+
+
+```{r plot bipartite meso}
+plot(myBipartiteSBM, type  = 'meso', 
+     dimLabels = list(row = 'fungis', col= 'tree'),
+     plotOptions = list(edge.width = 1, vertex.size = c(1,2)))
+```
+
+
 
 
 ## References

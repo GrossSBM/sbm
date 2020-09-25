@@ -78,5 +78,17 @@ order_lbm <- function(theta_mean,pi){
 
 
 
+#-------------------------- Nb of parameters in a MULTIPARTITE model
+computeNbConnectParams_MBM <- function(nbBlocks,distrib,E,directed){
+  DIR <- directed
+  DIR[is.na(DIR)] = TRUE
+  nb <- sapply(1:nrow(E),function(i){
+    r <- nbBlocks[E[i,1]]*nbBlocks[E[i,2]]
+    if (!DIR[i]){r <- r/2 + nbBlocks[E[i,1]]/2}
+    if (distrib[i] == 'gaussian'){r <- r*2}
+    r}
+  )
+  sum(nb)
+}
 
 

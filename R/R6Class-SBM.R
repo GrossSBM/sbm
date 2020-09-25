@@ -125,7 +125,15 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       #' @field nbCovariates integer, the number of covariates
       nbCovariates = function(value) {length(private$X)},
       #' @field blockProp vector of block proportions (aka prior probabilities of each block)
-      blockProp    = function(value) {if (missing(value)) return(private$pi) else private$pi <- value},
+      blockProp   = function(value) {if (missing(value)) return(private$pi) else private$pi <- value},
+      #' @field nbBlocks vector of number of blocks in each dimension
+      nbBlocks   = function(value) {
+        if (is.list(private$pi)){
+          r <- sapply(private$pi,function(u){length(u)})
+        }else{
+            r =length(private$pi)
+        }
+        return(r)},
       #' @field connectParam parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli
       connectParam = function(value) {if (missing(value)) return(private$theta) else private$theta <- value},
       #' @field covarParam vector of regression parameters associated with the covariates.

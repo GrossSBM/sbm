@@ -13,7 +13,10 @@ MultipartiteSBM <-
        nbFG = NULL,
        dimFG = NULL,
        namesFG = NULL,
-       allZ = NULL
+       allZ = NULL,
+       directed  = NULL,
+       distrib = NULL,
+       pi  = NULL # list of vectors of parameters for block prior probabilities
        ),
      public = list(
        #' @description constructor for Multipartite SBM
@@ -34,6 +37,8 @@ MultipartiteSBM <-
            u <- u[1]
            dim(listSBM[[u]]$netMatrix)[v]})
          private$allZ <- memberships
+         private$distrib <- sapply(listSBM, function(net) {net$modelName})
+         private$directed <- sapply(listSBM, function(net) {if(is.null(net$directed)){return(NA)}else{return(net$directed)}})
          },
          #' @description plot Multipartite Network
          #' @param type character for the type of plot: either 'data' (true connection), 'expected' (fitted connection) or 'meso' (mesoscopic view). Default to 'data'.
@@ -74,13 +79,8 @@ MultipartiteSBM <-
          #' @field nbNodes  : number of Nodes in each FG,
          nbNodes  = function(value){private$dimFG},
          #' @field expectation expected values of connection under the currently adjusted model
-         expectation = function() {self$predict()},
-         #' @field allMemberships a list with the memberships in all the functional groups
-         allMemberships = function(value) {
-           if (missing(value)){
-             M <- private$allZ
-             names(M) <- private$namesFG
-             return(M)}  else {private$allZ <- value}}
+         expectation = function() {self$predict()}
+
      )
      )
 

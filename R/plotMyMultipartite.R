@@ -29,3 +29,5 @@ plotMyMultipartiteMatrix = function(listSBM,normalized = FALSE, memberships = NU
   g
 }
 
+
+

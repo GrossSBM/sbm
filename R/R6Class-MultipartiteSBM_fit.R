@@ -42,8 +42,10 @@ MultipartiteSBM_fit <-
           }
         }
         private$allZ = GREMLINfit$paramEstim$Z;
+        private$pi  = GREMLINfit$paramEstim$list_pi
       }
     ),
+    #-----------------------------------------------
     public = list(
       #' @description constructor for Multipartite SBM
       #' @param listSBM list of SBM object with
@@ -69,10 +71,8 @@ MultipartiteSBM_fit <-
                                  colFG = net$dimLabels[[2]])
         })
 
-        vdistrib <- sapply(private$listNet, function(net) {
-          net$modelName
-        })
 
+        vdistrib <- private$distrib
         v_Kmin  <- sapply(1:private$nbFG, function(k){currentOptions$nbBlocksRange[[k]][1]})
         v_Kmax  <- sapply(1:private$nbFG, function(k){currentOptions$nbBlocksRange[[k]][2]})
         verbose <- (currentOptions$verbosity > 0)
@@ -122,13 +122,54 @@ MultipartiteSBM_fit <-
       #' @return a list of matrices matrix of expected values for each dyad
       predict = function() {
           lapply(1:private$nbNet,function(l){BMi <- self$getBM(l); BMi$predict()})
+      },
+      #' @description method to select a specific model among the ones fitted during the optimization.
+      #'  Fields of the current MultipartiteSBM_fit will be updated accordingly.
+      #' @param index integer, the index of the model to be selected (row number in storedModels)
+      setModel = function(index) {
+        stopifnot(!is.null(private$GREMLINobject))
+        stopifnot(index %in% seq.int(nrow(self$storedModels)))
+        private$import_from_GREMLIN(index)
       }
-    )
-    # ,
-    # active=list(
-    #   getBM = function(i) {private$listNet[[i]]}
-    # )
-  )
+
+    ),
+    #-----------------------------------------------
+    active=list(
+    #' @field allMemberships a list with the memberships in all the functional groups
+    memberships = function(value) {
+      if (missing(value)){
+        M <- private$allZ
+        names(M) <- private$namesFG
+        return(M)}  else {private$allZ <- value}},
+    #' @field nbBlocks : vector with the number of blocks in each FG
+    nbBlocks = function(value) {
+      r<- sapply(private$allZ, function(z){length(unique(z))})
+      names(r) <- private$namesFG
+      return(r)},
+    #' @field storedModels data.frame of all models fitted (and stored) during the optimization
+    storedModels = function(value) {
+      GO <- private$GREMLINobject
+      nbModels <- length(GO$fittedModel)
+      Blocks <- as.data.frame(t(sapply(GO$fittedModel, function(m) m$paramEstim$v_K)))
+      colnames(Blocks) <- paste('nbBlocks',private$namesFG)
+      nbConnectParam <-sapply(GO$fittedModel, function(m){
+        E <- private$E;
+        distrib <- private$distrib
+        directed <- private$directed
+        r <- computeNbConnectParams_MBM(m$paramEstim$v_K,distrib,E,directed)
+        r})
+      nbParams  <- nbConnectParam + rowSums(Blocks) - ncol(Blocks)
+      U <- cbind(nbParams, Blocks)
+      U$nbBlocks <-rowSums(Blocks)
+      U$ICL <- sapply(GO$fittedModel, function(m) m$ICL)
+      U$loglik  <- rep(NA,nbModels)
+      return(U)
+    },
+    #' @field blockProp : block proportions in each function group
+    blockProp = function(value) {private$pi}
+)
+)
+
 
 
 
