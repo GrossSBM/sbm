@@ -180,6 +180,7 @@ plotMultipartiteMatrix = function(list_Mat, E, nbNodes, namesFG, normalized, clu
   melted_Mat$index_col <- index_col
   melted_Mat$FG_row <- as.factor(rep(FGRowSmall, each = dim(MetaMatSmall)[2]))
   melted_Mat$FG_col <- as.factor(rep(FGColSmall,  dim(MetaMatSmall)[1]))
+  range_melted <- range(c(melted_Mat$link))
   if (binary) { melted_Mat$link <- as.factor(melted_Mat$link)}
 
   # plots
@@ -189,11 +190,12 @@ plotMultipartiteMatrix = function(list_Mat, E, nbNodes, namesFG, normalized, clu
   name_legend <- ifelse(normalized,"Norm. Link","Link")
   g <- g  +  scale_x_discrete(drop = FALSE) + scale_y_discrete(drop = FALSE)
   if (!binary) {
+
     g <-
       g +  scale_fill_gradient(
         low = "white",
         high = "black",
-        limits = range(c(.data$link)),
+        limits = range_melted,
         na.value = "transparent",
         name = name_legend
       )
