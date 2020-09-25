@@ -206,7 +206,7 @@ predict.SBM <- function(object, covarList = object$covarList, ...) {
 #'  \item{"vertex.shape": }{One of "none", "circle", "square", "csquare", "rectangle" "crectangle", "vrectangle", "pie", "raster", or "sphere". Default value = "circle"}
 #'  \item{"vertex.size": }{Size of the node (default is 2)}
 #'  \item{"vertex.size2": }{The second size of the node (e.g. for a rectangle)}
-#'  \item{"vertex.label": }{Names of the vertices. Default value is the label of the nodes}
+#'  \item{"vertex.label.name": }{Names of the vertices. Default value is the label of the nodes}
 #'  \item{"vertex.label.color": }{Default value is  "black"}
 #'  \item{"vertex.label.font": }{Default value is 2. Font: 1 plain, 2 bold, 3, italic, 4 bold italic, 5 symbol}
 #'  \item{"vertex.label.cex": }{Font size (multiplication factor, device-dependent).Default value is  0.9.}

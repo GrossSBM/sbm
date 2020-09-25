@@ -18,6 +18,6 @@ display the alluvial plot, return the plotOptions
 Plot an alluvial plot between  clusterings
 }
 \examples{
-listMemberships <- list(C1 = rep(c('A','B','C'),each=10),C2 = rep(c(1,2),10))
+listMemberships <- list(C1 = rep(c('A','B','C'),each=10),C2 = rep(c(1,2,4),10))
 plotAlluvial(listMemberships)
 }

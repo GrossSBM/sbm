@@ -1,4 +1,4 @@
-
+myRepeat <- function(v,Qrow,Qcol){c(rep(v[1],Qrow),rep(v[2],Qcol))}
 #----------------------------------------------------------------------------------
 plotMatrix = function(Mat, dimLabels, clustering = NULL){
 
@@ -224,7 +224,7 @@ plotMultipartiteMatrix = function(list_Mat, E, nbNodes, namesFG, normalized, clu
 plotMeso <- function(thetaMean, pi,model,directed,bipartite,nbNodes,nodeLabels,plotOptions){
 
 
-  #browser()
+
   currentOptions <- list(seed = NULL,
                          title = NULL,
                          layout = NULL,
@@ -234,7 +234,7 @@ plotMeso <- function(thetaMean, pi,model,directed,bipartite,nbNodes,nodeLabels,p
                          vertex.size = 2,                               # Size of the node (default is 15)
                          vertex.size2 = NA,                              # The second size of the node (e.g. for a rectangle)
                          # === vertex label
-                         vertex.label = NULL,                   # Character vector used to label the nodes
+                         vertex.label.name = NULL,                   # Character vector used to label the nodes
                          vertex.label.color =  "black",#"white",
                          vertex.label.font = 2,                          # Font: 1 plain, 2 bold, 3, italic, 4 bold italic, 5 symbol
                          vertex.label.cex = 0.9,                           # Font size (multiplication factor, device-dependent)
@@ -250,35 +250,45 @@ plotMeso <- function(thetaMean, pi,model,directed,bipartite,nbNodes,nodeLabels,p
                          edge.curved = 0.3)
 
 
-
-
-
   if (bipartite) {
     currentOptions$vertex.color = c('salmon2','darkolivegreen3')
     currentOptions$vertex.shape = c('circle','square')
-    currentOptions$vertex.label = nodeLabels
-    Qrow <- length(pi$row)
-    Qcol <- length(pi$col)
-    currentOptions$vertex.color = c(rep(currentOptions$vertex.color[1],Qrow),rep(currentOptions$vertex.color[2],Qcol))
-    currentOptions$vertex.shape = c(rep(currentOptions$vertex.shape[1],Qrow),rep(currentOptions$vertex.shape[2],Qcol))
+    currentOptions$vertex.label.name = nodeLabels
+    currentOptions$vertex.size  = c(2,2)
+    currentOptions$vertex.label.cex =c(0.9,0.9)
+    currentOptions$vertex.label.color =  c("black","black")
+    currentOptions$vertex.label.dist =  c(0,0)
+    currentOptions$vertex.frame.color = c('black','black')
+    currentOptions$vertex.size2  = c('NA','NA')
+    currentOptions$vertex.label.font = c(2,2)                           # Font: 1 plain, 2 bold, 3, italic, 4 bold italic, 5 symbol
+    currentOptions$vertex.label.degree = c(0,0)
   }
-
+  #---------------------------------------"
   currentOptions[names(plotOptions)] <- plotOptions
+  #---------------------------------------"
+
   layout <- currentOptions$layout
 
-
-
-  #------------------------------------------
-  currentOptions[names(plotOptions)] <- plotOptions
-  #-----------------------------------------------
-
-  if (is.null(plotOptions$vertex.label)){
-    vertex.label <- substr(currentOptions$vertex.label, 1, 1)
+  if (is.null(plotOptions$vertex.label.name)){
+    vertex.label <- substr(currentOptions$vertex.label.name, 1, 1)
     i = 1
-    while (length(unique(vertex.label)) < 2 & (i <= 2)) {i = i + 1; vertex.label <- substr( currentOptions$vertex.label, 1, i)}
+    while (length(unique(vertex.label)) < 2 & (i <= 2)) {i = i + 1; vertex.label <- substr(currentOptions$vertex.label.name, 1, i)}
   }else{
-    vertex.label   = plotOptions$vertex.label
+    vertex.label   = plotOptions$vertex.label.name
   }
+
+
+  myOptions <- currentOptions
+  if (bipartite){
+  Qrow <- length(pi$row)
+  Qcol <- length(pi$col)
+  w.vertex.options <- stringr::str_detect(names(currentOptions), "vertex.")
+  myOptions <- lapply(1:length(currentOptions),
+                      function(p){if (w.vertex.options[p]){myRepeat(currentOptions[[p]],Qrow,Qcol)}else{currentOptions[[p]]}})
+  names(myOptions) <- names(currentOptions)
+  }
+
+
 
 
   if (is.atomic(vertex.label)){vertex.label= as.list(vertex.label)}
@@ -298,6 +308,7 @@ plotMeso <- function(thetaMean, pi,model,directed,bipartite,nbNodes,nodeLabels,p
   }
 
   if (bipartite){
+
     names(vertex.label) <- c('row','col')
     colnames(alpha.norm) <- paste(vertex.label$col,1:length(pi$col),sep='')
     rownames(alpha.norm) <- paste(vertex.label$row,1:length(pi$row),sep='')
@@ -319,32 +330,35 @@ plotMeso <- function(thetaMean, pi,model,directed,bipartite,nbNodes,nodeLabels,p
 
   set.seed(currentOptions$seed)
 
+
+
+
   old_par <- par(mar = rep(0.15,4))
   plot(g, layout = layout, ## see https://www.r-graph-gallery.com/248-igraph-plotting-parameters.html
        # === vertex
-       vertex.color = currentOptions$vertex.color,
-       vertex.frame.color = currentOptions$vertex.frame.color,
-       vertex.shape = currentOptions$vertex.shape,
-       vertex.size = currentOptions$vertex.size*u,
-       vertex.size2 = currentOptions$vertex.size2,
+       vertex.color = myOptions$vertex.color,
+       vertex.frame.color = myOptions$vertex.frame.color,
+       vertex.shape = myOptions$vertex.shape,
+       vertex.size = myOptions$vertex.size*u,
+       vertex.size2 = myOptions$vertex.size2,
        # === vertex label
        vertex.label = vlab,
-       vertex.label.color = currentOptions$vertex.label.color,
-       vertex.label.family = currentOptions$vertex.label.family,
-       vertex.label.cex = currentOptions$vertex.label.cex,
-       vertex.label.dist = currentOptions$vertex.label.dist,
-       vertex.label.degree = currentOptions$vertex.label.degree,
+       vertex.label.color = myOptions$vertex.label.color,
+       vertex.label.family = myOptions$vertex.label.family,
+       vertex.label.cex = myOptions$vertex.label.cex,
+       vertex.label.dist = myOptions$vertex.label.dist[1],
+       vertex.label.degree = myOptions$vertex.label.degree,
        # === Edge
-       edge.color = currentOptions$edge.color,
-       edge.width = igraph::E(g)$weight*currentOptions$edge.width,
-       edge.arrow.size = currentOptions$edge.arrow.size,
-       edge.arrow.width = currentOptions$edge.arrow.width,
-       edge.lty = currentOptions$edge.lty,
-       edge.curved = currentOptions$edge.curved,
-       main = currentOptions$title
+       edge.color = myOptions$edge.color,
+       edge.width = igraph::E(g)$weight*myOptions$edge.width,
+       edge.arrow.size = myOptions$edge.arrow.size,
+       edge.arrow.width = myOptions$edge.arrow.width,
+       edge.lty = myOptions$edge.lty,
+       edge.curved = myOptions$edge.curved,
+       main = myOptions$title
   )
   par(old_par)
-  list(g = g,layout = layout,plotOptions <- currentOptions)
+  list(g = g,layout = layout,plotOptions = currentOptions)
 
 }
 
