@@ -7,7 +7,7 @@
 estimateBipartiteSBM(
   netMat,
   model = "bernoulli",
-  dimLabels = list(row = "rowLabel", col = "colLabel"),
+  dimLabels = list(row = "row", col = "col"),
   covariates = list(),
   estimOptions = list()
 )

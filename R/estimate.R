@@ -80,7 +80,7 @@
 estimateSimpleSBM <- function(netMat,
                               model        = 'bernoulli',
                               directed     = !isSymmetric(netMat),
-                              dimLabels    = list(row = "rowLabel", col = "colLabel"),
+                              dimLabels    = list(row = "row", col = "col"),
                               covariates   = list(),
                               estimOptions = list()) {
 
@@ -180,7 +180,7 @@ estimateSimpleSBM <- function(netMat,
 #' @export
 estimateBipartiteSBM <- function(netMat,
                                  model        = 'bernoulli',
-                                 dimLabels    = list(row = "rowLabel", col = "colLabel"),
+                                 dimLabels    = list(row = "row", col = "col"),
                                  covariates   = list(),
                                  estimOptions = list()) {
 

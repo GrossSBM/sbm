@@ -56,6 +56,7 @@ Collate:
     'estimate.R'
     'fungusTreeNetwork.R'
     'multipartiteEcologicalNetwork.R'
+    'plotAlluvial.R'
     'plotMyMatrix.R'
     'plotMyMultipartite.R'
     'sample.R'

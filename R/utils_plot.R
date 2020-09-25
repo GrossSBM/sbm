@@ -2,6 +2,7 @@
 #----------------------------------------------------------------------------------
 plotMatrix = function(Mat, dimLabels, clustering = NULL){
 
+
   rowFG <- dimLabels$row
   colFG <- dimLabels$col
 

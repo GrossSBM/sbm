@@ -8,7 +8,7 @@ estimateSimpleSBM(
   netMat,
   model = "bernoulli",
   directed = !isSymmetric(netMat),
-  dimLabels = list(row = "rowLabel", col = "colLabel"),
+  dimLabels = list(row = "row", col = "col"),
   covariates = list(),
   estimOptions = list()
 )

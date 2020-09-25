@@ -13,6 +13,14 @@
 #'
 
 plotMyMatrix = function(Mat, dimLabels = list(row = NULL, col = NULL)){
+
+  if (is.atomic(dimLabels)){
+    if (length(dimLabels) == 0){dimLabels = list(row = NULL, col = NULL)}
+    if (length(dimLabels) == 1){dimLabels = list(row = dimLabels, col =dimLabels )}
+    if (length(dimLabels) == 2){dimLabels = list(row = dimLabels[1], col = dimLabels[2])}
+  }
+  if (is.null(names(dimLabels))){names(dimLabels) = as.list(dimLabels)}
+
   g <- plotMatrix(Mat, dimLabels = dimLabels, clustering = NULL)
   g
 }
