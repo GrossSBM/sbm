@@ -14,6 +14,23 @@ This class is designed to give a representation and adjust a Multipartite SBM fi
 \section{Super class}{
 \code{\link[sbm:MultipartiteSBM]{sbm::MultipartiteSBM}} -> \code{MultipartiteSBM_fit}
 }
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{memberships}}{a list with the memberships in all the functional groups}
+
+\item{\code{probMemberships}}{or list of nbFG matrices for of estimated probabilities for block memberships for all nodes}
+
+\item{\code{nbBlocks}}{: vector with the number of blocks in each FG}
+
+\item{\code{storedModels}}{data.frame of all models fitted (and stored) during the optimization}
+
+\item{\code{blockProp}}{: block proportions in each function group}
+
+\item{\code{connectParam}}{: connexion parameters in each network}
+}
+\if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
@@ -21,6 +38,9 @@ This class is designed to give a representation and adjust a Multipartite SBM fi
 \item \href{#method-optimize}{\code{MultipartiteSBM_fit$optimize()}}
 \item \href{#method-getBM}{\code{MultipartiteSBM_fit$getBM()}}
 \item \href{#method-predict}{\code{MultipartiteSBM_fit$predict()}}
+\item \href{#method-setModel}{\code{MultipartiteSBM_fit$setModel()}}
+\item \href{#method-show}{\code{MultipartiteSBM_fit$show()}}
+\item \href{#method-print}{\code{MultipartiteSBM_fit$print()}}
 \item \href{#method-clone}{\code{MultipartiteSBM_fit$clone()}}
 }
 }
@@ -101,6 +121,51 @@ prediction under the currently estimated model
 \subsection{Returns}{
 a list of matrices matrix of expected values for each dyad
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-setModel"></a>}}
+\if{latex}{\out{\hypertarget{method-setModel}{}}}
+\subsection{Method \code{setModel()}}{
+method to select a specific model among the ones fitted during the optimization.
+Fields of the current MultipartiteSBM_fit will be updated accordingly.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MultipartiteSBM_fit$setModel(index)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{index}}{integer, the index of the model to be selected (row number in storedModels)}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-show"></a>}}
+\if{latex}{\out{\hypertarget{method-show}{}}}
+\subsection{Method \code{show()}}{
+print method
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MultipartiteSBM_fit$show(type = "Fit of a Multipartite Stochastic Block Model")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{type}}{character to tune the displayed name}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-print"></a>}}
+\if{latex}{\out{\hypertarget{method-print}{}}}
+\subsection{Method \code{print()}}{
+print method
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MultipartiteSBM_fit$print()}\if{html}{\out{</div>}}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

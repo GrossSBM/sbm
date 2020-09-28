@@ -173,7 +173,7 @@ plotMultipartiteMatrix = function(list_Mat, E, nbNodes, namesFG, normalized, clu
   index_row = rep(1:dim(MetaMatSmall)[1], each = dim(MetaMatSmall)[2])
   index_col = rep(1:dim(MetaMatSmall)[2], dim(MetaMatSmall)[1])
   melted_Mat = data.frame(c(t(MetaMatSmall)))
-  names(melted_Mat) <- 'link'
+  names(melted_Mat) <- c('link')
   melted_Mat$index_row <- dim(MetaMatSmall)[1] - index_row
   melted_Mat$index_col <- index_col
   melted_Mat$FG_row <- as.factor(rep(FGRowSmall, each = dim(MetaMatSmall)[2]))
@@ -183,14 +183,13 @@ plotMultipartiteMatrix = function(list_Mat, E, nbNodes, namesFG, normalized, clu
 
   # plots
 
-  g <- ggplot(melted_Mat, aes(y = index_row, x = index_col, fill = link))
+  g <- ggplot2::ggplot(melted_Mat, aes(y = index_row, x = index_col, fill = link))
   g <- g + geom_tile()
   name_legend <- ifelse(normalized,"Norm. Link","Link")
   g <- g  +  scale_x_discrete(drop = FALSE) + scale_y_discrete(drop = FALSE)
   if (!binary) {
 
-    g <-
-      g +  scale_fill_gradient(
+    g <- g +  scale_fill_gradient(
         low = "white",
         high = "black",
         limits = range_melted,
@@ -219,6 +218,7 @@ plotMultipartiteMatrix = function(list_Mat, E, nbNodes, namesFG, normalized, clu
 
 #-----------------------------------------------------------------
 #' @importFrom graphics par
+#' @importFrom("graphics", "plot")
 plotMeso <- function(thetaMean, pi,model,directed,bipartite,nbNodes,nodeLabels,plotOptions){
 
 
@@ -332,7 +332,7 @@ plotMeso <- function(thetaMean, pi,model,directed,bipartite,nbNodes,nodeLabels,p
 
 
   old_par <- par(mar = rep(0.15,4))
-  plot(g, layout = layout, ## see https://www.r-graph-gallery.com/248-igraph-plotting-parameters.html
+  plot(g, layout = layout,
        # === vertex
        vertex.color = myOptions$vertex.color,
        vertex.frame.color = myOptions$vertex.frame.color,

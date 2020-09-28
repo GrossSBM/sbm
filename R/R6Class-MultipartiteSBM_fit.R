@@ -154,7 +154,7 @@ MultipartiteSBM_fit <-
     ),
     #-----------------------------------------------
     active=list(
-    #' @field allMemberships a list with the memberships in all the functional groups
+      #' @field memberships a list with the memberships in all the functional groups
     memberships = function(value) {
       if (missing(value)){
         M <- private$allZ

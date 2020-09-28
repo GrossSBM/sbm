@@ -1,4 +1,4 @@
-#' Ecological muultipartite interaction network
+#' Ecological multipartite interaction network
 #'
 #' Multipartite network of mutualistic interactions between   plants and pollinators, plants and birds  and plants and ants.
 #'

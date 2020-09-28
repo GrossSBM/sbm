@@ -28,7 +28,7 @@ R6 virtual class for Multipartite SBM representation
 
 \item{\code{expectation}}{expected values of connection under the currently adjusted model}
 
-\item{\code{allMemberships}}{a list with the memberships in all the functional groups}
+\item{\code{modelName}}{vector of characters, the family of model for the distribution of the edges in each network}
 }
 \if{html}{\out{</div>}}
 }
@@ -36,6 +36,8 @@ R6 virtual class for Multipartite SBM representation
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{MultipartiteSBM$new()}}
+\item \href{#method-show}{\code{MultipartiteSBM$show()}}
+\item \href{#method-print}{\code{MultipartiteSBM$print()}}
 \item \href{#method-plot}{\code{MultipartiteSBM$plot()}}
 \item \href{#method-clone}{\code{MultipartiteSBM$clone()}}
 }
@@ -58,6 +60,33 @@ constructor for Multipartite SBM
 }
 \if{html}{\out{</div>}}
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-show"></a>}}
+\if{latex}{\out{\hypertarget{method-show}{}}}
+\subsection{Method \code{show()}}{
+print method
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MultipartiteSBM$show(type = "Multipartite Stochastic Block Model")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{type}}{character to tune the displayed name}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-print"></a>}}
+\if{latex}{\out{\hypertarget{method-print}{}}}
+\subsection{Method \code{print()}}{
+print method
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MultipartiteSBM$print()}\if{html}{\out{</div>}}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-plot"></a>}}
