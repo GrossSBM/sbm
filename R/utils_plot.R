@@ -67,8 +67,6 @@ plotMatrix = function(Mat, dimLabels, clustering = NULL){
 #----------------------------------------------------------------------------------
 plotMultipartiteMatrix = function(list_Mat, E, nbNodes, namesFG, normalized, clustering) {
 
-
-
   nbFG <- length(unique(c(E)))
   nbNet <- length(list_Mat)
 
@@ -96,7 +94,7 @@ plotMultipartiteMatrix = function(list_Mat, E, nbNodes, namesFG, normalized, clu
 
   #browser()
   if (!is.null(clustering)) {
-    sepRow <- sepCol <- list()
+    #sepRow <- sepCol <- list()
     list_Mat_reorder <- list_Mat
     # reorder
     for (l in 1:nbNet) {
@@ -105,21 +103,21 @@ plotMultipartiteMatrix = function(list_Mat, E, nbNodes, namesFG, normalized, clu
       oRow <- order(clustering_row)
       oCol <- order(clustering_col)
       list_Mat_reorder[[l]] <- list_Mat[[l]][oRow, oCol]
-      uRowSep <- cumsum(table(clustering_row)) + 0.5
-      uRowSep <- uRowSep[-length(uRowSep)]
+      #uRowSep <- cumsum(table(clustering_row)) + 0.5
+      #uRowSep <- uRowSep[-length(uRowSep)]
 
-      uColSep <- cumsum(table(clustering_col)) + 0.5
-      uColSep <- uColSep[-length(uColSep)]
-      sepCol[[l]] <- as.data.frame(BegFG[E[l, 2]] + uColSep)
-      sepRow[[l]] <- as.data.frame(uRowSep)
-      sepRow[[l]] = BegFG[E[l, 1]] + nbNodes[E[l, 1]] - sepRow[[l]]
-      names(sepCol[[l]]) = names(sepRow[[l]]) = 'sep'
-      sepRow[[l]]$FG <- namesFG[E[l, 1]]
-      sepCol[[l]]$FG <- namesFG[E[l, 2]]
+      #uColSep <- cumsum(table(clustering_col)) + 0.5
+      #uColSep <- uColSep[-length(uColSep)]
+      #sepCol[[l]] <- as.data.frame(BegFG[E[l, 2]] + uColSep)
+      #sepRow[[l]] <- as.data.frame(uRowSep)
+      #sepRow[[l]] = BegFG[E[l, 1]] + nbNodes[E[l, 1]] - sepRow[[l]]
+      #names(sepCol[[l]]) = names(sepRow[[l]]) = 'sep'
+      #sepRow[[l]]$FG <- namesFG[E[l, 1]]
+      #sepCol[[l]]$FG <- namesFG[E[l, 2]]
     }
     list_Mat <- list_Mat_reorder
-    sepRow <- do.call(rbind,sepRow)
-    sepCol <- do.call(rbind,sepCol)
+    #sepRow <- do.call(rbind,sepRow)
+    #sepCol <- do.call(rbind,sepCol)
   }
 
 

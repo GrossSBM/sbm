@@ -16,7 +16,9 @@ MultipartiteSBM <-
        allZ = NULL,
        directed  = NULL,
        distrib = NULL,
-       pi  = NULL # list of vectors of parameters for block prior probabilities
+       pi  = NULL, # list of vectors of parameters for block prior probabilities
+       theta = NULL,
+       tau = NULL
        ),
      public = list(
        #' @description constructor for Multipartite SBM
@@ -40,6 +42,23 @@ MultipartiteSBM <-
          private$distrib <- sapply(listSBM, function(net) {net$modelName})
          private$directed <- sapply(listSBM, function(net) {if(is.null(net$directed)){return(NA)}else{return(net$directed)}})
          },
+        #' @description print method
+        #' @param type character to tune the displayed name
+        show = function(type = "Multipartite Stochastic Block Model"){
+          cat(type, "\n")
+          cat(self$nbLabels, "functional groups (", self$dimLabels, "), ", self$nbNetworks, "networks\n")
+          cat("=====================================================================\n")
+          cat("nbNodes per FG = (", self$nbNodes, ") --  nbBlocks per FG = (",self$nbBlocks, ")\n")
+          cat("distributions on each network =(", self$modelName ,")\n")
+          cat("=====================================================================\n")
+          cat("* Useful fields \n")
+          cat(" $nbNetwork, $nbNodes, $nbBlocks, $dimLabels, $archiMultipartite \n")
+          cat(" $modelName, $blockProp, $connectParam, $memberships, \n")
+          cat("* Useful functions \n")
+          cat("$plot, $optimize \n")
+        },
+       #' @description print method
+        print = function() self$show(),
          #' @description plot Multipartite Network
          #' @param type character for the type of plot: either 'data' (true connection), 'expected' (fitted connection) or 'meso' (mesoscopic view). Default to 'data'.
          #' @param normalized TRUE if the various matrices are renormalized. FALSE otherwise. Default value = FALSE
@@ -79,7 +98,9 @@ MultipartiteSBM <-
          #' @field nbNodes  : number of Nodes in each FG,
          nbNodes  = function(value){private$dimFG},
          #' @field expectation expected values of connection under the currently adjusted model
-         expectation = function() {self$predict()}
+         expectation = function() {self$predict()},
+         #' @field modelName vector of characters, the family of model for the distribution of the edges in each network
+         modelName    = function(value) {private$distrib}
 
      )
      )
@@ -124,7 +145,7 @@ MultipartiteSBM <-
 #' @export
 plot.MultipartiteSBM = function(x, type = c('data', 'expected', 'meso'), normalized = FALSE, ordered = TRUE, plotOptions = list(), ...){
 
-  if (length(type)>1){ type = 'data'}
+  if (length(type)>1){type = 'data'}
   if (type=='meso'){
     invisible(x$plot(type, normalized, ordered, plotOptions))
   }else{

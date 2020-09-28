@@ -1,5 +1,5 @@
 ---
-  title: "Multipartite Stochastic Block Models"
+title: "Multipartite Stochastic Block Models"
 subtitle: "An illustration on antogonistic tree/fungus network"
 author: "team großBM"
 date: "`r Sys.Date()`"
@@ -10,9 +10,9 @@ toc_depth: 4
 bibliography: references.bib
 link-citations: yes
 vignette: >
-  %\VignetteIndexEntry{SBM_tree_fungus_network}
-%\VignetteEngine{knitr::rmarkdown}dim(tree_tree_binary)
-%\VignetteEncoding{UTF-8}
+  %\VignetteIndexEntry{Multipartite_EcologicalNetwork}
+  %\VignetteEngine{knitr::rmarkdown} 
+  %\VignetteEncoding{UTF-8}
 ---
 
   ```{r, include = FALSE}
@@ -111,36 +111,43 @@ myMSBM <- estimateMultipartiteSBM(listSBM,estimOptions)
 ``` 
 
 
-RES_MBM contains the estimated parameters of the models we run through during the search of the better numbers of blocks. 
+\code{myMSBM} contains the estimated parameters of the models we run through during the search of the better numbers of blocks. 
 
 
 RES_MBM constains de dataset and the results.  
 ```{r MBM what}
-names(myMMBM)
+myMSBM
 ``` 
 
 The better model has the following numbers of blocks
 ```{r MBM v_K }
-RES_MBM$fittedModel[[1]]$paramEstim$v_K
+myMSBM$nbBlocks
 ```
 
-To see the parameters estimated for the better model we use the following command `RES_MBM$fittedModel[[1]]$paramEstim$***`
+To see the parameters estimated for the better model we use the following command `myMSBM$connectParam` or `myMSBM$blockProp`
 ```{r MBM param }
-RES_MBM$fittedModel[[1]]$paramEstim$list_pi$Plants
-RES_MBM$fittedModel[[1]]$paramEstim$list_theta$PlantsFlovis
+myMSBM$blockProp
+myMSBM$connectParam
 ```
 
-The clustering  supplied by the better model  are in `RES_MBM$fittedModel[[1]]$paramEstim$Z$***`.
+The clustering  supplied by the better model  are in `myMSBM$memberships***`.
 
 ```{r MBM Z }
-table(RES_MBM$fittedModel[[1]]$paramEstim$Z$Plants)
-table(RES_MBM$fittedModel[[1]]$paramEstim$Z$Ants)      
+table(myMSBM$memberships$Plants)
+table(myMSBM$memberships$Ants)      
 ``` 
 
 ## Plots 
+We can either plot the reorganized matrix
 ```{r plot, eval = TRUE }
-plotMBM(RES_MBM,mycol= c("darkolivegreen3", "gold", "tomato","cadetblue3")) 
+plot(myMSBM) 
 ``` 
+
+of the mescopic view
+```{r plot meso, eval = TRUE}
+print('ready soon')
+```
+
 
 ## References
 

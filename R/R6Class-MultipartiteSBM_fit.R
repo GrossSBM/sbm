@@ -33,16 +33,19 @@ MultipartiteSBM_fit <-
           }
         })
         #print(private$nbNet)
+        my_list_theta  = list()
         for (i in 1:private$nbNet) {
           if (private$listNet[[i]]$modelName != 'gaussian'){
-            private$listNet[[i]]$connectParam <- list(mean = GREMLINfit$paramEstim$list_theta[[i]])
+            my_list_theta[[i]] <- private$listNet[[i]]$connectParam <- list(mean = GREMLINfit$paramEstim$list_theta[[i]])
           }
           else{
-            private$listNet[[i]]$connectParam <-  GREMLINfit$paramEstim$list_theta[[i]]
+            my_list_theta[[i]] <- private$listNet[[i]]$connectParam <-  GREMLINfit$paramEstim$list_theta[[i]]
           }
         }
-        private$allZ = GREMLINfit$paramEstim$Z;
+        private$allZ = GREMLINfit$paramEstim$Z
         private$pi  = GREMLINfit$paramEstim$list_pi
+        private$theta = my_list_theta
+        private$tau = GREMLINfit$paramEstim$tau
       }
     ),
     #-----------------------------------------------
@@ -130,8 +133,24 @@ MultipartiteSBM_fit <-
         stopifnot(!is.null(private$GREMLINobject))
         stopifnot(index %in% seq.int(nrow(self$storedModels)))
         private$import_from_GREMLIN(index)
-      }
-
+      },
+      #' @description print method
+      #' @param type character to tune the displayed name
+      show = function(type = "Fit of a Multipartite Stochastic Block Model"){
+        cat(type, "\n")
+        cat(self$nbLabels, "functional groups (", self$dimLabels, "), ", self$nbNetworks, "networks\n")
+        cat("=====================================================================\n")
+        cat("nbNodes per FG = (", self$nbNodes, ") --  nbBlocks per FG = (",self$nbBlocks, ")\n")
+        cat("distributions on each network =(", self$modelName ,")\n")
+        cat("=====================================================================\n")
+        cat("* Useful fields \n")
+        cat(" $nbNetwork, $nbNodes, $nbBlocks, $dimLabels, $archiMultipartite \n")
+        cat(" $modelName, $blockProp, $connectParam, $memberships, $probMemberships\n")
+        cat("* Useful functions \n")
+        cat("$plot, $optimize, $predict, $setModel, $getBM, $storedModels \n")
+      },
+      #' @description print method
+      print = function() self$show()
     ),
     #-----------------------------------------------
     active=list(
@@ -141,6 +160,8 @@ MultipartiteSBM_fit <-
         M <- private$allZ
         names(M) <- private$namesFG
         return(M)}  else {private$allZ <- value}},
+    #' @field probMemberships  or list of nbFG matrices for of estimated probabilities for block memberships for all nodes
+    probMemberships = function(value) {private$tau  },
     #' @field nbBlocks : vector with the number of blocks in each FG
     nbBlocks = function(value) {
       r<- sapply(private$allZ, function(z){length(unique(z))})
@@ -166,7 +187,9 @@ MultipartiteSBM_fit <-
       return(U)
     },
     #' @field blockProp : block proportions in each function group
-    blockProp = function(value) {private$pi}
+    blockProp = function(value) {private$pi},
+    #' @field connectParam : connexion parameters in each network
+    connectParam = function(value) {private$theta}
 )
 )
 
