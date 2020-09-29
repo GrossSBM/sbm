@@ -52,7 +52,7 @@ dimLabels = list(row='Reader',col='Book')
 mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'bernoulli',dimLabels)
 plot(mySampler)
 plot(mySampler,type='meso',plotOptions = list(vertex.label.name=list(row='Reader',col='Book')))
-plot(mySampler,type='meso',plotOptions = list(vertex.label.name=c('A','B'),vertex.size =  c(1.4,1.4))))
+plot(mySampler,type='meso',plotOptions = list(vertex.label.name=c('A','B'),vertex.size = 1.4))
 mySampler$rMemberships() # sample new memberships
 mySampler$rIncidence()   # sample new incidence matrix
 ### =======================================
@@ -69,7 +69,8 @@ connectParam <- list(mean = means)
 dimLabels = c('Ind','Service')
 mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'poisson',dimLabels)
 plot(mySampler,type='expected')
-plot(mySampler,type='meso',plotOptions = list(vertex.label.name=c('U','V'),vertex.size = c(1.4,1.3)))
+plotOptions = list(vertex.label.name=c('U','V'),vertex.size = c(1.4,1.3))
+plot(mySampler,type='meso',plotOptions)
 hist(mySampler$netMatrix)
 
 ### =======================================

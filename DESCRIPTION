@@ -38,7 +38,8 @@ Imports:
     igraph,
     ggplot2,
     GREMLIN,
-    stringr
+    stringr,
+    rlang
 Remotes: Demiperimetre/GREMLIN
 Collate: 
     'R6Class-SBM.R'

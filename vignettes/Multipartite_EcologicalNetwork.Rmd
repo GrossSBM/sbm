@@ -1,6 +1,6 @@
 ---
 title: "Multipartite Stochastic Block Models"
-subtitle: "An illustration on antogonistic tree/fungus network"
+subtitle: "An illustration on a mutualistic ecological network"
 author: "team großBM"
 date: "`r Sys.Date()`"
 output:
@@ -108,6 +108,7 @@ load('resMultipartiteEcological.rda')
 estimOptions = list(initBM = FALSE)
 listSBM <- list(PlantFlovis, PlantAnt, PlantBird)
 myMSBM <- estimateMultipartiteSBM(listSBM,estimOptions)
+save(myMSBM,file='resMultipartiteEcological.rda')
 ``` 
 
 
@@ -145,7 +146,7 @@ plot(myMSBM)
 
 of the mescopic view
 ```{r plot meso, eval = TRUE}
-print('ready soon')
+plot(myMSBM,type = 'meso')
 ```
 
 

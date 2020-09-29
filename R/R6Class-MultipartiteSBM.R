@@ -14,7 +14,7 @@ MultipartiteSBM <-
        dimFG = NULL,
        namesFG = NULL,
        allZ = NULL,
-       directed  = NULL,
+       directed_  = NULL,
        distrib = NULL,
        pi  = NULL, # list of vectors of parameters for block prior probabilities
        theta = NULL,
@@ -25,8 +25,8 @@ MultipartiteSBM <-
        #' @param listSBM list of SimpleSBM or BipartiteSBM
        #' @param memberships list of memberships for each node in each function group.Default value is NULL
        initialize = function(listSBM, memberships = NULL) {
-         private$listNet <- listSBM
          private$nbNet <- length(listSBM)
+         private$listNet <- listSBM
          private$namesFG <- unique(unlist(lapply(listSBM, function(net){net$dimLabels})))
          private$nbFG <- length(private$namesFG)
          E_FG <- lapply(listSBM,function(net){return(c(net$dimLabels$row,net$dimLabels$col))})
@@ -40,8 +40,8 @@ MultipartiteSBM <-
            dim(listSBM[[u]]$netMatrix)[v]})
          private$allZ <- memberships
          private$distrib <- sapply(listSBM, function(net) {net$modelName})
-         private$directed <- sapply(listSBM, function(net) {if(is.null(net$directed)){return(NA)}else{return(net$directed)}})
-         },
+         private$directed_ <- sapply(listSBM, function(net) {if(is.null(net$directed)){return(NA)}else{return(net$directed)}})
+        },
         #' @description print method
         #' @param type character to tune the displayed name
         show = function(type = "Multipartite Stochastic Block Model"){
@@ -73,13 +73,12 @@ MultipartiteSBM <-
                                    'expected' = self$predict()
                                    )
             if (ordered) { clust = private$allZ }else{ clust = NULL}
-            g <- plotMultipartiteMatrix(listNetMatrix, private$E, private$dimFG, private$namesFG,normalized = normalized, clustering = clust)
-            outP <- g
+            outP <- plotMultipartiteMatrix(listNetMatrix, private$E, private$dimFG, private$namesFG,normalized = normalized, clustering = clust)
+
           }
           if (type  == 'meso'){
-            layout <- NULL
-            g <- NULL
-            outP <- list(layout = layout,g=g )
+
+            outP <- plotMesoMultipartite(private$E,private$theta, private$pi,private$distrib,private$directed_,private$dimFG,private$namesFG ,plotOptions)
           }
           outP
         }
@@ -100,7 +99,9 @@ MultipartiteSBM <-
          #' @field expectation expected values of connection under the currently adjusted model
          expectation = function() {self$predict()},
          #' @field modelName vector of characters, the family of model for the distribution of the edges in each network
-         modelName    = function(value) {private$distrib}
+         modelName    = function(value) {private$distrib},
+         #' @field directed : vector of boolean
+         directed  = function(value){private$directed_}
 
      )
      )

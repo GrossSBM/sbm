@@ -64,7 +64,10 @@ plotMatrix = function(Mat, dimLabels, clustering = NULL){
   g
   #if (!is.null(fileNameSave)) { ggsave(fileNameSave, width = 20, height = 20, units = "cm") }else{g}
 }
+##################################################################################
 #----------------------------------------------------------------------------------
+##################################################################################
+#' @importFrom rlang .data
 plotMultipartiteMatrix = function(list_Mat, E, nbNodes, namesFG, normalized, clustering) {
 
   nbFG <- length(unique(c(E)))
@@ -78,15 +81,15 @@ plotMultipartiteMatrix = function(list_Mat, E, nbNodes, namesFG, normalized, clu
   }
 
 
-  # meta matrix
+  ############################  meta matrix
   N <- sum(nbNodes)
   MetaMat <- matrix(NA, N, N)
 
   # network of matrices
   G <- matrix(0, nbFG, nbFG)
   G[E[, 1], E[, 2]] = 1
-  uRow <- which(rowSums(G) > 0)
-  uCol <- which(colSums(G) > 0)
+  #uRow <- which(rowSums(G) > 0)
+  #uCol <- which(colSums(G) > 0)
   # places in metamatrix
   EndFG <- cumsum(nbNodes)
   BegFG <- c(0, cumsum(nbNodes)[-nbFG]) + 1
@@ -156,13 +159,6 @@ plotMultipartiteMatrix = function(list_Mat, E, nbNodes, namesFG, normalized, clu
     MetaMatSmall <- MetaMatSmall[,-uCol]
     FGColSmall <- FGColSmall[-uCol]
   }
-
-
-
-
-
-  #indFGColSmall <- indFGCol[-uCol]
-  #indFGRowSmall <- indFGRow[-uRow]
   binary = FALSE
   val <- sort(unique(c(MetaMatSmall)))
   if (setequal(val , c(0, 1))) {
@@ -183,7 +179,7 @@ plotMultipartiteMatrix = function(list_Mat, E, nbNodes, namesFG, normalized, clu
 
   # plots
 
-  g <- ggplot2::ggplot(melted_Mat, aes(y = index_row, x = index_col, fill = link))
+  g <- ggplot2::ggplot(melted_Mat, aes(y = index_row, x = index_col, fill = .data$link))
   g <- g + geom_tile()
   name_legend <- ifelse(normalized,"Norm. Link","Link")
   g <- g  +  scale_x_discrete(drop = FALSE) + scale_y_discrete(drop = FALSE)
@@ -206,19 +202,13 @@ plotMultipartiteMatrix = function(list_Mat, E, nbNodes, namesFG, normalized, clu
   }
   g <- g +  labs(x = '', y = '')
   g <- g + theme(axis.text.x = element_text(angle = 270, hjust = 0))
-  #browser()
-  #if (!is.null(clustering)) {
-  # g <- g + geom_vline(data = sepCol,aes(xintercept = 'sep'),col = 'orange')
-  # g <- g + geom_hline(data = sepRow,aes(yintercept = 'sep'),col = 'orange')
-  #}
   g <- g + facet_grid(FG_row ~ FG_col, scales = 'free', space = 'free')
-
   g
 }
 
 #-----------------------------------------------------------------
 #' @importFrom graphics par
-#' @importFrom("graphics", "plot")
+#' @importFrom graphics plot
 plotMeso <- function(thetaMean, pi,model,directed,bipartite,nbNodes,nodeLabels,plotOptions){
 
 
@@ -229,7 +219,7 @@ plotMeso <- function(thetaMean, pi,model,directed,bipartite,nbNodes,nodeLabels,p
                          vertex.color = 'salmon2',
                          vertex.frame.color = "black",#"white",                 # Node border color
                          vertex.shape = "circle",                        # One of “none”, “circle”, “square”, “csquare”, “rectangle” “crectangle”, “vrectangle”, “pie”, “raster”, or “sphere”
-                         vertex.size = 2,                               # Size of the node (default is 15)
+                         vertex.size = 1,                               # Size of the node (default is 15)
                          vertex.size2 = NA,                              # The second size of the node (e.g. for a rectangle)
                          # === vertex label
                          vertex.label.name = NULL,                   # Character vector used to label the nodes
@@ -241,7 +231,7 @@ plotMeso <- function(thetaMean, pi,model,directed,bipartite,nbNodes,nodeLabels,p
                          # === Edge
                          edge.threshold = -Inf,
                          edge.color = "gray",#"white",                           # Edge color
-                         edge.width = 10,                    # Edge width, defaults to 10
+                         edge.width = 1,                    # Edge width, defaults to 10
                          edge.arrow.size = 1,                            # Arrow size, defaults to 1
                          edge.arrow.width = 2,                           # Arrow width, defaults to 1
                          edge.lty = "solid",                             # Line type, could be 0 or “blank”, 1 or “solid”, 2 or “dashed”, 3 or “dotted”, 4 or “dotdash”, 5 or “longdash”, 6 or “twodash”
@@ -252,7 +242,7 @@ plotMeso <- function(thetaMean, pi,model,directed,bipartite,nbNodes,nodeLabels,p
     currentOptions$vertex.color = c('salmon2','darkolivegreen3')
     currentOptions$vertex.shape = c('circle','square')
     currentOptions$vertex.label.name = nodeLabels
-    currentOptions$vertex.size  = c(2,2)
+    currentOptions$vertex.size  = c(1,1)
     currentOptions$vertex.label.cex =c(0.9,0.9)
     currentOptions$vertex.label.color =  c("black","black")
     currentOptions$vertex.label.dist =  c(0,0)
@@ -260,8 +250,17 @@ plotMeso <- function(thetaMean, pi,model,directed,bipartite,nbNodes,nodeLabels,p
     currentOptions$vertex.size2  = c('NA','NA')
     currentOptions$vertex.label.font = c(2,2)                           # Font: 1 plain, 2 bold, 3, italic, 4 bold italic, 5 symbol
     currentOptions$vertex.label.degree = c(0,0)
+
+    if ((length(plotOptions$vertex.size) == 1)){plotOptions$vertex.size = rep(plotOptions$vertex.size,2)}
+    if ((length(plotOptions$vertex.label.cex) == 1)){plotOptions$vertex.label.cex = rep(plotOptions$vertex.label.cex,2)}
+    if ((length(plotOptions$vertex.label.font) == 1)){plotOptions$vertex.label.font = rep(plotOptions$vertex.label.font,2)}
+    if ((length(plotOptions$vertex.label.degree) == 1)){plotOptions$vertex.label.degree = rep(plotOptions$vertex.label.degree,2)}
+
+
+
   }
   #---------------------------------------"
+
   currentOptions[names(plotOptions)] <- plotOptions
   #---------------------------------------"
 
@@ -348,7 +347,7 @@ plotMeso <- function(thetaMean, pi,model,directed,bipartite,nbNodes,nodeLabels,p
        vertex.label.degree = myOptions$vertex.label.degree,
        # === Edge
        edge.color = myOptions$edge.color,
-       edge.width = igraph::E(g)$weight*myOptions$edge.width,
+       edge.width = 10*igraph::E(g)$weight*myOptions$edge.width,
        edge.arrow.size = myOptions$edge.arrow.size,
        edge.arrow.width = myOptions$edge.arrow.width,
        edge.lty = myOptions$edge.lty,
@@ -361,87 +360,152 @@ plotMeso <- function(thetaMean, pi,model,directed,bipartite,nbNodes,nodeLabels,p
 }
 
 
-
+##################################################################################
+#----------------------------------------------------------------------------------
+##################################################################################
 #-----------------------------------------------------------------
-plotMesoMultipartite <- function(E,list_thetaMean, list_pi,list_model,directed,bipartite,nbNodes,nodeLabels,plotOptions){
-  #
-  #
-  #
-  #   nbFG <- length(list_pi)
-  #   nbNet <- nrow(E)
-  #   nbBlocks <- sapply(list_pi,length)
-  #   #---- les couleurs
-  #
-  #   color <- c('salmon2','darkolivegreen3','cadetblue2','darkgoldenrod2','lightsteelblue1','plum2','seagreen')
-  #   if ( (nbFG > length(color)) & is.null(plotOptions$vertex.color)){stop('Too many FG. Define your own vertex.colors')}
-  #   mycolor <- color[1:nbFG]
-  #
-  #
-  #   currentOptions <- list(seed = NULL,
-  #                          title = NULL,
-  #                          layout = NULL,
-  #                          vertex.color = mycolor,
-  #                          vertex.frame.color = "black",                  # Node border color
-  #                          vertex.shape = "circle",                        # One of “none”, “circle”, “square”, “csquare”, “rectangle” “crectangle”, “vrectangle”, “pie”, “raster”, or “sphere”
-  #                          vertex.size = 2,                               # Size of the node (default is 15)
-  #                          vertex.size2 = NA,                              # The second size of the node (e.g. for a rectangle)
-  #                          # === vertex label
-  #                          vertex.label = NULL,                   # Character vector used to label the nodes
-  #                          vertex.label.color =  "black",
-  #                          vertex.label.font = 2,                          # Font: 1 plain, 2 bold, 3, italic, 4 bold italic, 5 symbol
-  #                          vertex.label.cex = 0.9,                           # Font size (multiplication factor, device-dependent)
-  #                          vertex.label.dist = 0,                          # Distance between the label and the vertex
-  #                          vertex.label.degree = 0 ,                       # The position of the label in relation to the vertex (use pi)
-  #                          # === Edge
-  #                          edge.threshold = -Inf,
-  #                          edge.color = "gray",                           # Edge color
-  #                          edge.width = 10,                    # Edge width, defaults to 10
-  #                          edge.arrow.size = 1,                            # Arrow size, defaults to 1
-  #                          edge.arrow.width = 2,                           # Arrow width, defaults to 1
-  #                          edge.lty = "solid",                             # Line type, could be 0 or “blank”, 1 or “solid”, 2 or “dashed”, 3 or “dotted”, 4 or “dotdash”, 5 or “longdash”, 6 or “twodash”
-  #                          edge.curved = 0.3)
-  #
-  #
-  #
-  #   #### labels of the vertices depending on their FG
-  #   vertex.Label   <- substr(nodeLabels,1,1)
-  #   i = 1;
-  #   while ( length(unique(vertex.Label))< nbFG & (i <= nbFG)){i = i + 1; vertex.Label <- substr(nodeLabels,1,i)}
-  #
-  #   #param <- resMBM$fittedModel[[whichModel]]$paramEstim
-  #
-  #   labelNode <- lapply(1:nbFG,function(q){paste(vertex.Label[q],1:nbBlocks[q],sep='')})
-  #   colNode <- lapply(1:nbFG,function(q){rep(mycolor[q],nbBlocks[q])})
-  #
-  #   u <- c(pi$row*nbNodes[1],pi$col*nbNodes[2])
-  #
-  #   sizeNode <- lapply(1:nbFG,function(q){list_pi[[q]]*nbNodes[q]*currentOptions$vertex.size})
-  #
-  #   cumVK <-  c(0,cumsum(nbBlocks))
-  #   codeNode <- lapply(2:(nbFG + 1),function(q){seq(cumVK[q - 1] + 1,cumVK[q],1)})
-  #
-  #   list_edges <- lapply(1:nbNet, function(i) {
-  #     qRow <- E[i, 1]
-  #     qCol <- E[i, 2]
-  #     list_theta_i <- list_theta[[i]]
-  #     c1 <- rep(codeNode[[qRow]], times = nbBlocks[qCol])
-  #     c2 <- rep(codeNode[[qCol]], each = nbBlocks[qRow])
-  #     edges_i <- cbind(c1, c2, c(list_theta_i))
-  #     edges_i <- as.data.frame(edges_i)
-  #     edges_i$type <- rep(dataR6$typeInter[i], length(c1))
-  #     return(edges_i)
-  #   })
-  # allEdges <- do.call("rbind", list_edges)
-  #
-  #
-  # allEdges$arrow_mode <- rep(0,nrow(allEdges))  # directed or nont directed
-  # allEdges$arrow_mode[allEdges$type == "diradj"] = 2
-  #
-  # # allEdges <- rbind(allEdges,c(2,2,10))
-  # # allEdges$type[nrow(allEdges)] = "diradj"
-  # w <- which(allEdges[,3] > thres)
-  # edges <- allEdges[w,c(1,2)]
-  # curved <- 0 * (allEdges[w,4] == "diradj")
-  #
+#' @importFrom graphics par
+#' @importFrom graphics plot
+plotMesoMultipartite <- function(E,theta, list_pi,v_distrib,directed,nbNodes,nodeLabels,plotOptions){
+
+
+  directed[is.na(directed)] <- 'FALSE'
+  nbFG <- length(list_pi)
+  nbNet <- nrow(E)
+  nbBlocks <- sapply(list_pi,length)
+
+  list_thetaMean <- lapply(theta,function(u){u$mean})
+
+  #------------------------------------------list of colors and forms  ---------
+  colors <- c('salmon2','darkolivegreen3','cadetblue2','darkgoldenrod2','lightsteelblue1','plum2','seagreen')
+  if ( (nbFG > length(colors)) & is.null(plotOptions$vertex.color)){stop('Too many FG. Define your own vertex.color')}
+  forms <- c('circle', 'square', 'csquare', 'rectangle' , 'crectangle', 'vrectangle', 'pie', 'raster', 'sphere')
+  if ( (nbFG > length(colors)) & is.null(plotOptions$vertexshape)){stop('Too many FG. Define your own vertex.shape')}
+
+  #----------------------------------------------------------------------------------
+
+  currentOptions <- list(seed = NULL,
+                         title = NULL,
+                         layout = NULL,
+                         vertex.color = colors[1:nbFG],
+                         vertex.frame.color = rep("black",nbFG),#"white",                 # Node border color
+                         vertex.shape = forms[1:nbFG],                        #
+                         vertex.size = rep(1,nbFG),                               # Size of the node (default is 15)
+                         vertex.size2 = rep(NA,nbFG),                              # The second size of the node (e.g. for a rectangle)
+                         # === vertex label
+                         vertex.label.name = nodeLabels,                   # Character vector used to label the nodes
+                         vertex.label.color =  rep("black",nbFG),#"white",
+                         vertex.label.font = rep(2,nbFG),                          # Font: 1 plain, 2 bold, 3, italic, 4 bold italic, 5 symbol
+                         vertex.label.cex = rep(0.9,nbFG),                           # Font size (multiplication factor, device-dependent)
+                         vertex.label.dist = rep(0,nbFG),                          # Distance between the label and the vertex
+                         vertex.label.degree = rep(0,nbFG) ,                       # The position of the label in relation to the vertex (use pi)
+                         # === Edge
+                         edge.threshold = -Inf,
+                         edge.color = "gray",#"white",                           # Edge color
+                         edge.width = 1,                    # Edge width, defaults to 10
+                         edge.arrow.size = 1,                            # Arrow size, defaults to 1
+                         edge.arrow.width = 1,                           # Arrow width, defaults to 1
+                         edge.lty = "solid",                             # Line type, could be 0 or “blank”, 1 or “solid”, 2 or “dashed”, 3 or “dotted”, 4 or “dotdash”, 5 or “longdash”, 6 or “twodash”
+                         edge.curved = 0.3)
+
+  currentOptions[names(plotOptions)] <- plotOptions
+  if (currentOptions$edge.threshold != -Inf) {
+    cat(paste("Nota bene: threshold on connexions is",currentOptions$edge.threshold,sep = ' '))
+  }
+  #---------------------------------------"
+  if (is.null(plotOptions$vertex.label.name)){
+    vertex.label <- substr(currentOptions$vertex.label.name, 1, 1)
+    i = 1
+    while (length(unique(vertex.label)) < 2 & (i <= 2)) {i = i + 1; vertex.label <- substr(currentOptions$vertex.label.name, 1, i)}
+  }else{
+    vertex.label   = plotOptions$vertex.label.name
+  }
+  #if (is.atomic(vertex.label)){vertex.label= as.list(vertex.label)}
+
+  layout <- currentOptions$layout
+  myOptions <- currentOptions
+  w.vertex.options <- stringr::str_detect(names(currentOptions), "vertex.")
+  myOptions <- lapply(1:length(currentOptions),
+    function(p){if (w.vertex.options[p]){rep(currentOptions[[p]],nbBlocks)}else{currentOptions[[p]]}})
+  names(myOptions) <- names(currentOptions)
+  labelNode <- unlist(lapply(1:nbFG,function(q){paste(vertex.label[q],1:nbBlocks[q],sep='')}))
+
+  #--------------------------- meatagraph g
+
+  N <- sum(nbBlocks);
+  DIR <- alpha <- matrix(0, N,N);
+  alpha.norm <- alpha
+  G <- matrix(0, nbFG, nbFG);
+  G[E[, 1], E[, 2]] = 1
+  EndFG <- cumsum(nbBlocks);  BegFG <- c(0, cumsum(nbBlocks)[-nbFG]) + 1
+  for (i in 1:nbFG) {
+    for (j in 1:nbFG) {
+      if (G[i, j] == 1) {
+        place_row <-  BegFG[i]:EndFG[i]
+        place_col <-  BegFG[j]:EndFG[j]
+        kij <-
+          which(rowSums(E == matrix(
+            rep(c(i, j), nbNet),
+            ncol = 2,
+            nrow = nbNet,
+            byrow = T
+          )) == 2)
+        alpha_rc <- list_thetaMean[[kij]]
+        alpha_rc[alpha_rc < currentOptions$edge.threshold] <- 0
+        alpha[place_row, place_col] <- alpha_rc
+        model_kij <- v_distrib[kij]
+
+        if (model_kij == "bernoulli"){alpha.norm_rc  = alpha_rc};
+        if (model_kij == "poisson"){alpha.norm_rc = alpha_rc/max(alpha_rc)}
+        if ( !(model_kij %in% c("bernoulli","poisson"))){alpha.norm_rc = (alpha_rc - min(alpha_rc))/(max(alpha_rc) - min(alpha_rc)) + 0.1}
+        alpha.norm[place_row, place_col] <- alpha.norm_rc
+        DIR[place_row,place_col] = directed[kij]
+      }
+    }
+  }
+
+
+
+  colnames(alpha.norm) <- rownames(alpha.norm) <- labelNode
+  g <- igraph::graph.adjacency(alpha.norm, mode = 'directed', weighted = TRUE,diag = TRUE)
+  if (is.null(layout)){layout <- igraph::layout_with_fr(g)}
+  u <- unlist(lapply(1:nbFG, function(p){list_pi[[p]]*nbNodes[p]}))
+
+  igraph::E(g)$width <- 1 + as.integer(igraph::E(g)$weight*10)
+
+
+  DIR <-c(c(t(DIR))[c(t(alpha.norm)) != 0] != 'FALSE')
+
+
+  currentOptions$seed <- .Random.seed
+  set.seed(currentOptions$seed)
+  old_par <- par(mar = rep(0.15,4))
+  plot(g, layout = layout,
+     # === vertex
+     vertex.color = myOptions$vertex.color,
+     vertex.frame.color = myOptions$vertex.frame.color,
+     vertex.shape = myOptions$vertex.shape,
+     vertex.size = myOptions$vertex.size*u,
+     vertex.size2 = myOptions$vertex.size2,
+     # === vertex label
+     vertex.label = labelNode,
+     vertex.label.color = myOptions$vertex.label.color,
+     vertex.label.family = myOptions$vertex.label.family,
+     vertex.label.cex = myOptions$vertex.label.cex,
+     vertex.label.dist = myOptions$vertex.label.dist[1],
+     vertex.label.degree = myOptions$vertex.label.degree,
+     # === Edge
+     edge.color = myOptions$edge.color,
+     edge.width = 10*igraph::E(g)$weight*myOptions$edge.width,
+     edge.arrow.size = max(DIR)*myOptions$edge.arrow.size,
+     edge.arrow.width = max(DIR)*myOptions$edge.arrow.width,
+     edge.lty = myOptions$edge.lty,
+     edge.curved = myOptions$edge.curved,
+     main = myOptions$title
+     )
+    par(old_par)
+    list(g = g,layout = layout,plotOptions = currentOptions)
+
+
 
 }

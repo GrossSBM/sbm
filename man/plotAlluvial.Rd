@@ -7,15 +7,25 @@
 plotAlluvial(listMemberships, plotOptions = list())
 }
 \arguments{
-\item{plotOptions}{: a list containing the options for Alluvial plots}
+\item{listMemberships}{: a list vectors containing the memberships}
 
-\item{list}{: a list vectors containing the memberships}
+\item{plotOptions}{: a list containing the options for Alluvial plots}
 }
 \value{
-display the alluvial plot, return the plotOptions
+display the alluvial plot, returns the plotOptions as a list
 }
 \description{
 Plot an alluvial plot between  clusterings
+}
+\details{
+The list of parameters \code{plotOptions} provides the following options
+\itemize{
+\item{"curvy"}{numeric, controls the curvature of the alluvial. Default value = 0.3}
+\item{"alpha}{numeric, vector of transparency of the stripes. Default value = 0.8}
+\item{"gap.width"}{numeric, relative width of inter-category gaps. Default value = 0.1}
+\item{"col"}{vector of colors of the stripes. Default value = "darkolivegreen3"}
+\item{"border"}{vector of border colors for the stripes. Default is white}
+}
 }
 \examples{
 listMemberships <- list(C1 = rep(c('A','B','C'),each=10),C2 = rep(c(1,2,4),10))
