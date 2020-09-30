@@ -244,7 +244,7 @@ estimateBipartiteSBM <- function(netMat,
 #' connectParam[[1]] <- list(mean = matrix(mu,nrow = nbBlocks[E[1,1]], ncol = nbBlocks[E[1,2]] ))
 #' mu <- rgamma(nbBlocks[E[2,1]] * nbBlocks[E[2,2]],7.5,0.01 )
 #' connectParam[[2]] <- list(mean  =  matrix(mu,nrow = nbBlocks[E[2,1]], ncol = nbBlocks[E[2,2]]))
-#' p <- rbeta(nbBlocks[E[3,1]] * nbBlocks[E[3,2]],0.9,0.0 )
+#' p <- rbeta(nbBlocks[E[3,1]] * nbBlocks[E[3,2]],0.9,0.9 )
 #' p <- 1/2*(p + t(p))
 #' connectParam[[3]] <- list(mean  =  matrix(p, nrow = nbBlocks[E[3,1]], ncol = nbBlocks[E[3,2]]))
 #' mu <- rnorm(nbBlocks[E[4,1]] * nbBlocks[E[4,2]],7.5,10 )

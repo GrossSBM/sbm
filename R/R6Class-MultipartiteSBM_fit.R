@@ -176,7 +176,7 @@ MultipartiteSBM_fit <-
       nbConnectParam <-sapply(GO$fittedModel, function(m){
         E <- private$E;
         distrib <- private$distrib
-        directed <- private$directed
+        directed <- private$directed_
         r <- computeNbConnectParams_MBM(m$paramEstim$v_K,distrib,E,directed)
         r})
       nbParams  <- nbConnectParam + rowSums(Blocks) - ncol(Blocks)

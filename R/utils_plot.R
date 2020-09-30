@@ -68,64 +68,86 @@ plotMatrix = function(Mat, dimLabels, clustering = NULL){
 #----------------------------------------------------------------------------------
 ##################################################################################
 #' @importFrom rlang .data
-plotMultipartiteMatrix = function(list_Mat, E, nbNodes, namesFG, normalized, clustering) {
+plotMultipartiteMatrix = function(list_Mat, E, nbNodes, namesFG, normalized, distrib, clustering) {
 
+
+  reordered <- !is.null(clustering)
   nbFG <- length(unique(c(E)))
   nbNet <- length(list_Mat)
+  if (reordered){
+    nbBlocks <- sapply(clustering,function(s){length(unique(s))})
+  }
 
   if (normalized){
-
-    list_Mat = lapply(list_Mat,function(mat){
-      val = c(mat)
-      mat = (mat - min(val))/(max(val)-min(val))})
+    list_Mat = lapply(1:nbNet,function(s){
+      model <- distrib[s]
+      mat  <- list_Mat[[s]]
+      if (model == "poisson"){mat = mat/max(mat)}
+      if ( !(model %in% c("bernoulli","poisson"))){mat = (mat - min(mat))/(max(mat) - min(mat)) + 0.1}
+      return(mat)
+    }
+    )
   }
 
 
   ############################  meta matrix
-  N <- sum(nbNodes)
-  MetaMat <- matrix(NA, N, N)
-
   # network of matrices
   G <- matrix(0, nbFG, nbFG)
   G[E[, 1], E[, 2]] = 1
-  #uRow <- which(rowSums(G) > 0)
-  #uCol <- which(colSums(G) > 0)
   # places in metamatrix
   EndFG <- cumsum(nbNodes)
   BegFG <- c(0, cumsum(nbNodes)[-nbFG]) + 1
   #  reordering if clusterings
 
   #browser()
-  if (!is.null(clustering)) {
-    #sepRow <- sepCol <- list()
-    list_Mat_reorder <- list_Mat
+  if (reordered) {
+
+    ########## separators
+
+    sepRow <- unlist(lapply(1:nbFG, function(l){
+      uRow <- cumsum(table(clustering[[l]])) + 0.5
+      uRow <- uRow[-length(uRow)]
+      uRow <- nbNodes[l] - uRow
+      uRow}))
+
+    sepCol  <- unlist(lapply(1:nbFG, function(l){
+      uCol <- cumsum(table(clustering[[l]])) + 0.5
+      uCol <- uCol[-length(uCol)]
+      uCol <- nbNodes[l] - uCol
+      uCol}))
+
+    Indexsepar <- unlist(lapply(1:nbFG,function(l){rep(l,nbBlocks[l]-1)}))
+    Namesepar <- unlist(lapply(1:nbFG,function(l){rep(namesFG[l],nbBlocks[l]-1)}))
+    p <- length(Indexsepar)
+
+    MetaSep <- as.data.frame(rep(sepCol,each = p))
+    names(MetaSep) = 'sepx'
+    MetaSep$sepy <- rep(sepRow,p)
+    MetaSep$indexFGx <- rep(Indexsepar ,each= p )
+    MetaSep$indexFGy <- rep(Indexsepar ,p )
+    MetaSep$FG_row <- rep(Namesepar ,each=p)
+    MetaSep$FG_col <- rep(Namesepar ,p)
+
+    testObs <- vapply(1:nrow(MetaSep), function(i){G[MetaSep$indexFGx[i], MetaSep$indexFGy[i]]},1)
+    MetaSep <- MetaSep[testObs == 1, ]
     # reorder
+    list_Mat_reorder <- list_Mat
     for (l in 1:nbNet) {
       clustering_row <- clustering[[E[l, 1]]]
       clustering_col <- clustering[[E[l, 2]]]
       oRow <- order(clustering_row)
       oCol <- order(clustering_col)
       list_Mat_reorder[[l]] <- list_Mat[[l]][oRow, oCol]
-      #uRowSep <- cumsum(table(clustering_row)) + 0.5
-      #uRowSep <- uRowSep[-length(uRowSep)]
-
-      #uColSep <- cumsum(table(clustering_col)) + 0.5
-      #uColSep <- uColSep[-length(uColSep)]
-      #sepCol[[l]] <- as.data.frame(BegFG[E[l, 2]] + uColSep)
-      #sepRow[[l]] <- as.data.frame(uRowSep)
-      #sepRow[[l]] = BegFG[E[l, 1]] + nbNodes[E[l, 1]] - sepRow[[l]]
-      #names(sepCol[[l]]) = names(sepRow[[l]]) = 'sep'
-      #sepRow[[l]]$FG <- namesFG[E[l, 1]]
-      #sepCol[[l]]$FG <- namesFG[E[l, 2]]
     }
     list_Mat <- list_Mat_reorder
-    #sepRow <- do.call(rbind,sepRow)
-    #sepCol <- do.call(rbind,sepCol)
+
   }
 
 
 
   #indFGCol <- indFGRow <- rep(1:nbFG, times = nbNodes)
+  N <- sum(nbNodes)
+  MetaMat <- matrix(NA, N, N)
   for (i in 1:nbFG) {
     for (j in 1:nbFG) {
       if (G[i, j] == 1) {
@@ -170,7 +192,7 @@ plotMultipartiteMatrix = function(list_Mat, E, nbNodes, namesFG, normalized, clu
   index_col = rep(1:dim(MetaMatSmall)[2], dim(MetaMatSmall)[1])
   melted_Mat = data.frame(c(t(MetaMatSmall)))
   names(melted_Mat) <- c('link')
-  melted_Mat$index_row <- dim(MetaMatSmall)[1] - index_row
+  melted_Mat$index_row <- dim(MetaMatSmall)[1] - index_row + 1
   melted_Mat$index_col <- index_col
   melted_Mat$FG_row <- as.factor(rep(FGRowSmall, each = dim(MetaMatSmall)[2]))
   melted_Mat$FG_col <- as.factor(rep(FGColSmall,  dim(MetaMatSmall)[1]))
@@ -202,7 +224,12 @@ plotMultipartiteMatrix = function(list_Mat, E, nbNodes, namesFG, normalized, clu
   }
   g <- g +  labs(x = '', y = '')
   g <- g + theme(axis.text.x = element_text(angle = 270, hjust = 0))
-  g <- g + facet_grid(FG_row ~ FG_col, scales = 'free', space = 'free')
+  g <- g + facet_grid(FG_row~ FG_col, scales = 'free', space = 'free')
+
+  #if (reordered){
+  #  g <- g + geom_hline(data= MetaSep, aes(yintercept = sepx),col='orange')
+  #  g <- g + geom_vline(data= MetaSep, aes(xintercept = sepy),col='orange')
+  #}
   g
 }
 
@@ -426,7 +453,7 @@ plotMesoMultipartite <- function(E,theta, list_pi,v_distrib,directed,nbNodes,nod
   myOptions <- currentOptions
   w.vertex.options <- stringr::str_detect(names(currentOptions), "vertex.")
   myOptions <- lapply(1:length(currentOptions),
-    function(p){if (w.vertex.options[p]){rep(currentOptions[[p]],nbBlocks)}else{currentOptions[[p]]}})
+    function(p){if (w.vertex.options[p]){rep(currentOptions[[p]],nbFG)}else{currentOptions[[p]]}})
   names(myOptions) <- names(currentOptions)
   labelNode <- unlist(lapply(1:nbFG,function(q){paste(vertex.label[q],1:nbBlocks[q],sep='')}))
 
@@ -469,7 +496,7 @@ plotMesoMultipartite <- function(E,theta, list_pi,v_distrib,directed,nbNodes,nod
   colnames(alpha.norm) <- rownames(alpha.norm) <- labelNode
   g <- igraph::graph.adjacency(alpha.norm, mode = 'directed', weighted = TRUE,diag = TRUE)
   if (is.null(layout)){layout <- igraph::layout_with_fr(g)}
-  u <- unlist(lapply(1:nbFG, function(p){list_pi[[p]]*nbNodes[p]}))
+  u <- unlist(lapply(1:nbFG, function(p){list_pi[[p]]*100}))
 
   igraph::E(g)$width <- 1 + as.integer(igraph::E(g)$weight*10)
 

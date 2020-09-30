@@ -29,6 +29,8 @@ R6 virtual class for Multipartite SBM representation
 \item{\code{expectation}}{expected values of connection under the currently adjusted model}
 
 \item{\code{modelName}}{vector of characters, the family of model for the distribution of the edges in each network}
+
+\item{\code{directed}}{: vector of boolean}
 }
 \if{html}{\out{</div>}}
 }

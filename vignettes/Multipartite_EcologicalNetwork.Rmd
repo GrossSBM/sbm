@@ -100,11 +100,11 @@ See @multipartite for details.
 
 The model selection and the estimation are performed with the function `estimatemultipartiteBM`.
 
-```{r load result, echo = FALSE, eval = TRUE}
+```{r load result, echo = FALSE, eval = FALSE}
 load('resMultipartiteEcological.rda')
 ``` 
 
-```{r MBM, echo = TRUE, eval = FALSE}
+```{r MBM, echo = TRUE, eval = TRUE}
 estimOptions = list(initBM = FALSE)
 listSBM <- list(PlantFlovis, PlantAnt, PlantBird)
 myMSBM <- estimateMultipartiteSBM(listSBM,estimOptions)
@@ -114,22 +114,29 @@ save(myMSBM,file='resMultipartiteEcological.rda')
 
 \code{myMSBM} contains the estimated parameters of the models we run through during the search of the better numbers of blocks. 
 
-
 RES_MBM constains de dataset and the results.  
 ```{r MBM what}
 myMSBM
 ``` 
 
-The better model has the following numbers of blocks
+
+The best model has the following numbers of blocks
 ```{r MBM v_K }
 myMSBM$nbBlocks
 ```
+
 
 To see the parameters estimated for the better model we use the following command `myMSBM$connectParam` or `myMSBM$blockProp`
 ```{r MBM param }
 myMSBM$blockProp
 myMSBM$connectParam
 ```
+
+
+
+
+
+
 
 The clustering  supplied by the better model  are in `myMSBM$memberships***`.
 
@@ -138,17 +145,22 @@ table(myMSBM$memberships$Plants)
 table(myMSBM$memberships$Ants)      
 ``` 
 
+```{r storedmodels}
+myMSBM$storedModels
+``` 
+
 ## Plots 
 We can either plot the reorganized matrix
 ```{r plot, eval = TRUE }
 plot(myMSBM) 
 ``` 
 
-of the mescopic view
-```{r plot meso, eval = TRUE}
-plot(myMSBM,type = 'meso')
+or the mesoscopic view
+```{r plot meso, eval = FALSE}
+plot(myMSBM,type = 'meso',plotOptions=list(vertex.size = 0.5))
 ```
 
+Will soon be ready
 
 ## References
 
