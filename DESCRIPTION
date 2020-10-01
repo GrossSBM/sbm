@@ -39,7 +39,8 @@ Imports:
     ggplot2,
     GREMLIN,
     stringr,
-    rlang
+    rlang,
+    reshape
 Remotes: Demiperimetre/GREMLIN
 Collate: 
     'R6Class-SBM.R'

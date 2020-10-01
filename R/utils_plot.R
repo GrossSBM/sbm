@@ -68,26 +68,38 @@ plotMatrix = function(Mat, dimLabels, clustering = NULL){
 #----------------------------------------------------------------------------------
 ##################################################################################
 #' @importFrom rlang .data
-plotMultipartiteMatrix = function(list_Mat, E, nbNodes, namesFG, normalized, distrib, clustering) {
+plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG, normalized, distrib, clustering,plotOptions=list()) {
 
 
+
+
+
+  list_Mat <- listMat
   reordered <- !is.null(clustering)
   nbFG <- length(unique(c(E)))
   nbNet <- length(list_Mat)
+
   if (reordered){
     nbBlocks <- sapply(clustering,function(s){length(unique(s))})
+    list_Mat_reorder <- lapply(1:nbNet, function(l){
+      clustering_row <- clustering[[E[l, 1]]]
+      clustering_col <- clustering[[E[l, 2]]]
+      oRow <- order(clustering_row)
+      oCol <- order(clustering_col)
+      list_Mat[[l]][oRow, oCol]})
+    list_Mat <- list_Mat_reorder
   }
-
   if (normalized){
-    list_Mat = lapply(1:nbNet,function(s){
-      model <- distrib[s]
-      mat  <- list_Mat[[s]]
+    list_Mat = lapply(1:nbNet,function(l){
+      model <- distrib[l]
+      mat  <- list_Mat[[l]]
       if (model == "poisson"){mat = mat/max(mat)}
       if ( !(model %in% c("bernoulli","poisson"))){mat = (mat - min(mat))/(max(mat) - min(mat)) + 0.1}
       return(mat)
     }
     )
   }
+  binary = ifelse(all(distrib == 'bernoulli'),TRUE,FALSE)
 
 
   ############################  meta matrix
@@ -95,125 +107,54 @@ plotMultipartiteMatrix = function(list_Mat, E, nbNodes, namesFG, normalized, dis
   G <- matrix(0, nbFG, nbFG)
   G[E[, 1], E[, 2]] = 1
   # places in metamatrix
-  EndFG <- cumsum(nbNodes)
-  BegFG <- c(0, cumsum(nbNodes)[-nbFG]) + 1
-  #  reordering if clusterings
-
-  #browser()
-  if (reordered) {
-
-    ########## separators
-
-    sepRow <- unlist(lapply(1:nbFG, function(l){
-      uRow <- cumsum(table(clustering[[l]])) + 0.5
-      uRow <- uRow[-length(uRow)]
-      uRow <- nbNodes[l] - uRow
-      uRow}))
-
-    sepCol  <- unlist(lapply(1:nbFG, function(l){
-      uCol <- cumsum(table(clustering[[l]])) + 0.5
-      uCol <- uCol[-length(uCol)]
-      uCol <- nbNodes[l] - uCol
-      uCol}))
-
-    Indexsepar <- unlist(lapply(1:nbFG,function(l){rep(l,nbBlocks[l]-1)}))
-    Namesepar <- unlist(lapply(1:nbFG,function(l){rep(namesFG[l],nbBlocks[l]-1)}))
-    p <- length(Indexsepar)
-
-    MetaSep <- as.data.frame(rep(sepCol,each = p))
-    names(MetaSep) = 'sepx'
-    MetaSep$sepy <- rep(sepRow,p)
-    MetaSep$indexFGx <- rep(Indexsepar ,each= p )
-    MetaSep$indexFGy <- rep(Indexsepar ,p )
-    MetaSep$FG_row <- rep(Namesepar ,each=p)
-    MetaSep$FG_col <- rep(Namesepar ,p)
-
-    testObs <- vapply(1:nrow(MetaSep), function(i){G[MetaSep$indexFGx[i], MetaSep$indexFGy[i]]},1)
-    MetaSep <- MetaSep[testObs == 1, ]
-    # reorder
-    list_Mat_reorder <- list_Mat
-    for (l in 1:nbNet) {
-      clustering_row <- clustering[[E[l, 1]]]
-      clustering_col <- clustering[[E[l, 2]]]
-      oRow <- order(clustering_row)
-      oCol <- order(clustering_col)
-      list_Mat_reorder[[l]] <- list_Mat[[l]][oRow, oCol]
-    }
-    list_Mat <- list_Mat_reorder
-
-  }
+  GRow <- as.numeric(rowSums(G)>=1)
+  GCol <- as.numeric(colSums(G)>=1)
+  EndFG_row <- cumsum(nbNodes * GRow)
+  BegFG_row <- c(0, cumsum(nbNodes * GRow )[-nbFG]) + 1
+  EndFG_col <- cumsum(nbNodes * GCol)
+  BegFG_col <- c(0, cumsum(nbNodes * GCol )[-nbFG]) + 1
 
 
 
-  #indFGCol <- indFGRow <- rep(1:nbFG, times = nbNodes)
-  N <- sum(nbNodes)
-  MetaMat <- matrix(NA, N, N)
+  MetaMat <- matrix(NA, sum(nbNodes*GRow), sum(nbNodes*GCol))
   for (i in 1:nbFG) {
     for (j in 1:nbFG) {
       if (G[i, j] == 1) {
-        place_row <-  BegFG[i]:EndFG[i]
-        place_col <-  BegFG[j]:EndFG[j]
-        kij <-
-          which(rowSums(E == matrix(
-            rep(c(i, j), nbNet),
-            ncol = 2,
-            nrow = nbNet,
-            byrow = T
-          )) == 2)
-
+        place_row <-  BegFG_row[i]:EndFG_row[i]
+        place_col <-  BegFG_col[j]:EndFG_col[j]
+        kij <- which(rowSums(E == matrix(rep(c(i, j), nbNet),ncol = 2,nrow = nbNet, byrow = T )) == 2)
         MetaMat[place_row, place_col] <- list_Mat[[kij]]
       }
     }
   }
-  FGCol <- FGRow <- rep(namesFG, times = nbNodes)
-  uRow <- which(apply(MetaMat , 1, function(u){all(is.na(u))}))
-  uCol <- which(apply(MetaMat , 2, function(u){all(is.na(u))}))
-
-  # reduce matrix
-  MetaMatSmall <- MetaMat
-  FGColSmall <- FGCol
-  FGRowSmall <- FGRow
-  if (length(uRow) > 0 ){
-    MetaMatSmall <- MetaMatSmall[-uRow,]
-    FGRowSmall <- FGRowSmall[-uRow]
-  }
-  if (length(uCol) > 0 ){
-    MetaMatSmall <- MetaMatSmall[,-uCol]
-    FGColSmall <- FGColSmall[-uCol]
-  }
-  binary = FALSE
-  val <- sort(unique(c(MetaMatSmall)))
-  if (setequal(val , c(0, 1))) {
-    binary = TRUE
-  }
-
-  # changement en MELTED
-  index_row = rep(1:dim(MetaMatSmall)[1], each = dim(MetaMatSmall)[2])
-  index_col = rep(1:dim(MetaMatSmall)[2], dim(MetaMatSmall)[1])
-  melted_Mat = data.frame(c(t(MetaMatSmall)))
-  names(melted_Mat) <- c('link')
-  melted_Mat$index_row <- dim(MetaMatSmall)[1] - index_row + 1
-  melted_Mat$index_col <- index_col
-  melted_Mat$FG_row <- as.factor(rep(FGRowSmall, each = dim(MetaMatSmall)[2]))
-  melted_Mat$FG_col <- as.factor(rep(FGColSmall,  dim(MetaMatSmall)[1]))
+  FGCol <- rep(namesFG, times = nbNodes*GCol)
+  FGRow <- rep(namesFG, times = nbNodes*GRow)
+  melted_Mat = reshape::melt(t(MetaMat))
+  names(melted_Mat) <- c('index_col','index_row','link')
+  melted_Mat$index_row <- dim(MetaMat)[1] - melted_Mat$index_row + 1
+  melted_Mat$FG_row <- as.factor(rep(FGRow, each = dim(MetaMat)[2]))
+  melted_Mat$FG_col <- as.factor(rep(FGCol,  dim(MetaMat)[1]))
   range_melted <- range(c(melted_Mat$link))
   if (binary) { melted_Mat$link <- as.factor(melted_Mat$link)}
 
+
   # plots
+
+  currentOptions = list(line.color  = 'red', line.width = mean(dim(MetaMat))/300,legend = FALSE)
+  currentOptions[names(plotOptions)] = plotOptions
 
   g <- ggplot2::ggplot(melted_Mat, aes(y = index_row, x = index_col, fill = .data$link))
   g <- g + geom_tile()
   name_legend <- ifelse(normalized,"Norm. Link","Link")
   g <- g  +  scale_x_discrete(drop = FALSE) + scale_y_discrete(drop = FALSE)
   if (!binary) {
-
     g <- g +  scale_fill_gradient(
-        low = "white",
-        high = "black",
-        limits = range_melted,
-        na.value = "transparent",
-        name = name_legend
-      )
+      low = "white",
+      high = "black",
+      limits = range_melted,
+      na.value = "transparent",
+      name = name_legend
+    )
   } else{
     g <-
       g + scale_fill_manual(
@@ -224,12 +165,38 @@ plotMultipartiteMatrix = function(list_Mat, E, nbNodes, namesFG, normalized, dis
   }
   g <- g +  labs(x = '', y = '')
   g <- g + theme(axis.text.x = element_text(angle = 270, hjust = 0))
+  if(!currentOptions$legend){g <- g + theme(legend.position = 'none')}
   g <- g + facet_grid(FG_row~ FG_col, scales = 'free', space = 'free')
 
-  #if (reordered){
-  #  g <- g + geom_hline(data= MetaSep, aes(yintercept = sepx),col='orange')
-  #  g <- g + geom_vline(data= MetaSep, aes(xintercept = sepy),col='orange')
-  #}
+  ########## separators
+
+  if (reordered){
+    separate <- unlist(lapply(1:nbFG, function(l){
+      sepColl <- cumsum(table(clustering[[l]])) + 0.5
+      sepColl <- sepColl[-length(sepColl)]
+      sepColl}))
+    nbSep <- length(separate)
+    separCol <- data.frame(sepCol = (separate + rep(c(0,cumsum(GCol*nbNodes)[-nbFG]),nbBlocks-1)),
+                           FG_col = rep(namesFG,nbBlocks-1),
+                           FG_col_index = rep(1:nbFG,nbBlocks-1))
+    separCol <- do.call("rbind", replicate( nbFG,separCol ,simplify = FALSE))
+    separCol$FG_row <- rep(namesFG,each = nbSep)
+    separCol$FG_row_index <- rep(1:nbFG,each = nbSep)
+    testCol <- vapply(1:(nbSep*nbFG),function(i){1*(G[separCol$FG_row_index[i],separCol$FG_col_index[i]]==1)},1)
+    separCol <- separCol[testCol==1,]
+
+    separRow <- data.frame(sepRow = 1 + sum(nbNodes*GRow) -(separate + rep(c(0,cumsum(GRow*nbNodes)[-nbFG]),nbBlocks-1)),
+                           FG_row = rep(namesFG,nbBlocks-1),
+                           FG_row_index = rep(1:nbFG,nbBlocks-1))
+    separRow <- do.call("rbind", replicate( nbFG,separRow ,simplify = FALSE))
+    separRow$FG_col <- rep(namesFG,each = nbSep)
+    separRow$FG_col_index <- rep(1:nbFG,each = nbSep)
+    testRow <- vapply(1:(nbSep*nbFG),function(i){1*(G[separRow$FG_row_index[i],separRow$FG_col_index[i]]==1)},1)
+    separRow <- separRow[testRow==1,]
+
+    g <- g + geom_vline(data= separCol, aes(xintercept = sepCol),size= currentOptions$line.width, col=currentOptions$line.color)
+    g <- g + geom_hline(data= separRow, aes(yintercept = sepRow),size= currentOptions$line.width, col=currentOptions$line.color)
+  }
   g
 }
 

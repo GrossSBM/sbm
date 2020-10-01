@@ -113,7 +113,8 @@ BipartiteSBM_fit <-
         rowBlocks <- c(0, unlist(sapply(private$BMobject$memberships, function(m) ncol(m$Z1))))
         colBlocks <- c(0, unlist(sapply(private$BMobject$memberships, function(m) ncol(m$Z2))))
         nbConnectParam <- c(NA, unlist(sapply(private$BMobject$model_parameters, function(param) param$n_parameters)))
-        data.frame(
+        U <- data.frame(
+          indexModel = rowBlocks + colBlocks,
           nbParams  = nbConnectParam + rowBlocks + colBlocks - 2,
           rowBlocks = rowBlocks,
           colBlocks = colBlocks,
@@ -121,6 +122,8 @@ BipartiteSBM_fit <-
           ICL       = private$BMobject$ICL,
           loglik    = private$BMobject$PL
         )
+        U[!is.na(U$nbParams),];
+
       }
     )
   )

@@ -15,23 +15,25 @@ test_that("optimize for multipartite SBM runs GREMLIN", {
   netB <- defineSBM(B,"poisson",type,directed=TRUE,dimLabels=list("Actor","Stuff"))
 
   estimOptions = list(initBM = FALSE,verbosity = 0)
-  E  <- estimateMultipartiteSBM(list(netA,netB),estimOptions)
+  Estim  <- estimateMultipartiteSBM(list(netA,netB),estimOptions)
 
 
 
   # private
   #print(E$GREMLINobject)
 
-  expect_equal(length(E$getBM(1)$memberships),npc*Q)
-  expect_equal(is.list(E$getBM(2)$memberships),TRUE)
+  expect_equal(length(Estim$getBM(1)$memberships),npc*Q)
+  expect_equal(is.list(Estim$getBM(2)$memberships),TRUE)
 
-  expect_equal(length(E$getBM(1)$blockProp),length(unique(E$getBM(1)$memberships)))
-  expect_equal(E$getBM(1)$blockProp,E$getBM(2)$blockProp[[1]])
+  expect_equal(length(Estim$getBM(1)$blockProp),length(unique(Estim$getBM(1)$memberships)))
+  expect_equal(Estim$getBM(1)$blockProp,Estim$getBM(2)$blockProp[[1]])
 
-  expect_equal(length(E$getBM(1)$blockProp),nrow(E$getBM(1)$connectParam$mean))
-  expect_equal(ncol(E$getBM(1)$connectParam$mean),nrow(E$getBM(1)$connectParam$mean))
-  expect_equal(nrow(E$getBM(2)$connectParam$mean),nrow(E$getBM(1)$connectParam$mean))
-
-
+  expect_equal(length(Estim$getBM(1)$blockProp),nrow(Estim$getBM(1)$connectParam$mean))
+  expect_equal(ncol(Estim$getBM(1)$connectParam$mean),nrow(Estim$getBM(1)$connectParam$mean))
+  expect_equal(nrow(Estim$getBM(2)$connectParam$mean),nrow(Estim$getBM(1)$connectParam$mean))
+  expect_equal(lengths(Estim$blockProp),Estim$nbBlocks)
+  expect_equal(length(Estim$blockProp),Estim$nbLabels)
+  expect_equal(length(Estim$connectParam),Estim$nbNetworks)
+  expect_equal(lengths(Estim$memberships),Estim$nbNodes)
 
 })

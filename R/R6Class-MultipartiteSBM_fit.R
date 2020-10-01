@@ -180,10 +180,11 @@ MultipartiteSBM_fit <-
         r <- computeNbConnectParams_MBM(m$paramEstim$v_K,distrib,E,directed)
         r})
       nbParams  <- nbConnectParam + rowSums(Blocks) - ncol(Blocks)
-      U <- cbind(nbParams, Blocks)
+      indexModel <- 1:nbModels
+      U <- cbind(indexModel,nbParams, Blocks)
       U$nbBlocks <-rowSums(Blocks)
       U$ICL <- sapply(GO$fittedModel, function(m) m$ICL)
-      U$loglik  <- rep(NA,nbModels)
+      U$loglik  <- sapply(GO$fittedModel,function(m){len <- length(m$vJ); m$vJ[len]})
       return(U)
     },
     #' @field blockProp : block proportions in each function group

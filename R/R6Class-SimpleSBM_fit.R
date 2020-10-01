@@ -122,12 +122,14 @@ SimpleSBM_fit <-
       storedModels = function(value) {
         nbBlocks <- unlist(sapply(private$BMobject$memberships, function(m) ncol(m$Z)))
         nbConnectParam <- unlist(sapply(private$BMobject$model_parameters, function(param) param$n_parameters))
-        data.frame(
+        U <- data.frame(
+          indexModel  = nbBlocks,
           nbParams = nbConnectParam + nbBlocks - 1,
           nbBlocks = nbBlocks,
           ICL      = private$BMobject$ICL,
           loglik   = private$BMobject$PL
           )
+        U[!is.na(U$nbParams),]
       }
     )
   )

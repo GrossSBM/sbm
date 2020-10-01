@@ -23,8 +23,8 @@ plotAlluvial = function(listMemberships,plotOptions = list()){
 
   nbMemb <- length(listMemberships)
   ### check sizes
-  if (nbMemb < 2){stop('Provide at least to clustergins')}
-  L <- sapply(listMemberships,function(u){length(u)})
+  if (nbMemb < 2){stop('Provide at least to clusterings')}
+  L <- sapply(listMemberships,length)
   test_size <- sum(abs(diff(L))) == 0
   if (!test_size){stop('The clusterings are not of equal sizes')}
   #-------------------------------------"

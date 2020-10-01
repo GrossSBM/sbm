@@ -30,7 +30,7 @@ estimOptions = list(initBM = FALSE)
 myMSBM <- estimateMultipartiteSBM(listSBM,estimOptions)
 
 myMSBM
-list_Mat <- lapply(myMSBM$listSBM,function(s){s$netMatrix})
+listMat <- lapply(myMSBM$listSBM,function(s){s$netMatrix})
 E <- myMSBM$archiMultipartite
 namesFG <- myMSBM$dimLabels
 nbNodes <- myMSBM$nbNodes
@@ -39,4 +39,4 @@ clustering <- myMSBM$memberships
 distrib <- myMSBM$modelName
 
 
-plotMultipartiteMatrix(list_Mat, E, nbNodes, namesFG, normalized, distrib, clustering)
+plotMultipartiteMatrix(listMat, E, nbNodes, namesFG, normalized, distrib, clustering)

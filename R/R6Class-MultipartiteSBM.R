@@ -73,9 +73,14 @@ MultipartiteSBM <-
                                    'expected' = self$predict()
                                    )
             if (ordered) { clust = private$allZ }else{ clust = NULL}
-            outP <- plotMultipartiteMatrix(listNetMatrix, private$E, private$dimFG, private$namesFG,normalized = normalized, clustering = clust)
-
-          }
+            outP <- plotMultipartiteMatrix(listNetMatrix,
+                                           private$E,
+                                           private$dimFG,
+                                           private$namesFG,
+                                           normalized = normalized,
+                                           distrib  = private$distrib,
+                                           clustering = clust,plotOptions)
+            }
           if (type  == 'meso'){
 
             outP <- plotMesoMultipartite(private$E,private$theta, private$pi,private$distrib,private$directed_,private$dimFG,private$namesFG ,plotOptions)

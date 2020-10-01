@@ -129,7 +129,7 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       #' @field nbBlocks vector of number of blocks in each dimension
       nbBlocks   = function(value) {
         if (is.list(private$pi)){
-          r <- sapply(private$pi,function(u){length(u)})
+          r <- sapply(private$pi,length)
         }else{
             r =length(private$pi)
         }
