@@ -112,7 +112,7 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       #' @field covarList list of matrices of covariates
       covarList    = function(value) {if (missing(value)) return(private$X) else private$X <- value},
       #' @field covarEffect effect of covariates
-      covarEffect  = function(value) {if (self$nbCovariates > 0) return(roundProduct(simplify2array(private$X), private$beta)) else return(numeric(0))},
+      covarEffect  = function(value) {if (self$nbCovariates > 0) return(roundProduct(private$X, private$beta)) else return(numeric(0))},
       #' @field netMatrix the matrix (adjacency or incidence) encoding the network
       netMatrix    = function(value) {if (missing(value)) return(private$Y) else private$Y <- value}
     )
