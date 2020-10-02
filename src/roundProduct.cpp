@@ -6,7 +6,7 @@ using namespace Rcpp;
 using namespace arma;
 
 // [[Rcpp::export]]
-Rcpp::NumericMatrix roundProductList(Rcpp::List covariates_list, arma::vec beta) {
+Rcpp::NumericMatrix roundProduct(Rcpp::List covariates_list, arma::vec beta) {
 
   uword N = Rcpp::as<mat>(covariates_list[0]).n_rows;
   arma::mat result = arma::zeros<arma::mat>(N,N);

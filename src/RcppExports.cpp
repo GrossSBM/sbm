@@ -7,14 +7,14 @@
 using namespace Rcpp;
 
 // roundProduct
-Rcpp::NumericMatrix roundProduct(arma::cube phi, arma::vec beta);
-RcppExport SEXP _sbm_roundProduct(SEXP phiSEXP, SEXP betaSEXP) {
+Rcpp::NumericMatrix roundProduct(Rcpp::List covariates_list, arma::vec beta);
+RcppExport SEXP _sbm_roundProduct(SEXP covariates_listSEXP, SEXP betaSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::cube >::type phi(phiSEXP);
+    Rcpp::traits::input_parameter< Rcpp::List >::type covariates_list(covariates_listSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type beta(betaSEXP);
-    rcpp_result_gen = Rcpp::wrap(roundProduct(phi, beta));
+    rcpp_result_gen = Rcpp::wrap(roundProduct(covariates_list, beta));
     return rcpp_result_gen;
 END_RCPP
 }
