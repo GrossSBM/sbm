@@ -1,6 +1,7 @@
 # development version
 
 * added fields dimLabels to simple and bipartite SBM
+* changing roundProduct function to work on list of covariates
 
 # sbm 0.2.1 - minor release
 

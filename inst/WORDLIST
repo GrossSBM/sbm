@@ -7,7 +7,9 @@ Blockmodels
 cloneable
 CMD
 Codecov
+coef
 Desprez
+dimLabels
 dyad
 dyads
 exploreFactor
@@ -29,6 +31,7 @@ PloS
 ploting
 plotMyMatrix
 reoredered
+roundProduct
 SBMs
 SimpleSBM
 storedModels
