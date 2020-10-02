@@ -88,7 +88,7 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
         cat("=====================================================================\n")
         cat("* Useful fields \n")
         cat("  $dimension, $modelName, $nbNodes, $nbBlocks, $nbCovariates, $nbDyads\n")
-        cat("  $blockProp, $connectParam, covarParam, $covarList, $covarEffect, $dimLabels \n")
+        cat("  $blockProp, $connectParam, $covarParam, $covarList, $covarEffect, $dimLabels \n")
       },
       #' @description print method
       print = function() self$show()

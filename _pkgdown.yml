@@ -39,3 +39,20 @@ reference:
     - '`sampleBipartiteSBM`'
     - '`estimateBipartiteSBM`'
 
+- title: 'Data sets'
+  desc: >
+    Set of data setes available
+  contents:
+    - '`fungus_tree_network`'
+- title: 'Others'
+  desc: >
+    Comprehensive list of remaning classes and methods
+  contents:
+    - '`SBM`'
+    - '`SBM_fit`'
+    - '`SBM_sampler`'
+    - '`coef.SBM`'
+    - '`fitted.SBM_fit`'
+    - '`predict.SBM`'
+    - '`plot.SBM`'
+    - '`plotMyMatrix`'
