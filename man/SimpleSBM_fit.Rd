@@ -25,6 +25,8 @@ This class is designed to give a representation and adjust an SBM fitted with bl
 
 \item{\code{memberships}}{vector of clustering}
 
+\item{\code{nbConnectParam}}{number of parameter used for the connectivity}
+
 \item{\code{directed}}{is the network directed or not}
 
 \item{\code{storedModels}}{data.frame of all models fitted (and stored) during the optimization}

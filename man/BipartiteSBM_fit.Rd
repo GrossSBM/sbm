@@ -23,6 +23,8 @@ This class is designed to give a representation and adjust an LBM fitted with bl
 
 \item{\code{nbDyads}}{number of dyads (potential edges in the network)}
 
+\item{\code{nbConnectParam}}{number of parameter used for the connectivity}
+
 \item{\code{memberships}}{list of size 2: vector of memberships in row, in column.}
 
 \item{\code{storedModels}}{data.frame of all models fitted (and stored) during the optimization}

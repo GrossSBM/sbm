@@ -61,6 +61,8 @@ SimpleSBM_sampler <-
       nbBlocks    = function(value) {length(private$pi)},
       #' @field nbDyads number of dyads (potential edges in the network)
       nbDyads     = function(value) {ifelse(private$directed_, self$nbNodes*(self$nbNodes - 1), self$nbNodes*(self$nbNodes - 1)/2)},
+      #' @field nbConnectParam number of parameter used for the connectivity
+      nbConnectParam = function(value) {ifelse(private$directed_, self$nbBlocks^2, self$nbBlocks*(self$nbBlocks + 1)/2)},
       #' @field memberships vector of clustering
       memberships = function(value) {if (!is.null(private$Z)) as_clustering(private$Z)},
       #' @field indMemberships matrix for clustering memberships

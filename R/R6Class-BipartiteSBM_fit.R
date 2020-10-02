@@ -104,6 +104,8 @@ BipartiteSBM_fit <-
       nbBlocks    = function(value) {sapply(private$pi, length)},
       #' @field nbDyads number of dyads (potential edges in the network)
       nbDyads     = function(value) {private$dim[1] * private$dim[2]},
+      #' @field nbConnectParam number of parameter used for the connectivity
+      nbConnectParam = function(value) {self$nbBlocks^2},
       #' @field memberships list of size 2: vector of memberships in row, in column.
       memberships = function(value) {lapply(private$tau, as_clustering)},
       #' @field storedModels data.frame of all models fitted (and stored) during the optimization

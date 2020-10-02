@@ -8,6 +8,7 @@ cloneable
 CMD
 Codecov
 coef
+covarArray
 Desprez
 dimLabels
 dyad
@@ -23,6 +24,7 @@ Léger
 Lifecycle
 Loustau
 nbBlocksRange
+nbConnectParam
 nbCores
 netMatrix
 ORCID

@@ -108,6 +108,8 @@ SimpleSBM_fit <-
       nbDyads     = function(value) {ifelse(private$directed_, self$nbNodes*(self$nbNodes - 1), self$nbNodes*(self$nbNodes - 1)/2)},
       #' @field memberships vector of clustering
       memberships = function(value) {as_clustering(private$tau)},
+      #' @field nbConnectParam number of parameter used for the connectivity
+      nbConnectParam = function(value) {ifelse(private$directed_, self$nbBlocks^2, self$nbBlocks*(self$nbBlocks + 1)/2)},
       #' @field directed is the network directed or not
       directed = function(value) {private$directed_},
       #' @field storedModels data.frame of all models fitted (and stored) during the optimization
