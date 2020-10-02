@@ -73,7 +73,7 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sbm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2-9105</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2-9200</span>
       </span>
     </div>
 
@@ -137,13 +137,13 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models." />
 for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>estimateBipartiteSBM</span>(
-  <span class='kw'>netMat</span>,
-  model = <span class='st'>"bernoulli"</span>,
-  dimLabels = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(row = <span class='st'>"rowLabel"</span>, col = <span class='st'>"colLabels"</span>),
-  covariates = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
-  estimOptions = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()
-)</pre>
+    <pre class="usage"><span class='fu'>estimateBipartiteSBM</span><span class='op'>(</span>
+  <span class='va'>netMat</span>,
+  model <span class='op'>=</span> <span class='st'>"bernoulli"</span>,
+  dimLabels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>row <span class='op'>=</span> <span class='st'>"rowLabel"</span>, col <span class='op'>=</span> <span class='st'>"colLabels"</span><span class='op'>)</span>,
+  covariates <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
+  estimOptions <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -189,16 +189,16 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models.</p>
 <span class='co'>### BIPARTITE BINARY SBM (Bernoulli model)</span>
 
 <span class='co'>## Graph parameters and Sampling</span>
-<span class='kw'>nbNodes</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>60</span>, <span class='fl'>80</span>)
-<span class='kw'>blockProp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>.5</span>, <span class='fl'>.5</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span><span class='op'>/</span><span class='fl'>3</span>, <span class='fl'>1</span><span class='op'>/</span><span class='fl'>3</span>, <span class='fl'>1</span><span class='op'>/</span><span class='fl'>3</span>)) <span class='co'># group proportions</span>
-<span class='kw'>means</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>6</span>), <span class='fl'>2</span>, <span class='fl'>3</span>)  <span class='co'># connectivity matrix</span>
+<span class='va'>nbNodes</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>60</span>, <span class='fl'>80</span><span class='op'>)</span>
+<span class='va'>blockProp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>.5</span>, <span class='fl'>.5</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>/</span><span class='fl'>3</span>, <span class='fl'>1</span><span class='op'>/</span><span class='fl'>3</span>, <span class='fl'>1</span><span class='op'>/</span><span class='fl'>3</span><span class='op'>)</span><span class='op'>)</span> <span class='co'># group proportions</span>
+<span class='va'>means</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='fl'>6</span><span class='op'>)</span>, <span class='fl'>2</span>, <span class='fl'>3</span><span class='op'>)</span>  <span class='co'># connectivity matrix</span>
 <span class='co'># In Bernoulli SBM, parameters is a list with a</span>
 <span class='co'># matrix of means 'mean' which are probabilities of connection</span>
-<span class='kw'>connectParam</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(mean = <span class='kw'>means</span>)
-<span class='kw'>mySampler</span> <span class='op'>&lt;-</span> <span class='fu'><a href='sampleBipartiteSBM.html'>sampleBipartiteSBM</a></span>(<span class='kw'>nbNodes</span>, <span class='kw'>blockProp</span>, <span class='kw'>connectParam</span>, model = <span class='st'>'bernoulli'</span>)
+<span class='va'>connectParam</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>mean <span class='op'>=</span> <span class='va'>means</span><span class='op'>)</span>
+<span class='va'>mySampler</span> <span class='op'>&lt;-</span> <span class='fu'><a href='sampleBipartiteSBM.html'>sampleBipartiteSBM</a></span><span class='op'>(</span><span class='va'>nbNodes</span>, <span class='va'>blockProp</span>, <span class='va'>connectParam</span>, model <span class='op'>=</span> <span class='st'>'bernoulli'</span><span class='op'>)</span>
 
 <span class='co'>## Estimation</span>
-<span class='kw'>myBipartiteSBM</span> <span class='op'>&lt;-</span> <span class='fu'>estimateBipartiteSBM</span>(<span class='kw'>mySampler</span><span class='op'>$</span><span class='kw'>netMatrix</span>, estimOptions = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(plot = <span class='fl'>FALSE</span>))
+<span class='va'>myBipartiteSBM</span> <span class='op'>&lt;-</span> <span class='fu'>estimateBipartiteSBM</span><span class='op'>(</span><span class='va'>mySampler</span><span class='op'>$</span><span class='va'>netMatrix</span>, estimOptions <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>plot <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; -&gt; Estimation for 2 groups (1+1)
 #&gt; -&gt; Computation of eigen decomposition used for initalizations
 #&gt;     -&gt; for rows
@@ -231,21 +231,21 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models.</p>
 #&gt;         -&gt; For 6 groups
 #&gt;         -&gt; For 5 groups
 #&gt;         -&gt; For 4 groups
-#&gt;         -&gt; For 3 groups</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>myBipartiteSBM</span>, <span class='st'>'expected'</span>)
+#&gt;         -&gt; For 3 groups</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>myBipartiteSBM</span>, <span class='st'>'expected'</span><span class='op'>)</span>
 </div><div class='img'><img src='estimateBipartiteSBM-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>### =======================================</span>
 <span class='co'>### BIPARTITE POISSON SBM</span>
 
 <span class='co'>## Graph parameters &amp; Sampling</span>
-<span class='kw'>nbNodes</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>60</span>, <span class='fl'>80</span>)
-<span class='kw'>blockProp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>.5</span>, <span class='fl'>.5</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span><span class='op'>/</span><span class='fl'>3</span>, <span class='fl'>1</span><span class='op'>/</span><span class='fl'>3</span>, <span class='fl'>1</span><span class='op'>/</span><span class='fl'>3</span>)) <span class='co'># group proportions</span>
-<span class='kw'>means</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Binomial.html'>rbinom</a></span>(<span class='fl'>6</span>, <span class='fl'>30</span>, <span class='fl'>0.25</span>), <span class='fl'>2</span>, <span class='fl'>3</span>)  <span class='co'># connectivity matrix</span>
-<span class='kw'>connectParam</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(mean = <span class='kw'>means</span>)
-<span class='kw'>mySampler</span> <span class='op'>&lt;-</span> <span class='fu'><a href='sampleBipartiteSBM.html'>sampleBipartiteSBM</a></span>(<span class='kw'>nbNodes</span>, <span class='kw'>blockProp</span>, <span class='kw'>connectParam</span>, model = <span class='st'>'poisson'</span>)
+<span class='va'>nbNodes</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>60</span>, <span class='fl'>80</span><span class='op'>)</span>
+<span class='va'>blockProp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>.5</span>, <span class='fl'>.5</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>/</span><span class='fl'>3</span>, <span class='fl'>1</span><span class='op'>/</span><span class='fl'>3</span>, <span class='fl'>1</span><span class='op'>/</span><span class='fl'>3</span><span class='op'>)</span><span class='op'>)</span> <span class='co'># group proportions</span>
+<span class='va'>means</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Binomial.html'>rbinom</a></span><span class='op'>(</span><span class='fl'>6</span>, <span class='fl'>30</span>, <span class='fl'>0.25</span><span class='op'>)</span>, <span class='fl'>2</span>, <span class='fl'>3</span><span class='op'>)</span>  <span class='co'># connectivity matrix</span>
+<span class='va'>connectParam</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>mean <span class='op'>=</span> <span class='va'>means</span><span class='op'>)</span>
+<span class='va'>mySampler</span> <span class='op'>&lt;-</span> <span class='fu'><a href='sampleBipartiteSBM.html'>sampleBipartiteSBM</a></span><span class='op'>(</span><span class='va'>nbNodes</span>, <span class='va'>blockProp</span>, <span class='va'>connectParam</span>, model <span class='op'>=</span> <span class='st'>'poisson'</span><span class='op'>)</span>
 
 <span class='co'>## Estimation</span>
-<span class='kw'>myBipartiteSBM</span> <span class='op'>&lt;-</span>
-  <span class='fu'>estimateBipartiteSBM</span>(<span class='kw'>mySampler</span><span class='op'>$</span><span class='kw'>netMatrix</span>, <span class='st'>'poisson'</span>, estimOptions = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(plot = <span class='fl'>FALSE</span>))
+<span class='va'>myBipartiteSBM</span> <span class='op'>&lt;-</span>
+  <span class='fu'>estimateBipartiteSBM</span><span class='op'>(</span><span class='va'>mySampler</span><span class='op'>$</span><span class='va'>netMatrix</span>, <span class='st'>'poisson'</span>, estimOptions <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>plot <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; -&gt; Estimation for 2 groups (1+1)
 #&gt; -&gt; Computation of eigen decomposition used for initalizations
 #&gt;     -&gt; for rows
@@ -278,20 +278,20 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models.</p>
 #&gt;         -&gt; For 6 groups
 #&gt;         -&gt; For 5 groups
 #&gt;         -&gt; For 4 groups
-#&gt;         -&gt; For 3 groups</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>myBipartiteSBM</span>, <span class='st'>'expected'</span>)
+#&gt;         -&gt; For 3 groups</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>myBipartiteSBM</span>, <span class='st'>'expected'</span><span class='op'>)</span>
 </div><div class='img'><img src='estimateBipartiteSBM-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>### =======================================</span>
 <span class='co'>### BIPARTITE GAUSSIAN SBM</span>
 <span class='co'>## Graph parameters &amp; sampling</span>
-<span class='kw'>nbNodes</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>60</span>, <span class='fl'>80</span>)
-<span class='kw'>blockProp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>.5</span>, <span class='fl'>.5</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span><span class='op'>/</span><span class='fl'>3</span>, <span class='fl'>1</span><span class='op'>/</span><span class='fl'>3</span>, <span class='fl'>1</span><span class='op'>/</span><span class='fl'>3</span>)) <span class='co'># group proportions</span>
-<span class='kw'>means</span> <span class='op'>&lt;-</span> <span class='fl'>20</span> <span class='op'>*</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>6</span>), <span class='fl'>2</span>, <span class='fl'>3</span>)  <span class='co'># connectivity matrix</span>
-<span class='kw'>connectParam</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(mean = <span class='kw'>means</span>, var = <span class='fl'>1</span>)
-<span class='kw'>mySampler</span> <span class='op'>&lt;-</span> <span class='fu'><a href='sampleBipartiteSBM.html'>sampleBipartiteSBM</a></span>(<span class='kw'>nbNodes</span>, <span class='kw'>blockProp</span>, <span class='kw'>connectParam</span>, model = <span class='st'>'gaussian'</span>)
+<span class='va'>nbNodes</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>60</span>, <span class='fl'>80</span><span class='op'>)</span>
+<span class='va'>blockProp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>.5</span>, <span class='fl'>.5</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>/</span><span class='fl'>3</span>, <span class='fl'>1</span><span class='op'>/</span><span class='fl'>3</span>, <span class='fl'>1</span><span class='op'>/</span><span class='fl'>3</span><span class='op'>)</span><span class='op'>)</span> <span class='co'># group proportions</span>
+<span class='va'>means</span> <span class='op'>&lt;-</span> <span class='fl'>20</span> <span class='op'>*</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='fl'>6</span><span class='op'>)</span>, <span class='fl'>2</span>, <span class='fl'>3</span><span class='op'>)</span>  <span class='co'># connectivity matrix</span>
+<span class='va'>connectParam</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>mean <span class='op'>=</span> <span class='va'>means</span>, var <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
+<span class='va'>mySampler</span> <span class='op'>&lt;-</span> <span class='fu'><a href='sampleBipartiteSBM.html'>sampleBipartiteSBM</a></span><span class='op'>(</span><span class='va'>nbNodes</span>, <span class='va'>blockProp</span>, <span class='va'>connectParam</span>, model <span class='op'>=</span> <span class='st'>'gaussian'</span><span class='op'>)</span>
 
 <span class='co'>## Estimation</span>
-<span class='kw'>myBipartiteSBM</span> <span class='op'>&lt;-</span>
-  <span class='fu'>estimateBipartiteSBM</span>(<span class='kw'>mySampler</span><span class='op'>$</span><span class='kw'>netMatrix</span>, <span class='st'>'gaussian'</span>, estimOptions = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(plot = <span class='fl'>FALSE</span>))
+<span class='va'>myBipartiteSBM</span> <span class='op'>&lt;-</span>
+  <span class='fu'>estimateBipartiteSBM</span><span class='op'>(</span><span class='va'>mySampler</span><span class='op'>$</span><span class='va'>netMatrix</span>, <span class='st'>'gaussian'</span>, estimOptions <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>plot <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; -&gt; Estimation for 2 groups (1+1)
 #&gt; -&gt; Computation of eigen decomposition used for initalizations
 #&gt;     -&gt; for rows
@@ -338,7 +338,7 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models.</p>
 #&gt;         -&gt; For 6 groups
 #&gt;         -&gt; For 5 groups
 #&gt;         -&gt; For 4 groups
-#&gt;         -&gt; For 3 groups</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>myBipartiteSBM</span>, <span class='st'>'expected'</span>)
+#&gt;         -&gt; For 3 groups</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>myBipartiteSBM</span>, <span class='st'>'expected'</span><span class='op'>)</span>
 </div><div class='img'><img src='estimateBipartiteSBM-3.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
@@ -352,11 +352,11 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Julien Chiquet, Sophie Donnet.</p>
+  <p>Developed by Julien Chiquet, Sophie Donnet, Pierre Barbillon.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>
