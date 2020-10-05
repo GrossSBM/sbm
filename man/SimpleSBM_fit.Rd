@@ -29,6 +29,10 @@ This class is designed to give a representation and adjust an SBM fitted with bl
 
 \item{\code{directed}}{is the network directed or not}
 
+\item{\code{penalty}}{double, value of the penalty term in ICL}
+
+\item{\code{entropy}}{double, value of the entropy due to the clustering distribution}
+
 \item{\code{storedModels}}{data.frame of all models fitted (and stored) during the optimization}
 }
 \if{html}{\out{</div>}}
