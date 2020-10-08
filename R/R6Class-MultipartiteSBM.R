@@ -73,13 +73,16 @@ MultipartiteSBM <-
                                    'expected' = self$predict()
                                    )
             if (ordered) { clust = private$allZ }else{ clust = NULL}
+            distrib <- private$distrib
+            if(type == 'expected'){distrib[1]='notbernoulli'}
             outP <- plotMultipartiteMatrix(listNetMatrix,
                                            private$E,
                                            private$dimFG,
                                            private$namesFG,
                                            normalized = normalized,
-                                           distrib  = private$distrib,
-                                           clustering = clust,plotOptions)
+                                           distrib  = distrib,
+                                           clustering = clust,
+                                           plotOptions = plotOptions)
             }
           if (type  == 'meso'){
 
@@ -100,7 +103,7 @@ MultipartiteSBM <-
          #' @field nbLabels  : number of Functional groups involved in the multipartite
          nbLabels   = function(value){private$nbFG},
          #' @field nbNodes  : number of Nodes in each FG,
-         nbNodes  = function(value){private$dimFG},
+         nbNodes  = function(value){u <- private$dimFG; names(u) = private$namesFG; return(u)},
          #' @field expectation expected values of connection under the currently adjusted model
          expectation = function() {self$predict()},
          #' @field modelName vector of characters, the family of model for the distribution of the edges in each network
@@ -121,9 +124,9 @@ MultipartiteSBM <-
 #' @param type character for the type of plot: either 'data' (true connection) or 'expected' (fitted connection) or 'meso' (meso-scopic). Default to 'data'.
 #' @param normalized TRUE if the various matrices are renormalized. FALSE otherwise. Default value = FALSE
 #' @param ordered logical: should the functional group be ordered according to the clustering? Default to \code{TRUE}.
-#' @param plotOptions list with parameters for 'meso' type plot
+#' @param plotOptions list with parameters.
 #' @param ... additional parameters for S3 compatibility. Not used
-#' @details The list of parameters \code{plotOptions} is
+#' @details The list of parameters \code{plotOptions} for the mesoscopic plot is
 #'  \itemize{
 #'  \item{"seed": }{seed to control the layout}
 #'  \item{"title": }{character string for the title. Default value is NULL}
@@ -147,6 +150,13 @@ MultipartiteSBM <-
 #'  \item{"edge.lty": }{Line type, could be 0 or "blank", 1 or "solid", 2 or "dashed", 3 or "dotted", 4 or "dotdash", 5 or "longdash", 6 or "twodash". Default value is "solid"}
 #'  \item{"edge.curved": }{Default value is = 0.3}
 #' }
+#' The list of parameters \code{plotOptions} for the matrix plot is
+#'  \itemize{
+#'  \item{"compact": }{Boolean. Default value is TRUE if you ask for the matrices to be transposed to have a more compact view}
+#'  \item{"legend": }{Boolean. FALSE if you do not want to see the legend}
+#'  \item{"line.color ": }{The color of the lines to separate groups. Default value is red}
+#'  \item{"line.width ": }{Width  of the lines to separate groups. Default value is NULL, automatically chosen}
+#'  }
 #' @return a ggplot2 object for the \code{'data'} and \code{'expected'}, a list with the igraph object \code{g}, the \code{layout} and the \code{plotOptions} for the \code{'meso'}
 #' @export
 plot.MultipartiteSBM = function(x, type = c('data', 'expected', 'meso'), normalized = FALSE, ordered = TRUE, plotOptions = list(), ...){

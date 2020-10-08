@@ -3,7 +3,7 @@ myRepeat <- function(v,Qrow,Qcol){c(rep(v[1],Qrow),rep(v[2],Qcol))}
 plotMatrix = function(Mat, dimLabels, clustering = NULL,plotOptions = list()){
 
 
-  currentOptions = list(legend = TRUE)
+  currentOptions = list(line.color  = 'red',legend = FALSE,compact = TRUE)
   currentOptions[names(plotOptions)] = plotOptions
   rowFG <- dimLabels$row
   colFG <- dimLabels$col
@@ -40,16 +40,31 @@ plotMatrix = function(Mat, dimLabels, clustering = NULL,plotOptions = list()){
     names(sepCol) = names(sepRow) = 'sep'
     sepRow = n1 - sepRow
   }
+  if(is.null(currentOptions$line.width)){currentOptions$line.width = mean(dim(Mat))/300}
 
   index_row = rep(1:dim(Mat)[1],each = dim(Mat)[2])
   index_col = rep(1:dim(Mat)[2],dim(Mat)[1])
 
-  melted_Mat =  data.frame(n1 - index_row , index_col)
-  link = rep(-10,dim(Mat)[2]*dim(Mat)[1])
-  for (k in 1:(dim(Mat)[2] * dim(Mat)[1])) {link[k] = Mat[index_row[k],index_col[k]]}
-  melted_Mat$link = link
-  if (binary){melted_Mat$link <- as.factor(melted_Mat$link)}
-  colnames(melted_Mat) <- c('index_row', 'index_col', 'link')
+
+  FGCol <- rep(dimLabels$col, times = n2)
+  FGRow <- rep(dimLabels$row, times = n1)
+
+  melted_Mat = reshape::melt(t(Mat))
+  names(melted_Mat) <- c('index_col','index_row','link')
+  melted_Mat$index_row <- n1 - melted_Mat$index_row + 1
+  melted_Mat$FG_row <- as.factor(rep(FGRow, each = n2))
+  melted_Mat$FG_col <- as.factor(rep(FGCol,  n1))
+  range_melted <- range(c(melted_Mat$link))
+  if (binary) { melted_Mat$link <- as.factor(melted_Mat$link)}
+
+
+#
+#   melted_Mat =  data.frame(n1 - index_row , index_col)
+#   link = rep(-10,dim(Mat)[2]*dim(Mat)[1])
+#   for (k in 1:(dim(Mat)[2] * dim(Mat)[1])) {link[k] = Mat[index_row[k],index_col[k]]}
+#   melted_Mat$link = link
+#   if (binary){melted_Mat$link <- as.factor(melted_Mat$link)}
+#   colnames(melted_Mat) <- c('index_row', 'index_col', 'link')
 
   g <- ggplot(data = melted_Mat, aes(y = index_row, x = index_col, fill = link))
   g <- g + geom_tile()
@@ -57,12 +72,12 @@ plotMatrix = function(Mat, dimLabels, clustering = NULL,plotOptions = list()){
   if (binary) {g <- g + scale_fill_manual(breaks = c("0", "1"),values = c("white", "black"),na.value = "transparent")}
   g <- g  +  scale_x_discrete(drop = FALSE) + scale_y_discrete(drop = FALSE)
   g <- g + theme(axis.text.x = element_text(angle = 270, hjust = 0))
-  g <- g +  labs(x = colFG, y = rowFG) +  theme(aspect.ratio = n1/n2)
+  g <- g +  labs(x = '', y = '') +  theme(aspect.ratio = n1/n2) + facet_grid(FG_row ~ FG_col, switch = 'y',scales = 'free', space = 'free')
   if (!currentOptions$legend){g <- g +theme(legend.position = 'none')}
 
   if (!is.null(clustering)) {
-    g <- g + geom_vline(data = sepCol,mapping = aes_string(xintercept = 'sep'),col = 'grey')
-    g <- g + geom_hline(data = sepRow,mapping = aes_string(yintercept = 'sep'),col = 'grey')
+    g <- g + geom_vline(data = sepCol,mapping = aes_string(xintercept = 'sep'),size = currentOptions$line.width, col=currentOptions$line.color)
+    g <- g + geom_hline(data = sepRow,mapping = aes_string(yintercept = 'sep'),size = currentOptions$line.width, col=currentOptions$line.color)
   }
   g
   #if (!is.null(fileNameSave)) { ggsave(fileNameSave, width = 20, height = 20, units = "cm") }else{g}
@@ -71,18 +86,22 @@ plotMatrix = function(Mat, dimLabels, clustering = NULL,plotOptions = list()){
 #----------------------------------------------------------------------------------
 ##################################################################################
 #' @importFrom rlang .data
-plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG, normalized, distrib, clustering,plotOptions=list()) {
+plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG, normalized, distrib, clustering,plotOptions) {
 
 
+  #----------------------------------------
 
+  currentOptions = list(line.color  = 'red',legend = FALSE,compact = TRUE)
+  currentOptions[names(plotOptions)] = plotOptions
 
-
-  list_Mat <- listMat
   reordered <- !is.null(clustering)
+  #-------------------------------------------
+  list_Mat <- listMat
   nbFG <- length(unique(c(E)))
   nbNet <- length(list_Mat)
-
+  #----------------------------------------------
   if (reordered){
+    if (!is.null(names(clustering))){clustering  <- lapply(1:nbFG,FUN  = function(i){clustering[[namesFG[i]]]})}
     nbBlocks <- sapply(clustering,function(s){length(unique(s))})
     list_Mat_reorder <- lapply(1:nbNet, function(l){
       clustering_row <- clustering[[E[l, 1]]]
@@ -104,11 +123,58 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG, normalized, dist
   }
   binary = ifelse(all(distrib == 'bernoulli'),TRUE,FALSE)
 
+  ############## optimisation plot
+  if (currentOptions$compact) {
+    TranposColl <-
+      lapply(
+        0:(2 ^ nbNet / 2 - 1),
+        FUN = function(x)
+          head(as.integer(intToBits(x)), nbNet)
+      )
+    EColl <- lapply(
+      1:(2 ^ nbNet / 2),
+      FUN = function(i) {
+        u <- which(TranposColl[[i]] == 1)
+
+        Ex <- E
+
+        if (length(u) > 0) {
+          for (i in u) {
+            Ex[i, 1:2] = E[i, 2:1]
+          }
+        }
+        Ex
+      }
+    )
+    GColl <- sapply(
+      1:(2 ^ nbNet / 2),
+      FUN = function(i) {
+        G <- matrix(0, nbFG, nbFG)
+        for (j in 1:nbNet) {
+          G[EColl[[i]][j, 1], EColl[[i]][j, 2]] = 1
+        }
+        sum(rowSums(G) == 0) + sum(colSums(G) == 0)
+      }
+    )
+    best <- which.max(GColl)
+    E <- EColl[[best]]
+    Tbest <- TranposColl[[best]]
+    w = which(Tbest == 1)
+    if (length(w) > 0) {
+      for (i in w) {
+        list_Mat[[i]] = t(list_Mat[[i]])
+      }
+    }
+  }
+
+
+
 
   ############################  meta matrix
   # network of matrices
   G <- matrix(0, nbFG, nbFG)
-  G[E[, 1], E[, 2]] = 1
+  for (i in 1:nbNet){G[E[i, 1], E[i, 2]] = 1}
+
   # places in metamatrix
   GRow <- as.numeric(rowSums(G)>=1)
   GCol <- as.numeric(colSums(G)>=1)
@@ -130,6 +196,8 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG, normalized, dist
       }
     }
   }
+  if(is.null(currentOptions$line.width)){currentOptions$line.width = mean(dim(MetaMat))/300}
+
   FGCol <- rep(namesFG, times = nbNodes*GCol)
   FGRow <- rep(namesFG, times = nbNodes*GRow)
   melted_Mat = reshape::melt(t(MetaMat))
@@ -141,14 +209,13 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG, normalized, dist
   if (binary) { melted_Mat$link <- as.factor(melted_Mat$link)}
 
 
-  # plots
 
-  currentOptions = list(line.color  = 'red', line.width = mean(dim(MetaMat))/300,legend = FALSE)
-  currentOptions[names(plotOptions)] = plotOptions
+
 
   g <- ggplot2::ggplot(melted_Mat, aes(y = index_row, x = index_col, fill = .data$link))
   g <- g + geom_tile()
   name_legend <- ifelse(normalized,"Norm. Link","Link")
+
   g <- g  +  scale_x_discrete(drop = FALSE) + scale_y_discrete(drop = FALSE)
   if (!binary) {
     g <- g +  scale_fill_gradient(
@@ -169,7 +236,7 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG, normalized, dist
   g <- g +  labs(x = '', y = '')
   g <- g + theme(axis.text.x = element_text(angle = 270, hjust = 0))
   if(!currentOptions$legend){g <- g + theme(legend.position = 'none')}
-  g <- g + facet_grid(FG_row~ FG_col, scales = 'free', space = 'free')
+  g <- g + facet_grid(FG_row~ FG_col, scales = 'free', space = 'free',switch = 'y')
 
   ########## separators
 

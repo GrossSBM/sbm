@@ -12,10 +12,23 @@ MultipartiteSBM_fit <-
     private = list(
       GREMLINobject       = NULL,
       import_from_GREMLIN = function(index = 1) {
-        GREMLINfit <- private$GREMLINobject$fittedModel[[index]]
-        listtau <- GREMLINfit$paramEstim$tau
-        listpi <-  GREMLINfit$paramEstim$list_pi
 
+        GREMLINfit <- private$GREMLINobject$fittedModel[[index]]
+        list_pi <- lapply(private$namesFG,function(n_){GREMLINfit$paramEstim$list_pi[[n_]]})
+        list_tau <- lapply(private$namesFG,function(n_){GREMLINfit$paramEstim$tau[[n_]]})
+        list_theta <-lapply(1:private$nbNet, function(s_){
+          GREMLINfit$paramEstim$list_theta[[paste(private$namesFG[private$E[s_,1]],private$namesFG[private$E[s_,2]],sep='')]]
+        })
+        #-----------------------------------------------------
+        list_theta_mean <- lapply(1:private$nbNet,function(s_){
+          if(private$distrib[s_]=='gaussian'){u = list_theta[[s_]]$mean}else{u = list_theta[[s_]]}
+          u})
+
+        ordAll <- order_mbm(list_theta_mean,list_pi,private$E)
+        #----------------------------------------------------------
+        listtau <- lapply(1:private$nbFG, FUN = function(s){list_tau[[s]][,ordAll[[s]]]})
+        listpi <-  lapply(1:private$nbFG, FUN = function(s){list_pi[[s]][ordAll[[s]]]})
+        names(listpi)<- names(listtau)<- private$namesFG
 
         lapply(private$listNet, function(net) {
           if (substr(class(net)[1], 1, 6) == "Simple") {
@@ -32,21 +45,26 @@ MultipartiteSBM_fit <-
               list(listpi[[rowLab]], listpi[[colLab]])
           }
         })
+
         #print(private$nbNet)
-        my_list_theta  = list()
-        for (i in 1:private$nbNet) {
-          if (private$listNet[[i]]$modelName != 'gaussian'){
-            my_list_theta[[i]] <- private$listNet[[i]]$connectParam <- list(mean = GREMLINfit$paramEstim$list_theta[[i]])
+        private$theta = list()
+        for (s_ in 1:private$nbNet){
+          o_row <- ordAll[[private$E[s_,1]]]
+          o_col <- ordAll[[private$E[s_,2]]]
+          l_s <- list(mean  =  list_theta_mean[[s_]][o_row ,o_col])
+          if (private$distrib[s_]=='gaussian'){
+            var_s <- list_theta[[s_]]$var
+            if (is.matrix(var_s)){var_s  = var_s[o_row,o_col]}
+            l_s$var <- var_s
           }
-          else{
-            my_list_theta[[i]] <- private$listNet[[i]]$connectParam <-  GREMLINfit$paramEstim$list_theta[[i]]
-          }
+          private$theta[[s_]]=l_s
+          private$listNet[[s_]]$connectParam = l_s
         }
-        private$allZ = GREMLINfit$paramEstim$Z
-        private$pi  = GREMLINfit$paramEstim$list_pi
-        private$theta = my_list_theta
-        private$tau = GREMLINfit$paramEstim$tau
-      }
+
+        private$tau = listtau
+        private$allZ = lapply(1:length(listtau),function(l){apply(listtau[[l]],1,which.max)})
+        private$pi  = listpi
+        }
     ),
     #-----------------------------------------------
     public = list(

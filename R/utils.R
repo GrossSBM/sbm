@@ -53,6 +53,7 @@ predict_sbm <- function(nbNodes,nbCovariates,link,invlink,tau,theta_mean,covarEf
 
 predict_lbm <- function(dimension,nbCovariates,link,invlink,tau,theta_mean,covarEffect,covarList){
 
+
     stopifnot(!is.null(tau[[1]]), !is.null(tau[[2]]), !is.null(theta_mean))
     stopifnot(is.list(covarList),  nbCovariates == length(covarList))
 
@@ -74,6 +75,20 @@ order_lbm <- function(theta_mean,pi){
   oRow <- order(theta_mean %*% pi[[2]], decreasing = TRUE)
   oCol <- order(pi[[1]] %*% theta_mean, decreasing = TRUE)
   return(list(row  = oRow, col = oCol))
+}
+
+
+order_mbm <- function(list_theta_mean,list_pi,E){
+
+  nbFG <- length(list_pi)
+  oAll <-lapply(1:nbFG,FUN = function(f_){
+    V <- U <- rep(0,length(list_pi[[f_]]))
+    wrow <- which(E[,1]==f_)
+    if (length(wrow)>0){U <- c(rowSums(do.call('cbind',lapply(wrow,function(i){list_theta_mean[[i]]%*%list_pi[[E[i,2]]]}))))}
+    wcol <- c(which( (E[,2]==f_) & E[,1] != E[,2] ))
+    if (length(wcol)>0){V <- c(rowSums(do.call('cbind',lapply(wcol,function(i){c(list_pi[[E[i,1]]]%*% list_theta_mean[[i]])}))))}
+    order(U+V,decreasing = TRUE)})
+  return(oAll)
 }
 
 
