@@ -94,7 +94,7 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
                 cl <- list(row = self$memberships)
               }
             }
-          P <- plotMatrix(Mat = Mat, dimLabels = self$dimLabels, clustering = cl)
+          P <- plotMatrix(Mat = Mat, dimLabels = self$dimLabels, clustering = cl,plotOptions = plotOptions)
         }
         return(P)
         },

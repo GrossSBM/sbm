@@ -1,8 +1,10 @@
 myRepeat <- function(v,Qrow,Qcol){c(rep(v[1],Qrow),rep(v[2],Qcol))}
 #----------------------------------------------------------------------------------
-plotMatrix = function(Mat, dimLabels, clustering = NULL){
+plotMatrix = function(Mat, dimLabels, clustering = NULL,plotOptions = list()){
 
 
+  currentOptions = list(legend = TRUE)
+  currentOptions[names(plotOptions)] = plotOptions
   rowFG <- dimLabels$row
   colFG <- dimLabels$col
 
@@ -56,6 +58,7 @@ plotMatrix = function(Mat, dimLabels, clustering = NULL){
   g <- g  +  scale_x_discrete(drop = FALSE) + scale_y_discrete(drop = FALSE)
   g <- g + theme(axis.text.x = element_text(angle = 270, hjust = 0))
   g <- g +  labs(x = colFG, y = rowFG) +  theme(aspect.ratio = n1/n2)
+  if (!currentOptions$legend){g <- g +theme(legend.position = 'none')}
 
   if (!is.null(clustering)) {
     g <- g + geom_vline(data = sepCol,mapping = aes_string(xintercept = 'sep'),col = 'grey')
