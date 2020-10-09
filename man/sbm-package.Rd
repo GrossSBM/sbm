@@ -24,12 +24,12 @@ Useful links:
 Authors:
 \itemize{
   \item Sophie Donnet \email{sophie.donnet@inrae.fr}
+  \item Pierre Barbillon \email{pierre.barbillon@agroparistech.fr} (\href{https://orcid.org/0000-0002-7766-7693}{ORCID})
 }
 
 Other contributors:
 \itemize{
   \item großBM team [contributor]
-  \item Pierre Barbillon \email{pierre.barbillon@agroparistech.fr} (\href{https://orcid.org/0000-0002-7766-7693}{ORCID}) [contributor]
 }
 
 }

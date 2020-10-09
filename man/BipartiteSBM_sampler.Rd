@@ -20,6 +20,8 @@ R6 class for Bipartite SBM sampler
 
 \item{\code{nbDyads}}{number of dyads (potential edges in the network)}
 
+\item{\code{nbConnectParam}}{number of parameter used for the connectivity}
+
 \item{\code{memberships}}{list of size 2: vector of memberships in row, in column.}
 
 \item{\code{indMemberships}}{list of 2 matrix for clustering memberships}

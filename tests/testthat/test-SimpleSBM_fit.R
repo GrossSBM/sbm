@@ -53,6 +53,11 @@ test_that("SimpleSBM_fit 'Bernoulli' model, undirected, no covariate", {
   mySBM$optimize(verbosity = 0)
   mySBM$setModel(3)
 
+  ## Field set after optimization
+  expect_equal(mySBM$nbConnectParam, nbBlocks * (nbBlocks + 1)/2 )
+  expect_equal(mySBM$penalty, (nbBlocks * (nbBlocks + 1))/2 * log(nbNodes *(nbNodes-1)/2) +  (nbBlocks - 1) * log(nbNodes))
+  expect_equal(mySBM$entropy, -sum(mySBM$probMemberships * log(mySBM$probMemberships)))
+
   ## Expectation
   expect_equal(dim(mySBM$expectation), c(nbNodes, nbNodes))
   expect_true(all(mySBM$expectation >= 0, na.rm = TRUE))
@@ -124,6 +129,10 @@ test_that("SimpleSBM_fit 'Bernoulli' model, directed, no covariate", {
   ## Estimation-----------------------------------------------------------------
   mySBM$optimize(verbosity = 0)
   mySBM$setModel(3)
+
+  expect_equal(mySBM$nbConnectParam, nbBlocks * nbBlocks)
+  expect_equal(mySBM$penalty, nbBlocks * nbBlocks * log(nbNodes * (nbNodes -1)) +  (nbBlocks - 1) * log(nbNodes))
+  expect_equal(mySBM$entropy, -sum(mySBM$probMemberships * log(mySBM$probMemberships)))
 
   ## Expectation
   expect_equal(dim(mySBM$expectation), c(nbNodes, nbNodes))

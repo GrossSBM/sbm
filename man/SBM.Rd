@@ -29,6 +29,8 @@ R6 virtual class for SBM representation (mother class of Simple and Bipartite SB
 
 \item{\code{covarList}}{list of matrices of covariates}
 
+\item{\code{covarArray}}{the array of covariates}
+
 \item{\code{covarEffect}}{effect of covariates}
 
 \item{\code{netMatrix}}{the matrix (adjacency or incidence) encoding the network}

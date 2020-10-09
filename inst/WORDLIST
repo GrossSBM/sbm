@@ -12,6 +12,8 @@ Codecov
 coef
 crectangle
 csquare
+coef
+covarArray
 Desprez
 dimLabels
 dotdash
@@ -38,6 +40,7 @@ Multipartite
 MultipartiteBM
 MultipartiteSBM
 nbBlocksRange
+nbConnectParam
 nbCores
 nbNetworks
 netMatrix
@@ -47,6 +50,8 @@ PloS
 ploting
 plotMyMatrix
 renormalized
+reoredered
+roundProduct
 SBMs
 SimpleSBM
 SimpleSBMs

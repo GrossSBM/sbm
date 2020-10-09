@@ -5,6 +5,7 @@
 
 <!-- badges: start -->
 
+[![website](https://github.com/GrossSBM/sbm/workflows/pkgdown/badge.svg)](https://grosssbm.github.io/sbm/)
 ![R-CMD-check](https://github.com/GrossSBM/sbm/workflows/R-CMD-check/badge.svg?branch=master)
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/sbm)](https://cran.r-project.org/package=sbm)
 [![Lifecycle:

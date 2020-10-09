@@ -1,6 +1,8 @@
 # development version
 
-* added fields dimLabels to simple and bipartite SBM
+* added fields dimLabels and covarArray for class SBM
+* added fields nbConnectParam, penalty and entropy  for simple and bipartite SBM (sampler and fit)
+* changing roundProduct function to work on list of covariates
 
 # sbm 0.2.1 - minor release
 

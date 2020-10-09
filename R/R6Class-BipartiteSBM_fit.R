@@ -106,8 +106,14 @@ BipartiteSBM_fit <-
       nbBlocks    = function(value) {sapply(private$pi, length)},
       #' @field nbDyads number of dyads (potential edges in the network)
       nbDyads     = function(value) {private$dim[1] * private$dim[2]},
+      #' @field nbConnectParam number of parameter used for the connectivity
+      nbConnectParam = function(value) {self$nbBlocks[1]*self$nbBlocks[2]},
       #' @field memberships list of size 2: vector of memberships in row, in column.
       memberships = function(value) {lapply(private$tau, as_clustering)},
+      #' @field penalty double, value of the penalty term in ICL
+      penalty  = function(value) {(self$nbConnectParam + self$nbCovariates) * log(self$nbDyads) + (self$nbBlocks[1]-1) * log(self$nbNodes[1]) + (self$nbBlocks[2]-1) * log(self$nbNodes[2])},
+      #' @field entropy double, value of the entropy due to the clustering distribution
+      entropy  = function(value) {-sum(.xlogx(private$tau[[1]]))-sum(.xlogx(private$tau[[2]]))},
       #' @field storedModels data.frame of all models fitted (and stored) during the optimization
       storedModels = function(value) {
         rowBlocks <- c(0, unlist(sapply(private$BMobject$memberships, function(m) ncol(m$Z1))))

@@ -20,6 +20,8 @@ R6 class for Simple SBM sampler
 
 \item{\code{nbDyads}}{number of dyads (potential edges in the network)}
 
+\item{\code{nbConnectParam}}{number of parameter used for the connectivity}
+
 \item{\code{memberships}}{vector of clustering}
 
 \item{\code{indMemberships}}{matrix for clustering memberships}
