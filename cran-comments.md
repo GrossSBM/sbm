@@ -1,10 +1,10 @@
 
-## Changes in 0.2.1 (minor)
+## Changes in 0.2.2 (minor)
 
-* various bug fixes, especially for directed network in simpleSBM, covariates for BipartiteLBM
-* tests for consistency amended to avoid random errors during testthat
-* tests for covariates and directed networks
-* tests for S3 methods (coef, fitted, predict)
+
+* added fields dimLabels and covarArray for class SBM
+* added fields nbConnectParam, penalty and entropy  for simple and bipartite SBM (sampler and fit)
+* changing roundProduct function to work on list of covariates
 
 ## Tested environments
 
@@ -21,4 +21,4 @@
 
 ## R CMD check results
 
-0 errors | 0 warnings | 0 note
+0 errors | 0 warnings | 0 notes
