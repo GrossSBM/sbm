@@ -64,7 +64,7 @@ MultipartiteSBM <-
          #' @param normalized TRUE if the various matrices are renormalized. FALSE otherwise. Default value = FALSE
          #' @param ordered TRUE is the matrices are plotted after reorganization with the blocks. Default value = TRUE
          #' @param plotOptions list of plot options for the mesoscopic view
-        plot = function(type=c('data','expected','meso'),normalized = FALSE, ordered = TRUE, plotOptions = list()){
+        plot = function(type=c('data','expected','meso'), ordered = TRUE, plotOptions = list()){
 
           if (length(type)>1){type='data'}
           if (type %in% c('data','expected')){
@@ -79,7 +79,6 @@ MultipartiteSBM <-
                                            private$E,
                                            private$dimFG,
                                            private$namesFG,
-                                           normalized = normalized,
                                            distrib  = distrib,
                                            clustering = clust,
                                            plotOptions = plotOptions)
@@ -122,7 +121,6 @@ MultipartiteSBM <-
 #'
 #' @param x an object inheriting from class MultipartiteSBM
 #' @param type character for the type of plot: either 'data' (true connection) or 'expected' (fitted connection) or 'meso' (meso-scopic). Default to 'data'.
-#' @param normalized TRUE if the various matrices are renormalized. FALSE otherwise. Default value = FALSE
 #' @param ordered logical: should the functional group be ordered according to the clustering? Default to \code{TRUE}.
 #' @param plotOptions list with parameters.
 #' @param ... additional parameters for S3 compatibility. Not used
@@ -152,6 +150,7 @@ MultipartiteSBM <-
 #' }
 #' The list of parameters \code{plotOptions} for the matrix plot is
 #'  \itemize{
+#'  \item{"normalized":}{TRUE if the various matrices are renormalized. FALSE otherwise. Default value = FALSE}
 #'  \item{"compact": }{Boolean. Default value is TRUE if you ask for the matrices to be transposed to have a more compact view}
 #'  \item{"legend": }{Boolean. FALSE if you do not want to see the legend}
 #'  \item{"line.color ": }{The color of the lines to separate groups. Default value is red}
@@ -159,13 +158,13 @@ MultipartiteSBM <-
 #'  }
 #' @return a ggplot2 object for the \code{'data'} and \code{'expected'}, a list with the igraph object \code{g}, the \code{layout} and the \code{plotOptions} for the \code{'meso'}
 #' @export
-plot.MultipartiteSBM = function(x, type = c('data', 'expected', 'meso'), normalized = FALSE, ordered = TRUE, plotOptions = list(), ...){
+plot.MultipartiteSBM = function(x, type = c('data', 'expected', 'meso'), ordered = TRUE, plotOptions = list(), ...){
 
   if (length(type)>1){type = 'data'}
   if (type=='meso'){
-    invisible(x$plot(type, normalized, ordered, plotOptions))
+    invisible(x$plot(type, ordered, plotOptions))
   }else{
-    x$plot(type,  normalized,ordered, plotOptions)
+    x$plot(type,ordered, plotOptions)
   }
 }
 

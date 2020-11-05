@@ -62,7 +62,11 @@ MultipartiteSBM_fit <-
         }
 
         private$tau = listtau
-        private$allZ = lapply(1:length(listtau),function(l){apply(listtau[[l]],1,which.max)})
+
+        private$allZ = lapply(1:length(listtau),function(l){
+          if(!is.matrix(listtau[[l]])){listtau[[l]] = matrix(listtau[[l]],ncol=1)}
+          u <- apply(listtau[[l]],1,which.max)
+          u})
         private$pi  = listpi
         }
     ),

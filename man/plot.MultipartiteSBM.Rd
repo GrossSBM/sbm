@@ -7,7 +7,6 @@
 \method{plot}{MultipartiteSBM}(
   x,
   type = c("data", "expected", "meso"),
-  normalized = FALSE,
   ordered = TRUE,
   plotOptions = list(),
   ...
@@ -18,11 +17,9 @@
 
 \item{type}{character for the type of plot: either 'data' (true connection) or 'expected' (fitted connection) or 'meso' (meso-scopic). Default to 'data'.}
 
-\item{normalized}{TRUE if the various matrices are renormalized. FALSE otherwise. Default value = FALSE}
-
 \item{ordered}{logical: should the functional group be ordered according to the clustering? Default to \code{TRUE}.}
 
-\item{plotOptions}{list with parameters for 'meso' type plot}
+\item{plotOptions}{list with parameters.}
 
 \item{...}{additional parameters for S3 compatibility. Not used}
 }
@@ -33,7 +30,7 @@ a ggplot2 object for the \code{'data'} and \code{'expected'}, a list with the ig
 Basic matrix plot method for SBM object
 }
 \details{
-The list of parameters \code{plotOptions} is
+The list of parameters \code{plotOptions} for the mesoscopic plot is
 \itemize{
 \item{"seed": }{seed to control the layout}
 \item{"title": }{character string for the title. Default value is NULL}
@@ -56,5 +53,13 @@ The list of parameters \code{plotOptions} is
 \item{"edge.arrow.width": }{Default value is 2}
 \item{"edge.lty": }{Line type, could be 0 or "blank", 1 or "solid", 2 or "dashed", 3 or "dotted", 4 or "dotdash", 5 or "longdash", 6 or "twodash". Default value is "solid"}
 \item{"edge.curved": }{Default value is = 0.3}
+}
+The list of parameters \code{plotOptions} for the matrix plot is
+\itemize{
+\item{"normalized":}{TRUE if the various matrices are renormalized. FALSE otherwise. Default value = FALSE}
+\item{"compact": }{Boolean. Default value is TRUE if you ask for the matrices to be transposed to have a more compact view}
+\item{"legend": }{Boolean. FALSE if you do not want to see the legend}
+\item{"line.color ": }{The color of the lines to separate groups. Default value is red}
+\item{"line.width ": }{Width  of the lines to separate groups. Default value is NULL, automatically chosen}
 }
 }

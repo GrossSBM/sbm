@@ -72,7 +72,9 @@ plotMatrix = function(Mat, dimLabels, clustering = NULL,plotOptions = list()){
   if (binary) {g <- g + scale_fill_manual(breaks = c("0", "1"),values = c("white", "black"),na.value = "transparent")}
   g <- g  +  scale_x_discrete(drop = FALSE) + scale_y_discrete(drop = FALSE)
   g <- g + theme(axis.text.x = element_text(angle = 270, hjust = 0))
-  g <- g +  labs(x = '', y = '') +  theme(aspect.ratio = n1/n2) + facet_grid(FG_row ~ FG_col, switch = 'y',scales = 'free', space = 'free')
+  g <- g +  labs(x = '', y = '') +  theme(aspect.ratio = n1/n2)
+  if (!is.null(dimLabels$row) & !is.null(dimLabels$col)){
+    g <- g+ facet_grid(FG_row ~ FG_col, switch = 'y',scales = 'free', space = 'free')}
   if (!currentOptions$legend){g <- g +theme(legend.position = 'none')}
 
   if (!is.null(clustering)) {
@@ -86,14 +88,15 @@ plotMatrix = function(Mat, dimLabels, clustering = NULL,plotOptions = list()){
 #----------------------------------------------------------------------------------
 ##################################################################################
 #' @importFrom rlang .data
-plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG, normalized, distrib, clustering,plotOptions) {
+plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG, distrib, clustering,plotOptions) {
 
 
   #----------------------------------------
 
-  currentOptions = list(line.color  = 'red',legend = FALSE,compact = TRUE)
+  currentOptions = list(line.color  = 'red',legend = FALSE,compact = TRUE, normalized = FALSE)
   currentOptions[names(plotOptions)] = plotOptions
 
+  normalized  <- currentOptions$normalized
   reordered <- !is.null(clustering)
   #-------------------------------------------
   list_Mat <- listMat
@@ -237,7 +240,7 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG, normalized, dist
   g <- g + theme(axis.text.x = element_text(angle = 270, hjust = 0))
   if(!currentOptions$legend){g <- g + theme(legend.position = 'none')}
   g <- g + facet_grid(FG_row~ FG_col, scales = 'free', space = 'free',switch = 'y')
-
+  #g <- g + facet_grid(FG_row~ FG_col,switch = 'y')
   ########## separators
 
   if (reordered){

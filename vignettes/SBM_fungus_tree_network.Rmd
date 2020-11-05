@@ -122,7 +122,7 @@ coef(mySimpleSBM, 'connectivity')
 
 #### About model selection and choice of the number of blocks
 
-During the estimation, a certain range of models are explored corresponding to different number of blocks. By default, the best model in terms of Integrated Classification Likelihood is sent back. IN fact, all the model are stored internally. The user can have a quick glance at them via the `$storedModels` field:
+During the estimation, a certain range of models are explored corresponding to different number of blocks. By default, the best model in terms of Integrated Classification Likelihood is sent back. In fact, all the model are stored internally. The user can have a quick glance at them via the `$storedModels` field:
 
 ```{r simpleSBM storedModel}
 mySimpleSBM$storedModels %>% kable()

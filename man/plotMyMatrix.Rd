@@ -4,12 +4,21 @@
 \alias{plotMyMatrix}
 \title{Plot an adjacency or incidence Matrix}
 \usage{
-plotMyMatrix(Mat, dimLabels = list(row = NULL, col = NULL))
+plotMyMatrix(
+  Mat,
+  dimLabels = list(row = "row", col = "col"),
+  clustering = NULL,
+  plotOptions = NULL
+)
 }
 \arguments{
 \item{Mat}{: a matrix representing the network}
 
 \item{dimLabels}{: a list of length 2 specifying the types of nodes in row and col  (functional group) (Default is \code{NULL})}
+
+\item{clustering}{: a list of length 2 specifying a clustering on row and col}
+
+\item{plotOptions:}{a list providing options.}
 }
 \value{
 a ggplot object corresponding to the plot
@@ -17,10 +26,18 @@ a ggplot object corresponding to the plot
 \description{
 Plot an adjacency or incidence Matrix
 }
+\details{
+The list of parameters \code{plotOptions} for the matrix plot is
+\itemize{
+\item{"legend": }{Boolean. Set TRUE if you   want to see the legend. Default value is FALSE}
+\item{"line.color ": }{The color of the lines to separate groups if a clustering is provided. Default value is red}
+\item{"line.width ": }{Width  of the lines to separate groups. Default value is NULL, automatically chosen}
+}
+}
 \examples{
 M <- matrix(sample(c(0,1),900,replace=TRUE),30,30)
-plotMyMatrix(M)
+plotMyMatrix(M,plotOptions= list(legend = FALSE))
 M2 <- matrix(rpois(800,10),40,20)
-plotMyMatrix(M2,dimLabels=list(row= 'reader',col = 'book'))
+plotMyMatrix(M2,dimLabels=list(row= 'reader',col = 'book'),plotOptions= list(legend = TRUE))
 
 }

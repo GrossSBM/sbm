@@ -100,15 +100,14 @@ See @multipartite for details.
 
 The model selection and the estimation are performed with the function `estimatemultipartiteBM`.
 
-```{r load result, echo = FALSE, eval = FALSE}
+```{r load result, echo = FALSE, eval = TRUE}
 load('resMultipartiteEcological.rda')
 ``` 
 
-```{r MBM, echo = TRUE, eval = TRUE}
+```{r MBM, echo = TRUE, eval = FALSE}
 estimOptions = list(initBM = FALSE)
 listSBM <- list(PlantFlovis, PlantAnt, PlantBird)
 myMSBM <- estimateMultipartiteSBM(listSBM,estimOptions)
-save(myMSBM,file='resMultipartiteEcological.rda')
 ``` 
 
 

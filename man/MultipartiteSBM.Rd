@@ -98,7 +98,6 @@ plot Multipartite Network
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{MultipartiteSBM$plot(
   type = c("data", "expected", "meso"),
-  normalized = FALSE,
   ordered = TRUE,
   plotOptions = list()
 )}\if{html}{\out{</div>}}
@@ -109,11 +108,11 @@ plot Multipartite Network
 \describe{
 \item{\code{type}}{character for the type of plot: either 'data' (true connection), 'expected' (fitted connection) or 'meso' (mesoscopic view). Default to 'data'.}
 
-\item{\code{normalized}}{TRUE if the various matrices are renormalized. FALSE otherwise. Default value = FALSE}
-
 \item{\code{ordered}}{TRUE is the matrices are plotted after reorganization with the blocks. Default value = TRUE}
 
 \item{\code{plotOptions}}{list of plot options for the mesoscopic view}
+
+\item{\code{normalized}}{TRUE if the various matrices are renormalized. FALSE otherwise. Default value = FALSE}
 }
 \if{html}{\out{</div>}}
 }

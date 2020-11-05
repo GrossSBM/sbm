@@ -4,14 +4,14 @@
 \alias{plotMyMultipartiteMatrix}
 \title{Plot the matrices corresponding to a Multipartite Network}
 \usage{
-plotMyMultipartiteMatrix(listSBM, normalized = FALSE, memberships = NULL)
+plotMyMultipartiteMatrix(listSBM, memberships = NULL, plotOptions = list())
 }
 \arguments{
 \item{listSBM}{: a list of objects representing the multipartite network (see)}
 
-\item{normalized}{TRUE if the various matrices are presented in the same scale (between O and 1). FALSE otherwise. Default value FALSE}
+\item{memberships}{: a list of length equal to the number of Functional Groups providing the clusterings inside each group.}
 
-\item{memberships}{: a list of length number of Functional Groups with clusterings inside these FG}
+\item{plotOptions}{: a list containing the options. See details.}
 }
 \value{
 a ggplot object corresponding to the plot
@@ -19,19 +19,42 @@ a ggplot object corresponding to the plot
 \description{
 Plot the matrices corresponding to a Multipartite Network
 }
+\details{
+plotOptions is a list containing the following items
+\itemize{
+\item{"normalized":}{Boolean. TRUE if the various matrices are presented in the same scale (between O and 1). FALSE otherwise. Default value FALSE}
+\item{"compact":}{Boolean. Default value is TRUE if you ask for the matrices to be transposed to have a more compact view}
+\item{"legend": }{Boolean. Set TRUE if you   want to see the legend. Default value is FALSE}
+\item{"line.color":}{The color of the lines to separate groups. Default value is red}
+\item{"line.width":}{Width  of the lines to separate groups. Default value is NULL, automatically chosen}
+}
+}
 \examples{
 data("multipartiteEcologicalNetwork")
 Net <- multipartiteEcologicalNetwork
 type='bipartite'
 model = 'bernoulli'
 directed = FALSE
-PlantFlovis = defineSBM(Net$Inc_plant_flovis, model,type,directed,
-                        dimLabels = list(row="Plants",col="Flovis"))
-PlantAnt = defineSBM(Net$Inc_plant_ant,model,type,directed,
-                     dimLabels =list(row = "Plants", col = "Ants"))
-PlantBird = defineSBM(Net$Inc_plant_bird,model,type,directed,
+listNet <- list()
+listNet[[1]] = defineSBM(Net$Inc_plant_ant,
+                         model,type,directed,
+                         dimLabels =list(row = "Plants", col = "Ants"))
+listNet[[2]] = defineSBM(Net$Inc_plant_bird,model,type,directed,
                       dimLabels =list(row = "Plants",col = "Birds"))
-plotMyMultipartiteMatrix(list(PlantFlovis,PlantAnt,PlantBird))
+plotMyMultipartiteMatrix(listNet,plotOptions=list(legend = TRUE))
+
+listNet <- list()
+listNet[[1]] <- defineSBM(matrix(rbinom(1000,1,0.5),20,50),
+                   model = 'bernoulli',
+                   type  ='bipartite', directed = NA,
+                   dimLabels = list(row="Questions",col="Students"))
+listNet[[2]] <- defineSBM(matrix(rpois(20*30,8),30,20),
+                   model = 'poisson',
+                   type  ='bipartite',directed = NA,
+                   dimLabels = list(row="Competences",col="Questions"))
+plotMyMultipartiteMatrix(listNet,plotOptions=list(legend = TRUE,compact = FALSE))
+plotMyMultipartiteMatrix(listNet,plotOptions=list(legend = TRUE,normalized =  TRUE))
+
 
 
 }
