@@ -1,4 +1,4 @@
-# development version
+# sbm 0.2.2 - minor release
 
 * added fields dimLabels and covarArray for class SBM
 * added fields nbConnectParam, penalty and entropy  for simple and bipartite SBM (sampler and fit)
