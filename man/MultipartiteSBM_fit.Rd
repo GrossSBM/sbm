@@ -27,7 +27,7 @@ This class is designed to give a representation and adjust a Multipartite SBM fi
 
 \item{\code{blockProp}}{: block proportions in each function group}
 
-\item{\code{connectParam}}{: connexion parameters in each network}
+\item{\code{connectParam}}{: connection parameters in each network}
 }
 \if{html}{\out{</div>}}
 }

@@ -54,11 +54,14 @@ BipartiteSBM_fit <-
         )
 
         ## generating arguments for blockmodels call
+        if(private$model == 'ZIgaussian') stop("Inference not  yet  implemented for Bipartite ZI gaussian network")
+
         args <- list(membership_type = "LBM", adj = private$Y)
         if (self$nbCovariates > 0) args$covariates <- private$X
         args <- c(args, blockmodelsOptions)
 
         ## model construction
+
         model_type <- ifelse(self$nbCovariates > 0, paste0(private$model,"_covariates"), private$model)
         if (model_type == 'bernoulli_covariates' & fast == TRUE) model_type <- 'bernoulli_covariates_fast'
         private$BMobject <- do.call(paste0("BM_", model_type), args)
@@ -81,7 +84,8 @@ BipartiteSBM_fit <-
                           private$tau,
                           private$theta$mean,
                           self$covarEffect,
-                          covarList)
+                          covarList,
+                          private$theta$p0)
         mu
       },
       #' @description permute group labels by order of decreasing probability

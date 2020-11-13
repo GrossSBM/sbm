@@ -24,7 +24,7 @@ knitr::opts_chunk$set(
 
 ## Preliminaries
 
-This vignette illustrates the use of the `stimateMultipartiteSBM` function and the methods accompanying the R6 classes `multipartiteteSBMfit.
+This vignette illustrates the use of the `estimateMultipartiteSBM` function and the methods accompanying the R6 classes `multipartiteteSBMfit.
 
 ### Requirements
 
@@ -46,9 +46,9 @@ The dataset --compiled and conducted by   @Dattilo  at Centro de Investigaciones
 
 
 The dataset --which is one of the largest compiled so far with respect
-to species richness, number of interactions and sampling effort--  includes  4 functional groups, namely  plants, pollinator species (refered as floral visitors), ant species and frugivorous bird species. Three binary bipartite networks have been collected representing interactions between 1/ plants and florals visitor,  2/ plants and ants, and 3/ plants and seed dispersal birds, resulting into three bipartite networks.   
+to species richness, number of interactions and sampling effort--  includes  4 functional groups, namely  plants, pollinator species (referredas floral visitors), ant species and frugivorous bird species. Three binary bipartite networks have been collected representing interactions between 1/ plants and florals visitor,  2/ plants and ants, and 3/ plants and seed dispersal birds, resulting into three bipartite networks.   
 
-The FG are of respective sizes: $n_1 =  141$  plant species,  $n_2 = 173$  pollinator species (refered as ), $n_3 = 46$ frugivorous bird species and $n_4 = 30$  ant species. 
+The FG are of respective sizes: $n_1 =  141$  plant species,  $n_2 = 173$  pollinator species (referredas ), $n_3 = 46$ frugivorous bird species and $n_4 = 30$  ant species. 
         
 The 3 networks contain   $753$  observed interactions of which $55\%$ are   plant-pollinator interactions, $17\%$ are   plant-birds interactions  and $28\%$ are plant-ant interactions.
 
@@ -60,7 +60,7 @@ names(multipartiteEcologicalNetwork)
 
 
 ### Formatting the data
-We format the data to be able to use our R package GREMLIN i.e. we transform the matrices into an list containing *the matrix*, *its type* : `inc`   for incidence matrix,  `adj`    for adjacency symetric, and `diradj` for  non symetric (oriented) adjacency  matrix, the name of functional group in row and the name of functional group in column.   The three matrices are gathered in a list. 
+We format the data to be able to use our R package GREMLIN i.e. we transform the matrices into an list containing *the matrix*, *its type* : `inc`   for incidence matrix,  `adj`    for adjacency symmetric, and `diradj` for  non symmetric (oriented) adjacency  matrix, the name of functional group in row and the name of functional group in column.   The three matrices are gathered in a list. 
 
 To do so, we use de the function `defineNetwork`. 
 ```{r transform dataset,  eval=TRUE}
@@ -113,7 +113,7 @@ myMSBM <- estimateMultipartiteSBM(listSBM,estimOptions)
 
 \code{myMSBM} contains the estimated parameters of the models we run through during the search of the better numbers of blocks. 
 
-RES_MBM constains de dataset and the results.  
+RES_MBM contains the dataset and the results.  
 ```{r MBM what}
 myMSBM
 ``` 

@@ -23,7 +23,10 @@ SBM_fit <- # this virtual class is the mother of all subtypes of SBM (Simple or 
           "poisson"                   = list(mean = parameters$lambda),
           "poisson_covariates"        = list(mean = parameters$lambda),
           "gaussian"                  = list(mean = parameters$mu, var = parameters$sigma2),
-          "gaussian_covariates"       = list(mean = parameters$mu, var = parameters$sigma2)
+          "gaussian_covariates"       = list(mean = parameters$mu, var = parameters$sigma2),
+          "ZIgaussian"                = list(mean = parameters$mu, var = parameters$sigma2,p0 = parameters$p0),
+
+
         )
       }
     ),
@@ -58,7 +61,7 @@ SBM_fit <- # this virtual class is the mother of all subtypes of SBM (Simple or 
       #' @param covarList a list of covariates. By default, we use the covariates with which the model was estimated
       #' @return a matrix of expected values for each dyad
       predict = function(covarList = self$covarList) {
-        mu <- predict_sbm(self$nbNodes,self$nbCovariates,private$link,private$tau,private$theta$mean,self$covarEffect,covarlist)
+        mu <- predict_sbm(self$nbNodes,self$nbCovariates,private$link,private$tau,private$theta$mean,self$covarEffect,covarlist,private$theta$p0)
         mu
       },
       #' @description permute group labels by order of decreasing probability

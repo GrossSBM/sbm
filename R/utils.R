@@ -10,12 +10,17 @@ as_clustering <- function(indicator) {
   if (is.null(indicator)) {
     cl <- numeric(0)
   } else {
-    cl <- apply(indicator, 1, which.max)
+    if(is.matrix(indicator)){
+      cl <- apply(indicator, 1, which.max)
+    }
+    if(is.vector(indicator)){
+      cl <- indicator
+    }
   }
   cl
 }
 
-## Some utils function for math
+##-------------------------------- Some utils function for math
 .xlogx <- function(x) ifelse(x < .Machine$double.eps, 0, x*log(x))
 .logistic <- function(x) {1/(1 + exp(-x))}
 .logit    <- function(x) {log(x/(1 - x))}
@@ -38,10 +43,10 @@ check_boundaries <- function(x, zero = .Machine$double.eps) {
 }
 
 #----------------------- PREDICTION
-predict_sbm <- function(nbNodes,nbCovariates,link,invlink,tau,theta_mean,covarEffect,covarList){
-
+predict_sbm <- function(nbNodes,nbCovariates,link,invlink,tau,theta_mean,covarEffect,covarList,theta_p0 = NULL){
 
   stopifnot(is.list(covarList), nbCovariates == length(covarList))
+  if (!is.null(theta_p0)){theta_mean <- ((1-theta_p0)>0.5 ) * theta_mean }
   mu <- tau %*% theta_mean %*% t(tau)
   if (nbCovariates > 0) {
     all(sapply(covarList, nrow) == nbNodes, sapply(covarList, ncol) == nbNodes)
@@ -51,11 +56,13 @@ predict_sbm <- function(nbNodes,nbCovariates,link,invlink,tau,theta_mean,covarEf
 }
 
 
-predict_lbm <- function(dimension,nbCovariates,link,invlink,tau,theta_mean,covarEffect,covarList){
+predict_lbm <- function(dimension,nbCovariates,link,invlink,tau,theta_mean,covarEffect,covarList,theta_p0 = NULL){
 
 
     stopifnot(!is.null(tau[[1]]), !is.null(tau[[2]]), !is.null(theta_mean))
     stopifnot(is.list(covarList),  nbCovariates == length(covarList))
+
+    if (!is.null(theta_p0)){theta_mean <- ((1-theta_p0) > 0.5) * theta_mean }
 
     if (length(covarList) > 0) {
       stopifnot(all(sapply(covarList, nrow) == dimension[1]),
@@ -65,7 +72,7 @@ predict_lbm <- function(dimension,nbCovariates,link,invlink,tau,theta_mean,covar
     if (length(covarList) > 0) mu <- invlink(link(mu) + covarEffect)
     mu
 }
-
+#----------------------- RE-ORDERING
 order_sbm <- function(theta_mean,pi){
   o <- order(theta_mean %*% pi, decreasing = TRUE)
   return(o)
@@ -101,6 +108,7 @@ computeNbConnectParams_MBM <- function(nbBlocks,distrib,E,directed){
     r <- nbBlocks[E[i,1]]*nbBlocks[E[i,2]]
     if (!DIR[i]){r <- r/2 + nbBlocks[E[i,1]]/2}
     if (distrib[i] == 'gaussian'){r <- r*2}
+    if (distrib[i] == 'ZIgaussian'){r <- r*3}
     r}
   )
   sum(nb)

@@ -35,7 +35,7 @@ BipartiteSBM <- # this class inherit from SBM and allow to use multipartite as a
                                      private$tau,
                                      private$theta$mean,
                                      self$covarEffect,
-                                     covarList)
+                                     covarList,private$theta$p0)
                   mu
                 },
                 #' @description permute group labels by order of decreasing probability

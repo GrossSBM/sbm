@@ -1,4 +1,4 @@
-available_models_edges <- c('bernoulli', 'poisson', 'gaussian')
+available_models_edges <- c('bernoulli', 'poisson', 'gaussian','ZIgaussian')
 
 #' R6 virtual class for SBM representation (mother class of Simple and Bipartite SBM fit and sampler)
 #'
@@ -55,11 +55,13 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
         private$beta    <- covarParam
         private$link    <- switch(model,
                 "gaussian"  = function(x) {x},
+                "ZIgaussian"  = function(x) {x},
                 "poisson"   = function(x) {log(x)},
                 "bernoulli" = function(x) {.logit(x)},
                 )
         private$invlink  <- switch(model,
                 "gaussian"  = function(x) {x},
+                "ZIgaussian"  = function(x) {x},
                 "poisson"   = function(x) {exp(x)},
                 "bernoulli" = function(x) {.logistic(x)},
                 )

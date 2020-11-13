@@ -1,4 +1,7 @@
 myRepeat <- function(v,Qrow,Qcol){c(rep(v[1],Qrow),rep(v[2],Qcol))}
+#' @importFrom rlang .data
+#' @importFrom utils head
+
 #----------------------------------------------------------------------------------
 plotMatrix = function(Mat, dimLabels, clustering = NULL,plotOptions = list()){
 
@@ -66,7 +69,7 @@ plotMatrix = function(Mat, dimLabels, clustering = NULL,plotOptions = list()){
 #   if (binary){melted_Mat$link <- as.factor(melted_Mat$link)}
 #   colnames(melted_Mat) <- c('index_row', 'index_col', 'link')
 
-  g <- ggplot(data = melted_Mat, aes(y = index_row, x = index_col, fill = link))
+  g <- ggplot(data = melted_Mat, aes(y = .data$index_row, x = .data$index_col, fill = .data$link))
   g <- g + geom_tile()
   if (!binary) {g <-  g +  scale_fill_gradient(low = "white", high = "black", limits = u,na.value = "transparent")}
   if (binary) {g <- g + scale_fill_manual(breaks = c("0", "1"),values = c("white", "black"),na.value = "transparent")}
@@ -87,7 +90,7 @@ plotMatrix = function(Mat, dimLabels, clustering = NULL,plotOptions = list()){
 ##################################################################################
 #----------------------------------------------------------------------------------
 ##################################################################################
-#' @importFrom rlang .data
+
 plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG, distrib, clustering,plotOptions) {
 
 
@@ -119,7 +122,18 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG, distrib, cluster
       model <- distrib[l]
       mat  <- list_Mat[[l]]
       if (model == "poisson"){mat = mat/max(mat)}
-      if ( !(model %in% c("bernoulli","poisson"))){mat = (mat - min(mat))/(max(mat) - min(mat)) + 0.1}
+      range_mat <- max(mat) - min(mat)
+      if ( !(model %in% c("bernoulli","poisson"))){
+        if (range_mat !=0){
+          mat = (mat - min(mat))/(range_mat) + 0.1
+        }
+        else{if (min(mat)==0){
+          mat = mat}
+          else{
+            mat = mat/mat}
+        }
+      }
+
       return(mat)
     }
     )
@@ -215,7 +229,7 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG, distrib, cluster
 
 
 
-  g <- ggplot2::ggplot(melted_Mat, aes(y = index_row, x = index_col, fill = .data$link))
+  g <- ggplot2::ggplot(melted_Mat, aes(y = .data$index_row, x = .data$index_col, fill = .data$link))
   g <- g + geom_tile()
   name_legend <- ifelse(normalized,"Norm. Link","Link")
 
@@ -240,7 +254,6 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG, distrib, cluster
   g <- g + theme(axis.text.x = element_text(angle = 270, hjust = 0))
   if(!currentOptions$legend){g <- g + theme(legend.position = 'none')}
   g <- g + facet_grid(FG_row~ FG_col, scales = 'free', space = 'free',switch = 'y')
-  #g <- g + facet_grid(FG_row~ FG_col,switch = 'y')
   ########## separators
 
   if (reordered){
@@ -267,8 +280,8 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG, distrib, cluster
     testRow <- vapply(1:(nbSep*nbFG),function(i){1*(G[separRow$FG_row_index[i],separRow$FG_col_index[i]]==1)},1)
     separRow <- separRow[testRow==1,]
 
-    g <- g + geom_vline(data= separCol, aes(xintercept = sepCol),size= currentOptions$line.width, col=currentOptions$line.color)
-    g <- g + geom_hline(data= separRow, aes(yintercept = sepRow),size= currentOptions$line.width, col=currentOptions$line.color)
+    g <- g + geom_vline(data= separCol, aes(xintercept =  .data$sepCol),size= currentOptions$line.width, col=currentOptions$line.color)
+    g <- g + geom_hline(data= separRow, aes(yintercept = .data$sepRow),size= currentOptions$line.width, col=currentOptions$line.color)
   }
   g
 }
@@ -368,7 +381,7 @@ plotMeso <- function(thetaMean, pi,model,directed,bipartite,nbNodes,nodeLabels,p
   if ( !(model %in% c("bernoulli","poisson"))){alpha.norm = (alpha - min(alpha))/(max(alpha) - min(alpha)) + 0.1}
 
   if (currentOptions$edge.threshold != -Inf) {
-    cat(paste("Nota bene: threshold on connexions is",currentOptions$edge.threshold,sep = ' '))
+    cat(paste("Nota bene: threshold on connections is",currentOptions$edge.threshold,sep = ' '))
   }
 
   if (bipartite){
@@ -477,7 +490,7 @@ plotMesoMultipartite <- function(E,theta, list_pi,v_distrib,directed,nbNodes,nod
 
   currentOptions[names(plotOptions)] <- plotOptions
   if (currentOptions$edge.threshold != -Inf) {
-    cat(paste("Nota bene: threshold on connexions is",currentOptions$edge.threshold,sep = ' '))
+    cat(paste("Nota bene: threshold on connections is",currentOptions$edge.threshold,sep = ' '))
   }
   #---------------------------------------"
   if (is.null(plotOptions$vertex.label.name)){

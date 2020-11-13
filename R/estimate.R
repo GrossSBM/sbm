@@ -228,35 +228,28 @@ estimateBipartiteSBM <- function(netMat,
 #' @export
 #'
 #' @examples
-#' #' # About the Functional Groups (FG)
-#' nbBlocks  <- c(3,2,2)
-#' nbNodes <-  c(100,50,40)
-#' blockProp <- vector("list", 3)
-#' blockProp[[1]] <- c(0.4,0.3,0.3) # in Functional Group 1
-#' blockProp[[2]] <- c(0.6,0.4) # in Functional Group 2
-#' blockProp[[3]]  <- c(0.6,0.4) # in Functional Group 3
-#' archiMultipartite  <-  rbind(c(1,2),c(2,3),c(2,2),c(1,3))
-#' model <- c('bernoulli','poisson','bernoulli','gaussian')
-#' directed <- c( NA, NA  ,  FALSE , NA)
+#' ## About the Functional Groups (FG)
+#' blockProp <- list(c(0.16 ,0.40 ,0.44),c(0.3,0.7)) # prop of blocks in each FG
+#' archiMultipartite <-  rbind(c(1,2),c(2,2),c(1,1)) # architecture of the multipartite net.
+#' nbNodes <- c(60,50)
+#' ## About the connection matrices
+#' directed <- c( NA,TRUE,  FALSE) # type of each network
+#' model <- c('gaussian','bernoulli','poisson')
 #' connectParam <- list()
-#' E <- archiMultipartite
-#' mu <- rbeta(nbBlocks[E[1,1]] * nbBlocks[E[1,2]],1,1 )
-#' connectParam[[1]] <- list(mean = matrix(mu,nrow = nbBlocks[E[1,1]], ncol = nbBlocks[E[1,2]] ))
-#' mu <- rgamma(nbBlocks[E[2,1]] * nbBlocks[E[2,2]],7.5,0.01 )
-#' connectParam[[2]] <- list(mean  =  matrix(mu,nrow = nbBlocks[E[2,1]], ncol = nbBlocks[E[2,2]]))
-#' p <- rbeta(nbBlocks[E[3,1]] * nbBlocks[E[3,2]],0.9,0.9 )
-#' p <- 1/2*(p + t(p))
-#' connectParam[[3]] <- list(mean  =  matrix(p, nrow = nbBlocks[E[3,1]], ncol = nbBlocks[E[3,2]]))
-#' mu <- rnorm(nbBlocks[E[4,1]] * nbBlocks[E[4,2]],7.5,10 )
-#' connectParam[[4]] <- list(mean = matrix(mu, nrow = nbBlocks[E[4,1]], ncol = nbBlocks[E[4,2]]))
-#' v <- rgamma(nbBlocks[E[4,1]] * nbBlocks[E[4,2]],7.5,0.1 )
-#' connectParam[[4]]$var <- matrix(v, nrow = nbBlocks[E[4,1]], ncol = nbBlocks[E[4,2]])
+#' connectParam[[1]] <- list()
+#' connectParam[[1]]$mean  <- matrix(c(6.1, 8.9, 6.6, 9.8, 2.6, 1.0), 3, 2)
+#' connectParam[[1]]$var  <-  matrix(c(1.6, 1.6, 1.8, 1.7 ,2.3, 1.5),3, 2)
+#' connectParam[[2]] <-  list()
+#' connectParam[[2]]$mean <-  matrix(c(0.7,1.0, 0.4, 0.6),2, 2)
+#' connectParam[[3]] <- list()
+#' m3 <- matrix(c(2.5, 2.6 ,2.2 ,2.2, 2.7 ,3.0 ,3.6, 3.5, 3.3),3,3 )
+#' connectParam[[3]]$mean <- (m3 + t(m3))/2
 #' ## Graph Sampling
 #' mySampleMSBM <- sampleMultipartiteSBM(nbNodes, blockProp,
 #'                                       archiMultipartite, connectParam, model,
-#'                                       directed, dimLabels = as.list(c('A','B','C')))
+#'                                       directed, dimLabels = as.list(c('A','B')),seed = 2)
 #' listSBM <- mySampleMSBM$listSBM
-#' estimOptions = list(initBM = FALSE)
+#' estimOptions = list(initBM = FALSE,nbCores  = 2,initBM = FALSE)
 #' myMSBM <- estimateMultipartiteSBM(listSBM,estimOptions)
 estimateMultipartiteSBM <- function(listSBM,
                                     estimOptions = list())

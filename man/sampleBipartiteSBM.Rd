@@ -21,7 +21,7 @@ sampleBipartiteSBM(
 
 \item{connectParam}{list of parameters for connectivity with a matrix of means 'mean' and an optional matrix of variances 'var', the sizes of which must match \code{blockProp} length (in row, respectively in column)}
 
-\item{model}{character describing the model for the relation between nodes (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'}, ...). Default is \code{'bernoulli'}.}
+\item{model}{character describing the model for the relation between nodes (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'}, \code{'ZIgaussian'}). Default is \code{'bernoulli'}.}
 
 \item{dimLabels}{an optional list of labels for each dimension (in row, in column)}
 

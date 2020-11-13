@@ -60,6 +60,7 @@ SimpleSBM_fit <-
           exploration_factor = explorFactor
         )
 
+        if(private$model == 'ZIgaussian') stop("Inference not  yet  implemented for  ZI gaussian network")
         ## generating arguments for blockmodels call
         args <- list(membership_type =  ifelse(!private$directed_, "SBM_sym", "SBM"), adj = .na2zero(private$Y))
         if (self$nbCovariates > 0) args$covariates <- private$X

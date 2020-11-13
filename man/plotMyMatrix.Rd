@@ -18,7 +18,7 @@ plotMyMatrix(
 
 \item{clustering}{: a list of length 2 specifying a clustering on row and col}
 
-\item{plotOptions:}{a list providing options.}
+\item{plotOptions:}{a list providing options. See details below.}
 }
 \value{
 a ggplot object corresponding to the plot

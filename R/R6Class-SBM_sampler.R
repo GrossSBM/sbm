@@ -35,11 +35,16 @@ SBM_sampler <- # Virtual call for SBM sampler (children: Simple and Bipartite SB
           stopifnot(length(connectParam$var) == 1)
           stopifnot(connectParam$var > 0)
         }
+        if (model == 'ZIgaussian') {
+          stopifnot(all(connectParam$p0 >= 0))
+          stopifnot(all(connectParam$p0 <= 1))
+        }
 
         private$sampling_func <- switch(model,
             "gaussian"  = function(n, param) rnorm(n = n, mean   = param$mean, sd = sqrt(param$var)) ,
             "poisson"   = function(n, param) rpois(n = n, lambda = param$mean) ,
             "bernoulli" = function(n, param) rbinom(n = n, size = 1, prob   = param$mean),
+            "ZIgaussian" = function(n, param) rbinom(n = n,size = 1,prob = 1-param$p0)*rnorm(n = n, param$mean, sd = sqrt(param$var))
           )
         self$rMemberships()
       },

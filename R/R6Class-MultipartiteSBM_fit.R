@@ -21,7 +21,7 @@ MultipartiteSBM_fit <-
         })
         #-----------------------------------------------------
         list_theta_mean <- lapply(1:private$nbNet,function(s_){
-          if(private$distrib[s_]=='gaussian'){u = list_theta[[s_]]$mean}else{u = list_theta[[s_]]}
+          if(private$distrib[s_] %in% c('ZIgaussian','gaussian')){u = list_theta[[s_]]$mean}else{u = list_theta[[s_]]}
           u})
 
         ordAll <- order_mbm(list_theta_mean,list_pi,private$E)
@@ -52,11 +52,18 @@ MultipartiteSBM_fit <-
           o_row <- ordAll[[private$E[s_,1]]]
           o_col <- ordAll[[private$E[s_,2]]]
           l_s <- list(mean  =  list_theta_mean[[s_]][o_row ,o_col])
-          if (private$distrib[s_]=='gaussian'){
+          if (private$distrib[s_] %in% c('gaussian','ZIgaussian')){
             var_s <- list_theta[[s_]]$var
             if (is.matrix(var_s)){var_s  = var_s[o_row,o_col]}
             l_s$var <- var_s
           }
+          if (private$distrib[s_] == 'ZIgaussian'){
+            p0_s <- list_theta[[s_]]$p0
+            if (is.matrix(p0_s)){p0_s  = p0_s[o_row,o_col]}
+            l_s$p0 <- p0_s
+          }
+
+
           private$theta[[s_]]=l_s
           private$listNet[[s_]]$connectParam = l_s
         }
@@ -146,7 +153,7 @@ MultipartiteSBM_fit <-
       #' @param covarList a list of covariates. By default, we use the covariates with which the model was estimated
       #' @return a list of matrices matrix of expected values for each dyad
       predict = function() {
-          lapply(1:private$nbNet,function(l){BMi <- self$getBM(l); BMi$predict()})
+          lapply(1:private$nbNet,function(l){BMl <- self$getBM(l); BMl$predict()})
       },
       #' @description method to select a specific model among the ones fitted during the optimization.
       #'  Fields of the current MultipartiteSBM_fit will be updated accordingly.
@@ -211,7 +218,7 @@ MultipartiteSBM_fit <-
     },
     #' @field blockProp : block proportions in each function group
     blockProp = function(value) {private$pi},
-    #' @field connectParam : connexion parameters in each network
+    #' @field connectParam : connection parameters in each network
     connectParam = function(value) {private$theta}
 )
 )

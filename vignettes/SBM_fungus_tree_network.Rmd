@@ -219,7 +219,7 @@ mySimpleSBMCov<-
     directed = FALSE, 
     dimLabels = list(row = 'tree', col= 'tree'),
     covariates  = fungusTreeNetwork$covar_tree, 
-    estimOptions = list(verbosity = 0, plot = FALSE, nbCores = 1)
+    estimOptions = list(verbosity = 0, plot = FALSE, nbCores = 2)
   )
 ```
 
