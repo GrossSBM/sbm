@@ -18,7 +18,7 @@ plotMyMatrix(
 
 \item{clustering}{: a list of length 2 specifying a clustering on row and col}
 
-\item{plotOptions:}{a list providing options. See details below.}
+\item{plotOptions}{: a list providing options. See details below.}
 }
 \value{
 a ggplot object corresponding to the plot
@@ -29,15 +29,15 @@ Plot an adjacency or incidence Matrix
 \details{
 The list of parameters \code{plotOptions} for the matrix plot is
 \itemize{
-\item{"legend": }{Boolean. Set TRUE if you   want to see the legend. Default value is FALSE}
-\item{"line.color ": }{The color of the lines to separate groups if a clustering is provided. Default value is red}
-\item{"line.width ": }{Width  of the lines to separate groups. Default value is NULL, automatically chosen}
+\item{"legend": }{Boolean. Set TRUE if you want to see the legend. Default value is FALSE}
+\item{"line.color": }{The color of the lines to separate groups if a clustering is provided. Default value is red}
+\item{"line.width": }{Width  of the lines to separate groups. Default value is NULL, automatically chosen}
 }
 }
 \examples{
 M <- matrix(sample(c(0,1),900,replace=TRUE),30,30)
-plotMyMatrix(M,plotOptions= list(legend = FALSE))
-M2 <- matrix(rpois(800,10),40,20)
-plotMyMatrix(M2,dimLabels=list(row= 'reader',col = 'book'),plotOptions= list(legend = TRUE))
+plotMyMatrix(M, plotOptions= list(legend = FALSE))
+M2 <- matrix( rpois(800,10),40,20)
+plotMyMatrix(M2, dimLabels=list(row= 'reader',col = 'book'), plotOptions = list(legend = TRUE))
 
 }

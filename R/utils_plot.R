@@ -82,7 +82,7 @@ plotMatrix = function(Mat, dimLabels, clustering = NULL,plotOptions = list()){
 
   if (!is.null(clustering)) {
     g <- g + geom_vline(data = sepCol,mapping = aes_string(xintercept = 'sep'),size = currentOptions$line.width, col=currentOptions$line.color)
-    g <- g + geom_hline(data = sepRow,mapping = aes_string(yintercept = 'sep'),size = currentOptions$line.width, col=currentOptions$line.color)
+    g <- g + geom_hline(data = sepRow + 1,mapping = aes_string(yintercept = 'sep'),size = currentOptions$line.width, col=currentOptions$line.color)
   }
   g
   #if (!is.null(fileNameSave)) { ggsave(fileNameSave, width = 20, height = 20, units = "cm") }else{g}

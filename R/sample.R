@@ -218,7 +218,7 @@ sampleMultipartiteSBM <- function(nbNodes,
 
   nbNetworks <- length(connectParam)
 
-  # transfo intro GREMLIN param
+  # transfo intro GREMLINS param
   list_theta <- list()
   for (l in 1 : nbNetworks){
     if  ( model[l] %in% c('bernoulli','poisson')) { list_theta[[l]] = connectParam[[l]]$mean} else{list_theta[[l]] =  connectParam[[l]]}

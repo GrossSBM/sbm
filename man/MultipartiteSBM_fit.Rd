@@ -72,7 +72,7 @@ constructor for Multipartite SBM
 \if{html}{\out{<a id="method-optimize"></a>}}
 \if{latex}{\out{\hypertarget{method-optimize}{}}}
 \subsection{Method \code{optimize()}}{
-estimation via GREMLIN
+estimation via GREMLINS
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{MultipartiteSBM_fit$optimize(currentOptions)}\if{html}{\out{</div>}}
 }

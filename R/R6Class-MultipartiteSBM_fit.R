@@ -2,7 +2,7 @@
 #'
 #' This class is designed to give a representation and adjust a Multipartite SBM fitted with GREMLIN.
 #'
-#' @import R6 GREMLIN
+#' @import R6 GREMLINS
 #' @export
 MultipartiteSBM_fit <-
   R6::R6Class(
@@ -10,14 +10,16 @@ MultipartiteSBM_fit <-
     inherit = MultipartiteSBM,
     # fields for internal use (referring to the mathematical notation)
     private = list(
-      GREMLINobject       = NULL,
-      import_from_GREMLIN = function(index = 1) {
+      GREMLINSobject       = NULL,
 
-        GREMLINfit <- private$GREMLINobject$fittedModel[[index]]
-        list_pi <- lapply(private$namesFG,function(n_){GREMLINfit$paramEstim$list_pi[[n_]]})
-        list_tau <- lapply(private$namesFG,function(n_){GREMLINfit$paramEstim$tau[[n_]]})
+      #------------ function to convert GREMLINS result into a sbm object result
+      import_from_GREMLINS = function(index = 1) {
+
+        GREMLINSfit <- private$GREMLINSobject$fittedModel[[index]]
+        list_pi <- lapply(private$namesFG,function(n_){GREMLINSfit$paramEstim$list_pi[[n_]]})
+        list_tau <- lapply(private$namesFG,function(n_){GREMLINSfit$paramEstim$tau[[n_]]})
         list_theta <-lapply(1:private$nbNet, function(s_){
-          GREMLINfit$paramEstim$list_theta[[paste(private$namesFG[private$E[s_,1]],private$namesFG[private$E[s_,2]],sep='')]]
+          GREMLINSfit$paramEstim$list_theta[[paste(private$namesFG[private$E[s_,1]],private$namesFG[private$E[s_,2]],sep='')]]
         })
         #-----------------------------------------------------
         list_theta_mean <- lapply(1:private$nbNet,function(s_){
@@ -84,12 +86,12 @@ MultipartiteSBM_fit <-
       initialize = function(listSBM) {
         super$initialize(listSBM)
       },
-      #' @description estimation via GREMLIN
+      #' @description estimation via GREMLINS
       #' @param currentOptions options for MultipartiteBM
       optimize = function(currentOptions) {
 
 
-        # ----- formatting data for using GREMLIN
+        # ----- formatting data for using GREMLINS
         listNetG <- lapply(private$listNet, function(net) {
           if (substr(class(net)[1], 1, 6) == "Simple") {
             ifelse(net$directed, type <- "diradj", type <- "adj")
@@ -97,7 +99,7 @@ MultipartiteSBM_fit <-
           else {
             type <-  "inc"
           }
-          GREMLIN::defineNetwork(net$netMatrix,
+          GREMLINS::defineNetwork(net$netMatrix,
                                  type,
                                  rowFG = net$dimLabels[[1]],
                                  colFG = net$dimLabels[[2]])
@@ -115,7 +117,7 @@ MultipartiteSBM_fit <-
         initBM <- currentOptions$initBM
 
         if ( sum(abs(v_Kmin - v_Kmax)) > 0) {
-          private$GREMLINobject <- GREMLIN::multipartiteBM(
+          private$GREMLINSobject <- GREMLINS::multipartiteBM(
           list_Net = listNetG,
           v_distrib = vdistrib ,
           namesFG = namesFG,
@@ -128,9 +130,9 @@ MultipartiteSBM_fit <-
           nbCores = nbCores,
           maxiterVE =  maxiterVE ,
           maxiterVEM =  maxiterVEM)
-          private$import_from_GREMLIN()
+          private$import_from_GREMLINS()
         } else {
-          private$GREMLINobject <- GREMLIN::multipartiteBMFixedModel(
+          private$GREMLINSobject <- GREMLINS::multipartiteBMFixedModel(
             list_Net = listNetG,
             v_distrib = vdistrib,
             namesFG = namesFG ,
@@ -140,9 +142,8 @@ MultipartiteSBM_fit <-
             maxiterVE = maxiterVE,
             maxiterVEM = maxiterVEM,
             verbose = verbose)
+          private$import_from_GREMLINS()
         }
-        ### TODO find what to ouput???
-        #import_from_GREMLIN doit remplir listFit
       },
       #' @description getBM returns a given network from a Multipartite SBM
       #' @param i index of the asked network
@@ -159,9 +160,9 @@ MultipartiteSBM_fit <-
       #'  Fields of the current MultipartiteSBM_fit will be updated accordingly.
       #' @param index integer, the index of the model to be selected (row number in storedModels)
       setModel = function(index) {
-        stopifnot(!is.null(private$GREMLINobject))
+        stopifnot(!is.null(private$GREMLINSobject))
         stopifnot(index %in% seq.int(nrow(self$storedModels)))
-        private$import_from_GREMLIN(index)
+        private$import_from_GREMLINS(index)
       },
       #' @description print method
       #' @param type character to tune the displayed name
@@ -198,7 +199,7 @@ MultipartiteSBM_fit <-
       return(r)},
     #' @field storedModels data.frame of all models fitted (and stored) during the optimization
     storedModels = function(value) {
-      GO <- private$GREMLINobject
+      GO <- private$GREMLINSobject
       nbModels <- length(GO$fittedModel)
       Blocks <- as.data.frame(t(sapply(GO$fittedModel, function(m) m$paramEstim$v_K)))
       colnames(Blocks) <- paste('nbBlocks',private$namesFG)

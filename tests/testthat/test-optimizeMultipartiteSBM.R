@@ -1,4 +1,4 @@
-test_that("optimize for multipartite SBM runs GREMLIN", {
+test_that("optimize for multipartite SBM runs GREMLINS", {
 
   set.seed(2)
    #A <- matrix(rbinom(100,1,.2),10,10)
@@ -20,7 +20,7 @@ test_that("optimize for multipartite SBM runs GREMLIN", {
 
 
   # private
-  #print(E$GREMLINobject)
+  #print(E$GREMLINSobject)
   expect_equal(length(Estim$getBM(1)$memberships),npc*Q)
   expect_equal(is.list(Estim$getBM(2)$memberships),TRUE)
   expect_equal(length(Estim$getBM(1)$blockProp),length(unique(Estim$getBM(1)$memberships)))

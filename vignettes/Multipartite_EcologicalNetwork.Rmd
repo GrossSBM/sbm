@@ -10,7 +10,7 @@ toc_depth: 4
 bibliography: references.bib
 link-citations: yes
 vignette: >
-  %\VignetteIndexEntry{Multipartite_EcologicalNetwork}
+  %\VignetteIndexEntry{Multipartite Stochastic Block Models}
   %\VignetteEngine{knitr::rmarkdown} 
   %\VignetteEncoding{UTF-8}
 ---
@@ -24,7 +24,7 @@ knitr::opts_chunk$set(
 
 ## Preliminaries
 
-This vignette illustrates the use of the `estimateMultipartiteSBM` function and the methods accompanying the R6 classes `multipartiteteSBMfit.
+This vignette illustrates the use of the `estimateMultipartiteSBM` function and the methods accompanying the R6 classes `multipartiteteSBMfit'.
 
 ### Requirements
 
@@ -60,7 +60,7 @@ names(multipartiteEcologicalNetwork)
 
 
 ### Formatting the data
-We format the data to be able to use our R package GREMLIN i.e. we transform the matrices into an list containing *the matrix*, *its type* : `inc`   for incidence matrix,  `adj`    for adjacency symmetric, and `diradj` for  non symmetric (oriented) adjacency  matrix, the name of functional group in row and the name of functional group in column.   The three matrices are gathered in a list. 
+We format the data to be able to use our functions i.e. we transform the matrices into an list containing *the matrix*, *its type* : `inc`   for incidence matrix,  `adj`    for adjacency symmetric, and `diradj` for  non symmetric (oriented) adjacency  matrix, the name of functional group in row and the name of functional group in column.   The three matrices are gathered in a list. 
 
 To do so, we use de the function `defineNetwork`. 
 ```{r transform dataset,  eval=TRUE}

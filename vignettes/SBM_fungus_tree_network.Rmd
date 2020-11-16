@@ -10,8 +10,8 @@ output:
 bibliography: references.bib
 link-citations: yes
 vignette: >
-  %\VignetteIndexEntry{SBM_tree_fungus_network}
-  %\VignetteEngine{knitr::rmarkdown}dim(tree_tree_binary)
+  %\VignetteIndexEntry{Simple and Bipartite Stochastic Block Models}
+  %\VignetteEngine{knitr::rmarkdown} 
   %\VignetteEncoding{UTF-8}
 ---
 
