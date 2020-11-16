@@ -24,7 +24,7 @@ knitr::opts_chunk$set(
 
 ## Preliminaries
 
-This vignette illustrates the use of the `estimateMultipartiteSBM` function and the methods accompanying the R6 classes `multipartiteteSBMfit'.
+This vignette illustrates the use of the `estimateMultipartiteSBM` function and the methods accompanying the R6 classes `multipartiteSBMfit'.
 
 ### Requirements
 
