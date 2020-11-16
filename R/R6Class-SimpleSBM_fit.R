@@ -47,19 +47,28 @@ SimpleSBM_fit <-
       #'  \item{"fast"}{logical: should approximation be used for Bernoulli model with covariates. Default to \code{TRUE}}
       #' }
 
-      optimize = function(estimOptions){
+      optimize = function(estimOptions = list()){
 
-
-
-        ## translate to blockmodels list of options
-        blockmodelsOptions <- list(
-          verbosity          = estimOptions$verbosity,
-          plotting           = if(estimOptions$plot) character(0) else "",
-          explore_min        = estimOptions$nbBlocksRange[1],
-          explore_max        = estimOptions$nbBlocksRange[2],
-          ncores             = estimOptions$nbCores,
-          exploration_factor = estimOptions$explorFactor
+        currentOptions <- list(
+          verbosity     = 3,
+          plot          = TRUE,
+          explorFactor  = 1.5,
+          nbBlocksRange = c(4,Inf),
+          nbCores       = 2,
+          fast          = TRUE
         )
+        currentOptions[names(estimOptions)] <- estimOptions
+
+        ## Transform estimOptions to a suited for blockmodels list of options
+        blockmodelsOptions <- list(
+          verbosity          = currentOptions$verbosity,
+          plotting           = if(currentOptions$plot) character(0) else "",
+          explore_min        = currentOptions$nbBlocksRange[1],
+          explore_max        = currentOptions$nbBlocksRange[2],
+          ncores             = currentOptions$nbCores,
+          exploration_factor = currentOptions$explorFactor
+         )
+        fast  = currentOptions$fast
 
         ## generating arguments for blockmodels call
         args <- list(membership_type =  ifelse(!private$directed_, "SBM_sym", "SBM"), adj = .na2zero(private$Y))

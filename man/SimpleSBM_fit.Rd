@@ -10,6 +10,16 @@ R6 Class definition of a Simple SBM fit
 }
 \details{
 This class is designed to give a representation and adjust an SBM fitted with blockmodels.
+
+The list of parameters \code{estimOptions} essentially tunes the optimization process and the variational EM algorithm, with the following parameters
+\itemize{
+\item{"nbCores"}{integer for number of cores used. Default is 2}
+\item{"verbosity"}{integer for verbosity (0, 1). Default is 1}
+\item{"plot"}{boolean, should the ICL by dynamically plotted or not. Default is TRUE}
+\item{"exploreFactor"}{control the exploration of the number of groups}
+\item{"nbBlocksRange"}{minimal and maximal number or blocks explored}
+\item{"fast"}{logical: should approximation be used for Bernoulli model with covariates. Default to \code{TRUE}}
+}
 }
 \section{Super classes}{
 \code{\link[sbm:SBM]{sbm::SBM}} -> \code{\link[sbm:SBM_fit]{sbm::SBM_fit}} -> \code{SimpleSBM_fit}
@@ -94,30 +104,13 @@ constructor for a Simple SBM fit
 \subsection{Method \code{optimize()}}{
 function to perform optimization
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{SimpleSBM_fit$optimize(
-  verbosity = 3,
-  plot = FALSE,
-  explorFactor = 1.5,
-  nbBlocksRange = c(4, Inf),
-  nbCores = 2,
-  fast = TRUE
-)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{SimpleSBM_fit$optimize(estimOptions = list())}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{verbosity}}{integer, the level of verbosity. Default to 3}
-
-\item{\code{plot}}{logical, if TRUE ploting is done dynamically on the screen. Default to \code{TRUE}}
-
-\item{\code{explorFactor}}{double factor for exploring successive model}
-
-\item{\code{nbBlocksRange}}{2-size vector: range of exploration}
-
-\item{\code{nbCores}}{integer, the number of cores to use. Default is 2.}
-
-\item{\code{fast}}{logical: should approximation be used for Bernoulli model with covariates. Default to \code{TRUE}}
+\item{\code{estimOptions}}{a list of parameters controlling the inference algorithm and model selection. See details.}
 }
 \if{html}{\out{</div>}}
 }

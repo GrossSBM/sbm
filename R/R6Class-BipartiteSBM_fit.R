@@ -30,28 +30,38 @@ BipartiteSBM_fit <-
 
       },
       #' @description function to perform optimization
-      #' @param verbosity integer, the level of verbosity. Default to 3
-      #' @param plot logical, if TRUE ploting is done dynamically on the screen. Default to \code{TRUE}
-      #' @param nbCores integer, the number of cores to use. Default is 2.
-      #' @param explorFactor double factor for exploring successive model
-      #' @param nbBlocksRange 2-size vector: range of exploration
-      #' @param fast logical: should approximation be used for Bernoulli model with covariates. Default to \code{TRUE}
-      optimize = function(verbosity     = 3,
-                          plot          = FALSE,
-                          explorFactor  = 1.5,
-                          nbBlocksRange = c(4,Inf),
-                          nbCores       = 2,
-                          fast          = TRUE) {
+      #' @param estimOptions a list of parameters controlling the inference algorithm and model selection. See details.
+      #' @details The list of parameters \code{estimOptions} essentially tunes the optimization process and the variational EM algorithm, with the following parameters
+      #'  \itemize{
+      #'  \item{"nbCores"}{integer for number of cores used. Default is 2}
+      #'  \item{"verbosity"}{integer for verbosity (0, 1). Default is 1}
+      #'  \item{"plot"}{boolean, should the ICL by dynamically plotted or not. Default is TRUE}
+      #'  \item{"exploreFactor"}{control the exploration of the number of groups}
+      #'  \item{"nbBlocksRange"}{minimal and maximal number or blocks explored}
+      #'  \item{"fast"}{logical: should approximation be used for Bernoulli model with covariates. Default to \code{TRUE}}
+      #' }
+      optimize = function(estimOptions = list()){
 
-        ## translate to blockmodels list of options
-        blockmodelsOptions <- list(
-          verbosity          = verbosity,
-          plotting           = if(plot) character(0) else "",
-          explore_min        = nbBlocksRange[1],
-          explore_max        = nbBlocksRange[2],
-          ncores             = nbCores,
-          exploration_factor = explorFactor
+        currentOptions <- list(
+          verbosity     = 3,
+          plot          = TRUE,
+          explorFactor  = 1.5,
+          nbBlocksRange = c(4,Inf),
+          nbCores       = 2,
+          fast          = TRUE
         )
+        currentOptions[names(estimOptions)] <- estimOptions
+
+        ## Transform estimOptions to a suited for blockmodels list of options
+        blockmodelsOptions <- list(
+          verbosity          = currentOptions$verbosity,
+          plotting           = if(currentOptions$plot) character(0) else "",
+          explore_min        = currentOptions$nbBlocksRange[1],
+          explore_max        = currentOptions$nbBlocksRange[2],
+          ncores             = currentOptions$nbCores,
+          exploration_factor = currentOptions$explorFactor
+        )
+        fast  <- currentOptions$fast
 
         ## generating arguments for blockmodels call
         args <- list(membership_type = "LBM", adj = private$Y)

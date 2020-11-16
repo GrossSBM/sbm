@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="team großBM" />
+
+<meta name="date" content="2020-11-16" />
+
+<title>Multipartite Stochastic Block Models</title>
+
+<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
+// v0.0.1
+// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
+
+document.addEventListener('DOMContentLoaded', function() {
+  const codeList = document.getElementsByClassName("sourceCode");
+  for (var i = 0; i < codeList.length; i++) {
+    var linkList = codeList[i].getElementsByTagName('a');
+    for (var j = 0; j < linkList.length; j++) {
+      if (linkList[j].innerHTML === "") {
+        linkList[j].setAttribute('aria-hidden', 'true');
+      }
+    }
+  }
+});
+</script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Multipartite Stochastic Block Models</h1>
+<h3 class="subtitle">An illustration on a mutualistic ecological network</h3>
+<h4 class="author">team großBM</h4>
+<h4 class="date">2020-11-16</h4>
+
+
+
+<div id="preliminaries" class="section level2">
+<h2>Preliminaries</h2>
+<p>This vignette illustrates the use of the <code>estimateMultipartiteSBM</code> function and the methods accompanying the R6 classes `multipartiteteSBMfit’.</p>
+<div id="requirements" class="section level3">
+<h3>Requirements</h3>
+<p>The packages required for the analysis are <strong>sbm</strong> plus some others for data manipulation and representation:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(sbm)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">library</span>(knitr)</span></code></pre></div>
+</div>
+</div>
+<div id="dataset" class="section level2">
+<h2>Dataset</h2>
+<p>We apply our methodology to an ecological mutualistic multipartite network.<br />
+The dataset –compiled and conducted by <span class="citation">Dáttilo et al. (<a href="#ref-Dattilo" role="doc-biblioref">2016</a>)</span> at Centro de Investigaciones Costeras La Mancha (CICOLMA), located on the central coast of the Gulf of Mexico, Veracruz, Mexico– involves three general types of plant-animal mutualistic interaction: pollination, seed dispersal by frugivorous birds, and protective mutualisms between ants and plants with extrafloral nectaries.</p>
+<p>The dataset –which is one of the largest compiled so far with respect to species richness, number of interactions and sampling effort– includes 4 functional groups, namely plants, pollinator species (referredas floral visitors), ant species and frugivorous bird species. Three binary bipartite networks have been collected representing interactions between 1/ plants and florals visitor, 2/ plants and ants, and 3/ plants and seed dispersal birds, resulting into three bipartite networks.</p>
+<p>The FG are of respective sizes: <span class="math inline">\(n_1 = 141\)</span> plant species, <span class="math inline">\(n_2 = 173\)</span> pollinator species (referredas ), <span class="math inline">\(n_3 = 46\)</span> frugivorous bird species and <span class="math inline">\(n_4 = 30\)</span> ant species.</p>
+<p>The 3 networks contain <span class="math inline">\(753\)</span> observed interactions of which <span class="math inline">\(55\%\)</span> are plant-pollinator interactions, <span class="math inline">\(17\%\)</span> are plant-birds interactions and <span class="math inline">\(28\%\)</span> are plant-ant interactions.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">data</span>(multipartiteEcologicalNetwork)</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="kw">str</span>(multipartiteEcologicalNetwork)</span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="co">#&gt; List of 3</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="co">#&gt;  $ Inc_plant_ant   : int [1:141, 1:30] 0 1 0 0 1 0 1 0 1 0 ...</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="co">#&gt;   ..- attr(*, &quot;dimnames&quot;)=List of 2</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="co">#&gt;   .. ..$ : chr [1:141] &quot;Acacia_cornigera&quot; &quot;Acacia_macracantha&quot; &quot;Achatocarpus_nigricans&quot; &quot;Agave_angustifolia&quot; ...</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="co">#&gt;   .. ..$ : chr [1:30] &quot;Camponotus_planatus&quot; &quot;Camponotus_mucronatus&quot; &quot;Paratrechina_longicornis_&quot; &quot;Crematogaster_brevispinosa&quot; ...</span></span>
+<span id="cb2-8"><a href="#cb2-8"></a><span class="co">#&gt;  $ Inc_plant_bird  : int [1:141, 1:46] 0 0 1 0 0 0 0 0 0 0 ...</span></span>
+<span id="cb2-9"><a href="#cb2-9"></a><span class="co">#&gt;   ..- attr(*, &quot;dimnames&quot;)=List of 2</span></span>
+<span id="cb2-10"><a href="#cb2-10"></a><span class="co">#&gt;   .. ..$ : chr [1:141] &quot;Acacia_cornigera&quot; &quot;Acacia_macracantha&quot; &quot;Achatocarpus_nigricans&quot; &quot;Agave_angustifolia&quot; ...</span></span>
+<span id="cb2-11"><a href="#cb2-11"></a><span class="co">#&gt;   .. ..$ : chr [1:46] &quot;Cyanocorax_morio&quot; &quot;Tyrannus_forficatus&quot; &quot;Ortalis_vetula&quot; &quot;Myiozetetes_similis&quot; ...</span></span>
+<span id="cb2-12"><a href="#cb2-12"></a><span class="co">#&gt;  $ Inc_plant_flovis: int [1:141, 1:173] 0 0 0 0 0 0 0 1 1 0 ...</span></span>
+<span id="cb2-13"><a href="#cb2-13"></a><span class="co">#&gt;   ..- attr(*, &quot;dimnames&quot;)=List of 2</span></span>
+<span id="cb2-14"><a href="#cb2-14"></a><span class="co">#&gt;   .. ..$ : chr [1:141] &quot;Acacia_cornigera&quot; &quot;Acacia_macracantha&quot; &quot;Achatocarpus_nigricans&quot; &quot;Agave_angustifolia&quot; ...</span></span>
+<span id="cb2-15"><a href="#cb2-15"></a><span class="co">#&gt;   .. ..$ : chr [1:173] &quot;Apis_melifera&quot; &quot;Lasioglossum_sp1&quot; &quot;Trigona_nigra&quot; &quot;Ascia_monuste&quot; ...</span></span>
+<span id="cb2-16"><a href="#cb2-16"></a><span class="kw">names</span>(multipartiteEcologicalNetwork)</span>
+<span id="cb2-17"><a href="#cb2-17"></a><span class="co">#&gt; [1] &quot;Inc_plant_ant&quot;    &quot;Inc_plant_bird&quot;   &quot;Inc_plant_flovis&quot;</span></span></code></pre></div>
+<div id="formatting-the-data" class="section level3">
+<h3>Formatting the data</h3>
+<p>We format the data to be able to use our functions i.e. we transform the matrices into an list containing <em>the matrix</em>, <em>its type</em> : <code>inc</code> for incidence matrix, <code>adj</code> for adjacency symmetric, and <code>diradj</code> for non symmetric (oriented) adjacency matrix, the name of functional group in row and the name of functional group in column. The three matrices are gathered in a list.</p>
+<p>To do so, we use de the function <code>defineNetwork</code>.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>Net &lt;-<span class="st"> </span>multipartiteEcologicalNetwork</span>
+<span id="cb3-2"><a href="#cb3-2"></a>type=<span class="st">&#39;bipartite&#39;</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a>model =<span class="st"> &#39;bernoulli&#39;</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a>directed =<span class="st"> </span><span class="ot">FALSE</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a>PlantFlovis =<span class="st"> </span><span class="kw">defineSBM</span>(Net<span class="op">$</span>Inc_plant_flovis, model,type,directed,</span>
+<span id="cb3-6"><a href="#cb3-6"></a>                        <span class="dt">dimLabels =</span> <span class="kw">list</span>(<span class="dt">row=</span><span class="st">&quot;Plants&quot;</span>,<span class="dt">col=</span><span class="st">&quot;Flovis&quot;</span>))</span>
+<span id="cb3-7"><a href="#cb3-7"></a>PlantAnt =<span class="st"> </span><span class="kw">defineSBM</span>(Net<span class="op">$</span>Inc_plant_ant,model,type,directed,</span>
+<span id="cb3-8"><a href="#cb3-8"></a>                      <span class="dt">dimLabels =</span><span class="kw">list</span>(<span class="dt">row =</span> <span class="st">&quot;Plants&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;Ants&quot;</span>))</span>
+<span id="cb3-9"><a href="#cb3-9"></a>PlantBird =<span class="st"> </span><span class="kw">defineSBM</span>(Net<span class="op">$</span>Inc_plant_bird,model,type,directed,</span>
+<span id="cb3-10"><a href="#cb3-10"></a>                     <span class="dt">dimLabels =</span><span class="kw">list</span>(<span class="dt">row =</span> <span class="st">&quot;Plants&quot;</span>,<span class="dt">col =</span> <span class="st">&quot;Birds&quot;</span>))</span></code></pre></div>
+<p>If one wants to keep a track of the names of the species, they should be used as rownames and colnames in the matrices.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>PlantFlovis<span class="op">$</span>netMatrix[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>]</span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="co">#&gt;                    Apis_melifera Lasioglossum_sp1</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="co">#&gt; Acacia_cornigera               0                1</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="co">#&gt; Acacia_macracantha             0                0</span></span></code></pre></div>
+<p>A plot of the data can be obtained with following command</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">plotMyMultipartiteMatrix</span>(<span class="kw">list</span>(PlantFlovis,PlantAnt,PlantBird))</span></code></pre></div>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASAAAAEgCAMAAAAjXV6yAAABvFBMVEUAAAAaGhobGxsdHR0eHh4fHx8gICAhISEiIiIjIyMkJCQlJSUmJiYoKCgpKSkqKiorKyssLCwtLS0uLi4wMDAxMTEyMjIzMzM0NDQ1NTU2NjY4ODg5OTk6Ojo7Ozs8PDw9PT1AQEBBQUFCQkJERERFRUVGRkZJSUlKSkpLS0tNTU1PT09RUVFSUlJTU1NVVVVWVlZYWFhZWVlbW1tcXFxdXV1eXl5fX19gYGBiYmJmZmZqampra2tsbGxtbW1ubm5wcHBycnJ0dHR1dXV2dnZ3d3d4eHh5eXl8fHx9fX1+fn5/f3+AgICBgYGCgoKDg4OFhYWGhoaLi4uMjIyNjY2Tk5OVlZWYmJiZmZmbm5udnZ2enp6fn5+ioqKjo6OkpKSlpaWnp6eoqKipqamqqqqsrKytra2urq6vr6+wsLCxsbGzs7O0tLS1tbW2tra3t7e4uLi5ubm6urq7u7u8vLy9vb2+vr6/v7/BwcHCwsLExMTGxsbHx8fJycnKysrLy8vMzMzNzc3Ozs7Q0NDR0dHT09PU1NTV1dXW1tbX19fY2NjZ2dnl5eXm5ubq6urr6+vt7e3x8fH09PT///9MFmqGAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAK1UlEQVR4nO2djX8cRRnHp6RcGo3SNC1wtQpcCSlQiRatRrFgabBWKkUkvoEUfMOGhgJRpBZp42k3GfFk7x/29vZ9d2afmd3ZZW739/18ml72Znee/d48M7Mv2WNjUAj7vAOwHQgigCACCCKAIAIIIigh6FMpdAlh+c9UyzfJ/8oL4lLoEsLy/1Ut3yT/gaBiIIgAggggiACCCCCIoJogZ+mheFN7Z8JXaUGfHLi3N7/yHv/jalT0xiAVhAlBCwd7vd7q1qOphYkqy1JN0JsnFneiTTm98FVWkMOd9VN894b3213vRx2CPvR+ZgT5VVaimqDvXV6/yPn26jeWV6/ztXtOOuv3Lb0sEsSv9vmfV/nW1889wS8f6W8MeFB0illBm/0j68PHNzl/9sKkymQ9jQty7rv5+iTHtg9s7p8767WgzZXh+/NDgaDhd56dCpp/xXnr2N92Tw7CouYF/fXwjnPm+ZfPcv7gu5Mqk/U0Lui3j3NnkmPbCw5/4ylP0NXjb+9zUR8098UPpoKWOf/+i5z/chAWNSfI64OuTQS99Azn75z46Et77x33qkzW07ig9UNLS3MX+fYjk95oKsjZOHp4Q5Rie79eGHqCTnL+zV9wfm0QFjUnKGxBz12eVLnIH377JxueoGQ9TQu6u/h3zl97iG8PQkE3P+bXH7gm6oP4/X/wBE26iGcmO/DKICxqXtBPf8D5u1/hL2ys3PAEJetpWtBrk5bDh72dUNDc3o/Xbt/p/04gaP/1e28Fgt66/+ZwZcCDouYFfbD0ofPtH/KtB09wT1CynqYFnX3B28Lpi4Eg/uRX75xeXLqQT7FDC/PHNnkgiL+43P/ZgAdFzQvir/aXv/tPzo9uTAUl6ykDZtIEEEQAQQQQRABBBBBEAEEECoIka346khKuKS8hLO+qlm+Sz8oLkpUvfZHWHTPddUd0EQE6tUAQQQVBk71hRq/pu/qrlBOkQw0tKGbiz28TzDdJ2IQgCKqGq99/WS1o2iaCbtVIV9S2FgRBAU2mWEQuHnGAECRfMMVqQWYnQWOkGIkbTwZY6oU8wKmgYMYq2wXFj5HFZVliCQSlihkVFOyE9vGTFDfaEhtHu+zPMVlOlf/uaJxaOJb8qvzeeJzdHwjKvW1MUHE9JYg6aXXlM95Ja7atwmFevBSCiA1aLYil16reFXVwHpQaqHM1ZeuEoExNEMT8ScD0vFk0VofDdr5aCIKgatDzIGOjmPqIYpkg0RGVvNPqYAtqlaC4gzEUS9v6IAgKkApi/uAU5kVlVW0TZDwWHUFBvOUFqX6WEERQ8eaFeNbHiK0o0LYUC4fkcJZMb4nATZ0MprfEUoKMndhMA0EEFS89G6V9KWaYtgkyHoubCkIhwdKCTGR5HqsECZYRJ3U71oIEy9otqMJVDcVtCy4cKleqVhCCCKxKscyMSgFPUE0ToOAYvOrRvH/eOTrhTG2rkLYN8xAUUCnFGHkQG7/XNkGsTM9YhJs/JS268phEXVDBRgqDh6D6BClGpe6ubSmmsPVuC8r8gUr1LGubIOOxuFQkeSCIYNYFSY7FmbhQB1MMgowQ1u0SgQjohqAQl4mnBUYmimWBIIIqgpT+UlcDV39bNZ4PCjbbQAtSPgrqaifdXUGm27abPm5X2DzTF6QbNAQRWDWKRa/k0WTesTvFTKMyUSQESdf2x1vB6ThiPQgi1qt+EycLLmf4FzcqdUttG8UgKKBAkNlYWicoXQynXCFIQlGKhf2OkXSLTrmqX2+zWpDxWNItKHPRWjwAjIKlTF6kIhBEUL8glskaOW3rgxRrgCBjuMlQchdEhEf6UkEs+k/loylITtsExTtGROW/270W1C1BcctVaurd64MgyCxuJgiF7nXWBelN3DrYgiDIKOEpVw2tHROkfygFQQQQRABBBDMuKH66R/gIqvAiSPJnRNtGMe0/7qKAIIK2CTIeS9u+FcF4LBBEkE0xlYNVplZOnezGrBLUuWFeky4K0tpljGIEEkFFki0TNOT82u8hKEvk58o833igf6FhQYVZapegw+/vH75+5wgEZYgEfXn4p6P89mIoSOnalQ4z30mvr/R/9PHa6VhQfJHYiKWZF+RsXnVuXtqFoAyRoJPej70T9fVB0UNh8+TuZfB/igQVfVi5G+GkFYaoCzrTu6c3Ye5JCMoQCNlz1hyPxudBRdiVYmnqEKTUlSXP09kl6PrZpzwgKEMk6NS5N96cEI1iyW/ITNzGUZrE/UGq2CVoeT+VYtEj2UzdXTrzfdDapgNBAiIlqwcWHhkMBnUO81QsaZiOoJIfoo6gbR8IypAZ3rfqHcWo/Ujns10pduvS+fPnn1uqUZAC6UDtEnTqW08/dvlrP4egDJGgxbu3Vvg/nohGMdOxzPwodvQjvry714egDJGgS1+4fe6xtac/3xRLY5cg/hfHefXK7XpHMT0sE5QCgkICIY+GaAqK5zbUyakZT7GtkJr7oPhJBWmER3yj8L3kf+URbEAjxXbfuVN3ik0jmVVBvzk0N/+rpKDKj6LIkv57MeGmswtrTzGmLuj4S/++cgyCBARCDg75vw7qpVjiGgJL7bT42/5mvJPuTf4t1NsH6bdHmwQd3NnZOTT5twNBGQIhiyFRH+Sfbw0zJ/MtziWY8RTLAkEhMkHGY6ksyPj5hbFlgvJBULvcsRYEQcXM+CiW76RZ4rlTJtLfld+LJdu8miBW+GsxEERgVYqNE48kj47zstJY+J73b2R04BJtDILSm85RSZDhJ01iokjQrCDFDxeCCIw8idNQprmynBUsDRYVPy7ZRFwQRFBVkMluurudtKJFCCLoriBFolvwouTNn4DL/EoIEq0sPZwRU/sX0aqH0s0WBEEGadv5IOOxQBBB7otHJEElFssFmTqQrj6TNjdVbFsfBEEBzaaYHkWCzHxyEERgmyDNvepYisVHFqpjUF6Q6cvPEERglSD9VVqRYixuFWEt4psbczNpJnyZJCeoRAMqWIVBUPEqdQtKPv5EIXY3KhdfOyQ2MIqdM4n2ctKiP3mHIPEqzQjSpJNP4tQ5qO7kKAZBBil6fpAECCLomKDEa8XxaCRZbg6rBOGcdDHdE6S5w20bxUx/1TMEUbRNkPGxA4IIWifINNKDVXlwVQXRn7FdgqRRyN7oWgtqmSD0QT4Q5GFHiiVQs98KQdkJpbSqrrYgCDLF9OYFvY7NakHxhUBDR2Vta0EQFIA+yAOCJFjVSQfXNBK3CWWLZF2r3h8k2ZBC11BtJs3UKlFE7TmKqTJkCyK7R+p9CCLetyrF9FfpWB+kv0rHBLXsuhiuagRAkEdNKablsIuCtHD9WQOL/qo3G1Q+yJFooWRJ8Yclm5pCUHolk4IYi59BFb6q1C+5iccHZQNP/xb9J0mxclEwwSsIEq5lRlCpIIpo2zzIeCwz/tB/CJLRoCBZKMlRSHA0b3rGmgSCCGwTpHymz6djKYZRrBgIIghTLBELpax7gkjSgUJQDgjSAoIIOibI8ChmZP7YZkFGgCACqwTpr1KLoJQLCMpjvyD1VOtuiik6giCCGRekOSrZ0gelsKsFiY7j44cnR8viYrkLhzqfSebknHhVCKpP0EhKFL4iQXFXtXyTKAgCHhBEAEEEEEQAQQQQRABBBBBEAEEEEEQAQQQQRABBBBBEAEEEEEQAQQQQRABBBBBEAEEEEEQAQQQQRABBBBBE8H+RApYuVHX9bAAAAABJRU5ErkJggg==" /><!-- --></p>
+</div>
+<div id="mathematical-background" class="section level3">
+<h3>Mathematical Background</h3>
+<p>See <span class="citation">Bar-Hen, P., and S. (<a href="#ref-multipartite" role="doc-biblioref">n.d.</a>)</span> for details.</p>
+</div>
+<div id="inference" class="section level3">
+<h3>Inference</h3>
+<p>The model selection and the estimation are performed with the function <code>estimatemultipartiteBM</code>.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>estimOptions =<span class="st"> </span><span class="kw">list</span>(<span class="dt">initBM =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb6-2"><a href="#cb6-2"></a>listSBM &lt;-<span class="st"> </span><span class="kw">list</span>(PlantFlovis, PlantAnt, PlantBird)</span>
+<span id="cb6-3"><a href="#cb6-3"></a>myMSBM &lt;-<span class="st"> </span><span class="kw">estimateMultipartiteSBM</span>(listSBM,estimOptions)</span></code></pre></div>
+<p> contains the estimated parameters of the models we run through during the search of the better numbers of blocks.</p>
+<p>RES_MBM contains the dataset and the results.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>myMSBM</span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="co">#&gt; Fit of a Multipartite Stochastic Block Model </span></span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="co">#&gt; 4 functional groups ( Plants Flovis Ants Birds ),  3 networks</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="co">#&gt; =====================================================================</span></span>
+<span id="cb7-5"><a href="#cb7-5"></a><span class="co">#&gt; nbNodes per FG = ( 141 173 30 46 ) --  nbBlocks per FG = ( 7 2 2 1 )</span></span>
+<span id="cb7-6"><a href="#cb7-6"></a><span class="co">#&gt; distributions on each network =( bernoulli bernoulli bernoulli )</span></span>
+<span id="cb7-7"><a href="#cb7-7"></a><span class="co">#&gt; =====================================================================</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a><span class="co">#&gt; * Useful fields </span></span>
+<span id="cb7-9"><a href="#cb7-9"></a><span class="co">#&gt;  $nbNetwork, $nbNodes, $nbBlocks, $dimLabels, $archiMultipartite </span></span>
+<span id="cb7-10"><a href="#cb7-10"></a><span class="co">#&gt;  $modelName, $blockProp, $connectParam, $memberships, $probMemberships</span></span>
+<span id="cb7-11"><a href="#cb7-11"></a><span class="co">#&gt; * Useful functions </span></span>
+<span id="cb7-12"><a href="#cb7-12"></a><span class="co">#&gt; $plot, $optimize, $predict, $setModel, $getBM, $storedModels</span></span></code></pre></div>
+<p>The best model has the following numbers of blocks</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>myMSBM<span class="op">$</span>nbBlocks</span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="co">#&gt; Plants Flovis   Ants  Birds </span></span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="co">#&gt;      7      2      2      1</span></span></code></pre></div>
+<p>To see the parameters estimated for the better model we use the following command <code>myMSBM$connectParam</code> or <code>myMSBM$blockProp</code></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>myMSBM<span class="op">$</span>blockProp</span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="co">#&gt; $Plants</span></span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="co">#&gt; [1] 0.01418720 0.03802305 0.07840873 0.16063183 0.10614897 0.13507513 0.46752510</span></span>
+<span id="cb9-4"><a href="#cb9-4"></a><span class="co">#&gt; </span></span>
+<span id="cb9-5"><a href="#cb9-5"></a><span class="co">#&gt; $Flovis</span></span>
+<span id="cb9-6"><a href="#cb9-6"></a><span class="co">#&gt; [1] 0.06221568 0.93778432</span></span>
+<span id="cb9-7"><a href="#cb9-7"></a><span class="co">#&gt; </span></span>
+<span id="cb9-8"><a href="#cb9-8"></a><span class="co">#&gt; $Ants</span></span>
+<span id="cb9-9"><a href="#cb9-9"></a><span class="co">#&gt; [1] 0.1014381 0.8985619</span></span>
+<span id="cb9-10"><a href="#cb9-10"></a><span class="co">#&gt; </span></span>
+<span id="cb9-11"><a href="#cb9-11"></a><span class="co">#&gt; $Birds</span></span>
+<span id="cb9-12"><a href="#cb9-12"></a><span class="co">#&gt; [1] 1</span></span>
+<span id="cb9-13"><a href="#cb9-13"></a>myMSBM<span class="op">$</span>connectParam</span>
+<span id="cb9-14"><a href="#cb9-14"></a><span class="co">#&gt; [[1]]</span></span>
+<span id="cb9-15"><a href="#cb9-15"></a><span class="co">#&gt; [[1]]$mean</span></span>
+<span id="cb9-16"><a href="#cb9-16"></a><span class="co">#&gt;              [,1]         [,2]</span></span>
+<span id="cb9-17"><a href="#cb9-17"></a><span class="co">#&gt; [1,] 2.464664e-15 4.440892e-16</span></span>
+<span id="cb9-18"><a href="#cb9-18"></a><span class="co">#&gt; [2,] 1.001131e-15 4.440892e-16</span></span>
+<span id="cb9-19"><a href="#cb9-19"></a><span class="co">#&gt; [3,] 1.651832e-01 3.427940e-02</span></span>
+<span id="cb9-20"><a href="#cb9-20"></a><span class="co">#&gt; [4,] 4.173707e-03 8.566580e-08</span></span>
+<span id="cb9-21"><a href="#cb9-21"></a><span class="co">#&gt; [5,] 1.917898e-01 6.378749e-02</span></span>
+<span id="cb9-22"><a href="#cb9-22"></a><span class="co">#&gt; [6,] 8.826487e-07 3.317267e-04</span></span>
+<span id="cb9-23"><a href="#cb9-23"></a><span class="co">#&gt; [7,] 9.573240e-02 7.490241e-03</span></span>
+<span id="cb9-24"><a href="#cb9-24"></a><span class="co">#&gt; </span></span>
+<span id="cb9-25"><a href="#cb9-25"></a><span class="co">#&gt; </span></span>
+<span id="cb9-26"><a href="#cb9-26"></a><span class="co">#&gt; [[2]]</span></span>
+<span id="cb9-27"><a href="#cb9-27"></a><span class="co">#&gt; [[2]]$mean</span></span>
+<span id="cb9-28"><a href="#cb9-28"></a><span class="co">#&gt;              [,1]         [,2]</span></span>
+<span id="cb9-29"><a href="#cb9-29"></a><span class="co">#&gt; [1,] 5.366301e-15 1.107167e-15</span></span>
+<span id="cb9-30"><a href="#cb9-30"></a><span class="co">#&gt; [2,] 8.491907e-01 3.564830e-01</span></span>
+<span id="cb9-31"><a href="#cb9-31"></a><span class="co">#&gt; [3,] 6.620266e-01 1.542027e-01</span></span>
+<span id="cb9-32"><a href="#cb9-32"></a><span class="co">#&gt; [4,] 5.430946e-01 5.891885e-02</span></span>
+<span id="cb9-33"><a href="#cb9-33"></a><span class="co">#&gt; [5,] 7.172257e-16 4.440892e-16</span></span>
+<span id="cb9-34"><a href="#cb9-34"></a><span class="co">#&gt; [6,] 5.721732e-16 4.440892e-16</span></span>
+<span id="cb9-35"><a href="#cb9-35"></a><span class="co">#&gt; [7,] 4.440892e-16 5.576222e-04</span></span>
+<span id="cb9-36"><a href="#cb9-36"></a><span class="co">#&gt; </span></span>
+<span id="cb9-37"><a href="#cb9-37"></a><span class="co">#&gt; </span></span>
+<span id="cb9-38"><a href="#cb9-38"></a><span class="co">#&gt; [[3]]</span></span>
+<span id="cb9-39"><a href="#cb9-39"></a><span class="co">#&gt; [[3]]$mean</span></span>
+<span id="cb9-40"><a href="#cb9-40"></a><span class="co">#&gt; [1] 5.108074e-01 4.440892e-16 4.440892e-16 4.440892e-16 1.625224e-02</span></span>
+<span id="cb9-41"><a href="#cb9-41"></a><span class="co">#&gt; [6] 7.534085e-02 1.253527e-03</span></span></code></pre></div>
+<p>The clustering supplied by the better model are in <code>myMSBM$memberships***</code>.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">table</span>(myMSBM<span class="op">$</span>memberships<span class="op">$</span>Plants)</span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="co">#&gt; </span></span>
+<span id="cb10-3"><a href="#cb10-3"></a><span class="co">#&gt;  1  2  3  4  5  6  7 </span></span>
+<span id="cb10-4"><a href="#cb10-4"></a><span class="co">#&gt;  2  5 11 23 15 20 65</span></span>
+<span id="cb10-5"><a href="#cb10-5"></a><span class="kw">table</span>(myMSBM<span class="op">$</span>memberships<span class="op">$</span>Ants)      </span>
+<span id="cb10-6"><a href="#cb10-6"></a><span class="co">#&gt; </span></span>
+<span id="cb10-7"><a href="#cb10-7"></a><span class="co">#&gt;  1  2 </span></span>
+<span id="cb10-8"><a href="#cb10-8"></a><span class="co">#&gt;  3 27</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>myMSBM<span class="op">$</span>storedModels</span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="co">#&gt;   indexModel nbParams nbBlocks Plants nbBlocks Flovis nbBlocks Ants</span></span>
+<span id="cb11-3"><a href="#cb11-3"></a><span class="co">#&gt; 1          1       43               7               2             2</span></span>
+<span id="cb11-4"><a href="#cb11-4"></a><span class="co">#&gt; 2          2       37               6               2             2</span></span>
+<span id="cb11-5"><a href="#cb11-5"></a><span class="co">#&gt; 3          3       31               5               2             2</span></span>
+<span id="cb11-6"><a href="#cb11-6"></a><span class="co">#&gt; 4          4       25               5               2             1</span></span>
+<span id="cb11-7"><a href="#cb11-7"></a><span class="co">#&gt; 5          5       19               5               1             1</span></span>
+<span id="cb11-8"><a href="#cb11-8"></a><span class="co">#&gt; 6          6       15               4               1             1</span></span>
+<span id="cb11-9"><a href="#cb11-9"></a><span class="co">#&gt; 7          7       11               3               1             1</span></span>
+<span id="cb11-10"><a href="#cb11-10"></a><span class="co">#&gt; 8          8        7               2               1             1</span></span>
+<span id="cb11-11"><a href="#cb11-11"></a><span class="co">#&gt; 9          9        3               1               1             1</span></span>
+<span id="cb11-12"><a href="#cb11-12"></a><span class="co">#&gt;   nbBlocks Birds nbBlocks       ICL    loglik</span></span>
+<span id="cb11-13"><a href="#cb11-13"></a><span class="co">#&gt; 1              1       12 -2961.903 -2770.230</span></span>
+<span id="cb11-14"><a href="#cb11-14"></a><span class="co">#&gt; 2              1       11 -2965.539 -2800.546</span></span>
+<span id="cb11-15"><a href="#cb11-15"></a><span class="co">#&gt; 3              1       10 -2981.164 -2840.532</span></span>
+<span id="cb11-16"><a href="#cb11-16"></a><span class="co">#&gt; 4              1        9 -3017.651 -2897.765</span></span>
+<span id="cb11-17"><a href="#cb11-17"></a><span class="co">#&gt; 5              1        8 -3071.368 -2984.442</span></span>
+<span id="cb11-18"><a href="#cb11-18"></a><span class="co">#&gt; 6              1        7 -3131.942 -3055.717</span></span>
+<span id="cb11-19"><a href="#cb11-19"></a><span class="co">#&gt; 7              1        6 -3216.136 -3161.801</span></span>
+<span id="cb11-20"><a href="#cb11-20"></a><span class="co">#&gt; 8              1        5 -3358.851 -3326.480</span></span>
+<span id="cb11-21"><a href="#cb11-21"></a><span class="co">#&gt; 9              1        4 -3582.348 -3568.733</span></span></code></pre></div>
+</div>
+</div>
+<div id="plots" class="section level2">
+<h2>Plots</h2>
+<p>We can either plot the reorganized matrix</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw">plot</span>(myMSBM) </span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>or the mesoscopic view</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw">plot</span>(myMSBM,<span class="dt">type =</span> <span class="st">&#39;meso&#39;</span>,<span class="dt">plotOptions=</span><span class="kw">list</span>(<span class="dt">vertex.size =</span> <span class="fl">0.5</span>))</span></code></pre></div>
+<p>Will soon be ready</p>
+</div>
+<div id="references" class="section level2 unnumbered">
+<h2>References</h2>
+<div id="refs" class="references">
+<div id="ref-multipartite">
+<p>Bar-Hen, A, Barbillon P., and Donnet S. n.d. “Block Models for Multipartite networks.Applications in Ecology and Ethnobiology.” <em>Statistical Modelling</em>.</p>
+</div>
+<div id="ref-Dattilo">
+<p>Dáttilo, Wesley, Nubia Lara-Rodrı́guez, Pedro Jordano, Paulo R. Guimarães, John N. Thompson, Robert J. Marquis, Lucas P. Medeiros, Raul Ortiz-Pulido, Maria A. Marcos-Garcı́a, and Victor Rico-Gray. 2016. “Unravelling Darwin’s Entangled Bank: Architecture and Robustness of Mutualistic Networks with Multiple Interaction Types.” <em>Proceedings of the Royal Society of London B: Biological Sciences</em> 283 (1843).</p>
+</div>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
