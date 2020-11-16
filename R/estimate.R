@@ -13,7 +13,7 @@
 #' @details The list of parameters \code{estimOptions} essentially tunes the optimization process and the variational EM algorithm, with the following parameters
 #'  \itemize{
 #'  \item{"nbCores"}{integer for number of cores used. Default is 2}
-#'  \item{"verbosity"}{integer for verbosity (0, 1). Default is 1}
+#'  \item{"verbosity"}{integer for verbosity (0, 6). Default is 3}
 #'  \item{"plot"}{boolean, should the ICL by dynamically plotted or not. Default is TRUE}
 #'  \item{"exploreFactor"}{control the exploration of the number of groups}
 #'  \item{"nbBlocksRange"}{minimal and maximal number or blocks explored}
