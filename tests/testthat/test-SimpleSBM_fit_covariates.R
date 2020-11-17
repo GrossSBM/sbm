@@ -61,7 +61,7 @@ test_that("SimpleSBM_fit 'Bernoulli' model, undirected, one covariate", {
   expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
 
   ## Estimation-----------------------------------------------------------------
-  mySBM$optimize(verbosity = 0, fast = TRUE)
+  mySBM$optimize(estimOptions = list(verbosity = 0, fast = TRUE))
   mySBM$setModel(2)
 
   ## Expectation
@@ -132,7 +132,7 @@ test_that("SimpleSBM_fit 'Bernoulli' model, directed, one covariate", {
   expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
 
   ## Estimation-----------------------------------------------------------------
-  mySBM$optimize(verbosity = 0, fast = TRUE)
+  mySBM$optimize(estimOptions  = list(verbosity = 0, fast = TRUE))
   mySBM$setModel(2)
 
   ## Expectation
@@ -202,7 +202,7 @@ test_that("SimpleSBM_fit 'Poisson' model, undirected, two covariates", {
   expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
 
   ## Estimation-----------------------------------------------------------------
-  mySBM$optimize(verbosity = 0)
+  mySBM$optimize(estimOptions=list(verbosity = 0))
   mySBM$setModel(2)
 
   ## Expectation
@@ -271,7 +271,7 @@ test_that("SimpleSBM_fit 'Poisson' model, directed, two covariates", {
   expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
 
   ## Estimation-----------------------------------------------------------------
-  mySBM$optimize(verbosity = 0)
+  mySBM$optimize(estimOptions=list(verbosity = 0))
   mySBM$setModel(2)
 
   ## Expectation
@@ -341,7 +341,7 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, two covariates", {
   expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
 
   ## Estimation-----------------------------------------------------------------
-  mySBM$optimize(verbosity = 0)
+  mySBM$optimize(estimOptions=list(verbosity = 0))
   mySBM$setModel(2)
 
   ## Expectation
@@ -415,7 +415,7 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, two covariates", {
   expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
 
   ## Estimation-----------------------------------------------------------------
-  mySBM$optimize(verbosity = 0)
+  mySBM$optimize(estimOptions=list(verbosity = 0))
   mySBM$setModel(2)
 
   ## Expectation

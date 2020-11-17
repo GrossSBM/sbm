@@ -17,6 +17,7 @@
 #'  \item{"plot"}{boolean, should the ICL by dynamically plotted or not. Default is TRUE}
 #'  \item{"exploreFactor"}{control the exploration of the number of groups}
 #'  \item{"nbBlocksRange"}{minimal and maximal number or blocks explored}
+#'  \item{"fast"}{logical: should approximation be used for Bernoulli model with covariates. Default to \code{TRUE}}
 #' }
 #' @return  a list with the estimated parameters. See details...
 #'
@@ -94,6 +95,7 @@ estimateSimpleSBM <- function(netMat,
     fast          = TRUE
   )
 
+
   ## Current options are default expect for those passed by the user
   currentOptions[names(estimOptions)] <- estimOptions
 
@@ -101,7 +103,7 @@ estimateSimpleSBM <- function(netMat,
   mySBM <- SimpleSBM_fit$new(netMat, model, directed, dimLabels, covariates)
 
   ## Perform optimization
-  do.call(mySBM$optimize, currentOptions)
+  mySBM$optimize(currentOptions)
 
   ## reordering according to large block/large probabilities
   mySBM$reorder()
@@ -128,6 +130,7 @@ estimateSimpleSBM <- function(netMat,
 #'  \item{"plot"}{boolean, should the ICL by dynamically plotted or not. Default is TRUE}
 #'  \item{"exploreFactor"}{control the exploration of the number of groups}
 #'  \item{"nbBlocksRange"}{minimal and maximal number or blocks explored}
+#'  \item{"fast"}{logical: should approximation be used for Bernoulli model with covariates. Default to \code{TRUE}}
 #' }
 #' @return  a list with the estimated parameters. See details...
 #'
@@ -201,7 +204,7 @@ estimateBipartiteSBM <- function(netMat,
   mySBM <-  BipartiteSBM_fit$new(netMat, model, dimLabels, covariates)
 
   ## Perform optimization
-  do.call(mySBM$optimize, currentOptions)
+  mySBM$optimize(currentOptions)
 
   ## reordering according to large block/large probabilities
   mySBM$reorder()

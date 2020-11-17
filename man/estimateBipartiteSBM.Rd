@@ -38,6 +38,7 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 \item{"plot"}{boolean, should the ICL by dynamically plotted or not. Default is TRUE}
 \item{"exploreFactor"}{control the exploration of the number of groups}
 \item{"nbBlocksRange"}{minimal and maximal number or blocks explored}
+\item{"fast"}{logical: should approximation be used for Bernoulli model with covariates. Default to \code{TRUE}}
 }
 }
 \examples{

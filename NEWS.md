@@ -1,3 +1,8 @@
+# dev version
+
+* fix bug that made estimOptions not to be taken into account in optimize
+* fix bug for displaying field covarArray in the absence of any covariate
+
 # sbm 0.2.2 - minor release
 
 * added fields dimLabels and covarArray for class SBM
