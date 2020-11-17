@@ -73,7 +73,7 @@ R6 Class definition of an Bipartite SBM fit" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sbm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2-9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2-9020</span>
       </span>
     </div>
 
@@ -142,6 +142,15 @@ R6 Class definition of an Bipartite SBM fit" />
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This class is designed to give a representation and adjust an LBM fitted with blockmodels.</p>
+<p>The list of parameters <code>estimOptions</code> essentially tunes the optimization process and the variational EM algorithm, with the following parameters</p><ul>
+<li><p>"nbCores"integer for number of cores used. Default is 2</p></li>
+<li><p>"verbosity"integer for verbosity (0, 1). Default is 1</p></li>
+<li><p>"plot"boolean, should the ICL by dynamically plotted or not. Default is TRUE</p></li>
+<li><p>"exploreFactor"control the exploration of the number of groups</p></li>
+<li><p>"nbBlocksRange"minimal and maximal number or blocks explored</p></li>
+<li><p>"fast"logical: should approximation be used for Bernoulli model with covariates. Default to <code>TRUE</code></p></li>
+</ul>
+
     <h2 class="hasAnchor" id="super-classes"><a class="anchor" href="#super-classes"></a>Super classes</h2>
 
     <p><code><a href='SBM.html'>sbm::SBM</a></code> -&gt; <code><a href='SBM_fit.html'>sbm::SBM_fit</a></code> -&gt; <code>BipartiteSBM_fit</code></p>
@@ -210,28 +219,11 @@ R6 Class definition of an Bipartite SBM fit" />
 <p><hr>
 <a id="method-optimize"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/stats/optimize.html'>optimize()</a></code></h3>
 <p>function to perform optimization</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>BipartiteSBM_fit</span><span class='op'>$</span><span class='fu'>optimize</span><span class='op'>(</span>
-  verbosity <span class='op'>=</span> <span class='fl'>3</span>,
-  plot <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  explorFactor <span class='op'>=</span> <span class='fl'>1.5</span>,
-  nbBlocksRange <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>4</span>, <span class='cn'>Inf</span><span class='op'>)</span>,
-  nbCores <span class='op'>=</span> <span class='fl'>2</span>,
-  fast <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span></pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>BipartiteSBM_fit</span><span class='op'>$</span><span class='fu'>optimize</span><span class='op'>(</span>estimOptions <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
-<dt><code>verbosity</code></dt><dd><p>integer, the level of verbosity. Default to 3</p></dd>
-
-<dt><code>plot</code></dt><dd><p>logical, if TRUE ploting is done dynamically on the screen. Default to <code>TRUE</code></p></dd>
-
-<dt><code>explorFactor</code></dt><dd><p>double factor for exploring successive model</p></dd>
-
-<dt><code>nbBlocksRange</code></dt><dd><p>2-size vector: range of exploration</p></dd>
-
-<dt><code>nbCores</code></dt><dd><p>integer, the number of cores to use. Default is 2.</p></dd>
-
-<dt><code>fast</code></dt><dd><p>logical: should approximation be used for Bernoulli model with covariates. Default to <code>TRUE</code></p></dd>
+<dt><code>estimOptions</code></dt><dd><p>a list of parameters controlling the inference algorithm and model selection. See details.</p></dd>
 
 </dl><p></div></p>
 <p><hr>
