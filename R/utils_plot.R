@@ -6,14 +6,27 @@ myRepeat <- function(v,Qrow,Qcol){c(rep(v[1],Qrow),rep(v[2],Qcol))}
 plotMatrix = function(Mat, dimLabels, clustering = NULL,plotOptions = list()){
 
 
-  currentOptions = list(line.color  = 'red',legend = FALSE,compact = TRUE)
-  currentOptions[names(plotOptions)] = plotOptions
-  rowFG <- dimLabels$row
-  colFG <- dimLabels$col
 
+
+  currentOptions = list(line.color  = 'red',legend = FALSE,rowNames = FALSE, colNames = FALSE,title=NULL)
+  currentOptions$legend.title = FALSE
+  currentOptions$legend.position ='bottom'
+
+  currentOptions[names(plotOptions)] = plotOptions
 
   n1 <- dim(Mat)[1]
   n2 <- dim(Mat)[2]
+
+  if (is.null(rownames(Mat))){rownames(Mat) = as.factor(1:n1)}
+  if (is.null(colnames(Mat))){colnames(Mat) = as.factor(1:n2)}
+
+
+  rowFG <- dimLabels$row
+  colFG <- dimLabels$col
+
+  if ((!currentOptions$rowNames)){rownames(Mat)= 1:n1}
+  if ((!currentOptions$colNames)){colnames(Mat)= 1:n2}
+
   u <- range(c(Mat))
 
   binary = FALSE
@@ -45,45 +58,59 @@ plotMatrix = function(Mat, dimLabels, clustering = NULL,plotOptions = list()){
   }
   if(is.null(currentOptions$line.width)){currentOptions$line.width = mean(dim(Mat))/300}
 
-  index_row = rep(1:dim(Mat)[1],each = dim(Mat)[2])
-  index_col = rep(1:dim(Mat)[2],dim(Mat)[1])
 
 
   FGCol <- rep(dimLabels$col, times = n2)
   FGRow <- rep(dimLabels$row, times = n1)
 
   melted_Mat = reshape::melt(t(Mat))
-  names(melted_Mat) <- c('index_col','index_row','link')
-  melted_Mat$index_row <- n1 - melted_Mat$index_row + 1
+
+  names(melted_Mat) <- c('names_col','names_row','link')
+  if(is.numeric(melted_Mat$names_col)){melted_Mat$names_col <- as.character(melted_Mat$names_col)}
+  if(is.numeric(melted_Mat$names_row)){melted_Mat$names_row <- as.character(melted_Mat$names_row)}
+  melted_Mat$index_col = rep(1:n2,n1)
+  melted_Mat$index_row = n1 - rep(1:n1,each = n2) + 1
+  melted_Mat$names_col <- as.factor(melted_Mat$names_col)
+  melted_Mat$names_col <- factor(melted_Mat$names_col, levels = melted_Mat$names_col[melted_Mat$index_row == 1])
+  melted_Mat$names_row <- as.factor(melted_Mat$names_row)
+  melted_Mat$names_row <- factor(melted_Mat$names_row, levels = melted_Mat$names_row[melted_Mat$index_col == 1][n1:1])
+
   melted_Mat$FG_row <- as.factor(rep(FGRow, each = n2))
   melted_Mat$FG_col <- as.factor(rep(FGCol,  n1))
-  range_melted <- range(c(melted_Mat$link))
   if (binary) { melted_Mat$link <- as.factor(melted_Mat$link)}
 
 
-#
-#   melted_Mat =  data.frame(n1 - index_row , index_col)
-#   link = rep(-10,dim(Mat)[2]*dim(Mat)[1])
-#   for (k in 1:(dim(Mat)[2] * dim(Mat)[1])) {link[k] = Mat[index_row[k],index_col[k]]}
-#   melted_Mat$link = link
-#   if (binary){melted_Mat$link <- as.factor(melted_Mat$link)}
-#   colnames(melted_Mat) <- c('index_row', 'index_col', 'link')
 
-  g <- ggplot(data = melted_Mat, aes(y = .data$index_row, x = .data$index_col, fill = .data$link))
+
+  g <- ggplot(data = melted_Mat, aes(y = .data$names_row, x = .data$names_col, fill = .data$link))
   g <- g + geom_tile()
   if (!binary) {g <-  g +  scale_fill_gradient(low = "white", high = "black", limits = u,na.value = "transparent")}
   if (binary) {g <- g + scale_fill_manual(breaks = c("0", "1"),values = c("white", "black"),na.value = "transparent")}
   g <- g  +  scale_x_discrete(drop = FALSE) + scale_y_discrete(drop = FALSE)
-  g <- g + theme(axis.text.x = element_text(angle = 270, hjust = 0))
-  g <- g +  labs(x = '', y = '') +  theme(aspect.ratio = n1/n2)
+  if (!currentOptions$colNames){
+    g <- g + theme(axis.text.x = element_blank())
+  }else{
+    g <- g + theme(axis.text.x = element_text(angle = 90, hjust = 0))
+  }
+  if (!currentOptions$rowNames){
+    g <- g + theme(axis.text.y = element_blank())
+  }
+
+  g <- g +  labs(x = '', y = '') +  theme(aspect.ratio = n1/n2, axis.ticks = element_blank(), panel.background = element_rect(fill = "white"))
   if (!is.null(dimLabels$row) & !is.null(dimLabels$col)){
-    g <- g+ facet_grid(FG_row ~ FG_col, switch = 'y',scales = 'free', space = 'free')}
-  if (!currentOptions$legend){g <- g +theme(legend.position = 'none')}
+    g <- g+ facet_grid(FG_row ~ FG_col,scales = 'free', space = 'free')}
+  if (!currentOptions$legend){g <- g +theme(legend.position = 'none')}else{
+    g <- g +theme(legend.position = currentOptions$legend.position)
+    if(!currentOptions$legend.title){g <- g+ theme(legend.title = element_blank())}}
+
+
+
 
   if (!is.null(clustering)) {
     g <- g + geom_vline(data = sepCol,mapping = aes_string(xintercept = 'sep'),size = currentOptions$line.width, col=currentOptions$line.color)
     g <- g + geom_hline(data = sepRow + 1,mapping = aes_string(yintercept = 'sep'),size = currentOptions$line.width, col=currentOptions$line.color)
   }
+  if (!is.null(currentOptions$title)){g <- g + ggtitle(currentOptions$title) }
   g
   #if (!is.null(fileNameSave)) { ggsave(fileNameSave, width = 20, height = 20, units = "cm") }else{g}
 }
@@ -96,7 +123,11 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG, distrib, cluster
 
   #----------------------------------------
 
-  currentOptions = list(line.color  = 'red',legend = FALSE,compact = TRUE, normalized = FALSE)
+  currentOptions = list(line.color  = 'red',legend = FALSE,compact = TRUE, normalized = FALSE,title=NULL)
+  currentOptions$legend.title = FALSE
+  currentOptions$legend.position ='bottom'
+  currentOptions$nodeNames = FALSE
+
   currentOptions[names(plotOptions)] = plotOptions
 
   normalized  <- currentOptions$normalized
@@ -201,39 +232,60 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG, distrib, cluster
   BegFG_col <- c(0, cumsum(nbNodes * GCol )[-nbFG]) + 1
 
 
-
-  MetaMat <- matrix(NA, sum(nbNodes*GRow), sum(nbNodes*GCol))
+  n1 <- sum(nbNodes*GRow)
+  n2 <- sum(nbNodes*GCol)
+  MetaMat <- matrix(NA,n1 ,n2 )
+  row_Names <- rep(NA,n1)
+  col_Names <- rep(NA,n2)
   for (i in 1:nbFG) {
     for (j in 1:nbFG) {
       if (G[i, j] == 1) {
         place_row <-  BegFG_row[i]:EndFG_row[i]
         place_col <-  BegFG_col[j]:EndFG_col[j]
         kij <- which(rowSums(E == matrix(rep(c(i, j), nbNet),ncol = 2,nrow = nbNet, byrow = T )) == 2)
-        MetaMat[place_row, place_col] <- list_Mat[[kij]]
+        net_ij <- list_Mat[[kij]]
+        MetaMat[place_row, place_col] <- net_ij
+        if(currentOptions$nodeNames){
+          row_Names[place_row] <-rownames(net_ij)
+          col_Names[place_col] <-colnames(net_ij)
+        }
       }
     }
   }
   if(is.null(currentOptions$line.width)){currentOptions$line.width = mean(dim(MetaMat))/300}
-
   FGCol <- rep(namesFG, times = nbNodes*GCol)
   FGRow <- rep(namesFG, times = nbNodes*GRow)
+
+  ############# meltedMat
+
+
+
+
   melted_Mat = reshape::melt(t(MetaMat))
-  names(melted_Mat) <- c('index_col','index_row','link')
-  melted_Mat$index_row <- dim(MetaMat)[1] - melted_Mat$index_row + 1
-  melted_Mat$FG_row <- as.factor(rep(FGRow, each = dim(MetaMat)[2]))
-  melted_Mat$FG_col <- as.factor(rep(FGCol,  dim(MetaMat)[1]))
+  names(melted_Mat) <- c('names_col','names_row','link')
+  if(is.numeric(melted_Mat$names_col)){melted_Mat$names_col <- as.character(melted_Mat$names_col)}
+  if(is.numeric(melted_Mat$names_row)){melted_Mat$names_row <- as.character(melted_Mat$names_row)}
+  melted_Mat$index_col = rep(1:n2,n1)
+  melted_Mat$index_row = n1 - rep(1:n1,each = n2) + 1
+  melted_Mat$names_col <- as.factor(melted_Mat$names_col)
+  melted_Mat$names_col <- factor(melted_Mat$names_col, levels = melted_Mat$names_col[melted_Mat$index_row == 1])
+  melted_Mat$names_row <- as.factor(melted_Mat$names_row)
+  melted_Mat$names_row <- factor(melted_Mat$names_row, levels = melted_Mat$names_row[melted_Mat$index_col == 1][n1:1])
+  melted_Mat$FG_row <- as.factor(rep(FGRow, each = n2))
+  melted_Mat$FG_col <- as.factor(rep(FGCol,  n1))
   range_melted <- range(c(melted_Mat$link))
   if (binary) { melted_Mat$link <- as.factor(melted_Mat$link)}
 
 
+  ############# PLOT
 
+  g <- ggplot2::ggplot(melted_Mat, aes(y = .data$names_row, x = .data$names_col, fill = .data$link))
+  g <- g +  geom_tile()
+  g <- g +  theme(axis.ticks = element_blank(),panel.background = element_rect(fill = "white"))
+  g <- g +  labs(x = '', y = '')
+  g <- g +  scale_x_discrete(drop = TRUE) + scale_y_discrete(drop = TRUE)
 
-
-  g <- ggplot2::ggplot(melted_Mat, aes(y = .data$index_row, x = .data$index_col, fill = .data$link))
-  g <- g + geom_tile()
   name_legend <- ifelse(normalized,"Norm. Link","Link")
-
-  g <- g  +  scale_x_discrete(drop = FALSE) + scale_y_discrete(drop = FALSE)
   if (!binary) {
     g <- g +  scale_fill_gradient(
       low = "white",
@@ -250,12 +302,23 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG, distrib, cluster
         na.value = "transparent"
       )
   }
-  g <- g +  labs(x = '', y = '')
-  g <- g + theme(axis.text.x = element_text(angle = 270, hjust = 0))
-  if(!currentOptions$legend){g <- g + theme(legend.position = 'none')}
-  g <- g + facet_grid(FG_row~ FG_col, scales = 'free', space = 'free',switch = 'y')
-  ########## separators
+  if (!currentOptions$nodeNames){
+    g <- g + theme(axis.text.x = element_blank(),axis.text.y = element_blank())
+  }else{
+    g <- g + theme(axis.text.x = element_text(angle = 90, hjust = 0))
+  }
 
+  if(!currentOptions$legend){
+    g <- g + theme(legend.position = 'none')}
+  else{
+    g <- g +theme(legend.position = currentOptions$legend.position)
+    if(!currentOptions$legend.title){g <- g+ theme(legend.title = element_blank())}
+  }
+
+
+  g <- g + facet_grid(FG_row~ FG_col, scales = 'free', space = 'free')
+
+  ########## separators
   if (reordered){
     separate <- unlist(lapply(1:nbFG, function(l){
       sepColl <- cumsum(table(clustering[[l]])) + 0.5
@@ -283,6 +346,7 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG, distrib, cluster
     g <- g + geom_vline(data= separCol, aes(xintercept =  .data$sepCol),size= currentOptions$line.width, col=currentOptions$line.color)
     g <- g + geom_hline(data= separRow, aes(yintercept = .data$sepRow),size= currentOptions$line.width, col=currentOptions$line.color)
   }
+  if (!is.null(currentOptions$title)){g <- g + ggtitle(currentOptions$title) }
   g
 }
 
@@ -315,7 +379,8 @@ plotMeso <- function(thetaMean, pi,model,directed,bipartite,nbNodes,nodeLabels,p
                          edge.arrow.size = 1,                            # Arrow size, defaults to 1
                          edge.arrow.width = 2,                           # Arrow width, defaults to 1
                          edge.lty = "solid",                             # Line type, could be 0 or “blank”, 1 or “solid”, 2 or “dashed”, 3 or “dotted”, 4 or “dotdash”, 5 or “longdash”, 6 or “twodash”
-                         edge.curved = 0.3)
+                         edge.curved = 0.3
+                         )
 
 
   if (bipartite) {

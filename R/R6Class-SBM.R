@@ -69,7 +69,7 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       #' @description basic matrix plot method for SBM object or mesoscopic plot
       #' @param type character for the type of plot: either 'data' (true connection), 'expected' (fitted connection) or 'meso' (mesoscopic view). Default to 'data'.
       #' @param ordered logical: should the rows and columns be reordered according to the clustering? Default to \code{TRUE}.
-      #' @param plotOptions list with the parameters for meso plot (see details in \code{plotMeso.SimpleSBM}
+      #' @param plotOptions list with the parameters for the plot (see details in \code{plotMeso.SimpleSBM} and\code{plotMyMatrix}}
       #' @return a ggplot2 object for the \code{'data'} and \code{'expected'}, a list with the igraph object \code{g}, the \code{layout} and the \code{plotOptions} for the \code{'meso'}
       #' @import ggplot2
       plot = function(type = c('data','expected','meso'), ordered = TRUE, plotOptions = list()) {
@@ -208,7 +208,7 @@ predict.SBM <- function(object, covarList = object$covarList, ...) {
 #' @param ordered logical: should the rows and columns be ordered according to the clustering? Default to \code{TRUE} (not taken into account for 'meso').
 #' @param plotOptions list with parameters for 'meso' type plot
 #' @param ... additional parameters for S3 compatibility. Not used
-#' @details The list of parameters \code{plotOptions} is
+#' @details The list of parameters \code{plotOptions} is for the mesoscopic plot.
 #'  \itemize{
 #'  \item{"seed": }{seed to control the layout}
 #'  \item{"title": }{character string for the title. Default value is NULL}
@@ -232,6 +232,18 @@ predict.SBM <- function(object, covarList = object$covarList, ...) {
 #'  \item{"edge.lty": }{Line type, could be 0 or "blank", 1 or "solid", 2 or "dashed", 3 or "dotted", 4 or "dotdash", 5 or "longdash", 6 or "twodash". Default value is "solid"}
 #'  \item{"edge.curved": }{Default value is = 0.3}
 #' }
+#' For type = 'data' or 'expected plot', the list of parameters \code{plotOptions} is
+#' \itemize{
+#'  \item{"legend": }{Boolean. Set TRUE if you want to see the legend. Default value is FALSE}
+#'  \item{"legend.title":}{Boolean. Set TRUE if you want to print the title of the legend. Default value is FALSE}
+#'  \item{"legend.position":}{Position of the legend. Possible values are 'bottom', 'top','left,'right'. Default value is 'bottom'}
+#'  \item{"rowNames":}{Set true if the rownames must be plotted. Default value is FALSE}
+#'  \item{"colNames":}{Set true if the colNames must be plotted. Default value is FALSE}
+#'  \item{"line.color": }{Chain of character. The color of the lines to separate groups if a clustering is provided. Default value is red}
+#'  \item{"line.width": }{Numeric. Width  of the lines to separate groups. Default value is NULL, automatically chosen}
+#'  \item{"title": }{Chain of character. Title of the plot. Default value is NULL}
+#'  }
+#'
 #' @return a ggplot2 object for the \code{'data'} and \code{'expected'}, a list with the igraph object \code{g} and the \code{layout} for the \code{'meso'}
 #' @export
 plot.SBM = function(x, type = c('data', 'expected', 'meso'), ordered = TRUE, plotOptions = list(), ...){

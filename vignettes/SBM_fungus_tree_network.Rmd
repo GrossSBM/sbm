@@ -283,9 +283,9 @@ plot(myBipartiteSBM, dimLabels = list(row = 'fungis', col = 'tree'))
 
 
 ```{r plot bipartite meso}
-plot(myBipartiteSBM, type  = 'meso', 
-     dimLabels = list(row = 'fungis', col= 'tree'),
-     plotOptions = list(edge.width = 1, vertex.size = c(1,2)))
+#plot(myBipartiteSBM, type  = 'meso', 
+#     dimLabels = list(row = 'fungis', col= 'tree'),
+#     plotOptions = list(edge.width = 1, vertex.size = c(1,2)))
 ```
 
 

@@ -220,12 +220,12 @@ estimateBipartiteSBM <- function(netMat,
 #' @param estimOptions options for the inference procedure
 #' @details The list of parameters \code{estimOptions} essentially tunes the optimization process and the variational EM algorithm, with the following parameters
 #'  \itemize{
-#'  \item{"nbCores"}{integer for number of cores used. Default is 2}
+#'  \item{"nbCores"}{integer for number of cores used.  Default is 2}
 #'  \item{"verbosity"}{integer for verbosity (0, 1). Default is 1}
 #'  \item{"nbBlocksRange"}{List of length the number of functional groups, each element supplying the minimal and maximal number of blocks to be explored. The names of the list must be the names of the functional groups.  Default value is from 1 to 10)}
 #'  \item{"initBM"}{Boolean. True if using simple and bipartite SBM as initialisations. Default value  = TRUE}
-#'  \item{"maxiterVEM"}{Number of max. number of iterations in  the VEM}
-#'  \item{"maxiterVE"}{Number of max. number of iterations in  the VE}
+#'  \item{"maxiterVEM"}{Number of max. number of iterations in  the VEM. Default value  = 100}
+#'  \item{"maxiterVE"}{Number of max. number of iterations in  the VE. Default value  = 100}
 #'}
 #' @return a MultipartiteSBM_fit object with the estimated parameters and the blocks in each Functional Group
 #' @export
@@ -262,13 +262,14 @@ estimateMultipartiteSBM <- function(listSBM,
 
 
   currentOptions <- list(
-    verbosity     = 3,
+    verbosity     = 1,
     nbBlocksRange = lapply(1:myMSBM$nbLabels,function(l){c(1,10)}),
     nbCores       = 2,
-    maxiterVE     = NULL,
-    maxiterVEM    = NULL,
+    maxiterVE     = 100,
+    maxiterVEM    = 100,
     initBM = TRUE
-    )
+  )
+
   names(currentOptions$nbBlocksRange) <- myMSBM$dimLabels
   ## Current options are default expect for those passed by the user
   currentOptions[names(estimOptions)] <- estimOptions

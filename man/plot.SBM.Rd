@@ -30,7 +30,7 @@ a ggplot2 object for the \code{'data'} and \code{'expected'}, a list with the ig
 Basic matrix plot method for SBM object or mesoscopic view
 }
 \details{
-The list of parameters \code{plotOptions} is
+The list of parameters \code{plotOptions} is for the mesoscopic plot.
 \itemize{
 \item{"seed": }{seed to control the layout}
 \item{"title": }{character string for the title. Default value is NULL}
@@ -53,5 +53,16 @@ The list of parameters \code{plotOptions} is
 \item{"edge.arrow.width": }{Default value is 2}
 \item{"edge.lty": }{Line type, could be 0 or "blank", 1 or "solid", 2 or "dashed", 3 or "dotted", 4 or "dotdash", 5 or "longdash", 6 or "twodash". Default value is "solid"}
 \item{"edge.curved": }{Default value is = 0.3}
+}
+For type = 'data' or 'expected plot', the list of parameters \code{plotOptions} is
+\itemize{
+\item{"legend": }{Boolean. Set TRUE if you want to see the legend. Default value is FALSE}
+\item{"legend.title":}{Boolean. Set TRUE if you want to print the title of the legend. Default value is FALSE}
+\item{"legend.position":}{Position of the legend. Possible values are 'bottom', 'top','left,'right'. Default value is 'bottom'}
+\item{"rowNames":}{Set true if the rownames must be plotted. Default value is FALSE}
+\item{"colNames":}{Set true if the colNames must be plotted. Default value is FALSE}
+\item{"line.color": }{Chain of character. The color of the lines to separate groups if a clustering is provided. Default value is red}
+\item{"line.width": }{Numeric. Width  of the lines to separate groups. Default value is NULL, automatically chosen}
+\item{"title": }{Chain of character. Title of the plot. Default value is NULL}
 }
 }

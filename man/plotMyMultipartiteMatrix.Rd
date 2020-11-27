@@ -27,6 +27,7 @@ plotOptions is a list containing the following items
 \item{"legend": }{Boolean. Set TRUE if you   want to see the legend. Default value is FALSE}
 \item{"line.color":}{The color of the lines to separate groups. Default value is red}
 \item{"line.width":}{Width  of the lines to separate groups. Default value is NULL, automatically chosen}
+\item{"title": }{Title of the plot. Default value is NULL}
 }
 }
 \examples{
@@ -41,7 +42,7 @@ listNet[[1]] = defineSBM(Net$Inc_plant_ant,
                          dimLabels =list(row = "Plants", col = "Ants"))
 listNet[[2]] = defineSBM(Net$Inc_plant_bird,model,type,directed,
                       dimLabels =list(row = "Plants",col = "Birds"))
-plotMyMultipartiteMatrix(listNet,plotOptions=list(legend = TRUE))
+plotMyMultipartiteMatrix(listNet,plotOptions=list(legend = TRUE,title='Ecology'))
 
 listNet <- list()
 listNet[[1]] <- defineSBM(matrix(rbinom(1000,1,0.5),20,50),

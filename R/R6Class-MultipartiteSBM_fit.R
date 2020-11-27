@@ -77,7 +77,7 @@ MultipartiteSBM_fit <-
           u <- apply(listtau[[l]],1,which.max)
           u})
         private$pi  = listpi
-        }
+      }
     ),
     #-----------------------------------------------
     public = list(
@@ -86,9 +86,31 @@ MultipartiteSBM_fit <-
       initialize = function(listSBM) {
         super$initialize(listSBM)
       },
-      #' @description estimation via GREMLINS
-      #' @param currentOptions options for MultipartiteBM
-      optimize = function(currentOptions) {
+      #' @description estimation of multipartiteSBM via GREMLINS
+      #' @param estimOptions options for MultipartiteBM
+      #' @details The list of parameters \code{estimOptions} essentially tunes the optimization process and the variational EM algorithm, with the following parameters
+      #'  \itemize{
+      #'  \item{"nbCores"}{integer for number of cores used.  Default is 2}
+      #'  \item{"verbosity"}{integer for verbosity (0, 1). Default is 1}
+      #'  \item{"nbBlocksRange"}{List of length the number of functional groups, each element supplying the minimal and maximal number of blocks to be explored. The names of the list must be the names of the functional groups.  Default value is from 1 to 10)}
+      #'  \item{"initBM"}{Boolean. True if using simple and bipartite SBM as initialisations. Default value  = TRUE}
+      #'  \item{"maxiterVEM"}{Number of max. number of iterations in  the VEM. Default value  = 100}
+      #'  \item{"maxiterVE"}{Number of max. number of iterations in  the VE. Default value  = 100}
+      #'}
+      optimize = function(estimOptions) {
+
+        currentOptions <- list(
+          verbosity     = 1,
+          nbBlocksRange = lapply(1:private$nbFG,function(l){c(1,10)}),
+          nbCores       = 2,
+          maxiterVE     = 100,
+          maxiterVEM    = 100,
+          initBM = TRUE
+        )
+        names(currentOptions$nbBlocksRange) <- private$namesFG
+        ## Current options are default expect for those passed by the user
+        currentOptions[names(estimOptions)] <- estimOptions
+
 
 
         # ----- formatting data for using GREMLINS
@@ -100,9 +122,9 @@ MultipartiteSBM_fit <-
             type <-  "inc"
           }
           GREMLINS::defineNetwork(net$netMatrix,
-                                 type,
-                                 rowFG = net$dimLabels[[1]],
-                                 colFG = net$dimLabels[[2]])
+                                  type,
+                                  rowFG = net$dimLabels[[1]],
+                                  colFG = net$dimLabels[[2]])
         })
 
 
@@ -118,18 +140,18 @@ MultipartiteSBM_fit <-
 
         if ( sum(abs(v_Kmin - v_Kmax)) > 0) {
           private$GREMLINSobject <- GREMLINS::multipartiteBM(
-          list_Net = listNetG,
-          v_distrib = vdistrib ,
-          namesFG = namesFG,
-          v_Kmin = v_Kmin  ,
-          v_Kmax = v_Kmax ,
-          v_Kinit = NULL ,
-          initBM = initBM,
-          save = TRUE ,
-          verbose = verbose,
-          nbCores = nbCores,
-          maxiterVE =  maxiterVE ,
-          maxiterVEM =  maxiterVEM)
+            list_Net = listNetG,
+            v_distrib = vdistrib ,
+            namesFG = namesFG,
+            v_Kmin = v_Kmin  ,
+            v_Kmax = v_Kmax ,
+            v_Kinit = NULL ,
+            initBM = initBM,
+            keep = TRUE ,
+            verbose = verbose,
+            nbCores = nbCores,
+            maxiterVE =  maxiterVE ,
+            maxiterVEM =  maxiterVEM)
           private$import_from_GREMLINS()
         } else {
           private$GREMLINSobject <- GREMLINS::multipartiteBMFixedModel(
@@ -154,7 +176,7 @@ MultipartiteSBM_fit <-
       #' @param covarList a list of covariates. By default, we use the covariates with which the model was estimated
       #' @return a list of matrices matrix of expected values for each dyad
       predict = function() {
-          lapply(1:private$nbNet,function(l){BMl <- self$getBM(l); BMl$predict()})
+        lapply(1:private$nbNet,function(l){BMl <- self$getBM(l); BMl$predict()})
       },
       #' @description method to select a specific model among the ones fitted during the optimization.
       #'  Fields of the current MultipartiteSBM_fit will be updated accordingly.
@@ -181,10 +203,10 @@ MultipartiteSBM_fit <-
       },
       #' @description print method
       print = function() self$show()
-    ),
-    #-----------------------------------------------
-    active=list(
-      #' @field memberships a list with the memberships in all the functional groups
+  ),
+  #-----------------------------------------------
+  active=list(
+    #' @field memberships a list with the memberships in all the functional groups
     memberships = function(value) {
       if (missing(value)){
         M <- private$allZ
@@ -221,8 +243,8 @@ MultipartiteSBM_fit <-
     blockProp = function(value) {private$pi},
     #' @field connectParam : connection parameters in each network
     connectParam = function(value) {private$theta}
-)
-)
+  )
+  )
 
 
 
