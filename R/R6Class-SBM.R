@@ -69,13 +69,19 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       #' @description basic matrix plot method for SBM object or mesoscopic plot
       #' @param type character for the type of plot: either 'data' (true connection), 'expected' (fitted connection) or 'meso' (mesoscopic view). Default to 'data'.
       #' @param ordered logical: should the rows and columns be reordered according to the clustering? Default to \code{TRUE}.
-      #' @param plotOptions list with the parameters for the plot (see details in \code{plotMeso.SimpleSBM} and\code{plotMyMatrix}}
+      #' @param plotOptions:  list with the parameters for the plot (see details in \code{plotMeso.SimpleSBM} and\code{plotMyMatrix})
       #' @return a ggplot2 object for the \code{'data'} and \code{'expected'}, a list with the igraph object \code{g}, the \code{layout} and the \code{plotOptions} for the \code{'meso'}
       #' @import ggplot2
       plot = function(type = c('data','expected','meso'), ordered = TRUE, plotOptions = list()) {
         if (length(type) > 1) {type = 'data'}
+
         type <- match.arg(type)
         bipartite <- ifelse(is.list(self$memberships), TRUE, FALSE)
+
+        if ( length(self$memberships)==0){ordered = FALSE; type='data'}
+
+
+
         if (type == 'meso'){
           P <- plotMeso(thetaMean  = private$theta$mean,
                    pi         = private$pi,
@@ -88,6 +94,8 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
         } else {
             Mat <- switch(type, data = self$netMatrix, expected = self$expectation)
             cl <- NULL
+
+
             if (ordered) {
               if (bipartite) {
                 cl <-  self$memberships
@@ -206,9 +214,9 @@ predict.SBM <- function(object, covarList = object$covarList, ...) {
 #' @param x an object inheriting from class SBM
 #' @param type character for the type of plot: either 'data' (true connection),  'expected' (fitted connection) or 'meso' (mesoscopic). Default to 'data'.
 #' @param ordered logical: should the rows and columns be ordered according to the clustering? Default to \code{TRUE} (not taken into account for 'meso').
-#' @param plotOptions list with parameters for 'meso' type plot
+#' @param plotOptions list with parameters for 'meso' type plot and data type plot. Details are given below
 #' @param ... additional parameters for S3 compatibility. Not used
-#' @details The list of parameters \code{plotOptions} is for the mesoscopic plot.
+#' @details The list of parameters \code{plotOptions}  for the mesoscopic plot is:
 #'  \itemize{
 #'  \item{"seed": }{seed to control the layout}
 #'  \item{"title": }{character string for the title. Default value is NULL}
@@ -230,7 +238,7 @@ predict.SBM <- function(object, covarList = object$covarList, ...) {
 #'  \item{"edge.arrow.size": }{Default value is 1}
 #'  \item{"edge.arrow.width": }{Default value is 2}
 #'  \item{"edge.lty": }{Line type, could be 0 or "blank", 1 or "solid", 2 or "dashed", 3 or "dotted", 4 or "dotdash", 5 or "longdash", 6 or "twodash". Default value is "solid"}
-#'  \item{"edge.curved": }{Default value is = 0.3}
+#'  \item{"edge.curved": }{Default value is = 0.3.}
 #' }
 #' For type = 'data' or 'expected plot', the list of parameters \code{plotOptions} is
 #' \itemize{

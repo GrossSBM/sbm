@@ -110,9 +110,7 @@ plot Multipartite Network
 
 \item{\code{ordered}}{TRUE is the matrices are plotted after reorganization with the blocks. Default value = TRUE}
 
-\item{\code{plotOptions}}{list of plot options for the mesoscopic view}
-
-\item{\code{normalized}}{TRUE if the various matrices are renormalized. FALSE otherwise. Default value = FALSE}
+\item{\code{plotOptions}}{list of plot options for the mesoscopic view or matrix view}
 }
 \if{html}{\out{</div>}}
 }

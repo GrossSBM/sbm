@@ -61,10 +61,9 @@ MultipartiteSBM <-
         print = function() self$show(),
          #' @description plot Multipartite Network
          #' @param type character for the type of plot: either 'data' (true connection), 'expected' (fitted connection) or 'meso' (mesoscopic view). Default to 'data'.
-         #' @param normalized TRUE if the various matrices are renormalized. FALSE otherwise. Default value = FALSE
          #' @param ordered TRUE is the matrices are plotted after reorganization with the blocks. Default value = TRUE
-         #' @param plotOptions list of plot options for the mesoscopic view
-        plot = function(type=c('data','expected','meso'), ordered = TRUE, plotOptions = list()){
+         #' @param plotOptions list of plot options for the mesoscopic view or matrix view
+         plot = function(type=c('data','expected','meso'), ordered = TRUE, plotOptions = list()){
 
           if (length(type)>1){type='data'}
           if (type %in% c('data','expected')){
@@ -149,12 +148,16 @@ MultipartiteSBM <-
 #'  \item{"edge.curved": }{Default value is = 0.3}
 #' }
 #' The list of parameters \code{plotOptions} for the matrix plot is
-#'  \itemize{
-#'  \item{"normalized":}{TRUE if the various matrices are renormalized. FALSE otherwise. Default value = FALSE}
-#'  \item{"compact": }{Boolean. Default value is TRUE if you ask for the matrices to be transposed to have a more compact view}
-#'  \item{"legend": }{Boolean. FALSE if you do not want to see the legend}
-#'  \item{"line.color ": }{The color of the lines to separate groups. Default value is red}
-#'  \item{"line.width ": }{Width  of the lines to separate groups. Default value is NULL, automatically chosen}
+#' \itemize{
+#'  \item{"normalized":}{Boolean. TRUE if the various matrices are presented in the same scale (between O and 1). FALSE otherwise. Default value FALSE}
+#'  \item{"compact":}{Boolean. Default value is TRUE if you ask for the matrices to be transposed to have a more compact view}
+#'  \item{"legend": }{Boolean. Set TRUE if you   want to see the legend. Default value is FALSE}
+#'  \item{"legend.title": }{Boolean. Set TRUE if you want to print the title of the legend. Default value is FALSE}
+#'  \item{"legend.position": }{Position of the legend. Possible values are 'bottom', 'top','left,'right'. Default value is 'bottom'}
+#'  \item{"nodeNames": }{Set true if the node Names must be plotted. Default value is FALSE}
+#'  \item{"line.color":}{The color of the lines to separate groups. Default value is red}
+#'  \item{"line.width":}{Width  of the lines to separate groups. Default value is NULL, automatically chosen}
+#'  \item{"title": }{Title of the plot. Default value is NULL}
 #'  }
 #' @return a ggplot2 object for the \code{'data'} and \code{'expected'}, a list with the igraph object \code{g}, the \code{layout} and the \code{plotOptions} for the \code{'meso'}
 #' @export

@@ -19,7 +19,7 @@
 
 \item{ordered}{logical: should the rows and columns be ordered according to the clustering? Default to \code{TRUE} (not taken into account for 'meso').}
 
-\item{plotOptions}{list with parameters for 'meso' type plot}
+\item{plotOptions}{list with parameters for 'meso' type plot and data type plot. Details are given below}
 
 \item{...}{additional parameters for S3 compatibility. Not used}
 }
@@ -30,7 +30,7 @@ a ggplot2 object for the \code{'data'} and \code{'expected'}, a list with the ig
 Basic matrix plot method for SBM object or mesoscopic view
 }
 \details{
-The list of parameters \code{plotOptions} is for the mesoscopic plot.
+The list of parameters \code{plotOptions}  for the mesoscopic plot is:
 \itemize{
 \item{"seed": }{seed to control the layout}
 \item{"title": }{character string for the title. Default value is NULL}
@@ -52,7 +52,7 @@ The list of parameters \code{plotOptions} is for the mesoscopic plot.
 \item{"edge.arrow.size": }{Default value is 1}
 \item{"edge.arrow.width": }{Default value is 2}
 \item{"edge.lty": }{Line type, could be 0 or "blank", 1 or "solid", 2 or "dashed", 3 or "dotted", 4 or "dotdash", 5 or "longdash", 6 or "twodash". Default value is "solid"}
-\item{"edge.curved": }{Default value is = 0.3}
+\item{"edge.curved": }{Default value is = 0.3.}
 }
 For type = 'data' or 'expected plot', the list of parameters \code{plotOptions} is
 \itemize{

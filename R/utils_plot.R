@@ -9,6 +9,7 @@ plotMatrix = function(Mat, dimLabels, clustering = NULL,plotOptions = list()){
 
 
   currentOptions = list(line.color  = 'red',legend = FALSE,rowNames = FALSE, colNames = FALSE,title=NULL)
+
   currentOptions$legend.title = FALSE
   currentOptions$legend.position ='bottom'
 
@@ -171,7 +172,7 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG, distrib, cluster
   }
   binary = ifelse(all(distrib == 'bernoulli'),TRUE,FALSE)
 
-  ############## optimisation plot
+  ############## Optimize positions of matrices
   if (currentOptions$compact) {
     TranposColl <-
       lapply(
@@ -183,14 +184,8 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG, distrib, cluster
       1:(2 ^ nbNet / 2),
       FUN = function(i) {
         u <- which(TranposColl[[i]] == 1)
-
         Ex <- E
-
-        if (length(u) > 0) {
-          for (i in u) {
-            Ex[i, 1:2] = E[i, 2:1]
-          }
-        }
+        if (length(u) > 0) {for (i in u) {Ex[i, 1:2] = E[i, 2:1]}}
         Ex
       }
     )
@@ -198,9 +193,7 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG, distrib, cluster
       1:(2 ^ nbNet / 2),
       FUN = function(i) {
         G <- matrix(0, nbFG, nbFG)
-        for (j in 1:nbNet) {
-          G[EColl[[i]][j, 1], EColl[[i]][j, 2]] = 1
-        }
+        for (j in 1:nbNet) {G[EColl[[i]][j, 1], EColl[[i]][j, 2]] = 1}
         sum(rowSums(G) == 0) + sum(colSums(G) == 0)
       }
     )
@@ -214,10 +207,6 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG, distrib, cluster
       }
     }
   }
-
-
-
-
   ############################  meta matrix
   # network of matrices
   G <- matrix(0, nbFG, nbFG)
@@ -252,19 +241,23 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG, distrib, cluster
       }
     }
   }
+  rownames(MetaMat) <- row_Names
+  colnames(MetaMat) <- col_Names
+
+
   if(is.null(currentOptions$line.width)){currentOptions$line.width = mean(dim(MetaMat))/300}
   FGCol <- rep(namesFG, times = nbNodes*GCol)
   FGRow <- rep(namesFG, times = nbNodes*GRow)
 
   ############# meltedMat
-
-
-
-
   melted_Mat = reshape::melt(t(MetaMat))
   names(melted_Mat) <- c('names_col','names_row','link')
+  if (all(is.na(melted_Mat$names_col))){melted_Mat$names_col <- rep(1:n2,n1)}
+  if (all(is.na(melted_Mat$names_row))){melted_Mat$names_row <- n1 - rep(1:n1,each = n2) + 1}
+
   if(is.numeric(melted_Mat$names_col)){melted_Mat$names_col <- as.character(melted_Mat$names_col)}
   if(is.numeric(melted_Mat$names_row)){melted_Mat$names_row <- as.character(melted_Mat$names_row)}
+
   melted_Mat$index_col = rep(1:n2,n1)
   melted_Mat$index_row = n1 - rep(1:n1,each = n2) + 1
   melted_Mat$names_col <- as.factor(melted_Mat$names_col)
@@ -318,14 +311,16 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG, distrib, cluster
 
   g <- g + facet_grid(FG_row~ FG_col, scales = 'free', space = 'free')
 
+
+
   ########## separators
   if (reordered){
     separate <- unlist(lapply(1:nbFG, function(l){
-      sepColl <- cumsum(table(clustering[[l]])) + 0.5
+      sepColl <- cumsum(table(clustering[[l]]))
       sepColl <- sepColl[-length(sepColl)]
       sepColl}))
     nbSep <- length(separate)
-    separCol <- data.frame(sepCol = (separate + rep(c(0,cumsum(GCol*nbNodes)[-nbFG]),nbBlocks-1)),
+    separCol <- data.frame(sepCol = (separate + rep(c(0,cumsum(GCol*nbNodes)[-nbFG]),nbBlocks-1)) + 0.5,
                            FG_col = rep(namesFG,nbBlocks-1),
                            FG_col_index = rep(1:nbFG,nbBlocks-1))
     separCol <- do.call("rbind", replicate( nbFG,separCol ,simplify = FALSE))
@@ -333,8 +328,13 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG, distrib, cluster
     separCol$FG_row_index <- rep(1:nbFG,each = nbSep)
     testCol <- vapply(1:(nbSep*nbFG),function(i){1*(G[separCol$FG_row_index[i],separCol$FG_col_index[i]]==1)},1)
     separCol <- separCol[testCol==1,]
+    separCol$nameSepCol = c()
+    for (i in 1:nrow(separCol)){
+      separCol$nameSepCol[i] <- melted_Mat$names_col[melted_Mat$index_row==1][separCol$sepCol[i]]
+    }
 
-    separRow <- data.frame(sepRow = 1 + sum(nbNodes*GRow) -(separate + rep(c(0,cumsum(GRow*nbNodes)[-nbFG]),nbBlocks-1)),
+
+    separRow <- data.frame(sepRow = 1 + sum(nbNodes*GRow) -(separate + rep(c(0,cumsum(GRow*nbNodes)[-nbFG]),nbBlocks-1)) - 0.5,
                            FG_row = rep(namesFG,nbBlocks-1),
                            FG_row_index = rep(1:nbFG,nbBlocks-1))
     separRow <- do.call("rbind", replicate( nbFG,separRow ,simplify = FALSE))
@@ -346,6 +346,7 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG, distrib, cluster
     g <- g + geom_vline(data= separCol, aes(xintercept =  .data$sepCol),size= currentOptions$line.width, col=currentOptions$line.color)
     g <- g + geom_hline(data= separRow, aes(yintercept = .data$sepRow),size= currentOptions$line.width, col=currentOptions$line.color)
   }
+
   if (!is.null(currentOptions$title)){g <- g + ggtitle(currentOptions$title) }
   g
 }
@@ -514,6 +515,8 @@ plotMeso <- function(thetaMean, pi,model,directed,bipartite,nbNodes,nodeLabels,p
 plotMesoMultipartite <- function(E,theta, list_pi,v_distrib,directed,nbNodes,nodeLabels,plotOptions){
 
 
+
+
   directed[is.na(directed)] <- 'FALSE'
   nbFG <- length(list_pi)
   nbNet <- nrow(E)
@@ -554,6 +557,8 @@ plotMesoMultipartite <- function(E,theta, list_pi,v_distrib,directed,nbNodes,nod
                          edge.curved = 0.3)
 
   currentOptions[names(plotOptions)] <- plotOptions
+
+
   if (currentOptions$edge.threshold != -Inf) {
     cat(paste("Nota bene: threshold on connections is",currentOptions$edge.threshold,sep = ' '))
   }
@@ -569,13 +574,14 @@ plotMesoMultipartite <- function(E,theta, list_pi,v_distrib,directed,nbNodes,nod
 
   layout <- currentOptions$layout
   myOptions <- currentOptions
-  w.vertex.options <- stringr::str_detect(names(currentOptions), "vertex.")
-  myOptions <- lapply(1:length(currentOptions),
-    function(p){if (w.vertex.options[p]){rep(currentOptions[[p]],nbFG)}else{currentOptions[[p]]}})
+  w.vertex.options <-which(stringr::str_detect(names(currentOptions), "vertex."))
+  myOptions <- currentOptions
+  for (p in w.vertex.options){myOptions[[p]] = rep(currentOptions[[p]],nbBlocks)}
+
   names(myOptions) <- names(currentOptions)
   labelNode <- unlist(lapply(1:nbFG,function(q){paste(vertex.label[q],1:nbBlocks[q],sep='')}))
 
-  #--------------------------- meatagraph g
+  #--------------------------- metaGraph g
 
   N <- sum(nbBlocks);
   DIR <- alpha <- matrix(0, N,N);
@@ -614,7 +620,7 @@ plotMesoMultipartite <- function(E,theta, list_pi,v_distrib,directed,nbNodes,nod
   colnames(alpha.norm) <- rownames(alpha.norm) <- labelNode
   g <- igraph::graph.adjacency(alpha.norm, mode = 'directed', weighted = TRUE,diag = TRUE)
   if (is.null(layout)){layout <- igraph::layout_with_fr(g)}
-  u <- unlist(lapply(1:nbFG, function(p){list_pi[[p]]*100}))
+  u <- unlist(lapply(1:nbFG, function(p){list_pi[[p]]*10}))
 
   igraph::E(g)$width <- 1 + as.integer(igraph::E(g)$weight*10)
 

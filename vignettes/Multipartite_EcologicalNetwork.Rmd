@@ -156,7 +156,11 @@ plot(myMSBM)
 
 or the mesoscopic view
 ```{r plot meso, eval = FALSE}
-plot(myMSBM,type = 'meso',plotOptions=list(vertex.size = 0.5))
+plotOptions=list(vertex.size = c(6,3,2,2))
+plotOptions$vertex.shape = rep('circle',4)
+plotOptions$vertex.color = c('darkolivegreen3','darkgoldenrod2','salmon2','cadetblue2')
+plotOptions$edge.curved = 0.1
+plot(myMSBM,type = 'meso',plotOptions=plotOptions)
 ```
 
 Will soon be ready

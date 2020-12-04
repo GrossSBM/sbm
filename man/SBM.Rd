@@ -105,6 +105,8 @@ basic matrix plot method for SBM object or mesoscopic plot
 \item{\code{type}}{character for the type of plot: either 'data' (true connection), 'expected' (fitted connection) or 'meso' (mesoscopic view). Default to 'data'.}
 
 \item{\code{ordered}}{logical: should the rows and columns be reordered according to the clustering? Default to \code{TRUE}.}
+
+\item{\code{plotOptions:}}{list with the parameters for the plot (see details in \code{plotMeso.SimpleSBM} and\code{plotMyMatrix})}
 }
 \if{html}{\out{</div>}}
 }

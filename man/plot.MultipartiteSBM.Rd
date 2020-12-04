@@ -56,10 +56,14 @@ The list of parameters \code{plotOptions} for the mesoscopic plot is
 }
 The list of parameters \code{plotOptions} for the matrix plot is
 \itemize{
-\item{"normalized":}{TRUE if the various matrices are renormalized. FALSE otherwise. Default value = FALSE}
-\item{"compact": }{Boolean. Default value is TRUE if you ask for the matrices to be transposed to have a more compact view}
-\item{"legend": }{Boolean. FALSE if you do not want to see the legend}
-\item{"line.color ": }{The color of the lines to separate groups. Default value is red}
-\item{"line.width ": }{Width  of the lines to separate groups. Default value is NULL, automatically chosen}
+\item{"normalized":}{Boolean. TRUE if the various matrices are presented in the same scale (between O and 1). FALSE otherwise. Default value FALSE}
+\item{"compact":}{Boolean. Default value is TRUE if you ask for the matrices to be transposed to have a more compact view}
+\item{"legend": }{Boolean. Set TRUE if you   want to see the legend. Default value is FALSE}
+\item{"legend.title": }{Boolean. Set TRUE if you want to print the title of the legend. Default value is FALSE}
+\item{"legend.position": }{Position of the legend. Possible values are 'bottom', 'top','left,'right'. Default value is 'bottom'}
+\item{"nodeNames": }{Set true if the node Names must be plotted. Default value is FALSE}
+\item{"line.color":}{The color of the lines to separate groups. Default value is red}
+\item{"line.width":}{Width  of the lines to separate groups. Default value is NULL, automatically chosen}
+\item{"title": }{Title of the plot. Default value is NULL}
 }
 }
