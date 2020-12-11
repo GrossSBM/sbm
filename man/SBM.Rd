@@ -106,7 +106,7 @@ basic matrix plot method for SBM object or mesoscopic plot
 
 \item{\code{ordered}}{logical: should the rows and columns be reordered according to the clustering? Default to \code{TRUE}.}
 
-\item{\code{plotOptions:}}{list with the parameters for the plot (see details in \code{plotMeso.SimpleSBM} and\code{plotMyMatrix})}
+\item{\code{plotOptions}}{list with the parameters for the plot (see details in \code{plotMeso.SimpleSBM} and\code{plotMyMatrix})}
 }
 \if{html}{\out{</div>}}
 }
