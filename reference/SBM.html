@@ -73,7 +73,7 @@ R6 virtual class for SBM representation (mother class of Simple and Bipartite SB
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sbm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2-9020</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -81,7 +81,7 @@ R6 virtual class for SBM representation (mother class of Simple and Bipartite SB
       <ul class="nav navbar-nav">
         <li>
   <a>
-    <span class="fa fa-home"></span>
+    <span class="fas fa-home"></span>
      
   </a>
 </li>
@@ -101,6 +101,9 @@ R6 virtual class for SBM representation (mother class of Simple and Bipartite SB
     <li>
       <a href="../articles/SBM_fungus_tree_network.html">Fungus-tree interaction with simple and bipartite SBM</a>
     </li>
+    <li>
+      <a href="../articles/Multipartite_EcologicalNetwork.html">Mutualistic ecological network with multipartite SBM</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -110,7 +113,7 @@ R6 virtual class for SBM representation (mother class of Simple and Bipartite SB
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/GrossSBM/GSBM">
-    <span class="fa fa-github"></span>
+    <span class="fas fa-github"></span>
      
   </a>
 </li>
@@ -152,6 +155,8 @@ R6 virtual class for SBM representation (mother class of Simple and Bipartite SB
 
 <dt><code>blockProp</code></dt><dd><p>vector of block proportions (aka prior probabilities of each block)</p></dd>
 
+<dt><code>nbBlocks</code></dt><dd><p>vector of number of blocks in each dimension</p></dd>
+
 <dt><code>connectParam</code></dt><dd><p>parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli</p></dd>
 
 <dt><code>covarParam</code></dt><dd><p>vector of regression parameters associated with the covariates.</p></dd>
@@ -163,6 +168,8 @@ R6 virtual class for SBM representation (mother class of Simple and Bipartite SB
 <dt><code>covarEffect</code></dt><dd><p>effect of covariates</p></dd>
 
 <dt><code>netMatrix</code></dt><dd><p>the matrix (adjacency or incidence) encoding the network</p></dd>
+
+<dt><code>expectation</code></dt><dd><p>expected values of connection under the currently adjusted model</p></dd>
 
 </dl><p></div></p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
@@ -209,18 +216,59 @@ R6 virtual class for SBM representation (mother class of Simple and Bipartite SB
 </dl><p></div></p>
 <p><hr>
 <a id="method-plot"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/graphics/plot.default.html'>plot()</a></code></h3>
-<p>basic matrix plot method for SBM object</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>SBM</span><span class='op'>$</span><span class='fu'>plot</span><span class='op'>(</span>type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"data"</span>, <span class='st'>"expected"</span><span class='op'>)</span>, ordered <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre><p></div></p>
+<p>basic matrix plot method for SBM object or mesoscopic plot</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>SBM</span><span class='op'>$</span><span class='fu'>plot</span><span class='op'>(</span>
+  type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"data"</span>, <span class='st'>"expected"</span>, <span class='st'>"meso"</span><span class='op'>)</span>,
+  ordered <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  plotOptions <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
-<dt><code>type</code></dt><dd><p>character for the type of plot: either 'data' (true connection) or 'expected' (fitted connection). Default to 'data'.</p></dd>
+<dt><code>type</code></dt><dd><p>character for the type of plot: either 'data' (true connection), 'expected' (fitted connection) or 'meso' (mesoscopic view). Default to 'data'.</p></dd>
 
 <dt><code>ordered</code></dt><dd><p>logical: should the rows and columns be reordered according to the clustering? Default to <code>TRUE</code>.</p></dd>
 
+<dt><code>plotOptions</code></dt><dd><p>list with the parameters for the plot</p></dd>
+
 </dl><p></div></p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Details</h4>
+<p>The list of parameters <code>plotOptions</code>  for the mesoscopic plot is:</p><ul>
+<li><p>"seed": seed to control the layout</p></li>
+<li><p>"title": character string for the title. Default value is NULL</p></li>
+<li><p>"layout": Default value = NULL</p></li>
+<li><p>"vertex.color": Default value is "salmon2"</p></li>
+<li><p>"vertex.frame.color": Node border color.Default value is "black"</p></li>
+<li><p>"vertex.shape": One of "none", "circle", "square", "csquare", "rectangle" "crectangle", "vrectangle", "pie", "raster", or "sphere". Default value = "circle"</p></li>
+<li><p>"vertex.size": Size of the node (default is 2)</p></li>
+<li><p>"vertex.size2": The second size of the node (e.g. for a rectangle)</p></li>
+<li><p>"vertex.label.name": Names of the vertices. Default value is the label of the nodes</p></li>
+<li><p>"vertex.label.color": Default value is  "black"</p></li>
+<li><p>"vertex.label.font": Default value is 2. Font: 1 plain, 2 bold, 3, italic, 4 bold italic, 5 symbol</p></li>
+<li><p>"vertex.label.cex": Font size (multiplication factor, device-dependent).Default value is  0.9.</p></li>
+<li><p>"vertex.label.dist": Distance between the label and the vertex. Default value is  0</p></li>
+<li><p>"vertex.label.degree": The position of the label in relation to the vertex. default value is 0</p></li>
+<li><p>"edge.threshold": Threshold under which the edge is not plotted. Default value is = -Inf</p></li>
+<li><p>"edge.color": Default value is "gray"</p></li>
+<li><p>"edge.width": Factor parameter. Default value is 10</p></li>
+<li><p>"edge.arrow.size": Default value is 1</p></li>
+<li><p>"edge.arrow.width": Default value is 2</p></li>
+<li><p>"edge.lty": Line type, could be 0 or "blank", 1 or "solid", 2 or "dashed", 3 or "dotted", 4 or "dotdash", 5 or "longdash", 6 or "twodash". Default value is "solid"</p></li>
+<li><p>"edge.curved": Default value is = 0.3.</p></li>
+</ul><p>For type = 'data' or 'expected plot', the list of parameters <code>plotOptions</code> is</p><ul>
+<li><p>"legend": Boolean. Set TRUE if you want to see the legend. Default value is FALSE</p></li>
+<li><p>"legend.title":Boolean. Set TRUE if you want to print the title of the legend. Default value is FALSE</p></li>
+<li><p>"legend.position":Position of the legend. Possible values are 'bottom', 'top','left,'right'. Default value is 'bottom'</p></li>
+<li><p>"rowNames":Set true if the rownames must be plotted. Default value is FALSE</p></li>
+<li><p>"colNames":Set true if the colNames must be plotted. Default value is FALSE</p></li>
+<li><p>"line.color": Chain of character. The color of the lines to separate groups if a clustering is provided. Default value is red</p></li>
+<li><p>"line.width": Numeric. Width  of the lines to separate groups. Default value is NULL, automatically chosen</p></li>
+<li><p>"title": Chain of character. Title of the plot. Default value is NULL</p></li>
+</ul>
+
+
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
-<p>a ggplot2 object</p>
+<p>a ggplot2 object for the <code>'data'</code> and <code>'expected'</code>, a list with the igraph object <code>g</code>, the <code>layout</code> and the <code>plotOptions</code> for the <code>'meso'</code></p>
 <p><hr>
 <a id="method-show"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>show()</code></h3>
 <p>print method</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>

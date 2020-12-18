@@ -73,7 +73,7 @@ R6 virtual class for SBM fit (mother class of Simple and Bipartite SBM fit)" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sbm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2-9020</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -81,7 +81,7 @@ R6 virtual class for SBM fit (mother class of Simple and Bipartite SBM fit)" />
       <ul class="nav navbar-nav">
         <li>
   <a>
-    <span class="fa fa-home"></span>
+    <span class="fas fa-home"></span>
      
   </a>
 </li>
@@ -101,6 +101,9 @@ R6 virtual class for SBM fit (mother class of Simple and Bipartite SBM fit)" />
     <li>
       <a href="../articles/SBM_fungus_tree_network.html">Fungus-tree interaction with simple and bipartite SBM</a>
     </li>
+    <li>
+      <a href="../articles/Multipartite_EcologicalNetwork.html">Mutualistic ecological network with multipartite SBM</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -110,7 +113,7 @@ R6 virtual class for SBM fit (mother class of Simple and Bipartite SBM fit)" />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/GrossSBM/GSBM">
-    <span class="fa fa-github"></span>
+    <span class="fas fa-github"></span>
      
   </a>
 </li>
@@ -151,8 +154,6 @@ R6 virtual class for SBM fit (mother class of Simple and Bipartite SBM fit)" />
 
 <dt><code>ICL</code></dt><dd><p>double: value of the integrated classification log-likelihood</p></dd>
 
-<dt><code>expectation</code></dt><dd><p>expected values of connection under the currently adjusted model</p></dd>
-
 <dt><code>fitted</code></dt><dd><p>matrix of predicted value of the network</p></dd>
 
 </dl><p></div></p>
@@ -165,6 +166,8 @@ R6 virtual class for SBM fit (mother class of Simple and Bipartite SBM fit)" />
 <li><p><a href='#method-new'><code>SBM_fit$new()</code></a></p></li>
 <li><p><a href='#method-show'><code>SBM_fit$show()</code></a></p></li>
 <li><p><a href='#method-setModel'><code>SBM_fit$setModel()</code></a></p></li>
+<li><p><a href='#method-predict'><code>SBM_fit$predict()</code></a></p></li>
+<li><p><a href='#method-reorder'><code>SBM_fit$reorder()</code></a></p></li>
 <li><p><a href='#method-clone'><code>SBM_fit$clone()</code></a></p></li>
 </ul>
 <p><details open ><summary>Inherited methods</summary>
@@ -211,6 +214,23 @@ Fields of the current SBM_fit will be updated accordingly.</p><h4 class='hasAnch
 <dt><code>index</code></dt><dd><p>integer, the index of the model to be selected (row number in storedModels)</p></dd>
 
 </dl><p></div></p>
+<p><hr>
+<a id="method-predict"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code></h3>
+<p>prediction under the currently parameters</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>SBM_fit</span><span class='op'>$</span><span class='fu'>predict</span><span class='op'>(</span>covarList <span class='op'>=</span> <span class='va'>self</span><span class='op'>$</span><span class='va'>covarList</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>covarList</code></dt><dd><p>a list of covariates. By default, we use the covariates with which the model was estimated</p></dd>
+
+</dl><p></div></p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
+<p>a matrix of expected values for each dyad</p>
+<p><hr>
+<a id="method-reorder"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/stats/reorder.factor.html'>reorder()</a></code></h3>
+<p>permute group labels by order of decreasing probability</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>SBM_fit</span><span class='op'>$</span><span class='fu'>reorder</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
+
 <p><hr>
 <a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>

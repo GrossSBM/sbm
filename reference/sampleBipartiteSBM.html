@@ -73,7 +73,7 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models, and 
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sbm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2-9020</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -81,7 +81,7 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models, and 
       <ul class="nav navbar-nav">
         <li>
   <a>
-    <span class="fa fa-home"></span>
+    <span class="fas fa-home"></span>
      
   </a>
 </li>
@@ -101,6 +101,9 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models, and 
     <li>
       <a href="../articles/SBM_fungus_tree_network.html">Fungus-tree interaction with simple and bipartite SBM</a>
     </li>
+    <li>
+      <a href="../articles/Multipartite_EcologicalNetwork.html">Mutualistic ecological network with multipartite SBM</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -110,7 +113,7 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models, and 
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/GrossSBM/GSBM">
-    <span class="fa fa-github"></span>
+    <span class="fas fa-github"></span>
      
   </a>
 </li>
@@ -142,7 +145,7 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models, and 
   <span class='va'>blockProp</span>,
   <span class='va'>connectParam</span>,
   model <span class='op'>=</span> <span class='st'>"bernoulli"</span>,
-  dimLabels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>row <span class='op'>=</span> <span class='st'>"rowLabel"</span>, col <span class='op'>=</span> <span class='st'>"colLabels"</span><span class='op'>)</span>,
+  dimLabels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>row <span class='op'>=</span> <span class='st'>"rowLabel"</span>, col <span class='op'>=</span> <span class='st'>"colLabel"</span><span class='op'>)</span>,
   covariates <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
   covariatesParam <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>numeric</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>)</span>
 <span class='op'>)</span></pre>
@@ -164,7 +167,7 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models, and 
     </tr>
     <tr>
       <th>model</th>
-      <td><p>character describing the model for the relation between nodes (<code>'bernoulli'</code>, <code>'poisson'</code>, <code>'gaussian'</code>, ...). Default is <code>'bernoulli'</code>.</p></td>
+      <td><p>character describing the model for the relation between nodes (<code>'bernoulli'</code>, <code>'poisson'</code>, <code>'gaussian'</code>, <code>'ZIgaussian'</code>). Default is <code>'bernoulli'</code>.</p></td>
     </tr>
     <tr>
       <th>dimLabels</th>
@@ -196,13 +199,13 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models, and 
 <span class='va'>connectParam</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>mean <span class='op'>=</span> <span class='va'>means</span><span class='op'>)</span>
 
 <span class='co'>## Graph Sampling</span>
-<span class='va'>mySampler</span> <span class='op'>&lt;-</span> <span class='fu'>sampleBipartiteSBM</span><span class='op'>(</span><span class='va'>nbNodes</span>, <span class='va'>blockProp</span>, <span class='va'>connectParam</span>, model <span class='op'>=</span> <span class='st'>'bernoulli'</span><span class='op'>)</span>
+<span class='va'>dimLabels</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>row<span class='op'>=</span><span class='st'>'Reader'</span>,col<span class='op'>=</span><span class='st'>'Book'</span><span class='op'>)</span>
+<span class='va'>mySampler</span> <span class='op'>&lt;-</span> <span class='fu'>sampleBipartiteSBM</span><span class='op'>(</span><span class='va'>nbNodes</span>, <span class='va'>blockProp</span>, <span class='va'>connectParam</span>, model <span class='op'>=</span> <span class='st'>'bernoulli'</span>,<span class='va'>dimLabels</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>mySampler</span><span class='op'>)</span>
-</div><div class='img'><img src='sampleBipartiteSBM-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='va'>mySampler</span><span class='op'>$</span><span class='fu'>rMemberships</span><span class='op'>(</span><span class='op'>)</span> <span class='co'># sample new memberships</span>
+</div><div class='img'><img src='sampleBipartiteSBM-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>mySampler</span>,type<span class='op'>=</span><span class='st'>'meso'</span>,plotOptions <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>vertex.label.name<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>row<span class='op'>=</span><span class='st'>'Reader'</span>,col<span class='op'>=</span><span class='st'>'Book'</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='img'><img src='sampleBipartiteSBM-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>mySampler</span>,type<span class='op'>=</span><span class='st'>'meso'</span>,plotOptions <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>vertex.label.name<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'A'</span>,<span class='st'>'B'</span><span class='op'>)</span>,vertex.size <span class='op'>=</span> <span class='fl'>1.4</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='img'><img src='sampleBipartiteSBM-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='va'>mySampler</span><span class='op'>$</span><span class='fu'>rMemberships</span><span class='op'>(</span><span class='op'>)</span> <span class='co'># sample new memberships</span>
 <span class='va'>mySampler</span><span class='op'>$</span><span class='fu'>rIncidence</span><span class='op'>(</span><span class='op'>)</span>   <span class='co'># sample new incidence matrix</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>mySampler</span><span class='op'>)</span>
-</div><div class='img'><img src='sampleBipartiteSBM-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/hist.html'>hist</a></span><span class='op'>(</span><span class='va'>mySampler</span><span class='op'>$</span><span class='va'>netMatrix</span><span class='op'>)</span>
-</div><div class='img'><img src='sampleBipartiteSBM-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>### =======================================</span>
 <span class='co'>### BIPARTITE POISSON SBM</span>
 <span class='co'>## Graph parameters</span>
@@ -214,10 +217,13 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models, and 
 <span class='va'>connectParam</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>mean <span class='op'>=</span> <span class='va'>means</span><span class='op'>)</span>
 
 <span class='co'>## Graph Sampling</span>
-<span class='va'>mySampler</span> <span class='op'>&lt;-</span> <span class='fu'>sampleBipartiteSBM</span><span class='op'>(</span><span class='va'>nbNodes</span>, <span class='va'>blockProp</span>, <span class='va'>connectParam</span>, model <span class='op'>=</span> <span class='st'>'poisson'</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>mySampler</span><span class='op'>)</span>
-</div><div class='img'><img src='sampleBipartiteSBM-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/hist.html'>hist</a></span><span class='op'>(</span><span class='va'>mySampler</span><span class='op'>$</span><span class='va'>netMatrix</span><span class='op'>)</span>
-</div><div class='img'><img src='sampleBipartiteSBM-5.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='va'>dimLabels</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'Ind'</span>,<span class='st'>'Service'</span><span class='op'>)</span>
+<span class='va'>mySampler</span> <span class='op'>&lt;-</span> <span class='fu'>sampleBipartiteSBM</span><span class='op'>(</span><span class='va'>nbNodes</span>, <span class='va'>blockProp</span>, <span class='va'>connectParam</span>, model <span class='op'>=</span> <span class='st'>'poisson'</span>,<span class='va'>dimLabels</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>mySampler</span>,type<span class='op'>=</span><span class='st'>'expected'</span><span class='op'>)</span>
+</div><div class='img'><img src='sampleBipartiteSBM-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='va'>plotOptions</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>vertex.label.name<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'U'</span>,<span class='st'>'V'</span><span class='op'>)</span>,vertex.size <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1.4</span>,<span class='fl'>1.3</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>mySampler</span>,type<span class='op'>=</span><span class='st'>'meso'</span>,<span class='va'>plotOptions</span><span class='op'>)</span>
+</div><div class='img'><img src='sampleBipartiteSBM-5.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/hist.html'>hist</a></span><span class='op'>(</span><span class='va'>mySampler</span><span class='op'>$</span><span class='va'>netMatrix</span><span class='op'>)</span>
+</div><div class='img'><img src='sampleBipartiteSBM-6.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>### =======================================</span>
 <span class='co'>### BIPARTITE GAUSSIAN SBM</span>
 <span class='co'>## Graph parameters</span>
@@ -231,8 +237,8 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models, and 
 <span class='co'>## Graph Sampling</span>
 <span class='va'>mySampler</span> <span class='op'>&lt;-</span> <span class='fu'>sampleBipartiteSBM</span><span class='op'>(</span><span class='va'>nbNodes</span>, <span class='va'>blockProp</span>, <span class='va'>connectParam</span>, model <span class='op'>=</span> <span class='st'>'gaussian'</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>mySampler</span><span class='op'>)</span>
-</div><div class='img'><img src='sampleBipartiteSBM-6.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/hist.html'>hist</a></span><span class='op'>(</span><span class='va'>mySampler</span><span class='op'>$</span><span class='va'>netMatrix</span><span class='op'>)</span>
-</div><div class='img'><img src='sampleBipartiteSBM-7.png' alt='' width='700' height='433' /></div><div class='input'>
+</div><div class='img'><img src='sampleBipartiteSBM-7.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/hist.html'>hist</a></span><span class='op'>(</span><span class='va'>mySampler</span><span class='op'>$</span><span class='va'>netMatrix</span><span class='op'>)</span>
+</div><div class='img'><img src='sampleBipartiteSBM-8.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sbm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2-9020</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -79,7 +79,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a>
-    <span class="fa fa-home"></span>
+    <span class="fas fa-home"></span>
      
   </a>
 </li>
@@ -99,6 +99,9 @@
     <li>
       <a href="../articles/SBM_fungus_tree_network.html">Fungus-tree interaction with simple and bipartite SBM</a>
     </li>
+    <li>
+      <a href="../articles/Multipartite_EcologicalNetwork.html">Mutualistic ecological network with multipartite SBM</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -108,7 +111,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/GrossSBM/GSBM">
-    <span class="fa fa-github"></span>
+    <span class="fas fa-github"></span>
      
   </a>
 </li>
@@ -151,6 +154,12 @@
       <tr>
         
         <td>
+          <p><code><a href="SimpleSBM.html">SimpleSBM</a></code> </p>
+        </td>
+        <td><p>R6 virtual class for SBM representation (mother class of Simple and Bipartite SBM fit and sampler)</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="SimpleSBM_sampler.html">SimpleSBM_sampler</a></code> </p>
         </td>
         <td><p>R6 class for Simple SBM sampler</p></td>
@@ -188,6 +197,12 @@
       <tr>
         
         <td>
+          <p><code><a href="BipartiteSBM.html">BipartiteSBM</a></code> </p>
+        </td>
+        <td><p>R6 virtual class for SBM representation</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="BipartiteSBM_sampler.html">BipartiteSBM_sampler</a></code> </p>
         </td>
         <td><p>R6 class for Bipartite SBM sampler</p></td>
@@ -213,6 +228,124 @@
     </tbody><tbody>
       <tr>
         <th colspan="2">
+          <h2 id="section-methods-common-to-bipartite-and-simple-sbm" class="hasAnchor"><a href="#section-methods-common-to-bipartite-and-simple-sbm" class="anchor"></a>Methods common to Bipartite and Simple SBM</h2>
+          <p class="section-desc"><p>Set of classes and functions for manipulating stochastic block models</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="is_SBM.html">is_SBM()</a></code> </p>
+        </td>
+        <td><p>Auxiliary function to check the given class of an object</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="plot.SBM.html">plot(<i>&lt;SBM&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>SBM Plot</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="predict.SBM.html">predict(<i>&lt;SBM&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Model Predictions</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="coef.SBM.html">coef(<i>&lt;SBM&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Extract model coefficients</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="fitted.SBM_fit.html">fitted(<i>&lt;SBM_fit&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Extract model fitted values
+Extracts fitted values for object with class <code>SBM_fit</code> and children (<code>SimpleSBM_fit</code>,
+<code>BipartiteSBM_fit</code>)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="plotMyMatrix.html">plotMyMatrix()</a></code> </p>
+        </td>
+        <td><p>Plot an adjacency or incidence Matrix</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-multipartite-stochastic-block-models" class="hasAnchor"><a href="#section-multipartite-stochastic-block-models" class="anchor"></a>Multipartite Stochastic block models</h2>
+          <p class="section-desc"><p>Set of classes and functions for manipulating multipartite stochastic block models</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="MultipartiteSBM.html">MultipartiteSBM</a></code> </p>
+        </td>
+        <td><p>R6 Class definition of a Multipartite SBM</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="MultipartiteSBM_fit.html">MultipartiteSBM_fit</a></code> </p>
+        </td>
+        <td><p>R6 Class definition of a Multipartite SBM fit</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="sampleMultipartiteSBM.html">sampleMultipartiteSBM()</a></code> </p>
+        </td>
+        <td><p>Sampling of Multipartite SBMs</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="estimateMultipartiteSBM.html">estimateMultipartiteSBM()</a></code> </p>
+        </td>
+        <td><p>Estimation for multipartite SBM</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="defineSBM.html">defineSBM()</a></code> </p>
+        </td>
+        <td><p>Define a network</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="plotMyMultipartiteMatrix.html">plotMyMultipartiteMatrix()</a></code> </p>
+        </td>
+        <td><p>Plot the matrices corresponding to a Multipartite Network</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="plot.MultipartiteSBM.html">plot(<i>&lt;MultipartiteSBM&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>MultipartiteSBM Plot</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="predict.MultipartiteSBM.html">predict(<i>&lt;MultipartiteSBM&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Model Predictions</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="is_MultipartiteSBM.html">is_MultipartiteSBM()</a></code> </p>
+        </td>
+        <td><p>Check  if an object is MultipartiteSBM</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
           <h2 id="section-data-sets" class="hasAnchor"><a href="#section-data-sets" class="anchor"></a>Data sets</h2>
           <p class="section-desc"><p>Set of data setes available</p></p>
         </th>
@@ -225,15 +358,40 @@
       <tr>
         
         <td>
-          <p><code><a href="fungus_tree_network.html">fungus_tree_network</a></code> </p>
+          <p><code><a href="fungusTreeNetwork.html">fungusTreeNetwork</a></code> </p>
         </td>
         <td><p>fungus-tree interaction network</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="multipartiteEcologicalNetwork.html">multipartiteEcologicalNetwork</a></code> </p>
+        </td>
+        <td><p>Ecological multipartite interaction network</p></td>
       </tr>
     </tbody><tbody>
       <tr>
         <th colspan="2">
           <h2 id="section-others" class="hasAnchor"><a href="#section-others" class="anchor"></a>Others</h2>
-          <p class="section-desc"><p>Comprehensive list of remaning classes and methods</p></p>
+          <p class="section-desc"><p>Miscellaneous</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="plotAlluvial.html">plotAlluvial()</a></code> </p>
+        </td>
+        <td><p>Plot an alluvial plot between  clusterings</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-virtual-methods" class="hasAnchor"><a href="#section-virtual-methods" class="anchor"></a>Virtual methods</h2>
+          <p class="section-desc"><p>Comprehensive list of remaning classes and methods used internally</p></p>
         </th>
       </tr>
       
@@ -262,35 +420,9 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="coef.SBM.html">coef(<i>&lt;SBM&gt;</i>)</a></code> </p>
+          <p><code><a href="plotAlluvial.html">plotAlluvial()</a></code> </p>
         </td>
-        <td><p>Extract model coefficients</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="fitted.SBM_fit.html">fitted(<i>&lt;SBM_fit&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Extract model fitted values
-Extracts fitted values for object with class <code>SBM_fit</code> and children (<code>SimpleSBM_fit</code>,
-<code>BipartiteSBM_fit</code>)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="predict.SBM.html">predict(<i>&lt;SBM&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Model Predictions</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot.SBM.html">plot(<i>&lt;SBM&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>SBM Plot</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plotMyMatrix.html">plotMyMatrix()</a></code> </p>
-        </td>
-        <td><p>Plot an adjacency or incidence Matrix</p></td>
+        <td><p>Plot an alluvial plot between  clusterings</p></td>
       </tr>
     </tbody>
     </table>
