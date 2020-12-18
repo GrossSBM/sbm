@@ -10,8 +10,8 @@ output:
 bibliography: references.bib
 link-citations: yes
 vignette: >
-  %\VignetteIndexEntry{SBM_tree_fungus_network}
-  %\VignetteEngine{knitr::rmarkdown}dim(tree_tree_binary)
+  %\VignetteIndexEntry{Simple and Bipartite Stochastic Block Models}
+  %\VignetteEngine{knitr::rmarkdown} 
   %\VignetteEncoding{UTF-8}
 ---
 
@@ -33,9 +33,7 @@ The packages required for the analysis are **sbm** plus some others for data man
 ```{r setup, message=FALSE, warning=FALSE}
 library(sbm)
 library(ggplot2)
-library(igraph)
 library(knitr)
-library(alluvial)
 theme_set(theme_bw())
 ```
 
@@ -44,8 +42,8 @@ theme_set(theme_bw())
 We consider the fungus-tree interaction network studied by @tree_fungus_network, available with the package **sbm**:
 
 ```{r import dataset}
-data("fungus_tree_network")
-str(fungus_tree_network, max.level = 1)
+data("fungusTreeNetwork")
+str(fungusTreeNetwork, max.level = 1)
 ```
 
 This data set provides information about $154$ fungi sampled on $51$ tree species. It is a list with the following entries:
@@ -70,7 +68,7 @@ See @blockmodels for details.
 We first consider the binary network where an edge is drawn between two trees when they do share a least one common fungi:
 
 ```{r tree_tree_binary network}
-tree_tree_binary <- 1 * (fungus_tree_network$tree_tree != 0)
+tree_tree_binary <- 1 * (fungusTreeNetwork$tree_tree != 0)
 ```
 
 The simple function `plotMyMatrix` can be use to represent simple or bipartite SBM:
@@ -78,6 +76,7 @@ The simple function `plotMyMatrix` can be use to represent simple or bipartite S
 ```{r tree_tree_binary network plot data}
 plotMyMatrix(tree_tree_binary, dimLabels = list(row = 'tree', col = 'tree') )
 ```
+
 We look for some latent structure of the network by adjusting a simple SBM with the function `estimateSimpleSBM`.
 
 ```{r simpleSBM}
@@ -108,7 +107,11 @@ plot(mySimpleSBM, type = "data", dimLabels  = list(row = 'tree', col= 'tree'))
 
 One can also plot the expected network which, in case of the Bernoulli model, corresponds to the probability of connection between any pair of nodes in the network.
 ```{r simpleSBMfit plot2}
-plot(mySimpleSBM, type = "expected", dimLabels  = list(row = 'tree', col= 'tree'))
+plot(mySimpleSBM, type = "expected")
+```
+
+```{r simpleSBMfit plotmeso}
+plot(mySimpleSBM, type = "meso")
 ```
 
 ```{r simpleSBMfit coef}
@@ -119,7 +122,7 @@ coef(mySimpleSBM, 'connectivity')
 
 #### About model selection and choice of the number of blocks
 
-During the estimation, a certain range of models are explored corresponding to different number of blocks. By default, the best model in terms of Integrated Classification Likelihood is sent back. IN fact, all the model are stored internally. The user can have a quick glance at them via the `$storedModels` field:
+During the estimation, a certain range of models are explored corresponding to different number of blocks. By default, the best model in terms of Integrated Classification Likelihood is sent back. In fact, all the model are stored internally. The user can have a quick glance at them via the `$storedModels` field:
 
 ```{r simpleSBM storedModel}
 mySimpleSBM$storedModels %>% kable()
@@ -128,8 +131,7 @@ mySimpleSBM$storedModels %>% kable()
 We can then what models are competitive in terms of model selection by checking the ICL
 
 ```{r simpleSBM ICL}
-mySimpleSBM$storedModels %>% 
-  ggplot() + aes(x = nbBlocks, y = ICL) + geom_line() + geom_point(alpha = 0.5)
+mySimpleSBM$storedModels %>%  ggplot() + aes(x = nbBlocks, y = ICL)  + geom_line() + geom_point(alpha = 0.5)
 ```
 
 The 4-block model could have been a good choice too, in place of the 5-block model. The user can update the current `simpleSBMfit` thanks to the the `setModel` method:
@@ -138,7 +140,10 @@ The 4-block model could have been a good choice too, in place of the 5-block mod
 mySimpleSBM$setModel(4)
 mySimpleSBM$nbBlocks
 mySimpleSBM$plot(type = 'expected')
+mySimpleSBM$setModel(5)
 ```
+
+
 
 ### Analysis of the weighted interaction network
 
@@ -149,7 +154,7 @@ Instead of considering the binary network tree-tree we may consider the weighted
 We plot the matrix with function `plotMyMatrix`: 
 
 ```{r tree_tree network plot data}
-tree_tree <- fungus_tree_network$tree_tree
+tree_tree <- fungusTreeNetwork$tree_tree
 plotMyMatrix(tree_tree, dimLabels = list(row = 'tree', col = 'tree'))
 ```
 
@@ -188,6 +193,11 @@ One can also plot the expected network which, in case of the Poisson model, corr
 plot(mySimpleSBMPoisson, type = "expected", dimLabels = list(row = 'tree', col= 'tree'))
 ```
 
+```{r simpleSBMfitPoisson plotmeso}
+plot(mySimpleSBMPoisson, type = "meso")
+```
+
+
 The same manipulations can be made on the models as before. 
 
 ```{r simpleSBMfitPoisson coef}
@@ -208,8 +218,8 @@ mySimpleSBMCov<-
     model = 'poisson', 
     directed = FALSE, 
     dimLabels = list(row = 'tree', col= 'tree'),
-    covariates  = fungus_tree_network$covar_tree, 
-    estimOptions = list(verbosity = 0, plot = FALSE, nbCores = 1)
+    covariates  = fungusTreeNetwork$covar_tree, 
+    estimOptions = list(verbosity = 0, plot = FALSE, nbCores = 2)
   )
 ```
 
@@ -237,7 +247,7 @@ S3 methods are also available for fit and prediction (results hidden here)
 ```{r simpleSBMfitPoisson covar fitted, results='hide'}
 fitted(mySimpleSBMCov)
 predict(mySimpleSBMCov)
-predict(mySimpleSBMCov, fungus_tree_network$covar_tree)
+predict(mySimpleSBMCov, fungusTreeNetwork$covar_tree)
 ```
  
   
@@ -247,13 +257,13 @@ predict(mySimpleSBMCov, fungus_tree_network$covar_tree)
 We now analyze the bipartite tree/fungi interactions. The incidence matrix can be plotted with the function \cote{plotMyMatrix}
 
 ```{r plot incidence}
-plotMyMatrix(fungus_tree_network$fungus_tree, dimLabels = list(row = 'fungis', col= 'tree'))
+plotMyMatrix(fungusTreeNetwork$fungus_tree, dimLabels = list(row = 'fungis', col= 'tree'))
 ```
 
 
 ```{r tree_fungi_bipartite network}
 myBipartiteSBM <- 
-  fungus_tree_network$fungus_tree %>% 
+  fungusTreeNetwork$fungus_tree %>% 
   estimateBipartiteSBM(model = 'bernoulli', dimLabels = list(row = 'fungis', col= 'tree'),estimOptions = list(verbosity = 0, plot = FALSE))
 ```
 
@@ -269,6 +279,13 @@ We can now plot the reorganized matrix.
 
 ```{r plot bipartite}
 plot(myBipartiteSBM, dimLabels = list(row = 'fungis', col = 'tree'))
+```
+
+
+```{r plot bipartite meso}
+plot(myBipartiteSBM, type  = 'meso', 
+     dimLabels = list(row = 'fungis', col= 'tree'),
+     plotOptions = list(edge.width = 1, vertex.size = c(1,2)))
 ```
 
 

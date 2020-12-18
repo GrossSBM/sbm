@@ -114,7 +114,7 @@ function to perform optimization
 \if{html}{\out{<a id="method-predict"></a>}}
 \if{latex}{\out{\hypertarget{method-predict}{}}}
 \subsection{Method \code{predict()}}{
-prediction under the currently estimated model
+prediction under the current parameters
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{BipartiteSBM_fit$predict(covarList = self$covarList)}\if{html}{\out{</div>}}
 }

@@ -1,5 +1,8 @@
-# dev version
+# sbm 0.3.0 - major release
 
+* support for multipartite SBM
+* improvement of the plot methods
+* change of denomination for dataset fungusTreeNetwwork
 * fix bug that made estimOptions not to be taken into account in optimize
 * fix bug for displaying field covarArray in the absence of any covariate
 

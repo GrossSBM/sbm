@@ -17,6 +17,7 @@ SimpleSBM_fit <-
       }
     ),
     public = list(
+      #--------------------------------------------
       #' @description constructor for a Simple SBM fit
       #' @param adjacencyMatrix square (weighted) matrix
       #' @param model character (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'})
@@ -34,6 +35,7 @@ SimpleSBM_fit <-
         private$directed_ <- directed
 
       },
+      #--------------------------------------------
       #' @description function to perform optimization
       #' @param estimOptions a list of parameters controlling the inference algorithm and model selection. See details.
       #'
@@ -70,6 +72,7 @@ SimpleSBM_fit <-
          )
         fast  = currentOptions$fast
 
+        if(private$model == 'ZIgaussian') stop("Inference not  yet  implemented for  ZI gaussian network")
         ## generating arguments for blockmodels call
         args <- list(membership_type =  ifelse(!private$directed_, "SBM_sym", "SBM"), adj = .na2zero(private$Y))
         if (self$nbCovariates > 0) args$covariates <- private$X
@@ -88,28 +91,34 @@ SimpleSBM_fit <-
 
         invisible(private$BMobject)
       },
-      #' @description prediction under the currently estimated model
+      #--------------------------------------------
+      #' @description prediction under the currently parameters
       #' @param covarList a list of covariates. By default, we use the covariates with which the model was estimated
       #' @return a matrix of expected values for each dyad
       predict = function(covarList = self$covarList) {
-        stopifnot(is.list(covarList), self$nbCovariates == length(covarList))
-        mu <- private$tau %*% private$theta$mean %*% t(private$tau)
-        if (self$nbCovariates > 0) {
-          all(sapply(covarList, nrow) == self$nbNodes, sapply(covarList, ncol) == self$nbNodes)
-          mu <- private$invlink(private$link(mu) + self$covarEffect)
-        }
+        mu <- predict_sbm(self$nbNodes,
+                          self$nbCovariates,
+                          private$link,
+                          private$invlink,
+                          private$tau,
+                          private$theta$mean,
+                          self$covarEffect,
+                          covarList)
         mu
       },
+      #--------------------------------------------
       #' @description permute group labels by order of decreasing probability
-      reorder = function() {
-        o <- order(self$connectParam$mean %*% self$blockProp, decreasing = TRUE)
+      reorder = function(){
+        o <- order_sbm(private$theta$mean,private$pi)
         private$pi <- private$pi[o]
         private$theta$mean <- private$theta$mean[o,o]
         private$tau <- private$tau[, o, drop = FALSE]
       },
+      #--------------------------------------------
       #' @description show method
       #' @param type character used to specify the type of SBM
-      show = function(type = "Fit of a Simple Stochastic Block Model") super$show(type)
+      show = function(type = "Fit of a Simple Stochastic Block Model")
+        {super$show(type)}
     ),
     active = list(
       #' @field nbNodes number of nodes
@@ -132,12 +141,14 @@ SimpleSBM_fit <-
       storedModels = function(value) {
         nbBlocks <- unlist(sapply(private$BMobject$memberships, function(m) ncol(m$Z)))
         nbConnectParam <- unlist(sapply(private$BMobject$model_parameters, function(param) param$n_parameters))
-        data.frame(
+        U <- data.frame(
+          indexModel  = nbBlocks,
           nbParams = nbConnectParam + nbBlocks - 1,
           nbBlocks = nbBlocks,
           ICL      = private$BMobject$ICL,
           loglik   = private$BMobject$PL
           )
+        U[!is.na(U$nbParams),]
       }
     )
   )
