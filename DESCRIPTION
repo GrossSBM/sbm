@@ -2,18 +2,18 @@ Package: sbm
 Title: Stochastic Blockmodels
 Version: 0.2.2-9020
 Authors@R: 
-    c(person(given = "Julien", family = "Chiquet", role = c("aut", "cre"),
+  c(person(given = "Julien", family = "Chiquet", role = c("aut", "cre"),
            email = "julien.chiquet@inrae.fr",
            comment = c(ORCID = "0000-0002-3629-3429")),
-      person(given = "Sophie", family = "Donnet", role = c("aut"),
-           email = "sophie.donnet@inrae.fr"),
-      person("großBM team", role = c("ctb")),
-      person(given = "Pierre", family = "Barbillon", role = c("aut"),
+    person(given = "Sophie", family = "Donnet", role = c("aut"),
+           email = "sophie.donnet@inrae.fr",
+           comment = c(ORCID = "0000-0003-4370-7316")),
+    person("großBM team", role = c("ctb")),
+    person(given = "Pierre", family = "Barbillon", role = c("aut"),
            email = "pierre.barbillon@agroparistech.fr",
            comment = c(ORCID = "0000-0002-7766-7693")))
-Description: A collection of tools and function to adjust a variety of stochastic blockmodels (SBM). 
-  Support at the moment Simple and Bipartite SBM (undirected and directed) for Bernoulli, Poisson and 
-  Gaussian emission laws of the edges as described in Léger, 2016 <arxiv:1602.07587>.
+Description: sbm is a collection of tools and function to adjust a variety of stochastic blockmodels (SBM). sbm supports at the moment Simple and Bipartite SBM (undirected and directed) and Multipartite SBM for Bernoulli, Poisson and 
+  Gaussian emission laws on the edges as described in Léger, 2016 <arxiv:1602.07587> for SBM / LBM and Barbillon, Bar-Hen & Donnet, 2020 <arXiv:1807.10138> for MultipartiteBM. 
 URL: https://grosssbm.github.io/sbm/
 BugReports: https://github.com/GrossSBM/sbm/issues
 License: GPL (>= 3)
@@ -26,33 +26,46 @@ Suggests:
     spelling,
     knitr,
     rmarkdown,
-    alluvial,
-    igraph,
     aricode,
     covr
 Language: en-US
 Imports: 
+    alluvial,
     magrittr,
     blockmodels,
     R6,
     Rcpp,
-    ggplot2
+    igraph,
+    ggplot2,
+    GREMLINS,
+    stringr,
+    rlang,
+    reshape
 Collate: 
     'R6Class-SBM.R'
+    'R6Class-BipartiteSBM.R'
     'R6Class-SBM_fit.R'
     'R6Class-BipartiteSBM_fit.R'
     'R6Class-SBM_sampler.R'
     'R6Class-BipartiteSBM_sampler.R'
+    'R6Class-MultipartiteSBM.R'
+    'R6Class-MultipartiteSBM_fit.R'
+    'R6Class-SimpleSBM.R'
     'R6Class-SimpleSBM_fit.R'
     'R6Class-SimpleSBM_sampler.R'
     'RcppExports.R'
+    'defineSBM.R'
     'estimate.R'
-    'fungus_tree_network.R'
+    'fungusTreeNetwork.R'
+    'multipartiteEcologicalNetwork.R'
+    'plotAlluvial.R'
     'plotMyMatrix.R'
+    'plotMyMultipartite.R'
     'sample.R'
     'sbm-package.R'
     'utils-pipe.R'
     'utils.R'
+    'utils_plot.R'
 LinkingTo: 
     Rcpp,
     RcppArmadillo

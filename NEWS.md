@@ -2,6 +2,8 @@
 
 * fix bug that made estimOptions not to be taken into account in optimize
 * fix bug for displaying field covarArray in the absence of any covariate
+* Support for multipartite SBM
+* Change of denomination for dataset fungusTreeNetwwork
 
 # sbm 0.2.2 - minor release
 

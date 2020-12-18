@@ -9,7 +9,7 @@ sampleBipartiteSBM(
   blockProp,
   connectParam,
   model = "bernoulli",
-  dimLabels = list(row = "rowLabel", col = "colLabels"),
+  dimLabels = list(row = "rowLabel", col = "colLabel"),
   covariates = list(),
   covariatesParam = numeric(0)
 )
@@ -21,7 +21,7 @@ sampleBipartiteSBM(
 
 \item{connectParam}{list of parameters for connectivity with a matrix of means 'mean' and an optional matrix of variances 'var', the sizes of which must match \code{blockProp} length (in row, respectively in column)}
 
-\item{model}{character describing the model for the relation between nodes (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'}, ...). Default is \code{'bernoulli'}.}
+\item{model}{character describing the model for the relation between nodes (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'}, \code{'ZIgaussian'}). Default is \code{'bernoulli'}.}
 
 \item{dimLabels}{an optional list of labels for each dimension (in row, in column)}
 
@@ -48,13 +48,13 @@ means <- matrix(runif(6), 2, 3)  # connectivity matrix
 connectParam <- list(mean = means)
 
 ## Graph Sampling
-mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'bernoulli')
+dimLabels = list(row='Reader',col='Book')
+mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'bernoulli',dimLabels)
 plot(mySampler)
+plot(mySampler,type='meso',plotOptions = list(vertex.label.name=list(row='Reader',col='Book')))
+plot(mySampler,type='meso',plotOptions = list(vertex.label.name=c('A','B'),vertex.size = 1.4))
 mySampler$rMemberships() # sample new memberships
 mySampler$rIncidence()   # sample new incidence matrix
-plot(mySampler)
-hist(mySampler$netMatrix)
-
 ### =======================================
 ### BIPARTITE POISSON SBM
 ## Graph parameters
@@ -66,8 +66,11 @@ means <- matrix(rbinom(6, 30, 0.25), 2, 3)  # connectivity matrix
 connectParam <- list(mean = means)
 
 ## Graph Sampling
-mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'poisson')
-plot(mySampler)
+dimLabels = c('Ind','Service')
+mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'poisson',dimLabels)
+plot(mySampler,type='expected')
+plotOptions = list(vertex.label.name=c('U','V'),vertex.size = c(1.4,1.3))
+plot(mySampler,type='meso',plotOptions)
 hist(mySampler$netMatrix)
 
 ### =======================================

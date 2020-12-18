@@ -23,7 +23,10 @@ SBM_fit <- # this virtual class is the mother of all subtypes of SBM (Simple or 
           "poisson"                   = list(mean = parameters$lambda),
           "poisson_covariates"        = list(mean = parameters$lambda),
           "gaussian"                  = list(mean = parameters$mu, var = parameters$sigma2),
-          "gaussian_covariates"       = list(mean = parameters$mu, var = parameters$sigma2)
+          "gaussian_covariates"       = list(mean = parameters$mu, var = parameters$sigma2),
+          "ZIgaussian"                = list(mean = parameters$mu, var = parameters$sigma2,p0 = parameters$p0),
+
+
         )
       }
     ),
@@ -53,6 +56,20 @@ SBM_fit <- # this virtual class is the mother of all subtypes of SBM (Simple or 
         stopifnot(index %in% seq.int(nrow(self$storedModels)))
         private$import_from_BM(index)
         self$reorder()
+      },
+      #' @description prediction under the currently parameters
+      #' @param covarList a list of covariates. By default, we use the covariates with which the model was estimated
+      #' @return a matrix of expected values for each dyad
+      predict = function(covarList = self$covarList) {
+        mu <- predict_sbm(self$nbNodes,self$nbCovariates,private$link,private$tau,private$theta$mean,self$covarEffect,covarlist,private$theta$p0)
+        mu
+      },
+      #' @description permute group labels by order of decreasing probability
+      reorder = function(){
+        o <- order_sbm(private$theta$mean,private$pi)
+        private$pi <- private$pi[o]
+        private$theta$mean <- private$theta$mean[o,o]
+        private$tau <- private$tau[, o, drop = FALSE]
       }
     ),
     active = list(
@@ -62,8 +79,6 @@ SBM_fit <- # this virtual class is the mother of all subtypes of SBM (Simple or 
       loglik          = function(value) {private$J    },
       #' @field ICL double: value of the integrated classification log-likelihood
       ICL             = function(value) {private$vICL },
-      #' @field expectation expected values of connection under the currently adjusted model
-      expectation = function() {self$predict()},
       #' @field fitted matrix of predicted value of the network
       fitted          = function(value) {self$predict()}
     )
@@ -72,7 +87,7 @@ SBM_fit <- # this virtual class is the mother of all subtypes of SBM (Simple or 
 # ========================================================================================
 # PUBLIC S3 METHODS FOR SBM_fit
 
-## Auxiliary function to check the given class of an objet
+## Auxiliary function to check the given class of an object
 is_SBM_fit <- function(Robject) {inherits(Robject, "SBM_fit")}
 
 #' Extract model fitted values

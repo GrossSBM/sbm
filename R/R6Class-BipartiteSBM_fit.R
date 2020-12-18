@@ -64,11 +64,14 @@ BipartiteSBM_fit <-
         fast  <- currentOptions$fast
 
         ## generating arguments for blockmodels call
+        if(private$model == 'ZIgaussian') stop("Inference not  yet  implemented for Bipartite ZI gaussian network")
+
         args <- list(membership_type = "LBM", adj = private$Y)
         if (self$nbCovariates > 0) args$covariates <- private$X
         args <- c(args, blockmodelsOptions)
 
         ## model construction
+
         model_type <- ifelse(self$nbCovariates > 0, paste0(private$model,"_covariates"), private$model)
         if (model_type == 'bernoulli_covariates' & fast == TRUE) model_type <- 'bernoulli_covariates_fast'
         private$BMobject <- do.call(paste0("BM_", model_type), args)
@@ -81,22 +84,25 @@ BipartiteSBM_fit <-
 
         invisible(private$BMobject)
       },
-      #' @description prediction under the currently estimated model
+      #' @description prediction under the current parameters
       #' @param covarList a list of covariates. By default, we use the covariates with which the model was estimated.
       predict = function(covarList = self$covarList) {
-        stopifnot(is.list(covarList), self$nbCovariates == length(covarList))
-        if (length(covarList) > 0) {
-          stopifnot(all(sapply(covarList, nrow) == self$dimension[1]),
-                    all(sapply(covarList, ncol) == self$dimension[2]))
-        }
-        mu <- private$tau[[1]] %*% private$theta$mean %*% t(private$tau[[2]])
-        if (length(self$covList) > 0) mu <- private$invlink(private$link(mu) + self$covarEffect)
+        mu <- predict_lbm(self$dimension,
+                          self$nbCovariates,
+                          private$link,
+                          private$invlink,
+                          private$tau,
+                          private$theta$mean,
+                          self$covarEffect,
+                          covarList,
+                          private$theta$p0)
         mu
       },
       #' @description permute group labels by order of decreasing probability
       reorder = function() {
-        oRow <- order(self$connectParam$mean %*% self$blockProp$col, decreasing = TRUE)
-        oCol <- order(self$blockProp$row %*% self$connectParam$mean, decreasing = TRUE)
+        O <- order_lbm(private$theta$mean,private$pi)
+        oRow <-O$row
+        oCol <-O$col
         private$pi[[1]] <- private$pi[[1]][oRow]
         private$pi[[2]] <- private$pi[[2]][oCol]
         private$theta$mean <- private$theta$mean[oRow, oCol]
@@ -127,7 +133,8 @@ BipartiteSBM_fit <-
         rowBlocks <- c(0, unlist(sapply(private$BMobject$memberships, function(m) ncol(m$Z1))))
         colBlocks <- c(0, unlist(sapply(private$BMobject$memberships, function(m) ncol(m$Z2))))
         nbConnectParam <- c(NA, unlist(sapply(private$BMobject$model_parameters, function(param) param$n_parameters)))
-        data.frame(
+        U <- data.frame(
+          indexModel = rowBlocks + colBlocks,
           nbParams  = nbConnectParam + rowBlocks + colBlocks - 2,
           rowBlocks = rowBlocks,
           colBlocks = colBlocks,
@@ -135,6 +142,8 @@ BipartiteSBM_fit <-
           ICL       = private$BMobject$ICL,
           loglik    = private$BMobject$PL
         )
+        U[!is.na(U$nbParams),];
+
       }
     )
   )

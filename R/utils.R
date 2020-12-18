@@ -10,12 +10,17 @@ as_clustering <- function(indicator) {
   if (is.null(indicator)) {
     cl <- numeric(0)
   } else {
-    cl <- apply(indicator, 1, which.max)
+    if(is.matrix(indicator)){
+      cl <- apply(indicator, 1, which.max)
+    }
+    if(is.vector(indicator)){
+      cl <- indicator
+    }
   }
   cl
 }
 
-## Some utils function for math
+##-------------------------------- Some utils function for math
 .xlogx <- function(x) ifelse(x < .Machine$double.eps, 0, x*log(x))
 .logistic <- function(x) {1/(1 + exp(-x))}
 .logit    <- function(x) {log(x/(1 - x))}
@@ -37,73 +42,76 @@ check_boundaries <- function(x, zero = .Machine$double.eps) {
   x
 }
 
+#----------------------- PREDICTION
+predict_sbm <- function(nbNodes,nbCovariates,link,invlink,tau,theta_mean,covarEffect,covarList,theta_p0 = NULL){
 
-#----------------------------------------------------------------------------------
-plotMatrix = function(Mat, dimLabels, clustering = NULL){
-
-  rowFG <- dimLabels$row
-  colFG <- dimLabels$col
-
-
-  n1 <- dim(Mat)[1]
-  n2 <- dim(Mat)[2]
-  u <- range(c(Mat))
-
-  binary = FALSE
-  val <- sort(unique(c(Mat)))
-  if (setequal(val ,c(0,1))) {binary = TRUE}
-
-  if (!is.null(clustering)) {
-    l <- length(clustering)
-    if (l == 1) {
-      oRow <- oCol <- order(clustering$row)
-      uRow <- cumsum(table(clustering$row)) + 0.5
-      uRow <- uRow[-length(uRow)]
-      sepRow <- as.data.frame(uRow)
-      sepCol <- sepRow
-    }
-    if (l == 2) {
-      oRow <- order(clustering$row)
-      oCol <- order(clustering$col)
-      uRow <- cumsum(table(clustering$row)) + 0.5
-      uRow <- uRow[-length(uRow)]
-      sepRow <- as.data.frame(uRow)
-      uCol <- cumsum(table(clustering$col)) + 0.5
-      uCol <- uCol[-length(uCol)]
-      sepCol <- as.data.frame(uCol)
-    }
-    Mat <- Mat[oRow,oCol]
-    names(sepCol) = names(sepRow) = 'sep'
-    sepRow = n1 - sepRow
+  stopifnot(is.list(covarList), nbCovariates == length(covarList))
+  if (!is.null(theta_p0)){theta_mean <- ((1-theta_p0)>0.5 ) * theta_mean }
+  mu <- tau %*% theta_mean %*% t(tau)
+  if (nbCovariates > 0) {
+    all(sapply(covarList, nrow) == nbNodes, sapply(covarList, ncol) == nbNodes)
+    mu <- invlink(link(mu) + covarEffect)
   }
+  mu
+}
 
-  index_row = rep(1:dim(Mat)[1],each = dim(Mat)[2])
-  index_col = rep(1:dim(Mat)[2],dim(Mat)[1])
 
-  melted_Mat =  data.frame(n1 - index_row , index_col)
-  link = rep(-10,dim(Mat)[2]*dim(Mat)[1])
-  for (k in 1:(dim(Mat)[2] * dim(Mat)[1])) {link[k] = Mat[index_row[k],index_col[k]]}
-  melted_Mat$link = link
-  if (binary){melted_Mat$link <- as.factor(melted_Mat$link)}
-  colnames(melted_Mat) <- c('index_row', 'index_col', 'link')
+predict_lbm <- function(dimension,nbCovariates,link,invlink,tau,theta_mean,covarEffect,covarList,theta_p0 = NULL){
 
-  g <- ggplot(data = melted_Mat, aes(y = index_row, x = index_col, fill = link))
-  g <- g + geom_tile()
-  if (!binary) {g <-  g +  scale_fill_gradient(low = "white", high = "black", limits = u,na.value = "transparent")}
-  if (binary) {g <- g + scale_fill_manual(breaks = c("0", "1"),values = c("white", "black"),na.value = "transparent")}
-  g <- g  +  scale_x_discrete(drop = FALSE) + scale_y_discrete(drop = FALSE)
-  g <- g + theme(axis.text.x = element_text(angle = 270, hjust = 0))
-  g <- g +  labs(x = colFG, y = rowFG) +  theme(aspect.ratio = n1/n2)
 
-  if (!is.null(clustering)){
-    g <- g + geom_vline(data = sepCol,mapping = aes_string(xintercept = 'sep'),col = 'grey')
-    g <- g + geom_hline(data = sepRow,mapping = aes_string(yintercept = 'sep'),col = 'grey')
-  }
-  #if (!is.null(fileNameSave)) { ggsave(fileNameSave, width = 20, height = 20, units = "cm") }else{g}
-  g
+    stopifnot(!is.null(tau[[1]]), !is.null(tau[[2]]), !is.null(theta_mean))
+    stopifnot(is.list(covarList),  nbCovariates == length(covarList))
+
+    if (!is.null(theta_p0)){theta_mean <- ((1-theta_p0) > 0.5) * theta_mean }
+
+    if (length(covarList) > 0) {
+      stopifnot(all(sapply(covarList, nrow) == dimension[1]),
+                all(sapply(covarList, ncol) == dimension[2]))
+    }
+    mu <- tau[[1]] %*% theta_mean %*% t(tau[[2]])
+    if (length(covarList) > 0) mu <- invlink(link(mu) + covarEffect)
+    mu
+}
+#----------------------- RE-ORDERING
+order_sbm <- function(theta_mean,pi){
+  o <- order(theta_mean %*% pi, decreasing = TRUE)
+  return(o)
+}
+
+order_lbm <- function(theta_mean,pi){
+  oRow <- order(theta_mean %*% pi[[2]], decreasing = TRUE)
+  oCol <- order(pi[[1]] %*% theta_mean, decreasing = TRUE)
+  return(list(row  = oRow, col = oCol))
+}
+
+
+order_mbm <- function(list_theta_mean,list_pi,E){
+
+  nbFG <- length(list_pi)
+  oAll <-lapply(1:nbFG,FUN = function(f_){
+    V <- U <- rep(0,length(list_pi[[f_]]))
+    wrow <- which(E[,1]==f_)
+    if (length(wrow)>0){U <- c(rowSums(do.call('cbind',lapply(wrow,function(i){list_theta_mean[[i]]%*%list_pi[[E[i,2]]]}))))}
+    wcol <- c(which( (E[,2]==f_) & E[,1] != E[,2] ))
+    if (length(wcol)>0){V <- c(rowSums(do.call('cbind',lapply(wcol,function(i){c(list_pi[[E[i,1]]]%*% list_theta_mean[[i]])}))))}
+    order(U+V,decreasing = TRUE)})
+  return(oAll)
 }
 
 
 
+#-------------------------- Nb of parameters in a MULTIPARTITE model
+computeNbConnectParams_MBM <- function(nbBlocks,distrib,E,directed){
+  DIR <- directed
+  DIR[is.na(DIR)] = TRUE
+  nb <- sapply(1:nrow(E),function(i){
+    r <- nbBlocks[E[i,1]]*nbBlocks[E[i,2]]
+    if (!DIR[i]){r <- r/2 + nbBlocks[E[i,1]]/2}
+    if (distrib[i] == 'gaussian'){r <- r*2}
+    if (distrib[i] == 'ZIgaussian'){r <- r*3}
+    r}
+  )
+  sum(nb)
+}
 
 

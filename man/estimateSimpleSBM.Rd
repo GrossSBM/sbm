@@ -8,7 +8,7 @@ estimateSimpleSBM(
   netMat,
   model = "bernoulli",
   directed = !isSymmetric(netMat),
-  dimLabels = list(row = "rowLabel", col = "colLabels"),
+  dimLabels = list(row = "row", col = "col"),
   covariates = list(),
   estimOptions = list()
 )
@@ -63,6 +63,7 @@ plot(mySimpleSBM, 'data', ordered = FALSE)
 plot(mySimpleSBM, 'data')
 plot(mySimpleSBM, 'expected', ordered = FALSE)
 plot(mySimpleSBM, 'expected')
+plot(mySimpleSBM, 'meso')
 
 ### =======================================
 ### SIMPLE POISSON SBM

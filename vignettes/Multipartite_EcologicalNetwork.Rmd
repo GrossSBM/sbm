@@ -1,0 +1,169 @@
+---
+title: "Multipartite Stochastic Block Models"
+subtitle: "An illustration on a mutualistic ecological network"
+author: "team großBM"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+  toc: true
+toc_depth: 4
+bibliography: references.bib
+link-citations: yes
+vignette: >
+  %\VignetteIndexEntry{Multipartite Stochastic Block Models}
+  %\VignetteEngine{knitr::rmarkdown} 
+  %\VignetteEncoding{UTF-8}
+---
+
+  ```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Preliminaries
+
+This vignette illustrates the use of the `estimateMultipartiteSBM` function and the methods accompanying the R6 classes `multipartiteSBMfit'.
+
+### Requirements
+
+The packages required for the analysis are **sbm** plus some others for data manipulation and representation:
+
+```{r setup, message=FALSE, warning=FALSE}
+library(sbm)
+library(ggplot2)
+library(knitr)
+```
+
+
+## Dataset
+
+We apply our methodology to an ecological mutualistic multipartite network.  
+The dataset --compiled and conducted by   @Dattilo  at Centro de Investigaciones Costeras La Mancha (CICOLMA), located on the central coast of the Gulf of Mexico, Veracruz, Mexico--
+ involves three general types of plant-animal mutualistic interaction:
+ pollination,  seed dispersal by frugivorous birds, and   protective mutualisms between ants and plants with extrafloral nectaries.
+
+
+The dataset --which is one of the largest compiled so far with respect
+to species richness, number of interactions and sampling effort--  includes  4 functional groups, namely  plants, pollinator species (referred as floral visitors), ant species and frugivorous bird species. Three binary bipartite networks have been collected representing interactions between 1/ plants and florals visitor,  2/ plants and ants, and 3/ plants and seed dispersal birds, resulting into three bipartite networks.   
+
+The FG are of respective sizes: $n_1 =  141$  plant species,  $n_2 = 173$  pollinator species, $n_3 = 46$ frugivorous bird species and $n_4 = 30$  ant species. 
+        
+The 3 networks contain   $753$  observed interactions of which $55\%$ are   plant-pollinator interactions, $17\%$ are   plant-birds interactions  and $28\%$ are plant-ant interactions.
+
+```{r loading dataset, eval=TRUE}
+data(multipartiteEcologicalNetwork)
+str(multipartiteEcologicalNetwork)
+names(multipartiteEcologicalNetwork)
+```
+
+
+### Formatting the data
+We format the data to be able to use our functions i.e. we transform the matrices into an list containing *the matrix*, *its type* : `inc`   for incidence matrix,  `adj`    for adjacency symmetric, and `diradj` for  non symmetric (oriented) adjacency  matrix, the name of functional group in row and the name of functional group in column.   The three matrices are gathered in a list. 
+
+To do so, we use the function `defineNetwork`. 
+```{r transform dataset,  eval=TRUE}
+Net <- multipartiteEcologicalNetwork
+type='bipartite'
+model = 'bernoulli'
+directed = FALSE
+PlantFlovis = defineSBM(Net$Inc_plant_flovis, model,type,directed,
+                        dimLabels = list(row="Plants",col="Flovis"))
+PlantAnt = defineSBM(Net$Inc_plant_ant,model,type,directed,
+                      dimLabels =list(row = "Plants", col = "Ants"))
+PlantBird = defineSBM(Net$Inc_plant_bird,model,type,directed,
+                     dimLabels =list(row = "Plants",col = "Birds"))
+``` 
+
+If one wants to keep a track of the names of the species, they should be used as rownames and colnames in the matrices.
+
+
+
+```{r example of dataset, eval=TRUE}
+PlantFlovis$netMatrix[1:2,1:2]
+```
+
+A plot of the data can be obtained with following command
+
+```{r plot data}
+plotMyMultipartiteMatrix(list(PlantFlovis,PlantAnt,PlantBird))
+```
+
+
+
+### Mathematical Background
+
+See @multipartite for details.
+
+### Inference 
+
+The model selection and the estimation are performed with the function `estimatemultipartiteBM`.
+
+```{r load result, echo = FALSE, eval = TRUE}
+load('resMultipartiteEcological.rda')
+``` 
+
+```{r MBM, echo = TRUE, eval = FALSE}
+estimOptions = list(initBM = FALSE)
+listSBM <- list(PlantFlovis, PlantAnt, PlantBird)
+myMSBM <- estimateMultipartiteSBM(listSBM,estimOptions)
+``` 
+
+
+\code{myMSBM} contains the estimated parameters of the models we run through during the search of the better numbers of blocks. 
+
+RES_MBM contains the dataset and the results.  
+```{r MBM what}
+myMSBM
+``` 
+
+
+The best model has the following numbers of blocks
+```{r MBM v_K }
+myMSBM$nbBlocks
+```
+
+
+To see the parameters estimated for the better model we use the following command `myMSBM$connectParam` or `myMSBM$blockProp`
+```{r MBM param }
+myMSBM$blockProp
+myMSBM$connectParam
+```
+
+
+
+
+
+
+
+The clustering  supplied by the better model  are in `myMSBM$memberships***`.
+
+```{r MBM Z }
+table(myMSBM$memberships$Plants)
+table(myMSBM$memberships$Ants)      
+``` 
+
+```{r storedmodels}
+myMSBM$storedModels
+``` 
+
+## Plots 
+We can either plot the reorganized matrix
+```{r plot, eval = TRUE }
+plot(myMSBM) 
+``` 
+
+or the mesoscopic view
+```{r plot meso, eval = FALSE}
+plotOptions=list(vertex.size = c(6,3,2,2))
+plotOptions$vertex.shape = rep('circle',4)
+plotOptions$vertex.color = c('darkolivegreen3','darkgoldenrod2','salmon2','cadetblue2')
+plotOptions$edge.curved = 0.1
+plot(myMSBM,type = 'meso',plotOptions=plotOptions)
+```
+
+Will soon be ready
+
+## References
+
