@@ -5,8 +5,8 @@ author: "team großBM"
 date: "`r Sys.Date()`"
 output:
   rmarkdown::html_vignette:
-  toc: true
-toc_depth: 4
+    toc: true
+    toc_depth: 4
 bibliography: references.bib
 link-citations: yes
 vignette: >
@@ -15,7 +15,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-  ```{r, include = FALSE}
+```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
