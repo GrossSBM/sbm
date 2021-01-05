@@ -9,10 +9,8 @@ MultipartiteSBM <-
      # fields for internal use (referring to the mathematical notation)
      private = list(
        model = NULL, # list of characters describing the distributions of the edges (bernoulli, poisson, gaussian)
-       nbNet = NULL,
        listNet = NULL,
        E = NULL,
-       nbFG = NULL,
        dimFG = NULL,
        namesFG = NULL,
        allZ = NULL,
@@ -26,15 +24,13 @@ MultipartiteSBM <-
        #' @param listSBM list of SimpleSBM or BipartiteSBM
        #' @param memberships list of memberships for each node in each functional group. Default value is NULL
        initialize = function(listSBM, memberships = NULL) {
-         private$nbNet <- length(listSBM)
          private$listNet <- listSBM
          private$namesFG <- unique(unlist(lapply(listSBM, function(net){net$dimLabels})))
-         private$nbFG <- length(private$namesFG)
          E_FG <- lapply(listSBM,function(net){return(c(net$dimLabels$row,net$dimLabels$col))})
          E_FG <- do.call(rbind,E_FG)
-         E <- matrix(sapply(E_FG,function(a){which(private$namesFG == a)}), private$nbNet,2)
+         E <- matrix(sapply(E_FG,function(a){which(private$namesFG == a)}), self$nbNetworks,2)
          private$E <-  E
-         private$dimFG <- sapply(1:private$nbFG ,function(k){
+         private$dimFG <- sapply(1:self$nbLabels ,function(k){
            u <- which(E[,1] == k); v = 1;
            if (length(u) == 0) {u <- which(E[,2] == k); v = 2}
            u <- u[1]
@@ -99,7 +95,7 @@ MultipartiteSBM <-
      ),
      active = list(
          #' @field nbNetworks : number of networks in the multipartite network
-         nbNetworks    = function(value) {length(listNet)},
+         nbNetworks    = function(value) {length(private$listNet)},
          #' @field listSBM : list of SimpleSBMs or BipartiteSBMs
          listSBM    = function(value) {private$listNet},
          #' @field archiMultipartite : organization of the multipartite network
@@ -107,7 +103,7 @@ MultipartiteSBM <-
          #' @field dimLabels  : labels of the functional groups
          dimLabels   = function(value){private$namesFG},
          #' @field nbLabels  : number of Functional groups involved in the multipartite
-         nbLabels   = function(value){private$nbFG},
+         nbLabels   = function(value){length(private$namesFG)},
          #' @field nbNodes  : number of Nodes in each FG,
          nbNodes  = function(value){setNames(private$dimFG, private$namesFG)},
          #' @field expectation expected values of connection under the currently adjusted model
