@@ -9,8 +9,17 @@ test_that("initializing Multipartite SBM works", {
   A<-1*(matrix(runif(n*n),n,n)<Z%*%P%*%t(Z))
   type <- "simple"
   netA <- defineSBM(A,"bernoulli",type = "simple",directed=TRUE,dimLabels=list("Actor","Actor"))
-  B <- matrix(rpois(npc*Q*20,2),npc*Q,20)
-  netB <- defineSBM(B,"poisson",type = "bipartite",dimLabels=list("Actor","Stuff"))
+  B <- 1*(matrix(runif(n*n),n,n)<Z%*%P%*%t(Z))
+  netB <- defineSBM(B,"bernoulli",type = "simple",dimLabels=list("Actor","Actor"))
+  myMultiplex <- MultiplexSBM$new(list(netA,netB))
+  netC <- defineSBM(B,"poisson",type = "simple",dimLabels=list("Actor","Actor"))
 
-  expect_equal(2 * 2, 4)
+  expect_equal(myMultiplex$directed, c(TRUE,TRUE))
+  expect_equal(myMultiplex$nbNetworks,2)
+  expect_equal(myMultiplex$modelDependence,FALSE)
+  expect_equal(MultiplexSBM$new(list(netA,netB),dep=TRUE)$modelDependence,TRUE)
+  expect_error(MultiplexSBM$new(list(netA,netC),dep=TRUE))
+  expect_error(MultiplexSBM$new(list(netA,netB,netB),dep=TRUE))
+
+
 })

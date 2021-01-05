@@ -11,7 +11,7 @@ test_that("initializing Multipartite SBM works", {
   netA <- defineSBM(A,"bernoulli",type = "simple",directed=TRUE,dimLabels=list("Actor","Actor"))
   B <- matrix(rpois(npc*Q*20,2),npc*Q,20)
   netB <- defineSBM(B,"poisson",type = "bipartite",dimLabels=list("Actor","Stuff"))
-  myMBM <- MultipartiteSBM_fit$new(list(netA,netB))
+  myMBM <- MultipartiteSBM$new(list(netA,netB))
 
   #-----------------------------------------------
   expect_equal(myMBM$directed, c(TRUE,NA))
