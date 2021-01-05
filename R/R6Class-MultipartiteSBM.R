@@ -2,7 +2,7 @@
 #'
 #' R6 virtual class for Multipartite SBM representation
 #'
-#' @import purrr
+#' @import purrr dplyr
 #' @export
 MultipartiteSBM <-
   R6::R6Class(

@@ -115,7 +115,7 @@ MultipartiteSBM_fit <-
         # ----- formatting data for using GREMLINS
         listNetG <- lapply(private$listNet, function(net) {
           if (substr(class(net)[1], 1, 6) == "Simple") {
-            ifelse(net$directed, type <- "diradj", type <- "adj")
+            type <- ifelse(net$directed, "diradj", "adj")
           }
           else {
             type <-  "inc"
