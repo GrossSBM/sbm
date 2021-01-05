@@ -2,11 +2,13 @@
 #'
 #' R6 virtual class for Multipartite SBM representation
 #'
+#' @import purrr
 #' @export
 MultipartiteSBM <-
   R6::R6Class(classname = "MultipartiteSBM",
      # fields for internal use (referring to the mathematical notation)
      private = list(
+       model = NULL, # list of characters describing the distributions of the edges (bernoulli, poisson, gaussian)
        nbNet = NULL,
        listNet = NULL,
        E = NULL,
@@ -15,15 +17,14 @@ MultipartiteSBM <-
        namesFG = NULL,
        allZ = NULL,
        directed_  = NULL,
-       distrib = NULL,
        pi  = NULL, # list of vectors of parameters for block prior probabilities
-       theta = NULL,
+       theta = NULL, # lsit of connectivity parameters between edges
        tau = NULL
        ),
      public = list(
        #' @description constructor for Multipartite SBM
        #' @param listSBM list of SimpleSBM or BipartiteSBM
-       #' @param memberships list of memberships for each node in each function group.Default value is NULL
+       #' @param memberships list of memberships for each node in each functional group. Default value is NULL
        initialize = function(listSBM, memberships = NULL) {
          private$nbNet <- length(listSBM)
          private$listNet <- listSBM
@@ -31,15 +32,23 @@ MultipartiteSBM <-
          private$nbFG <- length(private$namesFG)
          E_FG <- lapply(listSBM,function(net){return(c(net$dimLabels$row,net$dimLabels$col))})
          E_FG <- do.call(rbind,E_FG)
-         E <- matrix(sapply(E_FG,function(a){which(private$namesFG == a)}),private$nbNet,2,byrow = FALSE)
+         E <- matrix(sapply(E_FG,function(a){which(private$namesFG == a)}), private$nbNet,2)
          private$E <-  E
          private$dimFG <- sapply(1:private$nbFG ,function(k){
            u <- which(E[,1] == k); v = 1;
            if (length(u) == 0) {u <- which(E[,2] == k); v = 2}
            u <- u[1]
-           dim(listSBM[[u]]$netMatrix)[v]})
+           dim(listSBM[[u]]$netMatrix)[v]}
+         )
+
+### alternative to above code with purrr
+         # private$namesFG <- listSBM %>% map("dimLabels") %>% unlist() %>% unique()
+         # private$dimFG   <- listSBM %>% map("dimension") %>% unlist() %>% unique()
+         # private$E       <- listSBM %>% map_df("dimLabels") %>%
+         #   map(factor, levels = private$namesFG) %>% map_df(as.numeric) %>% as.matrix()
+###
          private$allZ <- memberships
-         private$distrib <- sapply(listSBM, function(net) {net$modelName})
+         private$model <- map_chr(listSBM, "modelName")
          private$directed_ <- sapply(listSBM, function(net) {if(is.null(net$directed)){return(NA)}else{return(net$directed)}})
         },
         #' @description print method
@@ -72,26 +81,25 @@ MultipartiteSBM <-
                                    'expected' = self$predict()
                                    )
             if (ordered) { clust = private$allZ }else{ clust = NULL}
-            distrib <- private$distrib
-            if(type == 'expected'){distrib[1]='notbernoulli'}
+            if(type == 'expected'){private$model[1]='notbernoulli'}
             outP <- plotMultipartiteMatrix(listNetMatrix,
                                            private$E,
                                            private$dimFG,
                                            private$namesFG,
-                                           distrib  = distrib,
+                                           distrib  = private$model,
                                            clustering = clust,
                                            plotOptions = plotOptions)
             }
           if (type  == 'meso'){
 
-            outP <- plotMesoMultipartite(private$E,private$theta, private$pi,private$distrib,private$directed_,private$dimFG,private$namesFG ,plotOptions)
+            outP <- plotMesoMultipartite(private$E,private$theta, private$pi,private$model,private$directed_,private$dimFG,private$namesFG ,plotOptions)
           }
           outP
         }
      ),
      active = list(
          #' @field nbNetworks : number of networks in the multipartite network
-         nbNetworks    = function(value) {private$nbNet},
+         nbNetworks    = function(value) {length(listNet)},
          #' @field listSBM : list of SimpleSBMs or BipartiteSBMs
          listSBM    = function(value) {private$listNet},
          #' @field archiMultipartite : organization of the multipartite network
@@ -101,11 +109,11 @@ MultipartiteSBM <-
          #' @field nbLabels  : number of Functional groups involved in the multipartite
          nbLabels   = function(value){private$nbFG},
          #' @field nbNodes  : number of Nodes in each FG,
-         nbNodes  = function(value){u <- private$dimFG; names(u) = private$namesFG; return(u)},
+         nbNodes  = function(value){setNames(private$dimFG, private$namesFG)},
          #' @field expectation expected values of connection under the currently adjusted model
          expectation = function() {self$predict()},
          #' @field modelName vector of characters, the family of model for the distribution of the edges in each network
-         modelName    = function(value) {private$distrib},
+         modelName    = function(value) {private$model},
          #' @field directed : vector of boolean
          directed  = function(value){private$directed_}
 

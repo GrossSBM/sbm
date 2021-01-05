@@ -32,6 +32,7 @@ Language: en-US
 Imports: 
     alluvial,
     magrittr,
+    purrr,
     blockmodels,
     R6,
     Rcpp,

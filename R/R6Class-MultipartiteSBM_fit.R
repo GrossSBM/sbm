@@ -23,7 +23,7 @@ MultipartiteSBM_fit <-
         })
         #-----------------------------------------------------
         list_theta_mean <- lapply(1:private$nbNet,function(s_){
-          if(private$distrib[s_] %in% c('ZIgaussian','gaussian')){u = list_theta[[s_]]$mean}else{u = list_theta[[s_]]}
+          if(private$model[s_] %in% c('ZIgaussian','gaussian')){u = list_theta[[s_]]$mean}else{u = list_theta[[s_]]}
           u})
 
         ordAll <- order_mbm(list_theta_mean,list_pi,private$E)
@@ -54,12 +54,12 @@ MultipartiteSBM_fit <-
           o_row <- ordAll[[private$E[s_,1]]]
           o_col <- ordAll[[private$E[s_,2]]]
           l_s <- list(mean  =  list_theta_mean[[s_]][o_row ,o_col])
-          if (private$distrib[s_] %in% c('gaussian','ZIgaussian')){
+          if (private$model[s_] %in% c('gaussian','ZIgaussian')){
             var_s <- list_theta[[s_]]$var
             if (is.matrix(var_s)){var_s  = var_s[o_row,o_col]}
             l_s$var <- var_s
           }
-          if (private$distrib[s_] == 'ZIgaussian'){
+          if (private$model[s_] == 'ZIgaussian'){
             p0_s <- list_theta[[s_]]$p0
             if (is.matrix(p0_s)){p0_s  = p0_s[o_row,o_col]}
             l_s$p0 <- p0_s
@@ -128,7 +128,7 @@ MultipartiteSBM_fit <-
         })
 
 
-        vdistrib <- private$distrib
+        vdistrib <- private$model
         v_Kmin  <- sapply(1:private$nbFG, function(k){currentOptions$nbBlocksRange[[k]][1]})
         v_Kmax  <- sapply(1:private$nbFG, function(k){currentOptions$nbBlocksRange[[k]][2]})
         verbose <- (currentOptions$verbosity > 0)
@@ -225,12 +225,9 @@ MultipartiteSBM_fit <-
       nbModels <- length(GO$fittedModel)
       Blocks <- as.data.frame(t(sapply(GO$fittedModel, function(m) m$paramEstim$v_K)))
       colnames(Blocks) <- paste('nbBlocks',private$namesFG)
-      nbConnectParam <-sapply(GO$fittedModel, function(m){
-        E <- private$E;
-        distrib <- private$distrib
-        directed <- private$directed_
-        r <- computeNbConnectParams_MBM(m$paramEstim$v_K,distrib,E,directed)
-        r})
+      nbConnectParam <- sapply(GO$fittedModel, function(m){
+        computeNbConnectParams_MBM(m$paramEstim$v_K,private$model,private$E,private$directed_)
+      })
       nbParams  <- nbConnectParam + rowSums(Blocks) - ncol(Blocks)
       indexModel <- 1:nbModels
       U <- cbind(indexModel,nbParams, Blocks)

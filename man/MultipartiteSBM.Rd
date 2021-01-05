@@ -58,7 +58,7 @@ constructor for Multipartite SBM
 \describe{
 \item{\code{listSBM}}{list of SimpleSBM or BipartiteSBM}
 
-\item{\code{memberships}}{list of memberships for each node in each function group.Default value is NULL}
+\item{\code{memberships}}{list of memberships for each node in each functional group. Default value is NULL}
 }
 \if{html}{\out{</div>}}
 }
