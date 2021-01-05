@@ -46,7 +46,6 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 \itemize{
 \item \href{#method-new}{\code{MultipartiteSBM_fit$new()}}
 \item \href{#method-optimize}{\code{MultipartiteSBM_fit$optimize()}}
-\item \href{#method-getBM}{\code{MultipartiteSBM_fit$getBM()}}
 \item \href{#method-predict}{\code{MultipartiteSBM_fit$predict()}}
 \item \href{#method-setModel}{\code{MultipartiteSBM_fit$setModel()}}
 \item \href{#method-show}{\code{MultipartiteSBM_fit$show()}}
@@ -91,23 +90,6 @@ estimation of multipartiteSBM via GREMLINS
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{estimOptions}}{options for MultipartiteBM}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-getBM"></a>}}
-\if{latex}{\out{\hypertarget{method-getBM}{}}}
-\subsection{Method \code{getBM()}}{
-getBM returns a given network from a Multipartite SBM
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MultipartiteSBM_fit$getBM(i)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{i}}{index of the asked network}
 }
 \if{html}{\out{</div>}}
 }

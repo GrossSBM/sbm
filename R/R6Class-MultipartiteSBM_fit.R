@@ -166,16 +166,10 @@ MultipartiteSBM_fit <-
           private$import_from_GREMLINS()
         }
       },
-      #' @description getBM returns a given network from a Multipartite SBM
-      #' @param i index of the asked network
-      getBM = function(i) {
-        private$listNet[[i]]
-      },
       #' @description prediction under the currently estimated model
-      #' @param covarList a list of covariates. By default, we use the covariates with which the model was estimated
       #' @return a list of matrices matrix of expected values for each dyad
       predict = function() {
-        lapply(1:self$nbNetworks,function(l){BMl <- self$getBM(l); BMl$predict()})
+        map(private$listNet, predict)
       },
       #' @description method to select a specific model among the ones fitted during the optimization.
       #'  Fields of the current MultipartiteSBM_fit will be updated accordingly.
@@ -198,7 +192,7 @@ MultipartiteSBM_fit <-
         cat(" $nbNetwork, $nbNodes, $nbBlocks, $dimLabels, $archiMultipartite \n")
         cat(" $modelName, $blockProp, $connectParam, $memberships, $probMemberships\n")
         cat("* Useful functions \n")
-        cat("$plot, $optimize, $predict, $setModel, $getBM, $storedModels \n")
+        cat("$plot, $optimize, $predict, $setModel, $storedModels \n")
       },
       #' @description print method
       print = function() self$show()
