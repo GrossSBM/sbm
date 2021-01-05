@@ -226,7 +226,7 @@ MultipartiteSBM_fit <-
       Blocks <- as.data.frame(t(sapply(GO$fittedModel, function(m) m$paramEstim$v_K)))
       colnames(Blocks) <- paste('nbBlocks',private$namesFG)
       nbConnectParam <- sapply(GO$fittedModel, function(m){
-        computeNbConnectParams_MBM(m$paramEstim$v_K,private$model,private$E,private$directed_)
+        computeNbConnectParams_MBM(m$paramEstim$v_K,private$model,private$E,self$directed)
       })
       nbParams  <- nbConnectParam + rowSums(Blocks) - ncol(Blocks)
       indexModel <- 1:nbModels

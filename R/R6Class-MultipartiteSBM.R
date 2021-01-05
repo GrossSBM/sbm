@@ -8,16 +8,15 @@ MultipartiteSBM <-
   R6::R6Class(classname = "MultipartiteSBM",
      # fields for internal use (referring to the mathematical notation)
      private = list(
-       model = NULL, # list of characters describing the distributions of the edges (bernoulli, poisson, gaussian)
-       listNet = NULL,
-       E = NULL,
-       dimFG = NULL,
-       namesFG = NULL,
-       allZ = NULL,
-       directed_  = NULL,
-       pi  = NULL, # list of vectors of parameters for block prior probabilities
-       theta = NULL, # lsit of connectivity parameters between edges
-       tau = NULL
+       model     = NULL, # list of characters describing the distributions of the edges (bernoulli, poisson, gaussian)
+       listNet   = NULL, # list of SimpleSBMs and BipartiteSBMs composing the multipartite network
+       E         = NULL, # matrix describing the organization of the multipartite network
+       dimFG     = NULL, # number of nodes in each function groups
+       namesFG   = NULL, # labels of the functional groups
+       allZ      = NULL, # list of membrships
+       pi        = NULL, # list of vectors of parameters for block prior probabilities
+       theta     = NULL, # list of connectivity parameters between edges
+       tau       = NULL
        ),
      public = list(
        #' @description constructor for Multipartite SBM
@@ -25,7 +24,8 @@ MultipartiteSBM <-
        #' @param memberships list of memberships for each node in each functional group. Default value is NULL
        initialize = function(listSBM, memberships = NULL) {
          private$listNet <- listSBM
-         private$namesFG <- unique(unlist(lapply(listSBM, function(net){net$dimLabels})))
+         private$namesFG <- listSBM %>% map("dimLabels") %>% unlist() %>% unique()
+###
          E_FG <- lapply(listSBM,function(net){return(c(net$dimLabels$row,net$dimLabels$col))})
          E_FG <- do.call(rbind,E_FG)
          E <- matrix(sapply(E_FG,function(a){which(private$namesFG == a)}), self$nbNetworks,2)
@@ -38,14 +38,13 @@ MultipartiteSBM <-
          )
 
 ### alternative to above code with purrr
-         # private$namesFG <- listSBM %>% map("dimLabels") %>% unlist() %>% unique()
          # private$dimFG   <- listSBM %>% map("dimension") %>% unlist() %>% unique()
          # private$E       <- listSBM %>% map_df("dimLabels") %>%
          #   map(factor, levels = private$namesFG) %>% map_df(as.numeric) %>% as.matrix()
 ###
+
          private$allZ <- memberships
          private$model <- map_chr(listSBM, "modelName")
-         private$directed_ <- sapply(listSBM, function(net) {if(is.null(net$directed)){return(NA)}else{return(net$directed)}})
         },
         #' @description print method
         #' @param type character to tune the displayed name
@@ -69,7 +68,7 @@ MultipartiteSBM <-
          #' @param ordered TRUE is the matrices are plotted after reorganization with the blocks. Default value = TRUE
          #' @param plotOptions list of plot options for the mesoscopic view or matrix view
          plot = function(type=c('data','expected','meso'), ordered = TRUE, plotOptions = list()){
-
+          type <- match.arg(type)
           if (length(type)>1){type='data'}
           if (type %in% c('data','expected')){
             listNetMatrix = switch(type,
@@ -111,7 +110,7 @@ MultipartiteSBM <-
          #' @field modelName vector of characters, the family of model for the distribution of the edges in each network
          modelName    = function(value) {private$model},
          #' @field directed : vector of boolean
-         directed  = function(value){private$directed_}
+         directed  = function(value){map(private$listNet, "directed") %>% map_lgl(~ifelse(is.null(.x), NA, .x))}
 
      )
      )
