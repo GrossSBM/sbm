@@ -26,23 +26,24 @@ MultipartiteSBM <-
       initialize = function(listSBM, memberships = NULL) {
         private$listNet <- listSBM
         private$namesFG <- listSBM %>% map("dimLabels") %>% unlist() %>% unique()
-        ###
-        E_FG <- lapply(listSBM,function(net){return(c(net$dimLabels$row,net$dimLabels$col))})
-        E_FG <- do.call(rbind,E_FG)
-        E <- matrix(sapply(E_FG,function(a){which(private$namesFG == a)}), self$nbNetworks,2)
-        private$E <-  E
-        private$dimFG <- sapply(1:self$nbLabels ,function(k){
-          u <- which(E[,1] == k); v = 1;
-          if (length(u) == 0) {u <- which(E[,2] == k); v = 2}
-          u <- u[1]
-          dim(listSBM[[u]]$netMatrix)[v]}
-        )
 
-        ### alternative to above code with purrr
-        # private$dimFG   <- listSBM %>% map("dimension") %>% unlist() %>% unique()
-        # private$E       <- listSBM %>% map_df("dimLabels") %>%
-        #   map(factor, levels = private$namesFG) %>% map_df(as.numeric) %>% as.matrix()
-        ###
+        # ###
+        # E_FG <- lapply(listSBM,function(net){return(c(net$dimLabels$row,net$dimLabels$col))})
+        # E_FG <- do.call(rbind,E_FG)
+        # E <- matrix(sapply(E_FG,function(a){which(private$namesFG == a)}), self$nbNetworks,2)
+        # private$E <-  E
+        # private$dimFG <- sapply(1:self$nbLabels ,function(k){
+        #   u <- which(E[,1] == k); v = 1;
+        #   if (length(u) == 0) {u <- which(E[,2] == k); v = 2}
+        #   u <- u[1]
+        #   dim(listSBM[[u]]$netMatrix)[v]}
+        # )
+
+### alternative to above code with purrr
+        private$dimFG <- listSBM %>% map("dimension") %>% unlist() %>% unique()
+        private$E      <- listSBM %>% map_df("dimLabels") %>%
+           map(factor, levels = private$namesFG) %>% map_df(as.numeric) %>% as.matrix()
+###
 
         private$allZ <- memberships
         private$model <- map_chr(listSBM, "modelName")

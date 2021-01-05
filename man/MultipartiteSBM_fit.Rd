@@ -103,13 +103,6 @@ prediction under the currently estimated model
 \if{html}{\out{<div class="r">}}\preformatted{MultipartiteSBM_fit$predict()}\if{html}{\out{</div>}}
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{covarList}}{a list of covariates. By default, we use the covariates with which the model was estimated}
-}
-\if{html}{\out{</div>}}
-}
 \subsection{Returns}{
 a list of matrices matrix of expected values for each dyad
 }

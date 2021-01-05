@@ -232,7 +232,7 @@ MultipartiteSBM_fit <-
     #' @field connectParam : connection parameters in each network
     connectParam = function(value) {private$theta}
   )
-  )
+)
 
 
 
