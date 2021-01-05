@@ -17,8 +17,8 @@ test_that("initializing Multipartite SBM works", {
   expect_equal(myMBM$directed, c(TRUE,NA))
   expect_equal(myMBM$nbNetworks,2)
   expect_equal(unname(myMBM$nbNodes),c(Q*npc,20))
-  expect_equal(myMBM$getBM(1)$dimension,Q*c(npc,npc))
-  expect_equal(myMBM$getBM(2)$dimension,c(Q*npc,20))
+  expect_equal(myMBM$listSBM[[1]]$dimension,Q*c(npc,npc))
+  expect_equal(myMBM$listSBM[[2]]$dimension,c(Q*npc,20))
   #--------------------------------------------------
 
 })

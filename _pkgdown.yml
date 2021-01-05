@@ -15,6 +15,8 @@ navbar:
       menu:
       - text: "Fungus-tree interaction with simple and bipartite SBM"
         href: articles/SBM_fungus_tree_network.html
+      - text: "Mutualistic ecological network with multipartite SBM"
+        href: articles/Multipartite_EcologicalNetwork.html
     - text: "Changelog"
       href: news/index.html
   right:
@@ -26,6 +28,7 @@ reference:
   desc: >
       Set of classes and functions for manipulating simple stochastic block models
   contents:
+    - '`SimpleSBM`'
     - '`SimpleSBM_sampler`'
     - '`SimpleSBM_fit`'
     - '`sampleSimpleSBM`'
@@ -34,25 +37,50 @@ reference:
   desc: >
     Set of classes and functions for manipulating bipartite stochastic block models
   contents:
+    - '`BipartiteSBM`'
     - '`BipartiteSBM_sampler`'
     - '`BipartiteSBM_fit`'
     - '`sampleBipartiteSBM`'
     - '`estimateBipartiteSBM`'
-
+- title: 'Methods common to Bipartite and Simple SBM'
+  desc: >
+    Set of classes and functions for manipulating stochastic block models
+  contents:
+    - '`is_SBM`'
+    - '`plot.SBM`'
+    - '`predict.SBM`'
+    - '`coef.SBM`'
+    - '`fitted.SBM_fit`'
+    - '`plotMyMatrix`'
+- title: 'Multipartite Stochastic block models'
+  desc: >
+    Set of classes and functions for manipulating multipartite stochastic block models
+  contents:
+    - '`MultipartiteSBM`'
+    - '`MultipartiteSBM_fit`'
+    - '`sampleMultipartiteSBM`'
+    - '`estimateMultipartiteSBM`'
+    - '`defineSBM`'
+    - '`plotMyMultipartiteMatrix`'
+    - '`plot.MultipartiteSBM`'
+    - '`predict.MultipartiteSBM`'
+    - '`is_MultipartiteSBM`'
 - title: 'Data sets'
   desc: >
     Set of data setes available
   contents:
-    - '`fungus_tree_network`'
+    - '`fungusTreeNetwork`'
+    - '`multipartiteEcologicalNetwork`'
 - title: 'Others'
   desc: >
-    Comprehensive list of remaning classes and methods
+    Miscellaneous
+  contents:
+    - '`plotAlluvial`'
+- title: 'Virtual methods'
+  desc: >
+    Comprehensive list of remaning classes and methods used internally
   contents:
     - '`SBM`'
     - '`SBM_fit`'
     - '`SBM_sampler`'
-    - '`coef.SBM`'
-    - '`fitted.SBM_fit`'
-    - '`predict.SBM`'
-    - '`plot.SBM`'
-    - '`plotMyMatrix`'
+    - '`plotAlluvial`'

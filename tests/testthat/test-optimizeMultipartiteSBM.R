@@ -21,16 +21,16 @@ test_that("optimize for multipartite SBM runs GREMLINS", {
 
   # private
   #print(E$GREMLINSobject)
-  expect_equal(length(Estim$getBM(1)$memberships),npc*Q)
-  expect_equal(is.list(Estim$getBM(2)$memberships),TRUE)
-  expect_equal(length(Estim$getBM(1)$blockProp),length(unique(Estim$getBM(1)$memberships)))
-  expect_equal(Estim$getBM(1)$blockProp,Estim$getBM(2)$blockProp[[1]])
-  expect_equal(length(Estim$getBM(1)$blockProp),nrow(Estim$getBM(1)$connectParam$mean))
-  expect_equal(ncol(Estim$getBM(1)$connectParam$mean),nrow(Estim$getBM(1)$connectParam$mean))
-  muAS <- Estim$getBM(2)$connectParam$mean
+  expect_equal(length(Estim$listSBM[[1]]$memberships),npc*Q)
+  expect_equal(is.list(Estim$listSBM[[2]]$memberships),TRUE)
+  expect_equal(length(Estim$listSBM[[1]]$blockProp),length(unique(Estim$listSBM[[1]]$memberships)))
+  expect_equal(Estim$listSBM[[1]]$blockProp,Estim$listSBM[[2]]$blockProp[[1]])
+  expect_equal(length(Estim$listSBM[[1]]$blockProp),nrow(Estim$listSBM[[1]]$connectParam$mean))
+  expect_equal(ncol(Estim$listSBM[[1]]$connectParam$mean),nrow(Estim$listSBM[[1]]$connectParam$mean))
+  muAS <- Estim$listSBM[[2]]$connectParam$mean
   if (is.matrix(muAS)){d2 <- ncol(muAS)} else{d2 <- length(muAS)}
 
-  expect_equal(d2,nrow(Estim$getBM(1)$connectParam$mean))
+  expect_equal(d2,nrow(Estim$listSBM[[1]]$connectParam$mean))
   expect_equal(lengths(Estim$blockProp),Estim$nbBlocks)
   expect_equal(length(Estim$blockProp),Estim$nbLabels)
   expect_equal(length(Estim$connectParam),Estim$nbNetworks)
