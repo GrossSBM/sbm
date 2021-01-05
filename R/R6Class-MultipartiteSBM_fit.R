@@ -10,7 +10,7 @@ MultipartiteSBM_fit <-
     inherit = MultipartiteSBM,
     # fields for internal use (referring to the mathematical notation)
     private = list(
-      GREMLINSobject       = NULL,
+      GREMLINSobject = NULL,
 
       #------------ function to convert GREMLINS result into a sbm object result
       import_from_GREMLINS = function(index = 1) {
@@ -48,7 +48,6 @@ MultipartiteSBM_fit <-
           }
         })
 
-        #print(self$nbNetworks)
         private$theta = list()
         for (s_ in 1:self$nbNetworks){
           o_row <- ordAll[[private$E[s_,1]]]
@@ -205,20 +204,18 @@ MultipartiteSBM_fit <-
       print = function() self$show()
   ),
   #-----------------------------------------------
-  active=list(
+  active = list(
     #' @field memberships a list with the memberships in all the functional groups
     memberships = function(value) {
-      if (missing(value)){
-        M <- private$allZ
-        names(M) <- private$namesFG
-        return(M)}  else {private$allZ <- value}},
-    #' @field probMemberships  or list of nbFG matrices for of estimated probabilities for block memberships for all nodes
-    probMemberships = function(value) {private$tau  },
+      if (missing(value)) {
+        return(setNames(private$allZ, private$namesFG))
+      } else {private$allZ <- value}},
+    #' @field probMemberships or list of nbFG matrices for of estimated probabilities for block memberships for all nodes
+    probMemberships = function(value) {private$tau},
     #' @field nbBlocks : vector with the number of blocks in each FG
     nbBlocks = function(value) {
-      r<- sapply(private$allZ, function(z){length(unique(z))})
-      names(r) <- private$namesFG
-      return(r)},
+      setNames(sapply(private$allZ, function(z){length(unique(z))}), private$namesFG)
+      },
     #' @field storedModels data.frame of all models fitted (and stored) during the optimization
     storedModels = function(value) {
       GO <- private$GREMLINSobject
