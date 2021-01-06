@@ -27,13 +27,8 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       #' @param connectParam list of parameters for connectivity
       #' @param covarParam optional vector of covariates effect
       #' @param covarList optional list of covariates data
-      initialize = function(model='', dimension=numeric(2), dimLabels=vector("list",2), blockProp=numeric(0), connectParam=list(mean = matrix()), covarParam=numeric(length(covarList)), covarList=list()) {
+      initialize = function(model='', dimension=numeric(2), dimLabels=list(row = NULL, col = NULL), blockProp=numeric(0), connectParam=list(mean = matrix()), covarParam=numeric(length(covarList)), covarList=list()) {
 
-        if (is.atomic(dimLabels)) {dimLabels <- as.list(dimLabels)}
-        if ((length(dimLabels) == 1) & (length(blockProp) == 1)){
-          dimLabels = list(dimLabels,dimLabels)
-        }
-        if (is.null(names(dimLabels))) {names(dimLabels) = c('row','col')}
         ## SANITY CHECK
         stopifnot(is.character(model))
         stopifnot(model %in% available_models_edges)
@@ -48,22 +43,21 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
         private$model   <- model
         private$dim     <- dimension
         private$dimlab  <- dimLabels
-        names(private$dimlab) <- c('row','col') # names of dimlab
         private$X       <- covarList
         private$pi      <- blockProp
         private$theta   <- connectParam
         private$beta    <- covarParam
         private$link    <- switch(model,
-                "gaussian"  = function(x) {x},
-                "ZIgaussian"  = function(x) {x},
-                "poisson"   = function(x) {log(x)},
-                "bernoulli" = function(x) {.logit(x)},
+                "gaussian"   = function(x) {x},
+                "ZIgaussian" = function(x) {x},
+                "poisson"    = function(x) {log(x)},
+                "bernoulli"  = function(x) {.logit(x)},
                 )
         private$invlink  <- switch(model,
-                "gaussian"  = function(x) {x},
-                "ZIgaussian"  = function(x) {x},
-                "poisson"   = function(x) {exp(x)},
-                "bernoulli" = function(x) {.logistic(x)},
+                "gaussian"   = function(x) {x},
+                "ZIgaussian" = function(x) {x},
+                "poisson"    = function(x) {exp(x)},
+                "bernoulli"  = function(x) {.logistic(x)},
                 )
       },
       #' @description basic matrix plot method for SBM object or mesoscopic plot

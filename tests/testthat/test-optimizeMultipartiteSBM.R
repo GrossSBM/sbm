@@ -9,10 +9,10 @@ test_that("optimize for multipartite SBM runs GREMLINS", {
   P <- matrix(runif(Q*Q),Q,Q)
   A <- 1*(matrix(runif(n*n),n,n)<Z%*%P%*%t(Z))
   type <- "simple"
-  netA <- defineSBM(A,"bernoulli",type,directed=TRUE,dimLabels=list("Actor","Actor"))
+  netA <- defineSBM(A,"bernoulli",type,directed=TRUE,dimLabels=list(row = "Actor", col = "Actor"))
   B <- matrix(rpois(npc*Q*20,2),npc*Q,20)
   type <- "bipartite"
-  netB <- defineSBM(B,"poisson",type,directed=TRUE,dimLabels=list("Actor","Stuff"))
+  netB <- defineSBM(B,"poisson",type,directed=TRUE,dimLabels = list(row = "Actor", col = "Stuff"))
 
   estimOptions = list(initBM = FALSE,verbosity = 0,nbCores = 2)
   Estim  <- estimateMultipartiteSBM(list(netA,netB),estimOptions)
