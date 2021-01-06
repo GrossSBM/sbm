@@ -73,7 +73,7 @@ PlantFlovis = defineSBM(Net$Inc_plant_flovis, model,type,directed,
 PlantAnt = defineSBM(Net$Inc_plant_ant,model,type,directed,
                       dimLabels =list(row = "Plants", col = "Ants"))
 PlantBird = defineSBM(Net$Inc_plant_bird,model,type,directed,
-                     dimLabels =list(row = "Plants",col = "Birds"))
+                     dimLabels =list(row = "Plants", col = "Birds"))
 ``` 
 
 If one wants to keep a track of the names of the species, they should be used as rownames and colnames in the matrices.

@@ -291,5 +291,3 @@ plot.SBM = function(x, type = c('data', 'expected', 'meso'), ordered = TRUE, plo
   }
 }
 
-
-

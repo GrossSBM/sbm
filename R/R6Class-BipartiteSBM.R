@@ -19,7 +19,7 @@ BipartiteSBM <- # this class inherit from SBM and allow to use multipartite as a
       #' @param directed logical, directed network or not. In not, \code{incidenceMatrix} must be symmetric.
       #' @param dimLabels list of labels of each dimension (in row, in columns)
       #' @param covarList and optional list of covariates, each of whom must have the same dimension as \code{incidenceMatrix}
-      initialize = function(incidenceMatrix, model,  dimLabels=list(row="rowLabel", col="colLabel"), covarList=list()) {
+      initialize = function(incidenceMatrix, model, dimLabels=list(row="rowLabel", col="colLabel"), covarList=list()) {
 
         ## INITIALIZE THE Bipartite SBM OBJECT ACCORDING TO THE DATA
         super$initialize(model = model, dimension = dim(incidenceMatrix), dimLabels = dimLabels, covarList = covarList)
