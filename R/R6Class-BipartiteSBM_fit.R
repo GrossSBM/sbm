@@ -142,7 +142,7 @@ BipartiteSBM_fit <-
           ICL       = private$BMobject$ICL,
           loglik    = private$BMobject$PL
         )
-        U[!is.na(U$nbParams),];
+        U[!is.na(U$nbParams), , drop = FALSE]
 
       }
     )

@@ -115,8 +115,6 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
 
         if ( length(self$memberships)==0){ordered = FALSE; type='data'}
 
-
-
         if (type == 'meso'){
           P <- plotMeso(thetaMean  = private$theta$mean,
                    pi         = private$pi,
@@ -173,10 +171,10 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       blockProp   = function(value) {if (missing(value)) return(private$pi) else private$pi <- value},
       #' @field nbBlocks vector of number of blocks in each dimension
       nbBlocks   = function(value) {
-        if (is.list(private$pi)){
-          r <- sapply(private$pi,length)
-        }else{
-            r =length(private$pi)
+        if (is.list(private$pi)) {
+          r <- sapply(private$pi, length)
+        } else{
+          r <- length(private$pi)
         }
         return(r)},
       #' @field connectParam parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli
@@ -290,10 +288,11 @@ predict.SBM <- function(object, covarList = object$covarList, ...) {
 #' @export
 plot.SBM = function(x, type = c('data', 'expected', 'meso'), ordered = TRUE, plotOptions = list(), ...){
 
-  if (length(type)>1){type = 'data'}
-  if (type=='meso'){
+  stopifnot(is_SBM(x))
+  type <- match.arg(type)
+  if (type == 'meso'){
     invisible(x$plot(type, ordered, plotOptions))
-  }else{
+  } else {
     x$plot(type, ordered, plotOptions)
   }
 }

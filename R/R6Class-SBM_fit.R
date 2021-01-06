@@ -24,9 +24,7 @@ SBM_fit <- # this virtual class is the mother of all subtypes of SBM (Simple or 
           "poisson_covariates"        = list(mean = parameters$lambda),
           "gaussian"                  = list(mean = parameters$mu, var = parameters$sigma2),
           "gaussian_covariates"       = list(mean = parameters$mu, var = parameters$sigma2),
-          "ZIgaussian"                = list(mean = parameters$mu, var = parameters$sigma2,p0 = parameters$p0),
-
-
+          "ZIgaussian"                = list(mean = parameters$mu, var = parameters$sigma2, p0 = parameters$p0),
         )
       }
     ),

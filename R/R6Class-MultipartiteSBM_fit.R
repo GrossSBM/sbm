@@ -10,7 +10,8 @@ MultipartiteSBM_fit <-
     inherit = MultipartiteSBM,
     # fields for internal use (referring to the mathematical notation)
     private = list(
-      GREMLINSobject = NULL,
+       tau            = NULL, # variational parameters for posterior probability of class belonging
+       GREMLINSobject = NULL,
 
       #------------ function to convert GREMLINS result into a sbm object result
       import_from_GREMLINS = function(index = 1) {
@@ -225,7 +226,7 @@ MultipartiteSBM_fit <-
       U$nbBlocks <-rowSums(Blocks)
       U$ICL <- sapply(GO$fittedModel, function(m) m$ICL)
       U$loglik  <- sapply(GO$fittedModel,function(m){len <- length(m$vJ); m$vJ[len]})
-      return(U)
+      U
     },
     #' @field blockProp : block proportions in each function group
     blockProp = function(value) {private$pi},

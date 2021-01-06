@@ -16,8 +16,7 @@ MultipartiteSBM <-
       namesFG   = NULL, # labels of the functional groups
       allZ      = NULL, # list of memberships
       pi        = NULL, # list of vectors of parameters for block prior probabilities
-      theta     = NULL, # list of connectivity parameters between edges
-      tau       = NULL
+      theta     = NULL  # list of connectivity parameters between edges
     ),
     public = list(
       #' @description constructor for Multipartite SBM
