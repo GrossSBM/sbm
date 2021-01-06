@@ -47,10 +47,10 @@
 #'
 #'
 
-plotMyMultipartiteMatrix = function(listSBM,memberships = NULL,plotOptions=list()){
+plotMyMultipartiteMatrix = function(listSBM, memberships = NULL, plotOptions=list()){
 
-  myMSBMObject <- MultipartiteSBM$new(listSBM,memberships = memberships)
-  if(is.null(memberships)){ordered = FALSE}else{ordered = TRUE}
+  myMSBMObject <- MultipartiteSBM$new(listSBM, memberships = memberships)
+  ordered <- ifelse(is.null(memberships), FALSE, TRUE)
   g <- myMSBMObject$plot(type='data', ordered = ordered,plotOptions)
   g
 }

@@ -170,7 +170,7 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG, distrib, cluster
     }
     )
   }
-  binary = ifelse(all(distrib == 'bernoulli'),TRUE,FALSE)
+  binary <- all(mat %in% c(0, 1, NA))
 
   ############## Optimize positions of matrices
   if (currentOptions$compact) {

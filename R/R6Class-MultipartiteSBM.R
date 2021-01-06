@@ -41,7 +41,7 @@ MultipartiteSBM <-
 
 ### alternative to above code with purrr
         private$dimFG <- listSBM %>% map("dimension") %>% unlist() %>% unique()
-        private$E      <- listSBM %>% map_df("dimLabels") %>%
+        private$E     <- listSBM %>% map_df("dimLabels") %>%
            map(factor, levels = private$namesFG) %>% map_df(as.numeric) %>% as.matrix()
 ###
 
@@ -91,9 +91,6 @@ MultipartiteSBM <-
                                  'expected' = self$predict()
           )
           if (ordered) clust <- private$allZ else clust <- NULL
-### ????? dangereux ça non ???
-          if(type == 'expected') private$model[1] <- 'notbernoulli'
-### ?????
           outP <-
             plotMultipartiteMatrix(
               listNetMatrix,
