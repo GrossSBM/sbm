@@ -170,7 +170,7 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG, distrib, cluster
     }
     )
   }
-  binary <- all(mat %in% c(0, 1, NA))
+  binary <- all(unlist(list_Mat) %in% c(0, 1, NA))
 
   ############## Optimize positions of matrices
   if (currentOptions$compact) {
