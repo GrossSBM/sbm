@@ -119,7 +119,7 @@ plotMatrix = function(Mat, dimLabels, clustering = NULL,plotOptions = list()){
 #----------------------------------------------------------------------------------
 ##################################################################################
 
-plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG, distrib, clustering,plotOptions) {
+plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG, distrib, clustering, plotOptions) {
 
 
   #----------------------------------------

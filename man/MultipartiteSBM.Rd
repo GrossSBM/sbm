@@ -14,23 +14,31 @@ R6 virtual class for Multipartite SBM representation
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{nbNetworks}}{: number of networks in the multipartite network}
-
-\item{\code{listSBM}}{: list of SimpleSBMs or BipartiteSBMs}
-
-\item{\code{archiMultipartite}}{: organization of the multipartite network}
-
-\item{\code{dimLabels}}{: labels of the functional groups}
-
-\item{\code{nbLabels}}{: number of Functional groups involved in the multipartite}
-
-\item{\code{nbNodes}}{: number of Nodes in each FG,}
-
-\item{\code{expectation}}{expected values of connection under the currently adjusted model}
-
 \item{\code{modelName}}{vector of characters, the family of model for the distribution of the edges in each network}
 
-\item{\code{directed}}{: vector of boolean}
+\item{\code{architecture}}{organization of the multipartite network}
+
+\item{\code{archiMultipartite}}{organization of the multipartite network}
+
+\item{\code{nbNetworks}}{number of networks in the multipartite network}
+
+\item{\code{directed}}{vector of boolean}
+
+\item{\code{dimension}}{number of Nodes in each functional group,}
+
+\item{\code{nbNodes}}{number of Nodes in each functional group}
+
+\item{\code{dimLabels}}{labels of the functional groups}
+
+\item{\code{nbLabels}}{number of functional groups involved in the multipartite}
+
+\item{\code{blockProp}}{block proportions in each function group}
+
+\item{\code{connectParam}}{connection parameters in each network}
+
+\item{\code{networkList}}{list of SimpleSBMs or BipartiteSBMs}
+
+\item{\code{expectation}}{expected values of connection under the currently adjusted model}
 }
 \if{html}{\out{</div>}}
 }
@@ -50,15 +58,33 @@ R6 virtual class for Multipartite SBM representation
 \subsection{Method \code{new()}}{
 constructor for Multipartite SBM
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MultipartiteSBM$new(listSBM, memberships = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{MultipartiteSBM$new(
+  model = character(0),
+  architecture = matrix(NA, 0, 2),
+  directed = logical(0),
+  dimension = numeric(0),
+  dimLabels = character(0),
+  blockProp = list(),
+  connectParam = list()
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{listSBM}}{list of SimpleSBM or BipartiteSBM}
+\item{\code{model}}{character describing the type of model}
 
-\item{\code{memberships}}{list of memberships for each node in each functional group. Default value is NULL}
+\item{\code{architecture}}{a 2-column matrix describing interction between the networks}
+
+\item{\code{directed}}{vector of logical: are the network directed or not?}
+
+\item{\code{dimension}}{number of nodes in each functional groups}
+
+\item{\code{dimLabels}}{labels of each functional groups}
+
+\item{\code{blockProp}}{parameters for block proportions (vector of list of vectors)}
+
+\item{\code{connectParam}}{parameters of connectivity (vector of list of vectors)}
 }
 \if{html}{\out{</div>}}
 }

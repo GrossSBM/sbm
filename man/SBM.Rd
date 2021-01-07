@@ -58,7 +58,7 @@ constructor for SBM
 \if{html}{\out{<div class="r">}}\preformatted{SBM$new(
   model = "",
   dimension = numeric(2),
-  dimLabels = vector("list", 2),
+  dimLabels = list(row = NULL, col = NULL),
   blockProp = numeric(0),
   connectParam = list(mean = matrix()),
   covarParam = numeric(length(covarList)),

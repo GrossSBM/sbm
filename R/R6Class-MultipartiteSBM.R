@@ -9,7 +9,8 @@ MultipartiteSBM <-
     classname = "MultipartiteSBM",
     # fields for internal use (referring to the mathematical notation)
     private = list(
-      model     = NULL, # vector of characters for the model name: distributions of the edges (bernoulli, poisson, gaussian)
+      model     = NULL, # vector of characters for the model name: distributions of the edges
+      directed_ = NULL, # vector of logical indicating if networks are directed, when appropriate
       netList   = NULL, # list of SimpleSBMs and BipartiteSBMs composing the multipartite network
       arch      = NULL, # matrix describing the organization of the multipartite network
       dim       = NULL, # number of nodes in each function groups
@@ -25,14 +26,14 @@ MultipartiteSBM <-
       #' @param dimension number of nodes in each functional groups
       #' @param dimLabels labels of each functional groups
       #' @param blockProp parameters for block proportions (vector of list of vectors)
-      #' @param connectPara parameters of connectivity (vector of list of vectors)
-
-      initialize = function(model = character(0), architecture = matrix(NA, 0, 2), directed = logical(0), dimension = numeric(0), dimLabels = character(0), blockProp=list(), connectParam=list()) {
+      #' @param connectParam parameters of connectivity (vector of list of vectors)
+      initialize = function(model = character(0), architecture = matrix(NA, 0, 2), directed = logical(0),
+                            dimension = numeric(0), dimLabels = character(0), blockProp=list(), connectParam=list()) {
 
         ## SANITY CHECK
         stopifnot(is.character(model), model %in% available_models_edges)
         stopifnot(is.matrix(architecture), ncol(architecture) == 2)
-        stopifnot(is.logical(directed), length(unique(as.vector(private$arch))) == length(directed))
+        stopifnot(is.logical(directed), length(unique(as.vector(architecture))) == length(directed))
         stopifnot(is.character(dimLabels), length(dimLabels) == length(dimension))
         stopifnot(is.list(connectParam))
 
@@ -41,8 +42,9 @@ MultipartiteSBM <-
         private$arch   <- architecture
         private$dim    <- dimension
         private$dimlab <- dimLabels
-        private$pi     <- belockProp
+        private$pi     <- blockProp
         private$theta  <- connectParam
+        private$directed_ <- directed
 
       },
       #' @description print method
@@ -52,13 +54,11 @@ MultipartiteSBM <-
         cat(self$nbLabels, "functional groups (", self$dimLabels, "), ", self$nbNetworks, "networks\n")
         cat("=====================================================================\n")
         cat("nbNodes per FG = (", self$nbNodes, ") --  nbBlocks per FG = (",self$nbBlocks, ")\n")
-        cat("distributions on each network =(", self$modelName ,")\n")
+        cat("distributions on each network: ", self$modelName ,"\n")
         cat("=====================================================================\n")
         cat("* Useful fields \n")
-        cat(" $nbNetwork, $nbNodes, $nbBlocks, $dimLabels, $architecture \n")
-        cat(" $modelName, $blockProp, $connectParam, $memberships, \n")
-        cat("* Useful functions \n")
-        cat("$plot, $optimize \n")
+        cat("  $nbNetwork, $nbNodes, $nbBlocks, $dimLabels, $architecture \n")
+        cat("  $modelName, $blockProp, $connectParam, $memberships, $networkList\n")
       },
       #' @description print method
       print = function() self$show(),
@@ -68,66 +68,53 @@ MultipartiteSBM <-
       #' @param plotOptions list of plot options for the mesoscopic view or matrix view
       plot = function(type = c('data','expected','meso'), ordered = TRUE, plotOptions = list()){
 
-        type <- match.arg(type)
+        if (ordered) clustering <- self$memberships else clustering <- NULL
 
-        if (type  == 'meso'){
-          outP <-
+        switch(match.arg(type),
+          "meso" =
             plotMesoMultipartite(
-              private$arch,
-              private$theta,
-              private$pi,
-              private$model,
-              private$directed_,
-              private$dim,
-              private$dimlab,
-              plotOptions
-            )
-        } else {
-          listNetMatrix <- switch(type,
-                                 'data' = map(private$netList,"netMatrix"),
-                                 'expected' = self$predict()
-          )
-          if (ordered) clust <- private$allZ else clust <- NULL
-          outP <-
+              private$arch, private$theta, private$pi, private$model,
+              private$directed_, private$dim, private$dimlab, plotOptions
+            ),
+          "data" =
             plotMultipartiteMatrix(
-              listNetMatrix,
-              private$arch,
-              private$dim,
-              private$dimlab,
-              distrib  = private$model,
-              clustering = clust,
-              plotOptions = plotOptions
+              map(private$netList,"netMatrix"),
+              private$arch, private$dim, private$dimlab,
+              private$model, clustering, plotOptions
+            ),
+          "expected" =
+            plotMultipartiteMatrix(
+              self$predict(),
+              private$arch, private$dim, private$dimlab,
+              private$model, clustering, plotOptions
             )
-        }
-        outP
+        )
       }
     ),
     active = list(
       #' @field modelName vector of characters, the family of model for the distribution of the edges in each network
       modelName    = function(value) {private$model},
-      #' @field architecture: organization of the multipartite network
+      #' @field architecture organization of the multipartite network
       architecture = function(value) {private$arch},
-      #' @field archiMultipartite: organization of the multipartite network
+      #' @field archiMultipartite organization of the multipartite network
       archiMultipartite = function(value) {private$arch},
-      #' @field nbNetworks: number of networks in the multipartite network
-      nbNetworks    = function(value) {length(private$directed_)},
-      #' @field directed : vector of boolean
-      directed  = function(value){private$directed_},
-      #' @field dimension: number of Nodes in each functional group,
-      dimension  = function(value){setNames(private$dim, private$dimlab)},
-      #' @field nbNodes: number of Nodes in each functional group
-      nbNodes   = function(value){setNames(private$dim, private$dimlab)},
-      #' @field dimLabels: labels of the functional groups
-      dimLabels   = function(value){private$dimlab},
+      #' @field nbNetworks number of networks in the multipartite network
+      nbNetworks = function(value) {length(private$directed_)},
+      #' @field directed vector of boolean
+      directed = function(value){private$directed_},
+      #' @field dimension number of Nodes in each functional group,
+      dimension = function(value){setNames(private$dim, private$dimlab)},
+      #' @field nbNodes number of Nodes in each functional group
+      nbNodes = function(value){setNames(private$dim, private$dimlab)},
+      #' @field dimLabels labels of the functional groups
+      dimLabels = function(value){private$dimlab},
       #' @field nbLabels number of functional groups involved in the multipartite
-      nbLabels   = function(value){length(private$dimlab)},
-      #' @field blockProp : block proportions in each function group
+      nbLabels  = function(value){length(private$dimlab)},
+      #' @field blockProp  block proportions in each function group
       blockProp = function(value) {private$pi},
-      #' @field connectParam : connection parameters in each network
+      #' @field connectParam connection parameters in each network
       connectParam = function(value) {private$theta},
-      #' @field listSBM: list of SimpleSBMs or BipartiteSBMs
-      listSBM    = function(value) {private$netList},
-      #' @field networkList: list of SimpleSBMs or BipartiteSBMs
+      #' @field networkList list of SimpleSBMs or BipartiteSBMs
       networkList = function(value) {private$netList},
       #' @field expectation expected values of connection under the currently adjusted model
       expectation = function() {self$predict()}
@@ -187,7 +174,7 @@ plot.MultipartiteSBM = function(x, type = c('data', 'expected', 'meso'), ordered
   if (type == 'meso'){
     invisible(x$plot(type, ordered, plotOptions))
   } else {
-    x$plot(type,ordered, plotOptions)
+    x$plot(type, ordered, plotOptions)
   }
 }
 
@@ -197,7 +184,7 @@ plot.MultipartiteSBM = function(x, type = c('data', 'expected', 'meso'), ordered
 #' @param  Robject an R6 object inheriting from class MultipartiteSBM
 #' @return TRUE or FALSE
 #' @export
-is_MultipartiteSBM <- function(Robject) {inherits(Robject, " MultipartiteSBM")}
+is_MultipartiteSBM <- function(Robject) {inherits(Robject,"MultipartiteSBM")}
 
 #' Model Predictions
 #'
@@ -207,8 +194,24 @@ is_MultipartiteSBM <- function(Robject) {inherits(Robject, " MultipartiteSBM")}
 #' @param ... additional parameters for S3 compatibility. Not used
 #' @return a list of matrices of expected values for each dyad
 #' @export
-predict.MultipartiteSBM <- function(object,...) {
+predict.MultipartiteSBM <- function(object, ...) {
   stopifnot(is_MultipartiteSBM(object))
   object$predict()
 }
 
+#' Extract model coefficients
+#'
+#' Extracts model coefficients from objects with class \code{\link[=MultipartiteSBM]{MultipartiteSBM}} and children
+#'
+#' @param object an R6 object inheriting from class MultipartiteSBM
+#' @param type type of parameter that should be extracted. Either 'block' for \deqn{\pi}, 'connectivity' for \deqn{\theta},
+#'  or "covariates" for \deqn{\beta}. Default is 'connectivity'.
+#' @param ... additional parameters for S3 compatibility. Not used
+#' @return vector or list of parameters.
+#' @export
+coef.MultipartiteSBM <- function(object, type = c( 'connectivity', 'block'), ...) {
+  stopifnot(is_MultipartiteSBM(object))
+  switch(match.arg(type),
+         block        = object$blockProp,
+         connectivity = object$connectParam)
+}
