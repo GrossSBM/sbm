@@ -82,9 +82,38 @@ MultipartiteSBM_fit <-
     #-----------------------------------------------
     public = list(
       #' @description constructor for Multipartite SBM
-      #' @param listSBM list of SBM object with
-      initialize = function(listSBM) {
-        super$initialize(listSBM)
+      #' @param netList list of SBM objects
+      initialize = function(netList) {
+        private$netList <- netList
+        model     <- map_chr(listSBM, "modelName")
+        directed  <- map(netList, "directed") %>% map_lgl(~ifelse(is.null(.x), NA, .x))
+        dimension <- netList %>% map("dimension") %>% unlist() %>% unique()
+        dimLabels <- netList %>% map("dimLabels") %>% unlist() %>% unique()
+
+        arch      <- listSBM %>% map_df("dimLabels") %>%
+           map(factor, levels = private$namesFG) %>% map_df(as.numeric) %>% as.matrix()
+
+        ## alternative to code above for architecture and dimension
+        # ###
+        # E_FG <- lapply(listSBM,function(net){return(c(net$dimLabels$row,net$dimLabels$col))})
+        # E_FG <- do.call(rbind,E_FG)
+        # E <- matrix(sapply(E_FG,function(a){which(private$namesFG == a)}), self$nbNetworks,2)
+        # private$E <-  E
+        # private$dimFG <- sapply(1:self$nbLabels ,function(k){
+        #   u <- which(E[,1] == k); v = 1;
+        #   if (length(u) == 0) {u <- which(E[,2] == k); v = 2}
+        #   u <- u[1]
+        #   dim(listSBM[[u]]$netMatrix)[v]}
+        # )
+###      private$allZ <- memberships
+
+        super$initialize(model        = model,
+                         architecture = arch,
+                         directed     = directed,
+                         dimension    = dimension,
+                         dimLabels    = dimLabels,
+                         blockProp    = blockProp,
+                         connectParam = connectParam)
       },
       #' @description estimation of multipartiteSBM via GREMLINS
       #' @param estimOptions options for MultipartiteBM
@@ -201,24 +230,19 @@ MultipartiteSBM_fit <-
   #-----------------------------------------------
   active = list(
     #' @field memberships a list with the memberships in all the functional groups
-    memberships = function(value) {
-      if (missing(value)) {
-        return(setNames(private$allZ, private$namesFG))
-      } else {private$allZ <- value}},
+    memberships = function(value) {setNames(lapply(private$tau, as_clustering), private$dimlab)}
     #' @field probMemberships or list of nbFG matrices for of estimated probabilities for block memberships for all nodes
     probMemberships = function(value) {private$tau},
     #' @field nbBlocks : vector with the number of blocks in each FG
-    nbBlocks = function(value) {
-      setNames(sapply(private$allZ, function(z){length(unique(z))}), private$namesFG)
-      },
+    nbBlocks = function(value) {setNames(sapply(private$tau, ncol), private$dimlab)},
     #' @field storedModels data.frame of all models fitted (and stored) during the optimization
     storedModels = function(value) {
       GO <- private$GREMLINSobject
       nbModels <- length(GO$fittedModel)
       Blocks <- as.data.frame(t(sapply(GO$fittedModel, function(m) m$paramEstim$v_K)))
-      colnames(Blocks) <- paste('nbBlocks',private$namesFG)
+      colnames(Blocks) <- paste('nbBlocks',private$dimlab)
       nbConnectParam <- sapply(GO$fittedModel, function(m){
-        computeNbConnectParams_MBM(m$paramEstim$v_K,private$model,private$E,self$directed)
+        computeNbConnectParams_MBM(m$paramEstim$v_K, private$model, private$arch, private$directed_)
       })
       nbParams  <- nbConnectParam + rowSums(Blocks) - ncol(Blocks)
       indexModel <- 1:nbModels
@@ -227,14 +251,7 @@ MultipartiteSBM_fit <-
       U$ICL <- sapply(GO$fittedModel, function(m) m$ICL)
       U$loglik  <- sapply(GO$fittedModel,function(m){len <- length(m$vJ); m$vJ[len]})
       U
-    },
-    #' @field blockProp : block proportions in each function group
-    blockProp = function(value) {private$pi},
-    #' @field connectParam : connection parameters in each network
-    connectParam = function(value) {private$theta}
+    }
   )
 )
-
-
-
 

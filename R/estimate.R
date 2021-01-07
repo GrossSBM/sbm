@@ -236,7 +236,7 @@ estimateBipartiteSBM <- function(netMat,
 #' archiMultipartite <-  rbind(c(1,2),c(2,2),c(1,1)) # architecture of the multipartite net.
 #' nbNodes <- c(60,50)
 #' ## About the connection matrices
-#' directed <- c( NA,TRUE,  FALSE) # type of each network
+#' directed <- c(NA, TRUE, FALSE) # type of each network
 #' model <- c('gaussian','bernoulli','poisson')
 #' connectParam <- list()
 #' connectParam[[1]] <- list()
