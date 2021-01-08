@@ -15,7 +15,7 @@ R6 virtual class for SBM representation (mother class of Simple and Bipartite SB
 
 \item{\code{modelName}}{character, the family of model for the distribution of the edges}
 
-\item{\code{dimLabels}}{vector of characters, the label of each dimension}
+\item{\code{dimLabels}}{vector or list of characters, the label of each dimension}
 
 \item{\code{nbCovariates}}{integer, the number of covariates}
 

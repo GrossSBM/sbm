@@ -355,12 +355,9 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG, distrib, cluster
 }
 
 #-----------------------------------------------------------------
-#' @importFrom graphics par
-#' @importFrom graphics plot
+#' @importFrom graphics par plot
 plotMeso <- function(thetaMean, pi,model,directed,bipartite,nbNodes,nodeLabels,plotOptions){
 
-
-  browser()
   if(bipartite){nbFG = 2}else{nbFG = 1}
   myFavColor <- c('salmon2','darkolivegreen3')
   myFavForm <- c('circle','square')
@@ -391,7 +388,7 @@ plotMeso <- function(thetaMean, pi,model,directed,bipartite,nbNodes,nodeLabels,p
 
 
   if(bipartite){
-    l <- which(grepl( "vertex." , names(plotOptions) ))
+    vertex.arg <- which(grepl( "vertex." , names(plotOptions) ))
     for (w in vertex.arg){
       ver.w <- plotOptions[[w]]
       if(length(ver.w)==1){plotOptions[[w]] <- rep(ver.w,nbFG)}

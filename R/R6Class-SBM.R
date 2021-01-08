@@ -103,11 +103,10 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       #' @import ggplot2
       plot = function(type = c('data','expected','meso'), ordered = TRUE, plotOptions = list()) {
 
-        if (length(type) > 1) {type = 'data'}
         type <- match.arg(type)
         bipartite <- ifelse(is.list(self$memberships), TRUE, FALSE)
 
-        if ( length(self$memberships)==0){ordered = FALSE; type='data'}
+        if (is.null(self$memberships)) {ordered = FALSE; type='data'}
 
         if (type == 'meso'){
           P <- plotMeso(thetaMean  = private$theta$mean,
@@ -133,7 +132,7 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
             }
           P <- plotMatrix(Mat = Mat, dimLabels = private$dimlab, clustering = cl,plotOptions = plotOptions)
         }
-        return(P)
+        P
         },
       #' @description print method
       #' @param type character to tune the displayed name
@@ -160,7 +159,7 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       #' @field dimLabels vector or list of characters, the label of each dimension
       dimLabels    = function(value) {
         if (missing(value)){return(private$dimlab)
-        }else{
+        } else {
           if(length(value) == 1){value = rep(value,2)}
           if(is.atomic(value)){value <- as.list(value)}
           if(is.null(names(value))){names(value)  = c('row','col')}
@@ -180,7 +179,7 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
         } else{
           r <- length(private$pi)
         }
-        return(r)},
+        r},
       #' @field connectParam parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli
       connectParam = function(value) {if (missing(value)) return(private$theta) else private$theta <- value},
       #' @field covarParam vector of regression parameters associated with the covariates.
