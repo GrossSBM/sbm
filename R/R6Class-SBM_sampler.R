@@ -63,4 +63,3 @@ SBM_sampler <- # Virtual call for SBM sampler (children: Simple and Bipartite SB
     )
   )
 
-

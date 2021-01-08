@@ -215,7 +215,7 @@ MultipartiteSBM_fit <-
         super$show(type)
         cat("  $probMemberships, \n")
         cat("* S3 methods \n")
-        cat("  plot, print, coefn predict \n")
+        cat("  plot, print, coef, predict \n")
       }
   ),
   #-----------------------------------------------
