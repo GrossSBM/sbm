@@ -102,8 +102,8 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       #' @return a ggplot2 object for the \code{'data'} and \code{'expected'}, a list with the igraph object \code{g}, the \code{layout} and the \code{plotOptions} for the \code{'meso'}
       #' @import ggplot2
       plot = function(type = c('data','expected','meso'), ordered = TRUE, plotOptions = list()) {
-        if (length(type) > 1) {type = 'data'}
 
+        if (length(type) > 1) {type = 'data'}
         type <- match.arg(type)
         bipartite <- ifelse(is.list(self$memberships), TRUE, FALSE)
 
@@ -131,7 +131,7 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
                 cl <- list(row = self$memberships)
               }
             }
-          P <- plotMatrix(Mat = Mat, dimLabels = self$dimLabels, clustering = cl,plotOptions = plotOptions)
+          P <- plotMatrix(Mat = Mat, dimLabels = private$dimlab, clustering = cl,plotOptions = plotOptions)
         }
         return(P)
         },
@@ -157,8 +157,18 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       dimension    = function(value) {private$dim},
       #' @field modelName character, the family of model for the distribution of the edges
       modelName    = function(value) {private$model},
-      #' @field dimLabels vector of characters, the label of each dimension
-      dimLabels    = function(value) {private$dimlab},
+      #' @field dimLabels vector or list of characters, the label of each dimension
+      dimLabels    = function(value) {
+        if (missing(value)){return(private$dimlab)
+        }else{
+          if(length(value) == 1){value = rep(value,2)}
+          if(is.atomic(value)){value <- as.list(value)}
+          if(is.null(names(value))){names(value)  = c('row','col')}
+          if(all(names(value)==c('col','row'))){value <- list(row = value[[2]],col = value[[1]])}
+          if(any(names(value) != c('row','col'))){names(value) = c('row','col')}
+          private$dimlab <- value
+        }
+      },
       #' @field nbCovariates integer, the number of covariates
       nbCovariates = function(value) {length(private$X)},
       #' @field blockProp vector of block proportions (aka prior probabilities of each block)

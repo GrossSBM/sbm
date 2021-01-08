@@ -15,7 +15,7 @@ BipartiteSBM_sampler <-
       #' @param dimLabels optional labels of each dimension (in row, in column)
       #' @param covarParam optional vector of covariates effect
       #' @param covarList optional list of covariates data
-      initialize = function(model, nbNodes, blockProp, connectParam, dimLabels=list(row="rowLabel", col="colLabel"), covarParam=numeric(0), covarList=list()) {
+      initialize = function(model, nbNodes, blockProp, connectParam, dimLabels=list(row="row", col="col"), covarParam=numeric(0), covarList=list()) {
         ## SANITY CHECKS
         stopifnot(length(blockProp) ==  2,
                   length(blockProp[[1]]) ==  nrow(connectParam$mean),
