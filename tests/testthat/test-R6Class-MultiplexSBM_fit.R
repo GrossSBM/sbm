@@ -14,25 +14,43 @@ test_that("Inference for Multiplex networks", {
   myMultiplex <- MultiplexSBM$new(list(netA,netB))
   netC <- defineSBM(B,"poisson",type = "simple",dimLabels=list("Actor","Actor"))
 
-  myMultiplexFit <- MultiplexSBM_fit$new(list(netA,netB))
-  myMultiplexFit$directed
+
+
 
   currentOptions <- list(
     verbosity     = 1,
-    nbBlocksRange = lapply(1:myMSBM$nbLabels,function(l){c(1,10)}),
+    nbBlocksRange = list(c(1,10)),
     nbCores       = 2,
     maxiterVE     = 100,
     maxiterVEM    = 100,
     initBM = TRUE
   )
 
-  names(currentOptions$nbBlocksRange) <- myMSBM$dimLabels
-  ## Current options are default expect for those passed by the user
-  currentOptions[names(estimOptions)] <- estimOptions
 
 
-  myMultiplexFit$optimize(currentOptions)
+  myMultiplexFitindep <- MultiplexSBM_fit$new(list(netA,netB,netC))
+  myMultiplexFitindep$optimize(estimOptions = currentOptions)
 
 
-  expect_equal(2 * 2, 4)
+  expect_equal(length(myMultiplexFitindep$connectParam),3)
+
+
+  myMultiplexFitdep <- MultiplexSBM_fit$new(list(netA,netB),dep = TRUE)
+  currentOptions <- list(
+    verbosity     = 3,
+    plot          = TRUE,
+    explorFactor  = 1.5,
+    nbBlocksRange = c(4,Inf),
+    nbCores       = 2,
+    fast          = TRUE
+  )
+
+  myMultiplexFitdep$optimize(estimOptions = currentOptions)
+
+
+
+
+ expect_equal(length(myMultiplexFitdep$connectParam),4)
+
+ expect_equal(myMultiplexFitdep$modelDependence,TRUE)
 })
