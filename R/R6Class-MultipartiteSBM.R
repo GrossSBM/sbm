@@ -21,7 +21,7 @@ MultipartiteSBM <-
     public = list(
       #' @description constructor for Multipartite SBM
       #' @param model character describing the type of model
-      #' @param architecture a 2-column matrix describing interction between the networks
+      #' @param architecture a 2-column matrix describing interactions between the networks
       #' @param directed vector of logical: are the network directed or not?
       #' @param dimension number of nodes in each functional groups
       #' @param dimLabels labels of each functional groups

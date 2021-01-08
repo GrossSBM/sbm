@@ -74,7 +74,7 @@ constructor for Multipartite SBM
 \describe{
 \item{\code{model}}{character describing the type of model}
 
-\item{\code{architecture}}{a 2-column matrix describing interction between the networks}
+\item{\code{architecture}}{a 2-column matrix describing interactions between the networks}
 
 \item{\code{directed}}{vector of logical: are the network directed or not?}
 

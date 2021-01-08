@@ -49,7 +49,8 @@
 
 plotMyMultipartiteMatrix = function(listSBM, memberships = NULL, plotOptions = list()){
 
-  myMSBMObject <- MultipartiteSBM$new(listSBM, memberships = memberships)
+  myMSBMObject <- MultipartiteSBM$new(listSBM)
+### FIXME: handle membership!!! we should use an instance of MultipartiteSBM_sampler when ready
   ordered <- ifelse(is.null(memberships), FALSE, TRUE)
   g <- myMSBMObject$plot(type='data', ordered = ordered, plotOptions)
   g

@@ -85,11 +85,11 @@ PlantFlovis$netMatrix[1:2,1:2]
 ```
 
 
-<!-- A plot of the data can be obtained with following command -->
-<!-- TODO -->
-<!-- ```{r plot data} -->
-<!-- plotMyMultipartiteMatrix(list(PlantFlovis,PlantAnt,PlantBird)) -->
-<!-- ``` -->
+A plot of the data can be obtained with following command
+
+```{r plot data}
+plotMyMultipartiteMatrix(list(PlantFlovis,PlantAnt,PlantBird))
+```
 
 
 
