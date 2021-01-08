@@ -33,7 +33,7 @@ MultipartiteSBM <-
         ## SANITY CHECK
         stopifnot(is.character(model), model %in% available_models_edges)
         stopifnot(is.matrix(architecture), ncol(architecture) == 2)
-        stopifnot(is.logical(directed), length(unique(as.vector(architecture))) == length(directed))
+        stopifnot(is.logical(directed), nrow(architecture) == length(directed))
         stopifnot(is.character(dimLabels), length(dimLabels) == length(dimension))
         stopifnot(is.list(connectParam))
 
