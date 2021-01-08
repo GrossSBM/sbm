@@ -74,7 +74,7 @@ constructor for a Bipartite SBM fit
 \if{html}{\out{<div class="r">}}\preformatted{BipartiteSBM_fit$new(
   incidenceMatrix,
   model,
-  dimLabels = list(row = "rowLabel", col = "colLabel"),
+  dimLabels = list(row = "row", col = "col"),
   covarList = list()
 )}\if{html}{\out{</div>}}
 }

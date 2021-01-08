@@ -20,7 +20,7 @@ SimpleSBM_sampler <-
       #' @param dimLabels optional labels of each dimension (in row, in column)
       #' @param covarParam optional vector of covariates effect
       #' @param covarList optional list of covariates data
-      initialize = function(model, nbNodes, directed, blockProp, connectParam, dimLabels=list(row="rowLabel", col="colLabel"), covarParam=numeric(0), covarList=list()) {
+      initialize = function(model, nbNodes, directed, blockProp, connectParam, dimLabels=list(row="node", col="node"), covarParam=numeric(0), covarList=list()) {
 
         ## ADDITIONAL SANITY CHECKS
         stopifnot(all(blockProp > 0))

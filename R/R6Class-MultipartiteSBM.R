@@ -138,7 +138,7 @@ MultipartiteSBM <-
 #'  \item{"vertex.color": }{Default value is "salmon2"}
 #'  \item{"vertex.frame.color": }{Node border color.Default value is "black" }
 #'  \item{"vertex.shape": }{One of "none", "circle", "square", "csquare", "rectangle" "crectangle", "vrectangle", "pie", "raster", or "sphere". Default value = "circle"}
-#'  \item{"vertex.size": }{Size of the node (default is 2)}
+#'  \item{"vertex.size": }{Size of the nodes (default factor is 1). Vector of length the number of FG}
 #'  \item{"vertex.size2": }{The second size of the node (e.g. for a rectangle)}
 #'  \item{"vertex.label": }{Names of the vertices. Default value is the label of the nodes}
 #'  \item{"vertex.label.color": }{Default value is  "black"}
@@ -148,7 +148,7 @@ MultipartiteSBM <-
 #'  \item{"vertex.label.degree": }{The position of the label in relation to the vertex. default value is 0}
 #'  \item{"edge.threshold": }{Threshold under which the edge is not plotted. Default value is = -Inf}
 #'  \item{"edge.color": }{Default value is "gray"}
-#'  \item{"edge.width": }{Factor parameter. Default value is 10}
+#'  \item{"edge.width": }{Factor parameter. Default value is 1}
 #'  \item{"edge.arrow.size": }{Default value is 1}
 #'  \item{"edge.arrow.width": }{Default value is 2}
 #'  \item{"edge.lty": }{Line type, could be 0 or "blank", 1 or "solid", 2 or "dashed", 3 or "dotted", 4 or "dotdash", 5 or "longdash", 6 or "twodash". Default value is "solid"}
