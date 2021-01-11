@@ -50,7 +50,7 @@ constructor for a Simple SBM fit
   adjacencyMatrix,
   model,
   directed,
-  dimLabels = list(row = "rowLabel", col = "colLabel"),
+  dimLabels = "node",
   covarList = list()
 )}\if{html}{\out{</div>}}
 }
@@ -64,7 +64,7 @@ constructor for a Simple SBM fit
 
 \item{\code{directed}}{logical, directed network or not. In not, \code{adjacencyMatrix} must be symmetric.}
 
-\item{\code{dimLabels}}{list of labels of each dimension (in row, in columns)}
+\item{\code{dimLabels}}{character labels of the nodes (in row, in columns)}
 
 \item{\code{covarList}}{and optional list of covariates, each of whom must have the same dimension as \code{adjacencyMatrix}}
 }

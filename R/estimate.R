@@ -81,10 +81,15 @@
 estimateSimpleSBM <- function(netMat,
                               model        = 'bernoulli',
                               directed     = !isSymmetric(netMat),
-                              dimLabels    = list(row = "row", col = "col"),
+                              dimLabels    = list(row = "node", col = "node"),
                               covariates   = list(),
                               estimOptions = list()) {
 
+
+  if(length(dimLabels)==1){
+    if(is.list(dimLabels)){dimLabels = dimLabels[[1]]}
+    dimLabels = list(row = dimLabels,col = dimLabels)
+    }
   ## Set default options for estimation
   currentOptions <- list(
     verbosity     = 3,
@@ -187,6 +192,10 @@ estimateBipartiteSBM <- function(netMat,
                                  covariates   = list(),
                                  estimOptions = list()) {
 
+  if(length(dimLabels)==1){stop('For Bipartite dimLabels should be of length 2')}
+  if(is.atomic(dimLabels)){dimLabels = as.list(dimLabels); names(dimLabels) = c('row','col')}
+  if(is.null(names(dimLabels))){names(dimLabels) = c('row','col')}
+
   ## Set default options for estimation
   currentOptions <- list(
     verbosity     = 3,
@@ -236,7 +245,7 @@ estimateBipartiteSBM <- function(netMat,
 #' archiMultipartite <-  rbind(c(1,2),c(2,2),c(1,1)) # architecture of the multipartite net.
 #' nbNodes <- c(60,50)
 #' ## About the connection matrices
-#' directed <- c( NA,TRUE,  FALSE) # type of each network
+#' directed <- c(NA, TRUE, FALSE) # type of each network
 #' model <- c('gaussian','bernoulli','poisson')
 #' connectParam <- list()
 #' connectParam[[1]] <- list()
@@ -254,6 +263,7 @@ estimateBipartiteSBM <- function(netMat,
 #' listSBM <- mySampleMSBM$listSBM
 #' estimOptions = list(initBM = FALSE,nbCores  = 2,initBM = FALSE)
 #' myMSBM <- estimateMultipartiteSBM(listSBM,estimOptions)
+#' plot(myMSBM,type='data')
 estimateMultipartiteSBM <- function(listSBM,
                                     estimOptions = list())
 {

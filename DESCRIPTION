@@ -52,6 +52,7 @@ Collate:
     'R6Class-BipartiteSBM_sampler.R'
     'R6Class-MultipartiteSBM.R'
     'R6Class-MultipartiteSBM_fit.R'
+    'R6Class-MultipartiteSBM_sampler.R'
     'R6Class-SimpleSBM.R'
     'R6Class-SimpleSBM_fit.R'
     'R6Class-SimpleSBM_sampler.R'

@@ -71,7 +71,7 @@ sampleSimpleSBM <- function(nbNodes,
                             connectParam,
                             model = 'bernoulli',
                             directed = FALSE,
-                            dimLabels    = list(row = "rowLabel", col = "colLabel"),
+                            dimLabels    = list(row = "nodeLabel", col = "nodeLabel"),
                             covariates = list(),
                             covariatesParam = numeric(0)) {
 
@@ -125,8 +125,8 @@ sampleSimpleSBM <- function(nbNodes,
 #' connectParam <- list(mean = means)
 #'
 #' ## Graph Sampling
-#' dimLabels = c('Ind','Service')
-#' mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'poisson',dimLabels)
+#' dimLabels = list(row = 'Ind', col = 'Service')
+#' mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'poisson', dimLabels)
 #' plot(mySampler,type='expected')
 #' plotOptions = list(vertex.label.name=c('U','V'),vertex.size = c(1.4,1.3))
 #' plot(mySampler,type='meso',plotOptions)

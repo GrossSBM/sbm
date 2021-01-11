@@ -34,7 +34,7 @@ test_that("BipartiteSBM_fit 'Bernoulli' model, undirected, no covariate", {
   expect_equal(mySBM$modelName, 'bernoulli')
   expect_equal(mySBM$nbNodes, nbNodes)
   expect_equal(mySBM$dimension, nbNodes)
-  expect_equal(mySBM$dimLabels, list(row="rowLabel", col="colLabel"))
+  expect_equal(mySBM$dimLabels, list(row="row", col="col"))
   expect_equal(mySBM$nbDyads, nbNodes[1]*nbNodes[2])
   expect_true(is.na(mySBM$connectParam$mean))
 
@@ -101,7 +101,7 @@ test_that("BipartiteSBM_fit 'Poisson' model, undirected, no covariate", {
   expect_equal(mySBM$modelName, 'poisson')
   expect_equal(mySBM$nbNodes, nbNodes)
   expect_equal(mySBM$dimension, nbNodes)
-  expect_equal(mySBM$dimLabels, list(row="rowLabel", col="colLabel"))
+  expect_equal(mySBM$dimLabels, list(row="row", col="col"))
   expect_equal(mySBM$nbDyads, nbNodes[1]*nbNodes[2])
   expect_true(is.na(mySBM$connectParam$mean))
 
@@ -172,7 +172,7 @@ test_that("BipartiteSBM_fit 'Gaussian' model, undirected, no covariate", {
   expect_equal(mySBM$modelName, 'gaussian')
   expect_equal(mySBM$nbNodes, nbNodes)
   expect_equal(mySBM$dimension, nbNodes)
-  expect_equal(mySBM$dimLabels, list(row="rowLabel", col="colLabel"))
+  expect_equal(mySBM$dimLabels, list(row="row", col="col"))
   expect_equal(mySBM$nbDyads, nbNodes[1]*nbNodes[2])
   expect_true(is.na(mySBM$connectParam$mean))
 
