@@ -40,20 +40,20 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
         stopifnot(all(sapply(covarList, ncol) == dimension[2]))
 
         ## MODEL & PARAMETERS
-        private$model   <- model
-        private$dim     <- dimension
-        private$dimlab  <- dimLabels
-        private$X       <- covarList
-        private$pi      <- blockProp
-        private$theta   <- connectParam
-        private$beta    <- covarParam
-        private$link    <- switch(model,
+        private$model  <- model
+        private$dim    <- dimension
+        private$dimlab <- dimLabels
+        private$X      <- covarList
+        private$pi     <- blockProp
+        private$theta  <- connectParam
+        private$beta   <- covarParam
+        private$link   <- switch(model,
                 "gaussian"   = function(x) {x},
                 "ZIgaussian" = function(x) {x},
                 "poisson"    = function(x) {log(x)},
                 "bernoulli"  = function(x) {.logit(x)},
                 )
-        private$invlink  <- switch(model,
+        private$invlink <- switch(model,
                 "gaussian"   = function(x) {x},
                 "ZIgaussian" = function(x) {x},
                 "poisson"    = function(x) {exp(x)},
@@ -124,8 +124,7 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
 
             if (ordered) {
               if (bipartite) {
-                cl <-  self$memberships
-                names(cl) = c('row', 'col')
+                cl <-  setNames(self$memberships, c('row', 'col'))
               } else {
                 cl <- list(row = self$memberships)
               }
@@ -234,13 +233,14 @@ coef.SBM <- function(object, type = c( 'connectivity', 'block', 'covariates'), .
 #'
 #' @param object an R6 object inheriting from class SBM_fit (like SimpleSBM_fit or BipartiteSBM_fit)
 #' @param covarList a list of covariates. By default, we use the covariates associated with the model.
+#' @param theta_p0 a threshold...
 #' @param ... additional parameters for S3 compatibility. Not used
 #' @return a matrix of expected values for each dyad
 #' @importFrom stats predict
 #' @export
-predict.SBM <- function(object, covarList = object$covarList, ...) {
+predict.SBM <- function(object, covarList = object$covarList, theta_p0 = 0, ...) {
   stopifnot(is_SBM(object))
-  object$predict(covarList)
+  object$predict(covarList, theta_p0)
 }
 
 #' SBM Plot

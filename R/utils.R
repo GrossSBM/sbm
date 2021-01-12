@@ -42,47 +42,7 @@ check_boundaries <- function(x, zero = .Machine$double.eps) {
   x
 }
 
-#----------------------- PREDICTION
-predict_sbm <- function(nbNodes,nbCovariates,link,invlink,tau,theta_mean,covarEffect,covarList,theta_p0 = NULL){
-
-  stopifnot(is.list(covarList), nbCovariates == length(covarList))
-  if (!is.null(theta_p0)){theta_mean <- ((1-theta_p0)>0.5 ) * theta_mean }
-  mu <- tau %*% theta_mean %*% t(tau)
-  if (nbCovariates > 0) {
-    all(sapply(covarList, nrow) == nbNodes, sapply(covarList, ncol) == nbNodes)
-    mu <- invlink(link(mu) + covarEffect)
-  }
-  mu
-}
-
-
-predict_lbm <- function(dimension,nbCovariates,link,invlink,tau,theta_mean,covarEffect,covarList,theta_p0 = NULL){
-
-
-    stopifnot(!is.null(tau[[1]]), !is.null(tau[[2]]), !is.null(theta_mean))
-    stopifnot(is.list(covarList),  nbCovariates == length(covarList))
-
-    if (!is.null(theta_p0)){theta_mean <- ((1-theta_p0) > 0.5) * theta_mean }
-
-    if (length(covarList) > 0) {
-      stopifnot(all(sapply(covarList, nrow) == dimension[1]),
-                all(sapply(covarList, ncol) == dimension[2]))
-    }
-    mu <- tau[[1]] %*% theta_mean %*% t(tau[[2]])
-    if (length(covarList) > 0) mu <- invlink(link(mu) + covarEffect)
-    mu
-}
 #----------------------- RE-ORDERING
-order_sbm <- function(theta_mean, pi){
-  o <- order(theta_mean %*% pi, decreasing = TRUE)
-  o
-}
-
-order_lbm <- function(theta_mean,pi){
-  oRow <- order(theta_mean %*% pi[[2]], decreasing = TRUE)
-  oCol <- order(pi[[1]] %*% theta_mean, decreasing = TRUE)
-  list(row  = oRow, col = oCol)
-}
 
 order_mbm <- function(list_theta_mean,list_pi,E){
 

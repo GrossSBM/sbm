@@ -181,7 +181,6 @@ MultiplexSBM_fit <-
           private$BMobject <- do.call(paste0("BM_", model_type), args)
           ## performing estimation
           private$BMobject$estimate()
-          print(private$BMobject)
           ## Exporting blockmodels output to simpleSBM_fit fields
           if (type=="simple") private$import_from_BM_Simple() else private$import_from_BM_Bipartite()
 

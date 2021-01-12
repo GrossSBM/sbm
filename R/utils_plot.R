@@ -5,9 +5,6 @@ myRepeat <- function(v,Qrow,Qcol){c(rep(v[1],Qrow),rep(v[2],Qcol))}
 #----------------------------------------------------------------------------------
 plotMatrix = function(Mat, dimLabels, clustering = NULL,plotOptions = list()){
 
-
-
-
   currentOptions = list(line.color  = 'red',legend = FALSE,rowNames = FALSE, colNames = FALSE,title=NULL)
 
   currentOptions$legend.title = FALSE

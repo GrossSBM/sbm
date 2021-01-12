@@ -48,8 +48,9 @@ SimpleSBM_fit <-
       #'  \item{"nbBlocksRange"}{minimal and maximal number or blocks explored}
       #'  \item{"fast"}{logical: should approximation be used for Bernoulli model with covariates. Default to \code{TRUE}}
       #' }
-
       optimize = function(estimOptions = list()){
+
+        if(private$model == 'ZIgaussian') stop("Inference not yet implemented for ZI gaussian network")
 
         currentOptions <- list(
           verbosity     = 3,
@@ -70,9 +71,8 @@ SimpleSBM_fit <-
           ncores             = currentOptions$nbCores,
           exploration_factor = currentOptions$explorFactor
          )
-        fast  = currentOptions$fast
+        fast <- currentOptions$fast
 
-        if(private$model == 'ZIgaussian') stop("Inference not  yet  implemented for  ZI gaussian network")
         ## generating arguments for blockmodels call
         args <- list(membership_type =  ifelse(!private$directed_, "SBM_sym", "SBM"), adj = .na2zero(private$Y))
         if (self$nbCovariates > 0) args$covariates <- private$X
@@ -94,21 +94,21 @@ SimpleSBM_fit <-
       #--------------------------------------------
       #' @description prediction under the currently parameters
       #' @param covarList a list of covariates. By default, we use the covariates with which the model was estimated
+      #' @param theta_p0 a threshold...
       #' @return a matrix of expected values for each dyad
-      predict = function(covarList = self$covarList) {
-        mu <- predict_sbm(self$nbNodes,
-                          self$nbCovariates,
-                          private$link,
-                          private$invlink,
-                          private$tau,
-                          private$theta$mean,
-                          self$covarEffect,
-                          covarList)
+      predict = function(covarList = self$covarList, theta_p0 = 0) {
+        stopifnot(is.list(covarList), self$nbCovariates == length(covarList))
+        mu <- private$tau %*% ( ((1-theta_p0)>0.5) * private$theta$mean ) %*% t(private$tau)
+        if (self$nbCovariates > 0) {
+          stopifnot(all(sapply(covarList, nrow) == self$nbNodes,
+                        sapply(covarList, ncol) == self$nbNodes))
+          mu <- private$invlink(private$link(mu) + self$covarEffect)
+        }
         mu
       },
       #' @description permute group labels by order of decreasing probability
       reorder = function(){
-        o <- order_sbm(private$theta$mean,private$pi)
+        o <- order(private$theta$mean %*% private$pi, decreasing = TRUE)
         private$pi <- private$pi[o]
         private$theta$mean <- private$theta$mean[o,o]
         private$tau <- private$tau[, o, drop = FALSE]

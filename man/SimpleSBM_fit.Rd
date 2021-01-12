@@ -125,13 +125,15 @@ function to perform optimization
 \subsection{Method \code{predict()}}{
 prediction under the currently parameters
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{SimpleSBM_fit$predict(covarList = self$covarList)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{SimpleSBM_fit$predict(covarList = self$covarList, theta_p0 = 0)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{covarList}}{a list of covariates. By default, we use the covariates with which the model was estimated}
+
+\item{\code{theta_p0}}{a threshold...}
 }
 \if{html}{\out{</div>}}
 }
