@@ -35,6 +35,8 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 
 \item{\code{memberships}}{vector of clustering}
 
+\item{\code{blockProp}}{vector of block proportions (aka prior probabilities of each block)}
+
 \item{\code{probMemberships}}{matrix of estimated probabilities for block memberships for all nodes}
 
 \item{\code{nbConnectParam}}{number of parameter used for the connectivity}
@@ -66,7 +68,6 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="plot">}\href{../../sbm/html/SBM.html#method-plot}{\code{sbm::SBM$plot()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="print">}\href{../../sbm/html/SBM.html#method-print}{\code{sbm::SBM$print()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM_fit" data-id="setModel">}\href{../../sbm/html/SBM_fit.html#method-setModel}{\code{sbm::SBM_fit$setModel()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM_fit" data-id="update">}\href{../../sbm/html/SBM_fit.html#method-update}{\code{sbm::SBM_fit$update()}}\out{</span>}
 }
 \out{</details>}
 }

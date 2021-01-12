@@ -18,8 +18,6 @@ R6 virtual class for Multipartite SBM representation
 
 \item{\code{architecture}}{organization of the multipartite network}
 
-\item{\code{archiMultipartite}}{organization of the multipartite network}
-
 \item{\code{nbNetworks}}{number of networks in the multipartite network}
 
 \item{\code{directed}}{vector of boolean}
