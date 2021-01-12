@@ -442,3 +442,19 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, no covariate", {
   expect_lt(1 - aricode::ARI(mySBM$memberships, mySampler$memberships), 1e-1)
 
 })
+
+test_that("active binding are working in the class", {
+
+  A <- matrix(rbinom(100,1,.2),10,10)
+
+  mySimple <- SimpleSBM_fit$new(adjacencyMatrix = A,model = "bernoulli",directed = TRUE,dimLabels = list("Actor","Actor"))
+  p <- runif(10)
+  mySimple$probMemberships <- matrix(c(p,1-p),10,2,byrow=FALSE)
+  mySimple$blockProp <- c(.3,.7)
+  mySimple$connectParam <- list(mean = matrix(runif(4),2,2))
+  expect_equal(mySimple$memberships, 1+(p<.5)*1)
+  expect_equal(dim(mySimple$connectParam$mean),c(2,2))
+  expect_equal(length(mySimple$blockProp),2)
+
+})
+

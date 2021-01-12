@@ -129,6 +129,24 @@ SimpleSBM_fit <-
       nbDyads     = function(value) {ifelse(private$directed_, self$nbNodes*(self$nbNodes - 1), self$nbNodes*(self$nbNodes - 1)/2)},
       #' @field memberships vector of clustering
       memberships = function(value) {as_clustering(private$tau)},
+      #' @field blockProp vector of block proportions (aka prior probabilities of each block)
+      blockProp   = function(value) {
+        if (missing(value))
+          return(private$pi)
+        else {
+          stopifnot(is.numeric(value))
+          private$pi <- value
+        }
+      },
+      #' @field probMemberships  matrix of estimated probabilities for block memberships for all nodes
+      probMemberships = function(value) {
+        if (missing(value))
+          return(private$tau)
+        else {
+          stopifnot(nrow(value)==private$dim[1])
+          private$tau <- value
+        }
+      },
       #' @field nbConnectParam number of parameter used for the connectivity
       nbConnectParam = function(value) {ifelse(private$directed_, self$nbBlocks^2, self$nbBlocks*(self$nbBlocks + 1)/2)},
       #' @field directed is the network directed or not

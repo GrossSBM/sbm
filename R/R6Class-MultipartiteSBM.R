@@ -73,7 +73,7 @@ MultipartiteSBM <-
         switch(match.arg(type),
           "meso" =
             plotMesoMultipartite(
-              private$arch, private$theta, private$pi, private$model,
+              private$arch, self$connectParam, private$pi, private$model,
               private$directed_, private$dim, private$dimlab, plotOptions
             ),
           "data" =
@@ -96,8 +96,6 @@ MultipartiteSBM <-
       modelName    = function(value) {private$model},
       #' @field architecture organization of the multipartite network
       architecture = function(value) {private$arch},
-      #' @field archiMultipartite organization of the multipartite network
-      archiMultipartite = function(value) {private$arch},
       #' @field nbNetworks number of networks in the multipartite network
       nbNetworks = function(value) {length(private$directed_)},
       #' @field directed vector of boolean

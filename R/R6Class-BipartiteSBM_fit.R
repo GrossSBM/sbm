@@ -124,6 +124,26 @@ BipartiteSBM_fit <-
       nbConnectParam = function(value) {self$nbBlocks[1]*self$nbBlocks[2]},
       #' @field memberships list of size 2: vector of memberships in row, in column.
       memberships = function(value) {lapply(private$tau, as_clustering)},
+      #' @field blockProp list of block proportions (aka prior probabilities of each block)
+      blockProp   = function(value) {
+        if (missing(value))
+          return(private$pi)
+        else {
+          stopifnot(is.list(value), length(value) == 2)
+          private$pi <- value
+        }
+      },
+      #' @field probMemberships list of 2 matrices of estimated probabilities for block memberships for all nodes
+      probMemberships = function(value) {
+        if (missing(value))
+          return(private$tau)
+        else {
+          stopifnot(is.list(value))
+          stopifnot(nrow(value[[1]]) == private$dim[1])
+          stopifnot(nrow(value[[2]]) == private$dim[2])
+          private$tau <- value
+        }
+      },
       #' @field penalty double, value of the penalty term in ICL
       penalty  = function(value) {(self$nbConnectParam + self$nbCovariates) * log(self$nbDyads) + (self$nbBlocks[1]-1) * log(self$nbNodes[1]) + (self$nbBlocks[2]-1) * log(self$nbNodes[2])},
       #' @field entropy double, value of the entropy due to the clustering distribution
@@ -143,7 +163,6 @@ BipartiteSBM_fit <-
           loglik    = private$BMobject$PL
         )
         U[!is.na(U$nbParams), , drop = FALSE]
-
       }
     )
   )

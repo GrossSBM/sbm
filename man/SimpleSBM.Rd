@@ -14,8 +14,6 @@ R6 virtual class for SBM representation (mother class of Simple and Bipartite SB
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{varProb}}{variational probabilities of nodes being in a block}
-
 \item{\code{memberships}}{vector of clustering}
 
 \item{\code{directed}}{is the network directed or not}

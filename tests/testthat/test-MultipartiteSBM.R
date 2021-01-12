@@ -39,13 +39,11 @@ test_that("initializing Multipartite SBM works", {
   expect_equal(coef(myMBM, 'connectivity'), myMBM$connectParam)
   expect_equal(coef(myMBM, 'block')       , myMBM$blockProp)
 
-
   ## Estimation-----------------------------------------------------------------
   estimOptions = list(initBM = FALSE,verbosity = 0,nbCores = 2)
   myMBM$optimize(estimOptions)
 
   ## Field set after optimization
-
   expect_equal(length(myMBM$networkList[[1]]$memberships), npc*Q)
   expect_equal(is.list(myMBM$networkList[[2]]$memberships),TRUE)
   expect_equal(length(myMBM$networkList[[1]]$blockProp),
@@ -58,12 +56,15 @@ test_that("initializing Multipartite SBM works", {
                nrow(myMBM$networkList[[1]]$connectParam$mean))
 
   muAS <- myMBM$networkList[[2]]$connectParam$mean
-  expect_equal(ifelse(is.matrix(muAS), ncol(muAS), length(muAS)),
+  expect_equal(ifelse(is.matrix(muAS), nrow(muAS), length(muAS)),
                nrow(myMBM$networkList[[1]]$connectParam$mean))
   expect_equal(lengths(myMBM$blockProp), myMBM$nbBlocks)
   expect_equal(length(myMBM$blockProp), myMBM$nbLabels)
   expect_equal(length(myMBM$connectParam), myMBM$nbNetworks)
   expect_equal(lengths(myMBM$memberships), myMBM$nbNodes)
+  expect_lt(myMBM$loglik, 0)
+  expect_lt(myMBM$ICL, 0)
+  expect_lt(myMBM$ICL, myMBM$loglik)
 
   # S3 methods
   expect_silent(plot(myMBM, type = "data"))

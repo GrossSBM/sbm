@@ -25,9 +25,9 @@ defineSBM = function(netMat,
 
 ### we use virtual classes here, since optim is done via multipartite network
   if (type == "simple")
-    mySBM <- SimpleSBM$new(netMat, model, directed, dimLabels, covariates)
+    mySBM <- SimpleSBM_fit$new(netMat, model, directed, dimLabels, covariates)
   else
-    mySBM <- BipartiteSBM$new(netMat, model, dimLabels, covariates)
+    mySBM <- BipartiteSBM_fit$new(netMat, model, dimLabels, covariates)
 
   mySBM
   }

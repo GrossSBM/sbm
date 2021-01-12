@@ -54,15 +54,10 @@ SimpleSBM <- # this class inherit from SBM and allow to use multipartite as a li
 
     ),
     active = list(
-      #' @field varProb variational probabilities of nodes being in a block
-      varProb = function(value) {if (missing(value)) return(private$tau) else {stopifnot(nrow(value)==private$dim[1])
-        private$tau <- value}},
       #' @field memberships vector of clustering
       memberships = function(value) {as_clustering(private$tau)},
       #' @field directed is the network directed or not
       directed = function(value) {private$directed_}
     )
   )
-
-
 
