@@ -59,7 +59,7 @@ constructor for SBM
   nbNodes,
   blockProp,
   connectParam,
-  dimLabels = list(row = "rowLabel", col = "colLabel"),
+  dimLabels = list(row = "row", col = "col"),
   covarParam = numeric(0),
   covarList = list()
 )}\if{html}{\out{</div>}}

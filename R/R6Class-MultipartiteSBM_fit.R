@@ -10,81 +10,92 @@ MultipartiteSBM_fit <-
     inherit = MultipartiteSBM,
     # fields for internal use (referring to the mathematical notation)
     private = list(
-      GREMLINSobject       = NULL,
+       J = NULL,
+       vICL = NULL,
+       tau            = NULL, # variational parameters for posterior probability of class belonging
+       GREMLINSobject = NULL,
 
       #------------ function to convert GREMLINS result into a sbm object result
       import_from_GREMLINS = function(index = 1) {
 
-        GREMLINSfit <- private$GREMLINSobject$fittedModel[[index]]
-        list_pi <- lapply(private$namesFG,function(n_){GREMLINSfit$paramEstim$list_pi[[n_]]})
-        list_tau <- lapply(private$namesFG,function(n_){GREMLINSfit$paramEstim$tau[[n_]]})
-        list_theta <-lapply(1:private$nbNet, function(s_){
-          GREMLINSfit$paramEstim$list_theta[[paste(private$namesFG[private$E[s_,1]],private$namesFG[private$E[s_,2]],sep='')]]
-        })
-        #-----------------------------------------------------
-        list_theta_mean <- lapply(1:private$nbNet,function(s_){
-          if(private$distrib[s_] %in% c('ZIgaussian','gaussian')){u = list_theta[[s_]]$mean}else{u = list_theta[[s_]]}
-          u})
+        fit <- private$GREMLINSobject$fittedModel[[index]]
+        private$J    <- last(fit$vJ)
+        private$vICL <- last(fit$ICL)
 
-        ordAll <- order_mbm(list_theta_mean,list_pi,private$E)
+        ## extract pi, theta, tau
+        list_pi    <- fit$paramEstim$list_pi[private$dimlab]
+        list_theta <- fit$paramEstim$list_theta[paste0(private$dimlab[private$arch[,1]],
+                                            private$dimlab[private$arch[ ,2]])]
+        list_tau   <- fit$paramEstim$tau[private$dimlab]
+        list_theta_mean <- map_if(list_theta, is.list, "mean", ~.x)
+
         #----------------------------------------------------------
-        listtau <- lapply(1:private$nbFG, FUN = function(s){list_tau[[s]][,ordAll[[s]]]})
-        listpi <-  lapply(1:private$nbFG, FUN = function(s){list_pi[[s]][ordAll[[s]]]})
-        names(listpi)<- names(listtau)<- private$namesFG
+        ## Reordering
+        ordAll <- order_mbm(list_theta_mean, list_pi, private$arch)
+        list_tau <- map2(list_tau, ordAll, ~.x[, .y, drop = FALSE])
+        list_pi  <- map2(list_pi, ordAll, ~.x[.y])
 
-        lapply(private$listNet, function(net) {
-          if (substr(class(net)[1], 1, 6) == "Simple") {
-            Lab <- net$dimLabels[[1]]
-            net$varProb <- listtau[[Lab]]
-            net$blockProp <- listpi[[Lab]]
-          }
-          else {
-            rowLab <- net$dimLabels[[1]]
-            colLab <- net$dimLabels[[2]]
-            net$varProb <-
-              list(listtau[[rowLab]], listtau[[colLab]])
-            net$blockProp <-
-              list(listpi[[rowLab]], listpi[[colLab]])
-          }
-        })
+        for (s_ in 1:self$nbNetworks){
+          o_row <- ordAll[[private$arch[s_, 1]]]
+          o_col <- ordAll[[private$arch[s_, 2]]]
 
-        #print(private$nbNet)
-        private$theta = list()
-        for (s_ in 1:private$nbNet){
-          o_row <- ordAll[[private$E[s_,1]]]
-          o_col <- ordAll[[private$E[s_,2]]]
-          l_s <- list(mean  =  list_theta_mean[[s_]][o_row ,o_col])
-          if (private$distrib[s_] %in% c('gaussian','ZIgaussian')){
+          l_s <- list(mean  =  list_theta_mean[[s_]][o_row , o_col, drop = FALSE])
+          if (private$model[s_] %in% c('gaussian','ZIgaussian')) {
             var_s <- list_theta[[s_]]$var
             if (is.matrix(var_s)){var_s  = var_s[o_row,o_col]}
             l_s$var <- var_s
           }
-          if (private$distrib[s_] == 'ZIgaussian'){
+          if (private$model[s_] == 'ZIgaussian'){
             p0_s <- list_theta[[s_]]$p0
             if (is.matrix(p0_s)){p0_s  = p0_s[o_row,o_col]}
             l_s$p0 <- p0_s
           }
-
-
-          private$theta[[s_]]=l_s
-          private$listNet[[s_]]$connectParam = l_s
+          private$netList[[s_]]$connectParam <- l_s
         }
+        private$theta <- map(private$netList, "connectParam")
 
-        private$tau = listtau
+        lapply(private$netList, function(net) {
+          if (inherits(net, "SimpleSBM_fit")) {
+            Lab <- net$dimLabels[[1]]
+            net$probMemberships <- list_tau[[Lab]]
+            net$blockProp       <- list_pi[[Lab]]
+          }
+          if (inherits(net, "BipartiteSBM_fit")) {
+            rowLab <- net$dimLabels[[1]]
+            colLab <- net$dimLabels[[2]]
+            net$probMemberships <-
+              list(list_tau[[rowLab]], list_tau[[colLab]])
+            net$blockProp <-
+              list(list_pi[[rowLab]], list_pi[[colLab]])
+          }
+        })
+        private$tau <- list_tau
+        private$pi  <- list_pi
 
-        private$allZ = lapply(1:length(listtau),function(l){
-          if(!is.matrix(listtau[[l]])){listtau[[l]] = matrix(listtau[[l]],ncol=1)}
-          u <- apply(listtau[[l]],1,which.max)
-          u})
-        private$pi  = listpi
       }
     ),
     #-----------------------------------------------
     public = list(
       #' @description constructor for Multipartite SBM
-      #' @param listSBM list of SBM object with
-      initialize = function(listSBM) {
-        super$initialize(listSBM)
+      #' @param netList list of SBM objects
+      initialize = function(netList) {
+
+        directed  <- map(netList, "directed") %>% map_lgl(~ifelse(is.null(.x), NA, .x))
+        dimension <- netList %>% map("dimension") %>% unlist() %>% unique()
+        dimLabels <- netList %>% map("dimLabels") %>% unlist() %>% unique()
+        arch      <- netList %>% map_df("dimLabels") %>%
+           map(factor, levels = dimLabels) %>% map_df(as.numeric) %>% as.matrix()
+
+        super$initialize(model        = map_chr(netList, "modelName"),
+                         architecture = arch,
+                         directed     = directed,
+                         dimension    = dimension,
+                         dimLabels    = dimLabels,
+                         blockProp    = map(netList, "blockProp"),
+                         connectParam = map(netList, "connectParam"))
+
+        private$netList <- netList
+
       },
       #' @description estimation of multipartiteSBM via GREMLINS
       #' @param estimOptions options for MultipartiteBM
@@ -101,22 +112,21 @@ MultipartiteSBM_fit <-
 
         currentOptions <- list(
           verbosity     = 1,
-          nbBlocksRange = lapply(1:private$nbFG,function(l){c(1,10)}),
+          nbBlocksRange = lapply(1:self$nbLabels,function(l){c(1,10)}),
           nbCores       = 2,
           maxiterVE     = 100,
           maxiterVEM    = 100,
           initBM = TRUE
         )
-        names(currentOptions$nbBlocksRange) <- private$namesFG
+        names(currentOptions$nbBlocksRange) <- private$dimlab
         ## Current options are default expect for those passed by the user
         currentOptions[names(estimOptions)] <- estimOptions
 
-
-
         # ----- formatting data for using GREMLINS
-        listNetG <- lapply(private$listNet, function(net) {
+        listNetG <- lapply(private$netList, function(net) {
+          ## TODO: use inherits
           if (substr(class(net)[1], 1, 6) == "Simple") {
-            ifelse(net$directed, type <- "diradj", type <- "adj")
+            type <- ifelse(net$directed, "diradj", "adj")
           }
           else {
             type <-  "inc"
@@ -128,9 +138,9 @@ MultipartiteSBM_fit <-
         })
 
 
-        vdistrib <- private$distrib
-        v_Kmin  <- sapply(1:private$nbFG, function(k){currentOptions$nbBlocksRange[[k]][1]})
-        v_Kmax  <- sapply(1:private$nbFG, function(k){currentOptions$nbBlocksRange[[k]][2]})
+        vdistrib <- private$model
+        v_Kmin  <- sapply(1:self$nbLabels, function(k){currentOptions$nbBlocksRange[[k]][1]})
+        v_Kmax  <- sapply(1:self$nbLabels, function(k){currentOptions$nbBlocksRange[[k]][2]})
         verbose <- (currentOptions$verbosity > 0)
         nbCores <- currentOptions$nbCores
         maxiterVE <- currentOptions$maxiterVE
@@ -167,17 +177,9 @@ MultipartiteSBM_fit <-
           private$import_from_GREMLINS()
         }
       },
-      #' @description getBM returns a given network from a Multipartite SBM
-      #' @param i index of the asked network
-      getBM = function(i) {
-        private$listNet[[i]]
-      },
       #' @description prediction under the currently estimated model
-      #' @param covarList a list of covariates. By default, we use the covariates with which the model was estimated
       #' @return a list of matrices matrix of expected values for each dyad
-      predict = function() {
-        lapply(1:private$nbNet,function(l){BMl <- self$getBM(l); BMl$predict()})
-      },
+      predict = function() {map(private$netList, predict)},
       #' @description method to select a specific model among the ones fitted during the optimization.
       #'  Fields of the current MultipartiteSBM_fit will be updated accordingly.
       #' @param index integer, the index of the model to be selected (row number in storedModels)
@@ -189,63 +191,46 @@ MultipartiteSBM_fit <-
       #' @description print method
       #' @param type character to tune the displayed name
       show = function(type = "Fit of a Multipartite Stochastic Block Model"){
-        cat(type, "\n")
-        cat(self$nbLabels, "functional groups (", self$dimLabels, "), ", self$nbNetworks, "networks\n")
-        cat("=====================================================================\n")
-        cat("nbNodes per FG = (", self$nbNodes, ") --  nbBlocks per FG = (",self$nbBlocks, ")\n")
-        cat("distributions on each network =(", self$modelName ,")\n")
-        cat("=====================================================================\n")
-        cat("* Useful fields \n")
-        cat(" $nbNetwork, $nbNodes, $nbBlocks, $dimLabels, $archiMultipartite \n")
-        cat(" $modelName, $blockProp, $connectParam, $memberships, $probMemberships\n")
-        cat("* Useful functions \n")
-        cat("$plot, $optimize, $predict, $setModel, $getBM, $storedModels \n")
-      },
-      #' @description print method
-      print = function() self$show()
+        super$show(type)
+        cat("  $probMemberships, \n")
+        cat("* S3 methods \n")
+        cat("  plot, print, coef, predict \n")
+      }
   ),
   #-----------------------------------------------
-  active=list(
+  active = list(
+    #' @field loglik double: approximation of the log-likelihood (variational lower bound) reached
+    loglik = function(value) {private$J    },
+    #' @field ICL double: value of the integrated classification log-likelihood
+    ICL    = function(value) {private$vICL },
     #' @field memberships a list with the memberships in all the functional groups
-    memberships = function(value) {
-      if (missing(value)){
-        M <- private$allZ
-        names(M) <- private$namesFG
-        return(M)}  else {private$allZ <- value}},
-    #' @field probMemberships  or list of nbFG matrices for of estimated probabilities for block memberships for all nodes
-    probMemberships = function(value) {private$tau  },
+    memberships = function(value) {if(!is.null(private$tau)) setNames(lapply(private$tau, as_clustering), private$dimlab)},
+    #' @field probMemberships or list of nbFG matrices for of estimated probabilities for block memberships for all nodes
+    probMemberships = function(value) {
+      if (missing(value)) {
+        return(private$tau)
+      } else {
+        private$tau <- value
+      }
+    },
     #' @field nbBlocks : vector with the number of blocks in each FG
-    nbBlocks = function(value) {
-      r<- sapply(private$allZ, function(z){length(unique(z))})
-      names(r) <- private$namesFG
-      return(r)},
+    nbBlocks = function(value) {if(!is.null(private$tau)) setNames(sapply(private$tau, ncol), private$dimlab)},
     #' @field storedModels data.frame of all models fitted (and stored) during the optimization
     storedModels = function(value) {
       GO <- private$GREMLINSobject
       nbModels <- length(GO$fittedModel)
       Blocks <- as.data.frame(t(sapply(GO$fittedModel, function(m) m$paramEstim$v_K)))
-      colnames(Blocks) <- paste('nbBlocks',private$namesFG)
-      nbConnectParam <-sapply(GO$fittedModel, function(m){
-        E <- private$E;
-        distrib <- private$distrib
-        directed <- private$directed_
-        r <- computeNbConnectParams_MBM(m$paramEstim$v_K,distrib,E,directed)
-        r})
+      colnames(Blocks) <- paste('nbBlocks',private$dimlab)
+      nbConnectParam <- sapply(GO$fittedModel, function(m){
+        computeNbConnectParams_MBM(m$paramEstim$v_K, private$model, private$arch, private$directed_)
+      })
       nbParams  <- nbConnectParam + rowSums(Blocks) - ncol(Blocks)
       indexModel <- 1:nbModels
       U <- cbind(indexModel,nbParams, Blocks)
       U$nbBlocks <-rowSums(Blocks)
       U$ICL <- sapply(GO$fittedModel, function(m) m$ICL)
       U$loglik  <- sapply(GO$fittedModel,function(m){len <- length(m$vJ); m$vJ[len]})
-      return(U)
-    },
-    #' @field blockProp : block proportions in each function group
-    blockProp = function(value) {private$pi},
-    #' @field connectParam : connection parameters in each network
-    connectParam = function(value) {private$theta}
+      U
+    }
   )
-  )
-
-
-
-
+)

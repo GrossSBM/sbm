@@ -27,13 +27,8 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       #' @param connectParam list of parameters for connectivity
       #' @param covarParam optional vector of covariates effect
       #' @param covarList optional list of covariates data
-      initialize = function(model='', dimension=numeric(2), dimLabels=vector("list",2), blockProp=numeric(0), connectParam=list(mean = matrix()), covarParam=numeric(length(covarList)), covarList=list()) {
+      initialize = function(model='', dimension=numeric(2), dimLabels=list(row = NULL, col = NULL), blockProp=numeric(0), connectParam=list(mean = matrix()), covarParam=numeric(length(covarList)), covarList=list()) {
 
-        if (is.atomic(dimLabels)) {dimLabels <- as.list(dimLabels)}
-        if ((length(dimLabels) == 1) & (length(blockProp) == 1)){
-          dimLabels = list(dimLabels,dimLabels)
-        }
-        if (is.null(names(dimLabels))) {names(dimLabels) = c('row','col')}
         ## SANITY CHECK
         stopifnot(is.character(model))
         stopifnot(model %in% available_models_edges)
@@ -45,25 +40,24 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
         stopifnot(all(sapply(covarList, ncol) == dimension[2]))
 
         ## MODEL & PARAMETERS
-        private$model   <- model
-        private$dim     <- dimension
-        private$dimlab  <- dimLabels
-        names(private$dimlab) <- c('row','col') # names of dimlab
-        private$X       <- covarList
-        private$pi      <- blockProp
-        private$theta   <- connectParam
-        private$beta    <- covarParam
-        private$link    <- switch(model,
-                "gaussian"  = function(x) {x},
-                "ZIgaussian"  = function(x) {x},
-                "poisson"   = function(x) {log(x)},
-                "bernoulli" = function(x) {.logit(x)},
+        private$model  <- model
+        private$dim    <- dimension
+        private$dimlab <- dimLabels
+        private$X      <- covarList
+        private$pi     <- blockProp
+        private$theta  <- connectParam
+        private$beta   <- covarParam
+        private$link   <- switch(model,
+                "gaussian"   = function(x) {x},
+                "ZIgaussian" = function(x) {x},
+                "poisson"    = function(x) {log(x)},
+                "bernoulli"  = function(x) {.logit(x)},
                 )
-        private$invlink  <- switch(model,
-                "gaussian"  = function(x) {x},
-                "ZIgaussian"  = function(x) {x},
-                "poisson"   = function(x) {exp(x)},
-                "bernoulli" = function(x) {.logistic(x)},
+        private$invlink <- switch(model,
+                "gaussian"   = function(x) {x},
+                "ZIgaussian" = function(x) {x},
+                "poisson"    = function(x) {exp(x)},
+                "bernoulli"  = function(x) {.logistic(x)},
                 )
       },
       #' @description basic matrix plot method for SBM object or mesoscopic plot
@@ -108,14 +102,11 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       #' @return a ggplot2 object for the \code{'data'} and \code{'expected'}, a list with the igraph object \code{g}, the \code{layout} and the \code{plotOptions} for the \code{'meso'}
       #' @import ggplot2
       plot = function(type = c('data','expected','meso'), ordered = TRUE, plotOptions = list()) {
-        if (length(type) > 1) {type = 'data'}
 
         type <- match.arg(type)
         bipartite <- ifelse(is.list(self$memberships), TRUE, FALSE)
 
-        if ( length(self$memberships)==0){ordered = FALSE; type='data'}
-
-
+        if (is.null(self$memberships)) {ordered = FALSE; type='data'}
 
         if (type == 'meso'){
           P <- plotMeso(thetaMean  = private$theta$mean,
@@ -133,15 +124,14 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
 
             if (ordered) {
               if (bipartite) {
-                cl <-  self$memberships
-                names(cl) = c('row', 'col')
+                cl <-  setNames(self$memberships, c('row', 'col'))
               } else {
                 cl <- list(row = self$memberships)
               }
             }
-          P <- plotMatrix(Mat = Mat, dimLabels = self$dimLabels, clustering = cl,plotOptions = plotOptions)
+          P <- plotMatrix(Mat = Mat, dimLabels = private$dimlab, clustering = cl,plotOptions = plotOptions)
         }
-        return(P)
+        P
         },
       #' @description print method
       #' @param type character to tune the displayed name
@@ -165,32 +155,42 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       dimension    = function(value) {private$dim},
       #' @field modelName character, the family of model for the distribution of the edges
       modelName    = function(value) {private$model},
-      #' @field dimLabels vector of characters, the label of each dimension
-      dimLabels    = function(value) {private$dimlab},
+      #' @field dimLabels vector or list of characters, the label of each dimension
+      dimLabels    = function(value) {
+        if (missing(value))
+          return(private$dimlab)
+        else {
+          if(length(value) == 1){value = rep(value,2)}
+          if(is.atomic(value)){value <- as.list(value)}
+          if(is.null(names(value))){names(value)  = c('row','col')}
+          if(all(names(value)==c('col','row'))){value <- list(row = value[[2]],col = value[[1]])}
+          if(any(names(value) != c('row','col'))){names(value) = c('row','col')}
+          private$dimlab <- value
+        }
+      },
       #' @field nbCovariates integer, the number of covariates
       nbCovariates = function(value) {length(private$X)},
-      #' @field blockProp vector of block proportions (aka prior probabilities of each block)
-      blockProp   = function(value) {if (missing(value)) return(private$pi) else private$pi <- value},
-      #' @field nbBlocks vector of number of blocks in each dimension
-      nbBlocks   = function(value) {
-        if (is.list(private$pi)){
-          r <- sapply(private$pi,length)
-        }else{
-            r =length(private$pi)
-        }
-        return(r)},
+      #' @field blockProp block proportions (aka prior probabilities of each block)
+      blockProp   = function(value) {return(private$pi)},
       #' @field connectParam parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli
-      connectParam = function(value) {if (missing(value)) return(private$theta) else private$theta <- value},
+      connectParam = function(value) {
+        if (missing(value) )
+            return(private$theta)
+        else {
+          stopifnot(is.list(value), is.matrix(value$mean))
+          private$theta <- value
+        }
+      },
       #' @field covarParam vector of regression parameters associated with the covariates.
-      covarParam   = function(value) {if (missing(value)) return(private$beta) else private$beta <- value},
+      covarParam   = function(value) {return(private$beta)},
       #' @field covarList list of matrices of covariates
-      covarList    = function(value) {if (missing(value)) return(private$X) else private$X <- value},
+      covarList    = function(value) {return(private$X)},
       #' @field covarArray the array of covariates
       covarArray   = function(value) {if (self$nbCovariates > 0) simplify2array(private$X) else return(array())},
       #' @field covarEffect effect of covariates
       covarEffect  = function(value) {if (self$nbCovariates > 0) return(roundProduct(private$X, private$beta)) else return(numeric(0))},
       #' @field netMatrix the matrix (adjacency or incidence) encoding the network
-      netMatrix    = function(value) {if (missing(value)) return(private$Y) else private$Y <- value},
+      netMatrix    = function(value) {return(private$Y)},
       #' @field expectation expected values of connection under the currently adjusted model
       expectation = function() {self$predict()}
     )
@@ -233,13 +233,14 @@ coef.SBM <- function(object, type = c( 'connectivity', 'block', 'covariates'), .
 #'
 #' @param object an R6 object inheriting from class SBM_fit (like SimpleSBM_fit or BipartiteSBM_fit)
 #' @param covarList a list of covariates. By default, we use the covariates associated with the model.
+#' @param theta_p0 a threshold...
 #' @param ... additional parameters for S3 compatibility. Not used
 #' @return a matrix of expected values for each dyad
 #' @importFrom stats predict
 #' @export
-predict.SBM <- function(object, covarList = object$covarList, ...) {
+predict.SBM <- function(object, covarList = object$covarList, theta_p0 = 0, ...) {
   stopifnot(is_SBM(object))
-  object$predict(covarList)
+  object$predict(covarList, theta_p0)
 }
 
 #' SBM Plot
@@ -290,13 +291,12 @@ predict.SBM <- function(object, covarList = object$covarList, ...) {
 #' @export
 plot.SBM = function(x, type = c('data', 'expected', 'meso'), ordered = TRUE, plotOptions = list(), ...){
 
-  if (length(type)>1){type = 'data'}
-  if (type=='meso'){
+  stopifnot(is_SBM(x))
+  type <- match.arg(type)
+  if (type == 'meso'){
     invisible(x$plot(type, ordered, plotOptions))
-  }else{
+  } else {
     x$plot(type, ordered, plotOptions)
   }
 }
-
-
 

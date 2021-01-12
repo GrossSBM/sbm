@@ -4,12 +4,14 @@
 \alias{predict.SBM}
 \title{Model Predictions}
 \usage{
-\method{predict}{SBM}(object, covarList = object$covarList, ...)
+\method{predict}{SBM}(object, covarList = object$covarList, theta_p0 = 0, ...)
 }
 \arguments{
 \item{object}{an R6 object inheriting from class SBM_fit (like SimpleSBM_fit or BipartiteSBM_fit)}
 
 \item{covarList}{a list of covariates. By default, we use the covariates associated with the model.}
+
+\item{theta_p0}{a threshold...}
 
 \item{...}{additional parameters for S3 compatibility. Not used}
 }

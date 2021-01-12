@@ -62,7 +62,7 @@ constructor for SBM
   directed,
   blockProp,
   connectParam,
-  dimLabels = list(row = "rowLabel", col = "colLabel"),
+  dimLabels = list(row = "node", col = "node"),
   covarParam = numeric(0),
   covarList = list()
 )}\if{html}{\out{</div>}}

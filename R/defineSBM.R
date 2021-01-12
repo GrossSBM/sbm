@@ -5,26 +5,29 @@
 #' @param dimLabels an optional list of labels for each dimension (in row, in column)
 #' @return an object SimpleSBM or BipartiteSBM with the informations required to define a future multipartite network
 #' @examples
-#' A <- matrix(rbinom(100,1,.2),10,10)
-#' type <- "simple"
-#' myNet <- defineSBM(A,"poisson",type,directed=TRUE,dimLabels=list("Actor","Actor"))
+#' A <- matrix(rbinom(100,1,.2), 10, 10)
+#' myNet <- defineSBM(A, "poisson", "simple", TRUE, list("Actor", "Actor"))
 #' @export
 defineSBM = function(netMat,
-                         model        = 'bernoulli',
-                         type,
-                         directed     = !isSymmetric(netMat),
-                         dimLabels    = list(row = "rowLabel", col = "colLabel"),
-                         covariates   = list())
+                     model      = 'bernoulli',
+                     type       = ifelse(ncol(netMat) == nrow(netMat), "simple", "bipartite"),
+                     directed   = !isSymmetric(netMat),
+                     dimLabels  = list(row = "row", col = "col"),
+                     covariates = list())
   {
-  if (!type %in% c("simple","bipartite")) {stop("not allowed type")}
 
-  #------------ add rownames and colnames if Needed
-  if(is.null(rownames(netMat))){rownames(netMat)<- 1:nrow(netMat)}
-  if(is.null(colnames(netMat))){colnames(netMat)<- 1:ncol(netMat)}
+  ## sanity check
+  if (!type %in% c("simple","bipartite")) {stop("type not allowed")}
 
-  if (type=="simple")
-    mySBM <- SimpleSBM$new(netMat, model, directed, dimLabels, covariates)
-   else {mySBM <- BipartiteSBM$new(netMat, model, dimLabels, covariates)} # SimpleSBM_autre (sampler ou nouveau ?)
+  #------------ add rownames and colnames if needed
+  if(is.null(rownames(netMat))) rownames(netMat) <- 1:nrow(netMat)
+  if(is.null(colnames(netMat))) colnames(netMat) <- 1:ncol(netMat)
+
+### we use virtual classes here, since optim is done via multipartite network
+  if (type == "simple")
+    mySBM <- SimpleSBM_fit$new(netMat, model, directed, dimLabels, covariates)
+  else
+    mySBM <- BipartiteSBM_fit$new(netMat, model, dimLabels, covariates)
 
   mySBM
   }

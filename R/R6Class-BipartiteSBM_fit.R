@@ -6,7 +6,8 @@
 #' @include R6Class-SBM_fit.R
 #' @export
 BipartiteSBM_fit <-
-  R6::R6Class(classname = "BipartiteSBM_fit",
+  R6::R6Class(
+    classname = "BipartiteSBM_fit",
     inherit = SBM_fit,
     private = list(
       import_from_BM  = function(index = which.max(private$BMobject$ICL)) {
@@ -24,7 +25,7 @@ BipartiteSBM_fit <-
       #' @param model character (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'})
       #' @param dimLabels labels of each dimension (in row, in columns)
       #' @param covarList and optional list of covariates, each of whom must have the same dimension as \code{incidenceMatrix}
-      initialize = function(incidenceMatrix, model, dimLabels=list(row="rowLabel", col="colLabel"), covarList=list()) {
+      initialize = function(incidenceMatrix, model, dimLabels=list(row="row", col="col"), covarList=list()) {
         ## INITIALIZE THE SBM OBJECT ACCORDING TO THE DATA
         super$initialize(incidenceMatrix, model, dimLabels, covarList)
 
@@ -86,32 +87,31 @@ BipartiteSBM_fit <-
       },
       #' @description prediction under the current parameters
       #' @param covarList a list of covariates. By default, we use the covariates with which the model was estimated.
-      predict = function(covarList = self$covarList) {
-        mu <- predict_lbm(self$dimension,
-                          self$nbCovariates,
-                          private$link,
-                          private$invlink,
-                          private$tau,
-                          private$theta$mean,
-                          self$covarEffect,
-                          covarList,
-                          private$theta$p0)
+      #' @param theta_p0 double for thresholding...
+      predict = function(covarList = self$covarList, theta_p0 = 0) {
+        stopifnot(!is.null(private$tau[[1]]),
+                  !is.null(private$tau[[2]]),
+                  !is.null(private$theta$mean))
+        stopifnot(is.list(covarList),  self$nbCovariates == length(covarList))
+
+        mu <- private$tau[[1]] %*% ( ((1-theta_p0)>0.5 ) * private$theta$mean )  %*% t(private$tau[[2]])
+        if (length(covarList) > 0) {
+          stopifnot(all(sapply(covarList, nrow) == self$dimension[1]),
+                    all(sapply(covarList, ncol) == self$dimension[2]))
+          mu <- private$invlink(private$link(mu) + self$covarEffect)
+        }
         mu
       },
       #' @description permute group labels by order of decreasing probability
       reorder = function() {
-        O <- order_lbm(private$theta$mean,private$pi)
-        oRow <-O$row
-        oCol <-O$col
+        oRow <- order(private$theta$mean %*% private$pi[[2]], decreasing = TRUE)
+        oCol <- order(private$pi[[1]] %*% private$theta$mean, decreasing = TRUE)
         private$pi[[1]] <- private$pi[[1]][oRow]
         private$pi[[2]] <- private$pi[[2]][oCol]
         private$theta$mean <- private$theta$mean[oRow, oCol]
         private$tau[[1]] <- private$tau[[1]][, oRow, drop = FALSE]
         private$tau[[2]] <- private$tau[[2]][, oCol, drop = FALSE]
-      },
-      #' @description show method
-      #' @param type character used to specify the type of SBM
-      show = function(type = "Fit of a Bipartite Stochastic Block Model") super$show(type)
+      }
     ),
     active = list(
       #' @field nbNodes vector of size 2: number of nodes (rows, columns)
@@ -124,6 +124,26 @@ BipartiteSBM_fit <-
       nbConnectParam = function(value) {self$nbBlocks[1]*self$nbBlocks[2]},
       #' @field memberships list of size 2: vector of memberships in row, in column.
       memberships = function(value) {lapply(private$tau, as_clustering)},
+      #' @field blockProp list of block proportions (aka prior probabilities of each block)
+      blockProp   = function(value) {
+        if (missing(value))
+          return(private$pi)
+        else {
+          stopifnot(is.list(value), length(value) == 2)
+          private$pi <- value
+        }
+      },
+      #' @field probMemberships list of 2 matrices of estimated probabilities for block memberships for all nodes
+      probMemberships = function(value) {
+        if (missing(value))
+          return(private$tau)
+        else {
+          stopifnot(is.list(value))
+          stopifnot(nrow(value[[1]]) == private$dim[1])
+          stopifnot(nrow(value[[2]]) == private$dim[2])
+          private$tau <- value
+        }
+      },
       #' @field penalty double, value of the penalty term in ICL
       penalty  = function(value) {(self$nbConnectParam + self$nbCovariates) * log(self$nbDyads) + (self$nbBlocks[1]-1) * log(self$nbNodes[1]) + (self$nbBlocks[2]-1) * log(self$nbNodes[2])},
       #' @field entropy double, value of the entropy due to the clustering distribution
@@ -142,8 +162,7 @@ BipartiteSBM_fit <-
           ICL       = private$BMobject$ICL,
           loglik    = private$BMobject$PL
         )
-        U[!is.na(U$nbParams),];
-
+        U[!is.na(U$nbParams), , drop = FALSE]
       }
     )
   )

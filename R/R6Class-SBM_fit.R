@@ -10,7 +10,7 @@ SBM_fit <- # this virtual class is the mother of all subtypes of SBM (Simple or 
       J              = NULL, # variational approximation of the log-likelihood
       vICL           = NULL, # variational approximation of the ICL
       tau            = NULL, # variational parameters for posterior probability of class belonging
-      BMobject       = NULL,
+      BMobject       = NULL, # blockmodels output (used to stored the optimization results when blockmodels is used)
       import_from_BM  = function(index = which.max(private$BMobject$ICL)) {
         private$J     <- private$BMobject$PL[index]
         private$vICL  <- private$BMobject$ICL[index]
@@ -24,9 +24,7 @@ SBM_fit <- # this virtual class is the mother of all subtypes of SBM (Simple or 
           "poisson_covariates"        = list(mean = parameters$lambda),
           "gaussian"                  = list(mean = parameters$mu, var = parameters$sigma2),
           "gaussian_covariates"       = list(mean = parameters$mu, var = parameters$sigma2),
-          "ZIgaussian"                = list(mean = parameters$mu, var = parameters$sigma2,p0 = parameters$p0),
-
-
+          "ZIgaussian"                = list(mean = parameters$mu, var = parameters$sigma2, p0 = parameters$p0),
         )
       }
     ),
@@ -56,31 +54,15 @@ SBM_fit <- # this virtual class is the mother of all subtypes of SBM (Simple or 
         stopifnot(index %in% seq.int(nrow(self$storedModels)))
         private$import_from_BM(index)
         self$reorder()
-      },
-      #' @description prediction under the currently parameters
-      #' @param covarList a list of covariates. By default, we use the covariates with which the model was estimated
-      #' @return a matrix of expected values for each dyad
-      predict = function(covarList = self$covarList) {
-        mu <- predict_sbm(self$nbNodes,self$nbCovariates,private$link,private$tau,private$theta$mean,self$covarEffect,covarlist,private$theta$p0)
-        mu
-      },
-      #' @description permute group labels by order of decreasing probability
-      reorder = function(){
-        o <- order_sbm(private$theta$mean,private$pi)
-        private$pi <- private$pi[o]
-        private$theta$mean <- private$theta$mean[o,o]
-        private$tau <- private$tau[, o, drop = FALSE]
       }
     ),
     active = list(
-      #' @field probMemberships matrix -- or list of 2 matrices for Bipartite network -- of estimated probabilities for block memberships for all nodes
-      probMemberships = function(value) {private$tau  },
       #' @field loglik double: approximation of the log-likelihood (variational lower bound) reached
-      loglik          = function(value) {private$J    },
+      loglik = function(value) {private$J    },
       #' @field ICL double: value of the integrated classification log-likelihood
-      ICL             = function(value) {private$vICL },
+      ICL    = function(value) {private$vICL },
       #' @field fitted matrix of predicted value of the network
-      fitted          = function(value) {self$predict()}
+      fitted = function(value) {self$predict()}
     )
   )
 

@@ -35,6 +35,10 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 
 \item{\code{memberships}}{vector of clustering}
 
+\item{\code{blockProp}}{vector of block proportions (aka prior probabilities of each block)}
+
+\item{\code{probMemberships}}{matrix of estimated probabilities for block memberships for all nodes}
+
 \item{\code{nbConnectParam}}{number of parameter used for the connectivity}
 
 \item{\code{directed}}{is the network directed or not}
@@ -77,7 +81,7 @@ constructor for a Simple SBM fit
   adjacencyMatrix,
   model,
   directed,
-  dimLabels = list(row = "rowLabel", col = "colLabel"),
+  dimLabels = list(row = "node", col = "node"),
   covarList = list()
 )}\if{html}{\out{</div>}}
 }
@@ -121,13 +125,15 @@ function to perform optimization
 \subsection{Method \code{predict()}}{
 prediction under the currently parameters
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{SimpleSBM_fit$predict(covarList = self$covarList)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{SimpleSBM_fit$predict(covarList = self$covarList, theta_p0 = 0)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{covarList}}{a list of covariates. By default, we use the covariates with which the model was estimated}
+
+\item{\code{theta_p0}}{a threshold...}
 }
 \if{html}{\out{</div>}}
 }
