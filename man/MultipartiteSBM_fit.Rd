@@ -27,6 +27,10 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
+\item{\code{loglik}}{double: approximation of the log-likelihood (variational lower bound) reached}
+
+\item{\code{ICL}}{double: value of the integrated classification log-likelihood}
+
 \item{\code{memberships}}{a list with the memberships in all the functional groups}
 
 \item{\code{probMemberships}}{or list of nbFG matrices for of estimated probabilities for block memberships for all nodes}

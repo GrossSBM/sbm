@@ -62,6 +62,9 @@ test_that("initializing Multipartite SBM works", {
   expect_equal(length(myMBM$blockProp), myMBM$nbLabels)
   expect_equal(length(myMBM$connectParam), myMBM$nbNetworks)
   expect_equal(lengths(myMBM$memberships), myMBM$nbNodes)
+  expect_lt(myMBM$loglik, 0)
+  expect_lt(myMBM$ICL, 0)
+  expect_lt(myMBM$ICL, myMBM$loglik)
 
   # S3 methods
   expect_silent(plot(myMBM, type = "data"))

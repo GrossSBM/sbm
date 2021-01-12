@@ -22,7 +22,7 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 }
 }
 \section{Super classes}{
-\code{\link[sbm:MultipartiteSBM]{sbm::MultipartiteSBM}} -> \code{\link[sbm:MultiplexSBM]{sbm::MultiplexSBM}} -> \code{MultiplexSBM_fit}
+\code{\link[sbm:MultipartiteSBM]{sbm::MultipartiteSBM}} -> \code{\link[sbm:MultipartiteSBM_fit]{sbm::MultipartiteSBM_fit}} -> \code{MultiplexSBM_fit}
 }
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
@@ -52,7 +52,9 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 \itemize{
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM" data-id="plot">}\href{../../sbm/html/MultipartiteSBM.html#method-plot}{\code{sbm::MultipartiteSBM$plot()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM" data-id="print">}\href{../../sbm/html/MultipartiteSBM.html#method-print}{\code{sbm::MultipartiteSBM$print()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM" data-id="show">}\href{../../sbm/html/MultipartiteSBM.html#method-show}{\code{sbm::MultipartiteSBM$show()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM_fit" data-id="predict">}\href{../../sbm/html/MultipartiteSBM_fit.html#method-predict}{\code{sbm::MultipartiteSBM_fit$predict()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM_fit" data-id="setModel">}\href{../../sbm/html/MultipartiteSBM_fit.html#method-setModel}{\code{sbm::MultipartiteSBM_fit$setModel()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM_fit" data-id="show">}\href{../../sbm/html/MultipartiteSBM_fit.html#method-show}{\code{sbm::MultipartiteSBM_fit$show()}}\out{</span>}
 }
 \out{</details>}
 }
