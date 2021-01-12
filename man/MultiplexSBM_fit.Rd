@@ -27,15 +27,7 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{memberships}}{a list with the memberships in all the functional groups}
-
-\item{\code{probMemberships}}{or list of nbFG matrices for of estimated probabilities for block memberships for all nodes}
-
-\item{\code{nbBlocks}}{: vector with the number of blocks in each FG}
-
-\item{\code{blockProp}}{: block proportions in each function group}
-
-\item{\code{connectParam}}{: connection parameters in each network}
+\item{\code{dependentNetwork}}{: connection parameters in each network}
 }
 \if{html}{\out{</div>}}
 }
@@ -64,15 +56,15 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 \subsection{Method \code{new()}}{
 constructor for Multiplex SBM
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MultiplexSBM_fit$new(listSBM, dep = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{MultiplexSBM_fit$new(netList, dependentNet = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{listSBM}}{list of SBM object with}
+\item{\code{netList}}{list of SBM object with}
 
-\item{\code{dep}}{boolean indicating whether dependence is assumed between networks beyond the common dependence on the latent variables}
+\item{\code{dependentNet}}{boolean indicating whether dependence is assumed between networks beyond the common dependence on the latent variables}
 }
 \if{html}{\out{</div>}}
 }

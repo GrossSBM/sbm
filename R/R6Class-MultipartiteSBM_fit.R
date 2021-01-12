@@ -53,6 +53,7 @@ MultipartiteSBM_fit <-
           private$netList[[s_]]$connectParam <- l_s
         }
         names(private$netList) <- private$dimlab
+        private$theta <- map(private$netList, "connectParam")
 
         lapply(private$netList, function(net) {
           if (inherits(net, "SimpleSBM_fit")) {

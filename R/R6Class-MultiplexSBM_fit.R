@@ -10,86 +10,17 @@ MultiplexSBM_fit <-
     inherit = MultipartiteSBM_fit,
     # fields for internal use (referring to the mathematical notation)
     private = list(
-      J = NULL,
-      vICL = NULL,
       BMobject = NULL,
-      GREMLINSobject       = NULL,
-
-      #------------ function to convert GREMLINS result into a sbm object result
-      import_from_GREMLINS = function(index = 1) {
-
-        GREMLINSfit <- private$GREMLINSobject$fittedModel[[index]]
-        list_pi <- lapply(private$namesFG,function(n_){GREMLINSfit$paramEstim$list_pi[[n_]]})
-        list_tau <- lapply(private$namesFG,function(n_){GREMLINSfit$paramEstim$tau[[n_]]})
-        list_theta <-lapply(1:self$nbNetworks, function(s_){
-          GREMLINSfit$paramEstim$list_theta[[paste(private$namesFG[private$E[s_,1]],private$namesFG[private$E[s_,2]],sep='')]]
-        })
-        #-----------------------------------------------------
-        list_theta_mean <- lapply(1:self$nbNetworks,function(s_){
-          if(private$model[s_] %in% c('ZIgaussian','gaussian')){u = list_theta[[s_]]$mean}else{u = list_theta[[s_]]}
-          u})
-
-        ordAll <- order_mbm(list_theta_mean,list_pi,private$E)
-        #----------------------------------------------------------
-        listtau <- lapply(1:self$nbLabels, FUN = function(s){list_tau[[s]][,ordAll[[s]]]})
-        listpi <-  lapply(1:self$nbLabels, FUN = function(s){list_pi[[s]][ordAll[[s]]]})
-        names(listpi)<- names(listtau)<- private$namesFG
-
-        lapply(private$listNet, function(net) {
-          if (substr(class(net)[1], 1, 6) == "Simple") {
-            Lab <- net$dimLabels[[1]]
-            net$varProb <- listtau[[Lab]]
-            net$blockProp <- listpi[[Lab]]
-          }
-          else {
-            rowLab <- net$dimLabels[[1]]
-            colLab <- net$dimLabels[[2]]
-            net$varProb <-
-              list(listtau[[rowLab]], listtau[[colLab]])
-            net$blockProp <-
-              list(listpi[[rowLab]], listpi[[colLab]])
-          }
-        })
-
-        #print(private$nbNet)
-        private$theta = list()
-        for (s_ in 1:self$nbNetworks){
-          o_row <- ordAll[[private$E[s_,1]]]
-          o_col <- ordAll[[private$E[s_,2]]]
-          l_s <- list(mean  =  list_theta_mean[[s_]][o_row ,o_col])
-          if (private$model[s_] %in% c('gaussian','ZIgaussian')){
-            var_s <- list_theta[[s_]]$var
-            if (is.matrix(var_s)){var_s  = var_s[o_row,o_col]}
-            l_s$var <- var_s
-          }
-          if (private$model[s_] == 'ZIgaussian'){
-            p0_s <- list_theta[[s_]]$p0
-            if (is.matrix(p0_s)){p0_s  = p0_s[o_row,o_col]}
-            l_s$p0 <- p0_s
-          }
-
-
-          private$theta[[s_]]=l_s
-          private$listNet[[s_]]$connectParam = l_s
-        }
-
-        private$tau = listtau
-
-        private$allZ = lapply(1:length(listtau),function(l){
-          if(!is.matrix(listtau[[l]])){listtau[[l]] = matrix(listtau[[l]],ncol=1)}
-          u <- apply(listtau[[l]],1,which.max)
-          u})
-        private$pi  = listpi
-      },
+      dependent =NULL,
 
       import_from_BM  = function(index = which.max(private$BMobject$ICL)) {
         private$J     <- private$BMobject$PL[index]
         private$vICL  <- private$BMobject$ICL[index]
         parameters    <- private$BMobject$model_parameters[[index]]
         private$theta <- switch(private$BMobject$model_name,
-                                "gaussian_multivariate" = list(mean=parameters$mu,cov=parameters$Sigma),
-                                "bernoulli_multiplex" = list(prob00=parameters$pi$`00`,prob01=parameters$pi$`01`,
-                                                             prob00=parameters$pi$`10`,prob10=parameters$pi$`11`)
+                "gaussian_multivariate" = list(mean=parameters$mu,cov=parameters$Sigma),
+                "bernoulli_multiplex"   = list(prob00=parameters$pi$`00`,prob01=parameters$pi$`01`,
+                                               prob00=parameters$pi$`10`,prob10=parameters$pi$`11`)
         )},
       import_from_BM_Simple = function(index = which.max(private$BMobject$ICL)) { # a function updating the Class
         private$import_from_BM(index)
@@ -108,10 +39,27 @@ MultiplexSBM_fit <-
     #-----------------------------------------------
     public = list(
       #' @description constructor for Multiplex SBM
-      #' @param listSBM list of SBM object with
-      #' @param dep boolean indicating whether dependence is assumed between networks beyond the common dependence on the latent variables
-      initialize = function(listSBM,dep=FALSE) {
-        super$initialize(listSBM,dep=dep)
+      #' @param netList list of SBM object with
+      #' @param dependentNet boolean indicating whether dependence is assumed between networks beyond the common dependence on the latent variables
+      initialize = function(netList, dependentNet = FALSE) {
+
+        # check whether the multipartite at hand is actually a multiplex
+        lab_per_row <- map(netList, "dimLabels") %>% map(~unique(unlist(.x))) %>% map_int(length)
+        if (any(lab_per_row > 1))
+          stop("list of networks provided does not correspond to a Multiplex architecture")
+        super$initialize(netList)
+
+        # CHECKING dependence structure
+        if (dependentNet) {
+          if (! ( all(self$directed == TRUE) | all(self$directed == FALSE)) )
+            stop("in the dependent case, all networks should be either directed or not directed")
+
+          dBern  <- isTRUE(all.equal(self$modelName, rep("bernoulli", self$nbNetworks)))
+          dGauss <- isTRUE(all.equal(self$modelName, rep("gaussian" , self$nbNetworks)))
+          if (!(dGauss | (dBern&self$nbNetworks == 2)))
+            stop("dependency in multiplex network is only handled for Gaussian distribution or a bivariate Bernoulli distribution")
+        }
+        private$dependent <- dependentNet
       },
       #' @description estimation of multipartiteSBM via GREMLINS
       #' @param estimOptions options for MultipartiteBM
@@ -127,7 +75,7 @@ MultiplexSBM_fit <-
       optimize = function(estimOptions) {
 
 
-        if (self$modelDependence==FALSE)
+        if (self$dependentNetwork == FALSE)
         {
           currentOptions <- list(
             verbosity     = 1,
@@ -138,37 +86,24 @@ MultiplexSBM_fit <-
             initBM = TRUE
           )
 
-          names(currentOptions$nbBlocksRange) <- private$namesFG
+          names(currentOptions$nbBlocksRange) <- private$dimlab
           ## Current options are default expect for those passed by the user
           currentOptions[names(estimOptions)] <- estimOptions
 
-
-
-
-
           # ----- formatting data for using GREMLINS
-          listNetG <- lapply(private$listNet, function(net) {
-            if (substr(class(net)[1], 1, 6) == "Simple") {
-              ifelse(net$directed, type <- "diradj", type <- "adj")
-            }
-            else {
-              type <-  "inc"
-            }
+          listNetG <- lapply(private$netList, function(net) {
+            if (inherits(net, "SimpleSBM_fit")) type <- ifelse(net$directed, "diradj", "adj")
+            if (inherits(net, "BipartiteSBM_fit")) type <-  "inc"
             GREMLINS::defineNetwork(net$netMatrix,
                                     type,
                                     rowFG = net$dimLabels[[1]],
                                     colFG = net$dimLabels[[2]])
           })
 
-
-
           vdistrib <- private$model
 
           v_Kmin  <- sapply(1:self$nbLabels, function(k){currentOptions$nbBlocksRange[[k]][1]})
           v_Kmax  <- sapply(1:self$nbLabels, function(k){currentOptions$nbBlocksRange[[k]][2]})
-
-
-
 
           verbose <- (currentOptions$verbosity > 0)
           nbCores <- currentOptions$nbCores
@@ -239,7 +174,7 @@ MultiplexSBM_fit <-
           else {membership <- ifelse(!self$directed[1], "SBM_sym", "SBM") ; type="simple"}
 
           # recuperer les matrices
-          Ys <- .na2zero(lapply(self$listSBM,function(net) net$netMatrix))
+          Ys <- .na2zero(lapply(self$networkList,function(net) net$netMatrix))
 
           args <- list(membership_type =  membership, adj = Ys)
           args <- c(args, blockmodelsOptions)
@@ -256,20 +191,7 @@ MultiplexSBM_fit <-
       }
   ),
   active = list(
-    #' @field memberships a list with the memberships in all the functional groups
-    memberships = function(value) {
-      if (missing(value)) {
-        return(setNames(private$allZ, private$namesFG))
-      } else {private$allZ <- value}},
-    #' @field probMemberships or list of nbFG matrices for of estimated probabilities for block memberships for all nodes
-    probMemberships = function(value) {private$tau},
-    #' @field nbBlocks : vector with the number of blocks in each FG
-    nbBlocks = function(value) {
-      setNames(sapply(private$allZ, function(z){length(unique(z))}), private$namesFG)
-    },
-    #' @field blockProp : block proportions in each function group
-    blockProp = function(value) {private$pi},
-    #' @field connectParam : connection parameters in each network
-    connectParam = function(value) {private$theta}
+    #' @field dependentNetwork : connection parameters in each network
+    dependentNetwork = function(value) {private$dependent}
   )
-  )
+)

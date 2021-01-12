@@ -111,7 +111,7 @@ MultipartiteSBM <-
       #' @field blockProp  block proportions in each function group
       blockProp = function(value) {private$pi},
       #' @field connectParam connection parameters in each network
-      connectParam = function(value) {map(private$netList, "connectParam")},
+      connectParam = function(value) {private$theta},
       #' @field networkList list of SimpleSBMs or BipartiteSBMs
       networkList = function(value) {private$netList},
       #' @field expectation expected values of connection under the currently adjusted model
