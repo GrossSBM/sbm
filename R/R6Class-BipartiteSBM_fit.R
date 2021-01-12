@@ -6,7 +6,8 @@
 #' @include R6Class-SBM_fit.R
 #' @export
 BipartiteSBM_fit <-
-  R6::R6Class(classname = "BipartiteSBM_fit",
+  R6::R6Class(
+    classname = "BipartiteSBM_fit",
     inherit = SBM_fit,
     private = list(
       import_from_BM  = function(index = which.max(private$BMobject$ICL)) {
@@ -100,18 +101,13 @@ BipartiteSBM_fit <-
       },
       #' @description permute group labels by order of decreasing probability
       reorder = function() {
-        O <- order_lbm(private$theta$mean,private$pi)
-        oRow <-O$row
-        oCol <-O$col
-        private$pi[[1]] <- private$pi[[1]][oRow]
-        private$pi[[2]] <- private$pi[[2]][oCol]
-        private$theta$mean <- private$theta$mean[oRow, oCol]
-        private$tau[[1]] <- private$tau[[1]][, oRow, drop = FALSE]
-        private$tau[[2]] <- private$tau[[2]][, oCol, drop = FALSE]
-      },
-      #' @description show method
-      #' @param type character used to specify the type of SBM
-      show = function(type = "Fit of a Bipartite Stochastic Block Model") super$show(type)
+        o <- order_lbm(private$theta$mean,private$pi)
+        private$pi[[1]] <- private$pi[[1]][o$row]
+        private$pi[[2]] <- private$pi[[2]][o$col]
+        private$theta$mean <- private$theta$mean[o$row, o$col]
+        private$tau[[1]] <- private$tau[[1]][, o$row, drop = FALSE]
+        private$tau[[2]] <- private$tau[[2]][, o$col, drop = FALSE]
+      }
     ),
     active = list(
       #' @field nbNodes vector of size 2: number of nodes (rows, columns)

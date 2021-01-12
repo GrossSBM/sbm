@@ -56,7 +56,6 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 \item \href{#method-optimize}{\code{BipartiteSBM_fit$optimize()}}
 \item \href{#method-predict}{\code{BipartiteSBM_fit$predict()}}
 \item \href{#method-reorder}{\code{BipartiteSBM_fit$reorder()}}
-\item \href{#method-show}{\code{BipartiteSBM_fit$show()}}
 \item \href{#method-clone}{\code{BipartiteSBM_fit$clone()}}
 }
 }
@@ -66,6 +65,7 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="plot">}\href{../../sbm/html/SBM.html#method-plot}{\code{sbm::SBM$plot()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="print">}\href{../../sbm/html/SBM.html#method-print}{\code{sbm::SBM$print()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM_fit" data-id="setModel">}\href{../../sbm/html/SBM_fit.html#method-setModel}{\code{sbm::SBM_fit$setModel()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM_fit" data-id="show">}\href{../../sbm/html/SBM_fit.html#method-show}{\code{sbm::SBM_fit$show()}}\out{</span>}
 }
 \out{</details>}
 }
@@ -140,23 +140,6 @@ permute group labels by order of decreasing probability
 \if{html}{\out{<div class="r">}}\preformatted{BipartiteSBM_fit$reorder()}\if{html}{\out{</div>}}
 }
 
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-show"></a>}}
-\if{latex}{\out{\hypertarget{method-show}{}}}
-\subsection{Method \code{show()}}{
-show method
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{BipartiteSBM_fit$show(type = "Fit of a Bipartite Stochastic Block Model")}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{type}}{character used to specify the type of SBM}
-}
-\if{html}{\out{</div>}}
-}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

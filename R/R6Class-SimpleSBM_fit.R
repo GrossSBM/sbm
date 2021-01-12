@@ -106,7 +106,6 @@ SimpleSBM_fit <-
                           covarList)
         mu
       },
-      #--------------------------------------------
       #' @description permute group labels by order of decreasing probability
       reorder = function(){
         o <- order_sbm(private$theta$mean,private$pi)
