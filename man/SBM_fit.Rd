@@ -14,8 +14,6 @@ R6 virtual class for SBM fit (mother class of Simple and Bipartite SBM fit)
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{probMemberships}}{matrix -- or list of 2 matrices for Bipartite network -- of estimated probabilities for block memberships for all nodes}
-
 \item{\code{loglik}}{double: approximation of the log-likelihood (variational lower bound) reached}
 
 \item{\code{ICL}}{double: value of the integrated classification log-likelihood}

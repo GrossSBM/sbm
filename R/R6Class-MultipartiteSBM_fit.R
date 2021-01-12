@@ -37,14 +37,13 @@ MultipartiteSBM_fit <-
           ## TODO: use inherits
           if (substr(class(net)[1], 1, 6) == "Simple") {
             Lab <- net$dimLabels[[1]]
-          ## TODO: supress varProb
-            net$varProb <- listtau[[Lab]]
-            net$blockProp <- listpi[[Lab]]
+            net$probMemberships <- listtau[[Lab]]
+            net$blockProp       <- listpi[[Lab]]
           }
           else {
             rowLab <- net$dimLabels[[1]]
             colLab <- net$dimLabels[[2]]
-            net$varProb <-
+            net$probMemberships <-
               list(listtau[[rowLab]], listtau[[colLab]])
             net$blockProp <-
               list(listpi[[rowLab]], listpi[[colLab]])
@@ -115,7 +114,6 @@ MultipartiteSBM_fit <-
         #   u <- u[1]
         #   dim(listSBM[[u]]$netMatrix)[v]}
         # )
-###      private$allZ <- memberships
 
       },
       #' @description estimation of multipartiteSBM via GREMLINS

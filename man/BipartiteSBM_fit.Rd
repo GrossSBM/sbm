@@ -37,6 +37,8 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 
 \item{\code{memberships}}{list of size 2: vector of memberships in row, in column.}
 
+\item{\code{probMemberships}}{list of 2 matrices of estimated probabilities for block memberships for all nodes}
+
 \item{\code{penalty}}{double, value of the penalty term in ICL}
 
 \item{\code{entropy}}{double, value of the entropy due to the clustering distribution}

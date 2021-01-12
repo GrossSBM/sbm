@@ -59,6 +59,7 @@ SBM_fit <- # this virtual class is the mother of all subtypes of SBM (Simple or 
       #' @param covarList a list of covariates. By default, we use the covariates with which the model was estimated
       #' @return a matrix of expected values for each dyad
       predict = function(covarList = self$covarList) {
+### FIXME: check that predict_sbm work truly on sbm (that is, simple or bipartite sbm), and not simpleSBM!!!!
         mu <- predict_sbm(self$nbNodes,self$nbCovariates,private$link,private$tau,private$theta$mean,self$covarEffect,covarlist,private$theta$p0)
         mu
       },
@@ -71,8 +72,6 @@ SBM_fit <- # this virtual class is the mother of all subtypes of SBM (Simple or 
       }
     ),
     active = list(
-      #' @field probMemberships matrix -- or list of 2 matrices for Bipartite network -- of estimated probabilities for block memberships for all nodes
-      probMemberships = function(value) {private$tau  },
       #' @field loglik double: approximation of the log-likelihood (variational lower bound) reached
       loglik          = function(value) {private$J    },
       #' @field ICL double: value of the integrated classification log-likelihood
