@@ -10,19 +10,23 @@ MultipartiteSBM_fit <-
     inherit = MultipartiteSBM,
     # fields for internal use (referring to the mathematical notation)
     private = list(
+       J = NULL,
+       vICL = NULL,
        tau            = NULL, # variational parameters for posterior probability of class belonging
        GREMLINSobject = NULL,
 
       #------------ function to convert GREMLINS result into a sbm object result
       import_from_GREMLINS = function(index = 1) {
 
-        fit <- private$GREMLINSobject$fittedModel[[index]]$paramEstim
+        fit <- private$GREMLINSobject$fittedModel[[index]]
+        private$J    <- last(fit$vJ)
+        private$vICL <- last(fit$ICL)
 
         ## extract pi, theta, tau
-        list_pi    <- fit$list_pi[private$dimlab]
-        list_theta <- fit$list_theta[paste0(private$dimlab[private$arch[,1]],
+        list_pi    <- fit$paramEstim$list_pi[private$dimlab]
+        list_theta <- fit$paramEstim$list_theta[paste0(private$dimlab[private$arch[,1]],
                                             private$dimlab[private$arch[ ,2]])]
-        list_tau <- fit$tau[private$dimlab]
+        list_tau   <- fit$paramEstim$tau[private$dimlab]
         list_theta_mean <- map_if(list_theta, is.list, "mean", ~.x)
 
         #----------------------------------------------------------
@@ -67,6 +71,7 @@ MultipartiteSBM_fit <-
         })
         private$tau <- list_tau
         private$pi  <- list_pi
+
       }
     ),
     #-----------------------------------------------
@@ -194,6 +199,10 @@ MultipartiteSBM_fit <-
   ),
   #-----------------------------------------------
   active = list(
+    #' @field loglik double: approximation of the log-likelihood (variational lower bound) reached
+    loglik = function(value) {private$J    },
+    #' @field ICL double: value of the integrated classification log-likelihood
+    ICL    = function(value) {private$vICL },
     #' @field memberships a list with the memberships in all the functional groups
     memberships = function(value) {if(!is.null(private$tau)) setNames(lapply(private$tau, as_clustering), private$dimlab)},
     #' @field probMemberships or list of nbFG matrices for of estimated probabilities for block memberships for all nodes

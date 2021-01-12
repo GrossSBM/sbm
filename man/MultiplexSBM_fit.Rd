@@ -24,6 +24,21 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 \section{Super classes}{
 \code{\link[sbm:MultipartiteSBM]{sbm::MultipartiteSBM}} -> \code{\link[sbm:MultiplexSBM]{sbm::MultiplexSBM}} -> \code{MultiplexSBM_fit}
 }
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{memberships}}{a list with the memberships in all the functional groups}
+
+\item{\code{probMemberships}}{or list of nbFG matrices for of estimated probabilities for block memberships for all nodes}
+
+\item{\code{nbBlocks}}{: vector with the number of blocks in each FG}
+
+\item{\code{blockProp}}{: block proportions in each function group}
+
+\item{\code{connectParam}}{: connection parameters in each network}
+}
+\if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{

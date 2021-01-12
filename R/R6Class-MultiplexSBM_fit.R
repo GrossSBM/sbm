@@ -7,7 +7,7 @@
 MultiplexSBM_fit <-
   R6::R6Class(
     classname = "MultiplexSBM_fit",
-    inherit = MultiplexSBM,
+    inherit = MultipartiteSBM_fit,
     # fields for internal use (referring to the mathematical notation)
     private = list(
       J = NULL,
@@ -90,7 +90,7 @@ MultiplexSBM_fit <-
                                 "gaussian_multivariate" = list(mean=parameters$mu,cov=parameters$Sigma),
                                 "bernoulli_multiplex" = list(prob00=parameters$pi$`00`,prob01=parameters$pi$`01`,
                                                              prob00=parameters$pi$`10`,prob10=parameters$pi$`11`)
-      )},
+        )},
       import_from_BM_Simple = function(index = which.max(private$BMobject$ICL)) { # a function updating the Class
         private$import_from_BM(index)
         private$tau <- private$BMobject$memberships[[index]]$Z
@@ -129,82 +129,82 @@ MultiplexSBM_fit <-
 
         if (self$modelDependence==FALSE)
         {
-        currentOptions <- list(
-          verbosity     = 1,
-          nbBlocksRange = lapply(1:self$nbLabels,function(l){c(1,10)}),
-          nbCores       = 2,
-          maxiterVE     = 100,
-          maxiterVEM    = 100,
-          initBM = TRUE
-        )
+          currentOptions <- list(
+            verbosity     = 1,
+            nbBlocksRange = lapply(1:self$nbLabels,function(l){c(1,10)}),
+            nbCores       = 2,
+            maxiterVE     = 100,
+            maxiterVEM    = 100,
+            initBM = TRUE
+          )
 
-        names(currentOptions$nbBlocksRange) <- private$namesFG
-        ## Current options are default expect for those passed by the user
-        currentOptions[names(estimOptions)] <- estimOptions
-
-
+          names(currentOptions$nbBlocksRange) <- private$namesFG
+          ## Current options are default expect for those passed by the user
+          currentOptions[names(estimOptions)] <- estimOptions
 
 
 
-        # ----- formatting data for using GREMLINS
-        listNetG <- lapply(private$listNet, function(net) {
-          if (substr(class(net)[1], 1, 6) == "Simple") {
-            ifelse(net$directed, type <- "diradj", type <- "adj")
-          }
-          else {
-            type <-  "inc"
-          }
-          GREMLINS::defineNetwork(net$netMatrix,
-                                  type,
-                                  rowFG = net$dimLabels[[1]],
-                                  colFG = net$dimLabels[[2]])
-        })
+
+
+          # ----- formatting data for using GREMLINS
+          listNetG <- lapply(private$listNet, function(net) {
+            if (substr(class(net)[1], 1, 6) == "Simple") {
+              ifelse(net$directed, type <- "diradj", type <- "adj")
+            }
+            else {
+              type <-  "inc"
+            }
+            GREMLINS::defineNetwork(net$netMatrix,
+                                    type,
+                                    rowFG = net$dimLabels[[1]],
+                                    colFG = net$dimLabels[[2]])
+          })
 
 
 
-        vdistrib <- private$model
+          vdistrib <- private$model
 
-        v_Kmin  <- sapply(1:self$nbLabels, function(k){currentOptions$nbBlocksRange[[k]][1]})
-        v_Kmax  <- sapply(1:self$nbLabels, function(k){currentOptions$nbBlocksRange[[k]][2]})
+          v_Kmin  <- sapply(1:self$nbLabels, function(k){currentOptions$nbBlocksRange[[k]][1]})
+          v_Kmax  <- sapply(1:self$nbLabels, function(k){currentOptions$nbBlocksRange[[k]][2]})
 
 
 
 
           verbose <- (currentOptions$verbosity > 0)
-        nbCores <- currentOptions$nbCores
-        maxiterVE <- currentOptions$maxiterVE
-        maxiterVEM <- currentOptions$maxiterVEM
-        namesFG <- names(currentOptions$nbBlocksRange)
-        initBM <- currentOptions$initBM
+          nbCores <- currentOptions$nbCores
+          maxiterVE <- currentOptions$maxiterVE
+          maxiterVEM <- currentOptions$maxiterVEM
+          namesFG <- names(currentOptions$nbBlocksRange)
+          initBM <- currentOptions$initBM
 
-        if ( sum(abs(v_Kmin - v_Kmax)) > 0) {
-          private$GREMLINSobject <- GREMLINS::multipartiteBM(
-            list_Net = listNetG,
-            v_distrib = vdistrib ,
-            namesFG = namesFG,
-            v_Kmin = v_Kmin  ,
-            v_Kmax = v_Kmax ,
-            v_Kinit = NULL ,
-            initBM = initBM,
-            keep = TRUE ,
-            verbose = verbose,
-            nbCores = nbCores,
-            maxiterVE =  maxiterVE ,
-            maxiterVEM =  maxiterVEM)
-          private$import_from_GREMLINS()
-        } else {
-          private$GREMLINSobject <- GREMLINS::multipartiteBMFixedModel(
-            list_Net = listNetG,
-            v_distrib = vdistrib,
-            namesFG = namesFG ,
-            v_K = v_Kmax,
-            classifInit = NULL,
-            nbCores = nbCores,
-            maxiterVE = maxiterVE,
-            maxiterVEM = maxiterVEM,
-            verbose = verbose)
-          private$import_from_GREMLINS()
-        }
+          if ( sum(abs(v_Kmin - v_Kmax)) > 0) {
+            private$GREMLINSobject <- GREMLINS::multipartiteBM(
+              list_Net = listNetG,
+              v_distrib = vdistrib ,
+              namesFG = namesFG,
+              v_Kmin = v_Kmin  ,
+              v_Kmax = v_Kmax ,
+              v_Kinit = NULL ,
+              initBM = initBM,
+              keep = TRUE ,
+              verbose = verbose,
+              nbCores = nbCores,
+              maxiterVE =  maxiterVE ,
+              maxiterVEM =  maxiterVEM)
+            private$import_from_GREMLINS()
+          } else {
+            private$GREMLINSobject <- GREMLINS::multipartiteBMFixedModel(
+              list_Net = listNetG,
+              v_distrib = vdistrib,
+              namesFG = namesFG ,
+              v_K = v_Kmax,
+              classifInit = NULL,
+              nbCores = nbCores,
+              maxiterVE = maxiterVE,
+              maxiterVEM = maxiterVEM,
+              verbose = verbose)
+            private$import_from_GREMLINS()
+          }
         }
 
         else {
@@ -254,22 +254,22 @@ MultiplexSBM_fit <-
 
         }
       }
-    ),
-    active = list(
-      #' @field memberships a list with the memberships in all the functional groups
-      memberships = function(value) {
-        if (missing(value)) {
-          return(setNames(private$allZ, private$namesFG))
-        } else {private$allZ <- value}},
-      #' @field probMemberships or list of nbFG matrices for of estimated probabilities for block memberships for all nodes
-      probMemberships = function(value) {private$tau},
-      #' @field nbBlocks : vector with the number of blocks in each FG
-      nbBlocks = function(value) {
-        setNames(sapply(private$allZ, function(z){length(unique(z))}), private$namesFG)
-      },
-      #' @field blockProp : block proportions in each function group
-      blockProp = function(value) {private$pi},
-      #' @field connectParam : connection parameters in each network
-      connectParam = function(value) {private$theta}
-    )
+  ),
+  active = list(
+    #' @field memberships a list with the memberships in all the functional groups
+    memberships = function(value) {
+      if (missing(value)) {
+        return(setNames(private$allZ, private$namesFG))
+      } else {private$allZ <- value}},
+    #' @field probMemberships or list of nbFG matrices for of estimated probabilities for block memberships for all nodes
+    probMemberships = function(value) {private$tau},
+    #' @field nbBlocks : vector with the number of blocks in each FG
+    nbBlocks = function(value) {
+      setNames(sapply(private$allZ, function(z){length(unique(z))}), private$namesFG)
+    },
+    #' @field blockProp : block proportions in each function group
+    blockProp = function(value) {private$pi},
+    #' @field connectParam : connection parameters in each network
+    connectParam = function(value) {private$theta}
+  )
   )
