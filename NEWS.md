@@ -1,3 +1,8 @@
+# sbm 0.4.0 - major release
+
+* support for multiplex SBM
+* improvments of multipartite classes
+
 # sbm 0.3.0 - major release
 
 * support for multipartite SBM
