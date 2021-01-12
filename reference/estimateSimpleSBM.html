@@ -46,6 +46,8 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models." />
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -73,7 +75,7 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sbm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -144,7 +146,7 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models.</p>
   <span class='va'>netMat</span>,
   model <span class='op'>=</span> <span class='st'>"bernoulli"</span>,
   directed <span class='op'>=</span> <span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/isSymmetric.html'>isSymmetric</a></span><span class='op'>(</span><span class='va'>netMat</span><span class='op'>)</span>,
-  dimLabels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>row <span class='op'>=</span> <span class='st'>"row"</span>, col <span class='op'>=</span> <span class='st'>"col"</span><span class='op'>)</span>,
+  dimLabels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>row <span class='op'>=</span> <span class='st'>"node"</span>, col <span class='op'>=</span> <span class='st'>"node"</span><span class='op'>)</span>,
   covariates <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
   estimOptions <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='op'>)</span></pre>
@@ -322,6 +324,16 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models.</p>
 #&gt;         -&gt; For 3 groups
 #&gt;         -&gt; For 2 groups
 #&gt; -&gt; Pass 2
+#&gt;     -&gt; With ascending number of groups
+#&gt;         -&gt; For 2 groups
+#&gt;         -&gt; For 3 groups
+#&gt;         -&gt; For 4 groups
+#&gt;         -&gt; For 5 groups
+#&gt;     -&gt; With descending number of groups
+#&gt;         -&gt; For 4 groups
+#&gt;         -&gt; For 3 groups
+#&gt;         -&gt; For 2 groups
+#&gt; -&gt; Pass 3
 #&gt;     -&gt; With ascending number of groups
 #&gt;         -&gt; For 2 groups
 #&gt;         -&gt; For 3 groups

@@ -45,6 +45,8 @@
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -72,7 +74,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sbm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -184,7 +186,7 @@
 <li><p>"vertex.color": Default value is "salmon2"</p></li>
 <li><p>"vertex.frame.color": Node border color.Default value is "black"</p></li>
 <li><p>"vertex.shape": One of "none", "circle", "square", "csquare", "rectangle" "crectangle", "vrectangle", "pie", "raster", or "sphere". Default value = "circle"</p></li>
-<li><p>"vertex.size": Size of the node (default is 2)</p></li>
+<li><p>"vertex.size": Size of the nodes (default factor is 1). Vector of length the number of FG</p></li>
 <li><p>"vertex.size2": The second size of the node (e.g. for a rectangle)</p></li>
 <li><p>"vertex.label": Names of the vertices. Default value is the label of the nodes</p></li>
 <li><p>"vertex.label.color": Default value is  "black"</p></li>
@@ -194,7 +196,7 @@
 <li><p>"vertex.label.degree": The position of the label in relation to the vertex. default value is 0</p></li>
 <li><p>"edge.threshold": Threshold under which the edge is not plotted. Default value is = -Inf</p></li>
 <li><p>"edge.color": Default value is "gray"</p></li>
-<li><p>"edge.width": Factor parameter. Default value is 10</p></li>
+<li><p>"edge.width": Factor parameter. Default value is 1</p></li>
 <li><p>"edge.arrow.size": Default value is 1</p></li>
 <li><p>"edge.arrow.width": Default value is 2</p></li>
 <li><p>"edge.lty": Line type, could be 0 or "blank", 1 or "solid", 2 or "dashed", 3 or "dotted", 4 or "dotdash", 5 or "longdash", 6 or "twodash". Default value is "solid"</p></li>

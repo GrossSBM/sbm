@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>R6 virtual class for SBM fit (mother class of Simple and Bipartite SBM fit) — SBM_fit • sbm</title>
+<title>R6 Class definition of a Multiplex SBM fit — MultiplexSBM_fit • sbm</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,9 @@
 
 
 
-<meta property="og:title" content="R6 virtual class for SBM fit (mother class of Simple and Bipartite SBM fit) — SBM_fit" />
-<meta property="og:description" content="R6 virtual class for SBM fit (mother class of Simple and Bipartite SBM fit)
-R6 virtual class for SBM fit (mother class of Simple and Bipartite SBM fit)" />
+<meta property="og:title" content="R6 Class definition of a Multiplex SBM fit — MultiplexSBM_fit" />
+<meta property="og:description" content="R6 Class definition of a Multiplex SBM fit
+R6 Class definition of a Multiplex SBM fit" />
 
 
 
@@ -132,29 +132,37 @@ R6 virtual class for SBM fit (mother class of Simple and Bipartite SBM fit)" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>R6 virtual class for SBM fit (mother class of Simple and Bipartite SBM fit)</h1>
-    <small class="dont-index">Source: <a href='https://github.com/GrossSBM/sbm/blob/master/R/R6Class-SBM_fit.R'><code>R/R6Class-SBM_fit.R</code></a></small>
-    <div class="hidden name"><code>SBM_fit.Rd</code></div>
+    <h1>R6 Class definition of a Multiplex SBM fit</h1>
+    <small class="dont-index">Source: <a href='https://github.com/GrossSBM/sbm/blob/master/R/R6Class-MultiplexSBM_fit.R'><code>R/R6Class-MultiplexSBM_fit.R</code></a></small>
+    <div class="hidden name"><code>MultiplexSBM_fit.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>R6 virtual class for SBM fit (mother class of Simple and Bipartite SBM fit)</p>
-<p>R6 virtual class for SBM fit (mother class of Simple and Bipartite SBM fit)</p>
+    <p>R6 Class definition of a Multiplex SBM fit</p>
+<p>R6 Class definition of a Multiplex SBM fit</p>
     </div>
 
 
 
-    <h2 class="hasAnchor" id="super-class"><a class="anchor" href="#super-class"></a>Super class</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><code><a href='SBM.html'>sbm::SBM</a></code> -&gt; <code>SBM_fit</code></p>
+    <p>This class is designed to give a representation and adjust a Multiplex SBM fitted with GREMLIN.</p>
+<p>The list of parameters <code>estimOptions</code> essentially tunes the optimization process and the variational EM algorithm, with the following parameters</p><ul>
+<li><p>"nbCores"integer for number of cores used.  Default is 2</p></li>
+<li><p>"verbosity"integer for verbosity (0, 1). Default is 1</p></li>
+<li><p>"nbBlocksRange"List of length the number of functional groups, each element supplying the minimal and maximal number of blocks to be explored. The names of the list must be the names of the functional groups.  Default value is from 1 to 10)</p></li>
+<li><p>"initBM"Boolean. True if using simple and bipartite SBM as initialisations. Default value  = TRUE</p></li>
+<li><p>"maxiterVEM"Number of max. number of iterations in  the VEM. Default value  = 100</p></li>
+<li><p>"maxiterVE"Number of max. number of iterations in  the VE. Default value  = 100</p></li>
+</ul>
+
+    <h2 class="hasAnchor" id="super-classes"><a class="anchor" href="#super-classes"></a>Super classes</h2>
+
+    <p><code><a href='MultipartiteSBM.html'>sbm::MultipartiteSBM</a></code> -&gt; <code><a href='MultipartiteSBM_fit.html'>sbm::MultipartiteSBM_fit</a></code> -&gt; <code>MultiplexSBM_fit</code></p>
     <h2 class="hasAnchor" id="active-bindings"><a class="anchor" href="#active-bindings"></a>Active bindings</h2>
 
     <p><div class="r6-active-bindings"></p><dl>
-<dt><code>loglik</code></dt><dd><p>double: approximation of the log-likelihood (variational lower bound) reached</p></dd>
-
-<dt><code>ICL</code></dt><dd><p>double: value of the integrated classification log-likelihood</p></dd>
-
-<dt><code>fitted</code></dt><dd><p>matrix of predicted value of the network</p></dd>
+<dt><code>dependentNetwork</code></dt><dd><p>: connection parameters in each network</p></dd>
 
 </dl><p></div></p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
@@ -163,59 +171,46 @@ R6 virtual class for SBM fit (mother class of Simple and Bipartite SBM fit)" />
 <h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Public methods</h3>
 
 <ul>
-<li><p><a href='#method-new'><code>SBM_fit$new()</code></a></p></li>
-<li><p><a href='#method-show'><code>SBM_fit$show()</code></a></p></li>
-<li><p><a href='#method-setModel'><code>SBM_fit$setModel()</code></a></p></li>
-<li><p><a href='#method-clone'><code>SBM_fit$clone()</code></a></p></li>
+<li><p><a href='#method-new'><code>MultiplexSBM_fit$new()</code></a></p></li>
+<li><p><a href='#method-optimize'><code>MultiplexSBM_fit$optimize()</code></a></p></li>
+<li><p><a href='#method-clone'><code>MultiplexSBM_fit$clone()</code></a></p></li>
 </ul>
 <p><details open ><summary>Inherited methods</summary>
 <ul>
-<li><p><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="plot"><a href='../../sbm/html/SBM.html#method-plot'><code>sbm::SBM$plot()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="print"><a href='../../sbm/html/SBM.html#method-print'><code>sbm::SBM$print()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM" data-id="plot"><a href='../../sbm/html/MultipartiteSBM.html#method-plot'><code>sbm::MultipartiteSBM$plot()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM" data-id="print"><a href='../../sbm/html/MultipartiteSBM.html#method-print'><code>sbm::MultipartiteSBM$print()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM_fit" data-id="predict"><a href='../../sbm/html/MultipartiteSBM_fit.html#method-predict'><code>sbm::MultipartiteSBM_fit$predict()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM_fit" data-id="setModel"><a href='../../sbm/html/MultipartiteSBM_fit.html#method-setModel'><code>sbm::MultipartiteSBM_fit$setModel()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM_fit" data-id="show"><a href='../../sbm/html/MultipartiteSBM_fit.html#method-show'><code>sbm::MultipartiteSBM_fit$show()</code></a></span></p></li>
 </ul>
 </details>
 
 <hr>
 <a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
-<p>constructor for SBM fit</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>SBM_fit</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>model</span>, <span class='va'>dimLabels</span>, <span class='va'>covarList</span><span class='op'>)</span></pre><p></div></p>
+<p>constructor for Multiplex SBM</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>MultiplexSBM_fit</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>netList</span>, dependentNet <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
-<dt><code>data</code></dt><dd><p>the data matrix of the network</p></dd>
+<dt><code>netList</code></dt><dd><p>list of SBM object with</p></dd>
 
-<dt><code>model</code></dt><dd><p>character describing the type of model</p></dd>
-
-<dt><code>dimLabels</code></dt><dd><p>labels of each dimension (in row, in columns)</p></dd>
-
-<dt><code>covarList</code></dt><dd><p>optional list of matrices for covariates</p></dd>
+<dt><code>dependentNet</code></dt><dd><p>boolean indicating whether dependence is assumed between networks beyond the common dependence on the latent variables</p></dd>
 
 </dl><p></div></p>
 <p><hr>
-<a id="method-show"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>show()</code></h3>
-<p>print/show method</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>SBM_fit</span><span class='op'>$</span><span class='fu'>show</span><span class='op'>(</span>type <span class='op'>=</span> <span class='st'>"Fit of a Stochastic Block Model"</span><span class='op'>)</span></pre><p></div></p>
+<a id="method-optimize"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/stats/optimize.html'>optimize()</a></code></h3>
+<p>estimation of multipartiteSBM via GREMLINS</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>MultiplexSBM_fit</span><span class='op'>$</span><span class='fu'>optimize</span><span class='op'>(</span><span class='va'>estimOptions</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
-<dt><code>type</code></dt><dd><p>character to tune the displayed name</p></dd>
-
-</dl><p></div></p>
-<p><hr>
-<a id="method-setModel"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>setModel()</code></h3>
-<p>method to select a specific model among the ones fitted during the optimization.
-Fields of the current SBM_fit will be updated accordingly.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>SBM_fit</span><span class='op'>$</span><span class='fu'>setModel</span><span class='op'>(</span><span class='va'>index</span><span class='op'>)</span></pre><p></div></p>
-
-<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
-<p><div class="arguments"></p><dl>
-<dt><code>index</code></dt><dd><p>integer, the index of the model to be selected (row number in storedModels)</p></dd>
+<dt><code>estimOptions</code></dt><dd><p>options for MultipartiteBM</p></dd>
 
 </dl><p></div></p>
 <p><hr>
 <a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>SBM_fit</span><span class='op'>$</span><span class='fu'>clone</span><span class='op'>(</span>deep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>MultiplexSBM_fit</span><span class='op'>$</span><span class='fu'>clone</span><span class='op'>(</span>deep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>

@@ -46,6 +46,8 @@ R6 Class definition of a Multipartite SBM fit" />
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -73,7 +75,7 @@ R6 Class definition of a Multipartite SBM fit" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sbm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -160,6 +162,10 @@ R6 Class definition of a Multipartite SBM fit" />
     <h2 class="hasAnchor" id="active-bindings"><a class="anchor" href="#active-bindings"></a>Active bindings</h2>
 
     <p><div class="r6-active-bindings"></p><dl>
+<dt><code>loglik</code></dt><dd><p>double: approximation of the log-likelihood (variational lower bound) reached</p></dd>
+
+<dt><code>ICL</code></dt><dd><p>double: value of the integrated classification log-likelihood</p></dd>
+
 <dt><code>memberships</code></dt><dd><p>a list with the memberships in all the functional groups</p></dd>
 
 <dt><code>probMemberships</code></dt><dd><p>or list of nbFG matrices for of estimated probabilities for block memberships for all nodes</p></dd>
@@ -167,10 +173,6 @@ R6 Class definition of a Multipartite SBM fit" />
 <dt><code>nbBlocks</code></dt><dd><p>: vector with the number of blocks in each FG</p></dd>
 
 <dt><code>storedModels</code></dt><dd><p>data.frame of all models fitted (and stored) during the optimization</p></dd>
-
-<dt><code>blockProp</code></dt><dd><p>: block proportions in each function group</p></dd>
-
-<dt><code>connectParam</code></dt><dd><p>: connection parameters in each network</p></dd>
 
 </dl><p></div></p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
@@ -181,27 +183,26 @@ R6 Class definition of a Multipartite SBM fit" />
 <ul>
 <li><p><a href='#method-new'><code>MultipartiteSBM_fit$new()</code></a></p></li>
 <li><p><a href='#method-optimize'><code>MultipartiteSBM_fit$optimize()</code></a></p></li>
-<li><p><a href='#method-getBM'><code>MultipartiteSBM_fit$getBM()</code></a></p></li>
 <li><p><a href='#method-predict'><code>MultipartiteSBM_fit$predict()</code></a></p></li>
 <li><p><a href='#method-setModel'><code>MultipartiteSBM_fit$setModel()</code></a></p></li>
 <li><p><a href='#method-show'><code>MultipartiteSBM_fit$show()</code></a></p></li>
-<li><p><a href='#method-print'><code>MultipartiteSBM_fit$print()</code></a></p></li>
 <li><p><a href='#method-clone'><code>MultipartiteSBM_fit$clone()</code></a></p></li>
 </ul>
 <p><details open ><summary>Inherited methods</summary>
 <ul>
 <li><p><span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM" data-id="plot"><a href='../../sbm/html/MultipartiteSBM.html#method-plot'><code>sbm::MultipartiteSBM$plot()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM" data-id="print"><a href='../../sbm/html/MultipartiteSBM.html#method-print'><code>sbm::MultipartiteSBM$print()</code></a></span></p></li>
 </ul>
 </details>
 
 <hr>
 <a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
 <p>constructor for Multipartite SBM</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>MultipartiteSBM_fit</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>listSBM</span><span class='op'>)</span></pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>MultipartiteSBM_fit</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>netList</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
-<dt><code>listSBM</code></dt><dd><p>list of SBM object with</p></dd>
+<dt><code>netList</code></dt><dd><p>list of SBM objects</p></dd>
 
 </dl><p></div></p>
 <p><hr>
@@ -215,25 +216,10 @@ R6 Class definition of a Multipartite SBM fit" />
 
 </dl><p></div></p>
 <p><hr>
-<a id="method-getBM"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>getBM()</code></h3>
-<p>getBM returns a given network from a Multipartite SBM</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>MultipartiteSBM_fit</span><span class='op'>$</span><span class='fu'>getBM</span><span class='op'>(</span><span class='va'>i</span><span class='op'>)</span></pre><p></div></p>
-
-<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
-<p><div class="arguments"></p><dl>
-<dt><code>i</code></dt><dd><p>index of the asked network</p></dd>
-
-</dl><p></div></p>
-<p><hr>
 <a id="method-predict"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code></h3>
 <p>prediction under the currently estimated model</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>MultipartiteSBM_fit</span><span class='op'>$</span><span class='fu'>predict</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
-<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
-<p><div class="arguments"></p><dl>
-<dt><code>covarList</code></dt><dd><p>a list of covariates. By default, we use the covariates with which the model was estimated</p></dd>
-
-</dl><p></div></p>
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
 <p>a list of matrices matrix of expected values for each dyad</p>
 <p><hr>
@@ -257,11 +243,6 @@ Fields of the current MultipartiteSBM_fit will be updated accordingly.</p><h4 cl
 <dt><code>type</code></dt><dd><p>character to tune the displayed name</p></dd>
 
 </dl><p></div></p>
-<p><hr>
-<a id="method-print"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/base/print.html'>print()</a></code></h3>
-<p>print method</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>MultipartiteSBM_fit</span><span class='op'>$</span><span class='fu'>print</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
-
 <p><hr>
 <a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>

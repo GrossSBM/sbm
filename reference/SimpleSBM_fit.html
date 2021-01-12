@@ -46,6 +46,8 @@ R6 Class definition of a Simple SBM fit" />
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -73,7 +75,7 @@ R6 Class definition of a Simple SBM fit" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sbm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -168,6 +170,10 @@ R6 Class definition of a Simple SBM fit" />
 
 <dt><code>memberships</code></dt><dd><p>vector of clustering</p></dd>
 
+<dt><code>blockProp</code></dt><dd><p>vector of block proportions (aka prior probabilities of each block)</p></dd>
+
+<dt><code>probMemberships</code></dt><dd><p>matrix of estimated probabilities for block memberships for all nodes</p></dd>
+
 <dt><code>nbConnectParam</code></dt><dd><p>number of parameter used for the connectivity</p></dd>
 
 <dt><code>directed</code></dt><dd><p>is the network directed or not</p></dd>
@@ -207,7 +213,7 @@ R6 Class definition of a Simple SBM fit" />
   <span class='va'>adjacencyMatrix</span>,
   <span class='va'>model</span>,
   <span class='va'>directed</span>,
-  dimLabels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>row <span class='op'>=</span> <span class='st'>"rowLabel"</span>, col <span class='op'>=</span> <span class='st'>"colLabel"</span><span class='op'>)</span>,
+  dimLabels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>row <span class='op'>=</span> <span class='st'>"node"</span>, col <span class='op'>=</span> <span class='st'>"node"</span><span class='op'>)</span>,
   covarList <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='op'>)</span></pre><p></div></p>
 
@@ -237,11 +243,13 @@ R6 Class definition of a Simple SBM fit" />
 <p><hr>
 <a id="method-predict"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code></h3>
 <p>prediction under the currently parameters</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>SimpleSBM_fit</span><span class='op'>$</span><span class='fu'>predict</span><span class='op'>(</span>covarList <span class='op'>=</span> <span class='va'>self</span><span class='op'>$</span><span class='va'>covarList</span><span class='op'>)</span></pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>SimpleSBM_fit</span><span class='op'>$</span><span class='fu'>predict</span><span class='op'>(</span>covarList <span class='op'>=</span> <span class='va'>self</span><span class='op'>$</span><span class='va'>covarList</span>, theta_p0 <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
 <dt><code>covarList</code></dt><dd><p>a list of covariates. By default, we use the covariates with which the model was estimated</p></dd>
+
+<dt><code>theta_p0</code></dt><dd><p>a threshold...</p></dd>
 
 </dl><p></div></p>
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>

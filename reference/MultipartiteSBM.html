@@ -46,6 +46,8 @@ R6 Class definition of a Multipartite SBM" />
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -73,7 +75,7 @@ R6 Class definition of a Multipartite SBM" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sbm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -148,23 +150,29 @@ R6 Class definition of a Multipartite SBM" />
     <h2 class="hasAnchor" id="active-bindings"><a class="anchor" href="#active-bindings"></a>Active bindings</h2>
 
     <p><div class="r6-active-bindings"></p><dl>
-<dt><code>nbNetworks</code></dt><dd><p>: number of networks in the multipartite network</p></dd>
-
-<dt><code>listSBM</code></dt><dd><p>: list of SimpleSBMs or BipartiteSBMs</p></dd>
-
-<dt><code>archiMultipartite</code></dt><dd><p>: organization of the multipartite network</p></dd>
-
-<dt><code>dimLabels</code></dt><dd><p>: labels of the functional groups</p></dd>
-
-<dt><code>nbLabels</code></dt><dd><p>: number of Functional groups involved in the multipartite</p></dd>
-
-<dt><code>nbNodes</code></dt><dd><p>: number of Nodes in each FG,</p></dd>
-
-<dt><code>expectation</code></dt><dd><p>expected values of connection under the currently adjusted model</p></dd>
-
 <dt><code>modelName</code></dt><dd><p>vector of characters, the family of model for the distribution of the edges in each network</p></dd>
 
-<dt><code>directed</code></dt><dd><p>: vector of boolean</p></dd>
+<dt><code>architecture</code></dt><dd><p>organization of the multipartite network</p></dd>
+
+<dt><code>nbNetworks</code></dt><dd><p>number of networks in the multipartite network</p></dd>
+
+<dt><code>directed</code></dt><dd><p>vector of boolean</p></dd>
+
+<dt><code>dimension</code></dt><dd><p>number of Nodes in each functional group,</p></dd>
+
+<dt><code>nbNodes</code></dt><dd><p>number of Nodes in each functional group</p></dd>
+
+<dt><code>dimLabels</code></dt><dd><p>labels of the functional groups</p></dd>
+
+<dt><code>nbLabels</code></dt><dd><p>number of functional groups involved in the multipartite</p></dd>
+
+<dt><code>blockProp</code></dt><dd><p>block proportions in each function group</p></dd>
+
+<dt><code>connectParam</code></dt><dd><p>connection parameters in each network</p></dd>
+
+<dt><code>networkList</code></dt><dd><p>list of SimpleSBMs or BipartiteSBMs</p></dd>
+
+<dt><code>expectation</code></dt><dd><p>expected values of connection under the currently adjusted model</p></dd>
 
 </dl><p></div></p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
@@ -182,13 +190,31 @@ R6 Class definition of a Multipartite SBM" />
 <p><hr>
 <a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
 <p>constructor for Multipartite SBM</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>MultipartiteSBM</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>listSBM</span>, memberships <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>MultipartiteSBM</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>
+  model <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>)</span>,
+  architecture <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='cn'>NA</span>, <span class='fl'>0</span>, <span class='fl'>2</span><span class='op'>)</span>,
+  directed <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/logical.html'>logical</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>)</span>,
+  dimension <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>numeric</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>)</span>,
+  dimLabels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>)</span>,
+  blockProp <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
+  connectParam <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
-<dt><code>listSBM</code></dt><dd><p>list of SimpleSBM or BipartiteSBM</p></dd>
+<dt><code>model</code></dt><dd><p>character describing the type of model</p></dd>
 
-<dt><code>memberships</code></dt><dd><p>list of memberships for each node in each function group.Default value is NULL</p></dd>
+<dt><code>architecture</code></dt><dd><p>a 2-column matrix describing interactions between the networks</p></dd>
+
+<dt><code>directed</code></dt><dd><p>vector of logical: are the network directed or not?</p></dd>
+
+<dt><code>dimension</code></dt><dd><p>number of nodes in each functional groups</p></dd>
+
+<dt><code>dimLabels</code></dt><dd><p>labels of each functional groups</p></dd>
+
+<dt><code>blockProp</code></dt><dd><p>parameters for block proportions (vector of list of vectors)</p></dd>
+
+<dt><code>connectParam</code></dt><dd><p>parameters of connectivity (vector of list of vectors)</p></dd>
 
 </dl><p></div></p>
 <p><hr>
