@@ -133,11 +133,6 @@ myMSBM$connectParam
 ```
 
 
-
-
-
-
-
 The clustering  supplied by the better model  are in `myMSBM$memberships***`.
 
 ```{r MBM Z }

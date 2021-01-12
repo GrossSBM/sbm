@@ -12,7 +12,6 @@ MultiplexSBM_fit <-
     private = list(
       BMobject = NULL,
       dependent =NULL,
-
       import_from_BM  = function(index = which.max(private$BMobject$ICL)) {
         private$J     <- private$BMobject$PL[index]
         private$vICL  <- private$BMobject$ICL[index]
