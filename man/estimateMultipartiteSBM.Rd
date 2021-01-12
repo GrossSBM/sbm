@@ -34,7 +34,7 @@ blockProp <- list(c(0.16 ,0.40 ,0.44),c(0.3,0.7)) # prop of blocks in each FG
 archiMultipartite <-  rbind(c(1,2),c(2,2),c(1,1)) # architecture of the multipartite net.
 nbNodes <- c(60,50)
 ## About the connection matrices
-directed <- c( NA,TRUE,  FALSE) # type of each network
+directed <- c(NA, TRUE, FALSE) # type of each network
 model <- c('gaussian','bernoulli','poisson')
 connectParam <- list()
 connectParam[[1]] <- list()
@@ -52,4 +52,5 @@ mySampleMSBM <- sampleMultipartiteSBM(nbNodes, blockProp,
 listSBM <- mySampleMSBM$listSBM
 estimOptions = list(initBM = FALSE,nbCores  = 2,initBM = FALSE)
 myMSBM <- estimateMultipartiteSBM(listSBM,estimOptions)
+plot(myMSBM,type='data')
 }

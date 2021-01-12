@@ -24,7 +24,7 @@ SimpleSBM_fit <-
       #' @param directed logical, directed network or not. In not, \code{adjacencyMatrix} must be symmetric.
       #' @param dimLabels list of labels of each dimension (in row, in columns)
       #' @param covarList and optional list of covariates, each of whom must have the same dimension as \code{adjacencyMatrix}
-      initialize = function(adjacencyMatrix, model, directed, dimLabels=list(row="rowLabel", col="colLabel"), covarList=list()) {
+      initialize = function(adjacencyMatrix, model, directed, dimLabels=list(row="node", col="node"), covarList=list()) {
 
         ## SANITY CHECKS
         stopifnot(all.equal(nrow(adjacencyMatrix), ncol(adjacencyMatrix)))  # matrix must be square
@@ -129,6 +129,24 @@ SimpleSBM_fit <-
       nbDyads     = function(value) {ifelse(private$directed_, self$nbNodes*(self$nbNodes - 1), self$nbNodes*(self$nbNodes - 1)/2)},
       #' @field memberships vector of clustering
       memberships = function(value) {as_clustering(private$tau)},
+      #' @field blockProp vector of block proportions (aka prior probabilities of each block)
+      blockProp   = function(value) {
+        if (missing(value))
+          return(private$pi)
+        else {
+          stopifnot(is.numeric(value))
+          private$pi <- value
+        }
+      },
+      #' @field probMemberships  matrix of estimated probabilities for block memberships for all nodes
+      probMemberships = function(value) {
+        if (missing(value))
+          return(private$tau)
+        else {
+          stopifnot(nrow(value)==private$dim[1])
+          private$tau <- value
+        }
+      },
       #' @field nbConnectParam number of parameter used for the connectivity
       nbConnectParam = function(value) {ifelse(private$directed_, self$nbBlocks^2, self$nbBlocks*(self$nbBlocks + 1)/2)},
       #' @field directed is the network directed or not

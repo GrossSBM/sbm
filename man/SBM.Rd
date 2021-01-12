@@ -15,13 +15,11 @@ R6 virtual class for SBM representation (mother class of Simple and Bipartite SB
 
 \item{\code{modelName}}{character, the family of model for the distribution of the edges}
 
-\item{\code{dimLabels}}{vector of characters, the label of each dimension}
+\item{\code{dimLabels}}{vector or list of characters, the label of each dimension}
 
 \item{\code{nbCovariates}}{integer, the number of covariates}
 
-\item{\code{blockProp}}{vector of block proportions (aka prior probabilities of each block)}
-
-\item{\code{nbBlocks}}{vector of number of blocks in each dimension}
+\item{\code{blockProp}}{block proportions (aka prior probabilities of each block)}
 
 \item{\code{connectParam}}{parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli}
 
@@ -58,7 +56,7 @@ constructor for SBM
 \if{html}{\out{<div class="r">}}\preformatted{SBM$new(
   model = "",
   dimension = numeric(2),
-  dimLabels = vector("list", 2),
+  dimLabels = list(row = NULL, col = NULL),
   blockProp = numeric(0),
   connectParam = list(mean = matrix()),
   covarParam = numeric(length(covarList)),

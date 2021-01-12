@@ -73,17 +73,16 @@ predict_lbm <- function(dimension,nbCovariates,link,invlink,tau,theta_mean,covar
     mu
 }
 #----------------------- RE-ORDERING
-order_sbm <- function(theta_mean,pi){
+order_sbm <- function(theta_mean, pi){
   o <- order(theta_mean %*% pi, decreasing = TRUE)
-  return(o)
+  o
 }
 
 order_lbm <- function(theta_mean,pi){
   oRow <- order(theta_mean %*% pi[[2]], decreasing = TRUE)
   oCol <- order(pi[[1]] %*% theta_mean, decreasing = TRUE)
-  return(list(row  = oRow, col = oCol))
+  list(row  = oRow, col = oCol)
 }
-
 
 order_mbm <- function(list_theta_mean,list_pi,E){
 
@@ -95,7 +94,7 @@ order_mbm <- function(list_theta_mean,list_pi,E){
     wcol <- c(which( (E[,2]==f_) & E[,1] != E[,2] ))
     if (length(wcol)>0){V <- c(rowSums(do.call('cbind',lapply(wcol,function(i){c(list_pi[[E[i,1]]]%*% list_theta_mean[[i]])}))))}
     order(U+V,decreasing = TRUE)})
-  return(oAll)
+  oAll
 }
 
 

@@ -34,10 +34,6 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 \item{\code{nbBlocks}}{: vector with the number of blocks in each FG}
 
 \item{\code{storedModels}}{data.frame of all models fitted (and stored) during the optimization}
-
-\item{\code{blockProp}}{: block proportions in each function group}
-
-\item{\code{connectParam}}{: connection parameters in each network}
 }
 \if{html}{\out{</div>}}
 }
@@ -49,7 +45,6 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 \item \href{#method-predict}{\code{MultipartiteSBM_fit$predict()}}
 \item \href{#method-setModel}{\code{MultipartiteSBM_fit$setModel()}}
 \item \href{#method-show}{\code{MultipartiteSBM_fit$show()}}
-\item \href{#method-print}{\code{MultipartiteSBM_fit$print()}}
 \item \href{#method-clone}{\code{MultipartiteSBM_fit$clone()}}
 }
 }
@@ -57,6 +52,7 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 \out{<details open ><summary>Inherited methods</summary>}
 \itemize{
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM" data-id="plot">}\href{../../sbm/html/MultipartiteSBM.html#method-plot}{\code{sbm::MultipartiteSBM$plot()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM" data-id="print">}\href{../../sbm/html/MultipartiteSBM.html#method-print}{\code{sbm::MultipartiteSBM$print()}}\out{</span>}
 }
 \out{</details>}
 }
@@ -66,13 +62,13 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 \subsection{Method \code{new()}}{
 constructor for Multipartite SBM
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MultipartiteSBM_fit$new(listSBM)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{MultipartiteSBM_fit$new(netList)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{listSBM}}{list of SBM object with}
+\item{\code{netList}}{list of SBM objects}
 }
 \if{html}{\out{</div>}}
 }
@@ -141,16 +137,6 @@ print method
 }
 \if{html}{\out{</div>}}
 }
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-print"></a>}}
-\if{latex}{\out{\hypertarget{method-print}{}}}
-\subsection{Method \code{print()}}{
-print method
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MultipartiteSBM_fit$print()}\if{html}{\out{</div>}}
-}
-
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

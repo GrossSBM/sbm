@@ -14,8 +14,6 @@ R6 virtual class for SBM representation
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{varProb}}{variational probabilities of nodes being in a block. Either return the probabilities of clustering or may be used to set that probabilities}
-
 \item{\code{memberships}}{list of size 2: vector of memberships in row, in column.}
 }
 \if{html}{\out{</div>}}
@@ -47,7 +45,7 @@ constructor for a Simple SBM fit
 \if{html}{\out{<div class="r">}}\preformatted{BipartiteSBM$new(
   incidenceMatrix,
   model,
-  dimLabels = list(row = "rowLabel", col = "colLabel"),
+  dimLabels = list(row = "row", col = "col"),
   covarList = list()
 )}\if{html}{\out{</div>}}
 }

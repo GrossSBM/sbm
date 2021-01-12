@@ -84,6 +84,7 @@ If one wants to keep a track of the names of the species, they should be used as
 PlantFlovis$netMatrix[1:2,1:2]
 ```
 
+
 A plot of the data can be obtained with following command
 
 ```{r plot data}

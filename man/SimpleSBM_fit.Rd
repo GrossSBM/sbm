@@ -35,6 +35,10 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 
 \item{\code{memberships}}{vector of clustering}
 
+\item{\code{blockProp}}{vector of block proportions (aka prior probabilities of each block)}
+
+\item{\code{probMemberships}}{matrix of estimated probabilities for block memberships for all nodes}
+
 \item{\code{nbConnectParam}}{number of parameter used for the connectivity}
 
 \item{\code{directed}}{is the network directed or not}
@@ -77,7 +81,7 @@ constructor for a Simple SBM fit
   adjacencyMatrix,
   model,
   directed,
-  dimLabels = list(row = "rowLabel", col = "colLabel"),
+  dimLabels = list(row = "node", col = "node"),
   covarList = list()
 )}\if{html}{\out{</div>}}
 }
