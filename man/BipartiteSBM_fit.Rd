@@ -37,6 +37,8 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 
 \item{\code{memberships}}{list of size 2: vector of memberships in row, in column.}
 
+\item{\code{blockProp}}{list of block proportions (aka prior probabilities of each block)}
+
 \item{\code{probMemberships}}{list of 2 matrices of estimated probabilities for block memberships for all nodes}
 
 \item{\code{penalty}}{double, value of the penalty term in ICL}
@@ -64,6 +66,7 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="plot">}\href{../../sbm/html/SBM.html#method-plot}{\code{sbm::SBM$plot()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="print">}\href{../../sbm/html/SBM.html#method-print}{\code{sbm::SBM$print()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM_fit" data-id="setModel">}\href{../../sbm/html/SBM_fit.html#method-setModel}{\code{sbm::SBM_fit$setModel()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM_fit" data-id="update">}\href{../../sbm/html/SBM_fit.html#method-update}{\code{sbm::SBM_fit$update()}}\out{</span>}
 }
 \out{</details>}
 }

@@ -26,6 +26,7 @@ R6 virtual class for SBM fit (mother class of Simple and Bipartite SBM fit)
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{SBM_fit$new()}}
+\item \href{#method-update}{\code{SBM_fit$update()}}
 \item \href{#method-show}{\code{SBM_fit$show()}}
 \item \href{#method-setModel}{\code{SBM_fit$setModel()}}
 \item \href{#method-predict}{\code{SBM_fit$predict()}}
@@ -62,6 +63,43 @@ constructor for SBM fit
 \item{\code{covarList}}{optional list of matrices for covariates}
 }
 \if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-update"></a>}}
+\if{latex}{\out{\hypertarget{method-update}{}}}
+\subsection{Method \code{update()}}{
+Update a \code{\link{SBM_fit}} object (SimpleSBM_fit or BipartiteSBM_fit)
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{SBM_fit$update(
+  blockProp = NA,
+  connectParam = NA,
+  covarParam = NA,
+  probMemberships = NA,
+  loglik = NA,
+  ICL = NA
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{blockProp}}{block proportions}
+
+\item{\code{connectParam}}{connectivity parameters}
+
+\item{\code{covarParam}}{covariate parameters}
+
+\item{\code{probMemberships}}{estimated probabilities for block memberships for all nodes}
+
+\item{\code{loglik}}{log-likelihood}
+
+\item{\code{ICL}}{Integrated Classifciation Likelihood Criterion}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Update the current \code{\link{SBM_fit}} object
 }
 }
 \if{html}{\out{<hr>}}

@@ -61,5 +61,3 @@ SimpleSBM <- # this class inherit from SBM and allow to use multipartite as a li
     )
   )
 
-
-

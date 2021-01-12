@@ -158,8 +158,9 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       modelName    = function(value) {private$model},
       #' @field dimLabels vector or list of characters, the label of each dimension
       dimLabels    = function(value) {
-        if (missing(value)){return(private$dimlab)
-        } else {
+        if (missing(value))
+          return(private$dimlab)
+        else {
           if(length(value) == 1){value = rep(value,2)}
           if(is.atomic(value)){value <- as.list(value)}
           if(is.null(names(value))){names(value)  = c('row','col')}
@@ -170,28 +171,27 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       },
       #' @field nbCovariates integer, the number of covariates
       nbCovariates = function(value) {length(private$X)},
-      #' @field blockProp vector of block proportions (aka prior probabilities of each block)
-      blockProp   = function(value) {if (missing(value)) return(private$pi) else private$pi <- value},
-      #' @field nbBlocks vector of number of blocks in each dimension
-      nbBlocks   = function(value) {
-        if (is.list(private$pi)) {
-          r <- sapply(private$pi, length)
-        } else{
-          r <- length(private$pi)
-        }
-        r},
+      #' @field blockProp block proportions (aka prior probabilities of each block)
+      blockProp   = function(value) {return(private$pi)},
       #' @field connectParam parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli
-      connectParam = function(value) {if (missing(value)) return(private$theta) else private$theta <- value},
+      connectParam = function(value) {
+        if (missing(value) )
+            return(private$theta)
+        else {
+          stopifnot(is.list(value), is.matrix(value$mean))
+          private$theta <- value
+        }
+      },
       #' @field covarParam vector of regression parameters associated with the covariates.
-      covarParam   = function(value) {if (missing(value)) return(private$beta) else private$beta <- value},
+      covarParam   = function(value) {return(private$beta)},
       #' @field covarList list of matrices of covariates
-      covarList    = function(value) {if (missing(value)) return(private$X) else private$X <- value},
+      covarList    = function(value) {return(private$X)},
       #' @field covarArray the array of covariates
       covarArray   = function(value) {if (self$nbCovariates > 0) simplify2array(private$X) else return(array())},
       #' @field covarEffect effect of covariates
       covarEffect  = function(value) {if (self$nbCovariates > 0) return(roundProduct(private$X, private$beta)) else return(numeric(0))},
       #' @field netMatrix the matrix (adjacency or incidence) encoding the network
-      netMatrix    = function(value) {if (missing(value)) return(private$Y) else private$Y <- value},
+      netMatrix    = function(value) {return(private$Y)},
       #' @field expectation expected values of connection under the currently adjusted model
       expectation = function() {self$predict()}
     )

@@ -492,8 +492,6 @@ plotMeso <- function(thetaMean, pi,model,directed,bipartite,nbNodes,nodeLabels,p
 #' @importFrom graphics plot
 plotMesoMultipartite <- function(E,theta, list_pi,v_distrib,directed,nbNodes,nodeLabels,plotOptions){
 
-
-
   directed[is.na(directed)] <- FALSE
   nbFG <- length(list_pi)
   nbNet <- nrow(E)
@@ -614,7 +612,6 @@ plotMesoMultipartite <- function(E,theta, list_pi,v_distrib,directed,nbNodes,nod
 
   DIR <-c(c(t(DIR))[c(t(alpha.norm)) != 0] != 'FALSE')
 
-
   currentOptions$seed <- .Random.seed
   set.seed(currentOptions$seed)
   old_par <- par(mar = rep(0.15,4))
@@ -643,7 +640,5 @@ plotMesoMultipartite <- function(E,theta, list_pi,v_distrib,directed,nbNodes,nod
      )
     par(old_par)
     list(g = g,layout = layout,plotOptions = currentOptions)
-
-
 
 }

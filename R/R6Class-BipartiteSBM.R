@@ -8,9 +8,8 @@ BipartiteSBM <- # this class inherit from SBM and allow to use multipartite as a
     classname = "BipartiteSBM",
     inherit = SBM,
     private = list(
-      Y = NULL,
+      Y   = NULL,
       tau = NULL
-
     ),
     public = list(
       #' @description constructor for a Simple SBM fit
