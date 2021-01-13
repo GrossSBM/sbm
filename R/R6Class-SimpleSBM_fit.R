@@ -9,7 +9,6 @@ SimpleSBM_fit <-
   R6::R6Class(classname = "SimpleSBM_fit",
     inherit = SBM_fit,
     private = list(
-      directed_ = NULL, # is the network directed or not
       import_from_BM = function(index = which.max(private$BMobject$ICL)) { # a function updating the Class
         super$import_from_BM(index)
         private$tau <- private$BMobject$memberships[[index]]$Z
@@ -24,16 +23,18 @@ SimpleSBM_fit <-
       #' @param directed logical, directed network or not. In not, \code{adjacencyMatrix} must be symmetric.
       #' @param dimLabels list of labels of each dimension (in row, in columns)
       #' @param covarList and optional list of covariates, each of whom must have the same dimension as \code{adjacencyMatrix}
-      initialize = function(adjacencyMatrix, model, directed, dimLabels=list(row="node", col="node"), covarList=list()) {
+      initialize = function(adjacencyMatrix, model, directed, dimLabels=c(node="nodeName"), covarList=list()) {
 
         ## SANITY CHECKS
+        stopifnot(is.matrix(adjacencyMatrix))                               # must be a matrix
         stopifnot(all.equal(nrow(adjacencyMatrix), ncol(adjacencyMatrix)))  # matrix must be square
         stopifnot(isSymmetric(adjacencyMatrix) == !directed)                # symmetry and direction must agree
+        stopifnot(length(dimLabels) == 1)                                   # one dimension (number of nodes)
+        stopifnot(all(sapply(covarList, nrow) == nrow(adjacencyMatrix)))    # consistency of the covariates
+        stopifnot(all(sapply(covarList, ncol) == ncol(adjacencyMatrix)))    # with the network data
 
         ## INITIALIZE THE SBM OBJECT ACCORDING TO THE DATA
-        super$initialize(adjacencyMatrix, model, dimLabels, covarList)
-        private$directed_ <- directed
-
+        super$initialize(adjacencyMatrix, model, directed, nrow(adjacencyMatrix), dimLabels, covarList)
       },
       #--------------------------------------------
       #' @description function to perform optimization
@@ -102,7 +103,7 @@ SimpleSBM_fit <-
         if (self$nbCovariates > 0) {
           stopifnot(all(sapply(covarList, nrow) == self$nbNodes,
                         sapply(covarList, ncol) == self$nbNodes))
-          mu <- private$invlink(private$link(mu) + self$covarEffect)
+          mu <- private$invlink[[1L]](private$link[[1L]](mu) + self$covarEffect)
         }
         mu
       },
@@ -121,7 +122,7 @@ SimpleSBM_fit <-
     ),
     active = list(
       #' @field nbNodes number of nodes
-      nbNodes     = function(value) {private$dim[1]},
+      nbNodes     = function(value) {private$dim},
       #' @field nbBlocks number of blocks
       nbBlocks    = function(value) {length(private$pi)},
       #' @field nbDyads number of dyads (potential edges in the network)
@@ -142,7 +143,7 @@ SimpleSBM_fit <-
         if (missing(value))
           return(private$tau)
         else {
-          stopifnot(nrow(value)==private$dim[1])
+          stopifnot(nrow(value)==private$dim)
           private$tau <- value
         }
       },

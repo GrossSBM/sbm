@@ -46,7 +46,7 @@ test_that("Construction, fields access and other basics work in class BipartiteS
   expect_equal(dim(mySampler$expectation), nbNodes)
   expect_true(all(mySampler$expectation >= 0, na.rm = TRUE))
   expect_true(all(mySampler$expectation <= 1, na.rm = TRUE))
-  expect_false(isSymmetric(mySampler$netMatrix))
+  expect_false(isSymmetric(mySampler$networkData))
 
   ## blocks
   expect_equal(mySampler$blockProp, blockProp)
@@ -97,7 +97,7 @@ test_that("Construction, fields access and other basics work in class BipartiteS
   expect_null(mySampler$connectParam$var)
   expect_equal(dim(mySampler$expectation), nbNodes)
   expect_true(all(mySampler$expectation >= 0, na.rm = TRUE))
-  expect_false(isSymmetric(mySampler$netMatrix))
+  expect_false(isSymmetric(mySampler$networkData))
 
   ## blocks
   expect_equal(mySampler$blockProp, blockProp)
@@ -148,7 +148,7 @@ test_that("Construction, fields access and other basics work in class BipartiteS
   expect_equal(mySampler$connectParam$mean, means)
   expect_gt(mySampler$connectParam$var, 0)
   expect_equal(dim(mySampler$expectation), nbNodes)
-  expect_false(isSymmetric(mySampler$netMatrix))
+  expect_false(isSymmetric(mySampler$networkData))
 
   ## blocks
   expect_equal(mySampler$blockProp, blockProp)

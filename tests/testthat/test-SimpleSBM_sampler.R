@@ -33,15 +33,15 @@ test_that("Construction, fields access and other basics work in class SimpleSBM_
   ## parameters
   expect_equal(mySampler$modelName, 'bernoulli')
   expect_equal(mySampler$nbNodes, nbNodes)
-  expect_equal(mySampler$dimension, c(nbNodes, nbNodes))
+  expect_equal(mySampler$dimension, nbNodes)
   expect_equal(mySampler$nbDyads, nbNodes*(nbNodes - 1)/2)
   expect_equal(mySampler$connectParam$mean, means)
   expect_null(mySampler$connectParam$var)
   expect_equal(dim(mySampler$expectation), c(nbNodes, nbNodes))
   expect_true(all(mySampler$expectation >= 0, na.rm = TRUE))
   expect_true(all(mySampler$expectation <= 1, na.rm = TRUE))
-  expect_true(isSymmetric(mySampler$netMatrix))
-  expect_true(all(is.na(diag(mySampler$netMatrix))))
+  expect_true(isSymmetric(mySampler$networkData))
+  expect_true(all(is.na(diag(mySampler$networkData))))
   expect_true(!mySampler$directed)
 
   ## blocks
@@ -55,6 +55,7 @@ test_that("Construction, fields access and other basics work in class SimpleSBM_
   expect_equal(mySampler$nbCovariates, 0)
   expect_equal(mySampler$covarList, list())
   expect_equal(mySampler$covarParam, numeric(0))
+  expect_equal(mySampler$covarEffect, numeric(0))
 
 })
 
@@ -86,15 +87,15 @@ test_that("Construction, fields access and other basics work in class SimpleSBM_
   ## parameters
   expect_equal(mySampler$modelName, 'bernoulli')
   expect_equal(mySampler$nbNodes, nbNodes)
-  expect_equal(mySampler$dimension, c(nbNodes, nbNodes))
+  expect_equal(mySampler$dimension, nbNodes)
   expect_equal(mySampler$nbDyads, nbNodes*(nbNodes - 1))
   expect_equal(mySampler$connectParam$mean, means)
   expect_null(mySampler$connectParam$var)
   expect_equal(dim(mySampler$expectation), c(nbNodes, nbNodes))
   expect_true(all(mySampler$expectation >= 0, na.rm = TRUE))
   expect_true(all(mySampler$expectation <= 1, na.rm = TRUE))
-  expect_true(all(is.na(diag(mySampler$netMatrix))))
-  expect_true(!isSymmetric(mySampler$netMatrix))
+  expect_true(all(is.na(diag(mySampler$networkData))))
+  expect_true(!isSymmetric(mySampler$networkData))
   expect_true(mySampler$directed)
 
   ## blocks
@@ -108,6 +109,7 @@ test_that("Construction, fields access and other basics work in class SimpleSBM_
   expect_equal(mySampler$nbCovariates, 0)
   expect_equal(mySampler$covarList, list())
   expect_equal(mySampler$covarParam, numeric(0))
+  expect_equal(mySampler$covarEffect, numeric(0))
 
 })
 
@@ -138,14 +140,14 @@ test_that("Construction, fields access and other basics work in class SimpleSBM_
   ## parameters
   expect_equal(mySampler$modelName, 'poisson')
   expect_equal(mySampler$nbNodes, nbNodes)
-  expect_equal(mySampler$dimension, c(nbNodes, nbNodes))
+  expect_equal(mySampler$dimension, nbNodes)
   expect_equal(mySampler$nbDyads, nbNodes*(nbNodes - 1)/2)
   expect_equal(mySampler$connectParam$mean, means)
   expect_null(mySampler$connectParam$var)
   expect_equal(dim(mySampler$expectation), c(nbNodes, nbNodes))
   expect_true(all(mySampler$expectation >= 0, na.rm = TRUE))
-  expect_true(all(is.na(diag(mySampler$netMatrix))))
-  expect_true(isSymmetric(mySampler$netMatrix))
+  expect_true(all(is.na(diag(mySampler$networkData))))
+  expect_true(isSymmetric(mySampler$networkData))
 
   ## blocks
   expect_equal(mySampler$blockProp, blockProp)
@@ -158,6 +160,7 @@ test_that("Construction, fields access and other basics work in class SimpleSBM_
   expect_equal(mySampler$nbCovariates, 0)
   expect_equal(mySampler$covarList, list())
   expect_equal(mySampler$covarParam, numeric(0))
+  expect_equal(mySampler$covarEffect, numeric(0))
 
 })
 
@@ -188,14 +191,14 @@ test_that("Construction, fields access and other basics work in class SimpleSBM_
   ## parameters
   expect_equal(mySampler$modelName, 'poisson')
   expect_equal(mySampler$nbNodes, nbNodes)
-  expect_equal(mySampler$dimension, c(nbNodes, nbNodes))
+  expect_equal(mySampler$dimension, nbNodes)
   expect_equal(mySampler$nbDyads, nbNodes*(nbNodes - 1))
   expect_equal(mySampler$connectParam$mean, means)
   expect_null(mySampler$connectParam$var)
   expect_equal(dim(mySampler$expectation), c(nbNodes, nbNodes))
   expect_true(all(mySampler$expectation >= 0, na.rm = TRUE))
-  expect_true(all(is.na(diag(mySampler$netMatrix))))
-  expect_true(!isSymmetric(mySampler$netMatrix))
+  expect_true(all(is.na(diag(mySampler$networkData))))
+  expect_true(!isSymmetric(mySampler$networkData))
   expect_true(mySampler$directed)
 
   ## blocks
@@ -209,6 +212,7 @@ test_that("Construction, fields access and other basics work in class SimpleSBM_
   expect_equal(mySampler$nbCovariates, 0)
   expect_equal(mySampler$covarList, list())
   expect_equal(mySampler$covarParam, numeric(0))
+  expect_equal(mySampler$covarEffect, numeric(0))
 
 })
 
@@ -240,13 +244,13 @@ test_that("Construction, fields access and other basics work in class SimpleSBM_
   ## parameters
   expect_equal(mySampler$modelName, 'gaussian')
   expect_equal(mySampler$nbNodes, nbNodes)
-  expect_equal(mySampler$dimension, c(nbNodes, nbNodes))
+  expect_equal(mySampler$dimension, nbNodes)
   expect_equal(mySampler$nbDyads, nbNodes*(nbNodes - 1)/2)
   expect_equal(mySampler$connectParam$mean, means)
   expect_equal(mySampler$connectParam$var, 2)
   expect_equal(dim(mySampler$expectation), c(nbNodes, nbNodes))
-  expect_true(all(is.na(diag(mySampler$netMatrix))))
-  expect_true(isSymmetric(mySampler$netMatrix))
+  expect_true(all(is.na(diag(mySampler$networkData))))
+  expect_true(isSymmetric(mySampler$networkData))
 
   ## blocks
   expect_equal(mySampler$blockProp, blockProp)
@@ -259,6 +263,7 @@ test_that("Construction, fields access and other basics work in class SimpleSBM_
   expect_equal(mySampler$nbCovariates, 0)
   expect_equal(mySampler$covarList, list())
   expect_equal(mySampler$covarParam, numeric(0))
+  expect_equal(mySampler$covarEffect, numeric(0))
 
 })
 
@@ -289,13 +294,13 @@ test_that("Construction, fields access and other basics work in class SimpleSBM_
   ## parameters
   expect_equal(mySampler$modelName, 'gaussian')
   expect_equal(mySampler$nbNodes, nbNodes)
-  expect_equal(mySampler$dimension, c(nbNodes, nbNodes))
+  expect_equal(mySampler$dimension, nbNodes)
   expect_equal(mySampler$nbDyads, nbNodes*(nbNodes - 1))
   expect_equal(mySampler$connectParam$mean, means)
   expect_equal(mySampler$connectParam$var, 2)
   expect_equal(dim(mySampler$expectation), c(nbNodes, nbNodes))
-  expect_true(all(is.na(diag(mySampler$netMatrix))))
-  expect_true(!isSymmetric(mySampler$netMatrix))
+  expect_true(all(is.na(diag(mySampler$networkData))))
+  expect_true(!isSymmetric(mySampler$networkData))
   expect_true(mySampler$directed)
 
   ## blocks
@@ -309,6 +314,7 @@ test_that("Construction, fields access and other basics work in class SimpleSBM_
   expect_equal(mySampler$nbCovariates, 0)
   expect_equal(mySampler$covarList, list())
   expect_equal(mySampler$covarParam, numeric(0))
+  expect_equal(mySampler$covarEffect, numeric(0))
 
 })
 

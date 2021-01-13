@@ -7,10 +7,10 @@
 MultipartiteSBM <-
   R6::R6Class(
     classname = "MultipartiteSBM",
+    inherit = SBM,
     # fields for internal use (referring to the mathematical notation)
     private = list(
       model     = NULL, # vector of characters for the model name: distributions of the edges
-      directed_ = NULL, # vector of logical indicating if networks are directed, when appropriate
       netList   = NULL, # list of SimpleSBMs and BipartiteSBMs composing the multipartite network
       arch      = NULL, # matrix describing the organization of the multipartite network
       dim       = NULL, # number of nodes in each function groups

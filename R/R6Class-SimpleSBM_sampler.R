@@ -7,9 +7,6 @@ SimpleSBM_sampler <-
   R6::R6Class(classname = "SimpleSBM_sampler",
    inherit = SBM_sampler,
    ## fields for internal use (referring to the mathematical notation)
-    private = list(
-      directed_ = NULL # is the network directed or not (Symmetric netMatrix)
-    ),
     public = list(
       #' @description constructor for SBM
       #' @param model character describing the type of model
@@ -20,28 +17,28 @@ SimpleSBM_sampler <-
       #' @param dimLabels optional labels of each dimension (in row, in column)
       #' @param covarParam optional vector of covariates effect
       #' @param covarList optional list of covariates data
-      initialize = function(model, nbNodes, directed, blockProp, connectParam, dimLabels=list(row="node", col="node"), covarParam=numeric(0), covarList=list()) {
+      initialize = function(model, nbNodes, directed, blockProp, connectParam, dimLabels=c(node="nodeName"), covarParam=numeric(0), covarList=list()) {
 
         ## ADDITIONAL SANITY CHECKS
-        stopifnot(all(blockProp > 0))
-        stopifnot(all.equal(length(blockProp),      # dimensions match between vector of
-                            ncol(connectParam$mean),  # block proportion and connectParam$mean
+        stopifnot(all(blockProp > 0), all(blockProp < 1)) # positive proportions
+        stopifnot(all.equal(length(blockProp),            # dimensions match between vector of
+                            ncol(connectParam$mean),      # block proportion and connectParam$mean
                             nrow(connectParam$mean)))
+        stopifnot(length(dimLabels) == 1)
         if (!directed) stopifnot(isSymmetric(connectParam$mean)) # connectivity and direction must agree
-        super$initialize(model, c(nbNodes, nbNodes), blockProp, dimLabels, connectParam, covarParam, covarList)
-        private$directed_ <- directed
+        super$initialize(model, nbNodes, directed, blockProp, dimLabels, connectParam, covarParam, covarList)
         self$rAdjacency()
       },
       #' @description a method to generate a vector of block indicators
       #' @return nothing (sampled memberships is stored in the current object)
       rMemberships = function() {
-        private$Z <- t(rmultinom(private$dim[1], size = 1, prob = private$pi))
+        private$Z <- t(rmultinom(private$dim, size = 1, prob = private$pi))
       },
       #' @description a method to sample an adjacency matrix for the current SBM
       #' @return nothing (sampled adjacency matrix is stored in the current object)
       rAdjacency = function() {
         Y <- suppressWarnings(private$sampling_func(self$nbNodes**2, list(mean = self$expectation, var = self$variance))) %>%
-          matrix(private$dim[1], private$dim[2])
+          matrix(private$dim, private$dim)
         diag(Y) <- NA
         if (!private$directed_) Y <- Y * lower.tri(Y) + t(Y * lower.tri(Y))
         private$Y <- Y
@@ -56,7 +53,7 @@ SimpleSBM_sampler <-
     ),
     active = list(
       #' @field nbNodes number of nodes
-      nbNodes     = function(value) {private$dim[1]},
+      nbNodes     = function(value) {private$dim},
       #' @field nbBlocks number of blocks
       nbBlocks    = function(value) {length(private$pi)},
       #' @field nbDyads number of dyads (potential edges in the network)
@@ -70,12 +67,10 @@ SimpleSBM_sampler <-
       #' @field expectation expected values of connection under the current model
       expectation = function() {
         mu <- private$Z %*% private$theta$mean %*% t(private$Z)
-        if (self$nbCovariates > 0) mu <- private$invlink(private$link(mu) + self$covarEffect)
+        if (self$nbCovariates > 0) mu <- private$invlink[[1L]](private$link[[1L]](mu) + self$covarEffect)
         diag(mu) <- NA
         mu
-      },
-      #' @field directed is the network directed or not
-      directed = function(value) {private$directed_}
+      }
     )
   )
 

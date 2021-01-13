@@ -7,57 +7,71 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
   R6::R6Class(classname = "SBM",
     ## fields for internal use (referring to the mathematical notation)
     private = list(
-      model   = NULL, # characters, the model name: distribution of the edges (bernoulli, poisson, gaussian)
-      link    = NULL, # the link function (GLM-like)
-      invlink = NULL, # the inverse link function (GLM-like)
-      dim     = NULL, # vector: number of nodes in row and in col
-      dimlab  = NULL, # vector: the type of nodes in row and in col
-      pi      = NULL, # vector of parameters for block prior probabilities
-      theta   = NULL, # connectivity parameters between edges
-      beta    = NULL, # vector of covariates parameters
-      Y       = NULL, # data matrix  (dim[1] x dim[2])
-      X       = NULL  # list of covariates (list of dim[1] x dim[2] matrices)
+      model     = NULL, # characters, the model name: distribution of the edges (bernoulli, poisson, gaussian)
+      directed_ = NULL, # vector of logical indicating if networks are directed, when appropriate
+      link      = NULL, # the link function (GLM-like)
+      invlink   = NULL, # the inverse link function (GLM-like)
+      dim       = NULL, # dimension: number of nodes for each group
+      dimlab    = NULL, # vector: the type of nodes in row and in col
+      pi        = NULL, # vector of parameters for block prior probabilities
+      theta     = NULL, # connectivity parameters between edges
+      beta      = NULL, # vector of covariates parameters
+      Y         = NULL, # network data (matrix or list of matrices)
+      X         = NULL  # list of covariates
     ),
     public = list(
       #' @description constructor for SBM
       #' @param model character describing the type of model
-      #' @param dimension dimension of the network matrix
-      #' @param dimLabels labels of each dimension (in row, in columns)
-      #' @param blockProp parameters for block proportions (vector of list of vectors)
+      #' @param directed logical describing if the network data is directed or not
+      #' @param dimension dimension of the network data
+      #' @param dimLabels labels of each dimension
+      #' @param blockProp parameters for block proportions (vector or list of vectors)
       #' @param connectParam list of parameters for connectivity
       #' @param covarParam optional vector of covariates effect
       #' @param covarList optional list of covariates data
-      initialize = function(model='', dimension=numeric(2), dimLabels=list(row = NULL, col = NULL), blockProp=numeric(0), connectParam=list(mean = matrix()), covarParam=numeric(length(covarList)), covarList=list()) {
+      initialize = function(model        = vector("character", 0),
+                            directed     = vector("logical"  , 0),
+                            dimension    = vector("numeric"  , 0),
+                            dimLabels    = vector("character", 0),
+                            blockProp    = vector("numeric"  , 0),
+                            connectParam = vector("list"     , 0),
+                            covarParam   = numeric(length(covarList)),
+                            covarList    = list()) {
 
         ## SANITY CHECK
-        stopifnot(is.character(model), model %in% available_models_edges)
-        stopifnot(is.list(dimLabels), length(dimLabels) == 2)
-        stopifnot(is.numeric(dimension), length(dimension) == 2)
-        stopifnot(is.list(connectParam), is.matrix(connectParam$mean))
+        stopifnot(is.character(model), all(model %in% available_models_edges))
+        stopifnot(is.logical(directed))
+        stopifnot(is.atomic(dimLabels), length(dimLabels) == length(dimension))
+        stopifnot(is.numeric(dimension))
+        stopifnot(is.list(connectParam))
         stopifnot(all.equal(length(covarParam), length(covarList)))
-        stopifnot(all(sapply(covarList, nrow) == dimension[1]))
-        stopifnot(all(sapply(covarList, ncol) == dimension[2]))
 
         ## MODEL & PARAMETERS
-        private$model  <- model
-        private$dim    <- dimension
-        private$dimlab <- dimLabels
-        private$X      <- covarList
-        private$pi     <- blockProp
-        private$theta  <- connectParam
-        private$beta   <- covarParam
-        private$link   <- switch(model,
+        private$model      <- model
+        private$directed_  <- directed
+        private$dim        <- dimension
+        private$dimlab     <- dimLabels
+        private$X          <- covarList
+        private$pi         <- blockProp
+        private$theta      <- connectParam
+        private$beta       <- covarParam
+
+        private$link   <- map(model,
+          ~switch(.x,
                 "gaussian"   = function(x) {x},
                 "ZIgaussian" = function(x) {x},
                 "poisson"    = function(x) {log(x)},
                 "bernoulli"  = function(x) {.logit(x)},
                 )
-        private$invlink <- switch(model,
+          )
+        private$invlink <- map(model,
+          ~switch(.x,
                 "gaussian"   = function(x) {x},
                 "ZIgaussian" = function(x) {x},
                 "poisson"    = function(x) {exp(x)},
                 "bernoulli"  = function(x) {.logistic(x)},
                 )
+          )
       },
       #' @description basic matrix plot method for SBM object or mesoscopic plot
       #' @param type character for the type of plot: either 'data' (true connection), 'expected' (fitted connection) or 'meso' (mesoscopic view). Default to 'data'.
@@ -117,7 +131,7 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
                    nodeLabels = private$dimlab,
                    plotOptions)
         } else {
-            Mat <- switch(type, data = self$netMatrix, expected = self$expectation)
+            Mat <- switch(type, data = self$networkData, expected = self$expectation)
             cl <- NULL
 
 
@@ -154,6 +168,8 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       dimension    = function(value) {private$dim},
       #' @field modelName character, the family of model for the distribution of the edges
       modelName    = function(value) {private$model},
+      #' @field directed mode of the network data (directed or not or not applicable)
+      directed = function(value) {private$directed_},
       #' @field dimLabels vector or list of characters, the label of each dimension
       dimLabels    = function(value) {
         if (missing(value))
@@ -170,26 +186,26 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       #' @field nbCovariates integer, the number of covariates
       nbCovariates = function(value) {length(private$X)},
       #' @field blockProp block proportions (aka prior probabilities of each block)
-      blockProp   = function(value) {return(private$pi)},
+      blockProp   = function(value) {private$pi},
       #' @field connectParam parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli
-      connectParam = function(value) {
-        if (missing(value) )
-            return(private$theta)
-        else {
-          stopifnot(is.list(value), is.matrix(value$mean))
-          private$theta <- value
+      connectParam = function(value) {#private$theta},
+         if (missing(value) )
+             return(private$theta)
+         else {
+           stopifnot(is.list(value))
+           private$theta <- value
         }
       },
       #' @field covarParam vector of regression parameters associated with the covariates.
-      covarParam  = function(value) {return(private$beta)},
+      covarParam  = function(value) {private$beta},
       #' @field covarList list of matrices of covariates
-      covarList   = function(value) {return(private$X)},
+      covarList   = function(value) {private$X},
       #' @field covarArray the array of covariates
       covarArray  = function(value) {if (self$nbCovariates > 0) simplify2array(private$X) else return(array())},
       #' @field covarEffect effect of covariates
       covarEffect = function(value) {if (self$nbCovariates > 0) return(roundProduct(private$X, private$beta)) else return(numeric(0))},
-      #' @field netMatrix the matrix (adjacency or incidence) encoding the network
-      netMatrix   = function(value) {return(private$Y)},
+      #' @field networkData the network data (adjacency or incidence matrix or list of such object)
+      networkData = function(value) {return(private$Y)},
       #' @field expectation expected values of connection under the currently adjusted model
       expectation = function() {self$predict()}
     )

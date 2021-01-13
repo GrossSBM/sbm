@@ -15,6 +15,8 @@ R6 virtual class for SBM representation (mother class of Simple and Bipartite SB
 
 \item{\code{modelName}}{character, the family of model for the distribution of the edges}
 
+\item{\code{directed}}{mode of the network data (directed or not or not applicable)}
+
 \item{\code{dimLabels}}{vector or list of characters, the label of each dimension}
 
 \item{\code{nbCovariates}}{integer, the number of covariates}
@@ -31,7 +33,7 @@ R6 virtual class for SBM representation (mother class of Simple and Bipartite SB
 
 \item{\code{covarEffect}}{effect of covariates}
 
-\item{\code{netMatrix}}{the matrix (adjacency or incidence) encoding the network}
+\item{\code{networkData}}{the network data (adjacency or incidence matrix or list of such object)}
 
 \item{\code{expectation}}{expected values of connection under the currently adjusted model}
 }
@@ -54,11 +56,12 @@ R6 virtual class for SBM representation (mother class of Simple and Bipartite SB
 constructor for SBM
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{SBM$new(
-  model = "",
-  dimension = numeric(2),
-  dimLabels = list(row = NULL, col = NULL),
-  blockProp = numeric(0),
-  connectParam = list(mean = matrix()),
+  model = vector("character", 0),
+  directed = vector("logical", 0),
+  dimension = vector("numeric", 0),
+  dimLabels = vector("character", 0),
+  blockProp = vector("numeric", 0),
+  connectParam = vector("list", 0),
   covarParam = numeric(length(covarList)),
   covarList = list()
 )}\if{html}{\out{</div>}}
@@ -69,11 +72,13 @@ constructor for SBM
 \describe{
 \item{\code{model}}{character describing the type of model}
 
-\item{\code{dimension}}{dimension of the network matrix}
+\item{\code{directed}}{logical describing if the network data is directed or not}
 
-\item{\code{dimLabels}}{labels of each dimension (in row, in columns)}
+\item{\code{dimension}}{dimension of the network data}
 
-\item{\code{blockProp}}{parameters for block proportions (vector of list of vectors)}
+\item{\code{dimLabels}}{labels of each dimension}
+
+\item{\code{blockProp}}{parameters for block proportions (vector or list of vectors)}
 
 \item{\code{connectParam}}{list of parameters for connectivity}
 

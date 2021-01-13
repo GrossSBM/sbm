@@ -45,7 +45,7 @@ R6 virtual class for SBM fit (mother class of Simple and Bipartite SBM fit)
 \subsection{Method \code{new()}}{
 constructor for SBM fit
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{SBM_fit$new(data, model, dimLabels, covarList)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{SBM_fit$new(data, model, directed, dimension, dimLabels, covarList)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -55,7 +55,11 @@ constructor for SBM fit
 
 \item{\code{model}}{character describing the type of model}
 
-\item{\code{dimLabels}}{labels of each dimension (in row, in columns)}
+\item{\code{directed}}{logical describing if the network data is directed or not}
+
+\item{\code{dimension}}{dimension of the network data}
+
+\item{\code{dimLabels}}{labels of each dimension}
 
 \item{\code{covarList}}{optional list of matrices for covariates}
 }

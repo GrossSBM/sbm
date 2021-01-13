@@ -14,14 +14,15 @@ SBM_sampler <- # Virtual call for SBM sampler (children: Simple and Bipartite SB
       #' @description constructor for SBM
       #' @param model character describing the type of model
       #' @param nbNodes number of nodes in the network
+      #' @param directed logical describing if the network data is directed or not
       #' @param dimLabels labels of each dimension (in row, in column)
       #' @param blockProp parameters for block proportions (vector of list of vectors)
       #' @param connectParam list of parameters for connectivity with a matrix of means 'mean' and an optional scalar for the variance 'var'. The dimensions of mu must match \code{blockProp} lengths
       #' @param covarParam optional vector of covariates effect
       #' @param covarList optional list of covariates data
-      initialize = function(model, nbNodes, blockProp, dimLabels, connectParam, covarParam=numeric(0), covarList=list()) {
+      initialize = function(model, nbNodes, directed, blockProp, dimLabels, connectParam, covarParam=numeric(0), covarList=list()) {
 
-        super$initialize(model = model, dimension = nbNodes, dimLabels = dimLabels, blockProp = blockProp, connectParam = connectParam, covarParam = covarParam, covarList = covarList)
+        super$initialize(model = model, directed = directed, dimension = nbNodes, dimLabels = dimLabels, blockProp = blockProp, connectParam = connectParam, covarParam = covarParam, covarList = covarList)
 
         ## ADDITIONAL CHECKS
         if (model == 'bernoulli') {
@@ -41,9 +42,9 @@ SBM_sampler <- # Virtual call for SBM sampler (children: Simple and Bipartite SB
         }
 
         private$sampling_func <- switch(model,
-            "gaussian"  = function(n, param) rnorm(n = n, mean   = param$mean, sd = sqrt(param$var)) ,
-            "poisson"   = function(n, param) rpois(n = n, lambda = param$mean) ,
-            "bernoulli" = function(n, param) rbinom(n = n, size = 1, prob   = param$mean),
+            "gaussian"   = function(n, param) rnorm(n = n, mean   = param$mean, sd = sqrt(param$var)) ,
+            "poisson"    = function(n, param) rpois(n = n, lambda = param$mean) ,
+            "bernoulli"  = function(n, param) rbinom(n = n, size = 1, prob   = param$mean),
             "ZIgaussian" = function(n, param) rbinom(n = n,size = 1,prob = 1-param$p0)*rnorm(n = n, param$mean, sd = sqrt(param$var))
           )
         self$rMemberships()

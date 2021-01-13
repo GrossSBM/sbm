@@ -81,7 +81,7 @@ constructor for a Simple SBM fit
   adjacencyMatrix,
   model,
   directed,
-  dimLabels = list(row = "node", col = "node"),
+  dimLabels = c(node = "nodeName"),
   covarList = list()
 )}\if{html}{\out{</div>}}
 }

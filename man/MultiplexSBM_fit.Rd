@@ -22,7 +22,7 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 }
 }
 \section{Super classes}{
-\code{\link[sbm:MultipartiteSBM]{sbm::MultipartiteSBM}} -> \code{\link[sbm:MultipartiteSBM_fit]{sbm::MultipartiteSBM_fit}} -> \code{MultiplexSBM_fit}
+\code{\link[sbm:SBM]{sbm::SBM}} -> \code{\link[sbm:MultipartiteSBM]{sbm::MultipartiteSBM}} -> \code{\link[sbm:MultipartiteSBM_fit]{sbm::MultipartiteSBM_fit}} -> \code{MultiplexSBM_fit}
 }
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}

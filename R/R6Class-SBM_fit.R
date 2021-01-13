@@ -7,9 +7,9 @@ SBM_fit <- # this virtual class is the mother of all subtypes of SBM (Simple or 
     inherit = SBM,
     ## fields for internal use (referring to the mathematical notation)
     private = list(
-      J              = NULL, # variational approximation of the log-likelihood
-      vICL           = NULL, # variational approximation of the ICL
-      tau            = NULL, # variational parameters for posterior probability of class belonging
+      J              = NULL, # approximation of the log-likelihood
+      vICL           = NULL, # approximation of the ICL
+      tau            = NULL, # parameters for posterior probability of class belonging
       BMobject       = NULL, # blockmodels output (used to stored the optimization results when blockmodels is used)
       import_from_BM  = function(index = which.max(private$BMobject$ICL)) {
         private$J     <- private$BMobject$PL[index]
@@ -32,10 +32,12 @@ SBM_fit <- # this virtual class is the mother of all subtypes of SBM (Simple or 
       #' @description constructor for SBM fit
       #' @param data the data matrix of the network
       #' @param model character describing the type of model
-      #' @param dimLabels labels of each dimension (in row, in columns)
+      #' @param directed logical describing if the network data is directed or not
+      #' @param dimension dimension of the network data
+      #' @param dimLabels labels of each dimension
       #' @param covarList optional list of matrices for covariates
-      initialize = function(data, model, dimLabels, covarList) {
-        super$initialize(model = model, dimension = dim(data), dimLabels = dimLabels, covarList = covarList)
+      initialize = function(data, model, directed, dimension, dimLabels, covarList) {
+        super$initialize(model = model, directed = directed, dimension = dimension, dimLabels = dimLabels, covarList = covarList)
         private$Y <- data
       },
       #' @description print/show method

@@ -15,13 +15,16 @@ BipartiteSBM_sampler <-
       #' @param dimLabels optional labels of each dimension (in row, in column)
       #' @param covarParam optional vector of covariates effect
       #' @param covarList optional list of covariates data
-      initialize = function(model, nbNodes, blockProp, connectParam, dimLabels=list(row="row", col="col"), covarParam=numeric(0), covarList=list()) {
+      initialize = function(model, nbNodes, blockProp, connectParam, dimLabels=c(row="row", col="col"), covarParam=numeric(0), covarList=list()) {
         ## SANITY CHECKS
         stopifnot(length(blockProp) ==  2,
-                  length(blockProp[[1]]) ==  nrow(connectParam$mean),
-                  length(blockProp[[2]]) ==  ncol(connectParam$mean))
-        names(blockProp) <- c("row", "col")
-        super$initialize(model, nbNodes, blockProp, dimLabels, connectParam, covarParam, covarList)
+                  length(blockProp[[1]]) ==  nrow(connectParam$mean), # dimensions match between vector of
+                  length(blockProp[[2]]) ==  ncol(connectParam$mean)) # block proportion and connectParam$mean
+        stopifnot(all(blockProp[[1]] > 0), all(blockProp[[1]] < 1)) # positive proportions
+        stopifnot(all(blockProp[[2]] > 0), all(blockProp[[2]] < 1))
+        stopifnot(length(dimLabels) == 2)
+        names(blockProp) <- names(dimLabels)
+        super$initialize(model, nbNodes, NA, blockProp, dimLabels, connectParam, covarParam, covarList)
         self$rIncidence()
       },
       #' @description a method to generate a vector of block indicators
@@ -62,7 +65,7 @@ BipartiteSBM_sampler <-
       #' @field expectation expected values of connection under the current model
       expectation = function() {
         mu <- private$Z[[1]] %*% private$theta$mean %*% t(private$Z[[2]])
-        if (self$nbCovariates > 0) mu <- private$invlink(private$link(mu) + self$covarEffect)
+        if (self$nbCovariates > 0) mu <- private$invlink[[1L]](private$link[[1L]](mu) + self$covarEffect)
         mu
       }
     )

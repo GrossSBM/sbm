@@ -25,10 +25,15 @@ BipartiteSBM_fit <-
       #' @param model character (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'})
       #' @param dimLabels labels of each dimension (in row, in columns)
       #' @param covarList and optional list of covariates, each of whom must have the same dimension as \code{incidenceMatrix}
-      initialize = function(incidenceMatrix, model, dimLabels=list(row="row", col="col"), covarList=list()) {
-        ## INITIALIZE THE SBM OBJECT ACCORDING TO THE DATA
-        super$initialize(incidenceMatrix, model, dimLabels, covarList)
+      initialize = function(incidenceMatrix, model, dimLabels=c(row="rowName", col="colName"), covarList=list()) {
 
+        ## SANITY CHECKS
+        stopifnot(is.matrix(incidenceMatrix))                            # must be a matrix
+        stopifnot(all(sapply(covarList, nrow) == nrow(incidenceMatrix))) # consistency of the covariates
+        stopifnot(all(sapply(covarList, ncol) == ncol(incidenceMatrix))) # with the network data
+
+        ## INITIALIZE THE SBM OBJECT ACCORDING TO THE DATA
+        super$initialize(incidenceMatrix, model, NA, dim(incidenceMatrix), dimLabels, covarList)
       },
       #' @description function to perform optimization
       #' @param estimOptions a list of parameters controlling the inference algorithm and model selection. See details.
@@ -42,6 +47,8 @@ BipartiteSBM_fit <-
       #'  \item{"fast"}{logical: should approximation be used for Bernoulli model with covariates. Default to \code{TRUE}}
       #' }
       optimize = function(estimOptions = list()){
+
+        if(private$model == 'ZIgaussian') stop("Inference not  yet  implemented for Bipartite ZI gaussian network")
 
         currentOptions <- list(
           verbosity     = 3,
@@ -62,10 +69,9 @@ BipartiteSBM_fit <-
           ncores             = currentOptions$nbCores,
           exploration_factor = currentOptions$explorFactor
         )
-        fast  <- currentOptions$fast
+        fast <- currentOptions$fast
 
         ## generating arguments for blockmodels call
-        if(private$model == 'ZIgaussian') stop("Inference not  yet  implemented for Bipartite ZI gaussian network")
 
         args <- list(membership_type = "LBM", adj = private$Y)
         if (self$nbCovariates > 0) args$covariates <- private$X
@@ -98,7 +104,7 @@ BipartiteSBM_fit <-
         if (length(covarList) > 0) {
           stopifnot(all(sapply(covarList, nrow) == self$dimension[1]),
                     all(sapply(covarList, ncol) == self$dimension[2]))
-          mu <- private$invlink(private$link(mu) + self$covarEffect)
+          mu <- private$invlink[[1L]](private$link[[1L]](mu) + self$covarEffect)
         }
         mu
       },

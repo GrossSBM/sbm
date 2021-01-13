@@ -11,6 +11,9 @@ R6 Class definition of a Multipartite SBM
 \details{
 R6 virtual class for Multipartite SBM representation
 }
+\section{Super class}{
+\code{\link[sbm:SBM]{sbm::SBM}} -> \code{MultipartiteSBM}
+}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
@@ -49,6 +52,12 @@ R6 virtual class for Multipartite SBM representation
 \item \href{#method-plot}{\code{MultipartiteSBM$plot()}}
 \item \href{#method-clone}{\code{MultipartiteSBM$clone()}}
 }
+}
+\if{html}{
+\out{<details open ><summary>Inherited methods</summary>}
+\itemize{
+}
+\out{</details>}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}

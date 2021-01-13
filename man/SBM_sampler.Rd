@@ -43,6 +43,7 @@ constructor for SBM
 \if{html}{\out{<div class="r">}}\preformatted{SBM_sampler$new(
   model,
   nbNodes,
+  directed,
   blockProp,
   dimLabels,
   connectParam,
@@ -57,6 +58,8 @@ constructor for SBM
 \item{\code{model}}{character describing the type of model}
 
 \item{\code{nbNodes}}{number of nodes in the network}
+
+\item{\code{directed}}{logical describing if the network data is directed or not}
 
 \item{\code{blockProp}}{parameters for block proportions (vector of list of vectors)}
 

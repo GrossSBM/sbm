@@ -27,8 +27,6 @@ R6 class for Simple SBM sampler
 \item{\code{indMemberships}}{matrix for clustering memberships}
 
 \item{\code{expectation}}{expected values of connection under the current model}
-
-\item{\code{directed}}{is the network directed or not}
 }
 \if{html}{\out{</div>}}
 }
@@ -62,7 +60,7 @@ constructor for SBM
   directed,
   blockProp,
   connectParam,
-  dimLabels = list(row = "node", col = "node"),
+  dimLabels = c(node = "nodeName"),
   covarParam = numeric(0),
   covarList = list()
 )}\if{html}{\out{</div>}}
