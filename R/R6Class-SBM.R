@@ -30,8 +30,7 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       initialize = function(model='', dimension=numeric(2), dimLabels=list(row = NULL, col = NULL), blockProp=numeric(0), connectParam=list(mean = matrix()), covarParam=numeric(length(covarList)), covarList=list()) {
 
         ## SANITY CHECK
-        stopifnot(is.character(model))
-        stopifnot(model %in% available_models_edges)
+        stopifnot(is.character(model), model %in% available_models_edges)
         stopifnot(is.list(dimLabels), length(dimLabels) == 2)
         stopifnot(is.numeric(dimension), length(dimension) == 2)
         stopifnot(is.list(connectParam), is.matrix(connectParam$mean))
@@ -182,15 +181,15 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
         }
       },
       #' @field covarParam vector of regression parameters associated with the covariates.
-      covarParam   = function(value) {return(private$beta)},
+      covarParam  = function(value) {return(private$beta)},
       #' @field covarList list of matrices of covariates
-      covarList    = function(value) {return(private$X)},
+      covarList   = function(value) {return(private$X)},
       #' @field covarArray the array of covariates
-      covarArray   = function(value) {if (self$nbCovariates > 0) simplify2array(private$X) else return(array())},
+      covarArray  = function(value) {if (self$nbCovariates > 0) simplify2array(private$X) else return(array())},
       #' @field covarEffect effect of covariates
-      covarEffect  = function(value) {if (self$nbCovariates > 0) return(roundProduct(private$X, private$beta)) else return(numeric(0))},
+      covarEffect = function(value) {if (self$nbCovariates > 0) return(roundProduct(private$X, private$beta)) else return(numeric(0))},
       #' @field netMatrix the matrix (adjacency or incidence) encoding the network
-      netMatrix    = function(value) {return(private$Y)},
+      netMatrix   = function(value) {return(private$Y)},
       #' @field expectation expected values of connection under the currently adjusted model
       expectation = function() {self$predict()}
     )
