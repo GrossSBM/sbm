@@ -33,7 +33,7 @@ test_that("Construction, fields access and other basics work in class SimpleSBM_
   ## parameters
   expect_equal(mySampler$modelName, 'bernoulli')
   expect_equal(mySampler$nbNodes, nbNodes)
-  expect_equal(mySampler$dimension, nbNodes)
+  expect_equal(unname(mySampler$dimension), nbNodes)
   expect_equal(mySampler$nbDyads, nbNodes*(nbNodes - 1)/2)
   expect_equal(mySampler$connectParam$mean, means)
   expect_null(mySampler$connectParam$var)
@@ -87,7 +87,7 @@ test_that("Construction, fields access and other basics work in class SimpleSBM_
   ## parameters
   expect_equal(mySampler$modelName, 'bernoulli')
   expect_equal(mySampler$nbNodes, nbNodes)
-  expect_equal(mySampler$dimension, nbNodes)
+  expect_equal(unname(mySampler$dimension), nbNodes)
   expect_equal(mySampler$nbDyads, nbNodes*(nbNodes - 1))
   expect_equal(mySampler$connectParam$mean, means)
   expect_null(mySampler$connectParam$var)
@@ -140,7 +140,7 @@ test_that("Construction, fields access and other basics work in class SimpleSBM_
   ## parameters
   expect_equal(mySampler$modelName, 'poisson')
   expect_equal(mySampler$nbNodes, nbNodes)
-  expect_equal(mySampler$dimension, nbNodes)
+  expect_equal(unname(mySampler$dimension), nbNodes)
   expect_equal(mySampler$nbDyads, nbNodes*(nbNodes - 1)/2)
   expect_equal(mySampler$connectParam$mean, means)
   expect_null(mySampler$connectParam$var)
@@ -191,7 +191,7 @@ test_that("Construction, fields access and other basics work in class SimpleSBM_
   ## parameters
   expect_equal(mySampler$modelName, 'poisson')
   expect_equal(mySampler$nbNodes, nbNodes)
-  expect_equal(mySampler$dimension, nbNodes)
+  expect_equal(unname(mySampler$dimension), nbNodes)
   expect_equal(mySampler$nbDyads, nbNodes*(nbNodes - 1))
   expect_equal(mySampler$connectParam$mean, means)
   expect_null(mySampler$connectParam$var)
@@ -244,7 +244,7 @@ test_that("Construction, fields access and other basics work in class SimpleSBM_
   ## parameters
   expect_equal(mySampler$modelName, 'gaussian')
   expect_equal(mySampler$nbNodes, nbNodes)
-  expect_equal(mySampler$dimension, nbNodes)
+  expect_equal(unname(mySampler$dimension), nbNodes)
   expect_equal(mySampler$nbDyads, nbNodes*(nbNodes - 1)/2)
   expect_equal(mySampler$connectParam$mean, means)
   expect_equal(mySampler$connectParam$var, 2)
@@ -294,7 +294,7 @@ test_that("Construction, fields access and other basics work in class SimpleSBM_
   ## parameters
   expect_equal(mySampler$modelName, 'gaussian')
   expect_equal(mySampler$nbNodes, nbNodes)
-  expect_equal(mySampler$dimension, nbNodes)
+  expect_equal(unname(mySampler$dimension), nbNodes)
   expect_equal(mySampler$nbDyads, nbNodes*(nbNodes - 1))
   expect_equal(mySampler$connectParam$mean, means)
   expect_equal(mySampler$connectParam$var, 2)

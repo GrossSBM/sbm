@@ -90,13 +90,17 @@ MultiplexSBM_fit <-
           currentOptions[names(estimOptions)] <- estimOptions
 
           # ----- formatting data for using GREMLINS
-          listNetG <- lapply(private$netList, function(net) {
-            if (inherits(net, "SimpleSBM_fit")) type <- ifelse(net$directed, "diradj", "adj")
-            if (inherits(net, "BipartiteSBM_fit")) type <-  "inc"
-            GREMLINS::defineNetwork(net$netMatrix,
-                                    type,
+          listNetG <- lapply(private$Y, function(net) {
+            if (inherits(net, "SimpleSBM_fit"))
+              return(GREMLINS::defineNetwork(net$networkData,
+                                    ifelse(net$directed, "diradj", "adj"),
+                                    rowFG = net$dimLabels,
+                                    colFG = net$dimLabels))
+            if (inherits(net, "BipartiteSBM_fit"))
+              return(GREMLINS::defineNetwork(net$networkData,
+                                    "inc",
                                     rowFG = net$dimLabels[[1]],
-                                    colFG = net$dimLabels[[2]])
+                                    colFG = net$dimLabels[[2]]))
           })
 
           vdistrib <- private$model
@@ -161,19 +165,20 @@ MultiplexSBM_fit <-
             ncores             = currentOptions$nbCores,
             exploration_factor = currentOptions$explorFactor
           )
-          fast  = currentOptions$fast
 
           if (self$modelName[1]=="bernoulli") {model_type="bernoulli_multiplex"}
           if (self$modelName[1]=="gaussian") {model_type="gaussian_multivariate"}
           ## generating arguments for blockmodels call
 
-
           # membership type
-          if (length(unique(self$dimLabels))>1) {membership <-  "LBM" ; type="bipartite"}
-          else {membership <- ifelse(!self$directed[1], "SBM_sym", "SBM") ; type="simple"}
+          if (length(self$dimLabels)>1) {
+            membership <-  "LBM" ; type="bipartite"
+          } else {
+            membership <- ifelse(!self$directed[1], "SBM_sym", "SBM") ; type="simple"
+          }
 
           # recuperer les matrices
-          Ys <- .na2zero(lapply(self$networkList,function(net) net$netMatrix))
+          Ys <- .na2zero(lapply(self$networkData,function(net) net$networkData))
 
           args <- list(membership_type =  membership, adj = Ys)
           args <- c(args, blockmodelsOptions)

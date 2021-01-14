@@ -31,7 +31,7 @@ test_that("SimpleSBM_fit 'Bernoulli' model, undirected, no covariate", {
   ## parameters
   expect_equal(mySBM$modelName, 'bernoulli')
   expect_equal(mySBM$nbNodes, nbNodes)
-  expect_equal(mySBM$dimension, nbNodes)
+  expect_equal(unname(mySBM$dimension), nbNodes)
   expect_equal(mySBM$nbDyads, nbNodes*(nbNodes - 1)/2)
   expect_true(all(is.na(diag(mySBM$networkData))))
   expect_true(isSymmetric(mySBM$networkData))
@@ -109,7 +109,7 @@ test_that("SimpleSBM_fit 'Bernoulli' model, directed, no covariate", {
   ## parameters
   expect_equal(mySBM$modelName, 'bernoulli')
   expect_equal(mySBM$nbNodes, nbNodes)
-  expect_equal(mySBM$dimension, nbNodes)
+  expect_equal(unname(mySBM$dimension), nbNodes)
   expect_equal(mySBM$nbDyads, nbNodes*(nbNodes - 1))
   expect_true(all(is.na(diag(mySBM$networkData))))
   expect_true(!isSymmetric(mySBM$networkData))
@@ -186,7 +186,7 @@ test_that("SimpleSBM_fit 'Poisson' model, undirected, no covariate", {
   ## parameters
   expect_equal(mySBM$modelName, 'poisson')
   expect_equal(mySBM$nbNodes, nbNodes)
-  expect_equal(mySBM$dimension, nbNodes)
+  expect_equal(unname(mySBM$dimension), nbNodes)
   expect_equal(mySBM$nbDyads, nbNodes*(nbNodes - 1)/2)
   expect_true(all(is.na(diag(mySBM$networkData))))
   expect_true(isSymmetric(mySBM$networkData))
@@ -258,7 +258,7 @@ test_that("SimpleSBM_fit 'Poisson' model, directed, no covariate", {
   ## parameters
   expect_equal(mySBM$modelName, 'poisson')
   expect_equal(mySBM$nbNodes, nbNodes)
-  expect_equal(mySBM$dimension, nbNodes)
+  expect_equal(unname(mySBM$dimension), nbNodes)
   expect_equal(mySBM$nbDyads, nbNodes*(nbNodes - 1))
   expect_true(all(is.na(diag(mySBM$networkData))))
   expect_true(!isSymmetric(mySBM$networkData))
@@ -331,7 +331,7 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, no covariate", {
   ## parameters
   expect_equal(mySBM$modelName, 'gaussian')
   expect_equal(mySBM$nbNodes, nbNodes)
-  expect_equal(mySBM$dimension, nbNodes)
+  expect_equal(unname(mySBM$dimension), nbNodes)
   expect_equal(mySBM$nbDyads, nbNodes*(nbNodes - 1)/2)
   expect_true(all(is.na(diag(mySBM$networkData))))
   expect_true(isSymmetric(mySBM$networkData))
@@ -401,7 +401,7 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, no covariate", {
   ## parameters
   expect_equal(mySBM$modelName, 'gaussian')
   expect_equal(mySBM$nbNodes, nbNodes)
-  expect_equal(mySBM$dimension, nbNodes)
+  expect_equal(unname(mySBM$dimension), nbNodes)
   expect_equal(mySBM$nbDyads, nbNodes*(nbNodes - 1))
   expect_true(all(is.na(diag(mySBM$networkData))))
   expect_true(!isSymmetric(mySBM$networkData))
