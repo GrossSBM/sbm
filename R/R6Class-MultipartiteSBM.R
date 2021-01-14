@@ -63,7 +63,7 @@ MultipartiteSBM <-
             ),
           "data" =
             plotMultipartiteMatrix(
-              map(private$netList,"netMatrix"),
+              map(private$Y,"networkData"),
               private$arch, private$dim, private$dimlab,
               private$model, clustering, plotOptions
             ),
@@ -81,8 +81,6 @@ MultipartiteSBM <-
       architecture = function(value) {private$arch},
       #' @field nbNetworks number of networks in the multipartite network
       nbNetworks = function(value) {length(private$directed_)},
-      #' @field nbNodes number of Nodes in each functional group
-      nbNodes = function(value){self$dimension},
       #' @field nbLabels number of functional groups involved in the multipartite
       nbLabels  = function(value){length(private$dimlab)}
     )
@@ -153,32 +151,3 @@ plot.MultipartiteSBM = function(x, type = c('data', 'expected', 'meso'), ordered
 #' @export
 is_MultipartiteSBM <- function(Robject) {inherits(Robject,"MultipartiteSBM")}
 
-#' Model Predictions
-#'
-#' Make predictions from an Multipartite SBM.
-#'
-#' @param object an R6 object inheriting from class SBM_fit (like SimpleSBM_fit or BipartiteSBM_fit)
-#' @param ... additional parameters for S3 compatibility. Not used
-#' @return a list of matrices of expected values for each dyad
-#' @export
-predict.MultipartiteSBM <- function(object, ...) {
-  stopifnot(is_MultipartiteSBM(object))
-  object$predict()
-}
-
-#' Extract model coefficients
-#'
-#' Extracts model coefficients from objects with class \code{\link[=MultipartiteSBM]{MultipartiteSBM}} and children
-#'
-#' @param object an R6 object inheriting from class MultipartiteSBM
-#' @param type type of parameter that should be extracted. Either 'block' for \deqn{\pi}, 'connectivity' for \deqn{\theta},
-#'  or "covariates" for \deqn{\beta}. Default is 'connectivity'.
-#' @param ... additional parameters for S3 compatibility. Not used
-#' @return vector or list of parameters.
-#' @export
-coef.MultipartiteSBM <- function(object, type = c( 'connectivity', 'block'), ...) {
-  stopifnot(is_MultipartiteSBM(object))
-  switch(match.arg(type),
-         block        = object$blockProp,
-         connectivity = object$connectParam)
-}

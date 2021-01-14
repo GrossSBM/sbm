@@ -19,6 +19,8 @@ R6 virtual class for SBM representation (mother class of Simple and Bipartite SB
 
 \item{\code{dimLabels}}{vector or list of characters, the label of each dimension}
 
+\item{\code{nbNodes}}{vector of size 2: number of nodes (rows, columns)}
+
 \item{\code{nbCovariates}}{integer, the number of covariates}
 
 \item{\code{blockProp}}{block proportions (aka prior probabilities of each block)}

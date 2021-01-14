@@ -117,34 +117,36 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       plot = function(type = c('data','expected','meso'), ordered = TRUE, plotOptions = list()) {
 
         type <- match.arg(type)
-        bipartite <- ifelse(is.list(self$memberships), TRUE, FALSE)
-
         if (is.null(self$memberships)) {ordered = FALSE; type='data'}
+        if (ordered)
+          if (is.list(self$memberships))
+            clustering <- setNames(self$memberships, c('row', 'col'))
+          else
+            clustering <- list(row = self$memberships)
+        else
+          clustering <- NULL
 
-        if (type == 'meso'){
-          P <- plotMeso(thetaMean  = private$theta$mean,
+        switch(match.arg(type),
+          "meso" =
+            plotMeso(thetaMean  = private$theta$mean,
                    pi         = private$pi,
                    model      = private$model,
                    directed   = private$directed_,
                    bipartite  = bipartite,
                    nbNodes    = self$dimension,
                    nodeLabels = private$dimlab,
-                   plotOptions)
-        } else {
-            Mat <- switch(type, data = self$networkData, expected = self$expectation)
-            cl <- NULL
+                   plotOptions),
+          "data" =
+            plotMatrix(self$networkData,
+                       as.list(private$dimlab),
+                       clustering, plotOptions),
+          "expected" =
+            plotMatrix(self$expectation,
+                       as.list(private$dimlab),
+                       clustering, plotOptions)
 
+        )
 
-            if (ordered) {
-              if (bipartite) {
-                cl <-  setNames(self$memberships, c('row', 'col'))
-              } else {
-                cl <- list(row = self$memberships)
-              }
-            }
-          P <- plotMatrix(Mat = Mat, dimLabels = private$dimlab, clustering = cl,plotOptions = plotOptions)
-        }
-        P
         },
       #' @description print method
       #' @param type character to tune the displayed name
@@ -183,6 +185,8 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
           private$dimlab <- value
         }
       },
+      #' @field nbNodes vector of size 2: number of nodes (rows, columns)
+      nbNodes = function(value) {private$dim},
       #' @field nbCovariates integer, the number of covariates
       nbCovariates = function(value) {length(private$X)},
       #' @field blockProp block proportions (aka prior probabilities of each block)

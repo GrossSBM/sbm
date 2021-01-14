@@ -121,8 +121,6 @@ SimpleSBM_fit <-
         {super$show(type)}
     ),
     active = list(
-      #' @field nbNodes number of nodes
-      nbNodes     = function(value) {private$dim},
       #' @field nbBlocks number of blocks
       nbBlocks    = function(value) {length(private$pi)},
       #' @field nbDyads number of dyads (potential edges in the network)

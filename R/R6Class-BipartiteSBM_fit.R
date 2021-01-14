@@ -120,8 +120,6 @@ BipartiteSBM_fit <-
       }
     ),
     active = list(
-      #' @field nbNodes vector of size 2: number of nodes (rows, columns)
-      nbNodes     = function(value) {private$dim},
       #' @field nbBlocks vector of size 2: number of blocks (rows, columns)
       nbBlocks    = function(value) {sapply(private$pi, length)},
       #' @field nbDyads number of dyads (potential edges in the network)

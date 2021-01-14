@@ -21,8 +21,6 @@ R6 virtual class for Multipartite SBM representation
 
 \item{\code{nbNetworks}}{number of networks in the multipartite network}
 
-\item{\code{nbNodes}}{number of Nodes in each functional group}
-
 \item{\code{nbLabels}}{number of functional groups involved in the multipartite}
 }
 \if{html}{\out{</div>}}

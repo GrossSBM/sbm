@@ -106,7 +106,7 @@ sampleSimpleSBM <- function(nbNodes,
 #' connectParam <- list(mean = means)
 #'
 #' ## Graph Sampling
-#' dimLabels = list(row='Reader',col='Book')
+#' dimLabels = c(row='Reader',col='Book')
 #' mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'bernoulli',dimLabels)
 #' plot(mySampler)
 #' plot(mySampler,type='meso',plotOptions = list(vertex.label.name=list(row='Reader',col='Book')))

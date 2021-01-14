@@ -14,8 +14,6 @@ R6 class for Simple SBM sampler
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{nbNodes}}{number of nodes}
-
 \item{\code{nbBlocks}}{number of blocks}
 
 \item{\code{nbDyads}}{number of dyads (potential edges in the network)}

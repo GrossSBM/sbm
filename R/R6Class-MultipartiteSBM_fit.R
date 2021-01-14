@@ -133,7 +133,6 @@ MultipartiteSBM_fit <-
           }
         })
 
-
         vdistrib <- private$model
         v_Kmin  <- sapply(1:self$nbLabels, function(k){currentOptions$nbBlocksRange[[k]][1]})
         v_Kmax  <- sapply(1:self$nbLabels, function(k){currentOptions$nbBlocksRange[[k]][2]})

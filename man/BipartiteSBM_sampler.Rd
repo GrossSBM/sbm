@@ -14,8 +14,6 @@ R6 class for Bipartite SBM sampler
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{nbNodes}}{vector of size 2: number of nodes (rows, columns)}
-
 \item{\code{nbBlocks}}{vector of size 2: number of blocks (rows, columns)}
 
 \item{\code{nbDyads}}{number of dyads (potential edges in the network)}
