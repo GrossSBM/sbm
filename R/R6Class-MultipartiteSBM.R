@@ -10,13 +10,7 @@ MultipartiteSBM <-
     inherit = SBM,
     # fields for internal use (referring to the mathematical notation)
     private = list(
-      model     = NULL, # vector of characters for the model name: distributions of the edges
-      netList   = NULL, # list of SimpleSBMs and BipartiteSBMs composing the multipartite network
-      arch      = NULL, # matrix describing the organization of the multipartite network
-      dim       = NULL, # number of nodes in each function groups
-      dimlab    = NULL, # labels of the functional groups
-      pi        = NULL, # list of vectors of parameters for block prior probabilities
-      theta     = NULL  # list of connectivity parameters between edges
+      arch      = NULL # matrix describing the organization of the multipartite network
     ),
     public = list(
       #' @description constructor for Multipartite SBM
@@ -31,21 +25,12 @@ MultipartiteSBM <-
                             dimension = numeric(0), dimLabels = character(0), blockProp=list(), connectParam=list()) {
 
         ## SANITY CHECK
-        stopifnot(is.character(model), model %in% available_models_edges)
         stopifnot(is.matrix(architecture), ncol(architecture) == 2)
         stopifnot(is.logical(directed), nrow(architecture) == length(directed))
-        stopifnot(is.character(dimLabels), length(dimLabels) == length(dimension))
-        stopifnot(is.list(connectParam))
 
         ## MODEL & PARAMETERS
-        private$model  <- model
+        super$initialize(model, directed, dimension, dimLabels, blockProp, connectParam)
         private$arch   <- architecture
-        private$dim    <- dimension
-        private$dimlab <- dimLabels
-        private$pi     <- blockProp
-        private$theta  <- connectParam
-        private$directed_ <- directed
-
       },
       #' @description print method
       #' @param type character to tune the displayed name
@@ -58,7 +43,7 @@ MultipartiteSBM <-
         cat("=====================================================================\n")
         cat("* Useful fields \n")
         cat("  $nbNetwork, $nbNodes, $nbBlocks, $dimLabels, $architecture \n")
-        cat("  $modelName, $blockProp, $connectParam, $memberships, $networkList\n")
+        cat("  $modelName, $blockProp, $connectParam, $memberships, $networkData\n")
       },
       #' @description print method
       print = function() self$show(),
@@ -92,30 +77,14 @@ MultipartiteSBM <-
       }
     ),
     active = list(
-      #' @field modelName vector of characters, the family of model for the distribution of the edges in each network
-      modelName    = function(value) {private$model},
       #' @field architecture organization of the multipartite network
       architecture = function(value) {private$arch},
       #' @field nbNetworks number of networks in the multipartite network
       nbNetworks = function(value) {length(private$directed_)},
-      #' @field directed vector of boolean
-      directed = function(value){private$directed_},
-      #' @field dimension number of Nodes in each functional group,
-      dimension = function(value){setNames(private$dim, private$dimlab)},
       #' @field nbNodes number of Nodes in each functional group
-      nbNodes = function(value){setNames(private$dim, private$dimlab)},
-      #' @field dimLabels labels of the functional groups
-      dimLabels = function(value){private$dimlab},
+      nbNodes = function(value){self$dimension},
       #' @field nbLabels number of functional groups involved in the multipartite
-      nbLabels  = function(value){length(private$dimlab)},
-      #' @field blockProp  block proportions in each function group
-      blockProp = function(value) {private$pi},
-      #' @field connectParam connection parameters in each network
-      connectParam = function(value) {private$theta},
-      #' @field networkList list of SimpleSBMs or BipartiteSBMs
-      networkList = function(value) {private$netList},
-      #' @field expectation expected values of connection under the currently adjusted model
-      expectation = function() {self$predict()}
+      nbLabels  = function(value){length(private$dimlab)}
     )
   )
 

@@ -41,7 +41,7 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
         ## SANITY CHECK
         stopifnot(is.character(model), all(model %in% available_models_edges))
         stopifnot(is.logical(directed))
-        stopifnot(is.atomic(dimLabels), length(dimLabels) == length(dimension))
+        stopifnot(is.character(dimLabels), length(dimLabels) == length(dimension))
         stopifnot(is.numeric(dimension))
         stopifnot(is.list(connectParam))
         stopifnot(all.equal(length(covarParam), length(covarList)))
@@ -164,10 +164,10 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
     ),
     ## active binding to access fields outside the class
     active = list(
-      #' @field dimension size-2 vector: dimension of the network
-      dimension    = function(value) {private$dim},
       #' @field modelName character, the family of model for the distribution of the edges
       modelName    = function(value) {private$model},
+      #' @field dimension dimension of the successive elements connecting the network
+      dimension    = function(value) {setNames(private$dim, private$dimlab)},
       #' @field directed mode of the network data (directed or not or not applicable)
       directed = function(value) {private$directed_},
       #' @field dimLabels vector or list of characters, the label of each dimension

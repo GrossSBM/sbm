@@ -11,9 +11,9 @@ R6 virtual class for SBM representation (mother class of Simple and Bipartite SB
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{dimension}}{size-2 vector: dimension of the network}
-
 \item{\code{modelName}}{character, the family of model for the distribution of the edges}
+
+\item{\code{dimension}}{dimension of the successive elements connecting the network}
 
 \item{\code{directed}}{mode of the network data (directed or not or not applicable)}
 

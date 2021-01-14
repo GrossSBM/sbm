@@ -50,13 +50,13 @@ MultipartiteSBM_fit <-
             if (is.matrix(p0_s)){p0_s  = p0_s[o_row,o_col]}
             l_s$p0 <- p0_s
           }
-          private$netList[[s_]]$connectParam <- l_s
+          private$Y[[s_]]$connectParam <- l_s
         }
-        private$theta <- map(private$netList, "connectParam")
+        private$theta <- map(private$Y, "connectParam")
 
-        lapply(private$netList, function(net) {
+        lapply(private$Y, function(net) {
           if (inherits(net, "SimpleSBM_fit")) {
-            Lab <- net$dimLabels[[1]]
+            Lab <- net$dimLabels
             net$probMemberships <- list_tau[[Lab]]
             net$blockProp       <- list_pi[[Lab]]
           }
@@ -79,13 +79,13 @@ MultipartiteSBM_fit <-
       #' @description constructor for Multipartite SBM
       #' @param netList list of SBM objects
       initialize = function(netList) {
-
         directed  <- map(netList, "directed") %>% map_lgl(~ifelse(is.null(.x), NA, .x))
-        dimension <- netList %>% map("dimension") %>% unlist() %>% unique()
-        dimLabels <- netList %>% map("dimLabels") %>% unlist() %>% unique()
-        arch      <- netList %>% map_df("dimLabels") %>%
+        dimension <- map(netList, "dimension") %>% unlist() %>% unique()
+        dimLabels <- map(netList, "dimLabels") %>% unlist() %>% unique()
+        arch      <- map_if(netList, ~inherits(.x, "SimpleSBM_fit"),
+                            function(net) setNames(c(net$dimLabels, net$dimLabels), c("from", "to")),
+                    .else = function(net) setNames(unname(net$dimLabels), c("from", "to"))) %>% bind_rows() %>%
            map(factor, levels = dimLabels) %>% map_df(as.numeric) %>% as.matrix()
-
         super$initialize(model        = map_chr(netList, "modelName"),
                          architecture = arch,
                          directed     = directed,
@@ -93,9 +93,7 @@ MultipartiteSBM_fit <-
                          dimLabels    = dimLabels,
                          blockProp    = map(netList, "blockProp"),
                          connectParam = map(netList, "connectParam"))
-
-        private$netList <- netList
-
+        private$Y <- netList
       },
       #' @description estimation of multipartiteSBM via GREMLINS
       #' @param estimOptions options for MultipartiteBM
@@ -123,18 +121,16 @@ MultipartiteSBM_fit <-
         currentOptions[names(estimOptions)] <- estimOptions
 
         # ----- formatting data for using GREMLINS
-        listNetG <- lapply(private$netList, function(net) {
-          ## TODO: use inherits
-          if (substr(class(net)[1], 1, 6) == "Simple") {
-            type <- ifelse(net$directed, "diradj", "adj")
+        listNetG <- lapply(private$Y, function(net) {
+          if (inherits(net, "SimpleSBM_fit")) {
+            GREMLINS::defineNetwork(
+              net$networkData, ifelse(net$directed, "diradj", "adj"),
+              rowFG = net$dimLabels, colFG = net$dimLabels)
+          } else {
+            GREMLINS::defineNetwork(
+              net$networkData, "inc",
+              rowFG = net$dimLabels[[1]], colFG = net$dimLabels[[2]])
           }
-          else {
-            type <-  "inc"
-          }
-          GREMLINS::defineNetwork(net$netMatrix,
-                                  type,
-                                  rowFG = net$dimLabels[[1]],
-                                  colFG = net$dimLabels[[2]])
         })
 
 
@@ -179,7 +175,7 @@ MultipartiteSBM_fit <-
       },
       #' @description prediction under the currently estimated model
       #' @return a list of matrices matrix of expected values for each dyad
-      predict = function() {map(private$netList, predict)},
+      predict = function() {map(private$Y, predict)},
       #' @description method to select a specific model among the ones fitted during the optimization.
       #'  Fields of the current MultipartiteSBM_fit will be updated accordingly.
       #' @param index integer, the index of the model to be selected (row number in storedModels)

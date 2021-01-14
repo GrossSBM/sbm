@@ -17,29 +17,13 @@ R6 virtual class for Multipartite SBM representation
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{modelName}}{vector of characters, the family of model for the distribution of the edges in each network}
-
 \item{\code{architecture}}{organization of the multipartite network}
 
 \item{\code{nbNetworks}}{number of networks in the multipartite network}
 
-\item{\code{directed}}{vector of boolean}
-
-\item{\code{dimension}}{number of Nodes in each functional group,}
-
 \item{\code{nbNodes}}{number of Nodes in each functional group}
 
-\item{\code{dimLabels}}{labels of the functional groups}
-
 \item{\code{nbLabels}}{number of functional groups involved in the multipartite}
-
-\item{\code{blockProp}}{block proportions in each function group}
-
-\item{\code{connectParam}}{connection parameters in each network}
-
-\item{\code{networkList}}{list of SimpleSBMs or BipartiteSBMs}
-
-\item{\code{expectation}}{expected values of connection under the currently adjusted model}
 }
 \if{html}{\out{</div>}}
 }
