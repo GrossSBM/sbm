@@ -31,7 +31,7 @@
 #' means <- diag(.4, 3) + 0.05  # connectivity matrix: affiliation network
 #' connectParam <- list(mean = means)
 #' mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam)
-#' adjacencyMatrix <- mySampler$netMatrix
+#' adjacencyMatrix <- mySampler$networkData
 #'
 #' ## Estimation
 #' mySimpleSBM <-
@@ -51,7 +51,7 @@
 #' means <- diag(15., 3) + 5    # connectivity matrix: affiliation network
 #' connectParam <- list(mean = means)
 #' mySampler <- sampleSimpleSBM(nbNodes, blockProp, list(mean = means), model = "poisson")
-#' adjacencyMatrix <- mySampler$netMatrix
+#' adjacencyMatrix <- mySampler$networkData
 #'
 #' ## Estimation
 #' mySimpleSBM <- estimateSimpleSBM(adjacencyMatrix, 'poisson', estimOptions = list(plot = FALSE))
@@ -71,7 +71,7 @@
 #' mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam, model = "gaussian")
 #'
 #' ## Estimation
-#' mySimpleSBM <- estimateSimpleSBM(mySampler$netMatrix, 'gaussian', estimOptions = list(plot = FALSE))
+#' mySimpleSBM <- estimateSimpleSBM(mySampler$networkData, 'gaussian', estimOptions = list(plot = FALSE))
 #' plot(mySimpleSBM, 'data', ordered = FALSE)
 #' plot(mySimpleSBM, 'data')
 #' plot(mySimpleSBM, 'expected', ordered = FALSE)
@@ -81,15 +81,11 @@
 estimateSimpleSBM <- function(netMat,
                               model        = 'bernoulli',
                               directed     = !isSymmetric(netMat),
-                              dimLabels    = list(row = "node", col = "node"),
+                              dimLabels    = c(node = "nodeName"),
                               covariates   = list(),
                               estimOptions = list()) {
 
 
-  if(length(dimLabels)==1){
-    if(is.list(dimLabels)){dimLabels = dimLabels[[1]]}
-    dimLabels = list(row = dimLabels,col = dimLabels)
-    }
   ## Set default options for estimation
   currentOptions <- list(
     verbosity     = 3,
@@ -153,7 +149,7 @@ estimateSimpleSBM <- function(netMat,
 #' mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'bernoulli')
 #'
 #' ## Estimation
-#' myBipartiteSBM <- estimateBipartiteSBM(mySampler$netMatrix, estimOptions = list(plot = FALSE))
+#' myBipartiteSBM <- estimateBipartiteSBM(mySampler$networkData, estimOptions = list(plot = FALSE))
 #' plot(myBipartiteSBM, 'expected')
 #'
 #' ### =======================================
@@ -168,7 +164,7 @@ estimateSimpleSBM <- function(netMat,
 #'
 #' ## Estimation
 #' myBipartiteSBM <-
-#'   estimateBipartiteSBM(mySampler$netMatrix, 'poisson', estimOptions = list(plot = FALSE))
+#'   estimateBipartiteSBM(mySampler$networkData, 'poisson', estimOptions = list(plot = FALSE))
 #' plot(myBipartiteSBM, 'expected')
 #'
 #' ### =======================================
@@ -182,19 +178,15 @@ estimateSimpleSBM <- function(netMat,
 #'
 #' ## Estimation
 #' myBipartiteSBM <-
-#'   estimateBipartiteSBM(mySampler$netMatrix, 'gaussian', estimOptions = list(plot = FALSE))
+#'   estimateBipartiteSBM(mySampler$networkData, 'gaussian', estimOptions = list(plot = FALSE))
 #' plot(myBipartiteSBM, 'expected')
 #'
 #' @export
 estimateBipartiteSBM <- function(netMat,
                                  model        = 'bernoulli',
-                                 dimLabels    = list(row = "row", col = "col"),
+                                 dimLabels    = c(row = "row", col = "col"),
                                  covariates   = list(),
                                  estimOptions = list()) {
-
-  if(length(dimLabels)==1){stop('For Bipartite dimLabels should be of length 2')}
-  if(is.atomic(dimLabels)){dimLabels = as.list(dimLabels); names(dimLabels) = c('row','col')}
-  if(is.null(names(dimLabels))){names(dimLabels) = c('row','col')}
 
   ## Set default options for estimation
   currentOptions <- list(

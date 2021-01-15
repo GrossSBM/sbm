@@ -132,17 +132,17 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
                    pi         = private$pi,
                    model      = private$model,
                    directed   = private$directed_,
-                   bipartite  = bipartite,
+                   bipartite  = length(private$dimlab) == 2,
                    nbNodes    = self$dimension,
-                   nodeLabels = private$dimlab,
+                   nodeLabels = as.list(private$dimlab),
                    plotOptions),
           "data" =
             plotMatrix(self$networkData,
-                       as.list(private$dimlab),
+                       private$dimlab,
                        clustering, plotOptions),
           "expected" =
             plotMatrix(self$expectation,
-                       as.list(private$dimlab),
+                       private$dimlab,
                        clustering, plotOptions)
 
         )

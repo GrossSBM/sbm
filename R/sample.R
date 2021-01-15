@@ -32,7 +32,7 @@
 #' mySampler$rAdjacency()   # sample new adjacency matrix
 #' plot(mySampler)
 #' plot(mySampler,type='meso')
-#' hist(mySampler$netMatrix)
+#' hist(mySampler$networkData)
 #'
 #' ### =======================================
 #' ### SIMPLE POISSON SBM
@@ -48,7 +48,7 @@
 #' mySampler <- sampleSimpleSBM(nbNodes, blockProp, list(mean = means), model = "poisson")
 #' plot(mySampler)
 #' plot(mySampler,type='meso')
-#' hist(mySampler$netMatrix)
+#' hist(mySampler$networkData)
 #'
 #' ### =======================================
 #' ### SIMPLE GAUSSIAN SBM
@@ -64,14 +64,14 @@
 #' mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam, model = "gaussian")
 #' plot(mySampler)
 #' plot(mySampler,type='meso')
-#' hist(mySampler$netMatrix)
+#' hist(mySampler$networkData)
 #' @export
 sampleSimpleSBM <- function(nbNodes,
                             blockProp,
                             connectParam,
                             model = 'bernoulli',
                             directed = FALSE,
-                            dimLabels    = list(row = "nodeLabel", col = "nodeLabel"),
+                            dimLabels    = c(node = "nodeName"),
                             covariates = list(),
                             covariatesParam = numeric(0)) {
 
@@ -125,12 +125,12 @@ sampleSimpleSBM <- function(nbNodes,
 #' connectParam <- list(mean = means)
 #'
 #' ## Graph Sampling
-#' dimLabels = list(row = 'Ind', col = 'Service')
+#' dimLabels = c(row = 'Ind', col = 'Service')
 #' mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'poisson', dimLabels)
 #' plot(mySampler,type='expected')
 #' plotOptions = list(vertex.label.name=c('U','V'),vertex.size = c(1.4,1.3))
-#' plot(mySampler,type='meso',plotOptions)
-#' hist(mySampler$netMatrix)
+#' plot(mySampler, type='meso', plotOptions = plotOptions)
+#' hist(mySampler$networkData)
 #'
 #' ### =======================================
 #' ### BIPARTITE GAUSSIAN SBM
@@ -145,14 +145,14 @@ sampleSimpleSBM <- function(nbNodes,
 #' ## Graph Sampling
 #' mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'gaussian')
 #' plot(mySampler)
-#' hist(mySampler$netMatrix)
+#' hist(mySampler$networkData)
 #'
 #' @export
 sampleBipartiteSBM <- function(nbNodes,
                             blockProp,
                             connectParam,
                             model = 'bernoulli',
-                            dimLabels    = list(row = "rowLabel", col = "colLabel"),
+                            dimLabels    = c(row = "rowName", col = "colName"),
                             covariates = list(),
                             covariatesParam = numeric(0)) {
 
@@ -195,7 +195,7 @@ sampleBipartiteSBM <- function(nbNodes,
 #' connectParam[[3]] <- list(mean = matrix(c(10, 0, -10, 20), 2,2), var = matrix(1,2,2))
 #' connectParam[[4]] <- list(mean = matrix(c(3, 23 ,11 ,16 , 2 ,25), 3,2))
 #' connectParam[[4]]$var <- matrix(c(10,20,1,5,0.1,10), 3,2)
-#' dimLabels <- as.list(c('A','B','C'))
+#' dimLabels <- c('A','B','C')
 #' ## Graph Sampling
 #' mySampleMBM <- sampleMultipartiteSBM(nbNodes, blockProp,
 #'                                      archiMultipartite,
@@ -233,20 +233,18 @@ sampleMultipartiteSBM <- function(nbNodes,
     }
   }
   v_distrib <- model
-  namesFG <-  unlist(dimLabels)
+  namesFG <-  dimLabels
   dataSimGREMLIN <- rMBM(v_NQ ,E,typeInter,  v_distrib, list_pi , list_theta, namesFG, keepClassif = TRUE, seed= seed)
   listNetworks <- list()
   memberships <- dataSimGREMLIN$classif
   names(memberships) <- namesFG
   for (l in 1:nbNetworks){
-    dimLabels_l = list(row = dataSimGREMLIN$list_Net[[l]]$rowFG, col = dataSimGREMLIN$list_Net[[l]]$colFG)
+    dimLabels_l = c(row = dataSimGREMLIN$list_Net[[l]]$rowFG, col = dataSimGREMLIN$list_Net[[l]]$colFG)
     type_l <- ifelse(typeInter[l] == 'inc','bipartite','simple')
     listNetworks[[l]] <- defineSBM(netMat  = dataSimGREMLIN$list_Net[[l]]$mat, model = model[l], type = type_l, directed = directed[l],dimLabels =  dimLabels_l)
   }
 
   list(listSBM =  listNetworks, memberships  = memberships)
-
-
 
 }
 
