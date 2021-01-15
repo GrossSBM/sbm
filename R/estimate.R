@@ -288,3 +288,61 @@ estimateMultipartiteSBM <- function(listSBM,
 
   myMSBM
 }
+
+
+
+
+# -------------------------------------------------------------------------
+#' Estimation for Multiplex SBM
+#'
+#' @param listSBM list of networks that were defined by the \code{defineSBM} function
+#' @param dependent logical parameter indicating whether the networks in the multiplex structure are dependent beyond the latent variables,
+#' @param estimOptions options for the inference procedure
+#' @details The list of parameters \code{estimOptions} essentially tunes the optimization process and the variational EM algorithm. See the details in the function "estimateMultipartiteSBM" if dependent=FALSE, details in the function "estimateSimpleSBM" otherwise.
+#'
+#' @return a MultiplexSBM_fit object with the estimated parameters and the blocks
+#' @export
+#'
+#' @examples
+#' ## MultiplexSBM with no dependence
+#' #TODO once the SampleMultiplexSBM  function works
+#'
+#' ## MultiplexSBM with dependence
+estimateMultiplexSBM <- function(listSBM,
+                                    dependent = FALSE,
+                                    estimOptions = list())
+{
+
+  myMSBM <- MultiplexSBM_fit(listSBM,dependentNet= dependent)
+
+  if (dependent)
+  {
+    currentOptions <- list(
+      verbosity     = 3,
+      plot          = TRUE,
+      explorFactor  = 1.5,
+      nbBlocksRange = c(4,Inf),
+      nbCores       = 2,
+      fast          = TRUE
+    )
+  } else
+  {
+    currentOptions <- list(
+      verbosity     = 1,
+      nbBlocksRange = ifelse(listSBM[[1]]$dimLabels[[1]]==listSBM[[1]]$dimLabels[[2]],list(c(1,10)),list(c(1,10),c(1,10))),
+      nbCores       = 2,
+      maxiterVE     = 100,
+      maxiterVEM    = 100,
+      initBM = TRUE
+    )
+  }
+
+  names(currentOptions$nbBlocksRange) <- myMSBM$dimLabels
+  ## Current options are default expect for those passed by the user
+  currentOptions[names(estimOptions)] <- estimOptions
+
+  myMSBM$optimize(currentOptions)
+
+  myMSBM
+
+}

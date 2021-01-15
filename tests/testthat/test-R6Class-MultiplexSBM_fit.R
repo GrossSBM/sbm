@@ -35,7 +35,7 @@ test_that("Inference for Multiplex networks", {
 
   expect_equal(length(myMultiplexFitindep$connectParam),3)
 
-  myMultiplexFitdep <- MultiplexSBM_fit$new(list(netA,netB),dep = TRUE)
+  myMultiplexFitdep <- MultiplexSBM_fit$new(list(netA,netB),dependentNet = TRUE)
   currentOptions <- list(
     verbosity     = 3,
     plot          = TRUE,

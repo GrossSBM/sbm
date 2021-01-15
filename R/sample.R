@@ -246,7 +246,47 @@ sampleMultipartiteSBM <- function(nbNodes,
 
   list(listSBM =  listNetworks, memberships  = memberships)
 
-
-
 }
 
+
+
+SampleMultiplexSBM <- function(nbNodes,
+                               blockProp,
+                               archiMultipartite,
+                               connectParam,
+                               model,
+                               directed,
+                               dependent=FALSE,
+                               dimLabels = NULL,
+                               seed = NULL) {
+
+  if (length(unique(c(length(model),length(directed),length(connectParam),nrow(archiMultipartite))))>1)
+    stop("length of vectors model, directed and length of list connectParam and number of rows in archiMultipartite should match")
+
+  if (length(unique(c(length(nbNodes),length(blockProp))))>1)
+    stop("length of vector nbNodes and length of list blockProp should match")
+
+  # same sanity check as in the R6 class MultiplexSBM_fit
+  # check whether the multipartite at hand is actually a multiplex
+  if (any(c(unique(archiMultipartite[,1]),unique(archiMultipartite[,2])) > 1))
+    stop("Architecture of networks provided does not correspond to a Multiplex architecture")
+
+  # CHECKING dependence structure
+  if (dependent) {
+    if (! ( all(directed == TRUE) | all(directed == FALSE)) )
+      stop("in the dependent case, all networks should be either directed or not directed")
+
+    dBern  <- isTRUE(all.equal(model, rep("bernoulli", length(model))))
+    dGauss <- isTRUE(all.equal(model, rep("gaussian" , length(model))))
+    if (!(dGauss | (dBern&length(model) == 2)))
+      stop("dependency in multiplex network is only handled for Gaussian distribution or a bivariate Bernoulli distribution")
+  }
+
+   if (!dependent)  {
+     return(sampleMultipartiteSBM(nbNodes,blockProp,archiMultipartite,connectParam,model,directed,dimLabels,seed))
+   }
+  else {
+## TODO dependent case based on help from blockmodels function
+
+  }
+}
