@@ -54,7 +54,8 @@
 #' adjacencyMatrix <- mySampler$networkData
 #'
 #' ## Estimation
-#' mySimpleSBM <- estimateSimpleSBM(adjacencyMatrix, 'poisson', estimOptions = list(plot = FALSE))
+#' mySimpleSBM <- estimateSimpleSBM(adjacencyMatrix, 'poisson',
+#'    estimOptions = list(plot = FALSE))
 #' plot(mySimpleSBM, 'data', ordered = FALSE)
 #' plot(mySimpleSBM, 'data')
 #' plot(mySimpleSBM, 'expected', ordered = FALSE)
