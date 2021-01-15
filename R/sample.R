@@ -238,9 +238,11 @@ sampleMultipartiteSBM <- function(nbNodes,
   listNetworks <- list()
   memberships <- dataSimGREMLIN$classif
   names(memberships) <- namesFG
+
   for (l in 1:nbNetworks){
     dimLabels_l = c(row = dataSimGREMLIN$list_Net[[l]]$rowFG, col = dataSimGREMLIN$list_Net[[l]]$colFG)
     type_l <- ifelse(typeInter[l] == 'inc','bipartite','simple')
+    if (type_l == "simple") dimLabels_l = c(node = unique(dimLabels_l))
     listNetworks[[l]] <- defineSBM(netMat  = dataSimGREMLIN$list_Net[[l]]$mat, model = model[l], type = type_l, directed = directed[l],dimLabels =  dimLabels_l)
   }
 

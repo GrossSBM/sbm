@@ -9,7 +9,7 @@ sampleBipartiteSBM(
   blockProp,
   connectParam,
   model = "bernoulli",
-  dimLabels = list(row = "rowLabel", col = "colLabel"),
+  dimLabels = c(row = "rowName", col = "colName"),
   covariates = list(),
   covariatesParam = numeric(0)
 )
@@ -48,7 +48,7 @@ means <- matrix(runif(6), 2, 3)  # connectivity matrix
 connectParam <- list(mean = means)
 
 ## Graph Sampling
-dimLabels = list(row='Reader',col='Book')
+dimLabels = c(row='Reader',col='Book')
 mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'bernoulli',dimLabels)
 plot(mySampler)
 plot(mySampler,type='meso',plotOptions = list(vertex.label.name=list(row='Reader',col='Book')))
@@ -66,12 +66,12 @@ means <- matrix(rbinom(6, 30, 0.25), 2, 3)  # connectivity matrix
 connectParam <- list(mean = means)
 
 ## Graph Sampling
-dimLabels = list(row = 'Ind', col = 'Service')
+dimLabels = c(row = 'Ind', col = 'Service')
 mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'poisson', dimLabels)
 plot(mySampler,type='expected')
 plotOptions = list(vertex.label.name=c('U','V'),vertex.size = c(1.4,1.3))
-plot(mySampler,type='meso',plotOptions)
-hist(mySampler$netMatrix)
+plot(mySampler, type='meso', plotOptions = plotOptions)
+hist(mySampler$networkData)
 
 ### =======================================
 ### BIPARTITE GAUSSIAN SBM
@@ -86,6 +86,6 @@ connectParam <- list(mean = means, var = 1)
 ## Graph Sampling
 mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'gaussian')
 plot(mySampler)
-hist(mySampler$netMatrix)
+hist(mySampler$networkData)
 
 }

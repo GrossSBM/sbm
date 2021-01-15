@@ -8,7 +8,7 @@ estimateSimpleSBM(
   netMat,
   model = "bernoulli",
   directed = !isSymmetric(netMat),
-  dimLabels = list(row = "node", col = "node"),
+  dimLabels = c(node = "nodeName"),
   covariates = list(),
   estimOptions = list()
 )
@@ -54,7 +54,7 @@ blockProp <- c(.5, .25, .25) # group proportions
 means <- diag(.4, 3) + 0.05  # connectivity matrix: affiliation network
 connectParam <- list(mean = means)
 mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam)
-adjacencyMatrix <- mySampler$netMatrix
+adjacencyMatrix <- mySampler$networkData
 
 ## Estimation
 mySimpleSBM <-
@@ -74,7 +74,7 @@ blockProp <- c(.5, .25, .25) # group proportions
 means <- diag(15., 3) + 5    # connectivity matrix: affiliation network
 connectParam <- list(mean = means)
 mySampler <- sampleSimpleSBM(nbNodes, blockProp, list(mean = means), model = "poisson")
-adjacencyMatrix <- mySampler$netMatrix
+adjacencyMatrix <- mySampler$networkData
 
 ## Estimation
 mySimpleSBM <- estimateSimpleSBM(adjacencyMatrix, 'poisson', estimOptions = list(plot = FALSE))
@@ -94,7 +94,7 @@ connectParam <- list(mean = means, var = 2)
 mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam, model = "gaussian")
 
 ## Estimation
-mySimpleSBM <- estimateSimpleSBM(mySampler$netMatrix, 'gaussian', estimOptions = list(plot = FALSE))
+mySimpleSBM <- estimateSimpleSBM(mySampler$networkData, 'gaussian', estimOptions = list(plot = FALSE))
 plot(mySimpleSBM, 'data', ordered = FALSE)
 plot(mySimpleSBM, 'data')
 plot(mySimpleSBM, 'expected', ordered = FALSE)

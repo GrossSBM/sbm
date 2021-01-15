@@ -10,7 +10,7 @@ sampleSimpleSBM(
   connectParam,
   model = "bernoulli",
   directed = FALSE,
-  dimLabels = list(row = "nodeLabel", col = "nodeLabel"),
+  dimLabels = c(node = "nodeName"),
   covariates = list(),
   covariatesParam = numeric(0)
 )
@@ -57,7 +57,7 @@ mySampler$rMemberships() # sample new memberships
 mySampler$rAdjacency()   # sample new adjacency matrix
 plot(mySampler)
 plot(mySampler,type='meso')
-hist(mySampler$netMatrix)
+hist(mySampler$networkData)
 
 ### =======================================
 ### SIMPLE POISSON SBM
@@ -73,7 +73,7 @@ connectParam <- list(mean = means)
 mySampler <- sampleSimpleSBM(nbNodes, blockProp, list(mean = means), model = "poisson")
 plot(mySampler)
 plot(mySampler,type='meso')
-hist(mySampler$netMatrix)
+hist(mySampler$networkData)
 
 ### =======================================
 ### SIMPLE GAUSSIAN SBM
@@ -89,5 +89,5 @@ connectParam <- list(mean = means, var = 2)
 mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam, model = "gaussian")
 plot(mySampler)
 plot(mySampler,type='meso')
-hist(mySampler$netMatrix)
+hist(mySampler$networkData)
 }
