@@ -249,44 +249,114 @@ sampleMultipartiteSBM <- function(nbNodes,
 }
 
 
-
+#' Sampling of Multiplex SBMs
+#'
+#' This function samples a Multiplex Stochastic Block Models, with various model
+#' for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models
+#'
+#' @param nbNodes number of nodes in each functional group involved in the Multiplex network
+#' @param blockProp a vector for block proportion if the networks are simple, a list of parameters for block proportions for both functional groups if the networks are bipartite
+#' @param nbLayers a matrix with two columns and nbNetworks lines, each line specifying the index of the functional groups in interaction.
+#' @param connectParam list of parameters for connectivity (of length nbNetworks). Each element is a list of one or two elements: a matrix of means 'mean' and an optional matrix of variances 'var', the sizes of which must match \code{blockProp} length
+#' @param model a vector of characters describing the model for  each network of the Multiplex relation between nodes (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'}, ...). Default is \code{'bernoulli'}.
+#' @param type a string of character indicating whether the networks are directed, undirected or bipatite
+#' @param dimLabels an optional list of labels for functional group involved in the network
+#' @param seed numeric to set the seed.
+#' @return  a list of two elements : \code{simulatedMemberships} are the clustering of each node in each Functional Group,  \code{MultiplexNetwork} is the list of the simulated networks (each one being  a simple or bipartite network)
+#'
+#' @examples
+#' ### =======================================
+#' @export
 SampleMultiplexSBM <- function(nbNodes,
                                blockProp,
-                               archiMultipartite,
+                               nbLayers,
                                connectParam,
                                model,
-                               directed,
+                               type=c("directed","undirected","bipartite"),
                                dependent=FALSE,
                                dimLabels = NULL,
                                seed = NULL) {
 
-  if (length(unique(c(length(model),length(directed),length(connectParam),nrow(archiMultipartite))))>1)
-    stop("length of vectors model, directed and length of list connectParam and number of rows in archiMultipartite should match")
 
-  if (length(unique(c(length(nbNodes),length(blockProp))))>1)
+
+  if (length(unique(c(length(model),length(connectParam),nbLayers)))>1)
+    stop("length of vector model and length of list connectParam and number of layers should match")
+
+  # block prop list ou simple vecteur
+  if ((length(nbNodes)==2 & is.list(blockProp)) | (length(nbNodes)==1 & !is.list(blockProp)))
     stop("length of vector nbNodes and length of list blockProp should match")
 
   # same sanity check as in the R6 class MultiplexSBM_fit
-  # check whether the multipartite at hand is actually a multiplex
-  if (any(c(unique(archiMultipartite[,1]),unique(archiMultipartite[,2])) > 1))
-    stop("Architecture of networks provided does not correspond to a Multiplex architecture")
+  # check whether the Multiplex at hand is actually a multiplex
+  # if (any(c(unique(archiMultiplex[,1]),unique(archiMultiplex[,2])) > 1))
+  #   stop("Architecture of networks provided does not correspond to a Multiplex architecture")
 
   # CHECKING dependence structure
   if (dependent) {
-    if (! ( all(directed == TRUE) | all(directed == FALSE)) )
-      stop("in the dependent case, all networks should be either directed or not directed")
+    # on empeche cette option
+    # if (! ( all(directed == TRUE) | all(directed == FALSE)) )
+    #   stop("in the dependent case, all networks should be either directed or not directed")
 
     dBern  <- isTRUE(all.equal(model, rep("bernoulli", length(model))))
     dGauss <- isTRUE(all.equal(model, rep("gaussian" , length(model))))
     if (!(dGauss | (dBern&length(model) == 2)))
       stop("dependency in multiplex network is only handled for Gaussian distribution or a bivariate Bernoulli distribution")
-  }
+
+    ## TODO dependent case based on help from blockmodels function
+    if (dBern)
+    {
+      if (directed == "bipartite")
+      {
+
+        Q <- lapply(blockProp,length) # classes
+        n <- npc * Q # nodes
+        Z1<-diag(Q[[1]])%x%matrix(1,npc[1],1)
+        Z2<-diag(Q[2])%x%matrix(1,npc[2],1)
+        P00<-matrix(runif(Q[1]*Q[2]),Q[1],Q[2])
+        P10<-matrix(runif(Q[1]*Q[2]),Q[1],Q[2])
+        P01<-matrix(runif(Q[1]*Q[2]),Q[1],Q[2])
+        P11<-matrix(runif(Q[1]*Q[2]),Q[1],Q[2])
+        SumP<-P00+P10+P01+P11
+        P00<-P00/SumP
+        P01<-P01/SumP
+        P10<-P10/SumP
+        P11<-P11/SumP
+        MU<-matrix(runif(n[1]*n[2]),n[1],n[2])
+        M1<-1*(MU>Z1%*%(P00+P01)%*%t(Z2))
+        M2<-1*((MU>Z1%*%P00%*%t(Z2)) & (MU<Z1%*%(P00+P01+P11)%*%t(Z2))) ## ad
+      }
+      if (directed == "directed")
+      {
+
+      }
+      if (directed== "undirected")
+      {
+
+      }
+    }
+    if (dGauss)
+    {
+      if (directed == "bipartite")
+      {
+
+      }
+      if (directed == "directed")
+      {
+
+      }
+      if (directed== "undirected")
+      {
+
+      }
+    }
+    }
+
 
    if (!dependent)  {
+     archiMultipartite <- matrix(1,nrow=nbLayers,ncol=2)
+     if (type == "bipartite") archiMultipartite[,2] <- 2
+     directed <- rep(type=="directed",nbLayers)
      return(sampleMultipartiteSBM(nbNodes,blockProp,archiMultipartite,connectParam,model,directed,dimLabels,seed))
    }
-  else {
-## TODO dependent case based on help from blockmodels function
 
-  }
 }
