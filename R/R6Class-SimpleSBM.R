@@ -1,12 +1,11 @@
-#' R6 class for Simple SBM sampler
+#' R6 class for Simple SBM
 #'
 #' @import R6
-#' @include R6Class-SBM_sampler.R
+#' @include R6Class-SBM.R
 #' @export
-SimpleSBM_sampler <-
-  R6::R6Class(classname = "SimpleSBM_sampler",
-   inherit = SBM_sampler,
-   ## fields for internal use (referring to the mathematical notation)
+SimpleSBM <-
+  R6::R6Class(classname = "SimpleSBM",
+    inherit = SBM,
     public = list(
       #' @description constructor for SBM
       #' @param model character describing the type of model
@@ -20,28 +19,33 @@ SimpleSBM_sampler <-
       initialize = function(model, nbNodes, directed, blockProp, connectParam, dimLabels=c(node="nodeName"), covarParam=numeric(0), covarList=list()) {
 
         ## ADDITIONAL SANITY CHECKS
-        stopifnot(all(blockProp > 0), all(blockProp < 1)) # positive proportions
+        stopifnot(length(dimLabels) == 1)
+        stopifnot(is.atomic(blockProp), all(blockProp > 0), all(blockProp < 1)) # positive proportions
         stopifnot(all.equal(length(blockProp),            # dimensions match between vector of
                             ncol(connectParam$mean),      # block proportion and connectParam$mean
                             nrow(connectParam$mean)))
-        stopifnot(length(dimLabels) == 1)
+
         if (!directed) stopifnot(isSymmetric(connectParam$mean)) # connectivity and direction must agree
-        super$initialize(model, nbNodes, directed, blockProp, dimLabels, connectParam, covarParam, covarList)
-        self$rAdjacency()
+        super$initialize(model, directed, nbNodes, dimLabels, blockProp, connectParam, covarParam, covarList)
       },
       #' @description a method to generate a vector of block indicators
-      #' @return nothing (sampled memberships is stored in the current object)
-      rMemberships = function() {
-        private$Z <- t(rmultinom(private$dim, size = 1, prob = private$pi))
+      #' @param store should the sampled blocks be stored (and overwrite the existing data)? Default to FALSE
+      #' @return the sampled blocks
+      rMemberships = function(store = FALSE) {
+        Z <- t(rmultinom(private$dim, size = 1, prob = private$pi))
+        if (store) private$Z <- Z
+        Z
       },
-      #' @description a method to sample an adjacency matrix for the current SBM
-      #' @return nothing (sampled adjacency matrix is stored in the current object)
-      rAdjacency = function() {
-        Y <- suppressWarnings(private$sampling_func(self$nbNodes**2, list(mean = self$expectation, var = self$variance))) %>%
+      #' @description a method to sample a network data for the current SBM
+      #' @param store should the sampled network be stored (and overwrite the existing data)? Default to FALSE
+      #' @return the sampled network
+      rAdjacency = function(store = FALSE) {
+        Y <- suppressWarnings(private$sampling_func[[1]](self$nbNodes**2, list(mean = self$expectation, var = private$theta$var))) %>%
           matrix(private$dim, private$dim)
         diag(Y) <- NA
         if (!private$directed_) Y <- Y * lower.tri(Y) + t(Y * lower.tri(Y))
-        private$Y <- Y
+        if (store) private$Y <- Y
+        Y
       },
       #' @description show method
       #' @param type character used to specify the type of SBM
@@ -49,6 +53,9 @@ SimpleSBM_sampler <-
         super$show(type)
         cat("* R6 methods \n")
         cat("  $rMemberships(), $rAdjacency() \n")
+        cat("  $indMemberships, $memberships, $expectation\n")
+        cat("* S3 methods \n")
+        cat("  plot, print, coef \n")
       }
     ),
     active = list(
@@ -68,7 +75,9 @@ SimpleSBM_sampler <-
         if (self$nbCovariates > 0) mu <- private$invlink[[1L]](private$link[[1L]](mu) + self$covarEffect)
         diag(mu) <- NA
         mu
-      }
+      },
+      #' @field variance variance of each dyad under the current model
+      variance = function() {if (private$model == 'gaussian') return(private$theta$var) else return(NULL) }
     )
   )
 

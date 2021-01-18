@@ -23,7 +23,7 @@ test_that("SimpleSBM_fit 'Bernoulli' model, undirected, one covariate", {
   connectParam <- list(mean = means)
 
   ## Basic construction - check for wrong specifications
-  mySampler <- SimpleSBM_sampler$new('bernoulli', nbNodes, FALSE, blockProp, connectParam, covarParam = covarParam[1], covarList = covarList[1])
+  mySampler <- SimpleSBM$new('bernoulli', nbNodes, FALSE, blockProp, connectParam, covarParam = covarParam[1], covarList = covarList[1])
 
   ## Construction----------------------------------------------------------------
   mySBM <- SimpleSBM_fit$new(mySampler$networkData, 'bernoulli', FALSE, covarList = covarList[1])
@@ -95,7 +95,7 @@ test_that("SimpleSBM_fit 'Bernoulli' model, directed, one covariate", {
   connectParam <- list(mean = means)
 
   ## Basic construction - check for wrong specifications
-  mySampler <- SimpleSBM_sampler$new('bernoulli', nbNodes, TRUE, blockProp, connectParam, c(node = "nodeName"), covarParam[1], covarList_directed[1])
+  mySampler <- SimpleSBM$new('bernoulli', nbNodes, TRUE, blockProp, connectParam, c(node = "nodeName"), covarParam[1], covarList_directed[1])
 
   ## Construction----------------------------------------------------------------
   mySBM <- SimpleSBM_fit$new(mySampler$networkData, 'bernoulli', TRUE, covarList = covarList_directed[1])
@@ -165,7 +165,7 @@ test_that("SimpleSBM_fit 'Poisson' model, undirected, two covariates", {
   connectParam <- list(mean = means)
 
   ## Basic construction - check for wrong specifications
-  mySampler <- SimpleSBM_sampler$new('poisson', nbNodes, FALSE, blockProp, connectParam, covarParam = covarParam[1], covarList = covarList[1])
+  mySampler <- SimpleSBM$new('poisson', nbNodes, FALSE, blockProp, connectParam, covarParam = covarParam[1], covarList = covarList[1])
 
   ## Construction----------------------------------------------------------------
   mySBM <- SimpleSBM_fit$new(mySampler$networkData, 'poisson', FALSE, covarList = covarList[1])
@@ -234,7 +234,7 @@ test_that("SimpleSBM_fit 'Poisson' model, directed, two covariates", {
   connectParam <- list(mean = means)
 
   ## Basic construction - check for wrong specifications
-  mySampler <- SimpleSBM_sampler$new('poisson', nbNodes, TRUE, blockProp, connectParam, covarParam = covarParam[1], covarList = covarList_directed[1])
+  mySampler <- SimpleSBM$new('poisson', nbNodes, TRUE, blockProp, connectParam, covarParam = covarParam[1], covarList = covarList_directed[1])
 
   ## Construction----------------------------------------------------------------
   mySBM <- SimpleSBM_fit$new(mySampler$networkData, 'poisson', TRUE, covarList = covarList_directed[1])
@@ -304,7 +304,7 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, two covariates", {
   connectParam <- list(mean = means, var = 2)
 
   ## Basic construction - check for wrong specifications
-  mySampler <- SimpleSBM_sampler$new('gaussian', nbNodes, FALSE, blockProp, connectParam, covarParam = covarParam, covarList = covarList)
+  mySampler <- SimpleSBM$new('gaussian', nbNodes, FALSE, blockProp, connectParam, covarParam = covarParam, covarList = covarList)
 
   ## Construction----------------------------------------------------------------
   mySBM <- SimpleSBM_fit$new(mySampler$networkData, 'gaussian', FALSE, covarList = covarList)
@@ -378,7 +378,7 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, two covariates", {
   connectParam <- list(mean = means, var = 2)
 
   ## Basic construction - check for wrong specifications
-  mySampler <- SimpleSBM_sampler$new('gaussian', nbNodes, TRUE, blockProp, connectParam, covarParam = covarParam, covarList = covarList_directed)
+  mySampler <- SimpleSBM$new('gaussian', nbNodes, TRUE, blockProp, connectParam, covarParam = covarParam, covarList = covarList_directed)
 
   ## Construction----------------------------------------------------------------
   mySBM <- SimpleSBM_fit$new(mySampler$networkData, 'gaussian', TRUE, covarList = covarList_directed)

@@ -71,11 +71,13 @@ sampleSimpleSBM <- function(nbNodes,
                             connectParam,
                             model = 'bernoulli',
                             directed = FALSE,
-                            dimLabels    = c(node = "nodeName"),
+                            dimLabels = c(node = "nodeName"),
                             covariates = list(),
                             covariatesParam = numeric(0)) {
 
-  mySampler <- SimpleSBM_sampler$new(model, nbNodes, directed, blockProp, connectParam, dimLabels, covariatesParam, covariates)
+  mySampler <- SimpleSBM$new(model, nbNodes, directed, blockProp, connectParam, dimLabels, covariatesParam, covariates)
+  mySampler$rMemberships(store = TRUE)
+  mySampler$rAdjacency(store = TRUE)
   mySampler
 }
 
@@ -156,7 +158,9 @@ sampleBipartiteSBM <- function(nbNodes,
                             covariates = list(),
                             covariatesParam = numeric(0)) {
 
-  mySampler <- BipartiteSBM_sampler$new(model, nbNodes, blockProp, connectParam, dimLabels, covariatesParam, covariates)
+  mySampler <- BipartiteSBM$new(model, nbNodes, blockProp, connectParam, dimLabels, covariatesParam, covariates)
+  mySampler$rMemberships(store = TRUE)
+  mySampler$rIncidence(store = TRUE)
   mySampler
 }
 #' Sampling of Multipartite SBMs

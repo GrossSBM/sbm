@@ -1,11 +1,11 @@
-#' R6 class for Bipartite SBM sampler
+#' R6 class for Bipartite SBM
 #'
 #' @import R6
-#' @include R6Class-SBM_sampler.R
+#' @include R6Class-SBM.R
 #' @export
-BipartiteSBM_sampler <-
-  R6::R6Class(classname = "BipartiteSBM_sampler",
-    inherit = SBM_sampler,
+BipartiteSBM <-
+  R6::R6Class(classname = "BipartiteSBM",
+    inherit = SBM,
     public = list(
       #' @description constructor for SBM
       #' @param model character describing the type of model
@@ -16,38 +16,46 @@ BipartiteSBM_sampler <-
       #' @param covarParam optional vector of covariates effect
       #' @param covarList optional list of covariates data
       initialize = function(model, nbNodes, blockProp, connectParam, dimLabels=c(row="row", col="col"), covarParam=numeric(0), covarList=list()) {
+
         ## SANITY CHECKS
-        stopifnot(length(blockProp) ==  2,
+        stopifnot(length(dimLabels) == 2)
+        stopifnot(length(blockProp) ==  2, is.list(blockProp),
                   length(blockProp[[1]]) ==  nrow(connectParam$mean), # dimensions match between vector of
                   length(blockProp[[2]]) ==  ncol(connectParam$mean)) # block proportion and connectParam$mean
-        stopifnot(all(blockProp[[1]] > 0), all(blockProp[[1]] < 1)) # positive proportions
+        stopifnot(all(blockProp[[1]] > 0), all(blockProp[[1]] < 1))   # positive proportions
         stopifnot(all(blockProp[[2]] > 0), all(blockProp[[2]] < 1))
-        stopifnot(length(dimLabels) == 2)
         names(blockProp) <- names(dimLabels)
-        super$initialize(model, nbNodes, NA, blockProp, dimLabels, connectParam, covarParam, covarList)
-        self$rIncidence()
+        super$initialize(model, NA, nbNodes, dimLabels, blockProp, connectParam, covarParam, covarList)
       },
       #' @description a method to generate a vector of block indicators
-      rMemberships = function() {
-        private$Z <- list(
+      #' @param store should the sampled blocks be stored (and overwrite the existing data)? Default to FALSE
+      #' @return the sampled blocks
+      rMemberships = function(store = FALSE) {
+        Z <- list(
           row = t(rmultinom(private$dim[1], size = 1, prob = private$pi[[1]])),
           col = t(rmultinom(private$dim[2], size = 1, prob = private$pi[[2]]))
           )
+        if (store) private$Z <- Z
+        Z
       },
-      #' @description a method to sample an adjacency matrix for the current SBM
-      #' @return nothing (sampled matrix is store in the current object, accessible via $netMatrix)
-      rIncidence = function() {
-        Y <- private$sampling_func(private$dim[1]*private$dim[2], list(mean = self$expectation, var = self$variance)) %>%
+      #' @description a method to sample a network data for the current SBM
+      #' @param store should the sampled network be stored (and overwrite the existing data)? Default to FALSE
+      #' @return the sampled network
+      rIncidence = function(store = FALSE) {
+        Y <- private$sampling_func[[1]](private$dim[1]*private$dim[2], list(mean = self$expectation, var = private$theta$var)) %>%
           matrix(private$dim[1], private$dim[2])
-        private$Y <- Y
+        if (store) private$Y <- Y
+        Y
       },
       #' @description show method
       #' @param type character used to specify the type of SBM
-      show = function(type = "Sampler for a Bipartite Stochastic Block Model") {
+      show = function(type = "Bipartite Stochastic Block Model") {
         super$show(type)
         cat("* R6 methods \n")
         cat("  $rMemberships(), $rIncidence() \n")
-      }
+        cat("  $indMemberships, $memberships, $expectation\n")
+        cat("* S3 methods \n")
+        cat("  plot, print, coef \n")      }
     ),
     active = list(
       #' @field nbBlocks vector of size 2: number of blocks (rows, columns)
@@ -65,7 +73,9 @@ BipartiteSBM_sampler <-
         mu <- private$Z[[1]] %*% private$theta$mean %*% t(private$Z[[2]])
         if (self$nbCovariates > 0) mu <- private$invlink[[1L]](private$link[[1L]](mu) + self$covarEffect)
         mu
-      }
+      },
+      #' @field variance variance of each dyad under the current model
+      variance = function() {if (private$model == 'gaussian') return(private$theta$var) else return(NULL) }
     )
   )
 

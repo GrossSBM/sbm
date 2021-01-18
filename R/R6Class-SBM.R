@@ -7,17 +7,19 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
   R6::R6Class(classname = "SBM",
     ## fields for internal use (referring to the mathematical notation)
     private = list(
-      model     = NULL, # characters, the model name: distribution of the edges (bernoulli, poisson, gaussian)
-      directed_ = NULL, # vector of logical indicating if networks are directed, when appropriate
-      link      = NULL, # the link function (GLM-like)
-      invlink   = NULL, # the inverse link function (GLM-like)
-      dim       = NULL, # dimension: number of nodes for each group
-      dimlab    = NULL, # vector: the type of nodes in row and in col
-      pi        = NULL, # vector of parameters for block prior probabilities
-      theta     = NULL, # connectivity parameters between edges
-      beta      = NULL, # vector of covariates parameters
-      Y         = NULL, # network data (matrix or list of matrices)
-      X         = NULL  # list of covariates
+      model         = NULL, # characters, the model name: distribution of the edges (bernoulli, poisson, gaussian)
+      directed_     = NULL, # vector of logical indicating if networks are directed, when appropriate
+      link          = NULL, # the link function (GLM-like)
+      invlink       = NULL, # the inverse link function (GLM-like)
+      dim           = NULL, # dimension: number of nodes for each group
+      dimlab        = NULL, # vector: the type of nodes in row and in col
+      pi            = NULL, # vector of parameters for block prior probabilities
+      theta         = NULL, # connectivity parameters between edges
+      beta          = NULL, # vector of covariates parameters
+      Y             = NULL, # network data (matrix or list of matrices)
+      X             = NULL, # list of covariates
+      Z             = NULL, # the sampled indicator of blocks
+      sampling_func = NULL # a list of functions to sample edge values, depending on the model
     ),
     public = list(
       #' @description constructor for SBM
@@ -37,7 +39,6 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
                             connectParam = vector("list"     , 0),
                             covarParam   = numeric(length(covarList)),
                             covarList    = list()) {
-
         ## SANITY CHECK
         stopifnot(is.character(model), all(model %in% available_models_edges))
         stopifnot(is.logical(directed))
@@ -45,6 +46,15 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
         stopifnot(is.numeric(dimension))
         stopifnot(is.list(connectParam))
         stopifnot(all.equal(length(covarParam), length(covarList)))
+        if (length(model) == 1) tmpParam <- list(connectParam) else tmpParam <- connectParam
+        # walk2(model, tmpParam,
+        #     ~switch(.x,
+        #       "bernoulli"  = stopifnot(all(.y$mean >= 0), all(.y$mean <= 1)),
+        #       "poisson"    = stopifnot(all(.y$mean >= 0)),
+        #       "gaussian"   = stopifnot(length(.y$var) == 1, .y$var > 0),
+        #       "ZIgaussian" = stopifnot(all(.y$p0 >= 0), all(.y$p0 <= 1))
+        #       )
+        #   )
 
         ## MODEL & PARAMETERS
         private$model      <- model
@@ -56,7 +66,7 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
         private$theta      <- connectParam
         private$beta       <- covarParam
 
-        private$link   <- map(model,
+        private$link <- map(model,
           ~switch(.x,
                 "gaussian"   = function(x) {x},
                 "ZIgaussian" = function(x) {x},
@@ -72,6 +82,16 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
                 "bernoulli"  = function(x) {.logistic(x)},
                 )
           )
+
+        private$sampling_func <- map(model,
+          ~switch(.x,
+            "gaussian"   = function(n, param) rnorm (n = n, mean = param$mean, sd = sqrt(param$var)),
+            "ZIgaussian" = function(n, param) rbinom(n = n, size = 1, prob = 1 - param$p0) * rnorm(n = n, param$mean, sd = sqrt(param$var)),
+            "poisson"    = function(n, param) rpois (n = n, lambda = param$mean) ,
+            "bernoulli"  = function(n, param) rbinom(n = n, size = 1, prob   = param$mean)
+          )
+        )
+
       },
       #' @description basic matrix plot method for SBM object or mesoscopic plot
       #' @param type character for the type of plot: either 'data' (true connection), 'expected' (fitted connection) or 'meso' (mesoscopic view). Default to 'data'.
