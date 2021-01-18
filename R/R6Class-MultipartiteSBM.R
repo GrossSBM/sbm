@@ -10,7 +10,7 @@ MultipartiteSBM <-
     inherit = SBM,
     # fields for internal use (referring to the mathematical notation)
     private = list(
-      arch      = NULL # matrix describing the organization of the multipartite network
+      arch = NULL # matrix describing the organization of the multipartite network
     ),
     public = list(
       #' @description constructor for Multipartite SBM
@@ -30,7 +30,7 @@ MultipartiteSBM <-
 
         ## MODEL & PARAMETERS
         super$initialize(model, directed, dimension, dimLabels, blockProp, connectParam)
-        private$arch   <- architecture
+        private$arch <- architecture
       },
       #' @description print method
       #' @param type character to tune the displayed name

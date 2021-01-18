@@ -76,42 +76,7 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       #' @description basic matrix plot method for SBM object or mesoscopic plot
       #' @param type character for the type of plot: either 'data' (true connection), 'expected' (fitted connection) or 'meso' (mesoscopic view). Default to 'data'.
       #' @param ordered logical: should the rows and columns be reordered according to the clustering? Default to \code{TRUE}.
-      #' @param plotOptions list with the parameters for the plot
-      #' @details The list of parameters \code{plotOptions}  for the mesoscopic plot is:
-      #'  \itemize{
-      #'  \item{"seed": }{seed to control the layout}
-      #'  \item{"title": }{character string for the title. Default value is NULL}
-      #'  \item{"layout": }{Default value = NULL}
-      #'  \item{"vertex.color": }{Default value is "salmon2"}
-      #'  \item{"vertex.frame.color": }{Node border color.Default value is "black" }
-      #'  \item{"vertex.shape": }{One of "none", "circle", "square", "csquare", "rectangle" "crectangle", "vrectangle", "pie", "raster", or "sphere". Default value = "circle"}
-      #'  \item{"vertex.size": }{Size of the node (default is 2)}
-      #'  \item{"vertex.size2": }{The second size of the node (e.g. for a rectangle)}
-      #'  \item{"vertex.label.name": }{Names of the vertices. Default value is the label of the nodes}
-      #'  \item{"vertex.label.color": }{Default value is  "black"}
-      #'  \item{"vertex.label.font": }{Default value is 2. Font: 1 plain, 2 bold, 3, italic, 4 bold italic, 5 symbol}
-      #'  \item{"vertex.label.cex": }{Font size (multiplication factor, device-dependent).Default value is  0.9.}
-      #'  \item{"vertex.label.dist": }{Distance between the label and the vertex. Default value is  0}
-      #'  \item{"vertex.label.degree": }{The position of the label in relation to the vertex. default value is 0}
-      #'  \item{"edge.threshold": }{Threshold under which the edge is not plotted. Default value is = -Inf}
-      #'  \item{"edge.color": }{Default value is "gray"}
-      #'  \item{"edge.width": }{Factor parameter. Default value is 10}
-      #'  \item{"edge.arrow.size": }{Default value is 1}
-      #'  \item{"edge.arrow.width": }{Default value is 2}
-      #'  \item{"edge.lty": }{Line type, could be 0 or "blank", 1 or "solid", 2 or "dashed", 3 or "dotted", 4 or "dotdash", 5 or "longdash", 6 or "twodash". Default value is "solid"}
-      #'  \item{"edge.curved": }{Default value is = 0.3.}
-      #' }
-      #' For type = 'data' or 'expected plot', the list of parameters \code{plotOptions} is
-      #' \itemize{
-      #'  \item{"legend": }{Boolean. Set TRUE if you want to see the legend. Default value is FALSE}
-      #'  \item{"legend.title":}{Boolean. Set TRUE if you want to print the title of the legend. Default value is FALSE}
-      #'  \item{"legend.position":}{Position of the legend. Possible values are 'bottom', 'top','left,'right'. Default value is 'bottom'}
-      #'  \item{"rowNames":}{Set true if the rownames must be plotted. Default value is FALSE}
-      #'  \item{"colNames":}{Set true if the colNames must be plotted. Default value is FALSE}
-      #'  \item{"line.color": }{Chain of character. The color of the lines to separate groups if a clustering is provided. Default value is red}
-      #'  \item{"line.width": }{Numeric. Width  of the lines to separate groups. Default value is NULL, automatically chosen}
-      #'  \item{"title": }{Chain of character. Title of the plot. Default value is NULL}
-      #'  }
+      #' @param plotOptions list with the parameters for the plot. See help of the corresponding S3 method for details.
       #' @return a ggplot2 object for the \code{'data'} and \code{'expected'}, a list with the igraph object \code{g}, the \code{layout} and the \code{plotOptions} for the \code{'meso'}
       #' @import ggplot2
       plot = function(type = c('data','expected','meso'), ordered = TRUE, plotOptions = list()) {
@@ -128,14 +93,15 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
 
         switch(match.arg(type),
           "meso" =
-            plotMeso(thetaMean  = private$theta$mean,
-                   pi         = private$pi,
-                   model      = private$model,
-                   directed   = private$directed_,
-                   bipartite  = length(private$dimlab) == 2,
-                   nbNodes    = self$dimension,
-                   nodeLabels = as.list(private$dimlab),
-                   plotOptions),
+            plotMeso(
+              thetaMean  = private$theta$mean,
+              pi         = private$pi,
+              model      = private$model,
+              directed   = private$directed_,
+              bipartite  = length(private$dimlab) == 2,
+              nbNodes    = self$dimension,
+              nodeLabels = as.list(private$dimlab),
+              plotOptions),
           "data" =
             plotMatrix(self$networkData,
                        private$dimlab,
