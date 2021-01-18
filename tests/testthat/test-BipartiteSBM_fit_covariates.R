@@ -18,7 +18,7 @@ test_that("BipartiteSBM_fit 'Bernoulli' model, undirected, no covariate", {
   connectParam <- list(mean = means)
 
   ## Basic construction - check for wrong specifications
-  mySampler <- BipartiteSBM_sampler$new('bernoulli', nbNodes, blockProp, connectParam,covarParam = covarParam[1], covarList = covarList[1])
+  mySampler <- BipartiteSBM$new('bernoulli', nbNodes, blockProp, connectParam,covarParam = covarParam[1], covarList = covarList[1])
 
   ## Construction----------------------------------------------------------------
   mySBM <- BipartiteSBM_fit$new(mySampler$networkData, 'bernoulli', covarList = covarList[1])
@@ -85,7 +85,7 @@ test_that("BipartiteSBM_fit 'Poisson' model, undirected, no covariate", {
   connectParam <- list(mean = means)
 
   ## Basic construction - check for wrong specifications
-  mySampler <- BipartiteSBM_sampler$new('poisson', nbNodes, blockProp, connectParam, covarParam = covarParam, covarList = covarList)
+  mySampler <- BipartiteSBM$new('poisson', nbNodes, blockProp, connectParam, covarParam = covarParam, covarList = covarList)
 
   ## Construction----------------------------------------------------------------
   mySBM <- BipartiteSBM_fit$new(mySampler$networkData, 'poisson', covarList = covarList)
@@ -156,7 +156,7 @@ test_that("BipartiteSBM_fit 'Gaussian' model, undirected, no covariate", {
   connectParam <- list(mean = means, var = .1)
 
   ## Basic construction - check for wrong specifications
-  mySampler <- BipartiteSBM_sampler$new('gaussian', nbNodes, blockProp, connectParam, covarParam = covarParam, covarList = covarList)
+  mySampler <- BipartiteSBM$new('gaussian', nbNodes, blockProp, connectParam, covarParam = covarParam, covarList = covarList)
 
   ## Construction----------------------------------------------------------------
   mySBM <- BipartiteSBM_fit$new(mySampler$networkData, 'gaussian', covarList = covarList)
