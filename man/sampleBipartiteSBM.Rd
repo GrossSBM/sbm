@@ -30,7 +30,7 @@ sampleBipartiteSBM(
 \item{covariatesParam}{optional vector of covariates effect. A zero length numeric vector by default.}
 }
 \value{
-an object with class \code{\link{BipartiteSBM_sampler}}
+an object with class \code{\link{BipartiteSBM}}
 }
 \description{
 This function samples a simple Stochastic Block Models, with various model

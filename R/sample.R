@@ -12,7 +12,7 @@
 #' @param covariates a list of matrices with same dimension as mat describing covariates at the edge level. No covariate per Default.
 #' @param covariatesParam optional vector of covariates effect. A zero length numeric vector by default.
 #'
-#' @return  an object with class \code{\link{SimpleSBM_sampler}}
+#' @return  an object with class \code{\link{SimpleSBM}}
 #'
 #' @examples
 #' ### =======================================
@@ -94,7 +94,7 @@ sampleSimpleSBM <- function(nbNodes,
 #' @param covariates a list of matrices with same dimension as mat describing covariates at the edge level. No covariate per Default.
 #' @param covariatesParam optional vector of covariates effect. A zero length numeric vector by default.
 #'
-#' @return an object with class \code{\link{BipartiteSBM_sampler}}
+#' @return an object with class \code{\link{BipartiteSBM}}
 #'
 #' @examples
 #' ### =======================================
@@ -176,7 +176,8 @@ sampleBipartiteSBM <- function(nbNodes,
 #' @param directed a vector of logical, directed network or not for each network. Default is \code{FALSE}.
 #' @param dimLabels an optional list of labels for functional group involved in the network
 #' @param seed numeric to set the seed.
-#' @return  a list of two elements : \code{simulatedMemberships} are the clustering of each node in each Functional Group,  \code{multipartiteNetwork} is the list of the simulated networks (each one being  a simple or bipartite network)
+#' @return  a list of two elements : \code{simulatedMemberships} are the clustering of each node in each Functional Group,
+#'   \code{multipartiteNetwork} is the list of the simulated networks (each one being  a simple or bipartite network)
 #'
 #' @examples
 #' ### =======================================

@@ -95,7 +95,8 @@ connectParam <- list(mean = means, var = 2)
 mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam, model = "gaussian")
 
 ## Estimation
-mySimpleSBM <- estimateSimpleSBM(mySampler$networkData, 'gaussian', estimOptions = list(plot = FALSE))
+mySimpleSBM <-
+   estimateSimpleSBM(mySampler$networkData, 'gaussian', estimOptions = list(plot = FALSE))
 plot(mySimpleSBM, 'data', ordered = FALSE)
 plot(mySimpleSBM, 'data')
 plot(mySimpleSBM, 'expected', ordered = FALSE)

@@ -33,7 +33,8 @@ sampleMultipartiteSBM(
 \item{seed}{numeric to set the seed.}
 }
 \value{
-a list of two elements : \code{simulatedMemberships} are the clustering of each node in each Functional Group,  \code{multipartiteNetwork} is the list of the simulated networks (each one being  a simple or bipartite network)
+a list of two elements : \code{simulatedMemberships} are the clustering of each node in each Functional Group,
+\code{multipartiteNetwork} is the list of the simulated networks (each one being  a simple or bipartite network)
 }
 \description{
 This function samples a Multipartite Stochastic Block Models, with various model
