@@ -10,7 +10,6 @@ SimpleSBM_fit <-
     private = list(
       J              = NULL, # approximation of the log-likelihood
       vICL           = NULL, # approximation of the ICL
-      tau            = NULL, # parameters for posterior probability of class belonging
       BMobject       = NULL, # blockmodels output (used to stored the optimization results when blockmodels is used)
       import_from_BM = function(index = which.max(private$BMobject$ICL)) { # a function updating the Class
         private$J     <- private$BMobject$PL[index]
@@ -27,9 +26,8 @@ SimpleSBM_fit <-
           "gaussian_covariates"       = list(mean = parameters$mu, var = parameters$sigma2),
           "ZIgaussian"                = list(mean = parameters$mu, var = parameters$sigma2, p0 = parameters$p0),
         )
-        private$tau <- private$BMobject$memberships[[index]]$Z
-        private$pi  <- colMeans(private$tau)
-        private$Z   <- private$tau
+        private$Z  <- private$BMobject$memberships[[index]]$Z
+        private$pi <- colMeans(private$Z)
       }
     ),
     public = list(
@@ -123,21 +121,6 @@ SimpleSBM_fit <-
 
         invisible(private$BMobject)
       },
-      #--------------------------------------------
-      #' @description prediction under the currently parameters
-      #' @param covarList a list of covariates. By default, we use the covariates with which the model was estimated
-      #' @param theta_p0 a threshold...
-      #' @return a matrix of expected values for each dyad
-      predict = function(covarList = self$covarList, theta_p0 = 0) {
-        stopifnot(is.list(covarList), self$nbCovariates == length(covarList))
-        mu <- private$tau %*% ( ((1-theta_p0)>0.5) * private$theta$mean ) %*% t(private$tau)
-        if (self$nbCovariates > 0) {
-          stopifnot(all(sapply(covarList, nrow) == self$nbNodes,
-                        sapply(covarList, ncol) == self$nbNodes))
-          mu <- private$invlink[[1L]](private$link[[1L]](mu) + self$covarEffect)
-        }
-        mu
-      },
       #' @description method to select a specific model among the ones fitted during the optimization.
       #'  Fields of the current SBM_fit will be updated accordingly.
       #' @param index integer, the index of the model to be selected (row number in storedModels)
@@ -152,7 +135,7 @@ SimpleSBM_fit <-
         o <- order(private$theta$mean %*% private$pi, decreasing = TRUE)
         private$pi <- private$pi[o]
         private$theta$mean <- private$theta$mean[o,o]
-        private$tau <- private$tau[, o, drop = FALSE]
+        private$Z <- private$Z[, o, drop = FALSE]
       },
       #--------------------------------------------
       #' @description show method
@@ -166,7 +149,7 @@ SimpleSBM_fit <-
     ),
     active = list(
       #' @field memberships vector of clustering
-      memberships = function(value) {as_clustering(private$tau)},
+      memberships = function(value) {as_clustering(private$Z)},
       #' @field blockProp vector of block proportions (aka prior probabilities of each block)
       blockProp   = function(value) {
         if (missing(value))
@@ -188,10 +171,10 @@ SimpleSBM_fit <-
       #' @field probMemberships  matrix of estimated probabilities for block memberships for all nodes
       probMemberships = function(value) {
         if (missing(value))
-          return(private$tau)
+          return(private$Z)
         else {
           stopifnot(nrow(value)==private$dim)
-          private$tau <- value
+          private$Z <- value
         }
       },
       #' @field loglik double: approximation of the log-likelihood (variational lower bound) reached
@@ -201,7 +184,7 @@ SimpleSBM_fit <-
       #' @field penalty double, value of the penalty term in ICL
       penalty  = function(value) {(self$nbConnectParam + self$nbCovariates) * log(self$nbDyads) + (self$nbBlocks-1) * log(self$nbNodes)},
       #' @field entropy double, value of the entropy due to the clustering distribution
-      entropy  = function(value) {-sum(.xlogx(private$tau))},
+      entropy  = function(value) {-sum(.xlogx(private$Z))},
       #' @field storedModels data.frame of all models fitted (and stored) during the optimization
       storedModels = function(value) {
         nbBlocks <- unlist(sapply(private$BMobject$memberships, function(m) ncol(m$Z)))

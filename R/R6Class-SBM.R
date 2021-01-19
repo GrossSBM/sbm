@@ -110,17 +110,12 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       directed = function(value) {private$directed_},
       #' @field dimLabels vector or list of characters, the label of each dimension
       dimLabels    = function(value) {private$dimlab},
-      #   if (missing(value))
-      #     return(private$dimlab)
-      #   else {
-      #     if(length(value) == 1){value = rep(value,2)}
       #     if(is.atomic(value)){value <- as.list(value)}
       #     if(is.null(names(value))){names(value)  = c('row','col')}
       #     if(all(names(value)==c('col','row'))){value <- list(row = value[[2]],col = value[[1]])}
       #     if(any(names(value) != c('row','col'))){names(value) = c('row','col')}
       #     private$dimlab <- value
       #   }
-      # },
       #' @field nbNodes vector of size 2: number of nodes (rows, columns)
       nbNodes = function(value) {private$dim},
       #' @field nbCovariates integer, the number of covariates
@@ -129,8 +124,6 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       blockProp   = function(value) {private$pi},
       #' @field connectParam parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli
       connectParam = function(value) {private$theta},
-      #' @field indMemberships matrix for clustering memberships
-      indMemberships = function(value) {private$Z},
       #' @field covarParam vector of regression parameters associated with the covariates.
       covarParam  = function(value) {private$beta},
       #' @field covarList list of matrices of covariates
@@ -141,8 +134,8 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       covarEffect = function(value) {if (self$nbCovariates > 0) return(roundProduct(private$X, private$beta)) else return(numeric(0))},
       #' @field networkData the network data (adjacency or incidence matrix or list of such object)
       networkData = function(value) {return(private$Y)},
-      #' @field variance variance of each dyad under the current model
-      variance = function() {if (private$model == 'gaussian') return(private$theta$var) else return(NULL) }
+      #' @field expectation expected values of connection under the current model
+      expectation = function() {self$predict()}
     )
   )
 

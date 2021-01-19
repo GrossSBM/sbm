@@ -27,8 +27,6 @@ R6 virtual class for SBM representation (mother class of Simple and Bipartite SB
 
 \item{\code{connectParam}}{parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli}
 
-\item{\code{indMemberships}}{matrix for clustering memberships}
-
 \item{\code{covarParam}}{vector of regression parameters associated with the covariates.}
 
 \item{\code{covarList}}{list of matrices of covariates}
@@ -39,7 +37,7 @@ R6 virtual class for SBM representation (mother class of Simple and Bipartite SB
 
 \item{\code{networkData}}{the network data (adjacency or incidence matrix or list of such object)}
 
-\item{\code{variance}}{variance of each dyad under the current model}
+\item{\code{expectation}}{expected values of connection under the current model}
 }
 \if{html}{\out{</div>}}
 }

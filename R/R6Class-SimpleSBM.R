@@ -54,9 +54,24 @@ SimpleSBM <-
         if (store) private$Y <- Y
         Y
       },
+      #--------------------------------------------
+      #' @description prediction under the currently parameters
+      #' @param covarList a list of covariates. By default, we use the covariates with which the model was estimated
+      #' @param theta_p0 a threshold...
+      #' @return a matrix of expected values for each dyad
+      predict = function(covarList = self$covarList, theta_p0 = 0) {
+        stopifnot(is.list(covarList), self$nbCovariates == length(covarList))
+        mu <- private$Z %*% ( ((1-theta_p0)>0.5) * private$theta$mean ) %*% t(private$Z)
+        if (self$nbCovariates > 0) {
+          stopifnot(all(sapply(covarList, nrow) == self$nbNodes,
+                        sapply(covarList, ncol) == self$nbNodes))
+          mu <- private$invlink[[1L]](private$link[[1L]](mu) + self$covarEffect)
+        }
+        mu
+      },
       #' @description show method
       #' @param type character used to specify the type of SBM
-      show = function(type = "Sampler for a Simple Stochastic Block Model") {
+      show = function(type = "Simple Stochastic Block Model") {
         super$show(type)
         cat("* R6 methods \n")
         cat("  $rMemberships(), $rAdjacency() \n")
@@ -97,7 +112,6 @@ SimpleSBM <-
             plotMatrix(self$expectation,
                        private$dimlab,
                        clustering, plotOptions)
-
         )
       }
     ),
@@ -110,13 +124,8 @@ SimpleSBM <-
       nbConnectParam = function(value) {ifelse(private$directed_, self$nbBlocks^2, self$nbBlocks*(self$nbBlocks + 1)/2)},
       #' @field memberships vector of clustering
       memberships = function(value) {if (!is.null(private$Z)) as_clustering(private$Z)},
-      #' @field expectation expected values of connection under the current model
-      expectation = function() {
-        mu <- private$Z %*% private$theta$mean %*% t(private$Z)
-        if (self$nbCovariates > 0) mu <- private$invlink[[1L]](private$link[[1L]](mu) + self$covarEffect)
-        diag(mu) <- NA
-        mu
-      }
+      #' @field indMemberships matrix for clustering memberships
+      indMemberships = function(value) {as_indicator(as_clustering(private$Z))}
     )
   )
 

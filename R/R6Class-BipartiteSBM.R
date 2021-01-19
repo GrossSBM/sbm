@@ -56,6 +56,23 @@ BipartiteSBM <-
         if (store) private$Y <- Y
         Y
       },
+      #' @description prediction under the current parameters
+      #' @param covarList a list of covariates. By default, we use the covariates with which the model was estimated.
+      #' @param theta_p0 double for thresholding...
+      predict = function(covarList = self$covarList, theta_p0 = 0) {
+        stopifnot(!is.null(private$Z[[1]]),
+                  !is.null(private$Z[[2]]),
+                  !is.null(private$theta$mean))
+        stopifnot(is.list(covarList),  self$nbCovariates == length(covarList))
+
+        mu <- private$Z[[1]] %*% ( ((1-theta_p0)>0.5 ) * private$theta$mean )  %*% t(private$Z[[2]])
+        if (length(covarList) > 0) {
+          stopifnot(all(sapply(covarList, nrow) == self$dimension[1]),
+                    all(sapply(covarList, ncol) == self$dimension[2]))
+          mu <- private$invlink[[1L]](private$link[[1L]](mu) + self$covarEffect)
+        }
+        mu
+      },
       #' @description show method
       #' @param type character used to specify the type of SBM
       show = function(type = "Bipartite Stochastic Block Model") {
@@ -111,12 +128,8 @@ BipartiteSBM <-
       nbConnectParam = function(value) {self$nbBlocks[1] * self$nbBlocks[2]},
       #' @field memberships list of size 2: vector of memberships in row, in column.
       memberships = function(value) {lapply(private$Z, as_clustering)},
-      #' @field expectation expected values of connection under the current model
-      expectation = function() {
-        mu <- private$Z[[1]] %*% private$theta$mean %*% t(private$Z[[2]])
-        if (self$nbCovariates > 0) mu <- private$invlink[[1L]](private$link[[1L]](mu) + self$covarEffect)
-        mu
-      }
+      #' @field indMemberships matrix for clustering memberships
+      indMemberships = function(value) {map(private$Z, ~as_indicator(as_clustering(.x)))}
     )
   )
 

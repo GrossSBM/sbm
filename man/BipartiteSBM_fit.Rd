@@ -52,17 +52,17 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 \itemize{
 \item \href{#method-new}{\code{BipartiteSBM_fit$new()}}
 \item \href{#method-optimize}{\code{BipartiteSBM_fit$optimize()}}
-\item \href{#method-predict}{\code{BipartiteSBM_fit$predict()}}
 \item \href{#method-setModel}{\code{BipartiteSBM_fit$setModel()}}
 \item \href{#method-reorder}{\code{BipartiteSBM_fit$reorder()}}
 \item \href{#method-clone}{\code{BipartiteSBM_fit$clone()}}
 }
 }
 \if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
+\out{<details ><summary>Inherited methods</summary>}
 \itemize{
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="print">}\href{../../sbm/html/SBM.html#method-print}{\code{sbm::SBM$print()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="BipartiteSBM" data-id="plot">}\href{../../sbm/html/BipartiteSBM.html#method-plot}{\code{sbm::BipartiteSBM$plot()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="BipartiteSBM" data-id="predict">}\href{../../sbm/html/BipartiteSBM.html#method-predict}{\code{sbm::BipartiteSBM$predict()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="BipartiteSBM" data-id="rIncidence">}\href{../../sbm/html/BipartiteSBM.html#method-rIncidence}{\code{sbm::BipartiteSBM$rIncidence()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="BipartiteSBM" data-id="rMemberships">}\href{../../sbm/html/BipartiteSBM.html#method-rMemberships}{\code{sbm::BipartiteSBM$rMemberships()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="BipartiteSBM" data-id="show">}\href{../../sbm/html/BipartiteSBM.html#method-show}{\code{sbm::BipartiteSBM$show()}}\out{</span>}
@@ -110,25 +110,6 @@ function to perform optimization
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{estimOptions}}{a list of parameters controlling the inference algorithm and model selection. See details.}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-predict"></a>}}
-\if{latex}{\out{\hypertarget{method-predict}{}}}
-\subsection{Method \code{predict()}}{
-prediction under the current parameters
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{BipartiteSBM_fit$predict(covarList = self$covarList, theta_p0 = 0)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{covarList}}{a list of covariates. By default, we use the covariates with which the model was estimated.}
-
-\item{\code{theta_p0}}{double for thresholding...}
 }
 \if{html}{\out{</div>}}
 }

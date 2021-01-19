@@ -52,7 +52,6 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 \itemize{
 \item \href{#method-new}{\code{SimpleSBM_fit$new()}}
 \item \href{#method-optimize}{\code{SimpleSBM_fit$optimize()}}
-\item \href{#method-predict}{\code{SimpleSBM_fit$predict()}}
 \item \href{#method-setModel}{\code{SimpleSBM_fit$setModel()}}
 \item \href{#method-reorder}{\code{SimpleSBM_fit$reorder()}}
 \item \href{#method-show}{\code{SimpleSBM_fit$show()}}
@@ -64,6 +63,7 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 \itemize{
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="print">}\href{../../sbm/html/SBM.html#method-print}{\code{sbm::SBM$print()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SimpleSBM" data-id="plot">}\href{../../sbm/html/SimpleSBM.html#method-plot}{\code{sbm::SimpleSBM$plot()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SimpleSBM" data-id="predict">}\href{../../sbm/html/SimpleSBM.html#method-predict}{\code{sbm::SimpleSBM$predict()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SimpleSBM" data-id="rAdjacency">}\href{../../sbm/html/SimpleSBM.html#method-rAdjacency}{\code{sbm::SimpleSBM$rAdjacency()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SimpleSBM" data-id="rMemberships">}\href{../../sbm/html/SimpleSBM.html#method-rMemberships}{\code{sbm::SimpleSBM$rMemberships()}}\out{</span>}
 }
@@ -115,28 +115,6 @@ function to perform optimization
 \item{\code{estimOptions}}{a list of parameters controlling the inference algorithm and model selection. See details.}
 }
 \if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-predict"></a>}}
-\if{latex}{\out{\hypertarget{method-predict}{}}}
-\subsection{Method \code{predict()}}{
-prediction under the currently parameters
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{SimpleSBM_fit$predict(covarList = self$covarList, theta_p0 = 0)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{covarList}}{a list of covariates. By default, we use the covariates with which the model was estimated}
-
-\item{\code{theta_p0}}{a threshold...}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-a matrix of expected values for each dyad
 }
 }
 \if{html}{\out{<hr>}}

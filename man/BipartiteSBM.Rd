@@ -22,7 +22,7 @@ R6 class for Bipartite SBM
 
 \item{\code{memberships}}{list of size 2: vector of memberships in row, in column.}
 
-\item{\code{expectation}}{expected values of connection under the current model}
+\item{\code{indMemberships}}{matrix for clustering memberships}
 }
 \if{html}{\out{</div>}}
 }
@@ -32,6 +32,7 @@ R6 class for Bipartite SBM
 \item \href{#method-new}{\code{BipartiteSBM$new()}}
 \item \href{#method-rMemberships}{\code{BipartiteSBM$rMemberships()}}
 \item \href{#method-rIncidence}{\code{BipartiteSBM$rIncidence()}}
+\item \href{#method-predict}{\code{BipartiteSBM$predict()}}
 \item \href{#method-show}{\code{BipartiteSBM$show()}}
 \item \href{#method-plot}{\code{BipartiteSBM$plot()}}
 \item \href{#method-clone}{\code{BipartiteSBM$clone()}}
@@ -119,6 +120,25 @@ a method to sample a network data for the current SBM
 }
 \subsection{Returns}{
 the sampled network
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-predict"></a>}}
+\if{latex}{\out{\hypertarget{method-predict}{}}}
+\subsection{Method \code{predict()}}{
+prediction under the current parameters
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{BipartiteSBM$predict(covarList = self$covarList, theta_p0 = 0)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{covarList}}{a list of covariates. By default, we use the covariates with which the model was estimated.}
+
+\item{\code{theta_p0}}{double for thresholding...}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}

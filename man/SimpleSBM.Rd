@@ -22,7 +22,7 @@ R6 class for Simple SBM
 
 \item{\code{memberships}}{vector of clustering}
 
-\item{\code{expectation}}{expected values of connection under the current model}
+\item{\code{indMemberships}}{matrix for clustering memberships}
 }
 \if{html}{\out{</div>}}
 }
@@ -32,6 +32,7 @@ R6 class for Simple SBM
 \item \href{#method-new}{\code{SimpleSBM$new()}}
 \item \href{#method-rMemberships}{\code{SimpleSBM$rMemberships()}}
 \item \href{#method-rAdjacency}{\code{SimpleSBM$rAdjacency()}}
+\item \href{#method-predict}{\code{SimpleSBM$predict()}}
 \item \href{#method-show}{\code{SimpleSBM$show()}}
 \item \href{#method-plot}{\code{SimpleSBM$plot()}}
 \item \href{#method-clone}{\code{SimpleSBM$clone()}}
@@ -125,12 +126,34 @@ the sampled network
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-predict"></a>}}
+\if{latex}{\out{\hypertarget{method-predict}{}}}
+\subsection{Method \code{predict()}}{
+prediction under the currently parameters
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{SimpleSBM$predict(covarList = self$covarList, theta_p0 = 0)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{covarList}}{a list of covariates. By default, we use the covariates with which the model was estimated}
+
+\item{\code{theta_p0}}{a threshold...}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+a matrix of expected values for each dyad
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-show"></a>}}
 \if{latex}{\out{\hypertarget{method-show}{}}}
 \subsection{Method \code{show()}}{
 show method
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{SimpleSBM$show(type = "Sampler for a Simple Stochastic Block Model")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{SimpleSBM$show(type = "Simple Stochastic Block Model")}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

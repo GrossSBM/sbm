@@ -69,7 +69,7 @@ MultipartiteSBM_fit <-
               list(list_pi[[rowLab]], list_pi[[colLab]])
           }
         })
-        private$tau <- list_tau
+        private$Z <- list_tau
         private$pi  <- list_pi
 
       }
@@ -199,17 +199,17 @@ MultipartiteSBM_fit <-
     #' @field ICL double: value of the integrated classification log-likelihood
     ICL    = function(value) {private$vICL },
     #' @field memberships a list with the memberships in all the functional groups
-    memberships = function(value) {if(!is.null(private$tau)) setNames(lapply(private$tau, as_clustering), private$dimlab)},
+    memberships = function(value) {if(!is.null(private$Z)) setNames(lapply(private$Z, as_clustering), private$dimlab)},
     #' @field probMemberships or list of nbFG matrices for of estimated probabilities for block memberships for all nodes
     probMemberships = function(value) {
       if (missing(value)) {
-        return(private$tau)
+        return(private$Z)
       } else {
-        private$tau <- value
+        private$Z <- value
       }
     },
     #' @field nbBlocks : vector with the number of blocks in each FG
-    nbBlocks = function(value) {if(!is.null(private$tau)) setNames(sapply(private$tau, ncol), private$dimlab)},
+    nbBlocks = function(value) {if(!is.null(private$Z)) setNames(sapply(private$Z, ncol), private$dimlab)},
     #' @field storedModels data.frame of all models fitted (and stored) during the optimization
     storedModels = function(value) {
       GO <- private$GREMLINSobject
