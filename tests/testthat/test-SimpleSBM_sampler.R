@@ -25,8 +25,7 @@ test_that("Construction, fields access and other basics work in class SimpleSBM_
 
   ## Checking class
   expect_true(inherits(mySampler, "SBM"))
-  expect_true(inherits(mySampler, "SBM_sampler"))
-  expect_true(inherits(mySampler, "SimpleSBM_sampler"))
+  expect_true(inherits(mySampler, "SimpleSBM"))
 
   ## Checking field access and format
 
@@ -37,6 +36,10 @@ test_that("Construction, fields access and other basics work in class SimpleSBM_
   expect_equal(mySampler$nbDyads, nbNodes*(nbNodes - 1)/2)
   expect_equal(mySampler$connectParam$mean, means)
   expect_null(mySampler$connectParam$var)
+
+  ## draw some parameters
+  mySampler$rMemberships(store = TRUE)
+  mySampler$rAdjacency(store = TRUE)
   expect_equal(dim(mySampler$expectation), c(nbNodes, nbNodes))
   expect_true(all(mySampler$expectation >= 0, na.rm = TRUE))
   expect_true(all(mySampler$expectation <= 1, na.rm = TRUE))
@@ -79,8 +82,7 @@ test_that("Construction, fields access and other basics work in class SimpleSBM_
 
   ## Checking class
   expect_true(inherits(mySampler, "SBM"))
-  expect_true(inherits(mySampler, "SBM_sampler"))
-  expect_true(inherits(mySampler, "SimpleSBM_sampler"))
+  expect_true(inherits(mySampler, "SimpleSBM"))
 
   ## Checking field access and format
 
@@ -91,6 +93,9 @@ test_that("Construction, fields access and other basics work in class SimpleSBM_
   expect_equal(mySampler$nbDyads, nbNodes*(nbNodes - 1))
   expect_equal(mySampler$connectParam$mean, means)
   expect_null(mySampler$connectParam$var)
+
+  mySampler$rMemberships(store = TRUE)
+  mySampler$rAdjacency(store = TRUE)
   expect_equal(dim(mySampler$expectation), c(nbNodes, nbNodes))
   expect_true(all(mySampler$expectation >= 0, na.rm = TRUE))
   expect_true(all(mySampler$expectation <= 1, na.rm = TRUE))
@@ -132,8 +137,7 @@ test_that("Construction, fields access and other basics work in class SimpleSBM_
 
   ## Checking class
   expect_true(inherits(mySampler, "SBM"))
-  expect_true(inherits(mySampler, "SBM_sampler"))
-  expect_true(inherits(mySampler, "SimpleSBM_sampler"))
+  expect_true(inherits(mySampler, "SimpleSBM"))
 
   ## Checking field access and format
 
@@ -144,6 +148,9 @@ test_that("Construction, fields access and other basics work in class SimpleSBM_
   expect_equal(mySampler$nbDyads, nbNodes*(nbNodes - 1)/2)
   expect_equal(mySampler$connectParam$mean, means)
   expect_null(mySampler$connectParam$var)
+
+  mySampler$rMemberships(store = TRUE)
+  mySampler$rAdjacency(store = TRUE)
   expect_equal(dim(mySampler$expectation), c(nbNodes, nbNodes))
   expect_true(all(mySampler$expectation >= 0, na.rm = TRUE))
   expect_true(all(is.na(diag(mySampler$networkData))))
@@ -183,8 +190,7 @@ test_that("Construction, fields access and other basics work in class SimpleSBM_
 
   ## Checking class
   expect_true(inherits(mySampler, "SBM"))
-  expect_true(inherits(mySampler, "SBM_sampler"))
-  expect_true(inherits(mySampler, "SimpleSBM_sampler"))
+  expect_true(inherits(mySampler, "SimpleSBM"))
 
   ## Checking field access and format
 
@@ -195,6 +201,9 @@ test_that("Construction, fields access and other basics work in class SimpleSBM_
   expect_equal(mySampler$nbDyads, nbNodes*(nbNodes - 1))
   expect_equal(mySampler$connectParam$mean, means)
   expect_null(mySampler$connectParam$var)
+
+  mySampler$rMemberships(store = TRUE)
+  mySampler$rAdjacency(store = TRUE)
   expect_equal(dim(mySampler$expectation), c(nbNodes, nbNodes))
   expect_true(all(mySampler$expectation >= 0, na.rm = TRUE))
   expect_true(all(is.na(diag(mySampler$networkData))))
@@ -236,8 +245,7 @@ test_that("Construction, fields access and other basics work in class SimpleSBM_
 
   ## Checking class
   expect_true(inherits(mySampler, "SBM"))
-  expect_true(inherits(mySampler, "SBM_sampler"))
-  expect_true(inherits(mySampler, "SimpleSBM_sampler"))
+  expect_true(inherits(mySampler, "SimpleSBM"))
 
   ## Checking field access and format
 
@@ -248,6 +256,9 @@ test_that("Construction, fields access and other basics work in class SimpleSBM_
   expect_equal(mySampler$nbDyads, nbNodes*(nbNodes - 1)/2)
   expect_equal(mySampler$connectParam$mean, means)
   expect_equal(mySampler$connectParam$var, 2)
+
+  mySampler$rMemberships(store = TRUE)
+  mySampler$rAdjacency(store = TRUE)
   expect_equal(dim(mySampler$expectation), c(nbNodes, nbNodes))
   expect_true(all(is.na(diag(mySampler$networkData))))
   expect_true(isSymmetric(mySampler$networkData))
@@ -286,8 +297,7 @@ test_that("Construction, fields access and other basics work in class SimpleSBM_
 
   ## Checking class
   expect_true(inherits(mySampler, "SBM"))
-  expect_true(inherits(mySampler, "SBM_sampler"))
-  expect_true(inherits(mySampler, "SimpleSBM_sampler"))
+  expect_true(inherits(mySampler, "SimpleSBM"))
 
   ## Checking field access and format
 
@@ -298,6 +308,9 @@ test_that("Construction, fields access and other basics work in class SimpleSBM_
   expect_equal(mySampler$nbDyads, nbNodes*(nbNodes - 1))
   expect_equal(mySampler$connectParam$mean, means)
   expect_equal(mySampler$connectParam$var, 2)
+
+  mySampler$rMemberships(store = TRUE)
+  mySampler$rAdjacency(store = TRUE)
   expect_equal(dim(mySampler$expectation), c(nbNodes, nbNodes))
   expect_true(all(is.na(diag(mySampler$networkData))))
   expect_true(!isSymmetric(mySampler$networkData))

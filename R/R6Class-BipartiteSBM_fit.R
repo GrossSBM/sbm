@@ -3,20 +3,37 @@
 #' This class is designed to give a representation and adjust an LBM fitted with blockmodels.
 #'
 #' @import R6 blockmodels
-#' @include R6Class-SBM_fit.R
 #' @export
 BipartiteSBM_fit <-
   R6::R6Class(
     classname = "BipartiteSBM_fit",
-    inherit = SBM_fit,
+    inherit = BipartiteSBM,
     private = list(
+      J              = NULL, # approximation of the log-likelihood
+      vICL           = NULL, # approximation of the ICL
+      tau            = NULL, # parameters for posterior probability of class belonging
+      BMobject       = NULL, # blockmodels output (used to stored the optimization results when blockmodels is used)
       import_from_BM  = function(index = which.max(private$BMobject$ICL)) {
-        super$import_from_BM(index)
+        private$J     <- private$BMobject$PL[index]
+        private$vICL  <- private$BMobject$ICL[index]
+        parameters    <- private$BMobject$model_parameters[[index]]
+        private$beta  <- parameters$beta ## NULL if no covariates
+        private$theta <- switch(private$BMobject$model_name,
+          "bernoulli"                 = list(mean = parameters$pi),
+          "bernoulli_covariates"      = list(mean = .logistic(parameters$m)),
+          "bernoulli_covariates_fast" = list(mean = .logistic(parameters$m)),
+          "poisson"                   = list(mean = parameters$lambda),
+          "poisson_covariates"        = list(mean = parameters$lambda),
+          "gaussian"                  = list(mean = parameters$mu, var = parameters$sigma2),
+          "gaussian_covariates"       = list(mean = parameters$mu, var = parameters$sigma2),
+          "ZIgaussian"                = list(mean = parameters$mu, var = parameters$sigma2, p0 = parameters$p0),
+        )
         private$tau <- list(
           row = private$BMobject$memberships[[index]]$Z1,
           col = private$BMobject$memberships[[index]]$Z2
         )
-        private$pi  <- lapply(private$tau, colMeans)
+        private$Z  <- private$tau
+        private$pi <- lapply(private$tau, colMeans)
       }
     ),
     public = list(
@@ -27,13 +44,27 @@ BipartiteSBM_fit <-
       #' @param covarList and optional list of covariates, each of whom must have the same dimension as \code{incidenceMatrix}
       initialize = function(incidenceMatrix, model, dimLabels=c(row="rowName", col="colName"), covarList=list()) {
 
-        ## SANITY CHECKS
+        ## SANITY CHECKS on data
         stopifnot(is.matrix(incidenceMatrix))                            # must be a matrix
         stopifnot(all(sapply(covarList, nrow) == nrow(incidenceMatrix))) # consistency of the covariates
         stopifnot(all(sapply(covarList, ncol) == ncol(incidenceMatrix))) # with the network data
 
         ## INITIALIZE THE SBM OBJECT ACCORDING TO THE DATA
-        super$initialize(incidenceMatrix, model, NA, dim(incidenceMatrix), dimLabels, covarList)
+        connectParam <- switch(model,
+          "bernoulli"  = list(mean = matrix(0, 0, 0)),
+          "poisson"    = list(mean = matrix(0, 0, 0)),
+          "gaussian"   = list(mean = matrix(0, 0, 0), var = 1),
+          "ZIgaussian" = list(mean = matrix(0, 0, 0), var = 1, p0 = 0),
+        )
+
+        ## INITIALIZE THE SBM OBJECT ACCORDING TO THE DATA
+        super$initialize(model        = model,
+                         nbNodes      = dim(incidenceMatrix),
+                         blockProp    = rep(list(vector("numeric", 0)), 2),
+                         connectParam = connectParam,
+                         dimLabels    = dimLabels,
+                         covarList    = covarList)
+        private$Y <- incidenceMatrix
       },
       #' @description function to perform optimization
       #' @param estimOptions a list of parameters controlling the inference algorithm and model selection. See details.
@@ -108,6 +139,15 @@ BipartiteSBM_fit <-
         }
         mu
       },
+      #' @description method to select a specific model among the ones fitted during the optimization.
+      #'  Fields of the current SBM_fit will be updated accordingly.
+      #' @param index integer, the index of the model to be selected (row number in storedModels)
+      setModel = function(index) {
+        stopifnot(!is.null(private$BMobject))
+        stopifnot(index %in% seq.int(nrow(self$storedModels)))
+        private$import_from_BM(index)
+        self$reorder()
+      },
       #' @description permute group labels by order of decreasing probability
       reorder = function() {
         oRow <- order(private$theta$mean %*% private$pi[[2]], decreasing = TRUE)
@@ -120,12 +160,6 @@ BipartiteSBM_fit <-
       }
     ),
     active = list(
-      #' @field nbBlocks vector of size 2: number of blocks (rows, columns)
-      nbBlocks    = function(value) {sapply(private$pi, length)},
-      #' @field nbDyads number of dyads (potential edges in the network)
-      nbDyads     = function(value) {private$dim[1] * private$dim[2]},
-      #' @field nbConnectParam number of parameter used for the connectivity
-      nbConnectParam = function(value) {self$nbBlocks[1]*self$nbBlocks[2]},
       #' @field memberships list of size 2: vector of memberships in row, in column.
       memberships = function(value) {lapply(private$tau, as_clustering)},
       #' @field blockProp list of block proportions (aka prior probabilities of each block)
@@ -148,6 +182,19 @@ BipartiteSBM_fit <-
           private$tau <- value
         }
       },
+      #' @field connectParam parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli
+      connectParam   = function(value) {
+        if (missing(value))
+          return(private$theta)
+        else {
+          stopifnot(is.list(value))
+          private$theta <- value
+        }
+      },
+      #' @field loglik double: approximation of the log-likelihood (variational lower bound) reached
+      loglik = function(value) {private$J},
+      #' @field ICL double: value of the integrated classification log-likelihood
+      ICL    = function(value) {private$vICL},
       #' @field penalty double, value of the penalty term in ICL
       penalty  = function(value) {(self$nbConnectParam + self$nbCovariates) * log(self$nbDyads) + (self$nbBlocks[1]-1) * log(self$nbNodes[1]) + (self$nbBlocks[2]-1) * log(self$nbNodes[2])},
       #' @field entropy double, value of the entropy due to the clustering distribution

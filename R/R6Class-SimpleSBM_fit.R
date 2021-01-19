@@ -3,16 +3,33 @@
 #' This class is designed to give a representation and adjust an SBM fitted with blockmodels.
 #'
 #' @import R6 blockmodels
-#' @include R6Class-SBM_fit.R
 #' @export
 SimpleSBM_fit <-
   R6::R6Class(classname = "SimpleSBM_fit",
-    inherit = SBM_fit,
+    inherit = SimpleSBM,
     private = list(
+      J              = NULL, # approximation of the log-likelihood
+      vICL           = NULL, # approximation of the ICL
+      tau            = NULL, # parameters for posterior probability of class belonging
+      BMobject       = NULL, # blockmodels output (used to stored the optimization results when blockmodels is used)
       import_from_BM = function(index = which.max(private$BMobject$ICL)) { # a function updating the Class
-        super$import_from_BM(index)
+        private$J     <- private$BMobject$PL[index]
+        private$vICL  <- private$BMobject$ICL[index]
+        parameters    <- private$BMobject$model_parameters[[index]]
+        private$beta  <- parameters$beta ## NULL if no covariates
+        private$theta <- switch(private$BMobject$model_name,
+          "bernoulli"                 = list(mean = parameters$pi),
+          "bernoulli_covariates"      = list(mean = .logistic(parameters$m)),
+          "bernoulli_covariates_fast" = list(mean = .logistic(parameters$m)),
+          "poisson"                   = list(mean = parameters$lambda),
+          "poisson_covariates"        = list(mean = parameters$lambda),
+          "gaussian"                  = list(mean = parameters$mu, var = parameters$sigma2),
+          "gaussian_covariates"       = list(mean = parameters$mu, var = parameters$sigma2),
+          "ZIgaussian"                = list(mean = parameters$mu, var = parameters$sigma2, p0 = parameters$p0),
+        )
         private$tau <- private$BMobject$memberships[[index]]$Z
         private$pi  <- colMeans(private$tau)
+        private$Z   <- private$tau
       }
     ),
     public = list(
@@ -25,16 +42,30 @@ SimpleSBM_fit <-
       #' @param covarList and optional list of covariates, each of whom must have the same dimension as \code{adjacencyMatrix}
       initialize = function(adjacencyMatrix, model, directed, dimLabels=c(node="nodeName"), covarList=list()) {
 
-        ## SANITY CHECKS
-        stopifnot(is.matrix(adjacencyMatrix))                               # must be a matrix
-        stopifnot(all.equal(nrow(adjacencyMatrix), ncol(adjacencyMatrix)))  # matrix must be square
-        stopifnot(isSymmetric(adjacencyMatrix) == !directed)                # symmetry and direction must agree
-        stopifnot(length(dimLabels) == 1)                                   # one dimension (number of nodes)
-        stopifnot(all(sapply(covarList, nrow) == nrow(adjacencyMatrix)))    # consistency of the covariates
-        stopifnot(all(sapply(covarList, ncol) == ncol(adjacencyMatrix)))    # with the network data
+        ## SANITY CHECKS (on data)
+        stopifnot(is.matrix(adjacencyMatrix))                   # must be a matrix
+        stopifnot(all.equal(nrow(adjacencyMatrix),
+                            ncol(adjacencyMatrix)))             # matrix must be square
+        stopifnot(isSymmetric(adjacencyMatrix) == !directed)    # symmetry and direction must agree
+        stopifnot(all(sapply(covarList, nrow) == nrow(adjacencyMatrix))) # consistency of the covariates
+        stopifnot(all(sapply(covarList, ncol) == ncol(adjacencyMatrix))) # with the network data
 
         ## INITIALIZE THE SBM OBJECT ACCORDING TO THE DATA
-        super$initialize(adjacencyMatrix, model, directed, nrow(adjacencyMatrix), dimLabels, covarList)
+        connectParam <- switch(model,
+          "bernoulli"  = list(mean = matrix(0, 0, 0)),
+          "poisson"    = list(mean = matrix(0, 0, 0)),
+          "gaussian"   = list(mean = matrix(0, 0, 0), var = 1),
+          "ZIgaussian" = list(mean = matrix(0, 0, 0), var = 1, p0 = 0),
+        )
+
+        super$initialize(model        = model,
+                         directed     = directed,
+                         nbNodes      = nrow(adjacencyMatrix),
+                         blockProp    = vector("numeric", 0),
+                         connectParam = connectParam,
+                         dimLabels    = dimLabels,
+                         covarList    = covarList)
+        private$Y <- adjacencyMatrix
       },
       #--------------------------------------------
       #' @description function to perform optimization
@@ -107,6 +138,15 @@ SimpleSBM_fit <-
         }
         mu
       },
+      #' @description method to select a specific model among the ones fitted during the optimization.
+      #'  Fields of the current SBM_fit will be updated accordingly.
+      #' @param index integer, the index of the model to be selected (row number in storedModels)
+      setModel = function(index) {
+        stopifnot(!is.null(private$BMobject))
+        stopifnot(index %in% seq.int(nrow(self$storedModels)))
+        private$import_from_BM(index)
+        self$reorder()
+      },
       #' @description permute group labels by order of decreasing probability
       reorder = function(){
         o <- order(private$theta$mean %*% private$pi, decreasing = TRUE)
@@ -117,14 +157,14 @@ SimpleSBM_fit <-
       #--------------------------------------------
       #' @description show method
       #' @param type character used to specify the type of SBM
-      show = function(type = "Fit of a Simple Stochastic Block Model")
-        {super$show(type)}
+      show = function(type = "Fit of a Simple Stochastic Block Model"){
+        super$show(type)
+        cat("  $probMemberships, $memberships, $loglik, $ICL, $storedModels, $setModel \n")
+        cat("* S3 methods \n")
+        cat("  plot, print, coef, predict, fitted \n")
+      }
     ),
     active = list(
-      #' @field nbBlocks number of blocks
-      nbBlocks    = function(value) {length(private$pi)},
-      #' @field nbDyads number of dyads (potential edges in the network)
-      nbDyads     = function(value) {ifelse(private$directed_, self$nbNodes*(self$nbNodes - 1), self$nbNodes*(self$nbNodes - 1)/2)},
       #' @field memberships vector of clustering
       memberships = function(value) {as_clustering(private$tau)},
       #' @field blockProp vector of block proportions (aka prior probabilities of each block)
@@ -136,6 +176,15 @@ SimpleSBM_fit <-
           private$pi <- value
         }
       },
+      #' @field connectParam parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli
+      connectParam   = function(value) {
+        if (missing(value))
+          return(private$theta)
+        else {
+          stopifnot(is.list(value))
+          private$theta <- value
+        }
+      },
       #' @field probMemberships  matrix of estimated probabilities for block memberships for all nodes
       probMemberships = function(value) {
         if (missing(value))
@@ -145,10 +194,10 @@ SimpleSBM_fit <-
           private$tau <- value
         }
       },
-      #' @field nbConnectParam number of parameter used for the connectivity
-      nbConnectParam = function(value) {ifelse(private$directed_, self$nbBlocks^2, self$nbBlocks*(self$nbBlocks + 1)/2)},
-      #' @field directed is the network directed or not
-      directed = function(value) {private$directed_},
+      #' @field loglik double: approximation of the log-likelihood (variational lower bound) reached
+      loglik = function(value) {private$J},
+      #' @field ICL double: value of the integrated classification log-likelihood
+      ICL    = function(value) {private$vICL},
       #' @field penalty double, value of the penalty term in ICL
       penalty  = function(value) {(self$nbConnectParam + self$nbCovariates) * log(self$nbDyads) + (self$nbBlocks-1) * log(self$nbNodes)},
       #' @field entropy double, value of the entropy due to the clustering distribution

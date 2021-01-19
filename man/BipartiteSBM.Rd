@@ -22,11 +22,7 @@ R6 class for Bipartite SBM
 
 \item{\code{memberships}}{list of size 2: vector of memberships in row, in column.}
 
-\item{\code{indMemberships}}{list of 2 matrix for clustering memberships}
-
 \item{\code{expectation}}{expected values of connection under the current model}
-
-\item{\code{variance}}{variance of each dyad under the current model}
 }
 \if{html}{\out{</div>}}
 }
@@ -37,13 +33,13 @@ R6 class for Bipartite SBM
 \item \href{#method-rMemberships}{\code{BipartiteSBM$rMemberships()}}
 \item \href{#method-rIncidence}{\code{BipartiteSBM$rIncidence()}}
 \item \href{#method-show}{\code{BipartiteSBM$show()}}
+\item \href{#method-plot}{\code{BipartiteSBM$plot()}}
 \item \href{#method-clone}{\code{BipartiteSBM$clone()}}
 }
 }
 \if{html}{
 \out{<details open ><summary>Inherited methods</summary>}
 \itemize{
-\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="plot">}\href{../../sbm/html/SBM.html#method-plot}{\code{sbm::SBM$plot()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="print">}\href{../../sbm/html/SBM.html#method-print}{\code{sbm::SBM$print()}}\out{</span>}
 }
 \out{</details>}
@@ -60,7 +56,7 @@ constructor for SBM
   blockProp,
   connectParam,
   dimLabels = c(row = "row", col = "col"),
-  covarParam = numeric(0),
+  covarParam = numeric(length(covarList)),
   covarList = list()
 )}\if{html}{\out{</div>}}
 }
@@ -140,6 +136,34 @@ show method
 \item{\code{type}}{character used to specify the type of SBM}
 }
 \if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-plot"></a>}}
+\if{latex}{\out{\hypertarget{method-plot}{}}}
+\subsection{Method \code{plot()}}{
+basic matrix plot method for BipartiteSBM object or mesoscopic plot
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{BipartiteSBM$plot(
+  type = c("data", "expected", "meso"),
+  ordered = TRUE,
+  plotOptions = list()
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{type}}{character for the type of plot: either 'data' (true connection), 'expected' (fitted connection) or 'meso' (mesoscopic view). Default to 'data'.}
+
+\item{\code{ordered}}{logical: should the rows and columns be reordered according to the clustering? Default to \code{TRUE}.}
+
+\item{\code{plotOptions}}{list with the parameters for the plot. See help of the corresponding S3 method for details.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+a ggplot2 object for the \code{'data'} and \code{'expected'}, a list with the igraph object \code{g}, the \code{layout} and the \code{plotOptions} for the \code{'meso'}
 }
 }
 \if{html}{\out{<hr>}}

@@ -15,9 +15,9 @@ BipartiteSBM <-
       #' @param dimLabels optional labels of each dimension (in row, in column)
       #' @param covarParam optional vector of covariates effect
       #' @param covarList optional list of covariates data
-      initialize = function(model, nbNodes, blockProp, connectParam, dimLabels=c(row="row", col="col"), covarParam=numeric(0), covarList=list()) {
+      initialize = function(model, nbNodes, blockProp, connectParam, dimLabels=c(row="row", col="col"), covarParam=numeric(length(covarList)), covarList=list()) {
 
-        ## SANITY CHECKS
+        ## SANITY CHECKS (on parameters)
         stopifnot(length(dimLabels) == 2)
         stopifnot(length(blockProp) ==  2, is.list(blockProp),
                   length(blockProp[[1]]) ==  nrow(connectParam$mean), # dimensions match between vector of
@@ -25,6 +25,15 @@ BipartiteSBM <-
         stopifnot(all(blockProp[[1]] > 0), all(blockProp[[1]] < 1))   # positive proportions
         stopifnot(all(blockProp[[2]] > 0), all(blockProp[[2]] < 1))
         names(blockProp) <- names(dimLabels)
+
+        ## Check that connectivity parameters and model are consistent
+        switch(model,
+          "bernoulli"  = stopifnot(all(connectParam$mean >= 0), all(connectParam$mean <= 1)),
+          "poisson"    = stopifnot(all(connectParam$mean >= 0)),
+          "gaussian"   = stopifnot(length(connectParam$var) == 1, connectParam$var > 0),
+          "ZIgaussian" = stopifnot(all(connectParam$p0 >= 0), all(connectParam$p0 <= 1))
+        )
+
         super$initialize(model, NA, nbNodes, dimLabels, blockProp, connectParam, covarParam, covarList)
       },
       #' @description a method to generate a vector of block indicators
@@ -55,7 +64,43 @@ BipartiteSBM <-
         cat("  $rMemberships(), $rIncidence() \n")
         cat("  $indMemberships, $memberships, $expectation\n")
         cat("* S3 methods \n")
-        cat("  plot, print, coef \n")      }
+        cat("  plot, print, coef \n")
+      },
+      #' @description basic matrix plot method for BipartiteSBM object or mesoscopic plot
+      #' @param type character for the type of plot: either 'data' (true connection), 'expected' (fitted connection) or 'meso' (mesoscopic view). Default to 'data'.
+      #' @param ordered logical: should the rows and columns be reordered according to the clustering? Default to \code{TRUE}.
+      #' @param plotOptions list with the parameters for the plot. See help of the corresponding S3 method for details.
+      #' @return a ggplot2 object for the \code{'data'} and \code{'expected'}, a list with the igraph object \code{g}, the \code{layout} and the \code{plotOptions} for the \code{'meso'}
+      #' @import ggplot2
+      plot = function(type = c('data','expected','meso'), ordered = TRUE, plotOptions = list()) {
+
+        if(is.null(self$memberships)) {ordered <- FALSE; type <- 'data'}
+        if (ordered & !is.null(self$memberships))
+          clustering <- setNames(self$memberships, c('row', 'col'))
+        else
+          clustering <- NULL
+
+        switch(match.arg(type),
+          "meso" =
+            plotMeso(
+              thetaMean  = private$theta$mean,
+              pi         = private$pi,
+              model      = private$model,
+              directed   = private$directed_,
+              bipartite  = TRUE,
+              nbNodes    = self$dimension,
+              nodeLabels = as.list(private$dimlab),
+              plotOptions),
+          "data" =
+            plotMatrix(self$networkData,
+                       private$dimlab,
+                       clustering, plotOptions),
+          "expected" =
+            plotMatrix(self$expectation,
+                       private$dimlab,
+                       clustering, plotOptions)
+        )
+      }
     ),
     active = list(
       #' @field nbBlocks vector of size 2: number of blocks (rows, columns)
@@ -63,19 +108,15 @@ BipartiteSBM <-
       #' @field nbDyads number of dyads (potential edges in the network)
       nbDyads     = function(value) {private$dim[1] * private$dim[2]},
       #' @field nbConnectParam number of parameter used for the connectivity
-      nbConnectParam = function(value) {self$nbBlocks^2},
+      nbConnectParam = function(value) {self$nbBlocks[1] * self$nbBlocks[2]},
       #' @field memberships list of size 2: vector of memberships in row, in column.
       memberships = function(value) {lapply(private$Z, as_clustering)},
-      #' @field indMemberships list of 2 matrix for clustering memberships
-      indMemberships = function(value) {private$Z},
       #' @field expectation expected values of connection under the current model
       expectation = function() {
         mu <- private$Z[[1]] %*% private$theta$mean %*% t(private$Z[[2]])
         if (self$nbCovariates > 0) mu <- private$invlink[[1L]](private$link[[1L]](mu) + self$covarEffect)
         mu
-      },
-      #' @field variance variance of each dyad under the current model
-      variance = function() {if (private$model == 'gaussian') return(private$theta$var) else return(NULL) }
+      }
     )
   )
 

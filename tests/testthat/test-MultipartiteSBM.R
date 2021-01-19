@@ -31,8 +31,9 @@ test_that("initializing Multipartite SBM works", {
   expect_equal(unname(myMBM$networkData[[1]]$dimension),Q*npc)
   expect_equal(unname(myMBM$networkData[[2]]$dimension),c(Q*npc,20))
   expect_equal(unname(myMBM$architecture), matrix(c(1,1,1,2), 2,2))
-  expect_equivalent(myMBM$blockProp, list(NULL, NULL))
-  expect_equivalent(myMBM$connectParam, list(NULL, NULL))
+##  expect_equivalent(myMBM$blockProp, list(numeric(0), numeric(0)))
+  expect_equivalent(myMBM$connectParam,
+      list(list(mean = matrix(0,0,0)), list(mean = matrix(0,0,0))))
 
   # S3 methods
   expect_silent(plot(myMBM, type = "data"))

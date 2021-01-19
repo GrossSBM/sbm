@@ -24,6 +24,8 @@ test_that("SimpleSBM_fit 'Bernoulli' model, undirected, one covariate", {
 
   ## Basic construction - check for wrong specifications
   mySampler <- SimpleSBM$new('bernoulli', nbNodes, FALSE, blockProp, connectParam, covarParam = covarParam[1], covarList = covarList[1])
+  mySampler$rMemberships(store = TRUE)
+  mySampler$rAdjacency(store = TRUE)
 
   ## Construction----------------------------------------------------------------
   mySBM <- SimpleSBM_fit$new(mySampler$networkData, 'bernoulli', FALSE, covarList = covarList[1])
@@ -34,7 +36,7 @@ test_that("SimpleSBM_fit 'Bernoulli' model, undirected, one covariate", {
 
   ## Checking class
   expect_true(inherits(mySBM, "SBM"))
-  expect_true(inherits(mySBM, "SBM_fit"))
+  expect_true(inherits(mySBM, "SimpleSBM"))
   expect_true(inherits(mySBM, "SimpleSBM_fit"))
 
   ## Checking field access and format prior to estimation
@@ -47,7 +49,7 @@ test_that("SimpleSBM_fit 'Bernoulli' model, undirected, one covariate", {
   expect_true(all(is.na(diag(mySBM$networkData))))
   expect_true(isSymmetric(mySBM$networkData))
   expect_true(!mySBM$directed)
-  expect_null(mySBM$connectParam$mean)
+  expect_true(is.matrix(mySBM$connectParam$mean))
 
   ## covariates
   expect_true(all(dim(mySBM$covarEffect) == c(nbNodes, nbNodes)))
@@ -81,8 +83,7 @@ test_that("SimpleSBM_fit 'Bernoulli' model, undirected, one covariate", {
   expect_equal(coef(mySBM, 'block')       , mySBM$blockProp)
   expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
   expect_equal(mySBM$predict(), predict(mySBM))
-  expect_equal(mySBM$fitted, fitted(mySBM))
-  expect_equal(mySBM$fitted, predict(mySBM))
+  expect_equal(predict(mySBM), fitted(mySBM))
   expect_equal(predict(mySBM, covarList[1]), fitted(mySBM))
   expect_error(predict(mySBM, covarList))
 
@@ -96,6 +97,8 @@ test_that("SimpleSBM_fit 'Bernoulli' model, directed, one covariate", {
 
   ## Basic construction - check for wrong specifications
   mySampler <- SimpleSBM$new('bernoulli', nbNodes, TRUE, blockProp, connectParam, c(node = "nodeName"), covarParam[1], covarList_directed[1])
+  mySampler$rMemberships(store = TRUE)
+  mySampler$rAdjacency(store = TRUE)
 
   ## Construction----------------------------------------------------------------
   mySBM <- SimpleSBM_fit$new(mySampler$networkData, 'bernoulli', TRUE, covarList = covarList_directed[1])
@@ -105,7 +108,7 @@ test_that("SimpleSBM_fit 'Bernoulli' model, directed, one covariate", {
 
   ## Checking class
   expect_true(inherits(mySBM, "SBM"))
-  expect_true(inherits(mySBM, "SBM_fit"))
+  expect_true(inherits(mySBM, "SimpleSBM"))
   expect_true(inherits(mySBM, "SimpleSBM_fit"))
 
   ## Checking field access and format prior to estimation
@@ -118,7 +121,7 @@ test_that("SimpleSBM_fit 'Bernoulli' model, directed, one covariate", {
   expect_true(all(is.na(diag(mySBM$networkData))))
   expect_true(!isSymmetric(mySBM$networkData))
   expect_true(mySBM$directed)
-  expect_null(mySBM$connectParam$mean)
+  expect_true(is.matrix(mySBM$connectParam$mean))
 
   ## covariates
   expect_true(all(dim(mySBM$covarEffect) == c(nbNodes, nbNodes)))
@@ -152,8 +155,8 @@ test_that("SimpleSBM_fit 'Bernoulli' model, directed, one covariate", {
   expect_equal(coef(mySBM, 'block')       , mySBM$blockProp)
   expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
   expect_equal(mySBM$predict(), predict(mySBM))
-  expect_equal(mySBM$fitted, fitted(mySBM))
-  expect_equal(mySBM$fitted, predict(mySBM))
+  expect_equal(predict(mySBM), fitted(mySBM))
+
   expect_equal(predict(mySBM, covarList[1]), fitted(mySBM))
 
 })
@@ -166,6 +169,8 @@ test_that("SimpleSBM_fit 'Poisson' model, undirected, two covariates", {
 
   ## Basic construction - check for wrong specifications
   mySampler <- SimpleSBM$new('poisson', nbNodes, FALSE, blockProp, connectParam, covarParam = covarParam[1], covarList = covarList[1])
+  mySampler$rMemberships(store = TRUE)
+  mySampler$rAdjacency(store = TRUE)
 
   ## Construction----------------------------------------------------------------
   mySBM <- SimpleSBM_fit$new(mySampler$networkData, 'poisson', FALSE, covarList = covarList[1])
@@ -175,7 +180,7 @@ test_that("SimpleSBM_fit 'Poisson' model, undirected, two covariates", {
 
   ## Checking class
   expect_true(inherits(mySBM, "SBM"))
-  expect_true(inherits(mySBM, "SBM_fit"))
+  expect_true(inherits(mySBM, "SimpleSBM"))
   expect_true(inherits(mySBM, "SimpleSBM_fit"))
 
   ## Checking field access and format prior to estimation
@@ -188,7 +193,7 @@ test_that("SimpleSBM_fit 'Poisson' model, undirected, two covariates", {
   expect_true(all(is.na(diag(mySBM$networkData))))
   expect_true(isSymmetric(mySBM$networkData))
   expect_true(!mySBM$directed)
-  expect_null(mySBM$connectParam$mean)
+  expect_true(is.matrix(mySBM$connectParam$mean))
 
   ## covariates
     expect_true(all(dim(mySBM$covarEffect) == c(nbNodes, nbNodes)))
@@ -221,8 +226,8 @@ test_that("SimpleSBM_fit 'Poisson' model, undirected, two covariates", {
   expect_equal(coef(mySBM, 'block')       , mySBM$blockProp)
   expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
   expect_equal(mySBM$predict(), predict(mySBM))
-  expect_equal(mySBM$fitted, fitted(mySBM))
-  expect_equal(mySBM$fitted, predict(mySBM))
+  expect_equal(predict(mySBM), fitted(mySBM))
+
   expect_equal(predict(mySBM, covarList[1]), fitted(mySBM))
 
 })
@@ -235,6 +240,8 @@ test_that("SimpleSBM_fit 'Poisson' model, directed, two covariates", {
 
   ## Basic construction - check for wrong specifications
   mySampler <- SimpleSBM$new('poisson', nbNodes, TRUE, blockProp, connectParam, covarParam = covarParam[1], covarList = covarList_directed[1])
+  mySampler$rMemberships(store = TRUE)
+  mySampler$rAdjacency(store = TRUE)
 
   ## Construction----------------------------------------------------------------
   mySBM <- SimpleSBM_fit$new(mySampler$networkData, 'poisson', TRUE, covarList = covarList_directed[1])
@@ -244,7 +251,7 @@ test_that("SimpleSBM_fit 'Poisson' model, directed, two covariates", {
 
   ## Checking class
   expect_true(inherits(mySBM, "SBM"))
-  expect_true(inherits(mySBM, "SBM_fit"))
+  expect_true(inherits(mySBM, "SimpleSBM"))
   expect_true(inherits(mySBM, "SimpleSBM_fit"))
 
   ## Checking field access and format prior to estimation
@@ -257,7 +264,7 @@ test_that("SimpleSBM_fit 'Poisson' model, directed, two covariates", {
   expect_true(all(is.na(diag(mySBM$networkData))))
   expect_true(!isSymmetric(mySBM$networkData))
   expect_true(mySBM$directed)
-  expect_null(mySBM$connectParam$mean)
+  expect_true(is.matrix(mySBM$connectParam$mean))
 
   ## covariates
     expect_true(all(dim(mySBM$covarEffect) == c(nbNodes, nbNodes)))
@@ -290,8 +297,8 @@ test_that("SimpleSBM_fit 'Poisson' model, directed, two covariates", {
   expect_equal(coef(mySBM, 'block')       , mySBM$blockProp)
   expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
   expect_equal(mySBM$predict(), predict(mySBM))
-  expect_equal(mySBM$fitted, fitted(mySBM))
-  expect_equal(mySBM$fitted, predict(mySBM))
+  expect_equal(predict(mySBM), fitted(mySBM))
+
   expect_equal(predict(mySBM, covarList[1]), fitted(mySBM))
 
 })
@@ -305,6 +312,8 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, two covariates", {
 
   ## Basic construction - check for wrong specifications
   mySampler <- SimpleSBM$new('gaussian', nbNodes, FALSE, blockProp, connectParam, covarParam = covarParam, covarList = covarList)
+  mySampler$rMemberships(store = TRUE)
+  mySampler$rAdjacency(store = TRUE)
 
   ## Construction----------------------------------------------------------------
   mySBM <- SimpleSBM_fit$new(mySampler$networkData, 'gaussian', FALSE, covarList = covarList)
@@ -314,7 +323,7 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, two covariates", {
 
   ## Checking class
   expect_true(inherits(mySBM, "SBM"))
-  expect_true(inherits(mySBM, "SBM_fit"))
+  expect_true(inherits(mySBM, "SimpleSBM"))
   expect_true(inherits(mySBM, "SimpleSBM_fit"))
 
   ## Checking field access and format prior to estimation
@@ -327,7 +336,7 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, two covariates", {
   expect_true(all(is.na(diag(mySBM$networkData))))
   expect_true(isSymmetric(mySBM$networkData))
   expect_true(!mySBM$directed)
-  expect_null(mySBM$connectParam$mean)
+  expect_true(is.matrix(mySBM$connectParam$mean))
 
   ## covariates
     expect_true(all(dim(mySBM$covarEffect) == c(nbNodes, nbNodes)))
@@ -364,8 +373,8 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, two covariates", {
   expect_equal(coef(mySBM, 'block')       , mySBM$blockProp)
   expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
   expect_equal(mySBM$predict(), predict(mySBM))
-  expect_equal(mySBM$fitted, fitted(mySBM))
-  expect_equal(mySBM$fitted, predict(mySBM))
+  expect_equal(predict(mySBM), fitted(mySBM))
+
   expect_equal(predict(mySBM, covarList), fitted(mySBM))
 
 })
@@ -379,6 +388,8 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, two covariates", {
 
   ## Basic construction - check for wrong specifications
   mySampler <- SimpleSBM$new('gaussian', nbNodes, TRUE, blockProp, connectParam, covarParam = covarParam, covarList = covarList_directed)
+  mySampler$rMemberships(store = TRUE)
+  mySampler$rAdjacency(store = TRUE)
 
   ## Construction----------------------------------------------------------------
   mySBM <- SimpleSBM_fit$new(mySampler$networkData, 'gaussian', TRUE, covarList = covarList_directed)
@@ -388,7 +399,7 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, two covariates", {
 
   ## Checking class
   expect_true(inherits(mySBM, "SBM"))
-  expect_true(inherits(mySBM, "SBM_fit"))
+  expect_true(inherits(mySBM, "SimpleSBM"))
   expect_true(inherits(mySBM, "SimpleSBM_fit"))
 
   ## Checking field access and format prior to estimation
@@ -401,7 +412,7 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, two covariates", {
   expect_true(all(is.na(diag(mySBM$networkData))))
   expect_true(!isSymmetric(mySBM$networkData))
   expect_true(mySBM$directed)
-  expect_null(mySBM$connectParam$mean)
+  expect_true(is.matrix(mySBM$connectParam$mean))
 
   ## covariates
     expect_true(all(dim(mySBM$covarEffect) == c(nbNodes, nbNodes)))
@@ -438,8 +449,8 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, two covariates", {
   expect_equal(coef(mySBM, 'block')       , mySBM$blockProp)
   expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
   expect_equal(mySBM$predict(), predict(mySBM))
-  expect_equal(mySBM$fitted, fitted(mySBM))
-  expect_equal(mySBM$fitted, predict(mySBM))
+  expect_equal(predict(mySBM), fitted(mySBM))
+
   expect_equal(predict(mySBM, covarList), fitted(mySBM))
 
 })

@@ -15,6 +15,8 @@ test_that("BipartiteSBM_fit 'Bernoulli' model, undirected, no covariate", {
 
   ## Basic construction - check for wrong specifications
   mySampler <- BipartiteSBM$new('bernoulli', nbNodes, blockProp, connectParam)
+  mySampler$rMemberships(store = TRUE)
+  mySampler$rIncidence(store = TRUE)
 
   ## Construction----------------------------------------------------------------
   mySBM <- BipartiteSBM_fit$new(mySampler$networkData, 'bernoulli')
@@ -22,7 +24,7 @@ test_that("BipartiteSBM_fit 'Bernoulli' model, undirected, no covariate", {
 
   ## Checking class
   expect_true(inherits(mySBM, "SBM"))
-  expect_true(inherits(mySBM, "SBM_fit"))
+  expect_true(inherits(mySBM, "BipartiteSBM"))
   expect_true(inherits(mySBM, "BipartiteSBM_fit"))
 
   ## Checking field access and format prior to estimation
@@ -31,7 +33,7 @@ test_that("BipartiteSBM_fit 'Bernoulli' model, undirected, no covariate", {
   expect_equal(mySBM$nbNodes, nbNodes)
   expect_equal(unname(mySBM$dimension), nbNodes)
   expect_equal(mySBM$nbDyads, nbNodes[1]*nbNodes[2])
-  expect_null(mySBM$connectParam$mean)
+  expect_true(is.matrix(mySBM$connectParam$mean))
 
   ## covariates
   expect_equal(mySBM$covarEffect, numeric(0))
@@ -72,8 +74,7 @@ test_that("BipartiteSBM_fit 'Bernoulli' model, undirected, no covariate", {
   expect_equal(coef(mySBM, 'block')       , mySBM$blockProp)
   expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
   expect_equal(mySBM$predict(), predict(mySBM))
-  expect_equal(mySBM$fitted, fitted(mySBM))
-  expect_equal(mySBM$fitted, predict(mySBM))
+  expect_equal(fitted(mySBM), predict(mySBM))
 
   ## correctness
   expect_lt(rmse(sort(mySBM$connectParam$mean), sort(means)), .2)
@@ -90,6 +91,8 @@ test_that("BipartiteSBM_fit 'Poisson' model, undirected, no covariate", {
 
   ## Basic construction - check for wrong specifications
   mySampler <- BipartiteSBM$new('poisson', nbNodes, blockProp, connectParam)
+  mySampler$rMemberships(store = TRUE)
+  mySampler$rIncidence(store = TRUE)
 
   ## Construction----------------------------------------------------------------
   mySBM <- BipartiteSBM_fit$new(mySampler$networkData, 'poisson')
@@ -97,7 +100,7 @@ test_that("BipartiteSBM_fit 'Poisson' model, undirected, no covariate", {
 
   ## Checking class
   expect_true(inherits(mySBM, "SBM"))
-  expect_true(inherits(mySBM, "SBM_fit"))
+  expect_true(inherits(mySBM, "BipartiteSBM"))
   expect_true(inherits(mySBM, "BipartiteSBM_fit"))
 
   ## Checking field access and format prior to estimation
@@ -106,7 +109,7 @@ test_that("BipartiteSBM_fit 'Poisson' model, undirected, no covariate", {
   expect_equal(mySBM$nbNodes, nbNodes)
   expect_equal(unname(mySBM$dimension), nbNodes)
   expect_equal(mySBM$nbDyads, nbNodes[1]*nbNodes[2])
-  expect_null(mySBM$connectParam$mean)
+  expect_true(is.matrix(mySBM$connectParam$mean))
 
   ## covariates
   expect_equal(mySBM$covarEffect, numeric(0))
@@ -140,8 +143,7 @@ test_that("BipartiteSBM_fit 'Poisson' model, undirected, no covariate", {
   expect_equal(coef(mySBM, 'block')       , mySBM$blockProp)
   expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
   expect_equal(mySBM$predict(), predict(mySBM))
-  expect_equal(mySBM$fitted, fitted(mySBM))
-  expect_equal(mySBM$fitted, predict(mySBM))
+  expect_equal(fitted(mySBM), predict(mySBM))
 
   ## correctness
   expect_lt(rmse(sort(mySBM$connectParam$mean), sort(means)), 1e-1)
@@ -158,6 +160,8 @@ test_that("BipartiteSBM_fit 'Gaussian' model, undirected, no covariate", {
 
   ## Basic construction - check for wrong specifications
   mySampler <- BipartiteSBM$new('gaussian', nbNodes, blockProp, connectParam)
+  mySampler$rMemberships(store = TRUE)
+  mySampler$rIncidence(store = TRUE)
 
   ## Construction----------------------------------------------------------------
   mySBM <- BipartiteSBM_fit$new(mySampler$networkData, 'gaussian')
@@ -165,7 +169,7 @@ test_that("BipartiteSBM_fit 'Gaussian' model, undirected, no covariate", {
 
   ## Checking class
   expect_true(inherits(mySBM, "SBM"))
-  expect_true(inherits(mySBM, "SBM_fit"))
+  expect_true(inherits(mySBM, "BipartiteSBM"))
   expect_true(inherits(mySBM, "BipartiteSBM_fit"))
 
   ## Checking field access and format prior to estimation
@@ -174,7 +178,7 @@ test_that("BipartiteSBM_fit 'Gaussian' model, undirected, no covariate", {
   expect_equal(mySBM$nbNodes, nbNodes)
   expect_equal(unname(mySBM$dimension), nbNodes)
   expect_equal(mySBM$nbDyads, nbNodes[1]*nbNodes[2])
-  expect_null(mySBM$connectParam$mean)
+  expect_true(is.matrix(mySBM$connectParam$mean))
 
   ## covariates
   expect_equal(mySBM$covarEffect, numeric(0))
@@ -207,8 +211,7 @@ test_that("BipartiteSBM_fit 'Gaussian' model, undirected, no covariate", {
   expect_equal(coef(mySBM, 'block')       , mySBM$blockProp)
   expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
   expect_equal(mySBM$predict(), predict(mySBM))
-  expect_equal(mySBM$fitted, fitted(mySBM))
-  expect_equal(mySBM$fitted, predict(mySBM))
+  expect_equal(fitted(mySBM), predict(mySBM))
 
   ## correctness
   expect_lt(rmse(sort(mySBM$connectParam$mean), sort(means)), 1e-1)

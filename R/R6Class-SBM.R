@@ -18,7 +18,7 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       beta          = NULL, # vector of covariates parameters
       Y             = NULL, # network data (matrix or list of matrices)
       X             = NULL, # list of covariates
-      Z             = NULL, # the sampled indicator of blocks
+      Z             = NULL, # indicator of blocks
       sampling_func = NULL # a list of functions to sample edge values, depending on the model
     ),
     public = list(
@@ -43,18 +43,10 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
         stopifnot(is.character(model), all(model %in% available_models_edges))
         stopifnot(is.logical(directed))
         stopifnot(is.character(dimLabels), length(dimLabels) == length(dimension))
-        stopifnot(is.numeric(dimension))
+        stopifnot(is.numeric(dimension), all(dimension > 0))
         stopifnot(is.list(connectParam))
         stopifnot(all.equal(length(covarParam), length(covarList)))
         if (length(model) == 1) tmpParam <- list(connectParam) else tmpParam <- connectParam
-        # walk2(model, tmpParam,
-        #     ~switch(.x,
-        #       "bernoulli"  = stopifnot(all(.y$mean >= 0), all(.y$mean <= 1)),
-        #       "poisson"    = stopifnot(all(.y$mean >= 0)),
-        #       "gaussian"   = stopifnot(length(.y$var) == 1, .y$var > 0),
-        #       "ZIgaussian" = stopifnot(all(.y$p0 >= 0), all(.y$p0 <= 1))
-        #       )
-        #   )
 
         ## MODEL & PARAMETERS
         private$model      <- model
@@ -91,49 +83,7 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
             "bernoulli"  = function(n, param) rbinom(n = n, size = 1, prob   = param$mean)
           )
         )
-
       },
-      #' @description basic matrix plot method for SBM object or mesoscopic plot
-      #' @param type character for the type of plot: either 'data' (true connection), 'expected' (fitted connection) or 'meso' (mesoscopic view). Default to 'data'.
-      #' @param ordered logical: should the rows and columns be reordered according to the clustering? Default to \code{TRUE}.
-      #' @param plotOptions list with the parameters for the plot. See help of the corresponding S3 method for details.
-      #' @return a ggplot2 object for the \code{'data'} and \code{'expected'}, a list with the igraph object \code{g}, the \code{layout} and the \code{plotOptions} for the \code{'meso'}
-      #' @import ggplot2
-      plot = function(type = c('data','expected','meso'), ordered = TRUE, plotOptions = list()) {
-
-        type <- match.arg(type)
-        if (is.null(self$memberships)) {ordered = FALSE; type='data'}
-        if (ordered)
-          if (is.list(self$memberships))
-            clustering <- setNames(self$memberships, c('row', 'col'))
-          else
-            clustering <- list(row = self$memberships)
-        else
-          clustering <- NULL
-
-        switch(match.arg(type),
-          "meso" =
-            plotMeso(
-              thetaMean  = private$theta$mean,
-              pi         = private$pi,
-              model      = private$model,
-              directed   = private$directed_,
-              bipartite  = length(private$dimlab) == 2,
-              nbNodes    = self$dimension,
-              nodeLabels = as.list(private$dimlab),
-              plotOptions),
-          "data" =
-            plotMatrix(self$networkData,
-                       private$dimlab,
-                       clustering, plotOptions),
-          "expected" =
-            plotMatrix(self$expectation,
-                       private$dimlab,
-                       clustering, plotOptions)
-
-        )
-
-        },
       #' @description print method
       #' @param type character to tune the displayed name
       show = function(type = "Stochastic Block Model") {
@@ -159,18 +109,18 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       #' @field directed mode of the network data (directed or not or not applicable)
       directed = function(value) {private$directed_},
       #' @field dimLabels vector or list of characters, the label of each dimension
-      dimLabels    = function(value) {
-        if (missing(value))
-          return(private$dimlab)
-        else {
-          if(length(value) == 1){value = rep(value,2)}
-          if(is.atomic(value)){value <- as.list(value)}
-          if(is.null(names(value))){names(value)  = c('row','col')}
-          if(all(names(value)==c('col','row'))){value <- list(row = value[[2]],col = value[[1]])}
-          if(any(names(value) != c('row','col'))){names(value) = c('row','col')}
-          private$dimlab <- value
-        }
-      },
+      dimLabels    = function(value) {private$dimlab},
+      #   if (missing(value))
+      #     return(private$dimlab)
+      #   else {
+      #     if(length(value) == 1){value = rep(value,2)}
+      #     if(is.atomic(value)){value <- as.list(value)}
+      #     if(is.null(names(value))){names(value)  = c('row','col')}
+      #     if(all(names(value)==c('col','row'))){value <- list(row = value[[2]],col = value[[1]])}
+      #     if(any(names(value) != c('row','col'))){names(value) = c('row','col')}
+      #     private$dimlab <- value
+      #   }
+      # },
       #' @field nbNodes vector of size 2: number of nodes (rows, columns)
       nbNodes = function(value) {private$dim},
       #' @field nbCovariates integer, the number of covariates
@@ -178,14 +128,9 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       #' @field blockProp block proportions (aka prior probabilities of each block)
       blockProp   = function(value) {private$pi},
       #' @field connectParam parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli
-      connectParam = function(value) {#private$theta},
-         if (missing(value) )
-             return(private$theta)
-         else {
-           stopifnot(is.list(value))
-           private$theta <- value
-        }
-      },
+      connectParam = function(value) {private$theta},
+      #' @field indMemberships matrix for clustering memberships
+      indMemberships = function(value) {private$Z},
       #' @field covarParam vector of regression parameters associated with the covariates.
       covarParam  = function(value) {private$beta},
       #' @field covarList list of matrices of covariates
@@ -196,8 +141,8 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       covarEffect = function(value) {if (self$nbCovariates > 0) return(roundProduct(private$X, private$beta)) else return(numeric(0))},
       #' @field networkData the network data (adjacency or incidence matrix or list of such object)
       networkData = function(value) {return(private$Y)},
-      #' @field expectation expected values of connection under the currently adjusted model
-      expectation = function() {self$predict()}
+      #' @field variance variance of each dyad under the current model
+      variance = function() {if (private$model == 'gaussian') return(private$theta$var) else return(NULL) }
     )
   )
 
@@ -305,3 +250,21 @@ plot.SBM = function(x, type = c('data', 'expected', 'meso'), ordered = TRUE, plo
   }
 }
 
+#' Extract model fitted values
+#'
+#' Extracts fitted values for object with class (\code{\link[=SimpleSBM_fit]{SimpleSBM_fit}},
+#' \code{\link[=BipartiteSBM_fit]{BipartiteSBM_fit}}) or \code{\link[=MultipartiteSBM_fit]{multipartitepartiteSBM_fit}})
+#'
+#' @param object an R6 object inheriting from SimpleSBM_fit,  BipartiteSBM_fit or MultipartiteSBM_fit
+#' @param ... additional parameters for S3 compatibility. Not used
+#' @return a matrix of expected fitted values for each dyad
+#' @importFrom stats fitted
+#' @export
+fitted.SBM <- function(object,  ...) {
+  stopifnot(is_SBM(object))
+  stopifnot(inherits(object, "SimpleSBM_fit") |
+            inherits(object, "BipartiteSBM_fit") |
+            inherits(object, "MultipartiteSBM_fit")
+      )
+  object$predict()
+}

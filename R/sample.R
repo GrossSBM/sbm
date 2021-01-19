@@ -28,8 +28,8 @@
 #' ## Graph Sampling
 #' mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam, model = 'bernoulli')
 #' plot(mySampler)
-#' mySampler$rMemberships() # sample new memberships
-#' mySampler$rAdjacency()   # sample new adjacency matrix
+#' mySampler$rMemberships(store = TRUE) # sample new memberships
+#' mySampler$rAdjacency(store = TRUE)   # sample new adjacency matrix
 #' plot(mySampler)
 #' plot(mySampler,type='meso')
 #' hist(mySampler$networkData)

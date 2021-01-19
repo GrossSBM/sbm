@@ -22,24 +22,22 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 }
 }
 \section{Super classes}{
-\code{\link[sbm:SBM]{sbm::SBM}} -> \code{\link[sbm:SBM_fit]{sbm::SBM_fit}} -> \code{SimpleSBM_fit}
+\code{\link[sbm:SBM]{sbm::SBM}} -> \code{\link[sbm:SimpleSBM]{sbm::SimpleSBM}} -> \code{SimpleSBM_fit}
 }
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{nbBlocks}}{number of blocks}
-
-\item{\code{nbDyads}}{number of dyads (potential edges in the network)}
-
 \item{\code{memberships}}{vector of clustering}
 
 \item{\code{blockProp}}{vector of block proportions (aka prior probabilities of each block)}
 
+\item{\code{connectParam}}{parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli}
+
 \item{\code{probMemberships}}{matrix of estimated probabilities for block memberships for all nodes}
 
-\item{\code{nbConnectParam}}{number of parameter used for the connectivity}
+\item{\code{loglik}}{double: approximation of the log-likelihood (variational lower bound) reached}
 
-\item{\code{directed}}{is the network directed or not}
+\item{\code{ICL}}{double: value of the integrated classification log-likelihood}
 
 \item{\code{penalty}}{double, value of the penalty term in ICL}
 
@@ -55,6 +53,7 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 \item \href{#method-new}{\code{SimpleSBM_fit$new()}}
 \item \href{#method-optimize}{\code{SimpleSBM_fit$optimize()}}
 \item \href{#method-predict}{\code{SimpleSBM_fit$predict()}}
+\item \href{#method-setModel}{\code{SimpleSBM_fit$setModel()}}
 \item \href{#method-reorder}{\code{SimpleSBM_fit$reorder()}}
 \item \href{#method-show}{\code{SimpleSBM_fit$show()}}
 \item \href{#method-clone}{\code{SimpleSBM_fit$clone()}}
@@ -63,9 +62,10 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 \if{html}{
 \out{<details open ><summary>Inherited methods</summary>}
 \itemize{
-\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="plot">}\href{../../sbm/html/SBM.html#method-plot}{\code{sbm::SBM$plot()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="print">}\href{../../sbm/html/SBM.html#method-print}{\code{sbm::SBM$print()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM_fit" data-id="setModel">}\href{../../sbm/html/SBM_fit.html#method-setModel}{\code{sbm::SBM_fit$setModel()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SimpleSBM" data-id="plot">}\href{../../sbm/html/SimpleSBM.html#method-plot}{\code{sbm::SimpleSBM$plot()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SimpleSBM" data-id="rAdjacency">}\href{../../sbm/html/SimpleSBM.html#method-rAdjacency}{\code{sbm::SimpleSBM$rAdjacency()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SimpleSBM" data-id="rMemberships">}\href{../../sbm/html/SimpleSBM.html#method-rMemberships}{\code{sbm::SimpleSBM$rMemberships()}}\out{</span>}
 }
 \out{</details>}
 }
@@ -137,6 +137,24 @@ prediction under the currently parameters
 }
 \subsection{Returns}{
 a matrix of expected values for each dyad
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-setModel"></a>}}
+\if{latex}{\out{\hypertarget{method-setModel}{}}}
+\subsection{Method \code{setModel()}}{
+method to select a specific model among the ones fitted during the optimization.
+Fields of the current SBM_fit will be updated accordingly.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{SimpleSBM_fit$setModel(index)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{index}}{integer, the index of the model to be selected (row number in storedModels)}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}
