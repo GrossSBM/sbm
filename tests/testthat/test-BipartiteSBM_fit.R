@@ -49,7 +49,7 @@ test_that("BipartiteSBM_fit 'Bernoulli' model, undirected, no covariate", {
   mySBM$optimize(estimOptions=list(verbosity = 0))
   mySBM$setModel(5)
 
-  expect_equal(mySBM$nbConnectParam, nbBlocks[1] * nbBlocks[2])
+  expect_equal(mySBM$nbConnectParam, unname(nbBlocks[1] * nbBlocks[2]))
   expect_equal(mySBM$penalty, nbBlocks[1] * nbBlocks[2] * log(nbNodes[1] * nbNodes[2]) +  (nbBlocks[1] - 1) * log(nbNodes[1]) + (nbBlocks[2] - 1) * log(nbNodes[2]))
   expect_equal(mySBM$entropy, -sum(mySBM$probMemberships[[1]] * log(mySBM$probMemberships[[1]]))
                               -sum(mySBM$probMemberships[[2]] * log(mySBM$probMemberships[[2]])))

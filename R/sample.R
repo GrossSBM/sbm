@@ -28,8 +28,6 @@
 #' ## Graph Sampling
 #' mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam, model = 'bernoulli')
 #' plot(mySampler)
-#' mySampler$rMemberships(store = TRUE) # sample new memberships
-#' mySampler$rEdges(store = TRUE)   # sample new adjacency matrix
 #' plot(mySampler)
 #' plot(mySampler,type='meso')
 #' hist(mySampler$networkData)
@@ -76,8 +74,7 @@ sampleSimpleSBM <- function(nbNodes,
                             covariatesParam = numeric(0)) {
 
   mySampler <- SimpleSBM$new(model, nbNodes, directed, blockProp, connectParam, dimLabels, covariatesParam, covariates)
-  mySampler$rMemberships(store = TRUE)
-  mySampler$rEdges(store = TRUE)
+  mySampler$rNetwork(store = TRUE)
   mySampler
 }
 
@@ -114,8 +111,8 @@ sampleSimpleSBM <- function(nbNodes,
 #' plot(mySampler,type='meso',plotOptions = list(vertex.label.name=list(row='Reader',col='Book')))
 #' plot(mySampler,type='meso',plotOptions = list(vertex.label.name=c('A','B'),vertex.size = 1.4))
 #' mySampler$rMemberships() # sample new memberships
-#' mySampler$rIncidence()   # sample new incidence matrix
-
+#' mySampler$rEdges()   # sample new edges
+#' mySampler$rNetwork()   # sample a new networrk (blocks and edges)
 #' ### =======================================
 #' ### BIPARTITE POISSON SBM
 #' ## Graph parameters
@@ -159,8 +156,7 @@ sampleBipartiteSBM <- function(nbNodes,
                             covariatesParam = numeric(0)) {
 
   mySampler <- BipartiteSBM$new(model, nbNodes, blockProp, connectParam, dimLabels, covariatesParam, covariates)
-  mySampler$rMemberships(store = TRUE)
-  mySampler$rIncidence(store = TRUE)
+  mySampler$rNetwork(store = TRUE)
   mySampler
 }
 #' Sampling of Multipartite SBMs

@@ -12,7 +12,6 @@ MultipartiteSBM_fit <-
     private = list(
        J = NULL,
        vICL = NULL,
-       tau            = NULL, # variational parameters for posterior probability of class belonging
        GREMLINSobject = NULL,
 
       #------------ function to convert GREMLINS result into a sbm object result
@@ -34,7 +33,6 @@ MultipartiteSBM_fit <-
         ordAll <- order_mbm(list_theta_mean, list_pi, private$arch)
         list_tau <- map2(list_tau, ordAll, ~.x[, .y, drop = FALSE])
         list_pi  <- map2(list_pi, ordAll, ~.x[.y])
-
         for (s_ in 1:self$nbNetworks){
           o_row <- ordAll[[private$arch[s_, 1]]]
           o_col <- ordAll[[private$arch[s_, 2]]]
@@ -50,6 +48,7 @@ MultipartiteSBM_fit <-
             if (is.matrix(p0_s)){p0_s  = p0_s[o_row,o_col]}
             l_s$p0 <- p0_s
           }
+
           private$Y[[s_]]$connectParam <- l_s
         }
         private$theta <- map(private$Y, "connectParam")
@@ -80,7 +79,7 @@ MultipartiteSBM_fit <-
       #' @param netList list of SBM objects
       initialize = function(netList) {
         directed  <- map(netList, "directed") %>% map_lgl(~ifelse(is.null(.x), NA, .x))
-        dimension <- map(netList, "dimension") %>% unlist() %>% unique()
+        nbNodes   <- map(netList, "nbNodes")  %>% unlist() %>% unique()
         dimLabels <- map(netList, "dimLabels") %>% unlist() %>% unique()
         arch      <- map_if(netList, ~inherits(.x, "SimpleSBM_fit"),
                             function(net) setNames(c(net$dimLabels, net$dimLabels), c("from", "to")),
@@ -89,7 +88,7 @@ MultipartiteSBM_fit <-
         super$initialize(model        = map_chr(netList, "modelName"),
                          architecture = arch,
                          directed     = directed,
-                         dimension    = dimension,
+                         nbNodes      = nbNodes,
                          dimLabels    = dimLabels,
                          blockProp    = map(netList, "blockProp"),
                          connectParam = map(netList, "connectParam"))
@@ -110,7 +109,7 @@ MultipartiteSBM_fit <-
 
         currentOptions <- list(
           verbosity     = 1,
-          nbBlocksRange = lapply(1:self$nbLabels,function(l){c(1,10)}),
+          nbBlocksRange = rep(list(c(1, 10)), length(private$dimlab)),
           nbCores       = 2,
           maxiterVE     = 100,
           maxiterVEM    = 100,
@@ -134,8 +133,8 @@ MultipartiteSBM_fit <-
         })
 
         vdistrib <- private$model
-        v_Kmin  <- sapply(1:self$nbLabels, function(k){currentOptions$nbBlocksRange[[k]][1]})
-        v_Kmax  <- sapply(1:self$nbLabels, function(k){currentOptions$nbBlocksRange[[k]][2]})
+        v_Kmin  <- map_dbl(currentOptions$nbBlocksRange, 1)
+        v_Kmax  <- map_dbl(currentOptions$nbBlocksRange, 2)
         verbose <- (currentOptions$verbosity > 0)
         nbCores <- currentOptions$nbCores
         maxiterVE <- currentOptions$maxiterVE
@@ -195,36 +194,24 @@ MultipartiteSBM_fit <-
   #-----------------------------------------------
   active = list(
     #' @field loglik double: approximation of the log-likelihood (variational lower bound) reached
-    loglik = function(value) {private$J    },
+    loglik = function(value) {private$J},
     #' @field ICL double: value of the integrated classification log-likelihood
-    ICL    = function(value) {private$vICL },
-    #' @field memberships a list with the memberships in all the functional groups
-    memberships = function(value) {if(!is.null(private$Z)) setNames(lapply(private$Z, as_clustering), private$dimlab)},
-    #' @field probMemberships or list of nbFG matrices for of estimated probabilities for block memberships for all nodes
-    probMemberships = function(value) {
-      if (missing(value)) {
-        return(private$Z)
-      } else {
-        private$Z <- value
-      }
-    },
-    #' @field nbBlocks : vector with the number of blocks in each FG
-    nbBlocks = function(value) {if(!is.null(private$Z)) setNames(sapply(private$Z, ncol), private$dimlab)},
+    ICL    = function(value) {private$vICL},
     #' @field storedModels data.frame of all models fitted (and stored) during the optimization
     storedModels = function(value) {
-      GO <- private$GREMLINSobject
-      nbModels <- length(GO$fittedModel)
-      Blocks <- as.data.frame(t(sapply(GO$fittedModel, function(m) m$paramEstim$v_K)))
-      colnames(Blocks) <- paste('nbBlocks',private$dimlab)
-      nbConnectParam <- sapply(GO$fittedModel, function(m){
+      fit <- private$GREMLINSobject$fittedModel
+      nbModels <- length(fit)
+      Blocks <- as.data.frame(t(sapply(fit, function(m) m$paramEstim$v_K)))
+      colnames(Blocks) <- paste('nbBlocks', private$dimlab)
+      nbConnectParam <- sapply(fit, function(m){
         computeNbConnectParams_MBM(m$paramEstim$v_K, private$model, private$arch, private$directed_)
       })
       nbParams  <- nbConnectParam + rowSums(Blocks) - ncol(Blocks)
       indexModel <- 1:nbModels
-      U <- cbind(indexModel,nbParams, Blocks)
+      U <- cbind(indexModel, nbParams, Blocks)
       U$nbBlocks <-rowSums(Blocks)
-      U$ICL <- sapply(GO$fittedModel, function(m) m$ICL)
-      U$loglik  <- sapply(GO$fittedModel,function(m){len <- length(m$vJ); m$vJ[len]})
+      U$ICL      <- map_dbl(fit, "ICL")
+      U$loglik   <- map_dbl(fit, ~last(x.$vJ))
       U
     }
   )

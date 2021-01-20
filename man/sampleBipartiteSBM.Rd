@@ -54,7 +54,8 @@ plot(mySampler)
 plot(mySampler,type='meso',plotOptions = list(vertex.label.name=list(row='Reader',col='Book')))
 plot(mySampler,type='meso',plotOptions = list(vertex.label.name=c('A','B'),vertex.size = 1.4))
 mySampler$rMemberships() # sample new memberships
-mySampler$rIncidence()   # sample new incidence matrix
+mySampler$rEdges()   # sample new edges
+mySampler$rNetwork()   # sample a new networrk (blocks and edges)
 ### =======================================
 ### BIPARTITE POISSON SBM
 ## Graph parameters

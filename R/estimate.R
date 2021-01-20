@@ -255,9 +255,11 @@ estimateBipartiteSBM <- function(netMat,
 #'                                       archiMultipartite, connectParam, model,
 #'                                       directed, dimLabels = c('A','B'), seed = 2)
 #' listSBM <- mySampleMSBM$listSBM
-#' estimOptions = list(initBM = FALSE,nbCores  = 2,initBM = FALSE)
+#' estimOptions <- list(initBM = FALSE, nbCores  = 2, initBM = FALSE)
 #' myMSBM <- estimateMultipartiteSBM(listSBM,estimOptions)
-#' plot(myMSBM,type='data')
+#' plot(myMSBM, type = "data")
+#' plot(myMSBM, type = "expected")
+#' plot(myMSBM, type = "meso")
 estimateMultipartiteSBM <- function(listSBM,
                                     estimOptions = list())
 {
@@ -267,7 +269,7 @@ estimateMultipartiteSBM <- function(listSBM,
 
   currentOptions <- list(
     verbosity     = 1,
-    nbBlocksRange = lapply(1:myMSBM$nbLabels,function(l){c(1,10)}),
+    nbBlocksRange = rep(list(c(1,10)), length(myMSBM$dimLabels)),
     nbCores       = 2,
     maxiterVE     = 100,
     maxiterVEM    = 100,

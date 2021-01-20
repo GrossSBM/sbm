@@ -17,6 +17,7 @@ test_that("initializing Multipartite SBM works", {
   myMBM <- MultipartiteSBM_fit$new(list(netA,netB))
 
   ## Checking class
+  expect_true(inherits(myMBM, "SBM"))
   expect_true(inherits(myMBM, "MultipartiteSBM"))
   expect_true(inherits(myMBM, "MultipartiteSBM_fit"))
 
@@ -24,14 +25,13 @@ test_that("initializing Multipartite SBM works", {
   ## parameters
   expect_equal(myMBM$modelName, c('bernoulli', 'poisson'))
   expect_true(is.character(myMBM$modelName))
-  expect_equal(unname(myMBM$dimension), c(Q*npc,20))
   expect_equal(unname(myMBM$nbNodes) , c(Q*npc,20))
   expect_equal(myMBM$directed, c(TRUE,NA))
   expect_equal(myMBM$nbNetworks,2)
-  expect_equal(unname(myMBM$networkData[[1]]$dimension),Q*npc)
-  expect_equal(unname(myMBM$networkData[[2]]$dimension),c(Q*npc,20))
+  expect_equal(unname(myMBM$networkData[[1]]$nbNodes),Q*npc)
+  expect_equal(unname(myMBM$networkData[[2]]$nbNodes),c(Q*npc,20))
   expect_equal(unname(myMBM$architecture), matrix(c(1,1,1,2), 2,2))
-##  expect_equivalent(myMBM$blockProp, list(numeric(0), numeric(0)))
+  expect_equivalent(myMBM$blockProp, list(NULL, list(numeric(0), numeric(0))))
   expect_equivalent(myMBM$connectParam,
       list(list(mean = matrix(0,0,0)), list(mean = matrix(0,0,0))))
 
@@ -60,9 +60,9 @@ test_that("initializing Multipartite SBM works", {
   expect_equal(ifelse(is.matrix(muAS), nrow(muAS), length(muAS)),
                nrow(myMBM$networkData[[1]]$connectParam$mean))
   expect_equal(lengths(myMBM$blockProp), myMBM$nbBlocks)
-  expect_equal(length(myMBM$blockProp), myMBM$nbLabels)
+  expect_equal(length(myMBM$blockProp), length(myMBM$dimLabels))
   expect_equal(length(myMBM$connectParam), myMBM$nbNetworks)
-  expect_equal(unname(lengths(myMBM$memberships)), myMBM$nbNodes)
+  expect_equal(lengths(myMBM$memberships), myMBM$nbNodes)
   expect_lt(myMBM$loglik, 0)
   expect_lt(myMBM$ICL, 0)
   expect_lt(myMBM$ICL, myMBM$loglik)

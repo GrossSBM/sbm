@@ -31,12 +31,6 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 
 \item{\code{ICL}}{double: value of the integrated classification log-likelihood}
 
-\item{\code{memberships}}{a list with the memberships in all the functional groups}
-
-\item{\code{probMemberships}}{or list of nbFG matrices for of estimated probabilities for block memberships for all nodes}
-
-\item{\code{nbBlocks}}{: vector with the number of blocks in each FG}
-
 \item{\code{storedModels}}{data.frame of all models fitted (and stored) during the optimization}
 }
 \if{html}{\out{</div>}}

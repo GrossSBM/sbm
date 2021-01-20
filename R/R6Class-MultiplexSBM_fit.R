@@ -10,8 +10,8 @@ MultiplexSBM_fit <-
     inherit = MultipartiteSBM_fit,
     # fields for internal use (referring to the mathematical notation)
     private = list(
-      BMobject = NULL,
-      dependent =NULL,
+      BMobject  = NULL,
+      dependent = NULL,
       import_from_BM  = function(index = which.max(private$BMobject$ICL)) {
         private$J     <- private$BMobject$PL[index]
         private$vICL  <- private$BMobject$ICL[index]
@@ -23,16 +23,16 @@ MultiplexSBM_fit <-
         )},
       import_from_BM_Simple = function(index = which.max(private$BMobject$ICL)) { # a function updating the Class
         private$import_from_BM(index)
-        private$tau <- private$BMobject$memberships[[index]]$Z
-        private$pi  <- colMeans(private$tau)
+        private$Z <- private$BMobject$memberships[[index]]$Z
+        private$pi  <- colMeans(private$Z)
       },
       import_from_BM_Bipartite  = function(index = which.max(private$BMobject$ICL)) {
         private$import_from_BM(index)
-        private$tau <- list(
+        private$Z <- list(
           row = private$BMobject$memberships[[index]]$Z1,
           col = private$BMobject$memberships[[index]]$Z2
         )
-        private$pi  <- lapply(private$tau, colMeans)
+        private$pi  <- lapply(private$Z, colMeans)
       }
     ),
     #-----------------------------------------------
@@ -73,79 +73,9 @@ MultiplexSBM_fit <-
       #'}
       optimize = function(estimOptions) {
 
-
-        if (self$dependentNetwork == FALSE)
-        {
-          currentOptions <- list(
-            verbosity     = 1,
-            nbBlocksRange = lapply(1:self$nbLabels,function(l){c(1,10)}),
-            nbCores       = 2,
-            maxiterVE     = 100,
-            maxiterVEM    = 100,
-            initBM = TRUE
-          )
-
-          names(currentOptions$nbBlocksRange) <- private$dimlab
-          ## Current options are default expect for those passed by the user
-          currentOptions[names(estimOptions)] <- estimOptions
-
-          # ----- formatting data for using GREMLINS
-          listNetG <- lapply(private$Y, function(net) {
-            if (inherits(net, "SimpleSBM_fit"))
-              return(GREMLINS::defineNetwork(net$networkData,
-                                    ifelse(net$directed, "diradj", "adj"),
-                                    rowFG = net$dimLabels,
-                                    colFG = net$dimLabels))
-            if (inherits(net, "BipartiteSBM_fit"))
-              return(GREMLINS::defineNetwork(net$networkData,
-                                    "inc",
-                                    rowFG = net$dimLabels[[1]],
-                                    colFG = net$dimLabels[[2]]))
-          })
-
-          vdistrib <- private$model
-
-          v_Kmin  <- sapply(1:self$nbLabels, function(k){currentOptions$nbBlocksRange[[k]][1]})
-          v_Kmax  <- sapply(1:self$nbLabels, function(k){currentOptions$nbBlocksRange[[k]][2]})
-
-          verbose <- (currentOptions$verbosity > 0)
-          nbCores <- currentOptions$nbCores
-          maxiterVE <- currentOptions$maxiterVE
-          maxiterVEM <- currentOptions$maxiterVEM
-          namesFG <- names(currentOptions$nbBlocksRange)
-          initBM <- currentOptions$initBM
-
-          if ( sum(abs(v_Kmin - v_Kmax)) > 0) {
-            private$GREMLINSobject <- GREMLINS::multipartiteBM(
-              list_Net = listNetG,
-              v_distrib = vdistrib ,
-              namesFG = namesFG,
-              v_Kmin = v_Kmin  ,
-              v_Kmax = v_Kmax ,
-              v_Kinit = NULL ,
-              initBM = initBM,
-              keep = TRUE ,
-              verbose = verbose,
-              nbCores = nbCores,
-              maxiterVE =  maxiterVE ,
-              maxiterVEM =  maxiterVEM)
-            private$import_from_GREMLINS()
-          } else {
-            private$GREMLINSobject <- GREMLINS::multipartiteBMFixedModel(
-              list_Net = listNetG,
-              v_distrib = vdistrib,
-              namesFG = namesFG ,
-              v_K = v_Kmax,
-              classifInit = NULL,
-              nbCores = nbCores,
-              maxiterVE = maxiterVE,
-              maxiterVEM = maxiterVEM,
-              verbose = verbose)
-            private$import_from_GREMLINS()
-          }
-        }
-
-        else {
+        if (self$dependentNetwork == FALSE) {
+          super$optimize(estimOptions)
+        } else {
           currentOptions <- list(
             verbosity     = 3,
             plot          = TRUE,

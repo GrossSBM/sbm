@@ -29,8 +29,10 @@ BipartiteSBM <-
         switch(model,
           "bernoulli"  = stopifnot(all(connectParam$mean >= 0), all(connectParam$mean <= 1)),
           "poisson"    = stopifnot(all(connectParam$mean >= 0)),
-          "gaussian"   = stopifnot(length(connectParam$var) == 1, connectParam$var > 0),
-          "ZIgaussian" = stopifnot(all(connectParam$p0 >= 0), all(connectParam$p0 <= 1))
+          "gaussian"   = stopifnot(length(connectParam$var) == 1 | length(connectParam$var) == length(connectParam$mean),
+                                   connectParam$var > 0),
+          "ZIgaussian" = stopifnot(length(connectParam$var) == 1 | length(connectParam$var) == length(connectParam$mean),
+                                   connectParam$var > 0, all(connectParam$p0 >= 0), all(connectParam$p0 <= 1))
         )
 
         super$initialize(model, NA, nbNodes, dimLabels, blockProp, connectParam, covarParam, covarList)
@@ -128,9 +130,8 @@ BipartiteSBM <-
         if (missing(value))
           return(private$pi)
         else {
-          stopifnot(is.list(value), length(value) == 2)
-          stopifnot(is.numeric(value[[1]]), all(value[[1]] > 0), all(value[[1]] < 1))
-          stopifnot(is.numeric(value[[2]]), all(value[[2]] > 0), all(value[[2]] < 1))
+          stopifnot(is.list(value), length(value) == length(private$dimlab))
+          walk(value, ~stopifnot(is.numeric(.x), all(.x > 0), all(.x < 1)))
           private$pi <- setNames(value, private$dimlab)
         }
       },
@@ -144,7 +145,7 @@ BipartiteSBM <-
           switch(private$model,
             "bernoulli"  = stopifnot(all(value$mean >= 0), all(value$mean <= 1)),
             "poisson"    = stopifnot(all(value$mean >= 0)),
-            "gaussian"   = stopifnot(length(value$var) == 1, value$var > 0),
+            "gaussian"   = stopifnot(length(value$var) == 1 | length(value$var) == length(value$mean), value$var > 0),
             "ZIgaussian" = stopifnot(all(value$p0 >= 0), all(value$p0 <= 1))
           )
           private$theta <- value
@@ -155,9 +156,8 @@ BipartiteSBM <-
         if (missing(value))
           return(private$Z)
         else {
-          stopifnot(is.list(value), length(value) == 2)
-          stopifnot(nrow(value[[1]]) == private$dim[[1]],
-                    nrow(value[[2]]) == private$dim[[2]])
+          stopifnot(is.list(value), length(value) == length(private$dimlab))
+          walk2(value, private$dim, ~stopifnot(nrow(.x) == .y))
           private$Z <- value
         }
       },
@@ -167,7 +167,7 @@ BipartiteSBM <-
       #' @field nbDyads number of dyads (potential edges in the network)
       nbDyads     = function(value) {private$dim[1] * private$dim[2]},
       #' @field nbConnectParam number of parameter used for the connectivity
-      nbConnectParam = function(value) {self$nbBlocks[1] * self$nbBlocks[2]},
+      nbConnectParam = function(value) {sum(map_int(private$theta, ~length(.x)))},
       #' @field memberships list of size 2: vector of memberships in row, in column.
       memberships = function(value) {if (!is.null(private$Z)) map(private$Z, as_clustering)},
       #' @field indMemberships matrix for clustering memberships

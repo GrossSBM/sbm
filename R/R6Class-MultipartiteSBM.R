@@ -43,7 +43,7 @@ MultipartiteSBM <-
       #' @param type character to tune the displayed name
       show = function(type = "Multipartite Stochastic Block Model"){
         cat(type, "\n")
-        cat(self$nbLabels, "functional groups (", self$dimLabels, "), ", self$nbNetworks, "networks\n")
+        cat(length(self$dimLabels), "parts/functional groups (", self$dimLabels, "), ", self$nbNetworks, "networks\n")
         cat("=====================================================================\n")
         cat("nbNodes per FG = (", self$nbNodes, ") --  nbBlocks per FG = (",self$nbBlocks, ")\n")
         cat("distributions on each network: ", self$modelName ,"\n")
@@ -84,12 +84,66 @@ MultipartiteSBM <-
       }
     ),
     active = list(
+      #' @field dimLabels vector of characters giving the label of each connected dimension
+      dimLabels    = function(value) {
+        if (missing(value))
+          return(private$dimlab)
+        else {
+          stofifnot(is.atomic(value), is.character(value))
+          private$dimlab <- value
+        }
+      },
+      #' @field blockProp list of two vectors of block proportions (aka prior probabilities of each block)
+      blockProp   = function(value) {
+        if (missing(value))
+          return(private$pi)
+        else {
+          stopifnot(is.list(value), length(value) == length(private$dimlab))
+          walk(value, ~stopifnot(is.numeric(.x), all(.x > 0), all(.x < 1)))
+          private$pi <- setNames(value, private$dimlab)
+        }
+      },
+      #' @field connectParam parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli
+      connectParam   = function(value) {
+        if (missing(value))
+          return(private$theta)
+        else {
+          stopifnot(is.list(value))
+          ## Check that connectivity parameters and model are consistent
+          walk2(private$model, value,
+            ~switch(.x,
+              "bernoulli"  = stopifnot(all(.y$mean >= 0), all(.y$mean <= 1)),
+              "poisson"    = stopifnot(all(.y$mean >= 0)),
+              "gaussian"   = stopifnot(length(.y$var) == 1, .y$var > 0),
+              "ZIgaussian" = stopifnot(all(.y$p0 >= 0), all(.y$p0 <= 1))
+            )
+          )
+          private$theta <- value
+        }
+      },
+      #' @field probMemberships  matrix of estimated probabilities for block memberships for all nodes
+      probMemberships = function(value) {
+        if (missing(value))
+          return(private$Z)
+        else {
+          stopifnot(is.list(value), length(value) == length(private$dimlab))
+          walk2(value, private$dim, ~stopifnot(nrow(.x) == .y))
+          private$Z <- value
+        }
+      },
+### field with access only
+      #' @field nbBlocks : vector with the number of blocks in each FG
+      nbBlocks = function(value) {if(!is.null(private$Z)) setNames(map_int(private$pi, length), private$dimlab)},
+      #' @field nbConnectParam number of parameter used for the connectivity
+      nbConnectParam = function(value) {sum(map_int(private$theta, ~map_int(.x, length)))},
       #' @field architecture organization of the multipartite network
       architecture = function(value) {private$arch},
       #' @field nbNetworks number of networks in the multipartite network
       nbNetworks = function(value) {length(private$directed_)},
-      #' @field nbLabels number of functional groups involved in the multipartite
-      nbLabels  = function(value){length(private$dimlab)}
+      #' @field memberships list of size 2: vector of memberships in all parts of the network
+      memberships = function(value) {if (!is.null(private$Z)) map(private$Z, as_clustering)},
+      #' @field indMemberships matrix for clustering memberships
+      indMemberships = function(value) {map(private$Z, ~as_indicator(as_clustering(.x)))}
     )
   )
 

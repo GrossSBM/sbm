@@ -14,11 +14,25 @@ R6 Class definition of a Multipartite SBM
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
+\item{\code{dimLabels}}{vector of characters giving the label of each connected dimension}
+
+\item{\code{blockProp}}{list of two vectors of block proportions (aka prior probabilities of each block)}
+
+\item{\code{connectParam}}{parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli}
+
+\item{\code{probMemberships}}{matrix of estimated probabilities for block memberships for all nodes}
+
+\item{\code{nbBlocks}}{: vector with the number of blocks in each FG}
+
+\item{\code{nbConnectParam}}{number of parameter used for the connectivity}
+
 \item{\code{architecture}}{organization of the multipartite network}
 
 \item{\code{nbNetworks}}{number of networks in the multipartite network}
 
-\item{\code{nbLabels}}{number of functional groups involved in the multipartite}
+\item{\code{memberships}}{list of size 2: vector of memberships in all parts of the network}
+
+\item{\code{indMemberships}}{matrix for clustering memberships}
 }
 \if{html}{\out{</div>}}
 }
