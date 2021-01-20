@@ -306,46 +306,64 @@ SampleMultiplexSBM <- function(nbNodes,
     {
       # which connect param to input ?
 
-      if (directed == "bipartite")
+      if (type == "bipartite")
       {
-
-        Q <- lapply(blockProp,length) # classes
-        n <- npc * Q # nodes
-        Z1<-diag(Q[[1]])%x%matrix(1,npc[1],1)
-        Z2<-diag(Q[2])%x%matrix(1,npc[2],1)
-        P00<-matrix(runif(Q[1]*Q[2]),Q[1],Q[2])
-        P10<-matrix(runif(Q[1]*Q[2]),Q[1],Q[2])
-        P01<-matrix(runif(Q[1]*Q[2]),Q[1],Q[2])
-        P11<-matrix(runif(Q[1]*Q[2]),Q[1],Q[2])
-        SumP<-P00+P10+P01+P11
-        P00<-P00/SumP
-        P01<-P01/SumP
-        P10<-P10/SumP
-        P11<-P11/SumP
-        MU<-matrix(runif(n[1]*n[2]),n[1],n[2])
-        M1<-1*(MU>Z1%*%(P00+P01)%*%t(Z2))
-        M2<-1*((MU>Z1%*%P00%*%t(Z2)) & (MU<Z1%*%(P00+P01+P11)%*%t(Z2))) ## ad
+        Z1 <- t(rmultinom(nbNodes[1], size = 1, prob = blockProp[[1]]))
+        Z2 <- t(rmultinom(nbNodes[2], size = 1, prob = blockProp[[2]]))
+        P00 <- connectParam$prob00
+        P01 <- connectParam$prob01
+        P10 <- connectParam$prob10
+        P11 <- connectParam$prob11
+        MU <-matrix(runif(prod(nbNodes)),nbNodes[1],nbNodes[2])
+        M1 <-1*(MU>Z1%*%(P00+P01)%*%t(Z2))
+        M2 <-1*(((MU>Z1%*%(P00)%*%t(Z2)) & (MU<Z1%*%(P00+P01)%*%t(Z2))) | (MU>Z1%*%(1-P11)%*%t(Z2)))
+        memberships <- list(Z1,Z2)
       }
-      if (directed == "directed")
+      if (type == "directed")
       {
-
+        if (!is.list(blockProp)) blockProp = list(blockProp)
+        Z <- t(rmultinom(nbNodes[1], size = 1, prob = blockProp[[1]]))
+        P00 <- connectParam$prob00
+        P01 <- connectParam$prob01
+        P10 <- connectParam$prob10
+        P11 <- connectParam$prob11
+        MU <-matrix(runif(prod(nbNodes)),nbNodes[1],nbNodes[2])
+        M1 <-1*(MU>Z%*%(P00+P01)%*%t(Z))
+        M2 <-1*(((MU>Z%*%(P00)%*%t(Z)) & (MU<Z%*%(P00+P01)%*%t(Z))) | (MU>Z%*%(1-P11)%*%t(Z)))
+        memberships <- list(Z)
       }
-      if (directed== "undirected")
+      if (type== "undirected")
       {
-
+        if (!is.list(blockProp)) blockProp = list(blockProp)
+        Z <- t(rmultinom(nbNodes[1], size = 1, prob = blockProp[[1]]))
+        P00 <- connectParam$prob00
+        P01 <- connectParam$prob01
+        P10 <- connectParam$prob10
+        P11 <- connectParam$prob11
+        MU <-matrix(runif(prod(nbNodes)),nbNodes[1],nbNodes[2])
+        MU[lower.tri(MU)]<-t(MU)[lower.tri(MU)]
+        M1 <-1*(MU>Z%*%(P00+P01)%*%t(Z))
+        M2 <-1*(((MU>Z%*%(P00)%*%t(Z)) & (MU<Z%*%(P00+P01)%*%t(Z))) | (MU>Z%*%(1-P11)%*%t(Z)))
+        memberships <- list(Z)
       }
+      listNetworks <- list()
+      names(memberships) <- namesFG
+      type_l <- ifelse(type=="bipartite","bipartite","simple")
+      listNetworks[[1]] <- defineSBM(netMat  = M1, model = model[1], type = type_l,dimLabels =  dimLabels)
+      listNetworks[[2]] <- defineSBM(netMat  = M2, model = model[2], type = type_l,dimLabels =  dimLabels)
+
     }
     if (dGauss)
     {
-      if (directed == "bipartite")
+      if (type == "bipartite")
       {
 
       }
-      if (directed == "directed")
+      if (type == "directed")
       {
 
       }
-      if (directed== "undirected")
+      if (type== "undirected")
       {
 
       }
