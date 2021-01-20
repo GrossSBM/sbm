@@ -46,7 +46,6 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
         stopifnot(is.numeric(dimension), all(dimension > 0))
         stopifnot(is.list(connectParam))
         stopifnot(all.equal(length(covarParam), length(covarList)))
-        if (length(model) == 1) tmpParam <- list(connectParam) else tmpParam <- connectParam
 
         ## MODEL & PARAMETERS
         private$model      <- model

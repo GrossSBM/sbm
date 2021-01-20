@@ -124,7 +124,7 @@ Fields of the current MultipartiteSBM_fit will be updated accordingly.
 \if{html}{\out{<a id="method-show"></a>}}
 \if{latex}{\out{\hypertarget{method-show}{}}}
 \subsection{Method \code{show()}}{
-print method
+show method
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{MultipartiteSBM_fit$show(type = "Fit of a Multipartite Stochastic Block Model")}\if{html}{\out{</div>}}
 }
@@ -132,7 +132,7 @@ print method
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{type}}{character to tune the displayed name}
+\item{\code{type}}{character used to specify the type of SBM}
 }
 \if{html}{\out{</div>}}
 }
