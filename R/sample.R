@@ -216,6 +216,8 @@ sampleMultipartiteSBM <- function(nbNodes,
                             dimLabels = NULL,
                             seed = NULL) {
 
+
+ # browser()
   nbNetworks <- length(connectParam)
 
   # transfo intro GREMLINS param
@@ -279,11 +281,8 @@ SampleMultiplexSBM <- function(nbNodes,
 
 
 
-  if (length(unique(c(length(model),length(connectParam),nbLayers)))>1)
-    stop("length of vector model and length of list connectParam and number of layers should match")
-
   # block prop list ou simple vecteur
-  if ((length(nbNodes)==2 & is.list(blockProp)) | (length(nbNodes)==1 & !is.list(blockProp)))
+  if (!((length(nbNodes)==2 & is.list(blockProp)) | (length(nbNodes)==1 & !is.list(blockProp)) | (length(nbNodes)==1 & is.list(blockProp) & length(blockProp)==1 )))
     stop("length of vector nbNodes and length of list blockProp should match")
 
   # same sanity check as in the R6 class MultiplexSBM_fit
@@ -305,6 +304,8 @@ SampleMultiplexSBM <- function(nbNodes,
     ## TODO dependent case based on help from blockmodels function
     if (dBern)
     {
+      # which connect param to input ?
+
       if (directed == "bipartite")
       {
 
@@ -353,9 +354,14 @@ SampleMultiplexSBM <- function(nbNodes,
 
 
    if (!dependent)  {
+     if (length(unique(c(length(model),length(connectParam),nbLayers)))>1)
+       stop("length of vector model and length of list connectParam and number of layers should match")
+
      archiMultipartite <- matrix(1,nrow=nbLayers,ncol=2)
      if (type == "bipartite") archiMultipartite[,2] <- 2
      directed <- rep(type=="directed",nbLayers)
+     if (!is.list(blockProp)) blockProp = list(blockProp)
+     print("use of sampleMultipartite")
      return(sampleMultipartiteSBM(nbNodes,blockProp,archiMultipartite,connectParam,model,directed,dimLabels,seed))
    }
 
