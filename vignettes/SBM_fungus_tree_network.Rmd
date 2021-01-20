@@ -81,7 +81,7 @@ We look for some latent structure of the network by adjusting a simple SBM with 
 
 ```{r simpleSBM}
 mySimpleSBM <- tree_tree_binary %>% 
-  estimateSimpleSBM("bernoulli", dimLabels = list(row = 'tree', col='tree'), estimOptions = list(verbosity = 0, plot = FALSE))
+  estimateSimpleSBM("bernoulli", dimLabels = 'tree', estimOptions = list(verbosity = 0, plot = FALSE))
 ```
 
 Once fitted, the user can manipulate the fitted model by accessing the various fields and methods enjoyed by the class `simpleSBMfit`. Most important fields and methods are recalled to the user via the `show` method:
@@ -162,7 +162,7 @@ Here again, we look for some latent structure of the network by adjusting a simp
 
 ```{r simpleSBM Poisson} 
 mySimpleSBMPoisson <- tree_tree %>% 
-  estimateSimpleSBM("poisson", dimLabels = list(row = 'tree', col= 'tree'),estimOptions = list(verbosity = 0, plot = FALSE))
+  estimateSimpleSBM("poisson", dimLabels = 'tree', estimOptions = list(verbosity = 0, plot = FALSE))
 ```
 
 Once fitted, the user can manipulate the fitted model by accessing the various fields and methods enjoyed by the class `simpleSBMfit`. Most important fields and methods are recalled to the user via the `show` method:
@@ -217,7 +217,7 @@ mySimpleSBMCov<-
   estimateSimpleSBM(
     model = 'poisson', 
     directed = FALSE, 
-    dimLabels = list(row = 'tree', col= 'tree'),
+    dimLabels = 'tree',
     covariates  = fungusTreeNetwork$covar_tree, 
     estimOptions = list(verbosity = 0, plot = FALSE, nbCores = 2)
   )
@@ -264,7 +264,7 @@ plotMyMatrix(fungusTreeNetwork$fungus_tree, dimLabels = list(row = 'fungis', col
 ```{r tree_fungi_bipartite network}
 myBipartiteSBM <- 
   fungusTreeNetwork$fungus_tree %>% 
-  estimateBipartiteSBM(model = 'bernoulli', dimLabels = list(row = 'fungis', col= 'tree'),estimOptions = list(verbosity = 0, plot = FALSE))
+  estimateBipartiteSBM(model = 'bernoulli', dimLabels = c('fungis', 'tree'),estimOptions = list(verbosity = 0, plot = FALSE))
 ```
 
 ```{r bipartite.sbm fields}
@@ -278,7 +278,7 @@ coef(myBipartiteSBM, 'connectivity')
 We can now plot the reorganized matrix. 
 
 ```{r plot bipartite}
-plot(myBipartiteSBM, dimLabels = list(row = 'fungis', col = 'tree'))
+plot(myBipartiteSBM, dimLabels = c('fungis', 'tree'))
 ```
 
 

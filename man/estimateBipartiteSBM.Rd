@@ -7,7 +7,7 @@
 estimateBipartiteSBM(
   netMat,
   model = "bernoulli",
-  dimLabels = list(row = "row", col = "col"),
+  dimLabels = c(row = "row", col = "col"),
   covariates = list(),
   estimOptions = list()
 )
@@ -55,7 +55,7 @@ connectParam <- list(mean = means)
 mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'bernoulli')
 
 ## Estimation
-myBipartiteSBM <- estimateBipartiteSBM(mySampler$netMatrix, estimOptions = list(plot = FALSE))
+myBipartiteSBM <- estimateBipartiteSBM(mySampler$networkData, estimOptions = list(plot = FALSE))
 plot(myBipartiteSBM, 'expected')
 
 ### =======================================
@@ -70,7 +70,7 @@ mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'poiss
 
 ## Estimation
 myBipartiteSBM <-
-  estimateBipartiteSBM(mySampler$netMatrix, 'poisson', estimOptions = list(plot = FALSE))
+  estimateBipartiteSBM(mySampler$networkData, 'poisson', estimOptions = list(plot = FALSE))
 plot(myBipartiteSBM, 'expected')
 
 ### =======================================
@@ -84,7 +84,7 @@ mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'gauss
 
 ## Estimation
 myBipartiteSBM <-
-  estimateBipartiteSBM(mySampler$netMatrix, 'gaussian', estimOptions = list(plot = FALSE))
+  estimateBipartiteSBM(mySampler$networkData, 'gaussian', estimOptions = list(plot = FALSE))
 plot(myBipartiteSBM, 'expected')
 
 }

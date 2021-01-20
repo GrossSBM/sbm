@@ -29,7 +29,6 @@ reference:
       Set of classes and functions for manipulating simple stochastic block models
   contents:
     - '`SimpleSBM`'
-    - '`SimpleSBM_sampler`'
     - '`SimpleSBM_fit`'
     - '`sampleSimpleSBM`'
     - '`estimateSimpleSBM`'
@@ -38,7 +37,6 @@ reference:
     Set of classes and functions for manipulating bipartite stochastic block models
   contents:
     - '`BipartiteSBM`'
-    - '`BipartiteSBM_sampler`'
     - '`BipartiteSBM_fit`'
     - '`sampleBipartiteSBM`'
     - '`estimateBipartiteSBM`'
@@ -81,6 +79,4 @@ reference:
     Comprehensive list of remaning classes and methods used internally
   contents:
     - '`SBM`'
-    - '`SBM_fit`'
-    - '`SBM_sampler`'
     - '`plotAlluvial`'

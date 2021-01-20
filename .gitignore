@@ -38,7 +38,10 @@ vignettes/*.pdf
 # R Environment Variables
 .Renviron
 .Rproj.user
+
+# others repo or files
 docs/
 inst/doc
 doc
 Meta
+tests/testthat/Rplots.pdf

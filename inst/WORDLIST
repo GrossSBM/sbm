@@ -1,5 +1,4 @@
 BipartiteSBM
-BipartiteSBMs
 Blockmodels
 CICOLMA
 CMD
@@ -25,7 +24,6 @@ Piou
 PloS
 SBMs
 SimpleSBM
-SimpleSBMs
 VE
 VEM
 Vacher
@@ -43,7 +41,6 @@ crectangle
 csquare
 darkolivegreen
 de
-dev
 dimLabels
 dotdash
 dyad
@@ -54,7 +51,6 @@ extrafloral
 florals
 frugivorous
 fungusTreeNetwwork
-getBM
 ggplot
 großBM
 igraph
@@ -79,7 +75,7 @@ nbCores
 nbFG
 nbNetworks
 nectaries
-netMatrix
+nodeName
 nodeNames
 plotMyMatrix
 plotOptions
