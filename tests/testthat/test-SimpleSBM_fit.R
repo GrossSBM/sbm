@@ -16,7 +16,7 @@ test_that("SimpleSBM_fit 'Bernoulli' model, undirected, no covariate", {
   ## Basic construction - check for wrong specifications
   mySampler <- SimpleSBM$new('bernoulli', nbNodes, FALSE, blockProp, connectParam)
   mySampler$rMemberships(store = TRUE)
-  mySampler$rAdjacency(store = TRUE)
+  mySampler$rEdges(store = TRUE)
 
   ## Construction----------------------------------------------------------------
   mySBM <- SimpleSBM_fit$new(mySampler$networkData, 'bernoulli', FALSE)
@@ -32,8 +32,7 @@ test_that("SimpleSBM_fit 'Bernoulli' model, undirected, no covariate", {
   ## Checking field access and format prior to estimation
   ## parameters
   expect_equal(mySBM$modelName, 'bernoulli')
-  expect_equal(mySBM$nbNodes, nbNodes)
-  expect_equal(unname(mySBM$dimension), nbNodes)
+  expect_equal(unname(mySBM$nbNodes), nbNodes)
   expect_equal(mySBM$nbDyads, nbNodes*(nbNodes - 1)/2)
   expect_true(all(is.na(diag(mySBM$networkData))))
   expect_true(isSymmetric(mySBM$networkData))
@@ -95,7 +94,7 @@ test_that("SimpleSBM_fit 'Bernoulli' model, directed, no covariate", {
   ## Basic construction - check for wrong specifications
   mySampler <- SimpleSBM$new('bernoulli', nbNodes, TRUE, blockProp, connectParam)
   mySampler$rMemberships(store = TRUE)
-  mySampler$rAdjacency(store = TRUE)
+  mySampler$rEdges(store = TRUE)
 
   ## Construction----------------------------------------------------------------
   mySBM <- SimpleSBM_fit$new(mySampler$networkData, 'bernoulli', TRUE)
@@ -111,8 +110,7 @@ test_that("SimpleSBM_fit 'Bernoulli' model, directed, no covariate", {
   ## Checking field access and format prior to estimation
   ## parameters
   expect_equal(mySBM$modelName, 'bernoulli')
-  expect_equal(mySBM$nbNodes, nbNodes)
-  expect_equal(unname(mySBM$dimension), nbNodes)
+  expect_equal(unname(mySBM$nbNodes), nbNodes)
   expect_equal(mySBM$nbDyads, nbNodes*(nbNodes - 1))
   expect_true(all(is.na(diag(mySBM$networkData))))
   expect_true(!isSymmetric(mySBM$networkData))
@@ -173,7 +171,7 @@ test_that("SimpleSBM_fit 'Poisson' model, undirected, no covariate", {
   ## Basic construction - check for wrong specifications
   mySampler <- SimpleSBM$new('poisson', nbNodes, FALSE, blockProp, connectParam)
   mySampler$rMemberships(store = TRUE)
-  mySampler$rAdjacency(store = TRUE)
+  mySampler$rEdges(store = TRUE)
 
   ## Construction----------------------------------------------------------------
   mySBM <- SimpleSBM_fit$new(mySampler$networkData, 'poisson', FALSE)
@@ -189,8 +187,7 @@ test_that("SimpleSBM_fit 'Poisson' model, undirected, no covariate", {
   ## Checking field access and format prior to estimation
   ## parameters
   expect_equal(mySBM$modelName, 'poisson')
-  expect_equal(mySBM$nbNodes, nbNodes)
-  expect_equal(unname(mySBM$dimension), nbNodes)
+  expect_equal(unname(mySBM$nbNodes), nbNodes)
   expect_equal(mySBM$nbDyads, nbNodes*(nbNodes - 1)/2)
   expect_true(all(is.na(diag(mySBM$networkData))))
   expect_true(isSymmetric(mySBM$networkData))
@@ -246,12 +243,11 @@ test_that("SimpleSBM_fit 'Poisson' model, directed, no covariate", {
   ## Basic construction - check for wrong specifications
   mySampler <- SimpleSBM$new('poisson', nbNodes, TRUE, blockProp, connectParam)
   mySampler$rMemberships(store = TRUE)
-  mySampler$rAdjacency(store = TRUE)
+  mySampler$rEdges(store = TRUE)
 
   ## Construction----------------------------------------------------------------
   mySBM <- SimpleSBM_fit$new(mySampler$networkData, 'poisson', TRUE)
   expect_error(SimpleSBM_fit$new(SamplerBernoulli$networkData, 'poison', TRUE))
-  expect_error(SimpleSBM_fit$new(SamplerBernoulli$networkData[1:20, 1:30], 'poisson', FALSE))
   expect_error(SimpleSBM_fit$new(SamplerBernoulli$networkData, 'poisson', FALSE))
 
   ## Checking class
@@ -262,8 +258,7 @@ test_that("SimpleSBM_fit 'Poisson' model, directed, no covariate", {
   ## Checking field access and format prior to estimation
   ## parameters
   expect_equal(mySBM$modelName, 'poisson')
-  expect_equal(mySBM$nbNodes, nbNodes)
-  expect_equal(unname(mySBM$dimension), nbNodes)
+  expect_equal(unname(mySBM$nbNodes), nbNodes)
   expect_equal(mySBM$nbDyads, nbNodes*(nbNodes - 1))
   expect_true(all(is.na(diag(mySBM$networkData))))
   expect_true(!isSymmetric(mySBM$networkData))
@@ -320,7 +315,7 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, no covariate", {
   ## Basic construction - check for wrong specifications
   mySampler <- SimpleSBM$new('gaussian', nbNodes, FALSE, blockProp, connectParam)
   mySampler$rMemberships(store = TRUE)
-  mySampler$rAdjacency(store = TRUE)
+  mySampler$rEdges(store = TRUE)
 
   ## Construction----------------------------------------------------------------
   mySBM <- SimpleSBM_fit$new(mySampler$networkData, 'gaussian', FALSE)
@@ -336,8 +331,7 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, no covariate", {
   ## Checking field access and format prior to estimation
   ## parameters
   expect_equal(mySBM$modelName, 'gaussian')
-  expect_equal(mySBM$nbNodes, nbNodes)
-  expect_equal(unname(mySBM$dimension), nbNodes)
+  expect_equal(unname(mySBM$nbNodes), nbNodes)
   expect_equal(mySBM$nbDyads, nbNodes*(nbNodes - 1)/2)
   expect_true(all(is.na(diag(mySBM$networkData))))
   expect_true(isSymmetric(mySBM$networkData))
@@ -391,7 +385,7 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, no covariate", {
   ## Basic construction - check for wrong specifications
   mySampler <- SimpleSBM$new('gaussian', nbNodes, TRUE, blockProp, connectParam)
   mySampler$rMemberships(store = TRUE)
-  mySampler$rAdjacency(store = TRUE)
+  mySampler$rEdges(store = TRUE)
 
   ## Construction----------------------------------------------------------------
   mySBM <- SimpleSBM_fit$new(mySampler$networkData, 'gaussian', TRUE)
@@ -407,8 +401,7 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, no covariate", {
   ## Checking field access and format prior to estimation
   ## parameters
   expect_equal(mySBM$modelName, 'gaussian')
-  expect_equal(mySBM$nbNodes, nbNodes)
-  expect_equal(unname(mySBM$dimension), nbNodes)
+  expect_equal(unname(mySBM$nbNodes), nbNodes)
   expect_equal(mySBM$nbDyads, nbNodes*(nbNodes - 1))
   expect_true(all(is.na(diag(mySBM$networkData))))
   expect_true(!isSymmetric(mySBM$networkData))

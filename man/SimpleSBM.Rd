@@ -14,6 +14,14 @@ R6 class for Simple SBM
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
+\item{\code{dimLabels}}{a single character giving the label of the nodes}
+
+\item{\code{blockProp}}{vector of block proportions (aka prior probabilities of each block)}
+
+\item{\code{connectParam}}{parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli}
+
+\item{\code{probMemberships}}{matrix of estimated probabilities for block memberships for all nodes}
+
 \item{\code{nbBlocks}}{number of blocks}
 
 \item{\code{nbDyads}}{number of dyads (potential edges in the network)}
@@ -31,7 +39,7 @@ R6 class for Simple SBM
 \itemize{
 \item \href{#method-new}{\code{SimpleSBM$new()}}
 \item \href{#method-rMemberships}{\code{SimpleSBM$rMemberships()}}
-\item \href{#method-rAdjacency}{\code{SimpleSBM$rAdjacency()}}
+\item \href{#method-rEdges}{\code{SimpleSBM$rEdges()}}
 \item \href{#method-predict}{\code{SimpleSBM$predict()}}
 \item \href{#method-show}{\code{SimpleSBM$show()}}
 \item \href{#method-plot}{\code{SimpleSBM$plot()}}
@@ -42,6 +50,7 @@ R6 class for Simple SBM
 \out{<details open ><summary>Inherited methods</summary>}
 \itemize{
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="print">}\href{../../sbm/html/SBM.html#method-print}{\code{sbm::SBM$print()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="rNetwork">}\href{../../sbm/html/SBM.html#method-rNetwork}{\code{sbm::SBM$rNetwork()}}\out{</span>}
 }
 \out{</details>}
 }
@@ -89,7 +98,7 @@ constructor for SBM
 \if{html}{\out{<a id="method-rMemberships"></a>}}
 \if{latex}{\out{\hypertarget{method-rMemberships}{}}}
 \subsection{Method \code{rMemberships()}}{
-a method to generate a vector of block indicators
+a method to sample new block memberships for the current SBM
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{SimpleSBM$rMemberships(store = FALSE)}\if{html}{\out{</div>}}
 }
@@ -106,18 +115,18 @@ the sampled blocks
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-rAdjacency"></a>}}
-\if{latex}{\out{\hypertarget{method-rAdjacency}{}}}
-\subsection{Method \code{rAdjacency()}}{
-a method to sample a network data for the current SBM
+\if{html}{\out{<a id="method-rEdges"></a>}}
+\if{latex}{\out{\hypertarget{method-rEdges}{}}}
+\subsection{Method \code{rEdges()}}{
+a method to sample a network data (edges) for the current SBM
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{SimpleSBM$rAdjacency(store = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{SimpleSBM$rEdges(store = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{store}}{should the sampled network be stored (and overwrite the existing data)? Default to FALSE}
+\item{\code{store}}{should the sampled edges be stored (and overwrite the existing data)? Default to FALSE}
 }
 \if{html}{\out{</div>}}
 }

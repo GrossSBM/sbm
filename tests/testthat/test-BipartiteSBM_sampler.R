@@ -30,8 +30,7 @@ test_that("Construction, fields access and other basics work in class BipartiteS
 
   ## parameters
   expect_equal(mySampler$modelName, 'bernoulli')
-  expect_equal(mySampler$nbNodes, nbNodes)
-  expect_equal(unname(mySampler$dimension), nbNodes)
+  expect_equal(unname(mySampler$nbNodes), nbNodes)
   expect_equal(mySampler$nbDyads, nbNodes[1]*nbNodes[2])
 
   ## covariates
@@ -45,7 +44,7 @@ test_that("Construction, fields access and other basics work in class BipartiteS
 
   ## network
   mySampler$rMemberships(store = TRUE)
-  mySampler$rIncidence(store = TRUE)
+  mySampler$rEdges(store = TRUE)
   expect_equal(dim(mySampler$expectation), nbNodes)
   expect_true(all(mySampler$expectation >= 0, na.rm = TRUE))
   expect_true(all(mySampler$expectation <= 1, na.rm = TRUE))
@@ -92,15 +91,14 @@ test_that("Construction, fields access and other basics work in class BipartiteS
 
   ## parameters
   expect_equal(mySampler$modelName, 'poisson')
-  expect_equal(mySampler$nbNodes, nbNodes)
-  expect_equal(unname(mySampler$dimension), nbNodes)
+  expect_equal(unname(mySampler$nbNodes), nbNodes)
   expect_equal(mySampler$nbDyads, nbNodes[1]*nbNodes[2])
   expect_equal(mySampler$connectParam$mean, means)
   expect_null(mySampler$connectParam$var)
 
   ## network
   mySampler$rMemberships(store = TRUE)
-  mySampler$rIncidence(store = TRUE)
+  mySampler$rEdges(store = TRUE)
   expect_equal(dim(mySampler$expectation), nbNodes)
   expect_true(all(mySampler$expectation >= 0, na.rm = TRUE))
   expect_false(isSymmetric(mySampler$networkData))
@@ -147,15 +145,14 @@ test_that("Construction, fields access and other basics work in class BipartiteS
 
   ## parameters
   expect_equal(mySampler$modelName, 'gaussian')
-  expect_equal(mySampler$nbNodes, nbNodes)
-  expect_equal(unname(mySampler$dimension), nbNodes)
+  expect_equal(unname(mySampler$nbNodes), nbNodes)
   expect_equal(mySampler$nbDyads, nbNodes[1]*nbNodes[2])
   expect_equal(mySampler$connectParam$mean, means)
   expect_gt(mySampler$connectParam$var, 0)
 
   ## network
   mySampler$rMemberships(store = TRUE)
-  mySampler$rIncidence(store = TRUE)
+  mySampler$rEdges(store = TRUE)
   expect_equal(dim(mySampler$expectation), nbNodes)
   expect_false(isSymmetric(mySampler$networkData))
 

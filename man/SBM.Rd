@@ -2,24 +2,22 @@
 % Please edit documentation in R/R6Class-SBM.R
 \name{SBM}
 \alias{SBM}
-\title{R6 virtual class for SBM representation (mother class of Simple and Bipartite SBM fit and sampler)}
+\title{R6 virtual class for SBM representation (mother class of SimpleSBM, BipartiteSBM, MultipartiteSBM)}
 \description{
-R6 virtual class for SBM representation (mother class of Simple and Bipartite SBM fit and sampler)
+R6 virtual class for SBM representation (mother class of SimpleSBM, BipartiteSBM, MultipartiteSBM)
 
-R6 virtual class for SBM representation (mother class of Simple and Bipartite SBM fit and sampler)
+R6 virtual class for SBM representation (mother class of SimpleSBM, BipartiteSBM, MultipartiteSBM)
 }
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
 \item{\code{modelName}}{character, the family of model for the distribution of the edges}
 
-\item{\code{dimension}}{dimension of the successive elements connecting the network}
-
 \item{\code{directed}}{mode of the network data (directed or not or not applicable)}
 
 \item{\code{dimLabels}}{vector or list of characters, the label of each dimension}
 
-\item{\code{nbNodes}}{vector of size 2: number of nodes (rows, columns)}
+\item{\code{nbNodes}}{vector describing the number of the successive elements connecting the network}
 
 \item{\code{nbCovariates}}{integer, the number of covariates}
 
@@ -45,6 +43,7 @@ R6 virtual class for SBM representation (mother class of Simple and Bipartite SB
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{SBM$new()}}
+\item \href{#method-rNetwork}{\code{SBM$rNetwork()}}
 \item \href{#method-show}{\code{SBM$show()}}
 \item \href{#method-print}{\code{SBM$print()}}
 \item \href{#method-clone}{\code{SBM$clone()}}
@@ -88,6 +87,26 @@ constructor for SBM
 \item{\code{covarList}}{optional list of covariates data}
 }
 \if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-rNetwork"></a>}}
+\if{latex}{\out{\hypertarget{method-rNetwork}{}}}
+\subsection{Method \code{rNetwork()}}{
+a method to sample a network data for the current SBM (blocks and edges)
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{SBM$rNetwork(store = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{store}}{should the sampled network be stored (and overwrite the existing data)? Default to FALSE}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+a list with the sampled block and network
 }
 }
 \if{html}{\out{<hr>}}

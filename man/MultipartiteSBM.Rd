@@ -8,9 +8,6 @@ R6 Class definition of a Multipartite SBM
 
 R6 Class definition of a Multipartite SBM
 }
-\details{
-R6 virtual class for Multipartite SBM representation
-}
 \section{Super class}{
 \code{\link[sbm:SBM]{sbm::SBM}} -> \code{MultipartiteSBM}
 }
@@ -38,6 +35,7 @@ R6 virtual class for Multipartite SBM representation
 \if{html}{
 \out{<details open ><summary>Inherited methods</summary>}
 \itemize{
+\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="rNetwork">}\href{../../sbm/html/SBM.html#method-rNetwork}{\code{sbm::SBM$rNetwork()}}\out{</span>}
 }
 \out{</details>}
 }
@@ -51,7 +49,7 @@ constructor for Multipartite SBM
   model = character(0),
   architecture = matrix(NA, 0, 2),
   directed = logical(0),
-  dimension = numeric(0),
+  nbNodes = numeric(0),
   dimLabels = character(0),
   blockProp = list(),
   connectParam = list()
@@ -67,9 +65,9 @@ constructor for Multipartite SBM
 
 \item{\code{directed}}{vector of logical: are the network directed or not?}
 
-\item{\code{dimension}}{number of nodes in each functional groups}
+\item{\code{nbNodes}}{number of nodes in each dimension/part of the network}
 
-\item{\code{dimLabels}}{labels of each functional groups}
+\item{\code{dimLabels}}{labels of each par of the network}
 
 \item{\code{blockProp}}{parameters for block proportions (vector of list of vectors)}
 

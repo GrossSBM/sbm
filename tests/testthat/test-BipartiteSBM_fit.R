@@ -16,7 +16,7 @@ test_that("BipartiteSBM_fit 'Bernoulli' model, undirected, no covariate", {
   ## Basic construction - check for wrong specifications
   mySampler <- BipartiteSBM$new('bernoulli', nbNodes, blockProp, connectParam)
   mySampler$rMemberships(store = TRUE)
-  mySampler$rIncidence(store = TRUE)
+  mySampler$rEdges(store = TRUE)
 
   ## Construction----------------------------------------------------------------
   mySBM <- BipartiteSBM_fit$new(mySampler$networkData, 'bernoulli')
@@ -30,8 +30,7 @@ test_that("BipartiteSBM_fit 'Bernoulli' model, undirected, no covariate", {
   ## Checking field access and format prior to estimation
   ## parameters
   expect_equal(mySBM$modelName, 'bernoulli')
-  expect_equal(mySBM$nbNodes, nbNodes)
-  expect_equal(unname(mySBM$dimension), nbNodes)
+  expect_equal(unname(mySBM$nbNodes), nbNodes)
   expect_equal(mySBM$nbDyads, nbNodes[1]*nbNodes[2])
   expect_true(is.matrix(mySBM$connectParam$mean))
 
@@ -92,7 +91,7 @@ test_that("BipartiteSBM_fit 'Poisson' model, undirected, no covariate", {
   ## Basic construction - check for wrong specifications
   mySampler <- BipartiteSBM$new('poisson', nbNodes, blockProp, connectParam)
   mySampler$rMemberships(store = TRUE)
-  mySampler$rIncidence(store = TRUE)
+  mySampler$rEdges(store = TRUE)
 
   ## Construction----------------------------------------------------------------
   mySBM <- BipartiteSBM_fit$new(mySampler$networkData, 'poisson')
@@ -106,8 +105,7 @@ test_that("BipartiteSBM_fit 'Poisson' model, undirected, no covariate", {
   ## Checking field access and format prior to estimation
   ## parameters
   expect_equal(mySBM$modelName, 'poisson')
-  expect_equal(mySBM$nbNodes, nbNodes)
-  expect_equal(unname(mySBM$dimension), nbNodes)
+  expect_equal(unname(mySBM$nbNodes), nbNodes)
   expect_equal(mySBM$nbDyads, nbNodes[1]*nbNodes[2])
   expect_true(is.matrix(mySBM$connectParam$mean))
 
@@ -161,7 +159,7 @@ test_that("BipartiteSBM_fit 'Gaussian' model, undirected, no covariate", {
   ## Basic construction - check for wrong specifications
   mySampler <- BipartiteSBM$new('gaussian', nbNodes, blockProp, connectParam)
   mySampler$rMemberships(store = TRUE)
-  mySampler$rIncidence(store = TRUE)
+  mySampler$rEdges(store = TRUE)
 
   ## Construction----------------------------------------------------------------
   mySBM <- BipartiteSBM_fit$new(mySampler$networkData, 'gaussian')
@@ -175,8 +173,7 @@ test_that("BipartiteSBM_fit 'Gaussian' model, undirected, no covariate", {
   ## Checking field access and format prior to estimation
   ## parameters
   expect_equal(mySBM$modelName, 'gaussian')
-  expect_equal(mySBM$nbNodes, nbNodes)
-  expect_equal(unname(mySBM$dimension), nbNodes)
+  expect_equal(unname(mySBM$nbNodes), nbNodes)
   expect_equal(mySBM$nbDyads, nbNodes[1]*nbNodes[2])
   expect_true(is.matrix(mySBM$connectParam$mean))
 
@@ -233,7 +230,7 @@ test_that("active bindings are working in the class", {
   myBipartite$blockProp <- list(colMeans(tau1),colMeans(tau2))
   myBipartite$connectParam <- list(mean = matrix(runif(3*2),3,2))
 
-  expect_equal(unname(myBipartite$dimension),c(20,10))
+  expect_equal(unname(myBipartite$nbNodes),c(20,10))
 
   expect_equal(myBipartite$memberships[[1]], 1+(tau1[,1]<.5)*1)
   expect_equal(dim(myBipartite$connectParam$mean),c(3,2))

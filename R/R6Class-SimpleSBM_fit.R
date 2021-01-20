@@ -5,7 +5,8 @@
 #' @import R6 blockmodels
 #' @export
 SimpleSBM_fit <-
-  R6::R6Class(classname = "SimpleSBM_fit",
+  R6::R6Class(
+    classname = "SimpleSBM_fit",
     inherit = SimpleSBM,
     private = list(
       J              = NULL, # approximation of the log-likelihood
@@ -31,7 +32,6 @@ SimpleSBM_fit <-
       }
     ),
     public = list(
-      #--------------------------------------------
       #' @description constructor for a Simple SBM fit
       #' @param adjacencyMatrix square (weighted) matrix
       #' @param model character (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'})
@@ -142,47 +142,19 @@ SimpleSBM_fit <-
       #' @param type character used to specify the type of SBM
       show = function(type = "Fit of a Simple Stochastic Block Model"){
         super$show(type)
-        cat("  $probMemberships, $memberships, $loglik, $ICL, $storedModels, $setModel \n")
-        cat("* S3 methods \n")
-        cat("  plot, print, coef, predict, fitted \n")
+        cat("* Additional fields\n")
+        cat("  $probMemberships, $loglik, $ICL, $storedModels, \n")
+        cat("* Additional methods \n")
+        cat("  predict, fitted, $setModel, $reorder \n")
       }
     ),
     active = list(
-      #' @field memberships vector of clustering
-      memberships = function(value) {as_clustering(private$Z)},
-      #' @field blockProp vector of block proportions (aka prior probabilities of each block)
-      blockProp   = function(value) {
-        if (missing(value))
-          return(private$pi)
-        else {
-          stopifnot(is.numeric(value))
-          private$pi <- value
-        }
-      },
-      #' @field connectParam parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli
-      connectParam   = function(value) {
-        if (missing(value))
-          return(private$theta)
-        else {
-          stopifnot(is.list(value))
-          private$theta <- value
-        }
-      },
-      #' @field probMemberships  matrix of estimated probabilities for block memberships for all nodes
-      probMemberships = function(value) {
-        if (missing(value))
-          return(private$Z)
-        else {
-          stopifnot(nrow(value)==private$dim)
-          private$Z <- value
-        }
-      },
       #' @field loglik double: approximation of the log-likelihood (variational lower bound) reached
       loglik = function(value) {private$J},
       #' @field ICL double: value of the integrated classification log-likelihood
       ICL    = function(value) {private$vICL},
       #' @field penalty double, value of the penalty term in ICL
-      penalty  = function(value) {(self$nbConnectParam + self$nbCovariates) * log(self$nbDyads) + (self$nbBlocks-1) * log(self$nbNodes)},
+      penalty  = function(value) {unname((self$nbConnectParam + self$nbCovariates) * log(self$nbDyads) + (self$nbBlocks-1) * log(self$nbNodes))},
       #' @field entropy double, value of the entropy due to the clustering distribution
       entropy  = function(value) {-sum(.xlogx(private$Z))},
       #' @field storedModels data.frame of all models fitted (and stored) during the optimization

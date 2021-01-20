@@ -14,6 +14,14 @@ R6 class for Bipartite SBM
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
+\item{\code{dimLabels}}{vector of two characters giving the label of each connected dimension (row, col)}
+
+\item{\code{blockProp}}{list of two vectors of block proportions (aka prior probabilities of each block)}
+
+\item{\code{connectParam}}{parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli}
+
+\item{\code{probMemberships}}{matrix of estimated probabilities for block memberships for all nodes}
+
 \item{\code{nbBlocks}}{vector of size 2: number of blocks (rows, columns)}
 
 \item{\code{nbDyads}}{number of dyads (potential edges in the network)}
@@ -31,7 +39,7 @@ R6 class for Bipartite SBM
 \itemize{
 \item \href{#method-new}{\code{BipartiteSBM$new()}}
 \item \href{#method-rMemberships}{\code{BipartiteSBM$rMemberships()}}
-\item \href{#method-rIncidence}{\code{BipartiteSBM$rIncidence()}}
+\item \href{#method-rEdges}{\code{BipartiteSBM$rEdges()}}
 \item \href{#method-predict}{\code{BipartiteSBM$predict()}}
 \item \href{#method-show}{\code{BipartiteSBM$show()}}
 \item \href{#method-plot}{\code{BipartiteSBM$plot()}}
@@ -42,6 +50,7 @@ R6 class for Bipartite SBM
 \out{<details open ><summary>Inherited methods</summary>}
 \itemize{
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="print">}\href{../../sbm/html/SBM.html#method-print}{\code{sbm::SBM$print()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="rNetwork">}\href{../../sbm/html/SBM.html#method-rNetwork}{\code{sbm::SBM$rNetwork()}}\out{</span>}
 }
 \out{</details>}
 }
@@ -67,7 +76,7 @@ constructor for SBM
 \describe{
 \item{\code{model}}{character describing the type of model}
 
-\item{\code{nbNodes}}{number of nodes in the network}
+\item{\code{nbNodes}}{number of nodes in each dimension of the network}
 
 \item{\code{blockProp}}{parameters for block proportions (vector of list of vectors)}
 
@@ -86,7 +95,7 @@ constructor for SBM
 \if{html}{\out{<a id="method-rMemberships"></a>}}
 \if{latex}{\out{\hypertarget{method-rMemberships}{}}}
 \subsection{Method \code{rMemberships()}}{
-a method to generate a vector of block indicators
+a method to sample new block memberships for the current SBM
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{BipartiteSBM$rMemberships(store = FALSE)}\if{html}{\out{</div>}}
 }
@@ -103,18 +112,18 @@ the sampled blocks
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-rIncidence"></a>}}
-\if{latex}{\out{\hypertarget{method-rIncidence}{}}}
-\subsection{Method \code{rIncidence()}}{
-a method to sample a network data for the current SBM
+\if{html}{\out{<a id="method-rEdges"></a>}}
+\if{latex}{\out{\hypertarget{method-rEdges}{}}}
+\subsection{Method \code{rEdges()}}{
+a method to sample a network data (edges) for the current SBM
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{BipartiteSBM$rIncidence(store = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{BipartiteSBM$rEdges(store = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{store}}{should the sampled network be stored (and overwrite the existing data)? Default to FALSE}
+\item{\code{store}}{should the sampled edges be stored (and overwrite the existing data)? Default to FALSE}
 }
 \if{html}{\out{</div>}}
 }

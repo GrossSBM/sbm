@@ -27,14 +27,6 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{memberships}}{list of size 2: vector of memberships in row, in column.}
-
-\item{\code{blockProp}}{list of block proportions (aka prior probabilities of each block)}
-
-\item{\code{probMemberships}}{list of 2 matrices of estimated probabilities for block memberships for all nodes}
-
-\item{\code{connectParam}}{parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli}
-
 \item{\code{loglik}}{double: approximation of the log-likelihood (variational lower bound) reached}
 
 \item{\code{ICL}}{double: value of the integrated classification log-likelihood}
@@ -54,6 +46,7 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 \item \href{#method-optimize}{\code{BipartiteSBM_fit$optimize()}}
 \item \href{#method-setModel}{\code{BipartiteSBM_fit$setModel()}}
 \item \href{#method-reorder}{\code{BipartiteSBM_fit$reorder()}}
+\item \href{#method-show}{\code{BipartiteSBM_fit$show()}}
 \item \href{#method-clone}{\code{BipartiteSBM_fit$clone()}}
 }
 }
@@ -61,11 +54,11 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 \out{<details ><summary>Inherited methods</summary>}
 \itemize{
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="print">}\href{../../sbm/html/SBM.html#method-print}{\code{sbm::SBM$print()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="rNetwork">}\href{../../sbm/html/SBM.html#method-rNetwork}{\code{sbm::SBM$rNetwork()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="BipartiteSBM" data-id="plot">}\href{../../sbm/html/BipartiteSBM.html#method-plot}{\code{sbm::BipartiteSBM$plot()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="BipartiteSBM" data-id="predict">}\href{../../sbm/html/BipartiteSBM.html#method-predict}{\code{sbm::BipartiteSBM$predict()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="BipartiteSBM" data-id="rIncidence">}\href{../../sbm/html/BipartiteSBM.html#method-rIncidence}{\code{sbm::BipartiteSBM$rIncidence()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="BipartiteSBM" data-id="rEdges">}\href{../../sbm/html/BipartiteSBM.html#method-rEdges}{\code{sbm::BipartiteSBM$rEdges()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="BipartiteSBM" data-id="rMemberships">}\href{../../sbm/html/BipartiteSBM.html#method-rMemberships}{\code{sbm::BipartiteSBM$rMemberships()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="BipartiteSBM" data-id="show">}\href{../../sbm/html/BipartiteSBM.html#method-show}{\code{sbm::BipartiteSBM$show()}}\out{</span>}
 }
 \out{</details>}
 }
@@ -141,6 +134,23 @@ permute group labels by order of decreasing probability
 \if{html}{\out{<div class="r">}}\preformatted{BipartiteSBM_fit$reorder()}\if{html}{\out{</div>}}
 }
 
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-show"></a>}}
+\if{latex}{\out{\hypertarget{method-show}{}}}
+\subsection{Method \code{show()}}{
+show method
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{BipartiteSBM_fit$show(type = "Fit of a Bipartite Stochastic Block Model")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{type}}{character used to specify the type of SBM}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

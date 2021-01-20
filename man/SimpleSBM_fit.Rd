@@ -27,14 +27,6 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{memberships}}{vector of clustering}
-
-\item{\code{blockProp}}{vector of block proportions (aka prior probabilities of each block)}
-
-\item{\code{connectParam}}{parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli}
-
-\item{\code{probMemberships}}{matrix of estimated probabilities for block memberships for all nodes}
-
 \item{\code{loglik}}{double: approximation of the log-likelihood (variational lower bound) reached}
 
 \item{\code{ICL}}{double: value of the integrated classification log-likelihood}
@@ -59,12 +51,13 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 }
 }
 \if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
+\out{<details ><summary>Inherited methods</summary>}
 \itemize{
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="print">}\href{../../sbm/html/SBM.html#method-print}{\code{sbm::SBM$print()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="rNetwork">}\href{../../sbm/html/SBM.html#method-rNetwork}{\code{sbm::SBM$rNetwork()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SimpleSBM" data-id="plot">}\href{../../sbm/html/SimpleSBM.html#method-plot}{\code{sbm::SimpleSBM$plot()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SimpleSBM" data-id="predict">}\href{../../sbm/html/SimpleSBM.html#method-predict}{\code{sbm::SimpleSBM$predict()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SimpleSBM" data-id="rAdjacency">}\href{../../sbm/html/SimpleSBM.html#method-rAdjacency}{\code{sbm::SimpleSBM$rAdjacency()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SimpleSBM" data-id="rEdges">}\href{../../sbm/html/SimpleSBM.html#method-rEdges}{\code{sbm::SimpleSBM$rEdges()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SimpleSBM" data-id="rMemberships">}\href{../../sbm/html/SimpleSBM.html#method-rMemberships}{\code{sbm::SimpleSBM$rMemberships()}}\out{</span>}
 }
 \out{</details>}

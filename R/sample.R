@@ -29,7 +29,7 @@
 #' mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam, model = 'bernoulli')
 #' plot(mySampler)
 #' mySampler$rMemberships(store = TRUE) # sample new memberships
-#' mySampler$rAdjacency(store = TRUE)   # sample new adjacency matrix
+#' mySampler$rEdges(store = TRUE)   # sample new adjacency matrix
 #' plot(mySampler)
 #' plot(mySampler,type='meso')
 #' hist(mySampler$networkData)
@@ -77,7 +77,7 @@ sampleSimpleSBM <- function(nbNodes,
 
   mySampler <- SimpleSBM$new(model, nbNodes, directed, blockProp, connectParam, dimLabels, covariatesParam, covariates)
   mySampler$rMemberships(store = TRUE)
-  mySampler$rAdjacency(store = TRUE)
+  mySampler$rEdges(store = TRUE)
   mySampler
 }
 

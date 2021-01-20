@@ -1,6 +1,6 @@
 available_models_edges <- c('bernoulli', 'poisson', 'gaussian','ZIgaussian')
 
-#' R6 virtual class for SBM representation (mother class of Simple and Bipartite SBM fit and sampler)
+#' R6 virtual class for SBM representation (mother class of SimpleSBM, BipartiteSBM, MultipartiteSBM)
 #'
 #' @import R6
 SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipartite)
@@ -18,8 +18,8 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       beta          = NULL, # vector of covariates parameters
       Y             = NULL, # network data (matrix or list of matrices)
       X             = NULL, # list of covariates
-      Z             = NULL, # indicator of blocks
-      sampling_func = NULL # a list of functions to sample edge values, depending on the model
+      Z             = NULL, # indicator/probablities of blocks belonging
+      sampling_func = NULL  # a list of functions to sample edge values, depending on the model
     ),
     public = list(
       #' @description constructor for SBM
@@ -84,19 +84,30 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
           )
         )
       },
+      #' @description a method to sample a network data for the current SBM (blocks and edges)
+      #' @param store should the sampled network be stored (and overwrite the existing data)? Default to FALSE
+      #' @return a list with the sampled block and network
+      rNetwork = function(store = FALSE) {
+        Z <- self$rMemberships(store = store)
+        E <- self$rEdges(store = store)
+        list(indMemberships = Z, networkData = E)
+      },
       #' @description print method
       #' @param type character to tune the displayed name
       show = function(type = "Stochastic Block Model") {
         cat(type, "--", self$modelName, "variant\n")
         cat("=====================================================================\n")
-        cat("Dimension = (", self$dimension, ") - (",
+        cat("Dimension = (", self$nbNodes, ") - (",
             self$nbBlocks, ") blocks and",
           ifelse(self$nbCovariates > 0, self$nbCovariates, "no"), "covariate(s).\n")
         cat("=====================================================================\n")
         cat("* Useful fields \n")
-        cat("  $dimension, $modelName, $nbNodes, $nbBlocks, $nbCovariates, $nbDyads\n")
-        cat("  $blockProp, $connectParam, $covarParam, $covarList, $covarEffect, $dimLabels \n")
-      },
+        cat("  $nbNodes, $modelName, $dimLabels, $nbBlocks, $nbCovariates, $nbDyads\n")
+        cat("  $blockProp, $connectParam, $covarParam, $covarList, $covarEffect \n")
+        cat("  $expectation, $indMemberships, $memberships \n")
+        cat("* R6 and S3 methods \n")
+        cat("  $rNetwork, $rMemberships, $rEdges, plot, print, coef \n")
+        },
       #' @description print method
       print = function() self$show()
     ),
@@ -104,20 +115,12 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
     active = list(
       #' @field modelName character, the family of model for the distribution of the edges
       modelName    = function(value) {private$model},
-      #' @field dimension dimension of the successive elements connecting the network
-      dimension    = function(value) {setNames(private$dim, private$dimlab)},
       #' @field directed mode of the network data (directed or not or not applicable)
       directed = function(value) {private$directed_},
       #' @field dimLabels vector or list of characters, the label of each dimension
       dimLabels    = function(value) {private$dimlab},
-      #     if(is.atomic(value)){value <- as.list(value)}
-      #     if(is.null(names(value))){names(value)  = c('row','col')}
-      #     if(all(names(value)==c('col','row'))){value <- list(row = value[[2]],col = value[[1]])}
-      #     if(any(names(value) != c('row','col'))){names(value) = c('row','col')}
-      #     private$dimlab <- value
-      #   }
-      #' @field nbNodes vector of size 2: number of nodes (rows, columns)
-      nbNodes = function(value) {private$dim},
+      #' @field nbNodes vector describing the number of the successive elements connecting the network
+      nbNodes = function(value) {setNames(private$dim, private$dimlab)},
       #' @field nbCovariates integer, the number of covariates
       nbCovariates = function(value) {length(private$X)},
       #' @field blockProp block proportions (aka prior probabilities of each block)

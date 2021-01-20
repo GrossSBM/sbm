@@ -12,7 +12,7 @@ BipartiteSBM_fit <-
       J              = NULL, # approximation of the log-likelihood
       vICL           = NULL, # approximation of the ICL
       BMobject       = NULL, # blockmodels output (used to stored the optimization results when blockmodels is used)
-      import_from_BM  = function(index = which.max(private$BMobject$ICL)) {
+      import_from_BM = function(index = which.max(private$BMobject$ICL)) {
         private$J     <- private$BMobject$PL[index]
         private$vICL  <- private$BMobject$ICL[index]
         parameters    <- private$BMobject$model_parameters[[index]]
@@ -139,46 +139,24 @@ BipartiteSBM_fit <-
         private$theta$mean <- private$theta$mean[oRow, oCol]
         private$Z[[1]] <- private$Z[[1]][, oRow, drop = FALSE]
         private$Z[[2]] <- private$Z[[2]][, oCol, drop = FALSE]
+      },
+      #' @description show method
+      #' @param type character used to specify the type of SBM
+      show = function(type = "Fit of a Bipartite Stochastic Block Model"){
+        super$show(type)
+        cat("* Additional fields\n")
+        cat("  $probMemberships, $loglik, $ICL, $storedModels, \n")
+        cat("* Additional methods \n")
+        cat("  predict, fitted, $setModel, $reorder \n")
       }
     ),
     active = list(
-      #' @field memberships list of size 2: vector of memberships in row, in column.
-      memberships = function(value) {lapply(private$Z, as_clustering)},
-      #' @field blockProp list of block proportions (aka prior probabilities of each block)
-      blockProp   = function(value) {
-        if (missing(value))
-          return(private$pi)
-        else {
-          stopifnot(is.list(value), length(value) == 2)
-          private$pi <- value
-        }
-      },
-      #' @field probMemberships list of 2 matrices of estimated probabilities for block memberships for all nodes
-      probMemberships = function(value) {
-        if (missing(value))
-          return(private$Z)
-        else {
-          stopifnot(is.list(value))
-          stopifnot(nrow(value[[1]]) == private$dim[1])
-          stopifnot(nrow(value[[2]]) == private$dim[2])
-          private$Z <- value
-        }
-      },
-      #' @field connectParam parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli
-      connectParam   = function(value) {
-        if (missing(value))
-          return(private$theta)
-        else {
-          stopifnot(is.list(value))
-          private$theta <- value
-        }
-      },
       #' @field loglik double: approximation of the log-likelihood (variational lower bound) reached
       loglik = function(value) {private$J},
       #' @field ICL double: value of the integrated classification log-likelihood
       ICL    = function(value) {private$vICL},
       #' @field penalty double, value of the penalty term in ICL
-      penalty  = function(value) {(self$nbConnectParam + self$nbCovariates) * log(self$nbDyads) + (self$nbBlocks[1]-1) * log(self$nbNodes[1]) + (self$nbBlocks[2]-1) * log(self$nbNodes[2])},
+      penalty  = function(value) {(self$nbConnectParam + self$nbCovariates) * log(self$nbDyads) + (self$nbBlocks[1]-1) * log(private$dim[1]) + (self$nbBlocks[2]-1) * log(private$dim[2])},
       #' @field entropy double, value of the entropy due to the clustering distribution
       entropy  = function(value) {-sum(.xlogx(private$Z[[1]]))-sum(.xlogx(private$Z[[2]]))},
       #' @field storedModels data.frame of all models fitted (and stored) during the optimization
