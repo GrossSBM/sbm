@@ -27,7 +27,9 @@ SampleMultiplexSBM(
 
 \item{model}{a vector of characters describing the model for  each network of the Multiplex relation between nodes (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'}, ...). Default is \code{'bernoulli'}.}
 
-\item{type}{a string of character indicating whether the networks are directed, undirected or bipatite}
+\item{type}{a string of character indicating whether the networks are directed, undirected or bipartite}
+
+\item{dependent}{connection parameters in each network}
 
 \item{dimLabels}{an optional list of labels for functional group involved in the network}
 
@@ -42,4 +44,5 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models
 }
 \examples{
 ### =======================================
+
 }

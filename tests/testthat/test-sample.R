@@ -9,7 +9,7 @@ test_that("multiplex sampler works", {
   type <- "directed"
   sampMultiplexIndep <- SampleMultiplexSBM(nbNodes = Nnodes,blockProp = blockProp,nbLayers = nbLayers,connectParam = connectParam,model=model,type=type)
 
-  expect_equal(dim(sampMultiplexIndep$listSBM[[2]]$netMatrix),c(Nnodes,Nnodes))
+  expect_equal(dim(sampMultiplexIndep$listSBM[[2]]$networkData),c(Nnodes,Nnodes))
   expect_equal(length(sampMultiplexIndep$memberships[[1]]),Nnodes)
 
 
@@ -22,7 +22,7 @@ test_that("multiplex sampler works", {
   type <- "bipartite"
   sampMultiplexIndep <- SampleMultiplexSBM(nbNodes = Nnodes,blockProp = blockProp,nbLayers = nbLayers,connectParam = connectParam,model=model,type=type)
 
-  expect_equal(dim(sampMultiplexIndep$listSBM[[2]]$netMatrix),Nnodes)
+  expect_equal(dim(sampMultiplexIndep$listSBM[[2]]$networkData),Nnodes)
   expect_equal(length(sampMultiplexIndep$memberships[[1]]),Nnodes[1])
   expect_equal(length(sampMultiplexIndep$memberships[[2]]),Nnodes[2])
 

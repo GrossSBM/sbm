@@ -42,20 +42,20 @@ directed = FALSE
 listNet <- list()
 listNet[[1]] = defineSBM(Net$Inc_plant_ant,
                          model,type,directed,
-                         dimLabels =list(row = "Plants", col = "Ants"))
+                         dimLabels = c(row = "Plants", col = "Ants"))
 listNet[[2]] = defineSBM(Net$Inc_plant_bird,model,type,directed,
-                      dimLabels =list(row = "Plants",col = "Birds"))
+                      dimLabels =c(row = "Plants",col = "Birds"))
 plotMyMultipartiteMatrix(listNet,plotOptions=list(legend = TRUE,title='Ecology'))
 
 listNet <- list()
 listNet[[1]] <- defineSBM(matrix(rbinom(1000,1,0.5),20,50),
                    model = 'bernoulli',
                    type  ='bipartite', directed = NA,
-                   dimLabels = list(row="Questions",col="Students"))
+                   dimLabels = c(row="Questions",col="Students"))
 listNet[[2]] <- defineSBM(matrix(rpois(20*30,8),30,20),
                    model = 'poisson',
                    type  ='bipartite',directed = NA,
-                   dimLabels = list(row="Competences",col="Questions"))
+                   dimLabels = c(row="Competences",col="Questions"))
 plotMyMultipartiteMatrix(listNet,plotOptions=list(legend = TRUE,compact = FALSE))
 plotMyMultipartiteMatrix(listNet,plotOptions=list(legend = TRUE,normalized =  TRUE))
 
