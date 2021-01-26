@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>sbm: Stochastic Blockmodels — sbm-package • sbm</title>
+<title>Extract model fitted values — fitted.SBM • sbm</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,9 @@
 
 
 
-<meta property="og:title" content="sbm: Stochastic Blockmodels — sbm-package" />
-<meta property="og:description" content="sbm is a collection of tools and function to adjust a variety of stochastic blockmodels (SBM). sbm supports at the moment Simple and Bipartite SBM (undirected and directed) and Multipartite SBM for Bernoulli, Poisson and 
-  Gaussian emission laws on the edges as described in Léger, 2016 &amp;lt;arxiv:1602.07587&amp;gt; for SBM / LBM and Barbillon, Bar-Hen &amp;amp; Donnet, 2020 &amp;lt;arXiv:1807.10138&amp;gt; for MultipartiteBM." />
+<meta property="og:title" content="Extract model fitted values — fitted.SBM" />
+<meta property="og:description" content="Extracts fitted values for object with class (SimpleSBM_fit,
+BipartiteSBM_fit) or multipartitepartiteSBM_fit)" />
 
 
 
@@ -132,39 +132,35 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>sbm: Stochastic Blockmodels</h1>
-    <small class="dont-index">Source: <a href='https://github.com/GrossSBM/sbm/blob/master/R/sbm-package.R'><code>R/sbm-package.R</code></a></small>
-    <div class="hidden name"><code>sbm-package.Rd</code></div>
+    <h1>Extract model fitted values</h1>
+    <small class="dont-index">Source: <a href='https://github.com/GrossSBM/sbm/blob/master/R/R6Class-SBM.R'><code>R/R6Class-SBM.R</code></a></small>
+    <div class="hidden name"><code>fitted.SBM.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>sbm is a collection of tools and function to adjust a variety of stochastic blockmodels (SBM). sbm supports at the moment Simple and Bipartite SBM (undirected and directed) and Multipartite SBM for Bernoulli, Poisson and 
-  Gaussian emission laws on the edges as described in Léger, 2016 &lt;arxiv:1602.07587&gt; for SBM / LBM and Barbillon, Bar-Hen &amp; Donnet, 2020 &lt;arXiv:1807.10138&gt; for MultipartiteBM.</p>
+    <p>Extracts fitted values for object with class (<code><a href='SimpleSBM_fit.html'>SimpleSBM_fit</a></code>,
+<code><a href='BipartiteSBM_fit.html'>BipartiteSBM_fit</a></code>) or <code><a href='MultipartiteSBM_fit.html'>multipartitepartiteSBM_fit</a></code>)</p>
     </div>
 
+    <pre class="usage"><span class='co'># S3 method for SBM</span>
+<span class='fu'><a href='https://rdrr.io/r/stats/fitted.values.html'>fitted</a></span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>object</th>
+      <td><p>an R6 object inheriting from SimpleSBM_fit,  BipartiteSBM_fit or MultipartiteSBM_fit</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>additional parameters for S3 compatibility. Not used</p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <div class='dont-index'><p>Useful links:</p><ul>
-<li><p><a href='https://grosssbm.github.io/sbm/'>https://grosssbm.github.io/sbm/</a></p></li>
-<li><p>Report bugs at <a href='https://github.com/GrossSBM/sbm/issues'>https://github.com/GrossSBM/sbm/issues</a></p></li>
-</ul>
-
-</div>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
-
-    <p><strong>Maintainer</strong>: Julien Chiquet <a href='mailto:julien.chiquet@inrae.fr'>julien.chiquet@inrae.fr</a> (<a href='https://orcid.org/0000-0002-3629-3429'>ORCID</a>)</p>
-<p>Authors:</p><ul>
-<li><p>Sophie Donnet <a href='mailto:sophie.donnet@inrae.fr'>sophie.donnet@inrae.fr</a> (<a href='https://orcid.org/0000-0003-4370-7316'>ORCID</a>)</p></li>
-<li><p>Pierre Barbillon <a href='mailto:pierre.barbillon@agroparistech.fr'>pierre.barbillon@agroparistech.fr</a> (<a href='https://orcid.org/0000-0002-7766-7693'>ORCID</a>)</p></li>
-</ul>
-
-<p>Other contributors:</p><ul>
-<li><p>großBM team [contributor]</p></li>
-</ul>
-
-
+    <p>a matrix of expected fitted values for each dyad</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

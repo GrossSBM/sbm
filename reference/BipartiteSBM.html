@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>R6 virtual class for SBM representation — BipartiteSBM • sbm</title>
+<title>R6 class for Bipartite SBM — BipartiteSBM • sbm</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,11 @@
 
 
 
-<meta property="og:title" content="R6 virtual class for SBM representation — BipartiteSBM" />
-<meta property="og:description" content="R6 virtual class for SBM representation
-R6 virtual class for SBM representation" />
+<meta property="og:title" content="R6 class for Bipartite SBM — BipartiteSBM" />
+<meta property="og:description" content="R6 class for Bipartite SBM
+R6 class for Bipartite SBM" />
+
+
 
 
 
@@ -73,7 +75,7 @@ R6 virtual class for SBM representation" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sbm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0-9100</span>
       </span>
     </div>
 
@@ -130,14 +132,14 @@ R6 virtual class for SBM representation" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>R6 virtual class for SBM representation</h1>
+    <h1>R6 class for Bipartite SBM</h1>
     <small class="dont-index">Source: <a href='https://github.com/GrossSBM/sbm/blob/master/R/R6Class-BipartiteSBM.R'><code>R/R6Class-BipartiteSBM.R</code></a></small>
     <div class="hidden name"><code>BipartiteSBM.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>R6 virtual class for SBM representation</p>
-<p>R6 virtual class for SBM representation</p>
+    <p>R6 class for Bipartite SBM</p>
+<p>R6 class for Bipartite SBM</p>
     </div>
 
 
@@ -148,9 +150,23 @@ R6 virtual class for SBM representation" />
     <h2 class="hasAnchor" id="active-bindings"><a class="anchor" href="#active-bindings"></a>Active bindings</h2>
 
     <p><div class="r6-active-bindings"></p><dl>
-<dt><code>varProb</code></dt><dd><p>variational probabilities of nodes being in a block. Either return the probabilities of clustering or may be used to set that probabilities</p></dd>
+<dt><code>dimLabels</code></dt><dd><p>vector of two characters giving the label of each connected dimension (row, col)</p></dd>
+
+<dt><code>blockProp</code></dt><dd><p>list of two vectors of block proportions (aka prior probabilities of each block)</p></dd>
+
+<dt><code>connectParam</code></dt><dd><p>parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli</p></dd>
+
+<dt><code>probMemberships</code></dt><dd><p>matrix of estimated probabilities for block memberships for all nodes</p></dd>
+
+<dt><code>nbBlocks</code></dt><dd><p>vector of size 2: number of blocks (rows, columns)</p></dd>
+
+<dt><code>nbDyads</code></dt><dd><p>number of dyads (potential edges in the network)</p></dd>
+
+<dt><code>nbConnectParam</code></dt><dd><p>number of parameter used for the connectivity</p></dd>
 
 <dt><code>memberships</code></dt><dd><p>list of size 2: vector of memberships in row, in column.</p></dd>
+
+<dt><code>indMemberships</code></dt><dd><p>matrix for clustering memberships</p></dd>
 
 </dl><p></div></p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
@@ -160,56 +176,116 @@ R6 virtual class for SBM representation" />
 
 <ul>
 <li><p><a href='#method-new'><code>BipartiteSBM$new()</code></a></p></li>
+<li><p><a href='#method-rMemberships'><code>BipartiteSBM$rMemberships()</code></a></p></li>
+<li><p><a href='#method-rEdges'><code>BipartiteSBM$rEdges()</code></a></p></li>
 <li><p><a href='#method-predict'><code>BipartiteSBM$predict()</code></a></p></li>
-<li><p><a href='#method-reorder'><code>BipartiteSBM$reorder()</code></a></p></li>
+<li><p><a href='#method-show'><code>BipartiteSBM$show()</code></a></p></li>
+<li><p><a href='#method-plot'><code>BipartiteSBM$plot()</code></a></p></li>
 <li><p><a href='#method-clone'><code>BipartiteSBM$clone()</code></a></p></li>
 </ul>
 <p><details open ><summary>Inherited methods</summary>
 <ul>
-<li><p><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="plot"><a href='../../sbm/html/SBM.html#method-plot'><code>sbm::SBM$plot()</code></a></span></p></li>
 <li><p><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="print"><a href='../../sbm/html/SBM.html#method-print'><code>sbm::SBM$print()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="show"><a href='../../sbm/html/SBM.html#method-show'><code>sbm::SBM$show()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="rNetwork"><a href='../../sbm/html/SBM.html#method-rNetwork'><code>sbm::SBM$rNetwork()</code></a></span></p></li>
 </ul>
 </details>
 
 <hr>
 <a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
-<p>constructor for a Simple SBM fit</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p>constructor for SBM</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>BipartiteSBM</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>
-  <span class='va'>incidenceMatrix</span>,
   <span class='va'>model</span>,
-  dimLabels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>row <span class='op'>=</span> <span class='st'>"rowLabel"</span>, col <span class='op'>=</span> <span class='st'>"colLabel"</span><span class='op'>)</span>,
+  <span class='va'>nbNodes</span>,
+  <span class='va'>blockProp</span>,
+  <span class='va'>connectParam</span>,
+  dimLabels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>row <span class='op'>=</span> <span class='st'>"row"</span>, col <span class='op'>=</span> <span class='st'>"col"</span><span class='op'>)</span>,
+  covarParam <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>numeric</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>covarList</span><span class='op'>)</span><span class='op'>)</span>,
   covarList <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
-<dt><code>incidenceMatrix</code></dt><dd><p>incidence (weighted) matrix</p></dd>
+<dt><code>model</code></dt><dd><p>character describing the type of model</p></dd>
 
-<dt><code>model</code></dt><dd><p>character (<code>'bernoulli'</code>, <code>'poisson'</code>, <code>'gaussian'</code>)</p></dd>
+<dt><code>nbNodes</code></dt><dd><p>number of nodes in each dimension of the network</p></dd>
 
-<dt><code>dimLabels</code></dt><dd><p>list of labels of each dimension (in row, in columns)</p></dd>
+<dt><code>blockProp</code></dt><dd><p>parameters for block proportions (vector of list of vectors)</p></dd>
 
-<dt><code>covarList</code></dt><dd><p>and optional list of covariates, each of whom must have the same dimension as <code>incidenceMatrix</code></p></dd>
+<dt><code>connectParam</code></dt><dd><p>list of parameters for connectivity with a matrix of means 'mean' and an optional scalar for the variance 'var'. The dimensions of mu must match <code>blockProp</code> lengths</p></dd>
 
-<dt><code>directed</code></dt><dd><p>logical, directed network or not. In not, <code>incidenceMatrix</code> must be symmetric.</p></dd>
+<dt><code>dimLabels</code></dt><dd><p>optional labels of each dimension (in row, in column)</p></dd>
+
+<dt><code>covarParam</code></dt><dd><p>optional vector of covariates effect</p></dd>
+
+<dt><code>covarList</code></dt><dd><p>optional list of covariates data</p></dd>
 
 </dl><p></div></p>
 <p><hr>
+<a id="method-rMemberships"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>rMemberships()</code></h3>
+<p>a method to sample new block memberships for the current SBM</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>BipartiteSBM</span><span class='op'>$</span><span class='fu'>rMemberships</span><span class='op'>(</span>store <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>store</code></dt><dd><p>should the sampled blocks be stored (and overwrite the existing data)? Default to FALSE</p></dd>
+
+</dl><p></div></p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
+<p>the sampled blocks</p>
+<p><hr>
+<a id="method-rEdges"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>rEdges()</code></h3>
+<p>a method to sample a network data (edges) for the current SBM</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>BipartiteSBM</span><span class='op'>$</span><span class='fu'>rEdges</span><span class='op'>(</span>store <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>store</code></dt><dd><p>should the sampled edges be stored (and overwrite the existing data)? Default to FALSE</p></dd>
+
+</dl><p></div></p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
+<p>the sampled network</p>
+<p><hr>
 <a id="method-predict"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code></h3>
 <p>prediction under the current parameters</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>BipartiteSBM</span><span class='op'>$</span><span class='fu'>predict</span><span class='op'>(</span>covarList <span class='op'>=</span> <span class='va'>self</span><span class='op'>$</span><span class='va'>covarList</span><span class='op'>)</span></pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>BipartiteSBM</span><span class='op'>$</span><span class='fu'>predict</span><span class='op'>(</span>covarList <span class='op'>=</span> <span class='va'>self</span><span class='op'>$</span><span class='va'>covarList</span>, theta_p0 <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
 <dt><code>covarList</code></dt><dd><p>a list of covariates. By default, we use the covariates with which the model was estimated.</p></dd>
 
+<dt><code>theta_p0</code></dt><dd><p>double for thresholding...</p></dd>
+
 </dl><p></div></p>
 <p><hr>
-<a id="method-reorder"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/stats/reorder.factor.html'>reorder()</a></code></h3>
-<p>permute group labels by order of decreasing probability</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>BipartiteSBM</span><span class='op'>$</span><span class='fu'>reorder</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
+<a id="method-show"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>show()</code></h3>
+<p>show method</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>BipartiteSBM</span><span class='op'>$</span><span class='fu'>show</span><span class='op'>(</span>type <span class='op'>=</span> <span class='st'>"Bipartite Stochastic Block Model"</span><span class='op'>)</span></pre><p></div></p>
 
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>type</code></dt><dd><p>character used to specify the type of SBM</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-plot"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/graphics/plot.default.html'>plot()</a></code></h3>
+<p>basic matrix plot method for BipartiteSBM object or mesoscopic plot</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>BipartiteSBM</span><span class='op'>$</span><span class='fu'>plot</span><span class='op'>(</span>
+  type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"data"</span>, <span class='st'>"expected"</span>, <span class='st'>"meso"</span><span class='op'>)</span>,
+  ordered <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  plotOptions <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>type</code></dt><dd><p>character for the type of plot: either 'data' (true connection), 'expected' (fitted connection) or 'meso' (mesoscopic view). Default to 'data'.</p></dd>
+
+<dt><code>ordered</code></dt><dd><p>logical: should the rows and columns be reordered according to the clustering? Default to <code>TRUE</code>.</p></dd>
+
+<dt><code>plotOptions</code></dt><dd><p>list with the parameters for the plot. See help of the corresponding S3 method for details.</p></dd>
+
+</dl><p></div></p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
+<p>a ggplot2 object for the <code>'data'</code> and <code>'expected'</code>, a list with the igraph object <code>g</code>, the <code>layout</code> and the <code>plotOptions</code> for the <code>'meso'</code></p>
 <p><hr>
 <a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>

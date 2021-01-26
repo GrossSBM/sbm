@@ -75,7 +75,7 @@ R6 Class definition of a Simple SBM fit" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sbm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0-9100</span>
       </span>
     </div>
 
@@ -158,25 +158,13 @@ R6 Class definition of a Simple SBM fit" />
 
     <h2 class="hasAnchor" id="super-classes"><a class="anchor" href="#super-classes"></a>Super classes</h2>
 
-    <p><code><a href='SBM.html'>sbm::SBM</a></code> -&gt; <code><a href='SBM_fit.html'>sbm::SBM_fit</a></code> -&gt; <code>SimpleSBM_fit</code></p>
+    <p><code><a href='SBM.html'>sbm::SBM</a></code> -&gt; <code><a href='SimpleSBM.html'>sbm::SimpleSBM</a></code> -&gt; <code>SimpleSBM_fit</code></p>
     <h2 class="hasAnchor" id="active-bindings"><a class="anchor" href="#active-bindings"></a>Active bindings</h2>
 
     <p><div class="r6-active-bindings"></p><dl>
-<dt><code>nbNodes</code></dt><dd><p>number of nodes</p></dd>
+<dt><code>loglik</code></dt><dd><p>double: approximation of the log-likelihood (variational lower bound) reached</p></dd>
 
-<dt><code>nbBlocks</code></dt><dd><p>number of blocks</p></dd>
-
-<dt><code>nbDyads</code></dt><dd><p>number of dyads (potential edges in the network)</p></dd>
-
-<dt><code>memberships</code></dt><dd><p>vector of clustering</p></dd>
-
-<dt><code>blockProp</code></dt><dd><p>vector of block proportions (aka prior probabilities of each block)</p></dd>
-
-<dt><code>probMemberships</code></dt><dd><p>matrix of estimated probabilities for block memberships for all nodes</p></dd>
-
-<dt><code>nbConnectParam</code></dt><dd><p>number of parameter used for the connectivity</p></dd>
-
-<dt><code>directed</code></dt><dd><p>is the network directed or not</p></dd>
+<dt><code>ICL</code></dt><dd><p>double: value of the integrated classification log-likelihood</p></dd>
 
 <dt><code>penalty</code></dt><dd><p>double, value of the penalty term in ICL</p></dd>
 
@@ -193,16 +181,19 @@ R6 Class definition of a Simple SBM fit" />
 <ul>
 <li><p><a href='#method-new'><code>SimpleSBM_fit$new()</code></a></p></li>
 <li><p><a href='#method-optimize'><code>SimpleSBM_fit$optimize()</code></a></p></li>
-<li><p><a href='#method-predict'><code>SimpleSBM_fit$predict()</code></a></p></li>
+<li><p><a href='#method-setModel'><code>SimpleSBM_fit$setModel()</code></a></p></li>
 <li><p><a href='#method-reorder'><code>SimpleSBM_fit$reorder()</code></a></p></li>
 <li><p><a href='#method-show'><code>SimpleSBM_fit$show()</code></a></p></li>
 <li><p><a href='#method-clone'><code>SimpleSBM_fit$clone()</code></a></p></li>
 </ul>
-<p><details open ><summary>Inherited methods</summary>
+<p><details ><summary>Inherited methods</summary>
 <ul>
-<li><p><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="plot"><a href='../../sbm/html/SBM.html#method-plot'><code>sbm::SBM$plot()</code></a></span></p></li>
 <li><p><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="print"><a href='../../sbm/html/SBM.html#method-print'><code>sbm::SBM$print()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="sbm" data-topic="SBM_fit" data-id="setModel"><a href='../../sbm/html/SBM_fit.html#method-setModel'><code>sbm::SBM_fit$setModel()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="rNetwork"><a href='../../sbm/html/SBM.html#method-rNetwork'><code>sbm::SBM$rNetwork()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="sbm" data-topic="SimpleSBM" data-id="plot"><a href='../../sbm/html/SimpleSBM.html#method-plot'><code>sbm::SimpleSBM$plot()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="sbm" data-topic="SimpleSBM" data-id="predict"><a href='../../sbm/html/SimpleSBM.html#method-predict'><code>sbm::SimpleSBM$predict()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="sbm" data-topic="SimpleSBM" data-id="rEdges"><a href='../../sbm/html/SimpleSBM.html#method-rEdges'><code>sbm::SimpleSBM$rEdges()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="sbm" data-topic="SimpleSBM" data-id="rMemberships"><a href='../../sbm/html/SimpleSBM.html#method-rMemberships'><code>sbm::SimpleSBM$rMemberships()</code></a></span></p></li>
 </ul>
 </details>
 
@@ -213,7 +204,7 @@ R6 Class definition of a Simple SBM fit" />
   <span class='va'>adjacencyMatrix</span>,
   <span class='va'>model</span>,
   <span class='va'>directed</span>,
-  dimLabels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>row <span class='op'>=</span> <span class='st'>"node"</span>, col <span class='op'>=</span> <span class='st'>"node"</span><span class='op'>)</span>,
+  dimLabels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>node <span class='op'>=</span> <span class='st'>"nodeName"</span><span class='op'>)</span>,
   covarList <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='op'>)</span></pre><p></div></p>
 
@@ -241,19 +232,16 @@ R6 Class definition of a Simple SBM fit" />
 
 </dl><p></div></p>
 <p><hr>
-<a id="method-predict"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code></h3>
-<p>prediction under the currently parameters</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>SimpleSBM_fit</span><span class='op'>$</span><span class='fu'>predict</span><span class='op'>(</span>covarList <span class='op'>=</span> <span class='va'>self</span><span class='op'>$</span><span class='va'>covarList</span>, theta_p0 <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span></pre><p></div></p>
+<a id="method-setModel"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>setModel()</code></h3>
+<p>method to select a specific model among the ones fitted during the optimization.
+Fields of the current SBM_fit will be updated accordingly.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>SimpleSBM_fit</span><span class='op'>$</span><span class='fu'>setModel</span><span class='op'>(</span><span class='va'>index</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
-<dt><code>covarList</code></dt><dd><p>a list of covariates. By default, we use the covariates with which the model was estimated</p></dd>
-
-<dt><code>theta_p0</code></dt><dd><p>a threshold...</p></dd>
+<dt><code>index</code></dt><dd><p>integer, the index of the model to be selected (row number in storedModels)</p></dd>
 
 </dl><p></div></p>
-<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
-<p>a matrix of expected values for each dyad</p>
 <p><hr>
 <a id="method-reorder"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/stats/reorder.factor.html'>reorder()</a></code></h3>
 <p>permute group labels by order of decreasing probability</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>

@@ -75,7 +75,7 @@ R6 Class definition of an Bipartite SBM fit" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sbm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0-9100</span>
       </span>
     </div>
 
@@ -158,23 +158,13 @@ R6 Class definition of an Bipartite SBM fit" />
 
     <h2 class="hasAnchor" id="super-classes"><a class="anchor" href="#super-classes"></a>Super classes</h2>
 
-    <p><code><a href='SBM.html'>sbm::SBM</a></code> -&gt; <code><a href='SBM_fit.html'>sbm::SBM_fit</a></code> -&gt; <code>BipartiteSBM_fit</code></p>
+    <p><code><a href='SBM.html'>sbm::SBM</a></code> -&gt; <code><a href='BipartiteSBM.html'>sbm::BipartiteSBM</a></code> -&gt; <code>BipartiteSBM_fit</code></p>
     <h2 class="hasAnchor" id="active-bindings"><a class="anchor" href="#active-bindings"></a>Active bindings</h2>
 
     <p><div class="r6-active-bindings"></p><dl>
-<dt><code>nbNodes</code></dt><dd><p>vector of size 2: number of nodes (rows, columns)</p></dd>
+<dt><code>loglik</code></dt><dd><p>double: approximation of the log-likelihood (variational lower bound) reached</p></dd>
 
-<dt><code>nbBlocks</code></dt><dd><p>vector of size 2: number of blocks (rows, columns)</p></dd>
-
-<dt><code>nbDyads</code></dt><dd><p>number of dyads (potential edges in the network)</p></dd>
-
-<dt><code>nbConnectParam</code></dt><dd><p>number of parameter used for the connectivity</p></dd>
-
-<dt><code>memberships</code></dt><dd><p>list of size 2: vector of memberships in row, in column.</p></dd>
-
-<dt><code>blockProp</code></dt><dd><p>list of block proportions (aka prior probabilities of each block)</p></dd>
-
-<dt><code>probMemberships</code></dt><dd><p>list of 2 matrices of estimated probabilities for block memberships for all nodes</p></dd>
+<dt><code>ICL</code></dt><dd><p>double: value of the integrated classification log-likelihood</p></dd>
 
 <dt><code>penalty</code></dt><dd><p>double, value of the penalty term in ICL</p></dd>
 
@@ -191,16 +181,19 @@ R6 Class definition of an Bipartite SBM fit" />
 <ul>
 <li><p><a href='#method-new'><code>BipartiteSBM_fit$new()</code></a></p></li>
 <li><p><a href='#method-optimize'><code>BipartiteSBM_fit$optimize()</code></a></p></li>
-<li><p><a href='#method-predict'><code>BipartiteSBM_fit$predict()</code></a></p></li>
+<li><p><a href='#method-setModel'><code>BipartiteSBM_fit$setModel()</code></a></p></li>
 <li><p><a href='#method-reorder'><code>BipartiteSBM_fit$reorder()</code></a></p></li>
+<li><p><a href='#method-show'><code>BipartiteSBM_fit$show()</code></a></p></li>
 <li><p><a href='#method-clone'><code>BipartiteSBM_fit$clone()</code></a></p></li>
 </ul>
-<p><details open ><summary>Inherited methods</summary>
+<p><details ><summary>Inherited methods</summary>
 <ul>
-<li><p><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="plot"><a href='../../sbm/html/SBM.html#method-plot'><code>sbm::SBM$plot()</code></a></span></p></li>
 <li><p><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="print"><a href='../../sbm/html/SBM.html#method-print'><code>sbm::SBM$print()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="sbm" data-topic="SBM_fit" data-id="setModel"><a href='../../sbm/html/SBM_fit.html#method-setModel'><code>sbm::SBM_fit$setModel()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="sbm" data-topic="SBM_fit" data-id="show"><a href='../../sbm/html/SBM_fit.html#method-show'><code>sbm::SBM_fit$show()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="rNetwork"><a href='../../sbm/html/SBM.html#method-rNetwork'><code>sbm::SBM$rNetwork()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="sbm" data-topic="BipartiteSBM" data-id="plot"><a href='../../sbm/html/BipartiteSBM.html#method-plot'><code>sbm::BipartiteSBM$plot()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="sbm" data-topic="BipartiteSBM" data-id="predict"><a href='../../sbm/html/BipartiteSBM.html#method-predict'><code>sbm::BipartiteSBM$predict()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="sbm" data-topic="BipartiteSBM" data-id="rEdges"><a href='../../sbm/html/BipartiteSBM.html#method-rEdges'><code>sbm::BipartiteSBM$rEdges()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="sbm" data-topic="BipartiteSBM" data-id="rMemberships"><a href='../../sbm/html/BipartiteSBM.html#method-rMemberships'><code>sbm::BipartiteSBM$rMemberships()</code></a></span></p></li>
 </ul>
 </details>
 
@@ -210,7 +203,7 @@ R6 Class definition of an Bipartite SBM fit" />
 <p><div class="r"></p><pre><span class='va'>BipartiteSBM_fit</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>
   <span class='va'>incidenceMatrix</span>,
   <span class='va'>model</span>,
-  dimLabels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>row <span class='op'>=</span> <span class='st'>"row"</span>, col <span class='op'>=</span> <span class='st'>"col"</span><span class='op'>)</span>,
+  dimLabels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>row <span class='op'>=</span> <span class='st'>"rowName"</span>, col <span class='op'>=</span> <span class='st'>"colName"</span><span class='op'>)</span>,
   covarList <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='op'>)</span></pre><p></div></p>
 
@@ -236,15 +229,14 @@ R6 Class definition of an Bipartite SBM fit" />
 
 </dl><p></div></p>
 <p><hr>
-<a id="method-predict"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code></h3>
-<p>prediction under the current parameters</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>BipartiteSBM_fit</span><span class='op'>$</span><span class='fu'>predict</span><span class='op'>(</span>covarList <span class='op'>=</span> <span class='va'>self</span><span class='op'>$</span><span class='va'>covarList</span>, theta_p0 <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span></pre><p></div></p>
+<a id="method-setModel"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>setModel()</code></h3>
+<p>method to select a specific model among the ones fitted during the optimization.
+Fields of the current SBM_fit will be updated accordingly.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>BipartiteSBM_fit</span><span class='op'>$</span><span class='fu'>setModel</span><span class='op'>(</span><span class='va'>index</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
-<dt><code>covarList</code></dt><dd><p>a list of covariates. By default, we use the covariates with which the model was estimated.</p></dd>
-
-<dt><code>theta_p0</code></dt><dd><p>double for thresholding...</p></dd>
+<dt><code>index</code></dt><dd><p>integer, the index of the model to be selected (row number in storedModels)</p></dd>
 
 </dl><p></div></p>
 <p><hr>
@@ -252,6 +244,16 @@ R6 Class definition of an Bipartite SBM fit" />
 <p>permute group labels by order of decreasing probability</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>BipartiteSBM_fit</span><span class='op'>$</span><span class='fu'>reorder</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
+<p><hr>
+<a id="method-show"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>show()</code></h3>
+<p>show method</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>BipartiteSBM_fit</span><span class='op'>$</span><span class='fu'>show</span><span class='op'>(</span>type <span class='op'>=</span> <span class='st'>"Fit of a Bipartite Stochastic Block Model"</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>type</code></dt><dd><p>character used to specify the type of SBM</p></dd>
+
+</dl><p></div></p>
 <p><hr>
 <a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>

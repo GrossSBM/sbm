@@ -75,7 +75,7 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sbm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0-9100</span>
       </span>
     </div>
 
@@ -145,7 +145,7 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models.</p>
     <pre class="usage"><span class='fu'>estimateBipartiteSBM</span><span class='op'>(</span>
   <span class='va'>netMat</span>,
   model <span class='op'>=</span> <span class='st'>"bernoulli"</span>,
-  dimLabels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>row <span class='op'>=</span> <span class='st'>"row"</span>, col <span class='op'>=</span> <span class='st'>"col"</span><span class='op'>)</span>,
+  dimLabels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>row <span class='op'>=</span> <span class='st'>"row"</span>, col <span class='op'>=</span> <span class='st'>"col"</span><span class='op'>)</span>,
   covariates <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
   estimOptions <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='op'>)</span></pre>
@@ -204,7 +204,7 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models.</p>
 <span class='va'>mySampler</span> <span class='op'>&lt;-</span> <span class='fu'><a href='sampleBipartiteSBM.html'>sampleBipartiteSBM</a></span><span class='op'>(</span><span class='va'>nbNodes</span>, <span class='va'>blockProp</span>, <span class='va'>connectParam</span>, model <span class='op'>=</span> <span class='st'>'bernoulli'</span><span class='op'>)</span>
 
 <span class='co'>## Estimation</span>
-<span class='va'>myBipartiteSBM</span> <span class='op'>&lt;-</span> <span class='fu'>estimateBipartiteSBM</span><span class='op'>(</span><span class='va'>mySampler</span><span class='op'>$</span><span class='va'>netMatrix</span>, estimOptions <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>plot <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>myBipartiteSBM</span> <span class='op'>&lt;-</span> <span class='fu'>estimateBipartiteSBM</span><span class='op'>(</span><span class='va'>mySampler</span><span class='op'>$</span><span class='va'>networkData</span>, estimOptions <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>plot <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; -&gt; Estimation for 2 groups (1+1)
 #&gt; -&gt; Computation of eigen decomposition used for initalizations
 #&gt;     -&gt; for rows
@@ -279,7 +279,7 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models.</p>
 
 <span class='co'>## Estimation</span>
 <span class='va'>myBipartiteSBM</span> <span class='op'>&lt;-</span>
-  <span class='fu'>estimateBipartiteSBM</span><span class='op'>(</span><span class='va'>mySampler</span><span class='op'>$</span><span class='va'>netMatrix</span>, <span class='st'>'poisson'</span>, estimOptions <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>plot <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='fu'>estimateBipartiteSBM</span><span class='op'>(</span><span class='va'>mySampler</span><span class='op'>$</span><span class='va'>networkData</span>, <span class='st'>'poisson'</span>, estimOptions <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>plot <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; -&gt; Estimation for 2 groups (1+1)
 #&gt; -&gt; Computation of eigen decomposition used for initalizations
 #&gt;     -&gt; for rows
@@ -325,7 +325,7 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models.</p>
 
 <span class='co'>## Estimation</span>
 <span class='va'>myBipartiteSBM</span> <span class='op'>&lt;-</span>
-  <span class='fu'>estimateBipartiteSBM</span><span class='op'>(</span><span class='va'>mySampler</span><span class='op'>$</span><span class='va'>netMatrix</span>, <span class='st'>'gaussian'</span>, estimOptions <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>plot <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='fu'>estimateBipartiteSBM</span><span class='op'>(</span><span class='va'>mySampler</span><span class='op'>$</span><span class='va'>networkData</span>, <span class='st'>'gaussian'</span>, estimOptions <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>plot <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; -&gt; Estimation for 2 groups (1+1)
 #&gt; -&gt; Computation of eigen decomposition used for initalizations
 #&gt;     -&gt; for rows
