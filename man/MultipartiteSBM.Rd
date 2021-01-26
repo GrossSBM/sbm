@@ -8,35 +8,31 @@ R6 Class definition of a Multipartite SBM
 
 R6 Class definition of a Multipartite SBM
 }
-\details{
-R6 virtual class for Multipartite SBM representation
+\section{Super class}{
+\code{\link[sbm:SBM]{sbm::SBM}} -> \code{MultipartiteSBM}
 }
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{modelName}}{vector of characters, the family of model for the distribution of the edges in each network}
+\item{\code{dimLabels}}{vector of characters giving the label of each connected dimension}
+
+\item{\code{blockProp}}{list of two vectors of block proportions (aka prior probabilities of each block)}
+
+\item{\code{connectParam}}{parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli}
+
+\item{\code{probMemberships}}{matrix of estimated probabilities for block memberships for all nodes}
+
+\item{\code{nbBlocks}}{: vector with the number of blocks in each FG}
+
+\item{\code{nbConnectParam}}{number of parameter used for the connectivity}
 
 \item{\code{architecture}}{organization of the multipartite network}
 
 \item{\code{nbNetworks}}{number of networks in the multipartite network}
 
-\item{\code{directed}}{vector of boolean}
+\item{\code{memberships}}{list of size 2: vector of memberships in all parts of the network}
 
-\item{\code{dimension}}{number of Nodes in each functional group,}
-
-\item{\code{nbNodes}}{number of Nodes in each functional group}
-
-\item{\code{dimLabels}}{labels of the functional groups}
-
-\item{\code{nbLabels}}{number of functional groups involved in the multipartite}
-
-\item{\code{blockProp}}{block proportions in each function group}
-
-\item{\code{connectParam}}{connection parameters in each network}
-
-\item{\code{networkList}}{list of SimpleSBMs or BipartiteSBMs}
-
-\item{\code{expectation}}{expected values of connection under the currently adjusted model}
+\item{\code{indMemberships}}{matrix for clustering memberships}
 }
 \if{html}{\out{</div>}}
 }
@@ -50,6 +46,13 @@ R6 virtual class for Multipartite SBM representation
 \item \href{#method-clone}{\code{MultipartiteSBM$clone()}}
 }
 }
+\if{html}{
+\out{<details open ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="rNetwork">}\href{../../sbm/html/SBM.html#method-rNetwork}{\code{sbm::SBM$rNetwork()}}\out{</span>}
+}
+\out{</details>}
+}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
 \if{latex}{\out{\hypertarget{method-new}{}}}
@@ -60,7 +63,7 @@ constructor for Multipartite SBM
   model = character(0),
   architecture = matrix(NA, 0, 2),
   directed = logical(0),
-  dimension = numeric(0),
+  nbNodes = numeric(0),
   dimLabels = character(0),
   blockProp = list(),
   connectParam = list()
@@ -76,9 +79,9 @@ constructor for Multipartite SBM
 
 \item{\code{directed}}{vector of logical: are the network directed or not?}
 
-\item{\code{dimension}}{number of nodes in each functional groups}
+\item{\code{nbNodes}}{number of nodes in each dimension/part of the network}
 
-\item{\code{dimLabels}}{labels of each functional groups}
+\item{\code{dimLabels}}{labels of each par of the network}
 
 \item{\code{blockProp}}{parameters for block proportions (vector of list of vectors)}
 

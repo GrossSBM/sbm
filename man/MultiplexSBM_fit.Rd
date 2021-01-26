@@ -22,7 +22,7 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 }
 }
 \section{Super classes}{
-\code{\link[sbm:MultipartiteSBM]{sbm::MultipartiteSBM}} -> \code{\link[sbm:MultipartiteSBM_fit]{sbm::MultipartiteSBM_fit}} -> \code{MultiplexSBM_fit}
+\code{\link[sbm:SBM]{sbm::SBM}} -> \code{\link[sbm:MultipartiteSBM]{sbm::MultipartiteSBM}} -> \code{\link[sbm:MultipartiteSBM_fit]{sbm::MultipartiteSBM_fit}} -> \code{MultiplexSBM_fit}
 }
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
@@ -40,8 +40,9 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 }
 }
 \if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
+\out{<details ><summary>Inherited methods</summary>}
 \itemize{
+\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="rNetwork">}\href{../../sbm/html/SBM.html#method-rNetwork}{\code{sbm::SBM$rNetwork()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM" data-id="plot">}\href{../../sbm/html/MultipartiteSBM.html#method-plot}{\code{sbm::MultipartiteSBM$plot()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM" data-id="print">}\href{../../sbm/html/MultipartiteSBM.html#method-print}{\code{sbm::MultipartiteSBM$print()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM_fit" data-id="predict">}\href{../../sbm/html/MultipartiteSBM_fit.html#method-predict}{\code{sbm::MultipartiteSBM_fit$predict()}}\out{</span>}

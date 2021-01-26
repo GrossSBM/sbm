@@ -12,7 +12,7 @@
 #' @param covariates a list of matrices with same dimension as mat describing covariates at the edge level. No covariate per Default.
 #' @param covariatesParam optional vector of covariates effect. A zero length numeric vector by default.
 #'
-#' @return  an object with class \code{\link{SimpleSBM_sampler}}
+#' @return  an object with class \code{\link{SimpleSBM}}
 #'
 #' @examples
 #' ### =======================================
@@ -28,11 +28,9 @@
 #' ## Graph Sampling
 #' mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam, model = 'bernoulli')
 #' plot(mySampler)
-#' mySampler$rMemberships() # sample new memberships
-#' mySampler$rAdjacency()   # sample new adjacency matrix
 #' plot(mySampler)
 #' plot(mySampler,type='meso')
-#' hist(mySampler$netMatrix)
+#' hist(mySampler$networkData)
 #'
 #' ### =======================================
 #' ### SIMPLE POISSON SBM
@@ -48,7 +46,7 @@
 #' mySampler <- sampleSimpleSBM(nbNodes, blockProp, list(mean = means), model = "poisson")
 #' plot(mySampler)
 #' plot(mySampler,type='meso')
-#' hist(mySampler$netMatrix)
+#' hist(mySampler$networkData)
 #'
 #' ### =======================================
 #' ### SIMPLE GAUSSIAN SBM
@@ -64,18 +62,19 @@
 #' mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam, model = "gaussian")
 #' plot(mySampler)
 #' plot(mySampler,type='meso')
-#' hist(mySampler$netMatrix)
+#' hist(mySampler$networkData)
 #' @export
 sampleSimpleSBM <- function(nbNodes,
                             blockProp,
                             connectParam,
                             model = 'bernoulli',
                             directed = FALSE,
-                            dimLabels    = list(row = "nodeLabel", col = "nodeLabel"),
+                            dimLabels = c(node = "nodeName"),
                             covariates = list(),
                             covariatesParam = numeric(0)) {
 
-  mySampler <- SimpleSBM_sampler$new(model, nbNodes, directed, blockProp, connectParam, dimLabels, covariatesParam, covariates)
+  mySampler <- SimpleSBM$new(model, nbNodes, directed, blockProp, connectParam, dimLabels, covariatesParam, covariates)
+  mySampler$rNetwork(store = TRUE)
   mySampler
 }
 
@@ -92,7 +91,7 @@ sampleSimpleSBM <- function(nbNodes,
 #' @param covariates a list of matrices with same dimension as mat describing covariates at the edge level. No covariate per Default.
 #' @param covariatesParam optional vector of covariates effect. A zero length numeric vector by default.
 #'
-#' @return an object with class \code{\link{BipartiteSBM_sampler}}
+#' @return an object with class \code{\link{BipartiteSBM}}
 #'
 #' @examples
 #' ### =======================================
@@ -106,14 +105,14 @@ sampleSimpleSBM <- function(nbNodes,
 #' connectParam <- list(mean = means)
 #'
 #' ## Graph Sampling
-#' dimLabels = list(row='Reader',col='Book')
+#' dimLabels = c(row='Reader',col='Book')
 #' mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'bernoulli',dimLabels)
 #' plot(mySampler)
 #' plot(mySampler,type='meso',plotOptions = list(vertex.label.name=list(row='Reader',col='Book')))
 #' plot(mySampler,type='meso',plotOptions = list(vertex.label.name=c('A','B'),vertex.size = 1.4))
 #' mySampler$rMemberships() # sample new memberships
-#' mySampler$rIncidence()   # sample new incidence matrix
-
+#' mySampler$rEdges()   # sample new edges
+#' mySampler$rNetwork()   # sample a new networrk (blocks and edges)
 #' ### =======================================
 #' ### BIPARTITE POISSON SBM
 #' ## Graph parameters
@@ -125,12 +124,12 @@ sampleSimpleSBM <- function(nbNodes,
 #' connectParam <- list(mean = means)
 #'
 #' ## Graph Sampling
-#' dimLabels = list(row = 'Ind', col = 'Service')
+#' dimLabels = c(row = 'Ind', col = 'Service')
 #' mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'poisson', dimLabels)
 #' plot(mySampler,type='expected')
 #' plotOptions = list(vertex.label.name=c('U','V'),vertex.size = c(1.4,1.3))
-#' plot(mySampler,type='meso',plotOptions)
-#' hist(mySampler$netMatrix)
+#' plot(mySampler, type='meso', plotOptions = plotOptions)
+#' hist(mySampler$networkData)
 #'
 #' ### =======================================
 #' ### BIPARTITE GAUSSIAN SBM
@@ -145,18 +144,19 @@ sampleSimpleSBM <- function(nbNodes,
 #' ## Graph Sampling
 #' mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'gaussian')
 #' plot(mySampler)
-#' hist(mySampler$netMatrix)
+#' hist(mySampler$networkData)
 #'
 #' @export
 sampleBipartiteSBM <- function(nbNodes,
                             blockProp,
                             connectParam,
                             model = 'bernoulli',
-                            dimLabels    = list(row = "rowLabel", col = "colLabel"),
+                            dimLabels    = c(row = "rowName", col = "colName"),
                             covariates = list(),
                             covariatesParam = numeric(0)) {
 
-  mySampler <- BipartiteSBM_sampler$new(model, nbNodes, blockProp, connectParam, dimLabels, covariatesParam, covariates)
+  mySampler <- BipartiteSBM$new(model, nbNodes, blockProp, connectParam, dimLabels, covariatesParam, covariates)
+  mySampler$rNetwork(store = TRUE)
   mySampler
 }
 #' Sampling of Multipartite SBMs
@@ -172,7 +172,8 @@ sampleBipartiteSBM <- function(nbNodes,
 #' @param directed a vector of logical, directed network or not for each network. Default is \code{FALSE}.
 #' @param dimLabels an optional list of labels for functional group involved in the network
 #' @param seed numeric to set the seed.
-#' @return  a list of two elements : \code{simulatedMemberships} are the clustering of each node in each Functional Group,  \code{multipartiteNetwork} is the list of the simulated networks (each one being  a simple or bipartite network)
+#' @return  a list of two elements : \code{simulatedMemberships} are the clustering of each node in each Functional Group,
+#'   \code{multipartiteNetwork} is the list of the simulated networks (each one being  a simple or bipartite network)
 #'
 #' @examples
 #' ### =======================================
@@ -195,7 +196,7 @@ sampleBipartiteSBM <- function(nbNodes,
 #' connectParam[[3]] <- list(mean = matrix(c(10, 0, -10, 20), 2,2), var = matrix(1,2,2))
 #' connectParam[[4]] <- list(mean = matrix(c(3, 23 ,11 ,16 , 2 ,25), 3,2))
 #' connectParam[[4]]$var <- matrix(c(10,20,1,5,0.1,10), 3,2)
-#' dimLabels <- as.list(c('A','B','C'))
+#' dimLabels <- c('A','B','C')
 #' ## Graph Sampling
 #' mySampleMBM <- sampleMultipartiteSBM(nbNodes, blockProp,
 #'                                      archiMultipartite,
@@ -233,20 +234,20 @@ sampleMultipartiteSBM <- function(nbNodes,
     }
   }
   v_distrib <- model
-  namesFG <-  unlist(dimLabels)
+  namesFG <-  dimLabels
   dataSimGREMLIN <- rMBM(v_NQ ,E,typeInter,  v_distrib, list_pi , list_theta, namesFG, keepClassif = TRUE, seed= seed)
   listNetworks <- list()
   memberships <- dataSimGREMLIN$classif
   names(memberships) <- namesFG
+
   for (l in 1:nbNetworks){
-    dimLabels_l = list(row = dataSimGREMLIN$list_Net[[l]]$rowFG, col = dataSimGREMLIN$list_Net[[l]]$colFG)
+    dimLabels_l = c(row = dataSimGREMLIN$list_Net[[l]]$rowFG, col = dataSimGREMLIN$list_Net[[l]]$colFG)
     type_l <- ifelse(typeInter[l] == 'inc','bipartite','simple')
+    if (type_l == "simple") dimLabels_l = c(node = unique(dimLabels_l))
     listNetworks[[l]] <- defineSBM(netMat  = dataSimGREMLIN$list_Net[[l]]$mat, model = model[l], type = type_l, directed = directed[l],dimLabels =  dimLabels_l)
   }
 
   list(listSBM =  listNetworks, memberships  = memberships)
-
-
 
 }
 

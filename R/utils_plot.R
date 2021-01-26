@@ -19,8 +19,8 @@ plotMatrix = function(Mat, dimLabels, clustering = NULL,plotOptions = list()){
   if (is.null(colnames(Mat))){colnames(Mat) = as.factor(1:n2)}
 
 
-  rowFG <- dimLabels$row
-  colFG <- dimLabels$col
+  rowFG <- dimLabels[1]
+  colFG <- dimLabels[2]
 
   if ((!currentOptions$rowNames)){rownames(Mat)= 1:n1}
   if ((!currentOptions$colNames)){colnames(Mat)= 1:n2}
@@ -58,8 +58,8 @@ plotMatrix = function(Mat, dimLabels, clustering = NULL,plotOptions = list()){
 
 
 
-  FGCol <- rep(dimLabels$col, times = n2)
-  FGRow <- rep(dimLabels$row, times = n1)
+  FGRow <- rep(dimLabels[1], times = n1)
+  FGCol <- rep(dimLabels[2], times = n2)
 
   melted_Mat = reshape::melt(t(Mat))
 
@@ -95,7 +95,7 @@ plotMatrix = function(Mat, dimLabels, clustering = NULL,plotOptions = list()){
   }
 
   g <- g +  labs(x = '', y = '') +  theme(aspect.ratio = n1/n2, axis.ticks = element_blank(), panel.background = element_rect(fill = "white"))
-  if (!is.null(dimLabels$row) & !is.null(dimLabels$col)){
+  if (!is.null(dimLabels[1]) & !is.null(dimLabels[2])){
     g <- g+ facet_grid(FG_row ~ FG_col,scales = 'free', space = 'free')}
   if (!currentOptions$legend){g <- g +theme(legend.position = 'none')}else{
     g <- g +theme(legend.position = currentOptions$legend.position)

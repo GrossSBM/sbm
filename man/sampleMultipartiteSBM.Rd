@@ -33,7 +33,8 @@ sampleMultipartiteSBM(
 \item{seed}{numeric to set the seed.}
 }
 \value{
-a list of two elements : \code{simulatedMemberships} are the clustering of each node in each Functional Group,  \code{multipartiteNetwork} is the list of the simulated networks (each one being  a simple or bipartite network)
+a list of two elements : \code{simulatedMemberships} are the clustering of each node in each Functional Group,
+\code{multipartiteNetwork} is the list of the simulated networks (each one being  a simple or bipartite network)
 }
 \description{
 This function samples a Multipartite Stochastic Block Models, with various model
@@ -60,7 +61,7 @@ connectParam[[2]] <- list(mean = matrix(c(1000 , 500,  400 , 950),2,2))
 connectParam[[3]] <- list(mean = matrix(c(10, 0, -10, 20), 2,2), var = matrix(1,2,2))
 connectParam[[4]] <- list(mean = matrix(c(3, 23 ,11 ,16 , 2 ,25), 3,2))
 connectParam[[4]]$var <- matrix(c(10,20,1,5,0.1,10), 3,2)
-dimLabels <- as.list(c('A','B','C'))
+dimLabels <- c('A','B','C')
 ## Graph Sampling
 mySampleMBM <- sampleMultipartiteSBM(nbNodes, blockProp,
                                      archiMultipartite,

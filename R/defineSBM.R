@@ -6,13 +6,13 @@
 #' @return an object SimpleSBM or BipartiteSBM with the informations required to define a future multipartite network
 #' @examples
 #' A <- matrix(rbinom(100,1,.2), 10, 10)
-#' myNet <- defineSBM(A, "poisson", "simple", TRUE, list("Actor", "Actor"))
+#' myNet <- defineSBM(A, "poisson", "simple", TRUE, "Actor")
 #' @export
 defineSBM = function(netMat,
                      model      = 'bernoulli',
                      type       = ifelse(ncol(netMat) == nrow(netMat), "simple", "bipartite"),
                      directed   = !isSymmetric(netMat),
-                     dimLabels  = list(row = "row", col = "col"),
+                     dimLabels  = c(row = "row", col = "col"),
                      covariates = list())
   {
 
@@ -23,7 +23,6 @@ defineSBM = function(netMat,
   if(is.null(rownames(netMat))) rownames(netMat) <- 1:nrow(netMat)
   if(is.null(colnames(netMat))) colnames(netMat) <- 1:ncol(netMat)
 
-### we use virtual classes here, since optim is done via multipartite network
   if (type == "simple")
     mySBM <- SimpleSBM_fit$new(netMat, model, directed, dimLabels, covariates)
   else
