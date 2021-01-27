@@ -286,6 +286,14 @@ SampleMultiplexSBM <- function(nbNodes,
                                seed = NULL) {
 
 
+  # dimLabels for compatibility with define SBM
+  if (is.null(dimLabels))
+  {
+    if (type=="bipartite") dimLabels = c(row = "row", col = "col")
+    else dimLabels = "actor"
+  }
+
+
 
   # block prop list ou simple vecteur
   if (!((length(nbNodes)==2 & is.list(blockProp)) | (length(nbNodes)==1 & !is.list(blockProp)) | (length(nbNodes)==1 & is.list(blockProp) & length(blockProp)==1 )))
@@ -307,51 +315,38 @@ SampleMultiplexSBM <- function(nbNodes,
     if (!(dGauss | (dBern&length(model) == 2)))
       stop("dependency in multiplex network is only handled for Gaussian distribution or a bivariate Bernoulli distribution")
 
-    ## TODO dependent case based on help from blockmodels function
     if (dBern)
     {
-      # which connect param to input ?
+      P00 <- connectParam$prob00
+      P01 <- connectParam$prob01
+      P10 <- connectParam$prob10
+      P11 <- connectParam$prob11
 
       if (type == "bipartite")
       {
         Z1 <- t(rmultinom(nbNodes[1], size = 1, prob = blockProp[[1]]))
         Z2 <- t(rmultinom(nbNodes[2], size = 1, prob = blockProp[[2]]))
-        P00 <- connectParam$prob00
-        P01 <- connectParam$prob01
-        P10 <- connectParam$prob10
-        P11 <- connectParam$prob11
         MU <-matrix(runif(prod(nbNodes)),nbNodes[1],nbNodes[2])
         M1 <-1*(MU>Z1%*%(P00+P01)%*%t(Z2))
         M2 <-1*(((MU>Z1%*%(P00)%*%t(Z2)) & (MU<Z1%*%(P00+P01)%*%t(Z2))) | (MU>Z1%*%(1-P11)%*%t(Z2)))
-        memberships <- list(Z1,Z2)
+        memberships <- list(as_clustering(Z1),as_clustering(Z2))
       }
-      if (type == "directed")
-      {
+      else {
         if (!is.list(blockProp)) blockProp = list(blockProp)
         Z <- t(rmultinom(nbNodes[1], size = 1, prob = blockProp[[1]]))
-        P00 <- connectParam$prob00
-        P01 <- connectParam$prob01
-        P10 <- connectParam$prob10
-        P11 <- connectParam$prob11
-        MU <-matrix(runif(prod(nbNodes)),nbNodes[1],nbNodes[2])
+        MU <-matrix(runif((nbNodes)**2),nbNodes,nbNodes)
         M1 <-1*(MU>Z%*%(P00+P01)%*%t(Z))
         M2 <-1*(((MU>Z%*%(P00)%*%t(Z)) & (MU<Z%*%(P00+P01)%*%t(Z))) | (MU>Z%*%(1-P11)%*%t(Z)))
-        memberships <- list(Z)
-      }
+        memberships <- list(as_clustering(Z))
       if (type== "undirected")
       {
-        if (!is.list(blockProp)) blockProp = list(blockProp)
-        Z <- t(rmultinom(nbNodes[1], size = 1, prob = blockProp[[1]]))
-        P00 <- connectParam$prob00
-        P01 <- connectParam$prob01
-        P10 <- connectParam$prob10
-        P11 <- connectParam$prob11
-        MU <-matrix(runif(prod(nbNodes)),nbNodes[1],nbNodes[2])
+        if (any(!sapply(connectParam,isSymmetric))) stop("Non symmetric parameters")
         MU[lower.tri(MU)]<-t(MU)[lower.tri(MU)]
         M1 <-1*(MU>Z%*%(P00+P01)%*%t(Z))
         M2 <-1*(((MU>Z%*%(P00)%*%t(Z)) & (MU<Z%*%(P00+P01)%*%t(Z))) | (MU>Z%*%(1-P11)%*%t(Z)))
-        memberships <- list(Z)
       }
+      }
+
       listNetworks <- list()
       names(memberships) <- dimLabels
       type_l <- ifelse(type=="bipartite","bipartite","simple")
@@ -361,19 +356,45 @@ SampleMultiplexSBM <- function(nbNodes,
     }
     if (dGauss)
     {
+      listNetworks <- vector("list",nbLayers)
+      Mus <- connectParam$mu
+      Sig <- connectParam$Sigma
+
       if (type == "bipartite")
       {
+        Z1 <- t(rmultinom(nbNodes[1], size = 1, prob = blockProp[[1]]))
+        Z2 <- t(rmultinom(nbNodes[2], size = 1, prob = blockProp[[2]]))
+        Noise <- t(chol(Sig)) %*% matrix(rnorm(prod(nbNodes)*nbLayers),nbLayers,prod(nbNodes))
 
+        for (l in 1:nbLayers)
+        {
+            nettemp <- Z1%*%Mus[[l]]%*%t(Z2) + matrix(Noise[l,],nbNodes[1],nbNodes[2])
+            listNetworks[[l]] <- defineSBM(netMat  = nettemp, model = model[l], type = "bipartite",dimLabels =  dimLabels)
+        }
+        memberships <- list(as_clustering(Z1),as_clustering(Z2))
       }
-      if (type == "directed")
+      else
       {
+        if (!is.list(blockProp)) blockProp = list(blockProp)
+        Z <- t(rmultinom(nbNodes[1], size = 1, prob = blockProp[[1]]))
+        Noise <- t(chol(Sig)) %*% matrix(rnorm(nbNodes*nbNodes*nbLayers),nbLayers,nbNodes*nbNodes)
 
+        for (l in 1:nbLayers)
+        {
+          nettemp <- Z%*%Mus[[l]]%*%t(Z) + matrix(Noise[l,],nbNodes,nbNodes)
+          if (type== "undirected")
+          {
+            nettemp[lower.tri(nettemp)] <- t(nettemp)[lower.tri(nettemp)]
+          }
+          listNetworks[[l]] <- defineSBM(netMat  = nettemp, model = model[l], type = "simple",dimLabels =  dimLabels)
+        }
+        memberships <- list(as_clustering(Z))
       }
-      if (type== "undirected")
-      {
+      names(memberships) <- dimLabels
 
-      }
     }
+
+    return(  list(listSBM =  listNetworks, memberships  = memberships))
     }
 
 
