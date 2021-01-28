@@ -255,7 +255,7 @@ estimateBipartiteSBM <- function(netMat,
 #'                                       archiMultipartite, connectParam, model,
 #'                                       directed, dimLabels = c('A','B'), seed = 2)
 #' listSBM <- mySampleMSBM$listSBM
-#' estimOptions <- list(initBM = FALSE, nbCores  = 2, initBM = FALSE)
+#' estimOptions <- list(initBM = FALSE, nbCores  = 2)
 #' myMSBM <- estimateMultipartiteSBM(listSBM,estimOptions)
 #' plot(myMSBM, type = "data")
 #' plot(myMSBM, type = "expected")
@@ -300,10 +300,56 @@ estimateMultipartiteSBM <- function(listSBM,
 #' @export
 #'
 #' @examples
-#' ## MultiplexSBM with no dependence
-#' #TODO once the SampleMultiplexSBM  function works
-#'
-#' ## MultiplexSBM with dependence
+#' ## MultiplexSBM without dependence between layers
+#' Nnodes <- 40
+#' blockProp <- c(.4,.6)
+#' nbLayers <- 2
+#' connectParam <- list(list(mean=matrix(rbeta(4,.5,.5),2,2)),list(mean=matrix(rexp(4,.5),2,2)))
+#' model <- c("bernoulli","poisson")
+#' type <- "directed"
+#' mySampleMultiplexSBM <- SampleMultiplexSBM(nbNodes = Nnodes,blockProp = blockProp,nbLayers = nbLayers,connectParam = connectParam,model=model,type=type)
+#' listSBM <- mySampleMultiplexSBM$listSBM
+#' estimOptions <- list(initBM = FALSE, nbCores  = 2)
+#' myMultiplexSBM <- estimateMultiplexSBM(listSBM,estimOptions,dependent=FALSE)
+#' ## MultiplexSBM Gaussian with dependence
+#' Q <- 3
+#' nbLayers <- 2
+#' connectParam <- list()
+#' connectParam$mu <- vector("list",nbLayers)
+#' connectParam$mu[[1]] <-  matrix(.1,Q,Q) + diag(1:Q)
+#' connectParam$mu[[2]] <- matrix(-2,Q,Q) + diag(rev(Q:1))
+#' connectParam$Sigma <- matrix(c(2,1,1,4),nbLayers,nbLayers)
+#' model <- rep("gaussian",2)
+#' type <- "directed"
+#' Nnodes <- 80
+#' blockProp <- c(.3,.3,.4)
+#' mySampleMultiplexSBM <- SampleMultiplexSBM(nbNodes = Nnodes,blockProp = blockProp,nbLayers = nbLayers,connectParam = connectParam,model=model,type="undirected",dependent=TRUE)
+#' listSBM <- mySampleMultiplexSBM$listSBM
+#' myMultiplexSBM <- estimateMultiplexSBM(listSBM,estimOptions,dependent=TRUE)
+#' ## MultiplexSBM Bernoulli with dependence
+#' Q <- 2
+#' P00<-matrix(runif(Q*Q),Q,Q)
+#' P10<-matrix(runif(Q*Q),Q,Q)
+#' P01<-matrix(runif(Q*Q),Q,Q)
+#' P11<-matrix(runif(Q*Q),Q,Q)
+#' SumP<-P00+P10+P01+P11
+#' P00<-P00/SumP
+#' P01<-P01/SumP
+#' P10<-P10/SumP
+#' P11<-P11/SumP
+#' connectParam <- list()
+#' connectParam$prob00 <- P00
+#' connectParam$prob01 <- P01
+#' connectParam$prob10 <- P10
+#' connectParam$prob11 <- P11
+#' model <- rep("bernoulli",2)
+#' type <- "directed"
+#' nbLayers <- 2
+#' Nnodes <- 40
+#' blockProp <- c(.6,.4)
+#' mySampleMultiplexSBM <- SampleMultiplexSBM(nbNodes = Nnodes,blockProp = blockProp,nbLayers = nbLayers,connectParam = connectParam,model=model,type=type,dependent=TRUE)
+#' listSBM <- mySampleMultiplexSBM$listSBM
+#' myMultiplexSBM <- estimateMultiplexSBM(listSBM,estimOptions,dependent=TRUE)
 estimateMultiplexSBM <- function(listSBM,
                                     dependent = FALSE,
                                     estimOptions = list())
@@ -325,7 +371,7 @@ estimateMultiplexSBM <- function(listSBM,
   {
     currentOptions <- list(
       verbosity     = 1,
-      nbBlocksRange = ifelse(listSBM[[1]]$dimLabels[[1]]==listSBM[[1]]$dimLabels[[2]],list(c(1,10)),list(c(1,10),c(1,10))),
+      nbBlocksRange = ifelse(length(listSBM[[1]]$dimLabels)==1,list(c(1,10)),list(c(1,10),c(1,10))),
       nbCores       = 2,
       maxiterVE     = 100,
       maxiterVEM    = 100,

@@ -23,8 +23,8 @@ MultipartiteSBM_fit <-
 
         ## extract pi, theta, tau
         list_pi    <- fit$paramEstim$list_pi[private$dimlab]
-        list_theta <- fit$paramEstim$list_theta[paste0(private$dimlab[private$arch[,1]],
-                                            private$dimlab[private$arch[ ,2]])]
+        list_theta <- fit$paramEstim$list_theta#[paste0(private$dimlab[private$arch[,1]],
+                                            #private$dimlab[private$arch[ ,2]])]
         list_tau   <- fit$paramEstim$tau[private$dimlab]
         list_theta_mean <- map_if(list_theta, is.list, "mean", ~.x)
 
@@ -68,6 +68,7 @@ MultipartiteSBM_fit <-
               list(list_pi[[rowLab]], list_pi[[colLab]])
           }
         })
+
         private$Z <- list_tau
         private$pi  <- list_pi
 
@@ -141,6 +142,7 @@ MultipartiteSBM_fit <-
         maxiterVEM <- currentOptions$maxiterVEM
         namesFG <- names(currentOptions$nbBlocksRange)
         initBM <- currentOptions$initBM
+
 
         if ( sum(abs(v_Kmin - v_Kmax)) > 0) {
           private$GREMLINSobject <- GREMLINS::multipartiteBM(

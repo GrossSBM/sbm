@@ -50,7 +50,7 @@ mySampleMSBM <- sampleMultipartiteSBM(nbNodes, blockProp,
                                       archiMultipartite, connectParam, model,
                                       directed, dimLabels = c('A','B'), seed = 2)
 listSBM <- mySampleMSBM$listSBM
-estimOptions <- list(initBM = FALSE, nbCores  = 2, initBM = FALSE)
+estimOptions <- list(initBM = FALSE, nbCores  = 2)
 myMSBM <- estimateMultipartiteSBM(listSBM,estimOptions)
 plot(myMSBM, type = "data")
 plot(myMSBM, type = "expected")
