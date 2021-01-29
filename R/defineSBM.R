@@ -23,7 +23,6 @@ defineSBM = function(netMat,
   if(is.null(rownames(netMat))) rownames(netMat) <- 1:nrow(netMat)
   if(is.null(colnames(netMat))) colnames(netMat) <- 1:ncol(netMat)
 
-### we use virtual classes here, since optim is done via multipartite network
   if (type == "simple")
     mySBM <- SimpleSBM_fit$new(netMat, model, directed, dimLabels, covariates)
   else

@@ -29,22 +29,20 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 }
 }
 \examples{
-## About the Functional Groups (FG)
+## About the Parts/Functional Groups (FG)
 blockProp <- list(c(0.16 ,0.40 ,0.44),c(0.3,0.7)) # prop of blocks in each FG
 archiMultipartite <-  rbind(c(1,2),c(2,2),c(1,1)) # architecture of the multipartite net.
 nbNodes <- c(60,50)
 ## About the connection matrices
 directed <- c(NA, TRUE, FALSE) # type of each network
 model <- c('gaussian','bernoulli','poisson')
-connectParam <- list()
-connectParam[[1]] <- list()
-connectParam[[1]]$mean  <- matrix(c(6.1, 8.9, 6.6, 9.8, 2.6, 1.0), 3, 2)
-connectParam[[1]]$var  <-  matrix(c(1.6, 1.6, 1.8, 1.7 ,2.3, 1.5),3, 2)
-connectParam[[2]] <-  list()
-connectParam[[2]]$mean <-  matrix(c(0.7,1.0, 0.4, 0.6),2, 2)
-connectParam[[3]] <- list()
+C1 <-
+ list(mean = matrix(c(6.1, 8.9, 6.6, 9.8, 2.6, 1.0), 3, 2),
+      var  = matrix(c(1.6, 1.6, 1.8, 1.7 ,2.3, 1.5),3, 2))
+C2 <- list(mean = matrix(c(0.7,1.0, 0.4, 0.6),2, 2))
 m3 <- matrix(c(2.5, 2.6 ,2.2 ,2.2, 2.7 ,3.0 ,3.6, 3.5, 3.3),3,3 )
-connectParam[[3]]$mean <- (m3 + t(m3))/2
+C3 <- list(mean = .5 * (m3 + t(m3)))
+connectParam <- list(C1, C2, C3)
 ## Graph Sampling
 mySampleMSBM <- sampleMultipartiteSBM(nbNodes, blockProp,
                                       archiMultipartite, connectParam, model,

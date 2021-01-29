@@ -40,7 +40,16 @@ reference:
     - '`BipartiteSBM_fit`'
     - '`sampleBipartiteSBM`'
     - '`estimateBipartiteSBM`'
-- title: 'Methods common to Bipartite and Simple SBM'
+- title: 'Multipartite Stochastic block models'
+  desc: >
+    Set of classes and functions for manipulating multipartite stochastic block models
+  contents:
+    - '`MultipartiteSBM`'
+    - '`MultipartiteSBM_fit`'
+    - '`MultiplexSBM_fit`'
+    - '`sampleMultipartiteSBM`'
+    - '`estimateMultipartiteSBM`'
+- title: 'Methods common to all SBM'
   desc: >
     Set of classes and functions for manipulating stochastic block models
   contents:
@@ -48,21 +57,10 @@ reference:
     - '`plot.SBM`'
     - '`predict.SBM`'
     - '`coef.SBM`'
-    - '`fitted.SBM_fit`'
-    - '`plotMyMatrix`'
-- title: 'Multipartite Stochastic block models'
-  desc: >
-    Set of classes and functions for manipulating multipartite stochastic block models
-  contents:
-    - '`MultipartiteSBM`'
-    - '`MultipartiteSBM_fit`'
-    - '`sampleMultipartiteSBM`'
-    - '`estimateMultipartiteSBM`'
+    - '`fitted.SBM`'
     - '`defineSBM`'
+    - '`plotMyMatrix`'
     - '`plotMyMultipartiteMatrix`'
-    - '`plot.MultipartiteSBM`'
-    - '`predict.MultipartiteSBM`'
-    - '`is_MultipartiteSBM`'
 - title: 'Data sets'
   desc: >
     Set of data setes available

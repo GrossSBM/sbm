@@ -156,7 +156,6 @@ MultipartiteSBM_fit <-
             nbCores = nbCores,
             maxiterVE =  maxiterVE ,
             maxiterVEM =  maxiterVEM)
-          private$import_from_GREMLINS()
         } else {
           private$GREMLINSobject <- GREMLINS::multipartiteBMFixedModel(
             list_Net = listNetG,
@@ -168,8 +167,8 @@ MultipartiteSBM_fit <-
             maxiterVE = maxiterVE,
             maxiterVEM = maxiterVEM,
             verbose = verbose)
-          private$import_from_GREMLINS()
         }
+        private$import_from_GREMLINS()
       },
       #' @description prediction under the currently estimated model
       #' @return a list of matrices matrix of expected values for each dyad
@@ -182,13 +181,13 @@ MultipartiteSBM_fit <-
         stopifnot(index %in% seq.int(nrow(self$storedModels)))
         private$import_from_GREMLINS(index)
       },
-      #' @description print method
-      #' @param type character to tune the displayed name
+      #' @description show method
+      #' @param type character used to specify the type of SBM
       show = function(type = "Fit of a Multipartite Stochastic Block Model"){
         super$show(type)
-        cat("  $probMemberships, \n")
-        cat("* S3 methods \n")
-        cat("  plot, print, coef, predict \n")
+        cat("  $probMemberships, $loglik, $ICL, $storedModels, \n")
+        cat("* R6 and S3 methods \n")
+        cat("  plot, print, coef, predict, fitted, $setModel, $reorder \n")
       }
   ),
   #-----------------------------------------------
@@ -211,7 +210,7 @@ MultipartiteSBM_fit <-
       U <- cbind(indexModel, nbParams, Blocks)
       U$nbBlocks <-rowSums(Blocks)
       U$ICL      <- map_dbl(fit, "ICL")
-      U$loglik   <- map_dbl(fit, ~last(x.$vJ))
+      U$loglik   <- map_dbl(fit, ~last(.x$vJ))
       U
     }
   )
