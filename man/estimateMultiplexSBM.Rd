@@ -30,7 +30,14 @@ nbLayers <- 2
 connectParam <- list(list(mean=matrix(rbeta(4,.5,.5),2,2)),list(mean=matrix(rexp(4,.5),2,2)))
 model <- c("bernoulli","poisson")
 type <- "directed"
-mySampleMultiplexSBM <- SampleMultiplexSBM(nbNodes = Nnodes,blockProp = blockProp,nbLayers = nbLayers,connectParam = connectParam,model=model,type=type)
+mySampleMultiplexSBM <-
+   SampleMultiplexSBM(
+   nbNodes = Nnodes,
+    blockProp = blockProp,
+   nbLayers = nbLayers,
+   connectParam = connectParam,
+   model=model,
+   type=type)
 listSBM <- mySampleMultiplexSBM$listSBM
 estimOptions <- list(initBM = FALSE, nbCores  = 2)
 myMultiplexSBM <- estimateMultiplexSBM(listSBM,estimOptions,dependent=FALSE)
@@ -46,7 +53,15 @@ model <- rep("gaussian",2)
 type <- "directed"
 Nnodes <- 80
 blockProp <- c(.3,.3,.4)
-mySampleMultiplexSBM <- SampleMultiplexSBM(nbNodes = Nnodes,blockProp = blockProp,nbLayers = nbLayers,connectParam = connectParam,model=model,type="undirected",dependent=TRUE)
+mySampleMultiplexSBM <-
+  SampleMultiplexSBM(
+     nbNodes = Nnodes,
+     blockProp = blockProp,
+     nbLayers = nbLayers,
+     connectParam = connectParam,
+     model=model,
+     type="undirected",
+     dependent=TRUE)
 listSBM <- mySampleMultiplexSBM$listSBM
 myMultiplexSBM <- estimateMultiplexSBM(listSBM,estimOptions,dependent=TRUE)
 ## MultiplexSBM Bernoulli with dependence
@@ -70,7 +85,15 @@ type <- "directed"
 nbLayers <- 2
 Nnodes <- 40
 blockProp <- c(.6,.4)
-mySampleMultiplexSBM <- SampleMultiplexSBM(nbNodes = Nnodes,blockProp = blockProp,nbLayers = nbLayers,connectParam = connectParam,model=model,type=type,dependent=TRUE)
+mySampleMultiplexSBM <-
+   SampleMultiplexSBM(
+     nbNodes = Nnodes,
+     blockProp = blockProp,
+     nbLayers = nbLayers,
+     connectParam = connectParam,
+     model=model,
+     type=type,
+     dependent=TRUE)
 listSBM <- mySampleMultiplexSBM$listSBM
 myMultiplexSBM <- estimateMultiplexSBM(listSBM,estimOptions,dependent=TRUE)
 }

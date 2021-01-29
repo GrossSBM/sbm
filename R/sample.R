@@ -273,7 +273,7 @@ sampleMultipartiteSBM <- function(nbNodes,
 #' @examples
 #' ### =======================================
 #'
-#' @importFrom stats rmultinom runif
+#' @importFrom stats rmultinom runif rnorm
 #' @export
 SampleMultiplexSBM <- function(nbNodes,
                                blockProp,
