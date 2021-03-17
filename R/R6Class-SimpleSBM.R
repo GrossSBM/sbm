@@ -60,13 +60,17 @@ SimpleSBM <-
       #' @return a matrix of expected values for each dyad
       predict = function(covarList = self$covarList, theta_p0 = 0) {
         stopifnot(is.list(covarList), self$nbCovariates == length(covarList))
-        mu <- private$Z %*% ( ((1-theta_p0)>0.5) * private$theta$mean ) %*% t(private$Z)
+
+        mu <- ((1-theta_p0)>0.5 ) * private$theta$mean
+
         if (self$nbCovariates > 0) {
           stopifnot(all(sapply(covarList, nrow) == self$nbNodes,
                         sapply(covarList, ncol) == self$nbNodes))
-          mu <- private$invlink[[1L]](private$link[[1L]](mu) + self$covarEffect)
+          res <- private$invlink[[1L]](private$Z %*% private$link[[1L]](mu) %*% t(private$Z) + self$covarEffect)
+        } else {
+          res <- private$Z %*% mu %*% t(private$Z)
         }
-        mu
+        res
       },
       #' @description show method
       #' @param type character used to specify the type of SBM
