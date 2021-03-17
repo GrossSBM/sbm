@@ -1,6 +1,7 @@
 # sbm dev
 
 * simplification/restructuration of classes
+* fix in prediction of Bipartite and Simple SBM (#7)
 
 # sbm 0.4.0 - major release
 
