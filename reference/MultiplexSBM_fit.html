@@ -59,9 +59,15 @@ R6 Class definition of a Multiplex SBM fit" />
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -75,7 +81,7 @@ R6 Class definition of a Multiplex SBM fit" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sbm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0-9100</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0-9110</span>
       </span>
     </div>
 
@@ -168,7 +174,7 @@ R6 Class definition of a Multiplex SBM fit" />
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
-<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Public methods</h3>
+<h3 class='hasAnchor' id='public-methods'><a class='anchor' href='#public-methods'></a>Public methods</h3>
 
 <ul>
 <li><p><a href='#method-new'><code>MultiplexSBM_fit$new()</code></a></p></li>
@@ -187,8 +193,19 @@ R6 Class definition of a Multiplex SBM fit" />
 </details>
 
 <hr>
-<a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
-<p>constructor for Multiplex SBM</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<a id="method-new"></a></p><h3 class='hasAnchor' id='method-'><a class='anchor' href='#method-'></a>Method <code>new()</code></h3>
+<p>constructor for Multiplex SBM</p><h4 class='hasAnchor' id='usage'><a class='anchor' href='#usage'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>MultiplexSBM_fit</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>netList</span>, dependentNet <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>netList</code></dt><dd><p>list of SBM object with</p></dd>
+
+<dt><code>dependentNet</code></dt><dd><p>boolean indicating whether dependence is assumed between networks beyond the common dependence on the latent variables</p></dd>
+
+</dl><p></div></p>
+<h3 class='hasAnchor' id='list-new-'><a class='anchor' href='#list-new-'></a>Method <code>new()</code></h3>
+<p>constructor for Multiplex SBM</p><h4 class='hasAnchor' id='usage'><a class='anchor' href='#usage'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>MultiplexSBM_fit</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>netList</span>, dependentNet <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
@@ -199,8 +216,17 @@ R6 Class definition of a Multiplex SBM fit" />
 
 </dl><p></div></p>
 <p><hr>
-<a id="method-optimize"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/stats/optimize.html'>optimize()</a></code></h3>
-<p>estimation of multipartiteSBM via GREMLINS</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<a id="method-optimize"></a></p><h3 class='hasAnchor' id='method-'><a class='anchor' href='#method-'></a>Method <code><a href='https://rdrr.io/r/stats/optimize.html'>optimize()</a></code></h3>
+<p>estimation of multipartiteSBM via GREMLINS</p><h4 class='hasAnchor' id='usage'><a class='anchor' href='#usage'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>MultiplexSBM_fit</span><span class='op'>$</span><span class='fu'>optimize</span><span class='op'>(</span><span class='va'>estimOptions</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>estimOptions</code></dt><dd><p>options for MultipartiteBM</p></dd>
+
+</dl><p></div></p>
+<h3 class='hasAnchor' id='list-optimize-'><a class='anchor' href='#list-optimize-'></a>Method <code><a href='https://rdrr.io/r/stats/optimize.html'>optimize()</a></code></h3>
+<p>estimation of multipartiteSBM via GREMLINS</p><h4 class='hasAnchor' id='usage'><a class='anchor' href='#usage'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>MultiplexSBM_fit</span><span class='op'>$</span><span class='fu'>optimize</span><span class='op'>(</span><span class='va'>estimOptions</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
@@ -209,8 +235,17 @@ R6 Class definition of a Multiplex SBM fit" />
 
 </dl><p></div></p>
 <p><hr>
-<a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
-<p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<a id="method-clone"></a></p><h3 class='hasAnchor' id='method-'><a class='anchor' href='#method-'></a>Method <code>clone()</code></h3>
+<p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='usage'><a class='anchor' href='#usage'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>MultiplexSBM_fit</span><span class='op'>$</span><span class='fu'>clone</span><span class='op'>(</span>deep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>deep</code></dt><dd><p>Whether to make a deep clone.</p></dd>
+
+</dl><p></div></p>
+<h3 class='hasAnchor' id='list-clone-'><a class='anchor' href='#list-clone-'></a>Method <code>clone()</code></h3>
+<p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='usage'><a class='anchor' href='#usage'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>MultiplexSBM_fit</span><span class='op'>$</span><span class='fu'>clone</span><span class='op'>(</span>deep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
@@ -232,11 +267,11 @@ R6 Class definition of a Multiplex SBM fit" />
 
       <footer>
       <div class="copyright">
-  <p>Developed by Julien Chiquet, Sophie Donnet, Pierre Barbillon.</p>
+  <p><p>Developed by Julien Chiquet, Sophie Donnet, Pierre Barbillon.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
 </div>
 
       </footer>
@@ -244,6 +279,8 @@ R6 Class definition of a Multiplex SBM fit" />
 
   
 
+
+  
 
   </body>
 </html>
