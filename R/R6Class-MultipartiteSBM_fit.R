@@ -83,7 +83,7 @@ MultipartiteSBM_fit <-
         dimLabels <- map(netList, "dimLabels") %>% unlist()
         nbNodes   <- map(netList, "nbNodes")  %>% unlist()
         dup <- duplicated(dimLabels);
-        if (length(dup) > 0){
+        if (sum(dup) > 0){
           dimLabels <- dimLabels[-dup]
           nbNodes   <- nbNodes[-dup]
         }
