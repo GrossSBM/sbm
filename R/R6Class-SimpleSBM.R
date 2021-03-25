@@ -114,7 +114,7 @@ SimpleSBM <-
         if (missing(value))
           return(private$dimlab)
         else {
-          stofifnot(is.atomic(value), is.character(value), length(value) == 1)
+          stopifnot(is.atomic(value), is.character(value), length(value) == 1)
           if (is.null(names(value))){names(value)  = c('node')}
           private$dimlab <- value
         }

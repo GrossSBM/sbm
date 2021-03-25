@@ -120,7 +120,7 @@ BipartiteSBM <-
         if (missing(value))
           return(private$dimlab)
         else {
-          stofifnot(is.atomic(value), is.character(value), length(value) == 2)
+          stopifnot(is.atomic(value), is.character(value), length(value) == 2)
           if (is.null(names(value))){names(value)  = c('row', 'col')}
           private$dimlab <- value
         }
