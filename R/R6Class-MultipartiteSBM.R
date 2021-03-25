@@ -89,7 +89,7 @@ MultipartiteSBM <-
         if (missing(value))
           return(private$dimlab)
         else {
-          stofifnot(is.atomic(value), is.character(value))
+          stopifnot(is.atomic(value), is.character(value))
           private$dimlab <- value
         }
       },
