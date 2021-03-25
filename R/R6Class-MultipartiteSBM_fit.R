@@ -83,8 +83,10 @@ MultipartiteSBM_fit <-
         dimLabels <- map(netList, "dimLabels") %>% unlist()
         nbNodes   <- map(netList, "nbNodes")  %>% unlist()
         dup <- duplicated(dimLabels);
-        dimLabels <- dimLabels[-dup]
-        nbNodes   <- nbNodes[-dup]
+        if (length(dup) > 0){
+          dimLabels <- dimLabels[-dup]
+          nbNodes   <- nbNodes[-dup]
+        }
 
         arch      <- map_if(netList, ~inherits(.x, "SimpleSBM_fit"),
                             function(net) setNames(c(net$dimLabels, net$dimLabels), c("from", "to")),
