@@ -49,6 +49,9 @@
 
 plotMyMultipartiteMatrix = function(listSBM, memberships = NULL, plotOptions = list()){
 
+
+  #########################
+
   myMSBMObject <- MultipartiteSBM_fit$new(listSBM)
 ### TODO: better handle of membership!!! we should use an instance of MultipartiteSBM_sampler when ready
   if (!is.null(memberships)) myMSBMObject$probMemberships <- lapply(memberships, as_indicator)

@@ -80,8 +80,12 @@ MultipartiteSBM_fit <-
       #' @param netList list of SBM objects
       initialize = function(netList) {
         directed  <- map(netList, "directed") %>% map_lgl(~ifelse(is.null(.x), NA, .x))
-        nbNodes   <- map(netList, "nbNodes")  %>% unlist() %>% unique()
-        dimLabels <- map(netList, "dimLabels") %>% unlist() %>% unique()
+        dimLabels <- map(netList, "dimLabels") %>% unlist()
+        nbNodes   <- map(netList, "nbNodes")  %>% unlist()
+        dup <- duplicated(dimLabels);
+        dimLabels <- dimLabels[-dup]
+        nbNodes   <- nbNodes[-dup]
+
         arch      <- map_if(netList, ~inherits(.x, "SimpleSBM_fit"),
                             function(net) setNames(c(net$dimLabels, net$dimLabels), c("from", "to")),
                     .else = function(net) setNames(unname(net$dimLabels), c("from", "to"))) %>% bind_rows() %>%
