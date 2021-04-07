@@ -54,7 +54,7 @@ type <- "directed"
 Nnodes <- 80
 blockProp <- c(.3,.3,.4)
 mySampleMultiplexSBM <-
-  SampleMultiplexSBM(
+  sampleMultiplexSBM(
      nbNodes = Nnodes,
      blockProp = blockProp,
      nbLayers = nbLayers,

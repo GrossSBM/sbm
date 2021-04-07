@@ -7,7 +7,7 @@ test_that("multiplex sampler works", {
   connectParam <- list(list(mean=matrix(rbeta(4,.5,.5),2,2)),list(mean=matrix(rexp(4,.5),2,2)))
   model <- c("bernoulli","poisson")
   type <- "directed"
-  sampMultiplexIndep <- SampleMultiplexSBM(nbNodes = Nnodes,blockProp = blockProp,nbLayers = nbLayers,connectParam = connectParam,model=model,type=type)
+  sampMultiplexIndep <- sampleMultiplexSBM(nbNodes = Nnodes,blockProp = blockProp,nbLayers = nbLayers,connectParam = connectParam,model=model,type=type)
 
   expect_equal(dim(sampMultiplexIndep$listSBM[[2]]$networkData),c(Nnodes,Nnodes))
   expect_equal(length(sampMultiplexIndep$memberships[[1]]),Nnodes)
@@ -20,7 +20,7 @@ test_that("multiplex sampler works", {
   connectParam <- list(list(mean=matrix(rbeta(4,.5,.5),2,2)),list(mean=matrix(rexp(4,.5),2,2)))
   model <- c("bernoulli","poisson")
   type <- "bipartite"
-  sampMultiplexIndep <- SampleMultiplexSBM(nbNodes = Nnodes,blockProp = blockProp,nbLayers = nbLayers,connectParam = connectParam,model=model,type=type)
+  sampMultiplexIndep <- sampleMultiplexSBM(nbNodes = Nnodes,blockProp = blockProp,nbLayers = nbLayers,connectParam = connectParam,model=model,type=type)
 
   expect_equal(dim(sampMultiplexIndep$listSBM[[2]]$networkData),Nnodes)
   expect_equal(length(sampMultiplexIndep$memberships[[1]]),Nnodes[1])
@@ -48,16 +48,16 @@ test_that("multiplex sampler works", {
   nbLayers = 2
   Nnodes = 40
   blockProp = c(.6,.4)
-  sampMultiplexDepBern <- SampleMultiplexSBM(nbNodes = Nnodes,blockProp = blockProp,nbLayers = nbLayers,connectParam = connectParam,model=model,type=type,dependent=TRUE)
+  sampMultiplexDepBern <- sampleMultiplexSBM(nbNodes = Nnodes,blockProp = blockProp,nbLayers = nbLayers,connectParam = connectParam,model=model,type=type,dependent=TRUE)
 
   expect_equal(length(sampMultiplexDepBern$memberships[[1]]),Nnodes)
   expect_equal(dim(sampMultiplexDepBern$listSBM[[1]]$networkData),rep(Nnodes,2))
 
-  expect_error(SampleMultiplexSBM(nbNodes = Nnodes,blockProp = blockProp,nbLayers = nbLayers,connectParam = connectParam,model=model,type="undirected",dependent=TRUE))
+  expect_error(sampleMultiplexSBM(nbNodes = Nnodes,blockProp = blockProp,nbLayers = nbLayers,connectParam = connectParam,model=model,type="undirected",dependent=TRUE))
 
   Nnodes <- c(40,30)
   blockProp <- list(c(.4,.6),rep(.5,2))
-  sampMultiplexDepBern <- SampleMultiplexSBM(nbNodes = Nnodes,blockProp = blockProp,nbLayers = nbLayers,connectParam = connectParam,model=model,type="bipartite",dependent=TRUE)
+  sampMultiplexDepBern <- sampleMultiplexSBM(nbNodes = Nnodes,blockProp = blockProp,nbLayers = nbLayers,connectParam = connectParam,model=model,type="bipartite",dependent=TRUE)
   expect_equal(length(sampMultiplexDepBern$memberships),2)
   expect_equal(dim(sampMultiplexDepBern$listSBM[[1]]$networkData),Nnodes)
 
@@ -74,7 +74,7 @@ test_that("multiplex sampler works", {
   type <- "directed"
   Nnodes <- 60
   blockProp <- c(.3,.3,.4)
-  sampMultiplexDepGau <- SampleMultiplexSBM(nbNodes = Nnodes,blockProp = blockProp,nbLayers = nbLayers,connectParam = connectParam,model=model,type="undirected",dependent=TRUE)
+  sampMultiplexDepGau <- sampleMultiplexSBM(nbNodes = Nnodes,blockProp = blockProp,nbLayers = nbLayers,connectParam = connectParam,model=model,type="undirected",dependent=TRUE)
 
   expect_equal(length(unique(sampMultiplexDepGau$memberships[[1]])),Q)
   expect_equal(sampMultiplexDepGau$listSBM[[1]]$modelName,"gaussian")
@@ -86,7 +86,7 @@ test_that("multiplex sampler works", {
   Q <- 2
   connectParam$mu[[1]] <- matrix(rnorm(Q*Q),Q,Q)*10
   connectParam$mu[[2]] <- matrix(rnorm(Q*Q),Q,Q)*2
-  sampMultiplexDepGau <- SampleMultiplexSBM(nbNodes = Nnodes,blockProp = blockProp,nbLayers = nbLayers,connectParam = connectParam,model=model,type="bipartite",dependent=TRUE)
+  sampMultiplexDepGau <- sampleMultiplexSBM(nbNodes = Nnodes,blockProp = blockProp,nbLayers = nbLayers,connectParam = connectParam,model=model,type="bipartite",dependent=TRUE)
   expect_equal(length(sampMultiplexDepGau$memberships),2)
   expect_equal(dim(sampMultiplexDepGau$listSBM[[1]]$networkData),Nnodes)
   expect_equal(sampMultiplexDepGau$listSBM[[2]]$modelName,"gaussian")
