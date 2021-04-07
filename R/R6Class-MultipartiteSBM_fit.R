@@ -218,7 +218,7 @@ MultipartiteSBM_fit <-
       U <- cbind(indexModel, nbParams, Blocks)
       U$nbBlocks <-rowSums(Blocks)
       U$ICL      <- map_dbl(fit, "ICL")
-      U$loglik   <- map_dbl(fit, ~last(x.$vJ))
+      U$loglik   <- map_dbl(fit, ~last(.x$vJ))
       U
     }
   )

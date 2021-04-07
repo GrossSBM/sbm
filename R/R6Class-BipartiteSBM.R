@@ -66,13 +66,15 @@ BipartiteSBM <-
                   !is.null(private$theta$mean))
         stopifnot(is.list(covarList),  self$nbCovariates == length(covarList))
 
-        mu <- private$Z[[1]] %*% ( ((1-theta_p0)>0.5 ) * private$theta$mean )  %*% t(private$Z[[2]])
+        mu <- ((1-theta_p0)>0.5 ) * private$theta$mean
         if (length(covarList) > 0) {
           stopifnot(all(sapply(covarList, nrow) == self$nbNodes[1]),
                     all(sapply(covarList, ncol) == self$nbNodes[2]))
-          mu <- private$invlink[[1L]](private$link[[1L]](mu) + self$covarEffect)
+          res <- private$invlink[[1L]](private$Z[[1]] %*% private$link[[1L]]( mu ) %*% t(private$Z[[2]]) + self$covarEffect)
+        } else {
+          res <- private$Z[[1]] %*% mu %*% t(private$Z[[2]])
         }
-        mu
+        res
       },
       #' @description show method
       #' @param type character used to specify the type of SBM

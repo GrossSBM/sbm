@@ -257,9 +257,9 @@ plot.SBM = function(x, type = c('data', 'expected', 'meso'), ordered = TRUE, plo
 #' @export
 fitted.SBM <- function(object,  ...) {
   stopifnot(is_SBM(object))
-  stopifnot(inherits(object, "SimpleSBM_fit") |
-            inherits(object, "BipartiteSBM_fit") |
-            inherits(object, "MultipartiteSBM_fit")
+  stopifnot(inherits(object, "SimpleSBM") |
+            inherits(object, "BipartiteSBM") |
+            inherits(object, "MultipartiteSBM")
       )
   object$predict()
 }
