@@ -1,5 +1,7 @@
 # sbm dev
 
+* advanced plottting functions for multilayer/multiplex SBM
+* enhanced support for multiplex SBM
 * simplification/restructuration of classes
 * fix in prediction of Bipartite and Simple SBM (#7)
 
