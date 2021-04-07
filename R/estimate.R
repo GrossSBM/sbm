@@ -306,7 +306,7 @@ estimateMultipartiteSBM <- function(listSBM,
 #' model <- c("bernoulli","poisson")
 #' type <- "directed"
 #' mySampleMultiplexSBM <-
-#'    SampleMultiplexSBM(
+#'    sampleMultiplexSBM(
 #'    nbNodes = Nnodes,
 #'     blockProp = blockProp,
 #'    nbLayers = nbLayers,
@@ -361,7 +361,7 @@ estimateMultipartiteSBM <- function(listSBM,
 #' Nnodes <- 40
 #' blockProp <- c(.6,.4)
 #' mySampleMultiplexSBM <-
-#'    SampleMultiplexSBM(
+#'    sampleMultiplexSBM(
 #'      nbNodes = Nnodes,
 #'      blockProp = blockProp,
 #'      nbLayers = nbLayers,
