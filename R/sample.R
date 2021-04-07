@@ -283,7 +283,7 @@ SampleMultiplexSBM <- function(nbNodes,
     stop("length of vector model and length of list connectParam and number of layers should match")
 
   # block prop list ou simple vecteur
-  if ((length(nbNodes)==2 & is.list(blockProp)) | (length(nbNodes)==1 & !is.list(blockProp)))
+  if ((length(nbNodes)==2 & is.list(blockProp) & length(blockProp)==2) | (length(nbNodes)==1 & (!is.list(blockProp)| length(blockProp)==1)))
     stop("length of vector nbNodes and length of list blockProp should match")
 
   # same sanity check as in the R6 class MultiplexSBM_fit
