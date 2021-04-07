@@ -1,7 +1,8 @@
 myRepeat <- function(v,Qrow,Qcol){c(rep(v[1],Qrow),rep(v[2],Qcol))}
+
 #' @importFrom rlang .data
 #' @importFrom utils head
-
+#' @importFrom prodlim row.match
 #----------------------------------------------------------------------------------
 plotMatrix = function(Mat, dimLabels, clustering = NULL,plotOptions = list()){
 
@@ -117,6 +118,34 @@ plotMatrix = function(Mat, dimLabels, clustering = NULL,plotOptions = list()){
 ##################################################################################
 
 plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG, distrib, clustering, plotOptions) {
+
+
+
+
+  for (i in 1:nrow(E)){
+    u.i <- rowSums(matrix(E[i,],nrow = nrow(E),2,byrow = T) == E)
+    p.i <- which(u.i == 2)
+    if(length(p.i) > 1){
+      test_bipartite <- (E[p.i[1],1]!=E[p.i[1],2])
+      FGi <- E[p.i[1],2]
+      for (k in 1:length(p.i)){
+        namesFG <- c(namesFG,paste(namesFG[FGi],'. Layer',k,sep=''))
+        nbNodes <- c(nbNodes,nbNodes[FGi])
+        if (!is.null(clustering)){clustering[[length(clustering) + 1]] <- clustering[[FGi]]}
+        names(nbNodes) <- namesFG
+        if(test_bipartite & (k==1)){E[p.i[k],2] <- max(E)}else{E[p.i[k],2] <- max(E)+1}
+      }
+      if(test_bipartite){
+        namesFG <- namesFG[-FGi]
+        nbNodes <- nbNodes[-FGi]
+        if (!is.null(clustering)){
+          rm_FGi <- c(1:(FGi-1),(FGi+1):length(clustering))
+          clustering <- clustering[[rm_FGi]]
+        }
+      }
+    }
+  }
+
 
 
   #----------------------------------------
