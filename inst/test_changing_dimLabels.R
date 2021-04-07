@@ -14,6 +14,7 @@ mySampleMultiplexSBM <-
     model=model,
     type=type)
 listSBM <- mySampleMultiplexSBM$listSBM
+fitMultiplex <- estimateMultiplexSBM(listSBM)
 
 
 MultipartiteSBM_fit$new(listSBM)
