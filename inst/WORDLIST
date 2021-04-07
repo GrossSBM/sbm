@@ -19,6 +19,7 @@ Mancha
 Multipartite
 MultipartiteBM
 MultipartiteSBM
+MultiplexSBM
 ORCID
 Piou
 PloS
@@ -47,6 +48,8 @@ dotdash
 dyad
 dyads
 estimOptions
+estimateMultipartiteSBM
+estimateSimpleSBM
 exploreFactor
 extrafloral
 florals
@@ -64,6 +67,7 @@ maxiterVE
 maxiterVEM
 meso
 mesoscopic
+multilayer
 multipartite
 multipartiteSBM
 multipartiteSBMfit

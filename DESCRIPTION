@@ -1,6 +1,6 @@
 Package: sbm
 Title: Stochastic Blockmodels
-Version: 0.4.0-9100
+Version: 0.4.0-9210
 Authors@R: 
   c(person(given = "Julien", family = "Chiquet", role = c("aut", "cre"),
            email = "julien.chiquet@inrae.fr",
@@ -42,7 +42,8 @@ Imports:
     GREMLINS,
     stringr,
     rlang,
-    reshape
+    reshape,
+    prodlim
 Collate: 
     'R6Class-SBM.R'
     'R6Class-BipartiteSBM.R'
@@ -59,7 +60,8 @@ Collate:
     'multipartiteEcologicalNetwork.R'
     'plotAlluvial.R'
     'plotMyMatrix.R'
-    'plotMyMultipartite.R'
+    'plotMyMultipartiteMatrix.R'
+    'plotMyMultiplexeMatrix.R'
     'sample.R'
     'sbm-package.R'
     'utils-pipe.R'

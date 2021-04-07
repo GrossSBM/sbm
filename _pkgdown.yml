@@ -49,6 +49,13 @@ reference:
     - '`MultiplexSBM_fit`'
     - '`sampleMultipartiteSBM`'
     - '`estimateMultipartiteSBM`'
+- title: 'Multilayer (aka Multiplex) Stochastic block models'
+  desc: >
+    Set of classes and functions for manipulating multiplex stochastic block models
+  contents:
+    - '`MultiplexSBM_fit`'
+    - '`sampleMultiplexSBM`'
+    - '`estimateMultiplexSBM`'
 - title: 'Methods common to all SBM'
   desc: >
     Set of classes and functions for manipulating stochastic block models

@@ -159,6 +159,7 @@ sampleBipartiteSBM <- function(nbNodes,
   mySampler$rNetwork(store = TRUE)
   mySampler
 }
+
 #' Sampling of Multipartite SBMs
 #'
 #' This function samples a Multipartite Stochastic Block Models, with various model
@@ -217,6 +218,8 @@ sampleMultipartiteSBM <- function(nbNodes,
                             dimLabels = NULL,
                             seed = NULL) {
 
+
+ # browser()
   nbNetworks <- length(connectParam)
 
   # transfo intro GREMLINS param
@@ -251,3 +254,160 @@ sampleMultipartiteSBM <- function(nbNodes,
 
 }
 
+#' Sampling of Multiplex SBMs
+#'
+#' This function samples a Multiplex Stochastic Block Models, with various model
+#' for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models
+#'
+#' @param nbNodes number of nodes in each functional group involved in the Multiplex network
+#' @param blockProp a vector for block proportion if the networks are simple, a list of parameters for block proportions for both functional groups if the networks are bipartite
+#' @param nbLayers a matrix with two columns and nbNetworks lines, each line specifying the index of the functional groups in interaction.
+#' @param connectParam list of parameters for connectivity (of length nbNetworks). Each element is a list of one or two elements: a matrix of means 'mean' and an optional matrix of variances 'var', the sizes of which must match \code{blockProp} length
+#' @param model a vector of characters describing the model for  each network of the Multiplex relation between nodes (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'}, ...). Default is \code{'bernoulli'}.
+#' @param type a string of character indicating whether the networks are directed, undirected or bipartite
+#' @param dependent connection parameters in each network
+#' @param dimLabels an optional list of labels for functional group involved in the network
+#' @param seed numeric to set the seed.
+#' @return  a list of two elements : \code{simulatedMemberships} are the clustering of each node in each Functional Group,  \code{MultiplexNetwork} is the list of the simulated networks (each one being  a simple or bipartite network)
+#'
+#' @examples
+#' ### =======================================
+#'
+#' @importFrom stats rmultinom runif rnorm
+#' @export
+sampleMultiplexSBM <- function(nbNodes,
+                               blockProp,
+                               nbLayers,
+                               connectParam,
+                               model,
+                               type=c("directed","undirected","bipartite"),
+                               dependent=FALSE,
+                               dimLabels = NULL,
+                               seed = NULL) {
+
+
+  # dimLabels for compatibility with define SBM
+  if (is.null(dimLabels))
+  {
+    if (type=="bipartite") dimLabels = c(row = "row", col = "col")
+    else dimLabels = "node"
+  }
+
+
+
+  # block prop list ou simple vecteur
+  if (!((length(nbNodes)==2 & is.list(blockProp)) | (length(nbNodes)==1 & !is.list(blockProp)) | (length(nbNodes)==1 & is.list(blockProp) & length(blockProp)==1 )))
+    stop("length of vector nbNodes and length of list blockProp should match")
+
+  # same sanity check as in the R6 class MultiplexSBM_fit
+  # check whether the Multiplex at hand is actually a multiplex
+  # if (any(c(unique(archiMultiplex[,1]),unique(archiMultiplex[,2])) > 1))
+  #   stop("Architecture of networks provided does not correspond to a Multiplex architecture")
+
+  # CHECKING dependence structure
+  if (dependent) {
+    # on empeche cette option
+    # if (! ( all(directed == TRUE) | all(directed == FALSE)) )
+    #   stop("in the dependent case, all networks should be either directed or not directed")
+
+    dBern  <- isTRUE(all.equal(model, rep("bernoulli", length(model))))
+    dGauss <- isTRUE(all.equal(model, rep("gaussian" , length(model))))
+    if (!(dGauss | (dBern&length(model) == 2)))
+      stop("dependency in multiplex network is only handled for Gaussian distribution or a bivariate Bernoulli distribution")
+
+    if (dBern)
+    {
+      P00 <- connectParam$prob00
+      P01 <- connectParam$prob01
+      P10 <- connectParam$prob10
+      P11 <- connectParam$prob11
+
+      if (type == "bipartite")
+      {
+        Z1 <- t(rmultinom(nbNodes[1], size = 1, prob = blockProp[[1]]))
+        Z2 <- t(rmultinom(nbNodes[2], size = 1, prob = blockProp[[2]]))
+        MU <-matrix(runif(prod(nbNodes)),nbNodes[1],nbNodes[2])
+        M1 <-1*(MU>Z1%*%(P00+P01)%*%t(Z2))
+        M2 <-1*(((MU>Z1%*%(P00)%*%t(Z2)) & (MU<Z1%*%(P00+P01)%*%t(Z2))) | (MU>Z1%*%(1-P11)%*%t(Z2)))
+        memberships <- list(as_clustering(Z1),as_clustering(Z2))
+      }
+      else {
+        if (!is.list(blockProp)) blockProp = list(blockProp)
+        Z <- t(rmultinom(nbNodes[1], size = 1, prob = blockProp[[1]]))
+        MU <-matrix(runif((nbNodes)**2),nbNodes,nbNodes)
+        M1 <-1*(MU>Z%*%(P00+P01)%*%t(Z))
+        M2 <-1*(((MU>Z%*%(P00)%*%t(Z)) & (MU<Z%*%(P00+P01)%*%t(Z))) | (MU>Z%*%(1-P11)%*%t(Z)))
+        memberships <- list(as_clustering(Z))
+      if (type== "undirected")
+      {
+        if (any(!sapply(connectParam,isSymmetric))) stop("Non symmetric parameters")
+        MU[lower.tri(MU)]<-t(MU)[lower.tri(MU)]
+        M1 <-1*(MU>Z%*%(P00+P01)%*%t(Z))
+        M2 <-1*(((MU>Z%*%(P00)%*%t(Z)) & (MU<Z%*%(P00+P01)%*%t(Z))) | (MU>Z%*%(1-P11)%*%t(Z)))
+      }
+      }
+
+      listNetworks <- list()
+      names(memberships) <- dimLabels
+      type_l <- ifelse(type=="bipartite","bipartite","simple")
+      listNetworks[[1]] <- defineSBM(netMat  = M1, model = model[1], type = type_l,dimLabels =  dimLabels)
+      listNetworks[[2]] <- defineSBM(netMat  = M2, model = model[2], type = type_l,dimLabels =  dimLabels)
+
+    }
+    if (dGauss)
+    {
+      listNetworks <- vector("list",nbLayers)
+      Mus <- connectParam$mu
+      Sig <- connectParam$Sigma
+
+      if (type == "bipartite")
+      {
+        Z1 <- t(rmultinom(nbNodes[1], size = 1, prob = blockProp[[1]]))
+        Z2 <- t(rmultinom(nbNodes[2], size = 1, prob = blockProp[[2]]))
+        Noise <- t(chol(Sig)) %*% matrix(rnorm(prod(nbNodes)*nbLayers),nbLayers,prod(nbNodes))
+
+        for (l in 1:nbLayers)
+        {
+            nettemp <- Z1%*%Mus[[l]]%*%t(Z2) + matrix(Noise[l,],nbNodes[1],nbNodes[2])
+            listNetworks[[l]] <- defineSBM(netMat  = nettemp, model = model[l], type = "bipartite",dimLabels =  dimLabels)
+        }
+        memberships <- list(as_clustering(Z1),as_clustering(Z2))
+      }
+      else
+      {
+        if (!is.list(blockProp)) blockProp = list(blockProp)
+        Z <- t(rmultinom(nbNodes[1], size = 1, prob = blockProp[[1]]))
+        Noise <- t(chol(Sig)) %*% matrix(rnorm(nbNodes*nbNodes*nbLayers),nbLayers,nbNodes*nbNodes)
+
+        for (l in 1:nbLayers)
+        {
+          nettemp <- Z%*%Mus[[l]]%*%t(Z) + matrix(Noise[l,],nbNodes,nbNodes)
+          if (type== "undirected")
+          {
+            nettemp[lower.tri(nettemp)] <- t(nettemp)[lower.tri(nettemp)]
+          }
+          listNetworks[[l]] <- defineSBM(netMat  = nettemp, model = model[l], type = "simple",dimLabels =  dimLabels)
+        }
+        memberships <- list(as_clustering(Z))
+      }
+      names(memberships) <- dimLabels
+
+    }
+
+    return(  list(listSBM =  listNetworks, memberships  = memberships))
+    }
+
+
+   if (!dependent)  {
+     if (length(unique(c(length(model),length(connectParam),nbLayers)))>1)
+       stop("length of vector model and length of list connectParam and number of layers should match")
+
+     archiMultipartite <- matrix(1,nrow=nbLayers,ncol=2)
+     if (type == "bipartite") archiMultipartite[,2] <- 2
+     directed <- rep(type=="directed",nbLayers)
+     if (!is.list(blockProp)) blockProp = list(blockProp)
+     print("use of sampleMultipartite")
+     return(sampleMultipartiteSBM(nbNodes,blockProp,archiMultipartite,connectParam,model,directed,dimLabels,seed))
+   }
+
+}

@@ -19,7 +19,7 @@ MultiplexSBM_fit <-
         private$theta <- switch(private$BMobject$model_name,
                 "gaussian_multivariate" = list(mean=parameters$mu,cov=parameters$Sigma),
                 "bernoulli_multiplex"   = list(prob00=parameters$pi$`00`,prob01=parameters$pi$`01`,
-                                               prob00=parameters$pi$`10`,prob10=parameters$pi$`11`)
+                                               prob10=parameters$pi$`10`,prob11=parameters$pi$`11`)
         )},
       import_from_BM_Simple = function(index = which.max(private$BMobject$ICL)) { # a function updating the Class
         private$import_from_BM(index)
@@ -43,8 +43,8 @@ MultiplexSBM_fit <-
       initialize = function(netList, dependentNet = FALSE) {
 
         # check whether the multipartite at hand is actually a multiplex
-        lab_per_row <- map(netList, "dimLabels") %>% map(~unique(unlist(.x))) %>% map_int(length)
-        if (any(lab_per_row > 1))
+        lab_per_col <- map(netList, "dimLabels") %>%  reduce(rbind) %>% as.data.frame() %>% dplyr::summarize(across(everything(), ~length(unique(.x))))
+        if (any(lab_per_col > 1))
           stop("list of networks provided does not correspond to a Multiplex architecture")
         super$initialize(netList)
 
