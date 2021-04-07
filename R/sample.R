@@ -296,11 +296,7 @@ SampleMultiplexSBM <- function(nbNodes,
 
 
   # block prop list ou simple vecteur
-<<<<<<< HEAD
-  if ((length(nbNodes)==2 & is.list(blockProp) & length(blockProp)==2) | (length(nbNodes)==1 & (!is.list(blockProp)| length(blockProp)==1)))
-=======
   if (!((length(nbNodes)==2 & is.list(blockProp)) | (length(nbNodes)==1 & !is.list(blockProp)) | (length(nbNodes)==1 & is.list(blockProp) & length(blockProp)==1 )))
->>>>>>> 8134bfae5d51ff42896adbaf6729975853705868
     stop("length of vector nbNodes and length of list blockProp should match")
 
   # same sanity check as in the R6 class MultiplexSBM_fit
