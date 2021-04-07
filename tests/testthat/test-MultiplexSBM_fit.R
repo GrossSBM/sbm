@@ -8,11 +8,11 @@ test_that("Inference for Multiplex networks", {
   P<-matrix(runif(Q*Q),Q,Q)
   A<-1*(matrix(runif(n*n),n,n)<Z%*%P%*%t(Z))
   type <- "simple"
-  netA <- defineSBM(A,"bernoulli",type = "simple",directed=TRUE,dimLabels=list(row = "Actor", col = "Actor"))
+  netA <- defineSBM(A,"bernoulli",type = "simple",directed=TRUE,dimLabels=c("Actor"))
   B <- 1*(matrix(runif(n*n),n,n)<Z%*%P%*%t(Z))
-  netB <- defineSBM(B,"bernoulli",type = "simple",dimLabels=list(row = "Actor", col = "Actor"))
+  netB <- defineSBM(B,"bernoulli",type = "simple",dimLabels=c("Actor"))
   myMultiplex <- MultiplexSBM_fit$new(list(netA,netB))
-  netC <- defineSBM(B,"poisson",type = "simple",dimLabels=list(row = "Actor", col = "Actor"))
+  netC <- defineSBM(B,"poisson",type = "simple",dimLabels=c("Actor"))
 
   expect_equal(myMultiplex$directed, c(TRUE,TRUE))
   expect_equal(myMultiplex$nbNetworks,2)

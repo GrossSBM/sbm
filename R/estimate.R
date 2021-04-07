@@ -31,7 +31,7 @@
 #' means <- diag(.4, 3) + 0.05  # connectivity matrix: affiliation network
 #' connectParam <- list(mean = means)
 #' mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam)
-#' adjacencyMatrix <- mySampler$netMatrix
+#' adjacencyMatrix <- mySampler$networkData
 #'
 #' ## Estimation
 #' mySimpleSBM <-
@@ -51,10 +51,11 @@
 #' means <- diag(15., 3) + 5    # connectivity matrix: affiliation network
 #' connectParam <- list(mean = means)
 #' mySampler <- sampleSimpleSBM(nbNodes, blockProp, list(mean = means), model = "poisson")
-#' adjacencyMatrix <- mySampler$netMatrix
+#' adjacencyMatrix <- mySampler$networkData
 #'
 #' ## Estimation
-#' mySimpleSBM <- estimateSimpleSBM(adjacencyMatrix, 'poisson', estimOptions = list(plot = FALSE))
+#' mySimpleSBM <- estimateSimpleSBM(adjacencyMatrix, 'poisson',
+#'    estimOptions = list(plot = FALSE))
 #' plot(mySimpleSBM, 'data', ordered = FALSE)
 #' plot(mySimpleSBM, 'data')
 #' plot(mySimpleSBM, 'expected', ordered = FALSE)
@@ -71,7 +72,8 @@
 #' mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam, model = "gaussian")
 #'
 #' ## Estimation
-#' mySimpleSBM <- estimateSimpleSBM(mySampler$netMatrix, 'gaussian', estimOptions = list(plot = FALSE))
+#' mySimpleSBM <-
+#'    estimateSimpleSBM(mySampler$networkData, 'gaussian', estimOptions = list(plot = FALSE))
 #' plot(mySimpleSBM, 'data', ordered = FALSE)
 #' plot(mySimpleSBM, 'data')
 #' plot(mySimpleSBM, 'expected', ordered = FALSE)
@@ -81,15 +83,11 @@
 estimateSimpleSBM <- function(netMat,
                               model        = 'bernoulli',
                               directed     = !isSymmetric(netMat),
-                              dimLabels    = list(row = "node", col = "node"),
+                              dimLabels    = c(node = "nodeName"),
                               covariates   = list(),
                               estimOptions = list()) {
 
 
-  if(length(dimLabels)==1){
-    if(is.list(dimLabels)){dimLabels = dimLabels[[1]]}
-    dimLabels = list(row = dimLabels,col = dimLabels)
-    }
   ## Set default options for estimation
   currentOptions <- list(
     verbosity     = 3,
@@ -153,7 +151,7 @@ estimateSimpleSBM <- function(netMat,
 #' mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'bernoulli')
 #'
 #' ## Estimation
-#' myBipartiteSBM <- estimateBipartiteSBM(mySampler$netMatrix, estimOptions = list(plot = FALSE))
+#' myBipartiteSBM <- estimateBipartiteSBM(mySampler$networkData, estimOptions = list(plot = FALSE))
 #' plot(myBipartiteSBM, 'expected')
 #'
 #' ### =======================================
@@ -168,7 +166,7 @@ estimateSimpleSBM <- function(netMat,
 #'
 #' ## Estimation
 #' myBipartiteSBM <-
-#'   estimateBipartiteSBM(mySampler$netMatrix, 'poisson', estimOptions = list(plot = FALSE))
+#'   estimateBipartiteSBM(mySampler$networkData, 'poisson', estimOptions = list(plot = FALSE))
 #' plot(myBipartiteSBM, 'expected')
 #'
 #' ### =======================================
@@ -182,19 +180,15 @@ estimateSimpleSBM <- function(netMat,
 #'
 #' ## Estimation
 #' myBipartiteSBM <-
-#'   estimateBipartiteSBM(mySampler$netMatrix, 'gaussian', estimOptions = list(plot = FALSE))
+#'   estimateBipartiteSBM(mySampler$networkData, 'gaussian', estimOptions = list(plot = FALSE))
 #' plot(myBipartiteSBM, 'expected')
 #'
 #' @export
 estimateBipartiteSBM <- function(netMat,
                                  model        = 'bernoulli',
-                                 dimLabels    = list(row = "row", col = "col"),
+                                 dimLabels    = c(row = "row", col = "col"),
                                  covariates   = list(),
                                  estimOptions = list()) {
-
-  if(length(dimLabels)==1){stop('For Bipartite dimLabels should be of length 2')}
-  if(is.atomic(dimLabels)){dimLabels = as.list(dimLabels); names(dimLabels) = c('row','col')}
-  if(is.null(names(dimLabels))){names(dimLabels) = c('row','col')}
 
   ## Set default options for estimation
   currentOptions <- list(
@@ -259,11 +253,13 @@ estimateBipartiteSBM <- function(netMat,
 #' ## Graph Sampling
 #' mySampleMSBM <- sampleMultipartiteSBM(nbNodes, blockProp,
 #'                                       archiMultipartite, connectParam, model,
-#'                                       directed, dimLabels = as.list(c('A','B')),seed = 2)
+#'                                       directed, dimLabels = c('A','B'), seed = 2)
 #' listSBM <- mySampleMSBM$listSBM
-#' estimOptions = list(initBM = FALSE,nbCores  = 2,initBM = FALSE)
+#' estimOptions <- list(initBM = FALSE, nbCores  = 2)
 #' myMSBM <- estimateMultipartiteSBM(listSBM,estimOptions)
-#' plot(myMSBM,type='data')
+#' plot(myMSBM, type = "data")
+#' plot(myMSBM, type = "expected")
+#' plot(myMSBM, type = "meso")
 estimateMultipartiteSBM <- function(listSBM,
                                     estimOptions = list())
 {
@@ -273,7 +269,7 @@ estimateMultipartiteSBM <- function(listSBM,
 
   currentOptions <- list(
     verbosity     = 1,
-    nbBlocksRange = lapply(1:myMSBM$nbLabels,function(l){c(1,10)}),
+    nbBlocksRange = rep(list(c(1,10)), length(myMSBM$dimLabels)),
     nbCores       = 2,
     maxiterVE     = 100,
     maxiterVEM    = 100,
@@ -304,16 +300,85 @@ estimateMultipartiteSBM <- function(listSBM,
 #' @export
 #'
 #' @examples
-#' ## MultiplexSBM with no dependence
-#' #TODO once the SampleMultiplexSBM  function works
-#'
-#' ## MultiplexSBM with dependence
+#' ## MultiplexSBM without dependence between layers
+#' Nnodes <- 40
+#' blockProp <- c(.4,.6)
+#' nbLayers <- 2
+#' connectParam <- list(list(mean=matrix(rbeta(4,.5,.5),2,2)),list(mean=matrix(rexp(4,.5),2,2)))
+#' model <- c("bernoulli","poisson")
+#' type <- "directed"
+#' mySampleMultiplexSBM <-
+#'    SampleMultiplexSBM(
+#'    nbNodes = Nnodes,
+#'     blockProp = blockProp,
+#'    nbLayers = nbLayers,
+#'    connectParam = connectParam,
+#'    model=model,
+#'    type=type)
+#' listSBM <- mySampleMultiplexSBM$listSBM
+#' estimOptions <- list(initBM = FALSE, nbCores  = 2)
+#' myMultiplexSBM <- estimateMultiplexSBM(listSBM,estimOptions,dependent=FALSE)
+#' ## MultiplexSBM Gaussian with dependence
+#' Q <- 3
+#' nbLayers <- 2
+#' connectParam <- list()
+#' connectParam$mu <- vector("list",nbLayers)
+#' connectParam$mu[[1]] <-  matrix(.1,Q,Q) + diag(1:Q)
+#' connectParam$mu[[2]] <- matrix(-2,Q,Q) + diag(rev(Q:1))
+#' connectParam$Sigma <- matrix(c(2,1,1,4),nbLayers,nbLayers)
+#' model <- rep("gaussian",2)
+#' type <- "directed"
+#' Nnodes <- 80
+#' blockProp <- c(.3,.3,.4)
+#' mySampleMultiplexSBM <-
+#'   SampleMultiplexSBM(
+#'      nbNodes = Nnodes,
+#'      blockProp = blockProp,
+#'      nbLayers = nbLayers,
+#'      connectParam = connectParam,
+#'      model=model,
+#'      type="undirected",
+#'      dependent=TRUE)
+#' listSBM <- mySampleMultiplexSBM$listSBM
+#' myMultiplexSBM <- estimateMultiplexSBM(listSBM,estimOptions,dependent=TRUE)
+#' ## MultiplexSBM Bernoulli with dependence
+#' Q <- 2
+#' P00<-matrix(runif(Q*Q),Q,Q)
+#' P10<-matrix(runif(Q*Q),Q,Q)
+#' P01<-matrix(runif(Q*Q),Q,Q)
+#' P11<-matrix(runif(Q*Q),Q,Q)
+#' SumP<-P00+P10+P01+P11
+#' P00<-P00/SumP
+#' P01<-P01/SumP
+#' P10<-P10/SumP
+#' P11<-P11/SumP
+#' connectParam <- list()
+#' connectParam$prob00 <- P00
+#' connectParam$prob01 <- P01
+#' connectParam$prob10 <- P10
+#' connectParam$prob11 <- P11
+#' model <- rep("bernoulli",2)
+#' type <- "directed"
+#' nbLayers <- 2
+#' Nnodes <- 40
+#' blockProp <- c(.6,.4)
+#' mySampleMultiplexSBM <-
+#'    SampleMultiplexSBM(
+#'      nbNodes = Nnodes,
+#'      blockProp = blockProp,
+#'      nbLayers = nbLayers,
+#'      connectParam = connectParam,
+#'      model=model,
+#'      type=type,
+#'      dependent=TRUE)
+#' listSBM <- mySampleMultiplexSBM$listSBM
+#' myMultiplexSBM <- estimateMultiplexSBM(listSBM,estimOptions,dependent=TRUE)
 estimateMultiplexSBM <- function(listSBM,
                                     dependent = FALSE,
                                     estimOptions = list())
 {
 
-  myMSBM <- MultiplexSBM_fit(listSBM,dependentNet= dependent)
+  myMSBM <- MultiplexSBM_fit$new(listSBM,dependentNet= dependent)
 
   if (dependent)
   {
@@ -329,7 +394,7 @@ estimateMultiplexSBM <- function(listSBM,
   {
     currentOptions <- list(
       verbosity     = 1,
-      nbBlocksRange = ifelse(listSBM[[1]]$dimLabels[[1]]==listSBM[[1]]$dimLabels[[2]],list(c(1,10)),list(c(1,10),c(1,10))),
+      nbBlocksRange = ifelse(length(listSBM[[1]]$dimLabels)==1,list(c(1,10)),list(c(1,10),c(1,10))),
       nbCores       = 2,
       maxiterVE     = 100,
       maxiterVEM    = 100,

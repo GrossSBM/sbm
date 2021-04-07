@@ -10,7 +10,7 @@ sampleSimpleSBM(
   connectParam,
   model = "bernoulli",
   directed = FALSE,
-  dimLabels = list(row = "nodeLabel", col = "nodeLabel"),
+  dimLabels = c(node = "nodeName"),
   covariates = list(),
   covariatesParam = numeric(0)
 )
@@ -33,7 +33,7 @@ sampleSimpleSBM(
 \item{covariatesParam}{optional vector of covariates effect. A zero length numeric vector by default.}
 }
 \value{
-an object with class \code{\link{SimpleSBM_sampler}}
+an object with class \code{\link{SimpleSBM}}
 }
 \description{
 This function samples a simple Stochastic Block Models, with various model
@@ -53,11 +53,9 @@ connectParam <- list(mean = means)
 ## Graph Sampling
 mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam, model = 'bernoulli')
 plot(mySampler)
-mySampler$rMemberships() # sample new memberships
-mySampler$rAdjacency()   # sample new adjacency matrix
 plot(mySampler)
 plot(mySampler,type='meso')
-hist(mySampler$netMatrix)
+hist(mySampler$networkData)
 
 ### =======================================
 ### SIMPLE POISSON SBM
@@ -73,7 +71,7 @@ connectParam <- list(mean = means)
 mySampler <- sampleSimpleSBM(nbNodes, blockProp, list(mean = means), model = "poisson")
 plot(mySampler)
 plot(mySampler,type='meso')
-hist(mySampler$netMatrix)
+hist(mySampler$networkData)
 
 ### =======================================
 ### SIMPLE GAUSSIAN SBM
@@ -89,5 +87,5 @@ connectParam <- list(mean = means, var = 2)
 mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam, model = "gaussian")
 plot(mySampler)
 plot(mySampler,type='meso')
-hist(mySampler$netMatrix)
+hist(mySampler$networkData)
 }

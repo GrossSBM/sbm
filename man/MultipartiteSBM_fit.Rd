@@ -21,8 +21,8 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 \item{"maxiterVE"}{Number of max. number of iterations in  the VE. Default value  = 100}
 }
 }
-\section{Super class}{
-\code{\link[sbm:MultipartiteSBM]{sbm::MultipartiteSBM}} -> \code{MultipartiteSBM_fit}
+\section{Super classes}{
+\code{\link[sbm:SBM]{sbm::SBM}} -> \code{\link[sbm:MultipartiteSBM]{sbm::MultipartiteSBM}} -> \code{MultipartiteSBM_fit}
 }
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
@@ -30,12 +30,6 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 \item{\code{loglik}}{double: approximation of the log-likelihood (variational lower bound) reached}
 
 \item{\code{ICL}}{double: value of the integrated classification log-likelihood}
-
-\item{\code{memberships}}{a list with the memberships in all the functional groups}
-
-\item{\code{probMemberships}}{or list of nbFG matrices for of estimated probabilities for block memberships for all nodes}
-
-\item{\code{nbBlocks}}{: vector with the number of blocks in each FG}
 
 \item{\code{storedModels}}{data.frame of all models fitted (and stored) during the optimization}
 }
@@ -55,6 +49,7 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 \if{html}{
 \out{<details open ><summary>Inherited methods</summary>}
 \itemize{
+\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="rNetwork">}\href{../../sbm/html/SBM.html#method-rNetwork}{\code{sbm::SBM$rNetwork()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM" data-id="plot">}\href{../../sbm/html/MultipartiteSBM.html#method-plot}{\code{sbm::MultipartiteSBM$plot()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM" data-id="print">}\href{../../sbm/html/MultipartiteSBM.html#method-print}{\code{sbm::MultipartiteSBM$print()}}\out{</span>}
 }
@@ -129,7 +124,7 @@ Fields of the current MultipartiteSBM_fit will be updated accordingly.
 \if{html}{\out{<a id="method-show"></a>}}
 \if{latex}{\out{\hypertarget{method-show}{}}}
 \subsection{Method \code{show()}}{
-print method
+show method
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{MultipartiteSBM_fit$show(type = "Fit of a Multipartite Stochastic Block Model")}\if{html}{\out{</div>}}
 }
@@ -137,7 +132,7 @@ print method
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{type}}{character to tune the displayed name}
+\item{\code{type}}{character used to specify the type of SBM}
 }
 \if{html}{\out{</div>}}
 }

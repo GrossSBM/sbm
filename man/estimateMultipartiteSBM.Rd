@@ -48,9 +48,11 @@ connectParam[[3]]$mean <- (m3 + t(m3))/2
 ## Graph Sampling
 mySampleMSBM <- sampleMultipartiteSBM(nbNodes, blockProp,
                                       archiMultipartite, connectParam, model,
-                                      directed, dimLabels = as.list(c('A','B')),seed = 2)
+                                      directed, dimLabels = c('A','B'), seed = 2)
 listSBM <- mySampleMSBM$listSBM
-estimOptions = list(initBM = FALSE,nbCores  = 2,initBM = FALSE)
+estimOptions <- list(initBM = FALSE, nbCores  = 2)
 myMSBM <- estimateMultipartiteSBM(listSBM,estimOptions)
-plot(myMSBM,type='data')
+plot(myMSBM, type = "data")
+plot(myMSBM, type = "expected")
+plot(myMSBM, type = "meso")
 }

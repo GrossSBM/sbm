@@ -9,7 +9,7 @@ defineSBM(
   model = "bernoulli",
   type = ifelse(ncol(netMat) == nrow(netMat), "simple", "bipartite"),
   directed = !isSymmetric(netMat),
-  dimLabels = list(row = "row", col = "col"),
+  dimLabels = c(row = "row", col = "col"),
   covariates = list()
 )
 }
@@ -34,5 +34,5 @@ Define a network
 }
 \examples{
 A <- matrix(rbinom(100,1,.2), 10, 10)
-myNet <- defineSBM(A, "poisson", "simple", TRUE, list("Actor", "Actor"))
+myNet <- defineSBM(A, "poisson", "simple", TRUE, "Actor")
 }
