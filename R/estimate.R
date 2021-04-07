@@ -401,7 +401,6 @@ estimateMultiplexSBM <- function(listSBM,
       initBM = TRUE
     )
   }
-browser()
   names(currentOptions$nbBlocksRange) <- myMSBM$dimLabels
   ## Current options are default expect for those passed by the user
   currentOptions[names(estimOptions)] <- estimOptions
