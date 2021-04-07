@@ -290,7 +290,7 @@ SampleMultiplexSBM <- function(nbNodes,
   if (is.null(dimLabels))
   {
     if (type=="bipartite") dimLabels = c(row = "row", col = "col")
-    else dimLabels = "actor"
+    else dimLabels = "node"
   }
 
 
