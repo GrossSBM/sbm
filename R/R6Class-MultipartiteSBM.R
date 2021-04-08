@@ -146,12 +146,3 @@ MultipartiteSBM <-
       indMemberships = function(value) {map(private$Z, ~as_indicator(as_clustering(.x)))}
     )
   )
-
-#' Check  if an object is MultipartiteSBM
-#'
-#' Auxiliary function to check the given class of an object
-#' @param  Robject an R6 object inheriting from class MultipartiteSBM
-#' @return TRUE or FALSE
-#' @export
-is_MultipartiteSBM <- function(Robject) {inherits(Robject,"MultipartiteSBM")}
-

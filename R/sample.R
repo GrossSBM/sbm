@@ -275,7 +275,7 @@ sampleMultipartiteSBM <- function(nbNodes,
 #'
 #' @importFrom stats rmultinom runif rnorm
 #' @export
-SampleMultiplexSBM <- function(nbNodes,
+sampleMultiplexSBM <- function(nbNodes,
                                blockProp,
                                nbLayers,
                                connectParam,

@@ -43,8 +43,8 @@ MultiplexSBM_fit <-
       initialize = function(netList, dependentNet = FALSE) {
 
         # check whether the multipartite at hand is actually a multiplex
-        lab_per_row <- map(netList, "dimLabels") %>% map(~unique(unlist(.x))) %>% map_int(length)
-        if (any(lab_per_row > 1))
+        lab_per_col <- map(netList, "dimLabels") %>%  reduce(rbind) %>% as.data.frame() %>% dplyr::summarize(across(everything(), ~length(unique(.x))))
+        if (any(lab_per_col > 1))
           stop("list of networks provided does not correspond to a Multiplex architecture")
         super$initialize(netList)
 

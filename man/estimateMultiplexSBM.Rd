@@ -31,7 +31,7 @@ connectParam <- list(list(mean=matrix(rbeta(4,.5,.5),2,2)),list(mean=matrix(rexp
 model <- c("bernoulli","poisson")
 type <- "directed"
 mySampleMultiplexSBM <-
-   SampleMultiplexSBM(
+   sampleMultiplexSBM(
    nbNodes = Nnodes,
     blockProp = blockProp,
    nbLayers = nbLayers,
@@ -54,7 +54,7 @@ type <- "directed"
 Nnodes <- 80
 blockProp <- c(.3,.3,.4)
 mySampleMultiplexSBM <-
-  SampleMultiplexSBM(
+  sampleMultiplexSBM(
      nbNodes = Nnodes,
      blockProp = blockProp,
      nbLayers = nbLayers,
@@ -86,7 +86,7 @@ nbLayers <- 2
 Nnodes <- 40
 blockProp <- c(.6,.4)
 mySampleMultiplexSBM <-
-   SampleMultiplexSBM(
+   sampleMultiplexSBM(
      nbNodes = Nnodes,
      blockProp = blockProp,
      nbLayers = nbLayers,

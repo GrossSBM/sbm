@@ -15,6 +15,7 @@ mySampleMultiplexSBM <-
     dimLabels =  c('livres','robert'),
     type=type)
 listSBM <- mySampleMultiplexSBM$listSBM
+fitMultiplex <- estimateMultiplexSBM(listSBM)
 
 
 MultipartiteSBM_fit$new(listSBM)
