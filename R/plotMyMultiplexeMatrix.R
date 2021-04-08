@@ -19,49 +19,33 @@
 #' @export
 #'
 #' @examples
-#' data("multipartiteEcologicalNetwork")
-#' Net <- multipartiteEcologicalNetwork
-#' type='bipartite'
-#' model = 'bernoulli'
-#' directed = FALSE
-#' listNet <- list()
-#' listNet[[1]] = defineSBM(Net$Inc_plant_ant,
-#'                          model,type,directed,
-#'                          dimLabels = c(row = "Plants", col = "Ants"))
-#' listNet[[2]] = defineSBM(Net$Inc_plant_bird,model,type,directed,
-#'                       dimLabels =c(row = "Plants",col = "Birds"))
-#' plotMyMultipartiteMatrix(listNet,plotOptions=list(legend = TRUE,title='Ecology'))
-#'
-#' listNet <- list()
-#' listNet[[1]] <- defineSBM(matrix(rbinom(1000,1,0.5),20,50),
-#'                    model = 'bernoulli',
-#'                    type  ='bipartite', directed = NA,
-#'                    dimLabels = c(row="Questions",col="Students"))
-#' listNet[[2]] <- defineSBM(matrix(rpois(20*30,8),30,20),
-#'                    model = 'poisson',
-#'                    type  ='bipartite',directed = NA,
-#'                    dimLabels = c(row="Competences",col="Questions"))
-#' plotMyMultipartiteMatrix(listNet,plotOptions=list(legend = TRUE,compact = FALSE))
-#' plotMyMultipartiteMatrix(listNet,plotOptions=list(legend = TRUE,normalized =  TRUE))
+#' Nnodes <- c(40,30)
+#' blockProp <- list(c(.4,.6),c(0.5,0.5))
+#' nbLayers <- 2
+#' connectParam <- list(list(mean=matrix(rbeta(4,.5,.5),2,2)),list(mean=matrix(rexp(4,.5),2,2)))
+#' names(connectParam) <- c('Read','Score')
+#' model <- c("bernoulli","poisson")
+#' type <- "bipartite"
+#'mySampleMultiplexSBM <-
+#'  SampleMultiplexSBM(
+#'    nbNodes = Nnodes,
+#'    blockProp = blockProp,
+#'    nbLayers = nbLayers,
+#'    connectParam = connectParam,
+#'    model=model,
+#'    dimLabels =  c('readers','books'),
+#'    type=type)
+#' listSBM <- mySampleMultiplexSBM$listSBM
+#' plotMyMultiplexeMatrix(listNet,plotOptions=list(legend = TRUE))
 #'
 #'
 #'
 
-plotMyMultipartiteMatrix = function(listSBM, memberships = NULL, plotOptions = list()){
+plotMyMultiplexeMatrix = function(listSBM, memberships = NULL, plotOptions = list()){
 
 
   #########################
-
   myMSBMObject <- MultipartiteSBM_fit$new(listSBM)
-
-
-  E <- myMSBMObject$architecture
-  if(sum(duplicated(E))){
-    #### renames dimLabels
-
-
-
-  }
   ### TODO: better handle of membership!!! we should use an instance of MultipartiteSBM_sampler when ready
   if (!is.null(memberships)) myMSBMObject$probMemberships <- lapply(memberships, as_indicator)
   ordered <- ifelse(is.null(memberships), FALSE, TRUE)

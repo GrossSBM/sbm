@@ -119,9 +119,6 @@ plotMatrix = function(Mat, dimLabels, clustering = NULL,plotOptions = list()){
 
 plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG, distrib, clustering, plotOptions) {
 
-
-
-
   for (i in 1:nrow(E)){
     u.i <- rowSums(matrix(E[i,],nrow = nrow(E),2,byrow = T) == E)
     p.i <- which(u.i == 2)
