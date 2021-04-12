@@ -6,7 +6,7 @@ connectParam[[3]] <- list(mean=matrix(rbeta(4,0.9,.9),2,2))
 model <- c("bernoulli","poisson","bernoulli")
 type <- "bipartite"
 mySampleMultiplexSBM <-
-  SampleMultiplexSBM(
+  sampleMultiplexSBM(
     nbNodes = Nnodes,
     blockProp = blockProp,
     nbLayers = nbLayers,
@@ -15,14 +15,12 @@ mySampleMultiplexSBM <-
     dimLabels =  c('livres','robert'),
     type=type)
 listSBM <- mySampleMultiplexSBM$listSBM
-fitMultiplex <- estimateMultiplexSBM(listSBM)
 
-
-MultipartiteSBM_fit$new(listSBM)
 plotMyMultipartiteMatrix(listSBM)
 
-
-
+names(listSBM) <- c('LayerA','LayerB','LayerC')
+fitMultiplex <- estimateMultiplexSBM(listSBM)
+plot(fitMultiplex)
 
 myMSBMObject2 <- MultipartiteSBM_fit$new(listSBM)
 myMSBMObject2$architecture
@@ -56,7 +54,7 @@ connectParam[[3]] <- list(mean=matrix(rbeta(4,0.9,.9),2,2))
 model <- c("bernoulli","poisson","bernoulli")
 type <- "directed"
 mySampleMultiplexSBM <-
-  SampleMultiplexSBM(
+  sampleMultiplexSBM(
     nbNodes = Nnodes,
     blockProp = blockProp,
     nbLayers = nbLayers,

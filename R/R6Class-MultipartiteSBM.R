@@ -61,7 +61,6 @@ MultipartiteSBM <-
       plot = function(type = c('data','expected','meso'), ordered = TRUE, plotOptions = list()){
 
         if (ordered) clustering <- self$memberships else clustering <- NULL
-
         switch(match.arg(type),
           "meso" =
             plotMesoMultipartite(
@@ -71,13 +70,13 @@ MultipartiteSBM <-
           "data" =
             plotMultipartiteMatrix(
               map(private$Y,"networkData"),
-              private$arch, private$dim, private$dimlab,
+              private$arch, private$dim, private$dimlab, NULL,
               private$model, clustering, plotOptions
             ),
           "expected" =
             plotMultipartiteMatrix(
               self$predict(),
-              private$arch, private$dim, private$dimlab,
+              private$arch, private$dim, private$dimlab, NULL,
               private$model, clustering, plotOptions
             )
         )

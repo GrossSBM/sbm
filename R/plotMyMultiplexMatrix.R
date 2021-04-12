@@ -1,6 +1,6 @@
 #' Plot the matrices corresponding to a Multiplex Network
 #'
-#' @param listSBM  : a list of objects representing the multipartite network (see)
+#' @param listSBM  : a list of objects representing the multiplexe network (see)
 #' @param memberships : a list of length equal to the number of Functional Groups providing the clusterings inside each group.
 #' @param plotOptions : a list containing the options. See details.
 #' @details plotOptions is a list containing the following items
@@ -27,7 +27,7 @@
 #' model <- c("bernoulli","poisson")
 #' type <- "bipartite"
 #'mySampleMultiplexSBM <-
-#'  SampleMultiplexSBM(
+#'  sampleMultiplexSBM(
 #'    nbNodes = Nnodes,
 #'    blockProp = blockProp,
 #'    nbLayers = nbLayers,
@@ -35,17 +35,17 @@
 #'    model=model,
 #'    dimLabels =  c('readers','books'),
 #'    type=type)
-#' listSBM <- mySampleMultiplexSBM$listSBM
-#' plotMyMultiplexeMatrix(listNet,plotOptions=list(legend = TRUE))
+#' listNet <- mySampleMultiplexSBM$listSBM
+#' names(listNet) <- c("Read","Affinity")
+#' plotMyMultiplexMatrix(listNet,plotOptions=list(legend = TRUE))
 #'
 #'
 #'
 
-plotMyMultiplexeMatrix = function(listSBM, memberships = NULL, plotOptions = list()){
-
+plotMyMultiplexMatrix = function(listSBM, memberships = NULL, plotOptions = list()){
 
   #########################
-  myMSBMObject <- MultipartiteSBM_fit$new(listSBM)
+  myMSBMObject <- MultiplexSBM_fit$new(listSBM)
   ### TODO: better handle of membership!!! we should use an instance of MultipartiteSBM_sampler when ready
   if (!is.null(memberships)) myMSBMObject$probMemberships <- lapply(memberships, as_indicator)
   ordered <- ifelse(is.null(memberships), FALSE, TRUE)

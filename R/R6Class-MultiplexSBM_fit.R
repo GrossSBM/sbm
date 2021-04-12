@@ -12,6 +12,7 @@ MultiplexSBM_fit <-
     private = list(
       BMobject  = NULL,
       dependent = NULL,
+      names_layers_  = NULL,
       import_from_BM  = function(index = which.max(private$BMobject$ICL)) {
         private$J     <- private$BMobject$PL[index]
         private$vICL  <- private$BMobject$ICL[index]
@@ -47,7 +48,6 @@ MultiplexSBM_fit <-
         if (any(lab_per_col > 1))
           stop("list of networks provided does not correspond to a Multiplex architecture")
         super$initialize(netList)
-
         # CHECKING dependence structure
         if (dependentNet) {
           if (! ( all(self$directed == TRUE) | all(self$directed == FALSE)) )
@@ -59,6 +59,8 @@ MultiplexSBM_fit <-
             stop("dependency in multiplex network is only handled for Gaussian distribution or a bivariate Bernoulli distribution")
         }
         private$dependent <- dependentNet
+        # namesLayers
+        private$names_layers_ <- names(netList)
       },
       #' @description estimation of multipartiteSBM via GREMLINS
       #' @param estimOptions options for MultipartiteBM
@@ -121,10 +123,50 @@ MultiplexSBM_fit <-
           invisible(private$BMobject)
 
         }
+      },
+      #' @description plot Multiplexe Network
+      #' @param type character for the type of plot: either 'data' (true connection), 'expected' (fitted connection). Default to 'data'.
+      #' @param ordered TRUE is the matrices are plotted after reorganization with the blocks. Default value = TRUE
+      #' @param plotOptions list of plot options for the matrix view
+      plot = function(type = c('data','expected'), ordered = TRUE, plotOptions = list()){
+
+        if (ordered) clustering <- self$memberships else clustering <- NULL
+
+        switch(match.arg(type),
+               "data" =
+                 plotMultipartiteMatrix(
+                   map(private$Y,"networkData"),
+                   private$arch, private$dim, private$dimlab,private$names_layers_,
+                   private$model, clustering, plotOptions
+                 ),
+               "expected" =
+                 plotMultipartiteMatrix(
+                   self$predict(),
+                   private$arch, private$dim, private$dimlab,private$names_layers_,
+                   private$model, clustering, plotOptions
+                 )
+        )
+      },
+      #' @description show method
+      #' @param type character used to specify the type of SBM
+      show = function(type = "Fit of a Multiplex Stochastic Block Model"){
+        super$show(type)
+        cat("  $probMemberships, $loglik, $ICL, $storedModels, \n")
+        cat("* R6 and S3 methods \n")
+        cat("  plot, print, coef, predict, fitted, $setModel, $reorder \n")
       }
   ),
   active = list(
     #' @field dependentNetwork : connection parameters in each network
-    dependentNetwork = function(value) {private$dependent}
+    dependentNetwork = function(value) {private$dependent},
+    #' @field namesLayers : names of the various Networks
+    namesLayers    = function(value) {
+      if (missing(value))
+        return(private$names_layers_)
+      else {
+        stopifnot(length(value)==private$model)
+        private$names_layers_ <- value
+      }
+    }
   )
 )

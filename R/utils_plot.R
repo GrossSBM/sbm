@@ -4,13 +4,12 @@ myRepeat <- function(v,Qrow,Qcol){c(rep(v[1],Qrow),rep(v[2],Qcol))}
 #' @importFrom utils head
 #' @importFrom prodlim row.match
 #----------------------------------------------------------------------------------
-plotMatrix = function(Mat, dimLabels, clustering = NULL,plotOptions = list()){
+plotMatrix = function(Mat, dimLabels, clustering = NULL, plotOptions = list()){
 
   currentOptions = list(line.color  = 'red',legend = FALSE,rowNames = FALSE, colNames = FALSE,title=NULL)
 
   currentOptions$legend.title = FALSE
   currentOptions$legend.position ='bottom'
-
   currentOptions[names(plotOptions)] = plotOptions
 
   n1 <- dim(Mat)[1]
@@ -117,18 +116,27 @@ plotMatrix = function(Mat, dimLabels, clustering = NULL,plotOptions = list()){
 #----------------------------------------------------------------------------------
 ##################################################################################
 
-plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG, distrib, clustering, plotOptions) {
+plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG,namesLayers, distrib, clustering, plotOptions) {
 
-  for (i in 1:nrow(E)){
-    u.i <- rowSums(matrix(E[i,],nrow = nrow(E),2,byrow = T) == E)
-    p.i <- which(u.i == 2)
-    if(length(p.i) > 1){
+  #-------------------------------------------
+  list_Mat <- listMat
+  nbNet <- length(list_Mat)
+
+  ###---------------------- check for multiplexe
+  wE <- which(duplicated(E) == FALSE)
+  if(length(wE) > 0){
+    if (is.null(namesLayers)){namesLayers = paste("Layer", 1:nbNet, sep="")}
+    for (i in wE){
+      u.i <- rowSums(matrix(E[i,],nrow = nrow(E),2,byrow = T) == E)
+      p.i <- which(u.i == 2)
+      if(length(p.i) > 1){
       test_bipartite <- (E[p.i[1],1]!=E[p.i[1],2])
       FGi <- E[p.i[1],2]
       for (k in 1:length(p.i)){
-        namesFG <- c(namesFG,paste(namesFG[FGi],'. Layer',k,sep=''))
+        namesFG <- c(namesFG,paste(namesFG[FGi],namesLayers[k],sep='. '))
         nbNodes <- c(nbNodes,nbNodes[FGi])
         if (!is.null(clustering)){clustering[[length(clustering) + 1]] <- clustering[[FGi]]}
+        if (!is.null(clustering)){names(clustering)<- namesFG}
         names(nbNodes) <- namesFG
         if(test_bipartite & (k==1)){E[p.i[k],2] <- max(E)}else{E[p.i[k],2] <- max(E)+1}
       }
@@ -137,11 +145,17 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG, distrib, cluster
         nbNodes <- nbNodes[-FGi]
         if (!is.null(clustering)){
           rm_FGi <- c(1:(FGi-1),(FGi+1):length(clustering))
-          clustering <- clustering[[rm_FGi]]
+          clustering <- lapply(rm_FGi,function(l){clustering[[l]]})
+          names(clustering) <- namesFG
         }
       }
     }
-  }
+    }
+    }
+
+  nbFG <- length(unique(c(E)))
+
+
 
 
 
@@ -156,11 +170,9 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG, distrib, cluster
 
   normalized  <- currentOptions$normalized
   reordered <- !is.null(clustering)
-  #-------------------------------------------
-  list_Mat <- listMat
-  nbFG <- length(unique(c(E)))
-  nbNet <- length(list_Mat)
+
   #----------------------------------------------
+
   if (reordered){
     if (!is.null(names(clustering))){clustering  <- lapply(1:nbFG,FUN  = function(i){clustering[[namesFG[i]]]})}
     nbBlocks <- sapply(clustering,function(s){length(unique(s))})
@@ -170,6 +182,7 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG, distrib, cluster
       oRow <- order(clustering_row)
       oCol <- order(clustering_col)
       list_Mat[[l]][oRow, oCol]})
+    clustering <- lapply(1:nbFG,FUN = function(i){sort(clustering[[i]])})
     list_Mat <- list_Mat_reorder
   }
   if (normalized){
@@ -194,7 +207,6 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG, distrib, cluster
     )
   }
   binary <- all(unlist(list_Mat) %in% c(0, 1, NA))
-
   ############## Optimize positions of matrices
   if (currentOptions$compact) {
     TranposColl <-
@@ -296,7 +308,7 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG, distrib, cluster
   ############# PLOT
 
   g <- ggplot2::ggplot(melted_Mat, aes(y = .data$names_row, x = .data$names_col, fill = .data$link))
-  g <- g +  geom_tile()
+  g <- g +  geom_raster()
   g <- g +  theme(axis.ticks = element_blank(),panel.background = element_rect(fill = "white"))
   g <- g +  labs(x = '', y = '')
   g <- g +  scale_x_discrete(drop = TRUE) + scale_y_discrete(drop = TRUE)
@@ -336,31 +348,37 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG, distrib, cluster
 
 
 
+
   ########## separators
   if (reordered){
     separate <- unlist(lapply(1:nbFG, function(l){
       sepColl <- cumsum(table(clustering[[l]]))
+      #sepColl <- table(clustering[[l]])
       sepColl <- sepColl[-length(sepColl)]
       sepColl}))
     nbSep <- length(separate)
-    separCol <- data.frame(sepCol = (separate + rep(c(0,cumsum(GCol*nbNodes)[-nbFG]),nbBlocks-1)) + 0.5,
+
+
+
+    separCol <- data.frame(sepCol = c(separate + 0.5),#+ rep(c(0,cumsum(GCol*nbNodes)[-nbFG]),nbBlocks-1) + 0.5),
                            FG_col = rep(namesFG,nbBlocks-1),
                            FG_col_index = rep(1:nbFG,nbBlocks-1))
-    separCol <- do.call("rbind", replicate( nbFG,separCol ,simplify = FALSE))
+    separCol <- do.call("rbind", replicate(nbFG^2,separCol ,simplify = FALSE))
     separCol$FG_row <- rep(namesFG,each = nbSep)
-    separCol$FG_row_index <- rep(1:nbFG,each = nbSep)
+    separCol$FG_row_index <-  rep(1:nbFG,each = nbSep)
     testCol <- vapply(1:(nbSep*nbFG),function(i){1*(G[separCol$FG_row_index[i],separCol$FG_col_index[i]]==1)},1)
     separCol <- separCol[testCol==1,]
 
     separCol$nameSepCol = c()
     if(nrow(separCol)>1){
     for (i in 1:nrow(separCol)){
-      separCol$nameSepCol[i] <- melted_Mat$names_col[melted_Mat$index_row==1][separCol$sepCol[i]]
-    }
+      separCol$nameSepCol[i] <- melted_Mat$names_col[melted_Mat$index_row==1][separCol$sepCol[i]]}
     }
 
 
-    separRow <- data.frame(sepRow = 1 + sum(nbNodes*GRow) -(separate + rep(c(0,cumsum(GRow*nbNodes)[-nbFG]),nbBlocks-1)) - 0.5,
+
+
+    separRow <- data.frame(sepRow = 0.5 + rep(nbNodes*GRow,nbBlocks - 1) -(separate),
                            FG_row = rep(namesFG,nbBlocks-1),
                            FG_row_index = rep(1:nbFG,nbBlocks-1))
     separRow <- do.call("rbind", replicate( nbFG,separRow ,simplify = FALSE))
@@ -368,6 +386,7 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG, distrib, cluster
     separRow$FG_col_index <- rep(1:nbFG,each = nbSep)
     testRow <- vapply(1:(nbSep*nbFG),function(i){1*(G[separRow$FG_row_index[i],separRow$FG_col_index[i]]==1)},1)
     separRow <- separRow[testRow==1,]
+
 
     g <- g + geom_vline(data= separCol, aes(xintercept =  .data$sepCol),size= currentOptions$line.width, col=currentOptions$line.color)
     g <- g + geom_hline(data= separRow, aes(yintercept = .data$sepRow),size= currentOptions$line.width, col=currentOptions$line.color)

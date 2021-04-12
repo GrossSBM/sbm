@@ -56,13 +56,7 @@ plotMyMultipartiteMatrix = function(listSBM, memberships = NULL, plotOptions = l
 
 
   E <- myMSBMObject$architecture
-  if(sum(duplicated(E))){
-    #### renames dimLabels
 
-
-
-  }
-### TODO: better handle of membership!!! we should use an instance of MultipartiteSBM_sampler when ready
   if (!is.null(memberships)) myMSBMObject$probMemberships <- lapply(memberships, as_indicator)
   ordered <- ifelse(is.null(memberships), FALSE, TRUE)
   g <- myMSBMObject$plot(type='data', ordered = ordered, plotOptions)

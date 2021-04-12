@@ -61,7 +61,7 @@ Collate:
     'plotAlluvial.R'
     'plotMyMatrix.R'
     'plotMyMultipartiteMatrix.R'
-    'plotMyMultiplexeMatrix.R'
+    'plotMyMultiplexMatrix.R'
     'sample.R'
     'sbm-package.R'
     'utils-pipe.R'
