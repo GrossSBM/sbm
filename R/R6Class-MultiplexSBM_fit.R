@@ -24,15 +24,19 @@ MultiplexSBM_fit <-
         )},
       import_from_BM_Simple = function(index = which.max(private$BMobject$ICL)) { # a function updating the Class
         private$import_from_BM(index)
-        private$Z <- private$BMobject$memberships[[index]]$Z
-        private$pi  <- colMeans(private$Z)
+        listMemberships <- list(private$BMobject$memberships[[index]]$Z)
+        names(listMemberships) <- self$dimLabels
+        private$Z <- listMemberships
+        private$pi  <- colMeans(private$Z[[1]])
       },
       import_from_BM_Bipartite  = function(index = which.max(private$BMobject$ICL)) {
         private$import_from_BM(index)
-        private$Z <- list(
-          row = private$BMobject$memberships[[index]]$Z1,
-          col = private$BMobject$memberships[[index]]$Z2
+        listMemberships <- list(
+           private$BMobject$memberships[[index]]$Z1,
+           private$BMobject$memberships[[index]]$Z2
         )
+        names(listMemberships) <- self$dimLabels
+        private$Z <- listMemberships
         private$pi  <- lapply(private$Z, colMeans)
       }
     ),
