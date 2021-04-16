@@ -10,7 +10,7 @@ output:
 bibliography: references.bib
 link-citations: yes
 vignette: >
-  %\VignetteIndexEntry{Multiplex Stochastic Block Models}
+  %\VignetteIndexEntry{Stochastic Block Models for Multiplex  networks}
   %\VignetteEngine{knitr::rmarkdown} 
   %\VignetteEncoding{UTF-8}
 ---
@@ -35,17 +35,42 @@ library(sbm)
 ```
 
 
+## Multiplex network data 
 
-### Mathematical Background
 
-We give here a few details on Stochastic Block Models for multiplex networks. 
-Multiplex networks refer to a collection of networks involving the same nodes, each network corresponding to a give type of interaction. 
+Multiplex networks refer to a collection of networks involving the same sets of nodes, each network corresponding to a give type of interaction. 
 Such a network is studied in  @multiplexSBM where the nodes are researchers and two networks are provided: 
     
     * a network representing the relations of advices between researchers,
     * a network representing the exchanges between the laboratories the researchers belong to. 
 
-In @multiplexKefi, the nodes are species and each network corresponds to a type of ecological relation, namely mutualism, competition and **** 
+In @multiplexKefi, the nodes are species and each network corresponds to a type of ecological relation, namely trophic links, negative non trophic links and postive non trophic links. 
+
+
+## Mathematical Background
+
+We give here a few details on Stochastic Block Models for multiplex networks. 
+
+
+
+Assume that one study  $n$ nodes. Assume that we observe $L$ types of links, resulting into $L$ matrices $(X^\ell_{ij})_{i,j = 1,\dots,n}$. 
+Block models assume  that the nodes are divided into $K$ clusters, this clustering being encoded into the latent variables $(Z_i)_{i=1,\dots,n}$ such that  $Z_i = k$ if node $i$ belongs to cluster $k$.  
+
+The relations betwen nodes $i$ and $j$ are driven by the clusters they belong to : 
+
+$$ X^\ell_{ij}  | Z_i = q, Z_j = r \sim_{i.i.d.} \mathcal{F}(\cdot;\theta_{qr})$$
+where $\mathcal{F}$ is a probability distribution adapted to the data. 
+
+*Examples* 
+
+  - If all the networks are binary ($X^\ell_{ij} \in \{0,1\}$) then $\mathcal{F}$ is a $L$-variate Bernoulli distribution and 
+  $$ \theta_{qr} = (p^{\omega}_{qr}, \omega \in \{0,1\}^L)$$
+  - If all the networs are weighted with real values ($X^\ell_{ij} \in \mathbb{R}$) then $\mathcal{F}$ could be a $L$-dimeensional Gaussian distribution and
+  $$ \theta_{qr} = (\mu_{qr},\Sigma_{qr}).$$
+  
+Note that these two models assume that the $L$ interactions are dependent conditionally to the clustering.  Moreover, by integration against the latent variable $L$ implies that the interactions between two pairs of nodes are also dependent. 
+
+We now distinguish dependent and independent multiplex networks. 
 
 
 See @multiplexSBM for details.
