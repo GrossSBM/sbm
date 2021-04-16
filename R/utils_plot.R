@@ -6,11 +6,12 @@ myRepeat <- function(v,Qrow,Qcol){c(rep(v[1],Qrow),rep(v[2],Qcol))}
 #----------------------------------------------------------------------------------
 plotMatrix = function(Mat, dimLabels, clustering = NULL, plotOptions = list()){
 
+  ###############################################"
   currentOptions = list(line.color  = 'red',legend = FALSE,rowNames = FALSE, colNames = FALSE,title=NULL)
-
   currentOptions$legend.title = FALSE
   currentOptions$legend.position ='bottom'
   currentOptions[names(plotOptions)] = plotOptions
+  ################################################
 
   n1 <- dim(Mat)[1]
   n2 <- dim(Mat)[2]
@@ -116,7 +117,7 @@ plotMatrix = function(Mat, dimLabels, clustering = NULL, plotOptions = list()){
 #----------------------------------------------------------------------------------
 ##################################################################################
 
-plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG,namesLayers, distrib, clustering, plotOptions) {
+plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG,namesLayers, distrib, clustering, plotOptions = list()) {
 
   #-------------------------------------------
   list_Mat <- listMat
@@ -160,17 +161,13 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG,namesLayers, dist
 
 
   #----------------------------------------
-
   currentOptions = list(line.color  = 'red',legend = FALSE,compact = TRUE, normalized = FALSE,title=NULL)
   currentOptions$legend.title = FALSE
   currentOptions$legend.position ='bottom'
   currentOptions$nodeNames = FALSE
-
   currentOptions[names(plotOptions)] = plotOptions
-
   normalized  <- currentOptions$normalized
   reordered <- !is.null(clustering)
-
   #----------------------------------------------
 
   if (reordered){

@@ -32,8 +32,6 @@ The packages required for the analysis are **sbm** plus some others for data man
 
 ```{r setup, message=FALSE, warning=FALSE}
 library(sbm)
-library(ggplot2)
-library(knitr)
 ```
 
 
@@ -151,15 +149,15 @@ plot(myMSBM)
 ``` 
 
 or the mesoscopic view
-```{r plot meso, eval = FALSE}
-plotOptions=list(vertex.size = c(6,3,2,2))
+```{r plot meso, eval = TRUE}
+plotOptions=list(vertex.size = c(12,6,4,4))
 plotOptions$vertex.shape = rep('circle',4)
 plotOptions$vertex.color = c('darkolivegreen3','darkgoldenrod2','salmon2','cadetblue2')
 plotOptions$edge.curved = 0.1
 plot(myMSBM,type = 'meso',plotOptions=plotOptions)
 ```
 
-Will soon be ready
+ 
 
 ## References
 
