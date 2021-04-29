@@ -136,7 +136,7 @@ BipartiteSBM_fit <-
         oCol <- order(private$pi[[1]] %*% private$theta$mean, decreasing = TRUE)
         private$pi[[1]] <- private$pi[[1]][oRow]
         private$pi[[2]] <- private$pi[[2]][oCol]
-        private$theta$mean <- private$theta$mean[oRow, oCol]
+        private$theta$mean <- private$theta$mean[oRow, oCol, drop = FALSE]
         private$Z[[1]] <- private$Z[[1]][, oRow, drop = FALSE]
         private$Z[[2]] <- private$Z[[2]][, oCol, drop = FALSE]
       },
