@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sbm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0-9210</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0-9220</span>
       </span>
     </div>
 
@@ -94,7 +94,7 @@
             <h3 data-toc-skip class="subtitle">An illustration on a mutualistic ecological network</h3>
                         <h4 data-toc-skip class="author">team großBM</h4>
             
-            <h4 data-toc-skip class="date">2021-04-07</h4>
+            <h4 data-toc-skip class="date">2021-04-29</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/GrossSBM/sbm/blob/master/vignettes/Multipartite_EcologicalNetwork.Rmd" class="external-link"><code>vignettes/Multipartite_EcologicalNetwork.Rmd</code></a></small>
       <div class="hidden name"><code>Multipartite_EcologicalNetwork.Rmd</code></div>
@@ -105,11 +105,11 @@
     
 <div id="preliminaries" class="section level2">
 <h2 class="hasAnchor">
-<a href="#preliminaries" class="anchor"></a>Preliminaries</h2>
+<a href="#preliminaries" class="anchor" aria-hidden="true"></a>Preliminaries</h2>
 <p>This vignette illustrates the use of the <code>estimateMultipartiteSBM</code> function and the methods accompanying the R6 classes `multipartiteSBMfit’.</p>
 <div id="requirements" class="section level3">
 <h3 class="hasAnchor">
-<a href="#requirements" class="anchor"></a>Requirements</h3>
+<a href="#requirements" class="anchor" aria-hidden="true"></a>Requirements</h3>
 <p>The packages required for the analysis are <strong>sbm</strong> plus some others for data manipulation and representation:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://grosssbm.github.io/sbm/" class="external-link">sbm</a></span><span class="op">)</span>
@@ -119,7 +119,7 @@
 </div>
 <div id="dataset" class="section level2">
 <h2 class="hasAnchor">
-<a href="#dataset" class="anchor"></a>Dataset</h2>
+<a href="#dataset" class="anchor" aria-hidden="true"></a>Dataset</h2>
 <p>We apply our methodology to an ecological mutualistic multipartite network.<br>
 The dataset –compiled and conducted by <span class="citation">Dáttilo et al. (<a href="#ref-Dattilo" role="doc-biblioref">2016</a>)</span> at Centro de Investigaciones Costeras La Mancha (CICOLMA), located on the central coast of the Gulf of Mexico, Veracruz, Mexico– involves three general types of plant-animal mutualistic interaction: pollination, seed dispersal by frugivorous birds, and protective mutualisms between ants and plants with extrafloral nectaries.</p>
 <p>The dataset –which is one of the largest compiled so far with respect to species richness, number of interactions and sampling effort– includes 4 functional groups, namely plants, pollinator species (referred as floral visitors), ant species and frugivorous bird species. Three binary bipartite networks have been collected representing interactions between 1/ plants and florals visitor, 2/ plants and ants, and 3/ plants and seed dispersal birds, resulting into three bipartite networks.</p>
@@ -145,7 +145,7 @@ The dataset –compiled and conducted by <span class="citation">Dáttilo et al. 
 <span class="co">#&gt; [1] "Inc_plant_ant"    "Inc_plant_bird"   "Inc_plant_flovis"</span></code></pre></div>
 <div id="formatting-the-data" class="section level3">
 <h3 class="hasAnchor">
-<a href="#formatting-the-data" class="anchor"></a>Formatting the data</h3>
+<a href="#formatting-the-data" class="anchor" aria-hidden="true"></a>Formatting the data</h3>
 <p>We format the data to be able to use our functions i.e. we transform the matrices into an list containing <em>the matrix</em>, <em>its type</em> : <code>inc</code> for incidence matrix, <code>adj</code> for adjacency symmetric, and <code>diradj</code> for non symmetric (oriented) adjacency matrix, the name of functional group in row and the name of functional group in column. The three matrices are gathered in a list.</p>
 <p>To do so, we use the function <code>defineNetwork</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -170,12 +170,12 @@ The dataset –compiled and conducted by <span class="citation">Dáttilo et al. 
 </div>
 <div id="mathematical-background" class="section level3">
 <h3 class="hasAnchor">
-<a href="#mathematical-background" class="anchor"></a>Mathematical Background</h3>
+<a href="#mathematical-background" class="anchor" aria-hidden="true"></a>Mathematical Background</h3>
 <p>See <span class="citation">Bar-Hen, P., and S. (<a href="#ref-multipartite" role="doc-biblioref">n.d.</a>)</span> for details.</p>
 </div>
 <div id="inference" class="section level3">
 <h3 class="hasAnchor">
-<a href="#inference" class="anchor"></a>Inference</h3>
+<a href="#inference" class="anchor" aria-hidden="true"></a>Inference</h3>
 <p>The model selection and the estimation are performed with the function <code>estimatemultipartiteBM</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimOptions</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>initBM <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
@@ -287,7 +287,7 @@ The dataset –compiled and conducted by <span class="citation">Dáttilo et al. 
 </div>
 <div id="plots" class="section level2">
 <h2 class="hasAnchor">
-<a href="#plots" class="anchor"></a>Plots</h2>
+<a href="#plots" class="anchor" aria-hidden="true"></a>Plots</h2>
 <p>We can either plot the reorganized matrix</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">myMSBM</span><span class="op">)</span> </code></pre></div>
@@ -303,7 +303,7 @@ The dataset –compiled and conducted by <span class="citation">Dáttilo et al. 
 </div>
 <div id="references" class="section level2 unnumbered">
 <h2 class="hasAnchor">
-<a href="#references" class="anchor"></a>References</h2>
+<a href="#references" class="anchor" aria-hidden="true"></a>References</h2>
 <div id="refs" class="references">
 <div id="ref-multipartite">
 <p>Bar-Hen, A, Barbillon P., and Donnet S. n.d. “Block Models for Multipartite networks.Applications in Ecology and Ethnobiology.” <em>Statistical Modelling</em>.</p>

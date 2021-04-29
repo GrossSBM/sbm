@@ -83,7 +83,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sbm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0-9210</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0-9220</span>
       </span>
     </div>
 
@@ -191,10 +191,10 @@
    connectParam <span class='op'>=</span> <span class='va'>connectParam</span>,
    model<span class='op'>=</span><span class='va'>model</span>,
    type<span class='op'>=</span><span class='va'>type</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "use of sampleMultipartite"</div><div class='input'><span class='va'>listSBM</span> <span class='op'>&lt;-</span> <span class='va'>mySampleMultiplexSBM</span><span class='op'>$</span><span class='va'>listSBM</span>
+</div><div class='co'>#&gt; [1] "use of sampleMultipartite"</div><div class='input'><span class='va'>listSBM</span> <span class='op'>&lt;-</span> <span class='va'>mySampleMultiplexSBM</span><span class='op'>$</span><span class='va'>listSBM</span>
 <span class='va'>estimOptions</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>initBM <span class='op'>=</span> <span class='cn'>FALSE</span>, nbCores  <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
 <span class='va'>myMultiplexSBM</span> <span class='op'>&lt;-</span> <span class='fu'>estimateMultiplexSBM</span><span class='op'>(</span><span class='va'>listSBM</span>,<span class='va'>estimOptions</span>,dependent<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "------------Nb of entities in each functional group--------------"
+</div><div class='co'>#&gt; [1] "------------Nb of entities in each functional group--------------"
 #&gt; node 
 #&gt;   40 
 #&gt; [1] "------------Probability distributions on each network--------------"
@@ -226,26 +226,26 @@
      dependent<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='va'>listSBM</span> <span class='op'>&lt;-</span> <span class='va'>mySampleMultiplexSBM</span><span class='op'>$</span><span class='va'>listSBM</span>
 <span class='va'>myMultiplexSBM</span> <span class='op'>&lt;-</span> <span class='fu'>estimateMultiplexSBM</span><span class='op'>(</span><span class='va'>listSBM</span>,<span class='va'>estimOptions</span>,dependent<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; -&gt; Estimation for 1 groups
-#&gt; </div><div class='img'><img src='estimateMultiplexSBM-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; -&gt; Pass 1
+</div><div class='co'>#&gt; -&gt; Estimation for 1 groups
+#&gt; </div><div class='img'><img src='estimateMultiplexSBM-1.png' alt='' width='700' height='433' /></div><div class='co'>#&gt; -&gt; Pass 1
 #&gt;     -&gt; With ascending number of groups
 #&gt;         -&gt; For 2 groups
-#&gt; </div><div class='img'><img src='estimateMultiplexSBM-2.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 3 groups
-#&gt; </div><div class='img'><img src='estimateMultiplexSBM-3.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 4 groups
-#&gt; </div><div class='img'><img src='estimateMultiplexSBM-4.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 5 groups
-#&gt; </div><div class='img'><img src='estimateMultiplexSBM-5.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;     -&gt; With descending number of groups
+#&gt; </div><div class='img'><img src='estimateMultiplexSBM-2.png' alt='' width='700' height='433' /></div><div class='co'>#&gt;         -&gt; For 3 groups
+#&gt; </div><div class='img'><img src='estimateMultiplexSBM-3.png' alt='' width='700' height='433' /></div><div class='co'>#&gt;         -&gt; For 4 groups
+#&gt; </div><div class='img'><img src='estimateMultiplexSBM-4.png' alt='' width='700' height='433' /></div><div class='co'>#&gt;         -&gt; For 5 groups
+#&gt; </div><div class='img'><img src='estimateMultiplexSBM-5.png' alt='' width='700' height='433' /></div><div class='co'>#&gt;     -&gt; With descending number of groups
 #&gt;         -&gt; For 4 groups
-#&gt; </div><div class='img'><img src='estimateMultiplexSBM-6.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 3 groups
-#&gt; </div><div class='img'><img src='estimateMultiplexSBM-7.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 2 groups
-#&gt; </div><div class='img'><img src='estimateMultiplexSBM-8.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; -&gt; Pass 2
+#&gt; </div><div class='img'><img src='estimateMultiplexSBM-6.png' alt='' width='700' height='433' /></div><div class='co'>#&gt;         -&gt; For 3 groups
+#&gt; </div><div class='img'><img src='estimateMultiplexSBM-7.png' alt='' width='700' height='433' /></div><div class='co'>#&gt;         -&gt; For 2 groups
+#&gt; </div><div class='img'><img src='estimateMultiplexSBM-8.png' alt='' width='700' height='433' /></div><div class='co'>#&gt; -&gt; Pass 2
 #&gt;     -&gt; With ascending number of groups
 #&gt;         -&gt; For 2 groups
 #&gt;         -&gt; For 3 groups
 #&gt;         -&gt; For 4 groups
 #&gt;         -&gt; For 5 groups
-#&gt; </div><div class='img'><img src='estimateMultiplexSBM-9.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;     -&gt; With descending number of groups
+#&gt; </div><div class='img'><img src='estimateMultiplexSBM-9.png' alt='' width='700' height='433' /></div><div class='co'>#&gt;     -&gt; With descending number of groups
 #&gt;         -&gt; For 4 groups
-#&gt; </div><div class='img'><img src='estimateMultiplexSBM-10.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 3 groups
+#&gt; </div><div class='img'><img src='estimateMultiplexSBM-10.png' alt='' width='700' height='433' /></div><div class='co'>#&gt;         -&gt; For 3 groups
 #&gt;         -&gt; For 2 groups
 #&gt; -&gt; Pass 3
 #&gt;     -&gt; With ascending number of groups
@@ -288,23 +288,23 @@
      dependent<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='va'>listSBM</span> <span class='op'>&lt;-</span> <span class='va'>mySampleMultiplexSBM</span><span class='op'>$</span><span class='va'>listSBM</span>
 <span class='va'>myMultiplexSBM</span> <span class='op'>&lt;-</span> <span class='fu'>estimateMultiplexSBM</span><span class='op'>(</span><span class='va'>listSBM</span>,<span class='va'>estimOptions</span>,dependent<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; -&gt; Estimation for 1 groups
-#&gt; </div><div class='img'><img src='estimateMultiplexSBM-11.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; -&gt; Pass 1
+</div><div class='co'>#&gt; -&gt; Estimation for 1 groups
+#&gt; </div><div class='img'><img src='estimateMultiplexSBM-11.png' alt='' width='700' height='433' /></div><div class='co'>#&gt; -&gt; Pass 1
 #&gt;     -&gt; With ascending number of groups
 #&gt;         -&gt; For 2 groups
-#&gt; </div><div class='img'><img src='estimateMultiplexSBM-12.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 3 groups
-#&gt; </div><div class='img'><img src='estimateMultiplexSBM-13.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 4 groups
-#&gt; </div><div class='img'><img src='estimateMultiplexSBM-14.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;     -&gt; With descending number of groups
+#&gt; </div><div class='img'><img src='estimateMultiplexSBM-12.png' alt='' width='700' height='433' /></div><div class='co'>#&gt;         -&gt; For 3 groups
+#&gt; </div><div class='img'><img src='estimateMultiplexSBM-13.png' alt='' width='700' height='433' /></div><div class='co'>#&gt;         -&gt; For 4 groups
+#&gt; </div><div class='img'><img src='estimateMultiplexSBM-14.png' alt='' width='700' height='433' /></div><div class='co'>#&gt;     -&gt; With descending number of groups
 #&gt;         -&gt; For 3 groups
-#&gt; </div><div class='img'><img src='estimateMultiplexSBM-15.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 2 groups
-#&gt; </div><div class='img'><img src='estimateMultiplexSBM-16.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; -&gt; Pass 2
+#&gt; </div><div class='img'><img src='estimateMultiplexSBM-15.png' alt='' width='700' height='433' /></div><div class='co'>#&gt;         -&gt; For 2 groups
+#&gt; </div><div class='img'><img src='estimateMultiplexSBM-16.png' alt='' width='700' height='433' /></div><div class='co'>#&gt; -&gt; Pass 2
 #&gt;     -&gt; With ascending number of groups
 #&gt;         -&gt; For 2 groups
 #&gt;         -&gt; For 3 groups
 #&gt;         -&gt; For 4 groups
-#&gt; </div><div class='img'><img src='estimateMultiplexSBM-17.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;     -&gt; With descending number of groups
+#&gt; </div><div class='img'><img src='estimateMultiplexSBM-17.png' alt='' width='700' height='433' /></div><div class='co'>#&gt;     -&gt; With descending number of groups
 #&gt;         -&gt; For 3 groups
-#&gt; </div><div class='img'><img src='estimateMultiplexSBM-18.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;         -&gt; For 2 groups
+#&gt; </div><div class='img'><img src='estimateMultiplexSBM-18.png' alt='' width='700' height='433' /></div><div class='co'>#&gt;         -&gt; For 2 groups
 #&gt; -&gt; Pass 3
 #&gt;     -&gt; With ascending number of groups
 #&gt;         -&gt; For 2 groups

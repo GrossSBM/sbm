@@ -82,7 +82,7 @@ R6 class for Bipartite SBM" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sbm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0-9210</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0-9220</span>
       </span>
     </div>
 
@@ -179,7 +179,7 @@ R6 class for Bipartite SBM" />
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
-<h3 class='hasAnchor' id='public-methods'><a class='anchor' href='#public-methods'></a>Public methods</h3>
+<h3 class='hasAnchor' id='public-methods'><a class='anchor' aria-hidden='true' href='#public-methods'></a>Public methods</h3>
 
 <ul>
 <li><p><a href='#method-new'><code>BipartiteSBM$new()</code></a></p></li>
@@ -198,8 +198,8 @@ R6 class for Bipartite SBM" />
 </details>
 
 <hr>
-<a id="method-new"></a></p><h3 class='hasAnchor' id='method-'><a class='anchor' href='#method-'></a>Method <code>new()</code></h3>
-<p>constructor for SBM</p><h4 class='hasAnchor' id='usage'><a class='anchor' href='#usage'></a>Usage</h4>
+<a id="method-new"></a></p><h3 class='hasAnchor' id='method-'><a class='anchor' aria-hidden='true' href='#method-'></a>Method <code>new()</code></h3>
+<p>constructor for SBM</p><h4 class='hasAnchor' id='usage'><a class='anchor' aria-hidden='true' href='#usage'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>BipartiteSBM</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>
   <span class='va'>model</span>,
   <span class='va'>nbNodes</span>,
@@ -210,7 +210,7 @@ R6 class for Bipartite SBM" />
   covarList <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='op'>)</span></pre><p></div></p>
 
-<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' aria-hidden='true' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
 <dt><code>model</code></dt><dd><p>character describing the type of model</p></dd>
 
@@ -227,8 +227,8 @@ R6 class for Bipartite SBM" />
 <dt><code>covarList</code></dt><dd><p>optional list of covariates data</p></dd>
 
 </dl><p></div></p>
-<h3 class='hasAnchor' id='list-new-'><a class='anchor' href='#list-new-'></a>Method <code>new()</code></h3>
-<p>constructor for SBM</p><h4 class='hasAnchor' id='usage'><a class='anchor' href='#usage'></a>Usage</h4>
+<h3 class='hasAnchor' id='list-new-'><a class='anchor' aria-hidden='true' href='#list-new-'></a>Method <code>new()</code></h3>
+<p>constructor for SBM</p><h4 class='hasAnchor' id='usage'><a class='anchor' aria-hidden='true' href='#usage'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>BipartiteSBM</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>
   <span class='va'>model</span>,
   <span class='va'>nbNodes</span>,
@@ -239,7 +239,7 @@ R6 class for Bipartite SBM" />
   covarList <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='op'>)</span></pre><p></div></p>
 
-<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' aria-hidden='true' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
 <dt><code>model</code></dt><dd><p>character describing the type of model</p></dd>
 
@@ -257,68 +257,68 @@ R6 class for Bipartite SBM" />
 
 </dl><p></div></p>
 <p><hr>
-<a id="method-rMemberships"></a></p><h3 class='hasAnchor' id='method-'><a class='anchor' href='#method-'></a>Method <code>rMemberships()</code></h3>
-<p>a method to sample new block memberships for the current SBM</p><h4 class='hasAnchor' id='usage'><a class='anchor' href='#usage'></a>Usage</h4>
+<a id="method-rMemberships"></a></p><h3 class='hasAnchor' id='method-'><a class='anchor' aria-hidden='true' href='#method-'></a>Method <code>rMemberships()</code></h3>
+<p>a method to sample new block memberships for the current SBM</p><h4 class='hasAnchor' id='usage'><a class='anchor' aria-hidden='true' href='#usage'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>BipartiteSBM</span><span class='op'>$</span><span class='fu'>rMemberships</span><span class='op'>(</span>store <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
 
-<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' aria-hidden='true' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
 <dt><code>store</code></dt><dd><p>should the sampled blocks be stored (and overwrite the existing data)? Default to FALSE</p></dd>
 
 </dl><p></div></p>
-<h4 class='hasAnchor' id='returns'><a class='anchor' href='#returns'></a>Returns</h4>
+<h4 class='hasAnchor' id='returns'><a class='anchor' aria-hidden='true' href='#returns'></a>Returns</h4>
 <p>the sampled blocks</p>
-<h3 class='hasAnchor' id='list-rmemberships-'><a class='anchor' href='#list-rmemberships-'></a>Method <code>rMemberships()</code></h3>
-<p>a method to sample new block memberships for the current SBM</p><h4 class='hasAnchor' id='usage'><a class='anchor' href='#usage'></a>Usage</h4>
+<h3 class='hasAnchor' id='list-rmemberships-'><a class='anchor' aria-hidden='true' href='#list-rmemberships-'></a>Method <code>rMemberships()</code></h3>
+<p>a method to sample new block memberships for the current SBM</p><h4 class='hasAnchor' id='usage'><a class='anchor' aria-hidden='true' href='#usage'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>BipartiteSBM</span><span class='op'>$</span><span class='fu'>rMemberships</span><span class='op'>(</span>store <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
 
-<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' aria-hidden='true' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
 <dt><code>store</code></dt><dd><p>should the sampled blocks be stored (and overwrite the existing data)? Default to FALSE</p></dd>
 
 </dl><p></div></p>
-<h4 class='hasAnchor' id='returns'><a class='anchor' href='#returns'></a>Returns</h4>
+<h4 class='hasAnchor' id='returns'><a class='anchor' aria-hidden='true' href='#returns'></a>Returns</h4>
 <p>the sampled blocks</p>
 <p><hr>
-<a id="method-rEdges"></a></p><h3 class='hasAnchor' id='method-'><a class='anchor' href='#method-'></a>Method <code>rEdges()</code></h3>
-<p>a method to sample a network data (edges) for the current SBM</p><h4 class='hasAnchor' id='usage'><a class='anchor' href='#usage'></a>Usage</h4>
+<a id="method-rEdges"></a></p><h3 class='hasAnchor' id='method-'><a class='anchor' aria-hidden='true' href='#method-'></a>Method <code>rEdges()</code></h3>
+<p>a method to sample a network data (edges) for the current SBM</p><h4 class='hasAnchor' id='usage'><a class='anchor' aria-hidden='true' href='#usage'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>BipartiteSBM</span><span class='op'>$</span><span class='fu'>rEdges</span><span class='op'>(</span>store <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
 
-<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' aria-hidden='true' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
 <dt><code>store</code></dt><dd><p>should the sampled edges be stored (and overwrite the existing data)? Default to FALSE</p></dd>
 
 </dl><p></div></p>
-<h4 class='hasAnchor' id='returns'><a class='anchor' href='#returns'></a>Returns</h4>
+<h4 class='hasAnchor' id='returns'><a class='anchor' aria-hidden='true' href='#returns'></a>Returns</h4>
 <p>the sampled network</p>
-<h3 class='hasAnchor' id='list-redges-'><a class='anchor' href='#list-redges-'></a>Method <code>rEdges()</code></h3>
-<p>a method to sample a network data (edges) for the current SBM</p><h4 class='hasAnchor' id='usage'><a class='anchor' href='#usage'></a>Usage</h4>
+<h3 class='hasAnchor' id='list-redges-'><a class='anchor' aria-hidden='true' href='#list-redges-'></a>Method <code>rEdges()</code></h3>
+<p>a method to sample a network data (edges) for the current SBM</p><h4 class='hasAnchor' id='usage'><a class='anchor' aria-hidden='true' href='#usage'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>BipartiteSBM</span><span class='op'>$</span><span class='fu'>rEdges</span><span class='op'>(</span>store <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
 
-<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' aria-hidden='true' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
 <dt><code>store</code></dt><dd><p>should the sampled edges be stored (and overwrite the existing data)? Default to FALSE</p></dd>
 
 </dl><p></div></p>
-<h4 class='hasAnchor' id='returns'><a class='anchor' href='#returns'></a>Returns</h4>
+<h4 class='hasAnchor' id='returns'><a class='anchor' aria-hidden='true' href='#returns'></a>Returns</h4>
 <p>the sampled network</p>
 <p><hr>
-<a id="method-predict"></a></p><h3 class='hasAnchor' id='method-'><a class='anchor' href='#method-'></a>Method <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code></h3>
-<p>prediction under the current parameters</p><h4 class='hasAnchor' id='usage'><a class='anchor' href='#usage'></a>Usage</h4>
+<a id="method-predict"></a></p><h3 class='hasAnchor' id='method-'><a class='anchor' aria-hidden='true' href='#method-'></a>Method <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code></h3>
+<p>prediction under the current parameters</p><h4 class='hasAnchor' id='usage'><a class='anchor' aria-hidden='true' href='#usage'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>BipartiteSBM</span><span class='op'>$</span><span class='fu'>predict</span><span class='op'>(</span>covarList <span class='op'>=</span> <span class='va'>self</span><span class='op'>$</span><span class='va'>covarList</span>, theta_p0 <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span></pre><p></div></p>
 
-<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' aria-hidden='true' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
 <dt><code>covarList</code></dt><dd><p>a list of covariates. By default, we use the covariates with which the model was estimated.</p></dd>
 
 <dt><code>theta_p0</code></dt><dd><p>double for thresholding...</p></dd>
 
 </dl><p></div></p>
-<h3 class='hasAnchor' id='list-predict-'><a class='anchor' href='#list-predict-'></a>Method <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code></h3>
-<p>prediction under the current parameters</p><h4 class='hasAnchor' id='usage'><a class='anchor' href='#usage'></a>Usage</h4>
+<h3 class='hasAnchor' id='list-predict-'><a class='anchor' aria-hidden='true' href='#list-predict-'></a>Method <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code></h3>
+<p>prediction under the current parameters</p><h4 class='hasAnchor' id='usage'><a class='anchor' aria-hidden='true' href='#usage'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>BipartiteSBM</span><span class='op'>$</span><span class='fu'>predict</span><span class='op'>(</span>covarList <span class='op'>=</span> <span class='va'>self</span><span class='op'>$</span><span class='va'>covarList</span>, theta_p0 <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span></pre><p></div></p>
 
-<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' aria-hidden='true' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
 <dt><code>covarList</code></dt><dd><p>a list of covariates. By default, we use the covariates with which the model was estimated.</p></dd>
 
@@ -326,34 +326,34 @@ R6 class for Bipartite SBM" />
 
 </dl><p></div></p>
 <p><hr>
-<a id="method-show"></a></p><h3 class='hasAnchor' id='method-'><a class='anchor' href='#method-'></a>Method <code>show()</code></h3>
-<p>show method</p><h4 class='hasAnchor' id='usage'><a class='anchor' href='#usage'></a>Usage</h4>
+<a id="method-show"></a></p><h3 class='hasAnchor' id='method-'><a class='anchor' aria-hidden='true' href='#method-'></a>Method <code>show()</code></h3>
+<p>show method</p><h4 class='hasAnchor' id='usage'><a class='anchor' aria-hidden='true' href='#usage'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>BipartiteSBM</span><span class='op'>$</span><span class='fu'>show</span><span class='op'>(</span>type <span class='op'>=</span> <span class='st'>"Bipartite Stochastic Block Model"</span><span class='op'>)</span></pre><p></div></p>
 
-<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' aria-hidden='true' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
 <dt><code>type</code></dt><dd><p>character used to specify the type of SBM</p></dd>
 
 </dl><p></div></p>
-<h3 class='hasAnchor' id='list-show-'><a class='anchor' href='#list-show-'></a>Method <code>show()</code></h3>
-<p>show method</p><h4 class='hasAnchor' id='usage'><a class='anchor' href='#usage'></a>Usage</h4>
+<h3 class='hasAnchor' id='list-show-'><a class='anchor' aria-hidden='true' href='#list-show-'></a>Method <code>show()</code></h3>
+<p>show method</p><h4 class='hasAnchor' id='usage'><a class='anchor' aria-hidden='true' href='#usage'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>BipartiteSBM</span><span class='op'>$</span><span class='fu'>show</span><span class='op'>(</span>type <span class='op'>=</span> <span class='st'>"Bipartite Stochastic Block Model"</span><span class='op'>)</span></pre><p></div></p>
 
-<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' aria-hidden='true' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
 <dt><code>type</code></dt><dd><p>character used to specify the type of SBM</p></dd>
 
 </dl><p></div></p>
 <p><hr>
-<a id="method-plot"></a></p><h3 class='hasAnchor' id='method-'><a class='anchor' href='#method-'></a>Method <code><a href='https://rdrr.io/r/graphics/plot.default.html'>plot()</a></code></h3>
-<p>basic matrix plot method for BipartiteSBM object or mesoscopic plot</p><h4 class='hasAnchor' id='usage'><a class='anchor' href='#usage'></a>Usage</h4>
+<a id="method-plot"></a></p><h3 class='hasAnchor' id='method-'><a class='anchor' aria-hidden='true' href='#method-'></a>Method <code><a href='https://rdrr.io/r/graphics/plot.default.html'>plot()</a></code></h3>
+<p>basic matrix plot method for BipartiteSBM object or mesoscopic plot</p><h4 class='hasAnchor' id='usage'><a class='anchor' aria-hidden='true' href='#usage'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>BipartiteSBM</span><span class='op'>$</span><span class='fu'>plot</span><span class='op'>(</span>
   type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"data"</span>, <span class='st'>"expected"</span>, <span class='st'>"meso"</span><span class='op'>)</span>,
   ordered <span class='op'>=</span> <span class='cn'>TRUE</span>,
   plotOptions <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='op'>)</span></pre><p></div></p>
 
-<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' aria-hidden='true' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
 <dt><code>type</code></dt><dd><p>character for the type of plot: either 'data' (true connection), 'expected' (fitted connection) or 'meso' (mesoscopic view). Default to 'data'.</p></dd>
 
@@ -362,17 +362,17 @@ R6 class for Bipartite SBM" />
 <dt><code>plotOptions</code></dt><dd><p>list with the parameters for the plot. See help of the corresponding S3 method for details.</p></dd>
 
 </dl><p></div></p>
-<h4 class='hasAnchor' id='returns'><a class='anchor' href='#returns'></a>Returns</h4>
+<h4 class='hasAnchor' id='returns'><a class='anchor' aria-hidden='true' href='#returns'></a>Returns</h4>
 <p>a ggplot2 object for the <code>'data'</code> and <code>'expected'</code>, a list with the igraph object <code>g</code>, the <code>layout</code> and the <code>plotOptions</code> for the <code>'meso'</code></p>
-<h3 class='hasAnchor' id='list-plot-'><a class='anchor' href='#list-plot-'></a>Method <code><a href='https://rdrr.io/r/graphics/plot.default.html'>plot()</a></code></h3>
-<p>basic matrix plot method for BipartiteSBM object or mesoscopic plot</p><h4 class='hasAnchor' id='usage'><a class='anchor' href='#usage'></a>Usage</h4>
+<h3 class='hasAnchor' id='list-plot-'><a class='anchor' aria-hidden='true' href='#list-plot-'></a>Method <code><a href='https://rdrr.io/r/graphics/plot.default.html'>plot()</a></code></h3>
+<p>basic matrix plot method for BipartiteSBM object or mesoscopic plot</p><h4 class='hasAnchor' id='usage'><a class='anchor' aria-hidden='true' href='#usage'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>BipartiteSBM</span><span class='op'>$</span><span class='fu'>plot</span><span class='op'>(</span>
   type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"data"</span>, <span class='st'>"expected"</span>, <span class='st'>"meso"</span><span class='op'>)</span>,
   ordered <span class='op'>=</span> <span class='cn'>TRUE</span>,
   plotOptions <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='op'>)</span></pre><p></div></p>
 
-<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' aria-hidden='true' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
 <dt><code>type</code></dt><dd><p>character for the type of plot: either 'data' (true connection), 'expected' (fitted connection) or 'meso' (mesoscopic view). Default to 'data'.</p></dd>
 
@@ -381,23 +381,23 @@ R6 class for Bipartite SBM" />
 <dt><code>plotOptions</code></dt><dd><p>list with the parameters for the plot. See help of the corresponding S3 method for details.</p></dd>
 
 </dl><p></div></p>
-<h4 class='hasAnchor' id='returns'><a class='anchor' href='#returns'></a>Returns</h4>
+<h4 class='hasAnchor' id='returns'><a class='anchor' aria-hidden='true' href='#returns'></a>Returns</h4>
 <p>a ggplot2 object for the <code>'data'</code> and <code>'expected'</code>, a list with the igraph object <code>g</code>, the <code>layout</code> and the <code>plotOptions</code> for the <code>'meso'</code></p>
 <p><hr>
-<a id="method-clone"></a></p><h3 class='hasAnchor' id='method-'><a class='anchor' href='#method-'></a>Method <code>clone()</code></h3>
-<p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='usage'><a class='anchor' href='#usage'></a>Usage</h4>
+<a id="method-clone"></a></p><h3 class='hasAnchor' id='method-'><a class='anchor' aria-hidden='true' href='#method-'></a>Method <code>clone()</code></h3>
+<p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='usage'><a class='anchor' aria-hidden='true' href='#usage'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>BipartiteSBM</span><span class='op'>$</span><span class='fu'>clone</span><span class='op'>(</span>deep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
 
-<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' aria-hidden='true' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
 <dt><code>deep</code></dt><dd><p>Whether to make a deep clone.</p></dd>
 
 </dl><p></div></p>
-<h3 class='hasAnchor' id='list-clone-'><a class='anchor' href='#list-clone-'></a>Method <code>clone()</code></h3>
-<p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='usage'><a class='anchor' href='#usage'></a>Usage</h4>
+<h3 class='hasAnchor' id='list-clone-'><a class='anchor' aria-hidden='true' href='#list-clone-'></a>Method <code>clone()</code></h3>
+<p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='usage'><a class='anchor' aria-hidden='true' href='#usage'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>BipartiteSBM</span><span class='op'>$</span><span class='fu'>clone</span><span class='op'>(</span>deep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
 
-<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' aria-hidden='true' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
 <dt><code>deep</code></dt><dd><p>Whether to make a deep clone.</p></dd>
 
