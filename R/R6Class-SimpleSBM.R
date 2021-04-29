@@ -66,7 +66,11 @@ SimpleSBM <-
         if (self$nbCovariates > 0) {
           stopifnot(all(sapply(covarList, nrow) == self$nbNodes,
                         sapply(covarList, ncol) == self$nbNodes))
-          res <- private$invlink[[1L]](private$Z %*% private$link[[1L]](mu) %*% t(private$Z) + self$covarEffect)
+          if (self$modelName == "bernoulli") {
+            res <- private$invlink[[1L]](private$Z %*% private$link[[1L]]( mu ) %*% t(private$Z) + self$covarEffect)
+          } else {
+            res <- private$invlink[[1L]](private$link[[1L]](private$Z %*% mu %*% t(private$Z)) + self$covarEffect)
+          }
         } else {
           res <- private$Z %*% mu %*% t(private$Z)
         }

@@ -1,6 +1,6 @@
 Package: sbm
 Title: Stochastic Blockmodels
-Version: 0.4.0-9210
+Version: 0.4.0-9250
 Authors@R: 
   c(person(given = "Julien", family = "Chiquet", role = c("aut", "cre"),
            email = "julien.chiquet@inrae.fr",
@@ -61,7 +61,7 @@ Collate:
     'plotAlluvial.R'
     'plotMyMatrix.R'
     'plotMyMultipartiteMatrix.R'
-    'plotMyMultiplexeMatrix.R'
+    'plotMyMultiplexMatrix.R'
     'sample.R'
     'sbm-package.R'
     'utils-pipe.R'

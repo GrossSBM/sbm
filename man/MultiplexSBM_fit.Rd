@@ -28,6 +28,8 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
 \item{\code{dependentNetwork}}{: connection parameters in each network}
+
+\item{\code{namesLayers}}{: names of the various Networks}
 }
 \if{html}{\out{</div>}}
 }
@@ -36,18 +38,18 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 \itemize{
 \item \href{#method-new}{\code{MultiplexSBM_fit$new()}}
 \item \href{#method-optimize}{\code{MultiplexSBM_fit$optimize()}}
+\item \href{#method-plot}{\code{MultiplexSBM_fit$plot()}}
+\item \href{#method-show}{\code{MultiplexSBM_fit$show()}}
 \item \href{#method-clone}{\code{MultiplexSBM_fit$clone()}}
 }
 }
 \if{html}{
-\out{<details ><summary>Inherited methods</summary>}
+\out{<details open ><summary>Inherited methods</summary>}
 \itemize{
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="rNetwork">}\href{../../sbm/html/SBM.html#method-rNetwork}{\code{sbm::SBM$rNetwork()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM" data-id="plot">}\href{../../sbm/html/MultipartiteSBM.html#method-plot}{\code{sbm::MultipartiteSBM$plot()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM" data-id="print">}\href{../../sbm/html/MultipartiteSBM.html#method-print}{\code{sbm::MultipartiteSBM$print()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM_fit" data-id="predict">}\href{../../sbm/html/MultipartiteSBM_fit.html#method-predict}{\code{sbm::MultipartiteSBM_fit$predict()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM_fit" data-id="setModel">}\href{../../sbm/html/MultipartiteSBM_fit.html#method-setModel}{\code{sbm::MultipartiteSBM_fit$setModel()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM_fit" data-id="show">}\href{../../sbm/html/MultipartiteSBM_fit.html#method-show}{\code{sbm::MultipartiteSBM_fit$show()}}\out{</span>}
 }
 \out{</details>}
 }
@@ -83,6 +85,48 @@ estimation of multipartiteSBM via GREMLINS
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{estimOptions}}{options for MultipartiteBM}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-plot"></a>}}
+\if{latex}{\out{\hypertarget{method-plot}{}}}
+\subsection{Method \code{plot()}}{
+plot Multiplex Network
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MultiplexSBM_fit$plot(
+  type = c("data", "expected"),
+  ordered = TRUE,
+  plotOptions = list()
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{type}}{character for the type of plot: either 'data' (true connection), 'expected' (fitted connection). Default to 'data'.}
+
+\item{\code{ordered}}{TRUE is the matrices are plotted after reorganization with the blocks. Default value = TRUE}
+
+\item{\code{plotOptions}}{list of plot options for the matrix view}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-show"></a>}}
+\if{latex}{\out{\hypertarget{method-show}{}}}
+\subsection{Method \code{show()}}{
+show method
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MultiplexSBM_fit$show(type = "Fit of a Multiplex Stochastic Block Model")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{type}}{character used to specify the type of SBM}
 }
 \if{html}{\out{</div>}}
 }
