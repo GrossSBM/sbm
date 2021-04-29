@@ -82,7 +82,7 @@ R6 Class definition of a Multiplex SBM fit" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sbm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0-9225</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0-9250</span>
       </span>
     </div>
 
@@ -171,6 +171,8 @@ R6 Class definition of a Multiplex SBM fit" />
     <p><div class="r6-active-bindings"></p><dl>
 <dt><code>dependentNetwork</code></dt><dd><p>: connection parameters in each network</p></dd>
 
+<dt><code>namesLayers</code></dt><dd><p>: names of the various Networks</p></dd>
+
 </dl><p></div></p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
@@ -180,16 +182,16 @@ R6 Class definition of a Multiplex SBM fit" />
 <ul>
 <li><p><a href='#method-new'><code>MultiplexSBM_fit$new()</code></a></p></li>
 <li><p><a href='#method-optimize'><code>MultiplexSBM_fit$optimize()</code></a></p></li>
+<li><p><a href='#method-plot'><code>MultiplexSBM_fit$plot()</code></a></p></li>
+<li><p><a href='#method-show'><code>MultiplexSBM_fit$show()</code></a></p></li>
 <li><p><a href='#method-clone'><code>MultiplexSBM_fit$clone()</code></a></p></li>
 </ul>
-<p><details ><summary>Inherited methods</summary>
+<p><details open ><summary>Inherited methods</summary>
 <ul>
 <li><p><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="rNetwork"><a href='../../sbm/html/SBM.html#method-rNetwork'><code>sbm::SBM$rNetwork()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM" data-id="plot"><a href='../../sbm/html/MultipartiteSBM.html#method-plot'><code>sbm::MultipartiteSBM$plot()</code></a></span></p></li>
 <li><p><span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM" data-id="print"><a href='../../sbm/html/MultipartiteSBM.html#method-print'><code>sbm::MultipartiteSBM$print()</code></a></span></p></li>
 <li><p><span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM_fit" data-id="predict"><a href='../../sbm/html/MultipartiteSBM_fit.html#method-predict'><code>sbm::MultipartiteSBM_fit$predict()</code></a></span></p></li>
 <li><p><span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM_fit" data-id="setModel"><a href='../../sbm/html/MultipartiteSBM_fit.html#method-setModel'><code>sbm::MultipartiteSBM_fit$setModel()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM_fit" data-id="show"><a href='../../sbm/html/MultipartiteSBM_fit.html#method-show'><code>sbm::MultipartiteSBM_fit$show()</code></a></span></p></li>
 </ul>
 </details>
 
@@ -233,6 +235,60 @@ R6 Class definition of a Multiplex SBM fit" />
 <h4 class='hasAnchor' id='arguments'><a class='anchor' aria-hidden='true' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
 <dt><code>estimOptions</code></dt><dd><p>options for MultipartiteBM</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-plot"></a></p><h3 class='hasAnchor' id='method-'><a class='anchor' aria-hidden='true' href='#method-'></a>Method <code><a href='https://rdrr.io/r/graphics/plot.default.html'>plot()</a></code></h3>
+<p>plot Multiplex Network</p><h4 class='hasAnchor' id='usage'><a class='anchor' aria-hidden='true' href='#usage'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>MultiplexSBM_fit</span><span class='op'>$</span><span class='fu'>plot</span><span class='op'>(</span>
+  type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"data"</span>, <span class='st'>"expected"</span><span class='op'>)</span>,
+  ordered <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  plotOptions <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' aria-hidden='true' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>type</code></dt><dd><p>character for the type of plot: either 'data' (true connection), 'expected' (fitted connection). Default to 'data'.</p></dd>
+
+<dt><code>ordered</code></dt><dd><p>TRUE is the matrices are plotted after reorganization with the blocks. Default value = TRUE</p></dd>
+
+<dt><code>plotOptions</code></dt><dd><p>list of plot options for the matrix view</p></dd>
+
+</dl><p></div></p>
+<h3 class='hasAnchor' id='list-plot-'><a class='anchor' aria-hidden='true' href='#list-plot-'></a>Method <code><a href='https://rdrr.io/r/graphics/plot.default.html'>plot()</a></code></h3>
+<p>plot Multiplex Network</p><h4 class='hasAnchor' id='usage'><a class='anchor' aria-hidden='true' href='#usage'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>MultiplexSBM_fit</span><span class='op'>$</span><span class='fu'>plot</span><span class='op'>(</span>
+  type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"data"</span>, <span class='st'>"expected"</span><span class='op'>)</span>,
+  ordered <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  plotOptions <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' aria-hidden='true' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>type</code></dt><dd><p>character for the type of plot: either 'data' (true connection), 'expected' (fitted connection). Default to 'data'.</p></dd>
+
+<dt><code>ordered</code></dt><dd><p>TRUE is the matrices are plotted after reorganization with the blocks. Default value = TRUE</p></dd>
+
+<dt><code>plotOptions</code></dt><dd><p>list of plot options for the matrix view</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-show"></a></p><h3 class='hasAnchor' id='method-'><a class='anchor' aria-hidden='true' href='#method-'></a>Method <code>show()</code></h3>
+<p>show method</p><h4 class='hasAnchor' id='usage'><a class='anchor' aria-hidden='true' href='#usage'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>MultiplexSBM_fit</span><span class='op'>$</span><span class='fu'>show</span><span class='op'>(</span>type <span class='op'>=</span> <span class='st'>"Fit of a Multiplex Stochastic Block Model"</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' aria-hidden='true' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>type</code></dt><dd><p>character used to specify the type of SBM</p></dd>
+
+</dl><p></div></p>
+<h3 class='hasAnchor' id='list-show-'><a class='anchor' aria-hidden='true' href='#list-show-'></a>Method <code>show()</code></h3>
+<p>show method</p><h4 class='hasAnchor' id='usage'><a class='anchor' aria-hidden='true' href='#usage'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>MultiplexSBM_fit</span><span class='op'>$</span><span class='fu'>show</span><span class='op'>(</span>type <span class='op'>=</span> <span class='st'>"Fit of a Multiplex Stochastic Block Model"</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' aria-hidden='true' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>type</code></dt><dd><p>character used to specify the type of SBM</p></dd>
 
 </dl><p></div></p>
 <p><hr>

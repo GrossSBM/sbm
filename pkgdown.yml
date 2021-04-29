@@ -3,6 +3,7 @@ pkgdown: 1.6.1.9001
 pkgdown_sha: dff8062d297c001dba0dfaf567bfffdc8ad89f5c
 articles:
   Multipartite_EcologicalNetwork: Multipartite_EcologicalNetwork.html
+  MultiplexNetwork_principle: MultiplexNetwork_principle.html
   SBM_fungus_tree_network: SBM_fungus_tree_network.html
-last_built: 2021-04-29T13:43Z
+last_built: 2021-04-29T14:38Z
 

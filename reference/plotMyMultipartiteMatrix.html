@@ -40,8 +40,7 @@
 
 
 <meta property="og:title" content="Plot the matrices corresponding to a Multipartite Network — plotMyMultipartiteMatrix" />
-<meta property="og:description" content="Plot the matrices corresponding to a Multipartite Network
-Plot the matrices corresponding to a Multiplex Network" />
+<meta property="og:description" content="Plot the matrices corresponding to a Multipartite Network" />
 
 
 
@@ -84,7 +83,7 @@ Plot the matrices corresponding to a Multiplex Network" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sbm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0-9225</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0-9250</span>
       </span>
     </div>
 
@@ -142,18 +141,15 @@ Plot the matrices corresponding to a Multiplex Network" />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Plot the matrices corresponding to a Multipartite Network</h1>
-    <small class="dont-index">Source: <a href='https://github.com/GrossSBM/sbm/blob/master/R/plotMyMultipartiteMatrix.R'><code>R/plotMyMultipartiteMatrix.R</code></a>, <a href='https://github.com/GrossSBM/sbm/blob/master/R/plotMyMultiplexeMatrix.R'><code>R/plotMyMultiplexeMatrix.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/GrossSBM/sbm/blob/master/R/plotMyMultipartiteMatrix.R'><code>R/plotMyMultipartiteMatrix.R</code></a></small>
     <div class="hidden name"><code>plotMyMultipartiteMatrix.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>Plot the matrices corresponding to a Multipartite Network</p>
-<p>Plot the matrices corresponding to a Multiplex Network</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plotMyMultipartiteMatrix</span><span class='op'>(</span><span class='va'>listSBM</span>, memberships <span class='op'>=</span> <span class='cn'>NULL</span>, plotOptions <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='fu'>plotMyMultipartiteMatrix</span><span class='op'>(</span><span class='va'>listSBM</span>, memberships <span class='op'>=</span> <span class='cn'>NULL</span>, plotOptions <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>plotMyMultipartiteMatrix</span><span class='op'>(</span><span class='va'>listSBM</span>, memberships <span class='op'>=</span> <span class='cn'>NULL</span>, plotOptions <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -175,22 +171,9 @@ Plot the matrices corresponding to a Multiplex Network" />
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>a ggplot object corresponding to the plot</p>
-<p>a ggplot object corresponding to the plot</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>plotOptions is a list containing the following items</p><ul>
-<li><p>"normalized":Boolean. TRUE if the various matrices are presented in the same scale (between O and 1). FALSE otherwise. Default value FALSE</p></li>
-<li><p>"compact":Boolean. Default value is TRUE if you ask for the matrices to be transposed to have a more compact view</p></li>
-<li><p>"legend": Boolean. Set TRUE if you   want to see the legend. Default value is FALSE</p></li>
-<li><p>"legend.title": Boolean. Set TRUE if you want to print the title of the legend. Default value is FALSE</p></li>
-<li><p>"legend.position": Position of the legend. Possible values are 'bottom', 'top','left,'right'. Default value is 'bottom'</p></li>
-<li><p>"nodeNames": Set true if the node Names must be plotted. Default value is FALSE</p></li>
-<li><p>"line.color":The color of the lines to separate groups. Default value is red</p></li>
-<li><p>"line.width":Width  of the lines to separate groups. Default value is NULL, automatically chosen</p></li>
-<li><p>"title": Title of the plot. Default value is NULL</p></li>
-</ul>
-
-<p>plotOptions is a list containing the following items</p><ul>
 <li><p>"normalized":Boolean. TRUE if the various matrices are presented in the same scale (between O and 1). FALSE otherwise. Default value FALSE</p></li>
 <li><p>"compact":Boolean. Default value is TRUE if you ask for the matrices to be transposed to have a more compact view</p></li>
 <li><p>"legend": Boolean. Set TRUE if you   want to see the legend. Default value is FALSE</p></li>
@@ -229,33 +212,6 @@ Plot the matrices corresponding to a Multiplex Network" />
 <span class='fu'>plotMyMultipartiteMatrix</span><span class='op'>(</span><span class='va'>listNet</span>,plotOptions<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>legend <span class='op'>=</span> <span class='cn'>TRUE</span>,compact <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='img'><img src='plotMyMultipartiteMatrix-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotMyMultipartiteMatrix</span><span class='op'>(</span><span class='va'>listNet</span>,plotOptions<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>legend <span class='op'>=</span> <span class='cn'>TRUE</span>,normalized <span class='op'>=</span>  <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='img'><img src='plotMyMultipartiteMatrix-3.png' alt='' width='700' height='433' /></div><div class='input'>
-
-
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"multipartiteEcologicalNetwork"</span><span class='op'>)</span>
-<span class='va'>Net</span> <span class='op'>&lt;-</span> <span class='va'>multipartiteEcologicalNetwork</span>
-<span class='va'>type</span><span class='op'>=</span><span class='st'>'bipartite'</span>
-<span class='va'>model</span> <span class='op'>=</span> <span class='st'>'bernoulli'</span>
-<span class='va'>directed</span> <span class='op'>=</span> <span class='cn'>FALSE</span>
-<span class='va'>listNet</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='va'>listNet</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span> <span class='op'>=</span> <span class='fu'><a href='defineSBM.html'>defineSBM</a></span><span class='op'>(</span><span class='va'>Net</span><span class='op'>$</span><span class='va'>Inc_plant_ant</span>,
-                         <span class='va'>model</span>,<span class='va'>type</span>,<span class='va'>directed</span>,
-                         dimLabels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>row <span class='op'>=</span> <span class='st'>"Plants"</span>, col <span class='op'>=</span> <span class='st'>"Ants"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>listNet</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span> <span class='op'>=</span> <span class='fu'><a href='defineSBM.html'>defineSBM</a></span><span class='op'>(</span><span class='va'>Net</span><span class='op'>$</span><span class='va'>Inc_plant_bird</span>,<span class='va'>model</span>,<span class='va'>type</span>,<span class='va'>directed</span>,
-                      dimLabels <span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>row <span class='op'>=</span> <span class='st'>"Plants"</span>,col <span class='op'>=</span> <span class='st'>"Birds"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'>plotMyMultipartiteMatrix</span><span class='op'>(</span><span class='va'>listNet</span>,plotOptions<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>legend <span class='op'>=</span> <span class='cn'>TRUE</span>,title<span class='op'>=</span><span class='st'>'Ecology'</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='img'><img src='plotMyMultipartiteMatrix-4.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='va'>listNet</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='va'>listNet</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'><a href='defineSBM.html'>defineSBM</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Binomial.html'>rbinom</a></span><span class='op'>(</span><span class='fl'>1000</span>,<span class='fl'>1</span>,<span class='fl'>0.5</span><span class='op'>)</span>,<span class='fl'>20</span>,<span class='fl'>50</span><span class='op'>)</span>,
-                   model <span class='op'>=</span> <span class='st'>'bernoulli'</span>,
-                   type  <span class='op'>=</span><span class='st'>'bipartite'</span>, directed <span class='op'>=</span> <span class='cn'>NA</span>,
-                   dimLabels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>row<span class='op'>=</span><span class='st'>"Questions"</span>,col<span class='op'>=</span><span class='st'>"Students"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>listNet</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'><a href='defineSBM.html'>defineSBM</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Poisson.html'>rpois</a></span><span class='op'>(</span><span class='fl'>20</span><span class='op'>*</span><span class='fl'>30</span>,<span class='fl'>8</span><span class='op'>)</span>,<span class='fl'>30</span>,<span class='fl'>20</span><span class='op'>)</span>,
-                   model <span class='op'>=</span> <span class='st'>'poisson'</span>,
-                   type  <span class='op'>=</span><span class='st'>'bipartite'</span>,directed <span class='op'>=</span> <span class='cn'>NA</span>,
-                   dimLabels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>row<span class='op'>=</span><span class='st'>"Competences"</span>,col<span class='op'>=</span><span class='st'>"Questions"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'>plotMyMultipartiteMatrix</span><span class='op'>(</span><span class='va'>listNet</span>,plotOptions<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>legend <span class='op'>=</span> <span class='cn'>TRUE</span>,compact <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='img'><img src='plotMyMultipartiteMatrix-5.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotMyMultipartiteMatrix</span><span class='op'>(</span><span class='va'>listNet</span>,plotOptions<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>legend <span class='op'>=</span> <span class='cn'>TRUE</span>,normalized <span class='op'>=</span>  <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='img'><img src='plotMyMultipartiteMatrix-6.png' alt='' width='700' height='433' /></div><div class='input'>
 
 
 </div></pre>
