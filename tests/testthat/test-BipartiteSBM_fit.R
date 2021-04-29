@@ -47,13 +47,12 @@ test_that("BipartiteSBM_fit 'Bernoulli' model, undirected, no covariate", {
 
   ## Estimation-----------------------------------------------------------------
   BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0))
-  mySBM$setModel(5)
+  mySBM$setModel(4)
 
   expect_equal(mySBM$nbConnectParam, unname(nbBlocks[1] * nbBlocks[2]))
   expect_equal(mySBM$penalty, nbBlocks[1] * nbBlocks[2] * log(nbNodes[1] * nbNodes[2]) +  (nbBlocks[1] - 1) * log(nbNodes[1]) + (nbBlocks[2] - 1) * log(nbNodes[2]))
   expect_equal(mySBM$entropy, -sum(mySBM$probMemberships[[1]] * log(mySBM$probMemberships[[1]]))
                               -sum(mySBM$probMemberships[[2]] * log(mySBM$probMemberships[[2]])))
-
 
   ## Expectation
   expect_equal(dim(mySBM$expectation), nbNodes)
@@ -81,9 +80,9 @@ test_that("BipartiteSBM_fit 'Bernoulli' model, undirected, no covariate", {
   expect_lt(1 - aricode::ARI(mySBM$memberships[[2]], mySampler$memberships[[2]]), .2)
 
   ## prediction wrt BM
-  for (Q in 2:5) {
+  for (Q in mySBM$storedModels$indexModel) {
     pred_bm  <- BM_out$prediction(Q = Q)
-    mySBM$setModel(Q)
+    mySBM$setModel(Q-1)
     pred_sbm <- predict(mySBM)
     expect_lt( rmse(pred_bm, pred_sbm), 1e-12)
   }
@@ -130,7 +129,7 @@ test_that("BipartiteSBM_fit 'Poisson' model, undirected, no covariate", {
 
   ## Estimation-----------------------------------------------------------------
   BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0))
-  mySBM$setModel(5)
+  mySBM$setModel(4)
 
   ## Expectation
   expect_equal(dim(mySBM$expectation), nbNodes)
@@ -157,9 +156,9 @@ test_that("BipartiteSBM_fit 'Poisson' model, undirected, no covariate", {
   expect_lt(1 - aricode::ARI(mySBM$memberships[[2]], mySampler$memberships[[2]]), 1e-1)
 
   ## prediction wrt BM
-  for (Q in 2:5) {
+  for (Q in mySBM$storedModels$indexModel) {
     pred_bm  <- BM_out$prediction(Q = Q)
-    mySBM$setModel(Q)
+    mySBM$setModel(Q-1)
     pred_sbm <- predict(mySBM)
     expect_lt( rmse(pred_bm, pred_sbm), 1e-12)
   }
@@ -206,7 +205,7 @@ test_that("BipartiteSBM_fit 'Gaussian' model, undirected, no covariate", {
 
   ## Estimation-----------------------------------------------------------------
   BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0))
-  mySBM$setModel(5)
+  mySBM$setModel(4)
 
   ## Expectation
   expect_equal(dim(mySBM$expectation), nbNodes)
@@ -232,9 +231,9 @@ test_that("BipartiteSBM_fit 'Gaussian' model, undirected, no covariate", {
   expect_lt(1 - aricode::ARI(mySBM$memberships[[2]], mySampler$memberships[[2]]), 1e-1)
 
   ## prediction wrt BM
-  for (Q in 2:5) {
+  for (Q in mySBM$storedModels$indexModel) {
     pred_bm  <- BM_out$prediction(Q = Q)
-    mySBM$setModel(Q)
+    mySBM$setModel(Q-1)
     pred_sbm <- predict(mySBM)
     expect_lt( rmse(pred_bm, pred_sbm), 1e-12)
   }

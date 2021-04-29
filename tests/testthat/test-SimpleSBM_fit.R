@@ -84,7 +84,7 @@ test_that("SimpleSBM_fit 'Bernoulli' model, undirected, no covariate", {
   expect_lt(1 - aricode::ARI(mySBM$memberships, mySampler$memberships), 0.25)
 
   ## prediction wrt BM
-  for (Q in 1:4) {
+  for (Q in mySBM$storedModels$indexModel) {
     pred_bm  <- BM_out$prediction(Q = Q)
     mySBM$setModel(Q)
     pred_sbm <- predict(mySBM)
@@ -169,7 +169,7 @@ test_that("SimpleSBM_fit 'Bernoulli' model, directed, no covariate", {
   expect_lt(1 - aricode::ARI(mySBM$memberships, mySampler$memberships), 0.2)
 
   ## prediction wrt BM
-  for (Q in 1:4) {
+  for (Q in mySBM$storedModels$indexModel) {
     pred_bm  <- BM_out$prediction(Q = Q)
     mySBM$setModel(Q)
     pred_sbm <- predict(mySBM)
@@ -249,7 +249,7 @@ test_that("SimpleSBM_fit 'Poisson' model, undirected, no covariate", {
   expect_lt(1 - aricode::ARI(mySBM$memberships, mySampler$memberships), 1e-1)
 
   ## prediction wrt BM
-  for (Q in 1:4) {
+  for (Q in mySBM$storedModels$indexModel) {
     pred_bm  <- BM_out$prediction(Q = Q)
     mySBM$setModel(Q)
     pred_sbm <- predict(mySBM)
@@ -328,7 +328,7 @@ test_that("SimpleSBM_fit 'Poisson' model, directed, no covariate", {
   expect_lt(1 - aricode::ARI(mySBM$memberships, mySampler$memberships), 1e-1)
 
   ## prediction wrt BM
-  for (Q in 1:4) {
+  for (Q in mySBM$storedModels$indexModel) {
     pred_bm  <- BM_out$prediction(Q = Q)
     mySBM$setModel(Q)
     pred_sbm <- predict(mySBM)
@@ -407,7 +407,7 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, no covariate", {
   expect_lt(1 - aricode::ARI(mySBM$memberships, mySampler$memberships), 1e-1)
 
   ## prediction wrt BM
-  for (Q in 1:4) {
+  for (Q in mySBM$storedModels$indexModel) {
     pred_bm  <- BM_out$prediction(Q = Q)
     mySBM$setModel(Q)
     pred_sbm <- predict(mySBM)
@@ -486,7 +486,7 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, no covariate", {
   expect_lt(1 - aricode::ARI(mySBM$memberships, mySampler$memberships), 1e-1)
 
   ## prediction wrt BM
-  for (Q in 1:4) {
+  for (Q in mySBM$storedModels$indexModel) {
     pred_bm  <- BM_out$prediction(Q = Q)
     mySBM$setModel(Q)
     pred_sbm <- predict(mySBM)

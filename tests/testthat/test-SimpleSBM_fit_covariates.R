@@ -87,7 +87,7 @@ test_that("SimpleSBM_fit 'Bernoulli' model, undirected, one covariate", {
   expect_error(predict(mySBM, covarList))
 
   ## prediction wrt BM
-  for (Q in 1:3) {
+  for (Q in mySBM$storedModels$indexModel) {
     pred_bm  <- BM_out$prediction(Q = Q)
     mySBM$setModel(Q)
     pred_sbm <- predict(mySBM)
@@ -166,7 +166,7 @@ test_that("SimpleSBM_fit 'Bernoulli' model, directed, one covariate", {
   expect_equal(predict(mySBM, covarList[1]), fitted(mySBM))
 
   ## prediction wrt BM
-  for (Q in 1:3) {
+  for (Q in mySBM$storedModels$indexModel) {
     pred_bm  <- BM_out$prediction(Q = Q)
     mySBM$setModel(Q)
     pred_sbm <- predict(mySBM)
@@ -244,7 +244,7 @@ test_that("SimpleSBM_fit 'Poisson' model, undirected, two covariates", {
   expect_equal(predict(mySBM, covarList[1]), fitted(mySBM))
 
   ## prediction wrt BM
-  for (Q in 1:3) {
+  for (Q in mySBM$storedModels$indexModel) {
     pred_bm  <- BM_out$prediction(Q = Q)
     mySBM$setModel(Q)
     pred_sbm <- predict(mySBM)
@@ -322,7 +322,7 @@ test_that("SimpleSBM_fit 'Poisson' model, directed, two covariates", {
   expect_equal(predict(mySBM, covarList[1]), fitted(mySBM))
 
   ## prediction wrt BM
-  for (Q in 1:3) {
+  for (Q in mySBM$storedModels$indexModel) {
     pred_bm  <- BM_out$prediction(Q = Q)
     mySBM$setModel(Q)
     pred_sbm <- predict(mySBM)
@@ -405,7 +405,7 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, two covariates", {
   expect_equal(predict(mySBM, covarList), fitted(mySBM))
 
   ## prediction wrt BM
-  for (Q in 1:3) {
+  for (Q in mySBM$storedModels$indexModel) {
     pred_bm  <- BM_out$prediction(Q = Q)
     mySBM$setModel(Q)
     pred_sbm <- predict(mySBM)
@@ -488,7 +488,7 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, two covariates", {
   expect_equal(predict(mySBM, covarList), fitted(mySBM))
 
   ## prediction wrt BM
-  for (Q in 1:3) {
+  for (Q in mySBM$storedModels$indexModel) {
     pred_bm  <- BM_out$prediction(Q = Q)
     mySBM$setModel(Q)
     pred_sbm <- predict(mySBM)
