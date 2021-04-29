@@ -7,7 +7,7 @@
 plotMyMultiplexMatrix(listSBM, memberships = NULL, plotOptions = list())
 }
 \arguments{
-\item{listSBM}{: a list of objects representing the multiplexe network (see)}
+\item{listSBM}{: a list of objects representing the multiplex network (see)}
 
 \item{memberships}{: a list of length equal to the number of Functional Groups providing the clusterings inside each group.}
 
