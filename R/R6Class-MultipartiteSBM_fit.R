@@ -150,7 +150,7 @@ MultipartiteSBM_fit <-
         initBM <- currentOptions$initBM
 
 
-        if ( sum(abs(v_Kmin - v_Kmax)) > 0) {
+        if (sum(abs(v_Kmin - v_Kmax)) > 0) {
           private$GREMLINSobject <- GREMLINS::multipartiteBM(
             list_Net = listNetG,
             v_distrib = vdistrib ,

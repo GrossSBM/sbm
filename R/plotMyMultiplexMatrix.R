@@ -1,6 +1,6 @@
 #' Plot the matrices corresponding to a Multiplex Network
 #'
-#' @param listSBM  : a list of objects representing the multipartite network (see)
+#' @param listSBM  : a list of objects representing the multiplex network (see)
 #' @param memberships : a list of length equal to the number of Functional Groups providing the clusterings inside each group.
 #' @param plotOptions : a list containing the options. See details.
 #' @details plotOptions is a list containing the following items
@@ -19,49 +19,33 @@
 #' @export
 #'
 #' @examples
-#' data("multipartiteEcologicalNetwork")
-#' Net <- multipartiteEcologicalNetwork
-#' type='bipartite'
-#' model = 'bernoulli'
-#' directed = FALSE
-#' listNet <- list()
-#' listNet[[1]] = defineSBM(Net$Inc_plant_ant,
-#'                          model,type,directed,
-#'                          dimLabels = c(row = "Plants", col = "Ants"))
-#' listNet[[2]] = defineSBM(Net$Inc_plant_bird,model,type,directed,
-#'                       dimLabels =c(row = "Plants",col = "Birds"))
-#' plotMyMultipartiteMatrix(listNet,plotOptions=list(legend = TRUE,title='Ecology'))
-#'
-#' listNet <- list()
-#' listNet[[1]] <- defineSBM(matrix(rbinom(1000,1,0.5),20,50),
-#'                    model = 'bernoulli',
-#'                    type  ='bipartite', directed = NA,
-#'                    dimLabels = c(row="Questions",col="Students"))
-#' listNet[[2]] <- defineSBM(matrix(rpois(20*30,8),30,20),
-#'                    model = 'poisson',
-#'                    type  ='bipartite',directed = NA,
-#'                    dimLabels = c(row="Competences",col="Questions"))
-#' plotMyMultipartiteMatrix(listNet,plotOptions=list(legend = TRUE,compact = FALSE))
-#' plotMyMultipartiteMatrix(listNet,plotOptions=list(legend = TRUE,normalized =  TRUE))
+#' Nnodes <- c(40,30)
+#' blockProp <- list(c(.4,.6),c(0.5,0.5))
+#' nbLayers <- 2
+#' connectParam <- list(list(mean=matrix(rbeta(4,.5,.5),2,2)),list(mean=matrix(rexp(4,.5),2,2)))
+#' names(connectParam) <- c('Read','Score')
+#' model <- c("bernoulli","poisson")
+#' type <- "bipartite"
+#'mySampleMultiplexSBM <-
+#'  sampleMultiplexSBM(
+#'    nbNodes = Nnodes,
+#'    blockProp = blockProp,
+#'    nbLayers = nbLayers,
+#'    connectParam = connectParam,
+#'    model=model,
+#'    dimLabels =  c('readers','books'),
+#'    type=type)
+#' listNet <- mySampleMultiplexSBM$listSBM
+#' names(listNet) <- c("Read","Affinity")
+#' plotMyMultiplexMatrix(listNet,plotOptions=list(legend = TRUE))
 #'
 #'
 #'
 
-plotMyMultipartiteMatrix = function(listSBM, memberships = NULL, plotOptions = list()){
-
+plotMyMultiplexMatrix = function(listSBM, memberships = NULL, plotOptions = list()){
 
   #########################
-
-  myMSBMObject <- MultipartiteSBM_fit$new(listSBM)
-
-
-  E <- myMSBMObject$architecture
-  if(sum(duplicated(E))){
-    #### renames dimLabels
-
-
-
-  }
+  myMSBMObject <- MultiplexSBM_fit$new(listSBM)
   ### TODO: better handle of membership!!! we should use an instance of MultipartiteSBM_sampler when ready
   if (!is.null(memberships)) myMSBMObject$probMemberships <- lapply(memberships, as_indicator)
   ordered <- ifelse(is.null(memberships), FALSE, TRUE)

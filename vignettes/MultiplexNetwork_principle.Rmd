@@ -1,0 +1,118 @@
+---
+title: "Stochastic Block Models for Multiplex  networks"
+subtitle: "Principle and illustration"
+author: "team großBM"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 4
+bibliography: references.bib
+link-citations: yes
+vignette: >
+  %\VignetteIndexEntry{Multiplex Stochastic Block Models}
+  %\VignetteEngine{knitr::rmarkdown} 
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Preliminaries
+
+This vignette illustrates the use of the `estimateMultiplexSBM` function and the methods accompanying the R6 classes `multiplexSBMfit`.
+
+### Requirements
+
+The packages required for the analysis are **sbm**. 
+
+```{r setup, message=FALSE, warning=FALSE}
+library(sbm)
+```
+
+
+
+### Mathematical Background
+
+We give here a few details on Stochastic Block Models for multiplex networks. 
+Multiplex networks refer to a collection of networks involving the same nodes, each network corresponding to a give type of interaction. 
+Such a network is studied in  @multiplexSBM where the nodes are researchers and two networks are provided: 
+    
+    * a network representing the relations of advices between researchers,
+    * a network representing the exchanges between the laboratories the researchers belong to. 
+
+In @multiplexKefi, the nodes are species and each network corresponds to a type of ecological relation, namely mutualism, competition and **** 
+
+
+See @multiplexSBM for details.
+
+### Inference 
+
+The model selection and the estimation are performed with the function `estimatemultipartiteBM`.
+
+```{r load result, echo = FALSE, eval = TRUE}
+load('resMultipartiteEcological.rda')
+``` 
+
+```{r MBM, echo = TRUE, eval = FALSE}
+estimOptions = list(initBM = FALSE)
+listSBM <- list(PlantFlovis, PlantAnt, PlantBird)
+myMSBM <- estimateMultipartiteSBM(listSBM,estimOptions)
+``` 
+
+
+\code{myMSBM} contains the estimated parameters of the models we run through during the search of the better numbers of blocks. 
+
+RES_MBM contains the dataset and the results.  
+```{r MBM what}
+myMSBM
+``` 
+
+
+The best model has the following numbers of blocks
+```{r MBM v_K }
+myMSBM$nbBlocks
+```
+
+
+To see the parameters estimated for the better model we use the following command `myMSBM$connectParam` or `myMSBM$blockProp`
+```{r MBM param }
+myMSBM$blockProp
+myMSBM$connectParam
+```
+
+
+The clustering  supplied by the better model  are in `myMSBM$memberships***`.
+
+```{r MBM Z }
+table(myMSBM$memberships$Plants)
+table(myMSBM$memberships$Ants)      
+``` 
+
+```{r storedmodels}
+myMSBM$storedModels
+``` 
+
+## Plots 
+We can either plot the reorganized matrix
+```{r plot, eval = TRUE }
+plot(myMSBM) 
+``` 
+
+or the mesoscopic view
+```{r plot meso, eval = FALSE}
+plotOptions=list(vertex.size = c(6,3,2,2))
+plotOptions$vertex.shape = rep('circle',4)
+plotOptions$vertex.color = c('darkolivegreen3','darkgoldenrod2','salmon2','cadetblue2')
+plotOptions$edge.curved = 0.1
+plot(myMSBM,type = 'meso',plotOptions=plotOptions)
+```
+
+Will soon be ready
+
+## References
+

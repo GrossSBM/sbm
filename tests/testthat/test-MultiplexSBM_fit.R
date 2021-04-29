@@ -46,6 +46,10 @@ test_that("Inference for Multiplex networks", {
   )
 
   myMultiplexFitdep$optimize(estimOptions = currentOptions)
+  myMultiplexFitdep$probMemberships
+
+  expect_equal(class(myMultiplexFitdep$memberships),"list")
+
   expect_equal(length(myMultiplexFitdep$connectParam),4)
   expect_equal(myMultiplexFitdep$dependentNetwork,TRUE)
 
