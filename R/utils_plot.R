@@ -123,7 +123,7 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG,namesLayers, dist
   list_Mat <- listMat
   nbNet <- length(list_Mat)
 
-  ###---------------------- check for multiplexe
+  ###---------------------- check for multiplex
   wE <- which(duplicated(E) == FALSE)
   if(length(wE) > 0){
     if (is.null(namesLayers)){namesLayers = paste("Layer", 1:nbNet, sep="")}

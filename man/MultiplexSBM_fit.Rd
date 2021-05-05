@@ -93,7 +93,7 @@ estimation of multipartiteSBM via GREMLINS
 \if{html}{\out{<a id="method-plot"></a>}}
 \if{latex}{\out{\hypertarget{method-plot}{}}}
 \subsection{Method \code{plot()}}{
-plot Multiplexe Network
+plot Multiplex Network
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{MultiplexSBM_fit$plot(
   type = c("data", "expected"),

@@ -52,7 +52,7 @@ test_that("SimpleSBM_fit 'Bernoulli' model, undirected, no covariate", {
   expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
 
   ## Estimation-----------------------------------------------------------------
-  mySBM$optimize(estimOptions=list(verbosity = 0))
+  BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0))
   mySBM$setModel(3)
 
   ## Field set after optimization
@@ -82,6 +82,14 @@ test_that("SimpleSBM_fit 'Bernoulli' model, undirected, no covariate", {
   ## correctness
   expect_lt(rmse(mySBM$connectParam$mean, means), 0.25)
   expect_lt(1 - aricode::ARI(mySBM$memberships, mySampler$memberships), 0.25)
+
+  ## prediction wrt BM
+  for (Q in mySBM$storedModels$indexModel) {
+    pred_bm  <- BM_out$prediction(Q = Q)
+    mySBM$setModel(Q)
+    pred_sbm <- predict(mySBM)
+    expect_lt( rmse(pred_bm, pred_sbm), 1e-12)
+  }
 
 })
 
@@ -130,7 +138,7 @@ test_that("SimpleSBM_fit 'Bernoulli' model, directed, no covariate", {
   expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
 
   ## Estimation-----------------------------------------------------------------
-  mySBM$optimize(estimOptions=list(verbosity = 0))
+  BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0))
   mySBM$setModel(3)
 
   expect_equal(mySBM$nbConnectParam, nbBlocks * nbBlocks)
@@ -159,6 +167,14 @@ test_that("SimpleSBM_fit 'Bernoulli' model, directed, no covariate", {
   ## correctness
   expect_lt(rmse(sort(mySBM$connectParam$mean), means), 0.2)
   expect_lt(1 - aricode::ARI(mySBM$memberships, mySampler$memberships), 0.2)
+
+  ## prediction wrt BM
+  for (Q in mySBM$storedModels$indexModel) {
+    pred_bm  <- BM_out$prediction(Q = Q)
+    mySBM$setModel(Q)
+    pred_sbm <- predict(mySBM)
+    expect_lt( rmse(pred_bm, pred_sbm), 1e-12)
+  }
 
 })
 
@@ -207,7 +223,7 @@ test_that("SimpleSBM_fit 'Poisson' model, undirected, no covariate", {
   expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
 
   ## Estimation-----------------------------------------------------------------
-  mySBM$optimize(estimOptions=list(verbosity = 0))
+  BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0))
   mySBM$setModel(3)
 
   ## Expectation
@@ -231,6 +247,14 @@ test_that("SimpleSBM_fit 'Poisson' model, undirected, no covariate", {
   ## correctness
   expect_lt(rmse(mySBM$connectParam$mean, means), 1e-1)
   expect_lt(1 - aricode::ARI(mySBM$memberships, mySampler$memberships), 1e-1)
+
+  ## prediction wrt BM
+  for (Q in mySBM$storedModels$indexModel) {
+    pred_bm  <- BM_out$prediction(Q = Q)
+    mySBM$setModel(Q)
+    pred_sbm <- predict(mySBM)
+    expect_lt( rmse(pred_bm, pred_sbm), 1e-12)
+  }
 
 })
 
@@ -278,7 +302,7 @@ test_that("SimpleSBM_fit 'Poisson' model, directed, no covariate", {
   expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
 
   ## Estimation-----------------------------------------------------------------
-  mySBM$optimize(estimOptions=list(verbosity = 0))
+  BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0))
   mySBM$setModel(3)
 
   ## Expectation
@@ -302,6 +326,14 @@ test_that("SimpleSBM_fit 'Poisson' model, directed, no covariate", {
   ## correctness
   expect_lt(rmse(sort(mySBM$connectParam$mean), means), 1e-1)
   expect_lt(1 - aricode::ARI(mySBM$memberships, mySampler$memberships), 1e-1)
+
+  ## prediction wrt BM
+  for (Q in mySBM$storedModels$indexModel) {
+    pred_bm  <- BM_out$prediction(Q = Q)
+    mySBM$setModel(Q)
+    pred_sbm <- predict(mySBM)
+    expect_lt( rmse(pred_bm, pred_sbm), 1e-12)
+  }
 
 })
 
@@ -350,7 +382,7 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, no covariate", {
   expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
 
   ## Estimation-----------------------------------------------------------------
-  mySBM$optimize(estimOptions=list(verbosity = 0))
+  BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0))
   mySBM$setModel(3)
 
   ## Expectation
@@ -373,6 +405,14 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, no covariate", {
   ## correctness
   expect_lt(rmse(mySBM$connectParam$mean, means), 1e-1)
   expect_lt(1 - aricode::ARI(mySBM$memberships, mySampler$memberships), 1e-1)
+
+  ## prediction wrt BM
+  for (Q in mySBM$storedModels$indexModel) {
+    pred_bm  <- BM_out$prediction(Q = Q)
+    mySBM$setModel(Q)
+    pred_sbm <- predict(mySBM)
+    expect_lt( rmse(pred_bm, pred_sbm), 1e-12)
+  }
 
 })
 
@@ -421,7 +461,7 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, no covariate", {
   expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
 
   ## Estimation-----------------------------------------------------------------
-  mySBM$optimize(estimOptions=list(verbosity = 0))
+  BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0))
   mySBM$setModel(3)
 
   ## Expectation
@@ -444,6 +484,14 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, no covariate", {
   ## correctness
   expect_lt(rmse(sort(mySBM$connectParam$mean), means), 1e-1)
   expect_lt(1 - aricode::ARI(mySBM$memberships, mySampler$memberships), 1e-1)
+
+  ## prediction wrt BM
+  for (Q in mySBM$storedModels$indexModel) {
+    pred_bm  <- BM_out$prediction(Q = Q)
+    mySBM$setModel(Q)
+    pred_sbm <- predict(mySBM)
+    expect_lt( rmse(pred_bm, pred_sbm), 1e-12)
+  }
 
 })
 

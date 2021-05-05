@@ -1,6 +1,6 @@
 #' Plot the matrices corresponding to a Multiplex Network
 #'
-#' @param listSBM  : a list of objects representing the multiplexe network (see)
+#' @param listSBM  : a list of objects representing the multiplex network (see)
 #' @param memberships : a list of length equal to the number of Functional Groups providing the clusterings inside each group.
 #' @param plotOptions : a list containing the options. See details.
 #' @details plotOptions is a list containing the following items

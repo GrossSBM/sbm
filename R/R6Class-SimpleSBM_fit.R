@@ -134,7 +134,7 @@ SimpleSBM_fit <-
       reorder = function(){
         o <- order(private$theta$mean %*% private$pi, decreasing = TRUE)
         private$pi <- private$pi[o]
-        private$theta$mean <- private$theta$mean[o,o]
+        private$theta$mean <- private$theta$mean[o, o, drop = FALSE]
         private$Z <- private$Z[, o, drop = FALSE]
       },
       #--------------------------------------------

@@ -62,7 +62,7 @@ test_that("SimpleSBM_fit 'Bernoulli' model, undirected, one covariate", {
   expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
 
   ## Estimation-----------------------------------------------------------------
-  mySBM$optimize(estimOptions = list(verbosity = 0, fast = TRUE))
+  BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0, fast = TRUE))
   mySBM$setModel(2)
 
   ## Expectation
@@ -85,6 +85,14 @@ test_that("SimpleSBM_fit 'Bernoulli' model, undirected, one covariate", {
   expect_equal(predict(mySBM), fitted(mySBM))
   expect_equal(predict(mySBM, covarList[1]), fitted(mySBM))
   expect_error(predict(mySBM, covarList))
+
+  ## prediction wrt BM
+  for (Q in mySBM$storedModels$indexModel) {
+    pred_bm  <- BM_out$prediction(Q = Q)
+    mySBM$setModel(Q)
+    pred_sbm <- predict(mySBM)
+    expect_lt( rmse(pred_bm, pred_sbm), 1e-12)
+  }
 
 })
 
@@ -133,7 +141,7 @@ test_that("SimpleSBM_fit 'Bernoulli' model, directed, one covariate", {
   expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
 
   ## Estimation-----------------------------------------------------------------
-  mySBM$optimize(estimOptions  = list(verbosity = 0, fast = TRUE))
+  BM_out <- mySBM$optimize(estimOptions  = list(verbosity = 0, fast = TRUE))
   mySBM$setModel(2)
 
   ## Expectation
@@ -156,6 +164,14 @@ test_that("SimpleSBM_fit 'Bernoulli' model, directed, one covariate", {
   expect_equal(predict(mySBM), fitted(mySBM))
 
   expect_equal(predict(mySBM, covarList[1]), fitted(mySBM))
+
+  ## prediction wrt BM
+  for (Q in mySBM$storedModels$indexModel) {
+    pred_bm  <- BM_out$prediction(Q = Q)
+    mySBM$setModel(Q)
+    pred_sbm <- predict(mySBM)
+    expect_lt( rmse(pred_bm, pred_sbm), 1e-12)
+  }
 
 })
 
@@ -193,7 +209,7 @@ test_that("SimpleSBM_fit 'Poisson' model, undirected, two covariates", {
   expect_true(is.matrix(mySBM$connectParam$mean))
 
   ## covariates
-    expect_true(all(dim(mySBM$covarEffect) == c(nbNodes, nbNodes)))
+  expect_true(all(dim(mySBM$covarEffect) == c(nbNodes, nbNodes)))
   expect_equal(mySBM$nbCovariates, 1)
   expect_equal(mySBM$covarList, covarList[1])
   expect_equal(mySBM$covarParam, c(0))
@@ -204,7 +220,7 @@ test_that("SimpleSBM_fit 'Poisson' model, undirected, two covariates", {
   expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
 
   ## Estimation-----------------------------------------------------------------
-  mySBM$optimize(estimOptions=list(verbosity = 0))
+  BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0))
   mySBM$setModel(2)
 
   ## Expectation
@@ -226,6 +242,14 @@ test_that("SimpleSBM_fit 'Poisson' model, undirected, two covariates", {
   expect_equal(predict(mySBM), fitted(mySBM))
 
   expect_equal(predict(mySBM, covarList[1]), fitted(mySBM))
+
+  ## prediction wrt BM
+  for (Q in mySBM$storedModels$indexModel) {
+    pred_bm  <- BM_out$prediction(Q = Q)
+    mySBM$setModel(Q)
+    pred_sbm <- predict(mySBM)
+    expect_lt( rmse(pred_bm, pred_sbm), 1e-12)
+  }
 
 })
 
@@ -274,7 +298,7 @@ test_that("SimpleSBM_fit 'Poisson' model, directed, two covariates", {
   expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
 
   ## Estimation-----------------------------------------------------------------
-  mySBM$optimize(estimOptions=list(verbosity = 0))
+  BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0))
   mySBM$setModel(2)
 
   ## Expectation
@@ -296,6 +320,14 @@ test_that("SimpleSBM_fit 'Poisson' model, directed, two covariates", {
   expect_equal(predict(mySBM), fitted(mySBM))
 
   expect_equal(predict(mySBM, covarList[1]), fitted(mySBM))
+
+  ## prediction wrt BM
+  for (Q in mySBM$storedModels$indexModel) {
+    pred_bm  <- BM_out$prediction(Q = Q)
+    mySBM$setModel(Q)
+    pred_sbm <- predict(mySBM)
+    expect_lt( rmse(pred_bm, pred_sbm), 1e-12)
+  }
 
 })
 
@@ -334,7 +366,7 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, two covariates", {
   expect_true(is.matrix(mySBM$connectParam$mean))
 
   ## covariates
-    expect_true(all(dim(mySBM$covarEffect) == c(nbNodes, nbNodes)))
+  expect_true(all(dim(mySBM$covarEffect) == c(nbNodes, nbNodes)))
   expect_equal(mySBM$nbCovariates, 2)
   expect_equal(mySBM$covarList, covarList)
   expect_equal(mySBM$covarParam, c(0,0))
@@ -345,7 +377,7 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, two covariates", {
   expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
 
   ## Estimation-----------------------------------------------------------------
-  mySBM$optimize(estimOptions=list(verbosity = 0))
+  BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0))
   mySBM$setModel(2)
 
   ## Expectation
@@ -371,6 +403,14 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, two covariates", {
   expect_equal(predict(mySBM), fitted(mySBM))
 
   expect_equal(predict(mySBM, covarList), fitted(mySBM))
+
+  ## prediction wrt BM
+  for (Q in mySBM$storedModels$indexModel) {
+    pred_bm  <- BM_out$prediction(Q = Q)
+    mySBM$setModel(Q)
+    pred_sbm <- predict(mySBM)
+    expect_lt( rmse(pred_bm, pred_sbm), 1e-12)
+  }
 
 })
 
@@ -420,7 +460,7 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, two covariates", {
   expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
 
   ## Estimation-----------------------------------------------------------------
-  mySBM$optimize(estimOptions=list(verbosity = 0))
+  BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0))
   mySBM$setModel(2)
 
   ## Expectation
@@ -446,5 +486,13 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, two covariates", {
   expect_equal(predict(mySBM), fitted(mySBM))
 
   expect_equal(predict(mySBM, covarList), fitted(mySBM))
+
+  ## prediction wrt BM
+  for (Q in mySBM$storedModels$indexModel) {
+    pred_bm  <- BM_out$prediction(Q = Q)
+    mySBM$setModel(Q)
+    pred_sbm <- predict(mySBM)
+    expect_lt( rmse(pred_bm, pred_sbm), 1e-12)
+  }
 
 })

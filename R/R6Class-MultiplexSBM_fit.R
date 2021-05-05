@@ -128,7 +128,7 @@ MultiplexSBM_fit <-
 
         }
       },
-      #' @description plot Multiplexe Network
+      #' @description plot Multiplex Network
       #' @param type character for the type of plot: either 'data' (true connection), 'expected' (fitted connection). Default to 'data'.
       #' @param ordered TRUE is the matrices are plotted after reorganization with the blocks. Default value = TRUE
       #' @param plotOptions list of plot options for the matrix view

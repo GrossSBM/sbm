@@ -126,8 +126,9 @@ BipartiteSBM_fit <-
       #' @param index integer, the index of the model to be selected (row number in storedModels)
       setModel = function(index) {
         stopifnot(!is.null(private$BMobject))
-        stopifnot(index %in% seq.int(nrow(self$storedModels)))
-        private$import_from_BM(index)
+        models <- self$storedModels
+        stopifnot(index %in% seq.int(nrow(models)))
+        private$import_from_BM(models$indexModel[index])
         self$reorder()
       },
       #' @description permute group labels by order of decreasing probability
@@ -136,7 +137,7 @@ BipartiteSBM_fit <-
         oCol <- order(private$pi[[1]] %*% private$theta$mean, decreasing = TRUE)
         private$pi[[1]] <- private$pi[[1]][oRow]
         private$pi[[2]] <- private$pi[[2]][oCol]
-        private$theta$mean <- private$theta$mean[oRow, oCol]
+        private$theta$mean <- private$theta$mean[oRow, oCol, drop = FALSE]
         private$Z[[1]] <- private$Z[[1]][, oRow, drop = FALSE]
         private$Z[[2]] <- private$Z[[2]][, oCol, drop = FALSE]
       },

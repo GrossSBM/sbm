@@ -98,7 +98,6 @@ estimateSimpleSBM <- function(netMat,
     fast          = TRUE
   )
 
-
   ## Current options are default expect for those passed by the user
   currentOptions[names(estimOptions)] <- estimOptions
 
