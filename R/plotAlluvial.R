@@ -23,7 +23,7 @@ plotAlluvial = function(listMemberships,plotOptions = list()){
 
   nbMemb <- length(listMemberships)
   ### check sizes
-  if (nbMemb < 2){stop('Provide at least to clusterings')}
+  if (nbMemb < 2){stop('Provide at least two clusterings')}
   L <- sapply(listMemberships,length)
   test_size <- sum(abs(diff(L))) == 0
   if (!test_size){stop('The clusterings are not of equal sizes')}
@@ -47,6 +47,7 @@ plotAlluvial = function(listMemberships,plotOptions = list()){
   A <- as.data.frame(table(U))
   w   <- which(A$Freq!=0)
   A <- A[w,]
+  if (nrow(A) == 1){stop('No clusterings to compare.')}
   alluvial::alluvial(A[,1:nbMemb],freq=A$Freq , xw=currentOptions$curvy, alpha=currentOptions$alpha,
            gap.width=currentOptions$gap.width, col= currentOptions$col, border=currentOptions$border)
   return(list(plotOptions  = currentOptions, tableFreq  =A))

@@ -2,7 +2,7 @@
 #'
 #' @inheritParams estimateSimpleSBM
 #' @param type Type of the matrix, choice between 'simple' and 'bipartite'
-#' @param dimLabels an optional list of labels for each dimension (in row, in column)
+#' @param dimLabels an optional vector of labels for each dimension (in row, in column). Default value = c('row' = row,'col'= col)
 #' @return an object SimpleSBM or BipartiteSBM with the informations required to define a future multipartite network
 #' @examples
 #' A <- matrix(rbinom(100,1,.2), 10, 10)
@@ -24,9 +24,9 @@ defineSBM = function(netMat,
   if(is.null(colnames(netMat))) colnames(netMat) <- 1:ncol(netMat)
 
   if (type == "simple")
-    mySBM <- SimpleSBM_fit$new(netMat, model, directed, dimLabels, covariates)
+    mySBM <- SimpleSBM_fit$new(netMat, model = model, directed = directed, dimLabels = dimLabels, covarList  = covariates)
   else
-    mySBM <- BipartiteSBM_fit$new(netMat, model, dimLabels, covariates)
+    mySBM <- BipartiteSBM_fit$new(netMat, model = model, dimLabels = dimLabels, covarList = covariates)
 
   mySBM
   }
