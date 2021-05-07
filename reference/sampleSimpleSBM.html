@@ -204,55 +204,65 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models, and 
     <p>an object with class <code><a href='SimpleSBM.html'>SimpleSBM</a></code></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>### =======================================</span>
-<span class='co'>### SIMPLE BINARY SBM (Bernoulli model)</span>
-<span class='co'>## Graph parameters</span>
-<span class='va'>nbNodes</span>  <span class='op'>&lt;-</span> <span class='fl'>90</span>
-<span class='va'>blockProp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>.5</span>, <span class='fl'>.25</span>, <span class='fl'>.25</span><span class='op'>)</span> <span class='co'># group proportions</span>
-<span class='va'>means</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/diag.html'>diag</a></span><span class='op'>(</span><span class='fl'>.4</span>, <span class='fl'>3</span><span class='op'>)</span> <span class='op'>+</span> <span class='fl'>0.05</span>  <span class='co'># connectivity matrix: affiliation network</span>
-<span class='co'># In Bernoulli SBM, parameters is a list with a</span>
-<span class='co'># matrix of means 'mean' which are probabilities of connection</span>
-<span class='va'>connectParam</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>mean <span class='op'>=</span> <span class='va'>means</span><span class='op'>)</span>
-
-<span class='co'>## Graph Sampling</span>
-<span class='va'>mySampler</span> <span class='op'>&lt;-</span> <span class='fu'>sampleSimpleSBM</span><span class='op'>(</span><span class='va'>nbNodes</span>, <span class='va'>blockProp</span>, <span class='va'>connectParam</span>, model <span class='op'>=</span> <span class='st'>'bernoulli'</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>mySampler</span><span class='op'>)</span>
-</div><div class='img'><img src='sampleSimpleSBM-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>mySampler</span><span class='op'>)</span>
-</div><div class='img'><img src='sampleSimpleSBM-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>mySampler</span>,type<span class='op'>=</span><span class='st'>'meso'</span><span class='op'>)</span>
-</div><div class='img'><img src='sampleSimpleSBM-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/hist.html'>hist</a></span><span class='op'>(</span><span class='va'>mySampler</span><span class='op'>$</span><span class='va'>networkData</span><span class='op'>)</span>
-</div><div class='img'><img src='sampleSimpleSBM-4.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'>### =======================================</span>
-<span class='co'>### SIMPLE POISSON SBM</span>
-<span class='co'>## Graph parameters</span>
-<span class='va'>nbNodes</span>  <span class='op'>&lt;-</span> <span class='fl'>90</span>
-<span class='va'>blockProp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>.5</span>, <span class='fl'>.25</span>, <span class='fl'>.25</span><span class='op'>)</span> <span class='co'># group proportions</span>
-<span class='va'>means</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/diag.html'>diag</a></span><span class='op'>(</span><span class='fl'>15.</span>, <span class='fl'>3</span><span class='op'>)</span> <span class='op'>+</span> <span class='fl'>5</span>    <span class='co'># connectivity matrix: affiliation network</span>
-<span class='co'># In Poisson SBM, parameters is a list with</span>
-<span class='co'># a matrix of means 'mean' which are a mean integer value taken by edges</span>
-<span class='va'>connectParam</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>mean <span class='op'>=</span> <span class='va'>means</span><span class='op'>)</span>
-
-<span class='co'>## Graph Sampling</span>
-<span class='va'>mySampler</span> <span class='op'>&lt;-</span> <span class='fu'>sampleSimpleSBM</span><span class='op'>(</span><span class='va'>nbNodes</span>, <span class='va'>blockProp</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>mean <span class='op'>=</span> <span class='va'>means</span><span class='op'>)</span>, model <span class='op'>=</span> <span class='st'>"poisson"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>mySampler</span><span class='op'>)</span>
-</div><div class='img'><img src='sampleSimpleSBM-5.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>mySampler</span>,type<span class='op'>=</span><span class='st'>'meso'</span><span class='op'>)</span>
-</div><div class='img'><img src='sampleSimpleSBM-6.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/hist.html'>hist</a></span><span class='op'>(</span><span class='va'>mySampler</span><span class='op'>$</span><span class='va'>networkData</span><span class='op'>)</span>
-</div><div class='img'><img src='sampleSimpleSBM-7.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'>### =======================================</span>
-<span class='co'>### SIMPLE GAUSSIAN SBM</span>
-<span class='co'>## Graph parameters</span>
-<span class='va'>nbNodes</span>  <span class='op'>&lt;-</span> <span class='fl'>90</span>
-<span class='va'>blockProp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>.5</span>, <span class='fl'>.25</span>, <span class='fl'>.25</span><span class='op'>)</span>      <span class='co'># group proportions</span>
-<span class='va'>means</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/diag.html'>diag</a></span><span class='op'>(</span><span class='fl'>15.</span>, <span class='fl'>3</span><span class='op'>)</span> <span class='op'>+</span> <span class='fl'>5</span> <span class='co'># connectivity matrix: affiliation network</span>
-<span class='co'># In Gaussian SBM, parameters is a list with</span>
-<span class='co'># a matrix of means 'mean' and a matrix of variances 'var'</span>
-<span class='va'>connectParam</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>mean <span class='op'>=</span> <span class='va'>means</span>, var <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
-
-<span class='co'>## Graph Sampling</span>
-<span class='va'>mySampler</span> <span class='op'>&lt;-</span> <span class='fu'>sampleSimpleSBM</span><span class='op'>(</span><span class='va'>nbNodes</span>, <span class='va'>blockProp</span>, <span class='va'>connectParam</span>, model <span class='op'>=</span> <span class='st'>"gaussian"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>mySampler</span><span class='op'>)</span>
-</div><div class='img'><img src='sampleSimpleSBM-8.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>mySampler</span>,type<span class='op'>=</span><span class='st'>'meso'</span><span class='op'>)</span>
-</div><div class='img'><img src='sampleSimpleSBM-9.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/hist.html'>hist</a></span><span class='op'>(</span><span class='va'>mySampler</span><span class='op'>$</span><span class='va'>networkData</span><span class='op'>)</span>
-</div><div class='img'><img src='sampleSimpleSBM-10.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'>### =======================================</span></span>
+<span class='r-in'><span class='co'>### SIMPLE BINARY SBM (Bernoulli model)</span></span>
+<span class='r-in'><span class='co'>## Graph parameters</span></span>
+<span class='r-in'><span class='va'>nbNodes</span>  <span class='op'>&lt;-</span> <span class='fl'>90</span></span>
+<span class='r-in'><span class='va'>blockProp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>.5</span>, <span class='fl'>.25</span>, <span class='fl'>.25</span><span class='op'>)</span> <span class='co'># group proportions</span></span>
+<span class='r-in'><span class='va'>means</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/diag.html'>diag</a></span><span class='op'>(</span><span class='fl'>.4</span>, <span class='fl'>3</span><span class='op'>)</span> <span class='op'>+</span> <span class='fl'>0.05</span>  <span class='co'># connectivity matrix: affiliation network</span></span>
+<span class='r-in'><span class='co'># In Bernoulli SBM, parameters is a list with a</span></span>
+<span class='r-in'><span class='co'># matrix of means 'mean' which are probabilities of connection</span></span>
+<span class='r-in'><span class='va'>connectParam</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>mean <span class='op'>=</span> <span class='va'>means</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Graph Sampling</span></span>
+<span class='r-in'><span class='va'>mySampler</span> <span class='op'>&lt;-</span> <span class='fu'>sampleSimpleSBM</span><span class='op'>(</span><span class='va'>nbNodes</span>, <span class='va'>blockProp</span>, <span class='va'>connectParam</span>, model <span class='op'>=</span> <span class='st'>'bernoulli'</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>mySampler</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='sampleSimpleSBM-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>mySampler</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='sampleSimpleSBM-2.png' alt='' width='700' height='433' /></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>mySampler</span>,type<span class='op'>=</span><span class='st'>'meso'</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='sampleSimpleSBM-3.png' alt='' width='700' height='433' /></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/hist.html'>hist</a></span><span class='op'>(</span><span class='va'>mySampler</span><span class='op'>$</span><span class='va'>networkData</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='sampleSimpleSBM-4.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>### =======================================</span></span>
+<span class='r-in'><span class='co'>### SIMPLE POISSON SBM</span></span>
+<span class='r-in'><span class='co'>## Graph parameters</span></span>
+<span class='r-in'><span class='va'>nbNodes</span>  <span class='op'>&lt;-</span> <span class='fl'>90</span></span>
+<span class='r-in'><span class='va'>blockProp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>.5</span>, <span class='fl'>.25</span>, <span class='fl'>.25</span><span class='op'>)</span> <span class='co'># group proportions</span></span>
+<span class='r-in'><span class='va'>means</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/diag.html'>diag</a></span><span class='op'>(</span><span class='fl'>15.</span>, <span class='fl'>3</span><span class='op'>)</span> <span class='op'>+</span> <span class='fl'>5</span>    <span class='co'># connectivity matrix: affiliation network</span></span>
+<span class='r-in'><span class='co'># In Poisson SBM, parameters is a list with</span></span>
+<span class='r-in'><span class='co'># a matrix of means 'mean' which are a mean integer value taken by edges</span></span>
+<span class='r-in'><span class='va'>connectParam</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>mean <span class='op'>=</span> <span class='va'>means</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Graph Sampling</span></span>
+<span class='r-in'><span class='va'>mySampler</span> <span class='op'>&lt;-</span> <span class='fu'>sampleSimpleSBM</span><span class='op'>(</span><span class='va'>nbNodes</span>, <span class='va'>blockProp</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>mean <span class='op'>=</span> <span class='va'>means</span><span class='op'>)</span>, model <span class='op'>=</span> <span class='st'>"poisson"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>mySampler</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='sampleSimpleSBM-5.png' alt='' width='700' height='433' /></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>mySampler</span>,type<span class='op'>=</span><span class='st'>'meso'</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='sampleSimpleSBM-6.png' alt='' width='700' height='433' /></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/hist.html'>hist</a></span><span class='op'>(</span><span class='va'>mySampler</span><span class='op'>$</span><span class='va'>networkData</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='sampleSimpleSBM-7.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>### =======================================</span></span>
+<span class='r-in'><span class='co'>### SIMPLE GAUSSIAN SBM</span></span>
+<span class='r-in'><span class='co'>## Graph parameters</span></span>
+<span class='r-in'><span class='va'>nbNodes</span>  <span class='op'>&lt;-</span> <span class='fl'>90</span></span>
+<span class='r-in'><span class='va'>blockProp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>.5</span>, <span class='fl'>.25</span>, <span class='fl'>.25</span><span class='op'>)</span>      <span class='co'># group proportions</span></span>
+<span class='r-in'><span class='va'>means</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/diag.html'>diag</a></span><span class='op'>(</span><span class='fl'>15.</span>, <span class='fl'>3</span><span class='op'>)</span> <span class='op'>+</span> <span class='fl'>5</span> <span class='co'># connectivity matrix: affiliation network</span></span>
+<span class='r-in'><span class='co'># In Gaussian SBM, parameters is a list with</span></span>
+<span class='r-in'><span class='co'># a matrix of means 'mean' and a matrix of variances 'var'</span></span>
+<span class='r-in'><span class='va'>connectParam</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>mean <span class='op'>=</span> <span class='va'>means</span>, var <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Graph Sampling</span></span>
+<span class='r-in'><span class='va'>mySampler</span> <span class='op'>&lt;-</span> <span class='fu'>sampleSimpleSBM</span><span class='op'>(</span><span class='va'>nbNodes</span>, <span class='va'>blockProp</span>, <span class='va'>connectParam</span>, model <span class='op'>=</span> <span class='st'>"gaussian"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>mySampler</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='sampleSimpleSBM-8.png' alt='' width='700' height='433' /></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>mySampler</span>,type<span class='op'>=</span><span class='st'>'meso'</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='sampleSimpleSBM-9.png' alt='' width='700' height='433' /></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/hist.html'>hist</a></span><span class='op'>(</span><span class='va'>mySampler</span><span class='op'>$</span><span class='va'>networkData</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='sampleSimpleSBM-10.png' alt='' width='700' height='433' /></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
