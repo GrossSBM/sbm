@@ -4,6 +4,7 @@
 * enhanced support for multiplex SBM
 * simplification/restructuration of classes
 * fix in prediction of Bipartite and Simple SBM (#7)
+* fix in selectModels for Bipartite SBM
 
 # sbm 0.4.0 - major release
 
