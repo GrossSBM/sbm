@@ -1,21 +1,25 @@
 
-## Changes in 0.2.2 (minor)
+## Changes since last CRAN release (major)
 
-* added fields dimLabels and covarArray for class SBM
-* added fields nbConnectParam, penalty and entropy  for simple and bipartite SBM (sampler and fit)
-* changing roundProduct function to work on list of covariates
+
+* support for multipartite SBM
+* support for multiplex SBM
+* improvement of the plot methods
+* simplification/restructuration of classes
+* various bug fixes (prediction of Bipartite and Simple SBM, selectModels for Bipartite SBM, estimOptions not taken into account,  display of field covarArray in the absence of covariate)
 
 ## Tested environments
 
-* local R installation, R 4.0.2, Ubuntu 20.04
 * Windows Server 2008 R2 SP1, R-release, 32/64 bit (R-hub builder)
-* Linux Debian, R-release (R-hub builder)
-* macOS 10.13.6 High Sierra (R-hub builder)
-* macOS Catalina 10.15, R-release (github action)
-* macOS Catalina 10.15, R-devel (github action)
-* Linux ubuntu 16.04, R-release (github-action)
+* macOS 10.13.6 High Sierra, R-release, CRAN's setup (R-hub builder)
+* Debian Linux, R-release, GCC (R-hub builder)
+* Oracle Solaris 10, x86, 32 bit, R-release  (R-hub builder)
 * Windows latest (github-action)
-* win-builder (R version old releae)
+* macOS Catalina 10.15, R-release (github action)
+* Linux ubuntu 16.04, R-release (github-action)
+* local R installation, R 4.0.5, Ubuntu 20.04
+
+* win-builder (R version old release)
 * win-builder (R version release)
 * win-builder (R dev)
 
