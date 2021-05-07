@@ -73,7 +73,8 @@ BipartiteSBM_fit <-
       #'  \item{"verbosity"}{integer for verbosity (0, 1). Default is 1}
       #'  \item{"plot"}{boolean, should the ICL by dynamically plotted or not. Default is TRUE}
       #'  \item{"exploreFactor"}{control the exploration of the number of groups}
-      #'  \item{"nbBlocksRange"}{minimal and maximal number or blocks explored}
+      #'  \item{"exploreMin"}{explore at least until exploreMin even if the exploration factor rule is achieved. Default 4. See the package blockmodels for details.}
+      #'  \item{"exploreMin"}{Stop exploration at exploreMax  even if the exploration factor rule is not achieved. Default Inf. See the package blockmodels for details.}
       #'  \item{"fast"}{logical: should approximation be used for Bernoulli model with covariates. Default to \code{TRUE}}
       #' }
       optimize = function(estimOptions = list()){
@@ -83,7 +84,9 @@ BipartiteSBM_fit <-
         currentOptions <- list(
           verbosity     = 3,
           plot          = TRUE,
-          explorFactor  = 1.5,
+          exploreFactor  = 1.5,
+          exploreMin     = 4,
+          exploreMax     = Inf,
           nbBlocksRange = c(4,Inf),
           nbCores       = 2,
           fast          = TRUE
@@ -94,10 +97,10 @@ BipartiteSBM_fit <-
         blockmodelsOptions <- list(
           verbosity          = currentOptions$verbosity,
           plotting           = if(currentOptions$plot) character(0) else "",
-          explore_min        = currentOptions$nbBlocksRange[1],
-          explore_max        = currentOptions$nbBlocksRange[2],
+          explore_min        = currentOptions$exploreMin,
+          explore_max        = currentOptions$exploreMax,
           ncores             = currentOptions$nbCores,
-          exploration_factor = currentOptions$explorFactor
+          exploration_factor = currentOptions$exploreFactor
         )
         fast <- currentOptions$fast
 

@@ -22,7 +22,7 @@ defineSBM(
 
 \item{directed}{logical: is the network directed or not? Only relevant when \code{type} is \code{'Simple'}. Default is \code{TRUE} if \code{netMat} is symmetric, \code{FALSE} otherwise}
 
-\item{dimLabels}{an optional list of labels for each dimension (in row, in column)}
+\item{dimLabels}{an optional vector of labels for each dimension (in row, in column). Default value = c('row' = row,'col'= col)}
 
 \item{covariates}{a list of matrices with same dimension as mat describing covariates at the edge level. No covariate per Default.}
 }

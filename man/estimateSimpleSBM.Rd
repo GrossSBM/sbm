@@ -40,6 +40,8 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 \item{"verbosity"}{integer for verbosity (0, 1). Default is 1}
 \item{"plot"}{boolean, should the ICL by dynamically plotted or not. Default is TRUE}
 \item{"exploreFactor"}{control the exploration of the number of groups}
+\item{"exploreMin"}{explore at least until exploreMin even if the exploration factor rule is achieved. Default 4. See the package blockmodels for details.}
+\item{"exploreMin"}{Stop exploration at exploreMax  even if the exploration factor rule is not achieved. Default Inf. See the package blockmodels for details.}
 \item{"nbBlocksRange"}{minimal and maximal number or blocks explored}
 \item{"fast"}{logical: should approximation be used for Bernoulli model with covariates. Default to \code{TRUE}}
 }

@@ -45,6 +45,7 @@ BipartiteSBM <-
           row = t(rmultinom(private$dim[1], size = 1, prob = private$pi[[1]])),
           col = t(rmultinom(private$dim[2], size = 1, prob = private$pi[[2]]))
           )
+        if(!is.null(private$dimlab)){names(Z) <- private$dimlab}
         if (store) private$Z <- Z
         Z
       },
@@ -176,7 +177,12 @@ BipartiteSBM <-
       #' @field nbConnectParam number of parameter used for the connectivity
       nbConnectParam = function(value) {sum(map_int(private$theta, ~length(.x)))},
       #' @field memberships list of size 2: vector of memberships in row, in column.
-      memberships = function(value) {if (!is.null(private$Z)) map(private$Z, as_clustering)},
+      memberships = function(value) {
+        if (!is.null(private$Z)) {
+          memb <- map(private$Z, as_clustering)
+          names(memb)<- private$dimlab}
+        return(memb)
+        },
       #' @field indMemberships matrix for clustering memberships
       indMemberships = function(value) {map(private$Z, ~as_indicator(as_clustering(.x)))}
     )
