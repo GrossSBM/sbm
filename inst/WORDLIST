@@ -33,6 +33,7 @@ arXiv
 arxiv
 blockmodel
 blockmodels
+cdot
 cex
 cloneable
 coef
@@ -51,6 +52,8 @@ estimOptions
 estimateMultipartiteSBM
 estimateSimpleSBM
 exploreFactor
+exploreMax
+exploreMin
 extrafloral
 florals
 frugivorous
@@ -63,6 +66,8 @@ initBM
 initialisations
 longdash
 lty
+mathbb
+mathcal
 maxiterVE
 maxiterVEM
 meso
@@ -71,7 +76,6 @@ multilayer
 multipartite
 multipartiteSBM
 multipartiteSBMfit
-mutualism
 mutualisms
 mutualistic
 myMSBM
@@ -87,8 +91,10 @@ plotOptions
 restructuration
 roundProduct
 rowNames
+selectModels
 storedModels
 th
+trophic
 twodash
 undirected
 variational
