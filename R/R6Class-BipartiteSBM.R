@@ -178,11 +178,8 @@ BipartiteSBM <-
       nbConnectParam = function(value) {sum(map_int(private$theta, ~length(.x)))},
       #' @field memberships list of size 2: vector of memberships in row, in column.
       memberships = function(value) {
-        if (!is.null(private$Z)) {
-          memb <- map(private$Z, as_clustering)
-          names(memb)<- private$dimlab}
-        return(memb)
-        },
+        if (!is.null(private$Z)) return(setNames(map(private$Z, as_clustering), private$dimlab))
+      },
       #' @field indMemberships matrix for clustering memberships
       indMemberships = function(value) {map(private$Z, ~as_indicator(as_clustering(.x)))}
     )
