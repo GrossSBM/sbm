@@ -94,7 +94,7 @@
             <h3 data-toc-skip class="subtitle">Principle and illustration</h3>
                         <h4 data-toc-skip class="author">team großBM</h4>
             
-            <h4 data-toc-skip class="date">2021-05-07</h4>
+            <h4 data-toc-skip class="date">2021-05-12</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/GrossSBM/sbm/blob/master/vignettes/MultiplexNetwork_principle.Rmd" class="external-link"><code>vignettes/MultiplexNetwork_principle.Rmd</code></a></small>
       <div class="hidden name"><code>MultiplexNetwork_principle.Rmd</code></div>
@@ -114,15 +114,32 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://grosssbm.github.io/sbm/" class="external-link">sbm</a></span><span class="op">)</span></code></pre></div>
 </div>
-<div id="mathematical-background" class="section level3">
-<h3 class="hasAnchor">
-<a href="#mathematical-background" class="anchor" aria-hidden="true"></a>Mathematical Background</h3>
-<p>We give here a few details on Stochastic Block Models for multiplex networks. Multiplex networks refer to a collection of networks involving the same nodes, each network corresponding to a give type of interaction. Such a network is studied in <span class="citation">Barbillon et al. (<a href="#ref-multiplexSBM" role="doc-biblioref">2017</a>)</span> where the nodes are researchers and two networks are provided:</p>
+</div>
+<div id="multiplex-network-data" class="section level2">
+<h2 class="hasAnchor">
+<a href="#multiplex-network-data" class="anchor" aria-hidden="true"></a>Multiplex network data</h2>
+<p>Multiplex networks refer to a collection of networks involving the same sets of nodes, each network corresponding to a give type of interaction. Such a network is studied in <span class="citation">Barbillon et al. (<a href="#ref-multiplexSBM" role="doc-biblioref">2017</a>)</span> where the nodes are researchers and two networks are provided:</p>
 <pre><code>* a network representing the relations of advices between researchers,
 * a network representing the exchanges between the laboratories the researchers belong to. </code></pre>
-<p>In <span class="citation">(<span class="citeproc-not-found" data-reference-id="multiplexKefi"><strong>???</strong></span>)</span>, the nodes are species and each network corresponds to a type of ecological relation, namely mutualism, competition and ****</p>
-<p>See <span class="citation">Barbillon et al. (<a href="#ref-multiplexSBM" role="doc-biblioref">2017</a>)</span> for details.</p>
+<p>In <span class="citation">Kéfi (<a href="#ref-multiplexKefi" role="doc-biblioref">2016</a>)</span>, the nodes are species and each network corresponds to a type of ecological relation, namely trophic links, negative non trophic links and positive non trophic links.</p>
 </div>
+<div id="mathematical-background" class="section level2">
+<h2 class="hasAnchor">
+<a href="#mathematical-background" class="anchor" aria-hidden="true"></a>Mathematical Background</h2>
+<p>We give here a few details on Stochastic Block Models for multiplex networks.</p>
+<p>Assume that one study <span class="math inline">\(n\)</span> nodes. Assume that we observe <span class="math inline">\(L\)</span> types of links, resulting into <span class="math inline">\(L\)</span> matrices <span class="math inline">\((X^\ell_{ij})_{i,j = 1,\dots,n}\)</span>. Block models assume that the nodes are divided into <span class="math inline">\(K\)</span> clusters, this clustering being encoded into the latent variables <span class="math inline">\((Z_i)_{i=1,\dots,n}\)</span> such that <span class="math inline">\(Z_i = k\)</span> if node <span class="math inline">\(i\)</span> belongs to cluster <span class="math inline">\(k\)</span>.</p>
+<p>The relations between nodes <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> are driven by the clusters they belong to :</p>
+<p><span class="math display">\[X^\ell_{ij}  | Z_i = q, Z_j = r \sim_{i.i.d.} \mathcal{F}(\cdot;\theta_{qr})\]</span> where <span class="math inline">\(\mathcal{F}\)</span> is a probability distribution adapted to the data.</p>
+<p><em>Examples</em></p>
+<ul>
+<li>If all the networks are binary (<span class="math inline">\(X^\ell_{ij} \in \{0,1\}\)</span>) then <span class="math inline">\(\mathcal{F}\)</span> is a <span class="math inline">\(L\)</span>-variate Bernoulli distribution and <span class="math display">\[ \theta_{qr} = (p^{\omega}_{qr}, \omega \in \{0,1\}^L)\]</span>
+</li>
+<li>If all the networks are weighted with real values (<span class="math inline">\(X^\ell_{ij} \in \mathbb{R}\)</span>) then <span class="math inline">\(\mathcal{F}\)</span> could be a <span class="math inline">\(L\)</span>-dimensional Gaussian distribution and <span class="math display">\[ \theta_{qr} = (\mu_{qr},\Sigma_{qr}).\]</span>
+</li>
+</ul>
+<p>Note that these two models assume that the <span class="math inline">\(L\)</span> interactions are dependent conditionally to the clustering. Moreover, by integration against the latent variable <span class="math inline">\(L\)</span> implies that the interactions between two pairs of nodes are also dependent.</p>
+<p>We now distinguish dependent and independent multiplex networks.</p>
+<p>See <span class="citation">Barbillon et al. (<a href="#ref-multiplexSBM" role="doc-biblioref">2017</a>)</span> for details.</p>
 <div id="inference" class="section level3">
 <h3 class="hasAnchor">
 <a href="#inference" class="anchor" aria-hidden="true"></a>Inference</h3>
@@ -257,6 +274,9 @@
 <div id="refs" class="references">
 <div id="ref-multiplexSBM">
 <p>Barbillon, Pierre, Sophie Donnet, Emmanuel Lazega, and Avner Bar-Hen. 2017. “Stochastic block models for multiplex networks: an application to a multilevel network of researchers.” <em>Journal of the Royal Statistical Society Series A</em> 180 (1): 295–314. <a href="https://ideas.repec.org/a/bla/jorssa/v180y2017i1p295-314.html" class="external-link">https://ideas.repec.org/a/bla/jorssa/v180y2017i1p295-314.html</a>.</p>
+</div>
+<div id="ref-multiplexKefi">
+<p>Kéfi, Vincent AND Wieters, Sonia AND Miele. 2016. “How Structured Is the Entangled Bank? The Surprisingly Simple Organization of Multiplex Ecological Networks Leads to Increased Persistence and Resilience.” <em>PLOS Biology</em> 14 (8): 1–21. <a href="https://doi.org/10.1371/journal.pbio.1002527" class="external-link">https://doi.org/10.1371/journal.pbio.1002527</a>.</p>
 </div>
 </div>
 </div>
