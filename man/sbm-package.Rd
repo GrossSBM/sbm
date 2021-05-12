@@ -9,7 +9,7 @@
 A collection of tools and functions to adjust a variety of stochastic blockmodels (SBM). 
   Supports at the moment Simple, Bipartite, Multipartite and Multiplex SBM (undirected or directed with Bernoulli,
   Poisson or Gaussian emission laws on the edges, and possibly covariate for Simple and Bipartite SBM).
-  See Léger, 2016 <arxiv:1602.07587>, Barbillon et al, 2020 <doi:10.1111/rssa.12193> and Bar-Hen et al, 2020 <doi:10.1111/rssa.12193>.
+  See Léger, 2016 <arxiv:1602.07587>, Barbillon et al, 2020 <doi:10.1111/rssa.12193> and Bar-Hen et al, 2020 <arxiv:1807.10138>.
 }
 \seealso{
 Useful links:
