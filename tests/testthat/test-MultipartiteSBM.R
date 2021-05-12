@@ -36,7 +36,7 @@ test_that("initializing Multipartite SBM works", {
       list(list(mean = matrix(0,0,0)), list(mean = matrix(0,0,0))))
 
   # S3 methods
-  expect_silent(plot(myMBM, type = "data"))
+##  expect_silent(plot(myMBM, type = "data"))
   expect_equal(coef(myMBM, 'connectivity'), myMBM$connectParam)
   expect_equal(coef(myMBM, 'block')       , myMBM$blockProp)
 
@@ -70,7 +70,7 @@ test_that("initializing Multipartite SBM works", {
   # S3 methods
   ## expect_silent(plot(myMBM, type = "data"))
   expect_silent(plot(myMBM, type = "meso"))
-  expect_silent(plot(myMBM, type = "expected"))
+##  expect_silent(plot(myMBM, type = "expected"))
   expect_equal(coef(myMBM, 'connectivity'), myMBM$connectParam)
   expect_equal(coef(myMBM, 'block')       , myMBM$blockProp)
 

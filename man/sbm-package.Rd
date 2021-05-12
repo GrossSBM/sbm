@@ -6,8 +6,10 @@
 \alias{sbm-package}
 \title{sbm: Stochastic Blockmodels}
 \description{
-sbm is a collection of tools and function to adjust a variety of stochastic blockmodels (SBM). sbm supports at the moment Simple and Bipartite SBM (undirected and directed) and Multipartite SBM for Bernoulli, Poisson and 
-  Gaussian emission laws on the edges as described in Léger, 2016 <arxiv:1602.07587> for SBM / LBM and Barbillon, Bar-Hen & Donnet, 2020 <arXiv:1807.10138> for MultipartiteBM.
+A collection of tools and functions to adjust a variety of stochastic blockmodels (SBM). 
+  Supports at the moment Simple, Bipartite, Multipartite and Multiplex SBM (undirected or directed with Bernoulli,
+  Poisson or Gaussian emission laws on the edges, and possibly covariate for Simple and Bipartite SBM).
+  See Léger, 2016 <arxiv:1602.07587>, Barbillon et al, 2020 <doi:10.1111/rssa.12193> and Bar-Hen et al, 2020 <doi:10.1111/rssa.12193>.
 }
 \seealso{
 Useful links:
