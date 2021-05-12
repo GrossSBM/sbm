@@ -396,8 +396,13 @@
 <li>We can now extract the parameters of interest, namely (<span class="math inline">\(\lambda\)</span>, <span class="math inline">\(\pi\)</span>) and the clustering of the nodes.</li>
 </ul>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">mySimpleSBMCov</span><span class="op">$</span><span class="va">connnectParam</span>
-<span class="co">#&gt; NULL</span>
+<code class="sourceCode R"><span class="va">mySimpleSBMCov</span><span class="op">$</span><span class="va">connectParam</span>
+<span class="co">#&gt; $mean</span>
+<span class="co">#&gt;           [,1]       [,2]      [,3]      [,4]</span>
+<span class="co">#&gt; [1,] 28.178687 14.8817269 5.9555364 1.2389235</span>
+<span class="co">#&gt; [2,] 14.881727  9.5536596 3.7925162 0.4095118</span>
+<span class="co">#&gt; [3,]  5.955536  3.7925162 1.6181930 0.3840766</span>
+<span class="co">#&gt; [4,]  1.238923  0.4095118 0.3840766 0.1891657</span>
 <span class="va">mySimpleSBMCov</span><span class="op">$</span><span class="va">blockProp</span>
 <span class="co">#&gt; [1] 0.3715916 0.2159544 0.2354118 0.1770423</span>
 <span class="va">mySimpleSBMCov</span><span class="op">$</span><span class="va">memberships</span>
