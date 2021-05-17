@@ -51,6 +51,9 @@ MultipartiteSBM <-
         cat("* Useful fields \n")
         cat("  $nbNetwork, $nbNodes, $nbBlocks, $dimLabels, $architecture \n")
         cat("  $modelName, $blockProp, $connectParam, $memberships, $networkData\n")
+        cat("  $probMemberships, $loglik, $ICL, $storedModels, \n")
+        cat("* R6 and S3 methods \n")
+        cat("  plot, print, coef, predict, fitted, $setModel, $reorder \n")
       },
       #' @description print method
       print = function() self$show(),

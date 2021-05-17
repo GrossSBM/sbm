@@ -54,6 +54,7 @@ MultiplexSBM_fit <-
         super$initialize(netList)
         # CHECKING dependence structure
         if (dependentNet) {
+
           if (! ( all(self$directed == TRUE) | all(self$directed == FALSE)) )
             stop("in the dependent case, all networks should be either directed or not directed")
 
@@ -154,15 +155,103 @@ MultiplexSBM_fit <-
       #' @description show method
       #' @param type character used to specify the type of SBM
       show = function(type = "Fit of a Multiplex Stochastic Block Model"){
-        super$show(type)
-        cat("  $probMemberships, $loglik, $ICL, $storedModels, \n")
-        cat("* R6 and S3 methods \n")
-        cat("  plot, print, coef, predict, fitted, $setModel, $reorder \n")
-      }
+          cat(type, "\n")
+          type <- ifelse(length(self$nbNodes==1),'Simple','Bipartite')
+          cat(type, ' - ',self$nbNetworks, "layers networks", self$namesLayers ,'\n' )
+          cat("nodesNames:",self$dimLabels,"\n")
+          cat("=====================================================================\n")
+          cat("nbNodes = (", self$nbNodes, ") --  nbBlocks  = (",self$nbBlocks, ")\n")
+          cat("distributions on each network: ", self$modelName ,"\n")
+          cat("Dependent networks:", self$dependentNetwork,"\n")
+          cat("=====================================================================\n")
+          cat("* Useful fields \n")
+          cat("  $nbNetwork, $nbNodes, $nbBlocks, $dimLabels, $dependentNetwork \n")
+          cat("  $modelName, $blockProp, $connectParam, $memberships, $networkData\n")
+          cat("  $probMemberships, $loglik, $ICL, $storedModels, \n")
+          cat("* R6 and S3 methods \n")
+          cat("  plot, print, coef, predict, fitted, $setModel, $reorder \n")
+        }
+
   ),
   active = list(
+    ### field with access only
+    #' @field nbBlocks vector of size 2: number of blocks (rows, columns)
+    nbBlocks    = function(value) {
+      if(is.list(private$pi)){map_int(private$pi, length)}else{length(private$pi)}},
     #' @field dependentNetwork : connection parameters in each network
     dependentNetwork = function(value) {private$dependent},
+    #' @field storedModels data.frame of all models fitted (and stored) during the optimization
+    storedModels = function(value) {
+
+      type <- ifelse(length(self$nbNodes)==1,'Simple','Bipartite')
+      dep <- self$dependentNetwork
+      if (dep){
+
+        nbConnectParam <- c(unlist(sapply(private$BMobject$model_parameters, function(param) param$n_parameters)))
+        if(type == 'Simple'){
+          nbBlocks <- unlist(sapply(private$BMobject$memberships, function(m) ncol(m$Z)))
+          nbConnectParam <- unlist(sapply(private$BMobject$model_parameters, function(param) param$n_parameters))
+          U <- data.frame(
+            indexModel  = 1:length(nbBlocks),
+            nbParams = nbConnectParam + nbBlocks - 1 -1 * (self$modelName[1]=='gaussian'),
+            nbBlocks = nbBlocks,
+            ICL      = private$BMobject$ICL,
+            loglik   = private$BMobject$PL
+          )
+          }else{
+            rowBlocks <- c(0, unlist(sapply(private$BMobject$memberships, function(m) ncol(m$Z1))))
+            colBlocks <- c(0, unlist(sapply(private$BMobject$memberships, function(m) ncol(m$Z2))))
+            nbConnectParam <- c(NA, unlist(sapply(private$BMobject$model_parameters, function(param) param$n_parameters)))
+            U <- data.frame(
+              indexModel = rowBlocks + colBlocks,
+              nbParams  = nbConnectParam  + rowBlocks + colBlocks - 2  -1 * (self$modelName[1]=='gaussian'),
+              rowBlocks = rowBlocks,
+              colBlocks = colBlocks,
+              nbBlocks  = rowBlocks + colBlocks,
+              ICL       = private$BMobject$ICL,
+              loglik    = private$BMobject$PL
+            )
+            U[!is.na(U$nbParams), , drop = FALSE]
+        }
+      }else{
+        fit <- private$GREMLINSobject$fittedModel
+        nbModels <- length(fit)
+        if(type == 'Simple'){
+          nbBlocks <- vapply(fit, function(m) m$paramEstim$v_K,1)
+          }else{
+          Blocks_ <- as.data.frame(t(sapply(fit, function(m) m$paramEstim$v_K)))
+          rowBlocks  <- Blocks_[,1]
+          colBlocks <- Blocks_[,2]
+        }
+        nbConnectParam <- sapply(fit, function(m){
+          computeNbConnectParams_MBM(m$paramEstim$v_K, private$model, private$arch, private$directed_)
+        })
+
+
+        U <- switch(type,
+                    Simple=
+          data.frame(
+          indexModel =  1:nbModels,
+          nbParams  = nbConnectParam  +   nbBlocks-1,
+          nbBlocks  = nbBlocks,
+          ICL       = map_dbl(fit, "ICL"),
+          loglik    = map_dbl(fit, ~last(.x$vJ))),
+          Bipartite =
+            data.frame(
+            indexModel =  1:nbModels,
+            nbParams  = nbConnectParam  +  rowBlocks +  colBlocks- 2 ,
+            rowBlocks  = rowBlocks,
+            colBlocks =  colBlocks,
+            nbBlocks  = rowBlocks + colBlocks,
+            ICL       = map_dbl(fit, "ICL"),
+            loglik    = map_dbl(fit, ~last(.x$vJ)))
+          )
+
+      }
+
+    U[order(U$ICL,decreasing = TRUE),]
+    },
+    #########
     #' @field namesLayers : names of the various Networks
     namesLayers    = function(value) {
       if (missing(value))

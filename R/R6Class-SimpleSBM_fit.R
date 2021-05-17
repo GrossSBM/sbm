@@ -165,7 +165,7 @@ SimpleSBM_fit <-
         nbBlocks <- unlist(sapply(private$BMobject$memberships, function(m) ncol(m$Z)))
         nbConnectParam <- unlist(sapply(private$BMobject$model_parameters, function(param) param$n_parameters))
         U <- data.frame(
-          indexModel  = nbBlocks,
+          indexModel  = 1:length(nbBlocks),
           nbParams = nbConnectParam + nbBlocks - 1,
           nbBlocks = nbBlocks,
           ICL      = private$BMobject$ICL,
