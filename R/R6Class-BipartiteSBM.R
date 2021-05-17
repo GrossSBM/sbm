@@ -153,7 +153,7 @@ BipartiteSBM <-
           switch(private$model,
             "bernoulli"  = stopifnot(all(value$mean >= 0), all(value$mean <= 1)),
             "poisson"    = stopifnot(all(value$mean >= 0)),
-            "gaussian"   = stopifnot(length(value$var) == 1 | length(value$var) == length(value$mean), value$var > 0),
+            "gaussian"   = stopifnot(all(value$var > 0)),
             "ZIgaussian" = stopifnot(all(value$p0 >= 0), all(value$p0 <= 1))
           )
           private$theta <- value

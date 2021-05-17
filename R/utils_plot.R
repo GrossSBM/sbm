@@ -395,6 +395,7 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG,namesLayers, dist
 
 #-----------------------------------------------------------------
 #' @importFrom graphics par plot
+#' @importFrom stringr str_detect
 plotMeso <- function(thetaMean, pi,model,directed,bipartite,nbNodes,nodeLabels,plotOptions){
 
   if(bipartite){nbFG = 2}else{nbFG = 1}

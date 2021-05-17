@@ -28,8 +28,8 @@ SimpleSBM
 VE
 VEM
 Vacher
+al
 antogonistic
-arXiv
 arxiv
 blockmodel
 blockmodels
@@ -45,12 +45,14 @@ darkolivegreen
 de
 dev
 dimLabels
+doi
 dotdash
 dyad
 dyads
 estimOptions
 estimateMultipartiteSBM
 estimateSimpleSBM
+et
 exploreFactor
 exploreMax
 exploreMin
@@ -91,6 +93,7 @@ plotOptions
 restructuration
 roundProduct
 rowNames
+rssa
 selectModels
 storedModels
 th

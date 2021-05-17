@@ -231,7 +231,7 @@ mySimpleSBMCov$nbBlocks
 
 - We can now extract the parameters of interest, namely ($\lambda$, $\pi$) and the clustering of the nodes. 
 ```{r extract param SBM poisson covar, echo=TRUE, eval = TRUE}
-mySimpleSBMCov$connnectParam
+mySimpleSBMCov$connectParam
 mySimpleSBMCov$blockProp
 mySimpleSBMCov$memberships
 mySimpleSBMCov$covarParam

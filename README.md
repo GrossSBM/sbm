@@ -9,7 +9,7 @@
 ![R-CMD-check](https://github.com/GrossSBM/sbm/workflows/R-CMD-check/badge.svg?branch=master)
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/sbm)](https://cran.r-project.org/package=sbm)
 [![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![](https://img.shields.io/github/last-commit/grossSBM/sbm.svg)](https://github.com/GrossSBM/sbm/commits/master)
 [![Codecov test
 coverage](https://codecov.io/gh/GrossSBM/sbm/branch/master/graph/badge.svg)](https://codecov.io/gh/GrossSBM/sbm?branch=master)

@@ -1,4 +1,4 @@
-# sbm dev
+# sbm 0.4.1
 
 * advanced plotting functions for multilayer/multiplex SBM
 * enhanced support for multiplex SBM
@@ -6,12 +6,12 @@
 * fix in prediction of Bipartite and Simple SBM (#7)
 * fix in selectModels for Bipartite SBM
 
-# sbm 0.4.0 - major release
+# sbm 0.4.0 - major [unreleased]
 
 * first support for multiplex SBM
 * improvements of multipartite classes
 
-# sbm 0.3.0 - major release
+# sbm 0.3.0 - major [unreleased]
 
 * support for multipartite SBM
 * improvement of the plot methods
