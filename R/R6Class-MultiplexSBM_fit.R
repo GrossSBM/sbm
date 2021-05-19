@@ -144,12 +144,18 @@ MultiplexSBM_fit <-
                    private$arch, private$dim, private$dimlab,private$names_layers_,
                    private$model, clustering, plotOptions
                  ),
-               "expected" =
-                 plotMultipartiteMatrix(
-                   self$predict(),
+               "expected" ={
+                  if (private$dependent==F) {expectations = self$predict()}
+                 else {
+                   warning("provided expectation are the marginal expectations in the dependent case")
+                   expectations=self$predict()
+                 }
+                  plotMultipartiteMatrix(
+                   expectations,
                    private$arch, private$dim, private$dimlab,private$names_layers_,
                    private$model, clustering, plotOptions
-                 )
+
+                 )}
         )
       },
       #' @description show method
