@@ -32,8 +32,14 @@ p11 = MultiplexFitdep$connectParam$prob11
 p01 = MultiplexFitdep$connectParam$prob01
 p10 = MultiplexFitdep$connectParam$prob10
 # proba de faire la guerre sachant alliance
-image(p11/(p11+p10))
+round(p11/(p11+p10),1)
+# proba de faire la guerre
+round(p11+p01,1)
+
+round(p11/(p01+p11),1)
 image(p01+p11)
+image(p10+p11)
+image(p11/(p11+p10))
 
 MultiplexFitIndep = estimateMultiplexSBM(list(netA,netB),dependent = F)
 plot(MultiplexFitIndep,type="expected")
