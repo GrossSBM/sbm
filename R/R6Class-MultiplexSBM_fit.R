@@ -147,7 +147,6 @@ MultiplexSBM_fit <-
                "expected" ={
                   if (private$dependent==F) {expectations = self$predict()}
                  else {
-                   warning("provided expectation are the marginal expectations in the dependent case")
                    expectations=self$predict()
                  }
                   plotMultipartiteMatrix(
@@ -178,6 +177,35 @@ MultiplexSBM_fit <-
           cat("  plot, print, coef, predict, fitted, $setModel, $reorder \n")
         }
 
+  ,
+  #' @description prediction under the currently estimated model
+  #' @return a list of matrices matrix of expected values for each dyad
+  predict = function() {
+    if (private$dependent) {
+      warning("provided expectations are the marginal expectations in the dependent case")
+
+      if (self$modelName[1]=="bernoulli")
+      {
+        lmu <- list(self$connectParam$prob10+self$connectParam$prob11,
+                   self$connectParam$prob01+self$connectParam$prob11)
+      }
+      if (self$modelName[1]=="gaussian")
+      {
+        lmu <- self$connectParam$mean
+      }
+
+      if (length(self$dimLabels)==1)
+      {Z <- self$probMemberships[[1]]
+         pred <- lapply(lmu,function(mu){Z %*% mu %*% t(Z)})
+      }
+      else {
+        Z1 <-  self$probMemberships[[1]]
+        Z2 <-  self$probMemberships[[2]]
+        pred <- lapply(lmu,function(mu){Z1 %*% mu %*% t(Z2)})
+      }
+    }
+    else pred = map(private$Y, predict)
+    pred }
   ),
   active = list(
     ### field with access only
