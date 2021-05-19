@@ -71,10 +71,11 @@ reference:
     - '`plotMyMultipartiteMatrix`'
 - title: 'Data sets'
   desc: >
-    Set of data setes available
+    Set of data available
   contents:
     - '`fungusTreeNetwork`'
     - '`multipartiteEcologicalNetwork`'
+    - '`war`'
 - title: 'Others'
   desc: >
     Miscellaneous

@@ -24,7 +24,12 @@
 
 ## R CMD check results (local)
 
-0 errors | 0 warnings | 0 notes
+── R CMD check results ────────────────────────────────────────── sbm 0.4.1 ────
+Duration: 2m 15.5s
+
+0 errors ✓ | 0 warnings ✓ | 0 notes ✓
+
+R CMD check succeeded
 
 ## R CMD check results (CRAN setup)
 
