@@ -169,7 +169,11 @@ R6 Class definition of a Multiplex SBM fit" />
     <h2 class="hasAnchor" id="active-bindings"><a class="anchor" href="#active-bindings"></a>Active bindings</h2>
 
     <p><div class="r6-active-bindings"></p><dl>
+<dt><code>nbBlocks</code></dt><dd><p>vector of size 2: number of blocks (rows, columns)</p></dd>
+
 <dt><code>dependentNetwork</code></dt><dd><p>: connection parameters in each network</p></dd>
+
+<dt><code>storedModels</code></dt><dd><p>data.frame of all models fitted (and stored) during the optimization</p></dd>
 
 <dt><code>namesLayers</code></dt><dd><p>: names of the various Networks</p></dd>
 
@@ -184,13 +188,13 @@ R6 Class definition of a Multiplex SBM fit" />
 <li><p><a href='#method-optimize'><code>MultiplexSBM_fit$optimize()</code></a></p></li>
 <li><p><a href='#method-plot'><code>MultiplexSBM_fit$plot()</code></a></p></li>
 <li><p><a href='#method-show'><code>MultiplexSBM_fit$show()</code></a></p></li>
+<li><p><a href='#method-predict'><code>MultiplexSBM_fit$predict()</code></a></p></li>
 <li><p><a href='#method-clone'><code>MultiplexSBM_fit$clone()</code></a></p></li>
 </ul>
 <p><details open ><summary>Inherited methods</summary>
 <ul>
 <li><p><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="rNetwork"><a href='../../sbm/html/SBM.html#method-rNetwork'><code>sbm::SBM$rNetwork()</code></a></span></p></li>
 <li><p><span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM" data-id="print"><a href='../../sbm/html/MultipartiteSBM.html#method-print'><code>sbm::MultipartiteSBM$print()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM_fit" data-id="predict"><a href='../../sbm/html/MultipartiteSBM_fit.html#method-predict'><code>sbm::MultipartiteSBM_fit$predict()</code></a></span></p></li>
 <li><p><span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM_fit" data-id="setModel"><a href='../../sbm/html/MultipartiteSBM_fit.html#method-setModel'><code>sbm::MultipartiteSBM_fit$setModel()</code></a></span></p></li>
 </ul>
 </details>
@@ -291,6 +295,19 @@ R6 Class definition of a Multiplex SBM fit" />
 <dt><code>type</code></dt><dd><p>character used to specify the type of SBM</p></dd>
 
 </dl><p></div></p>
+<p><hr>
+<a id="method-predict"></a></p><h3 class='hasAnchor' id='method-'><a class='anchor' aria-hidden='true' href='#method-'></a>Method <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code></h3>
+<p>prediction under the currently estimated model</p><h4 class='hasAnchor' id='usage'><a class='anchor' aria-hidden='true' href='#usage'></a>Usage</h4>
+<p><div class="r"></p><pre class='sourceCode r'><code><span class='va'>MultiplexSBM_fit</span><span class='op'>$</span><span class='fu'>predict</span><span class='op'>(</span><span class='op'>)</span></code></pre><p></div></p>
+
+<h4 class='hasAnchor' id='returns'><a class='anchor' aria-hidden='true' href='#returns'></a>Returns</h4>
+<p>a list of matrices matrix of expected values for each dyad</p>
+<h3 class='hasAnchor' id='list-predict-'><a class='anchor' aria-hidden='true' href='#list-predict-'></a>Method <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code></h3>
+<p>prediction under the currently estimated model</p><h4 class='hasAnchor' id='usage'><a class='anchor' aria-hidden='true' href='#usage'></a>Usage</h4>
+<p><div class="r"></p><pre class='sourceCode r'><code><span class='va'>MultiplexSBM_fit</span><span class='op'>$</span><span class='fu'>predict</span><span class='op'>(</span><span class='op'>)</span></code></pre><p></div></p>
+
+<h4 class='hasAnchor' id='returns'><a class='anchor' aria-hidden='true' href='#returns'></a>Returns</h4>
+<p>a list of matrices matrix of expected values for each dyad</p>
 <p><hr>
 <a id="method-clone"></a></p><h3 class='hasAnchor' id='method-'><a class='anchor' aria-hidden='true' href='#method-'></a>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='usage'><a class='anchor' aria-hidden='true' href='#usage'></a>Usage</h4>

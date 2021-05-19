@@ -94,7 +94,7 @@
             <h3 data-toc-skip class="subtitle">Principle and illustration</h3>
                         <h4 data-toc-skip class="author">team großBM</h4>
             
-            <h4 data-toc-skip class="date">2021-05-17</h4>
+            <h4 data-toc-skip class="date">2021-05-19</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/GrossSBM/sbm/blob/master/vignettes/MultiplexNetwork_principle.Rmd" class="external-link"><code>vignettes/MultiplexNetwork_principle.Rmd</code></a></small>
       <div class="hidden name"><code>MultiplexNetwork_principle.Rmd</code></div>
@@ -118,155 +118,268 @@
 <div id="multiplex-network-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#multiplex-network-data" class="anchor" aria-hidden="true"></a>Multiplex network data</h2>
-<p>Multiplex networks refer to a collection of networks involving the same sets of nodes, each network corresponding to a give type of interaction. Such a network is studied in <span class="citation">Barbillon et al. (<a href="#ref-multiplexSBM" role="doc-biblioref">2017</a>)</span> where the nodes are researchers and two networks are provided:</p>
+<p>Multiplex networks refer to a collection of networks involving the same sets of nodes, each network corresponding to a give type of interaction. Each network may also be referred as a layer. Such a network is studied in <span class="citation">Barbillon et al. (<a href="#ref-multiplexSBM" role="doc-biblioref">2017</a>)</span> where the nodes are researchers and two networks are provided:</p>
 <pre><code>* a network representing the relations of advices between researchers,
 * a network representing the exchanges between the laboratories the researchers belong to. </code></pre>
 <p>In <span class="citation">Kéfi (<a href="#ref-multiplexKefi" role="doc-biblioref">2016</a>)</span>, the nodes are species and each network corresponds to a type of ecological relation, namely trophic links, negative non trophic links and positive non trophic links.</p>
 </div>
-<div id="mathematical-background" class="section level2">
+<div id="stochastic-block-models-for-multiplex-networks" class="section level2">
 <h2 class="hasAnchor">
-<a href="#mathematical-background" class="anchor" aria-hidden="true"></a>Mathematical Background</h2>
-<p>We give here a few details on Stochastic Block Models for multiplex networks.</p>
-<p>Assume that one study <span class="math inline">\(n\)</span> nodes. Assume that we observe <span class="math inline">\(L\)</span> types of links, resulting into <span class="math inline">\(L\)</span> matrices <span class="math inline">\((X^\ell_{ij})_{i,j = 1,\dots,n}\)</span>. Block models assume that the nodes are divided into <span class="math inline">\(K\)</span> clusters, this clustering being encoded into the latent variables <span class="math inline">\((Z_i)_{i=1,\dots,n}\)</span> such that <span class="math inline">\(Z_i = k\)</span> if node <span class="math inline">\(i\)</span> belongs to cluster <span class="math inline">\(k\)</span>.</p>
+<a href="#stochastic-block-models-for-multiplex-networks" class="anchor" aria-hidden="true"></a>Stochastic Block models for multiplex networks</h2>
+<div id="general-formulation-of-the-model" class="section level3">
+<h3 class="hasAnchor">
+<a href="#general-formulation-of-the-model" class="anchor" aria-hidden="true"></a>General formulation of the model</h3>
+<p>We give here a few details on Stochastic Block Models (SBM) for multiplex networks.</p>
+<p>Assume that one studies <span class="math inline">\(n\)</span> nodes and observes <span class="math inline">\(L\)</span> types of links, resulting into <span class="math inline">\(L\)</span> matrices <span class="math inline">\((X^\ell_{ij})_{i,j = 1,\dots,n}\)</span>, $= 1, , L. Block models assume that the nodes are divided into <span class="math inline">\(K\)</span> clusters, this clustering being encoded into the latent variables <span class="math inline">\((Z_i)_{i=1,\dots,n}\)</span> such that <span class="math inline">\(Z_i = k\)</span> if node <span class="math inline">\(i\)</span> belongs to cluster <span class="math inline">\(k\)</span>.</p>
 <p>The relations between nodes <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> are driven by the clusters they belong to :</p>
-<p><span class="math display">\[X^\ell_{ij}  | Z_i = q, Z_j = r \sim_{i.i.d.} \mathcal{F}(\cdot;\theta_{qr})\]</span> where <span class="math inline">\(\mathcal{F}\)</span> is a probability distribution adapted to the data.</p>
+<p><span class="math display">\[ (X^1_{ij}, \dots,X^L_{ij})  | Z_i = q, Z_j = r \sim_{ind} \mathcal{F}(\cdot;\theta_{qr})\]</span> where <span class="math inline">\(\mathcal{F}\)</span> is a <span class="math inline">\(L\)</span> dimensional probability distribution adapted to the data.</p>
 <p><em>Examples</em></p>
 <ul>
-<li>If all the networks are binary (<span class="math inline">\(X^\ell_{ij} \in \{0,1\}\)</span>) then <span class="math inline">\(\mathcal{F}\)</span> is a <span class="math inline">\(L\)</span>-variate Bernoulli distribution and <span class="math display">\[ \theta_{qr} = (p^{\omega}_{qr}, \omega \in \{0,1\}^L)\]</span>
+<li>If all the networks are binary (<span class="math inline">\(X^\ell_{ij} \in \{0,1\}\)</span>) then <span class="math inline">\(\mathcal{F}\)</span> is a <span class="math inline">\(L\)</span>-variate Bernoulli distribution and <span class="math display">\[ \theta_{qr} = (p^{\omega}_{qr}, \omega \in \{0,1\}^L)\]</span> with <span class="math inline">\(p^{\omega_\ell}_{qr} \in [0,1]\)</span>.<br>
 </li>
-<li>If all the networks are weighted with real values (<span class="math inline">\(X^\ell_{ij} \in \mathbb{R}\)</span>) then <span class="math inline">\(\mathcal{F}\)</span> could be a <span class="math inline">\(L\)</span>-dimensional Gaussian distribution and <span class="math display">\[ \theta_{qr} = (\mu_{qr},\Sigma_{qr}).\]</span>
-</li>
+<li>If all the networks are weighted with real values (<span class="math inline">\(X^\ell_{ij} \in \mathbb{R}\)</span>) then <span class="math inline">\(\mathcal{F}\)</span> could be a <span class="math inline">\(L\)</span>-dimensional Gaussian distribution and <span class="math display">\[ \theta_{qr} = (\mu_{qr},\Sigma_{qr})\]</span> with <span class="math inline">\(\mu_{qr} \in \mathbb{R}^L\)</span>, <span class="math inline">\(\Sigma_{qr}\)</span> a <span class="math inline">\(L\)</span> covariance matrix.</li>
 </ul>
-<p>Note that these two models assume that the <span class="math inline">\(L\)</span> interactions are dependent conditionally to the clustering. Moreover, by integration against the latent variable <span class="math inline">\(L\)</span> implies that the interactions between two pairs of nodes are also dependent.</p>
-<p>We now distinguish dependent and independent multiplex networks.</p>
-<p>See <span class="citation">Barbillon et al. (<a href="#ref-multiplexSBM" role="doc-biblioref">2017</a>)</span> for details.</p>
+<p>Note that these two models assume that the <span class="math inline">\(L\)</span> interactions are dependent <strong>conditionally to the clustering</strong>. The integration against the latent variables <span class="math inline">\(Z\)</span> (clustering) implies that the interactions between two pairs of nodes are also dependent.</p>
+<p>A collection of models are implemented in our package <code>sbm</code>. These models can be classified into two groups : either the layers are dependent conditionally to <span class="math inline">\(Z\)</span> or not.</p>
+</div>
+<div id="dependent-and-independent-layers-conditionally-to-z-" class="section level3">
+<h3 class="hasAnchor">
+<a href="#dependent-and-independent-layers-conditionally-to-z-" class="anchor" aria-hidden="true"></a>Dependent and independent layers conditionally to <span class="math inline">\(Z\)</span>.</h3>
+<p>We consider conditional dependence in a few numbers of models :</p>
+<ul>
+<li><p>for <span class="math inline">\(L=2\)</span> Binary networks (Bernoulli)</p></li>
+<li><p>For any number <span class="math inline">\(L\)</span> of layer with Gaussian multivariate distributions but restricted to <span class="math inline">\(\Sigma_{qr} = \Sigma\)</span> (same covariance in any blocks)</p></li>
+</ul>
+<p>In the Binary case, the number of parameters of dependent layers explodes with the number of layers <span class="math inline">\(L\)</span> and the results become difficult to understand. As a consequence, we also implemented inference methods for independent layers conditionally to the clusterings for any number of layers.</p>
+<p>In the case of independent layers conditionally to the clusters, we assume that for any <span class="math inline">\(\ell,i,j\)</span>, <span class="math display">\[ X^\ell_{ij}  | Z_i = q, Z_j = r \sim_{ind} \mathcal{F}_\ell(\cdot;\theta^\ell_{qr})\]</span> where any <span class="math inline">\(\mathcal{F}_\ell\)</span> can be Bernoulli, Poisson, Gaussian or Zero Inflated Gaussian.</p>
+</div>
+<div id="bipartite-multiplex-networks-" class="section level3">
+<h3 class="hasAnchor">
+<a href="#bipartite-multiplex-networks-" class="anchor" aria-hidden="true"></a>Bipartite multiplex networks.</h3>
+<p>All the previous models can be extended to bipartite networks (i.e. when the nodes in row are different from the nodes in column). In that case, two clusterings are introduced. Assume that the row (respectively column) nodes are divided into <span class="math inline">\(K_1\)</span> (resp. <span class="math inline">\(K_2\)</span>) clusters, and denote <span class="math inline">\((Z^1_i)_{i=1,\dots,n}\)</span> (resp. <span class="math inline">\((Z^2_j)_{i=j,\dots,p}\)</span> ) the row (resp. col) clusterings.</p>
+<p>The relations between nodes <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> are driven by the clusters they belong to :</p>
+<p><span class="math display">\[ (X^1_{ij}, \dots,X^L_{ij})  | Z^1_i = q, Z^2_j = r \sim_{ind} \mathcal{F}(\cdot;\theta_{qr})\]</span></p>
+</div>
 <div id="inference" class="section level3">
 <h3 class="hasAnchor">
 <a href="#inference" class="anchor" aria-hidden="true"></a>Inference</h3>
-<p>The model selection and the estimation are performed with the function <code>estimatemultipartiteBM</code>.</p>
+<p>The maximization of the likelihood is obtained via a Variational version of the EM algorithm. The number of blocks is chosen via a penalized likelihood criterion (ICL).<br>
+See <span class="citation">Barbillon et al. (<a href="#ref-multiplexSBM" role="doc-biblioref">2017</a>)</span> for details.</p>
+<p>Note that, in the case of dependent networks, the inference is performed via the <code>blockmodels</code> package, while the <code>GREMLINS</code> package is used in the case of independent networks. As a consequence, the <code>estimOptions</code> arguments are slightly different.</p>
+</div>
+</div>
+<div id="implementation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#implementation" class="anchor" aria-hidden="true"></a>Implementation</h2>
+<div id="data-simulation" class="section level3">
+<h3 class="hasAnchor">
+<a href="#data-simulation" class="anchor" aria-hidden="true"></a>Data simulation</h3>
+<p>The function <code>mySampleMultiplexSBM</code> supplies a method to simulate multiplex networks. The argument <code>dependent</code> is set to <code>FALSE</code> by default (assuming independent layers conditionally to the clusterings).</p>
+<p>We simulate hereafter <span class="math inline">\(2\)</span> simple (i.e. non bipartite) layers. The corresponding matrices can be plotted using the function <code>plotMyMultpiplexMatrix</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">estimOptions</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>initBM <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="va">listSBM</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">PlantFlovis</span>, <span class="va">PlantAnt</span>, <span class="va">PlantBird</span><span class="op">)</span>
-<span class="va">myMSBM</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/estimateMultipartiteSBM.html">estimateMultipartiteSBM</a></span><span class="op">(</span><span class="va">listSBM</span>,<span class="va">estimOptions</span><span class="op">)</span></code></pre></div>
-<p> contains the estimated parameters of the models we run through during the search of the better numbers of blocks.</p>
-<p>RES_MBM contains the dataset and the results.</p>
+<code class="sourceCode R"><span class="va">nbLayers</span> <span class="op">&lt;-</span> <span class="fl">2</span></code></pre></div>
+<p><strong>Examples</strong></p>
+<ul>
+<li>2 directed Layers : one Poisson, one Bernoulli and two clusters</li>
+</ul>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">myMSBM</span>
-<span class="co">#&gt; Fit of a Multipartite Stochastic Block Model </span>
-<span class="co">#&gt; 4 parts/functional groups ( Plants Flovis Ants Birds ),  3 networks</span>
+<code class="sourceCode R"><span class="va">Nnodes</span> <span class="op">&lt;-</span> <span class="fl">40</span>
+<span class="va">blockProp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.4</span>,<span class="fl">.6</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
+<span class="va">connectParam</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>mean<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">rbeta</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">.5</span>,<span class="fl">.5</span><span class="op">)</span>,<span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>mean<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Exponential.html" class="external-link">rexp</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">.5</span><span class="op">)</span>,<span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"bernoulli"</span>,<span class="st">"poisson"</span><span class="op">)</span>
+<span class="va">type</span> <span class="op">&lt;-</span> <span class="st">"directed"</span>
+<span class="va">mySampleMultiplexSBM_PB</span> <span class="op">&lt;-</span>
+   <span class="fu"><a href="../reference/sampleMultiplexSBM.html">sampleMultiplexSBM</a></span><span class="op">(</span>
+   nbNodes <span class="op">=</span> <span class="va">Nnodes</span>,
+    blockProp <span class="op">=</span> <span class="va">blockProp</span>,
+   nbLayers <span class="op">=</span> <span class="va">nbLayers</span>,
+   connectParam <span class="op">=</span> <span class="va">connectParam</span>,
+   model<span class="op">=</span><span class="va">model</span>,
+   dimLabels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Individuals'</span><span class="op">)</span>, <span class="co"># generic name of the nodes</span>
+   type<span class="op">=</span><span class="va">type</span>,
+   seed <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
+<span class="co">#&gt; [1] "use of sampleMultipartite"</span>
+<span class="va">listSBM_PB</span> <span class="op">&lt;-</span> <span class="va">mySampleMultiplexSBM_PB</span><span class="op">$</span><span class="va">listSBM</span>
+<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">listSBM_PB</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Bernoulli"</span>,<span class="st">"Poisson"</span><span class="op">)</span>  
+<span class="fu"><a href="../reference/plotMyMultiplexMatrix.html">plotMyMultiplexMatrix</a></span><span class="op">(</span><span class="va">listSBM_PB</span><span class="op">)</span></code></pre></div>
+<p><img src="MultiplexNetwork_principle_files/figure-html/Independant%20Poisson%20bernoulli-1.png" width="700"></p>
+<p>The resulting object is a list of SBM objects (of the SBM class). To build such an object from an observed matrix use the function <code>defineSBM</code>.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">listSBM_PB</span>
+<span class="co">#&gt; $Bernoulli</span>
+<span class="co">#&gt; Fit of a Simple Stochastic Block Model -- bernoulli variant</span>
 <span class="co">#&gt; =====================================================================</span>
-<span class="co">#&gt; nbNodes per FG = ( 141 173 30 46 ) --  nbBlocks per FG = ( 7 2 2 1 )</span>
-<span class="co">#&gt; distributions on each network:  bernoulli bernoulli bernoulli </span>
+<span class="co">#&gt; Dimension = ( 40 ) - ( 0 ) blocks and no covariate(s).</span>
 <span class="co">#&gt; =====================================================================</span>
 <span class="co">#&gt; * Useful fields </span>
-<span class="co">#&gt;   $nbNetwork, $nbNodes, $nbBlocks, $dimLabels, $architecture </span>
-<span class="co">#&gt;   $modelName, $blockProp, $connectParam, $memberships, $networkData</span>
-<span class="co">#&gt;   $probMemberships, $loglik, $ICL, $storedModels, </span>
+<span class="co">#&gt;   $nbNodes, $modelName, $dimLabels, $nbBlocks, $nbCovariates, $nbDyads</span>
+<span class="co">#&gt;   $blockProp, $connectParam, $covarParam, $covarList, $covarEffect </span>
+<span class="co">#&gt;   $expectation, $indMemberships, $memberships </span>
 <span class="co">#&gt; * R6 and S3 methods </span>
-<span class="co">#&gt;   plot, print, coef, predict, fitted, $setModel, $reorder</span></code></pre></div>
-<p>The best model has the following numbers of blocks</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">myMSBM</span><span class="op">$</span><span class="va">nbBlocks</span>
-<span class="co">#&gt; Plants Flovis   Ants  Birds </span>
-<span class="co">#&gt;      7      2      2      1</span></code></pre></div>
-<p>To see the parameters estimated for the better model we use the following command <code>myMSBM$connectParam</code> or <code>myMSBM$blockProp</code></p>
+<span class="co">#&gt;   $rNetwork, $rMemberships, $rEdges, plot, print, coef </span>
+<span class="co">#&gt; * Additional fields</span>
+<span class="co">#&gt;   $probMemberships, $loglik, $ICL, $storedModels, </span>
+<span class="co">#&gt; * Additional methods </span>
+<span class="co">#&gt;   predict, fitted, $setModel, $reorder </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $Poisson</span>
+<span class="co">#&gt; Fit of a Simple Stochastic Block Model -- poisson variant</span>
+<span class="co">#&gt; =====================================================================</span>
+<span class="co">#&gt; Dimension = ( 40 ) - ( 0 ) blocks and no covariate(s).</span>
+<span class="co">#&gt; =====================================================================</span>
+<span class="co">#&gt; * Useful fields </span>
+<span class="co">#&gt;   $nbNodes, $modelName, $dimLabels, $nbBlocks, $nbCovariates, $nbDyads</span>
+<span class="co">#&gt;   $blockProp, $connectParam, $covarParam, $covarList, $covarEffect </span>
+<span class="co">#&gt;   $expectation, $indMemberships, $memberships </span>
+<span class="co">#&gt; * R6 and S3 methods </span>
+<span class="co">#&gt;   $rNetwork, $rMemberships, $rEdges, plot, print, coef </span>
+<span class="co">#&gt; * Additional fields</span>
+<span class="co">#&gt;   $probMemberships, $loglik, $ICL, $storedModels, </span>
+<span class="co">#&gt; * Additional methods </span>
+<span class="co">#&gt;   predict, fitted, $setModel, $reorder</span></code></pre></div>
+<ul>
+<li>2 Bipartite Gaussian dependent Layers and three clusters</li>
+</ul>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">myMSBM</span><span class="op">$</span><span class="va">blockProp</span>
-<span class="co">#&gt; $Plants</span>
-<span class="co">#&gt; [1] 0.01418720 0.03802305 0.07840873 0.16063183 0.10614897 0.13507513 0.46752510</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $Flovis</span>
-<span class="co">#&gt; [1] 0.06221568 0.93778432</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $Ants</span>
-<span class="co">#&gt; [1] 0.1014381 0.8985619</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $Birds</span>
-<span class="co">#&gt; [1] 1</span>
-<span class="va">myMSBM</span><span class="op">$</span><span class="va">connectParam</span>
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt; [[1]]$mean</span>
-<span class="co">#&gt;              [,1]         [,2]</span>
-<span class="co">#&gt; [1,] 2.464664e-15 4.440892e-16</span>
-<span class="co">#&gt; [2,] 1.001131e-15 4.440892e-16</span>
-<span class="co">#&gt; [3,] 1.651832e-01 3.427940e-02</span>
-<span class="co">#&gt; [4,] 4.173707e-03 8.566580e-08</span>
-<span class="co">#&gt; [5,] 1.917898e-01 6.378749e-02</span>
-<span class="co">#&gt; [6,] 8.826487e-07 3.317267e-04</span>
-<span class="co">#&gt; [7,] 9.573240e-02 7.490241e-03</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[2]]</span>
-<span class="co">#&gt; [[2]]$mean</span>
-<span class="co">#&gt;              [,1]         [,2]</span>
-<span class="co">#&gt; [1,] 5.366301e-15 1.107167e-15</span>
-<span class="co">#&gt; [2,] 8.491907e-01 3.564830e-01</span>
-<span class="co">#&gt; [3,] 6.620266e-01 1.542027e-01</span>
-<span class="co">#&gt; [4,] 5.430946e-01 5.891885e-02</span>
-<span class="co">#&gt; [5,] 7.172257e-16 4.440892e-16</span>
-<span class="co">#&gt; [6,] 5.721732e-16 4.440892e-16</span>
-<span class="co">#&gt; [7,] 4.440892e-16 5.576222e-04</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[3]]</span>
-<span class="co">#&gt; [[3]]$mean</span>
-<span class="co">#&gt;              [,1]</span>
-<span class="co">#&gt; [1,] 5.108074e-01</span>
-<span class="co">#&gt; [2,] 4.440892e-16</span>
-<span class="co">#&gt; [3,] 4.440892e-16</span>
-<span class="co">#&gt; [4,] 4.440892e-16</span>
-<span class="co">#&gt; [5,] 1.625224e-02</span>
-<span class="co">#&gt; [6,] 7.534085e-02</span>
-<span class="co">#&gt; [7,] 1.253527e-03</span></code></pre></div>
-<p>The clustering supplied by the better model are in <code>myMSBM$memberships***</code>.</p>
+<code class="sourceCode R"><span class="va">blockProp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.3</span>,<span class="fl">.3</span>,<span class="fl">.4</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>,<span class="fl">0.5</span><span class="op">)</span><span class="op">)</span>
+<span class="va">Q</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">blockProp</span>, <span class="kw">function</span><span class="op">(</span><span class="va">p</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span><span class="op">)</span>
+<span class="va">nbNodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">80</span>,<span class="fl">30</span><span class="op">)</span>
+<span class="va">connectParam</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">connectParam</span><span class="op">$</span><span class="va">mu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">vector</a></span><span class="op">(</span><span class="st">"list"</span>,<span class="va">nbLayers</span><span class="op">)</span>
+<span class="va">connectParam</span><span class="op">$</span><span class="va">mu</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">.1</span>,<span class="va">Q</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,<span class="va">Q</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">1</span>,<span class="fl">0</span><span class="op">)</span>,<span class="va">Q</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,<span class="va">Q</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span> 
+<span class="va">connectParam</span><span class="op">$</span><span class="va">mu</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2</span>,<span class="va">Q</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,<span class="va">Q</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">2</span>,<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span><span class="op">)</span>,<span class="va">Q</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,<span class="va">Q</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span> 
+<span class="va">connectParam</span><span class="op">$</span><span class="va">Sigma</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">1</span>,<span class="fl">0.1</span>,<span class="fl">4</span><span class="op">)</span>,<span class="va">nbLayers</span>,<span class="va">nbLayers</span><span class="op">)</span>
+<span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"gaussian"</span>,<span class="fl">2</span><span class="op">)</span>
+<span class="va">mySampleMultiplexSBM_GG</span> <span class="op">&lt;-</span>
+  <span class="fu"><a href="../reference/sampleMultiplexSBM.html">sampleMultiplexSBM</a></span><span class="op">(</span>
+     nbNodes <span class="op">=</span> <span class="va">nbNodes</span>,
+     blockProp <span class="op">=</span> <span class="va">blockProp</span>,
+     nbLayers <span class="op">=</span> <span class="va">nbLayers</span>,
+     connectParam <span class="op">=</span> <span class="va">connectParam</span>,
+     model<span class="op">=</span><span class="va">model</span>,
+     type<span class="op">=</span><span class="st">"bipartite"</span>,
+     dependent<span class="op">=</span><span class="cn">TRUE</span>,
+     dimLabels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'row'</span>,<span class="st">'col'</span><span class="op">)</span>,
+     seed <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
+<span class="va">listSBM_GG</span> <span class="op">&lt;-</span> <span class="va">mySampleMultiplexSBM_GG</span><span class="op">$</span><span class="va">listSBM</span>
+<span class="fu"><a href="../reference/plotMyMultiplexMatrix.html">plotMyMultiplexMatrix</a></span><span class="op">(</span><span class="va">listSBM_GG</span><span class="op">)</span></code></pre></div>
+<p><img src="MultiplexNetwork_principle_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
+<ul>
+<li>2 Bernoulli dependent Layers and 2 clusters</li>
+</ul>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">myMSBM</span><span class="op">$</span><span class="va">memberships</span><span class="op">$</span><span class="va">Plants</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  1  2  3  4  5  6  7 </span>
-<span class="co">#&gt;  2  5 11 23 15 20 65</span>
-<span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">myMSBM</span><span class="op">$</span><span class="va">memberships</span><span class="op">$</span><span class="va">Ants</span><span class="op">)</span>      
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  1  2 </span>
-<span class="co">#&gt;  3 27</span></code></pre></div>
+<code class="sourceCode R"><span class="co">## MultiplexSBM Bernoulli with dependence</span>
+<span class="va">Q</span> <span class="op">&lt;-</span> <span class="fl">2</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">94</span><span class="op">)</span>
+<span class="va">P00</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="va">Q</span><span class="op">*</span><span class="va">Q</span><span class="op">)</span>,<span class="va">Q</span>,<span class="va">Q</span><span class="op">)</span>
+<span class="va">P10</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="va">Q</span><span class="op">*</span><span class="va">Q</span><span class="op">)</span>,<span class="va">Q</span>,<span class="va">Q</span><span class="op">)</span>
+<span class="va">P01</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="va">Q</span><span class="op">*</span><span class="va">Q</span><span class="op">)</span>,<span class="va">Q</span>,<span class="va">Q</span><span class="op">)</span>
+<span class="va">P11</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="va">Q</span><span class="op">*</span><span class="va">Q</span><span class="op">)</span>,<span class="va">Q</span>,<span class="va">Q</span><span class="op">)</span>
+<span class="va">SumP</span><span class="op">&lt;-</span><span class="va">P00</span><span class="op">+</span><span class="va">P10</span><span class="op">+</span><span class="va">P01</span><span class="op">+</span><span class="va">P11</span>
+<span class="va">P00</span><span class="op">&lt;-</span><span class="va">P00</span><span class="op">/</span><span class="va">SumP</span>
+<span class="va">P01</span><span class="op">&lt;-</span><span class="va">P01</span><span class="op">/</span><span class="va">SumP</span>
+<span class="va">P10</span><span class="op">&lt;-</span><span class="va">P10</span><span class="op">/</span><span class="va">SumP</span>
+<span class="va">P11</span><span class="op">&lt;-</span><span class="va">P11</span><span class="op">/</span><span class="va">SumP</span>
+<span class="va">connectParam</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">connectParam</span><span class="op">$</span><span class="va">prob00</span> <span class="op">&lt;-</span> <span class="va">P00</span>
+<span class="va">connectParam</span><span class="op">$</span><span class="va">prob01</span> <span class="op">&lt;-</span> <span class="va">P01</span>
+<span class="va">connectParam</span><span class="op">$</span><span class="va">prob10</span> <span class="op">&lt;-</span> <span class="va">P10</span>
+<span class="va">connectParam</span><span class="op">$</span><span class="va">prob11</span> <span class="op">&lt;-</span> <span class="va">P11</span>
+<span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"bernoulli"</span>,<span class="fl">2</span><span class="op">)</span>
+<span class="va">type</span> <span class="op">&lt;-</span> <span class="st">"directed"</span>
+<span class="va">nbLayers</span> <span class="op">&lt;-</span> <span class="fl">2</span>
+<span class="va">Nnodes</span> <span class="op">&lt;-</span> <span class="fl">40</span>
+<span class="va">blockProp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.6</span>,<span class="fl">.4</span><span class="op">)</span>
+<span class="va">mySampleMultiplexSBM</span> <span class="op">&lt;-</span>
+   <span class="fu"><a href="../reference/sampleMultiplexSBM.html">sampleMultiplexSBM</a></span><span class="op">(</span>
+     nbNodes <span class="op">=</span> <span class="va">Nnodes</span>,
+     blockProp <span class="op">=</span> <span class="va">blockProp</span>,
+     nbLayers <span class="op">=</span> <span class="va">nbLayers</span>,
+     connectParam <span class="op">=</span> <span class="va">connectParam</span>,
+     model<span class="op">=</span><span class="va">model</span>,
+     type<span class="op">=</span><span class="va">type</span>,
+     dependent<span class="op">=</span><span class="cn">TRUE</span>,
+     seed <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
+<span class="va">listSBM_BB</span> <span class="op">&lt;-</span> <span class="va">mySampleMultiplexSBM</span><span class="op">$</span><span class="va">listSBM</span>
+<span class="fu"><a href="../reference/plotMyMultiplexMatrix.html">plotMyMultiplexMatrix</a></span><span class="op">(</span><span class="va">listSBM_BB</span><span class="op">)</span></code></pre></div>
+<p><img src="MultiplexNetwork_principle_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
+</div>
+<div id="inference-1" class="section level3">
+<h3 class="hasAnchor">
+<a href="#inference-1" class="anchor" aria-hidden="true"></a>Inference</h3>
+<p>We are now able to perform inference on the each multiplex network (search of the “best” number of clusters in terms of ICL). To do so, we have to chose the model, i.e. the distribution used in each matrix and the dependence or independence between matrices conditionally to the clusters.</p>
+<ul>
+<li>2 directed Layers : one Poisson, one Bernoulli and two clusters</li>
+</ul>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">myMSBM</span><span class="op">$</span><span class="va">storedModels</span>
-<span class="co">#&gt;   indexModel nbParams nbBlocks Plants nbBlocks Flovis nbBlocks Ants</span>
-<span class="co">#&gt; 1          1       43               7               2             2</span>
-<span class="co">#&gt; 2          2       37               6               2             2</span>
-<span class="co">#&gt; 3          3       31               5               2             2</span>
-<span class="co">#&gt; 4          4       25               5               2             1</span>
-<span class="co">#&gt; 5          5       19               5               1             1</span>
-<span class="co">#&gt; 6          6       15               4               1             1</span>
-<span class="co">#&gt; 7          7       11               3               1             1</span>
-<span class="co">#&gt; 8          8        7               2               1             1</span>
-<span class="co">#&gt; 9          9        3               1               1             1</span>
-<span class="co">#&gt;   nbBlocks Birds nbBlocks       ICL    loglik</span>
-<span class="co">#&gt; 1              1       12 -2961.903 -2770.230</span>
-<span class="co">#&gt; 2              1       11 -2965.539 -2800.546</span>
-<span class="co">#&gt; 3              1       10 -2981.164 -2840.532</span>
-<span class="co">#&gt; 4              1        9 -3017.651 -2897.765</span>
-<span class="co">#&gt; 5              1        8 -3071.369 -2984.442</span>
-<span class="co">#&gt; 6              1        7 -3128.286 -3057.690</span>
-<span class="co">#&gt; 7              1        6 -3216.136 -3161.801</span>
-<span class="co">#&gt; 8              1        5 -3358.851 -3326.480</span>
-<span class="co">#&gt; 9              1        4 -3582.348 -3568.733</span></code></pre></div>
-</div>
-</div>
-<div id="plots" class="section level2">
-<h2 class="hasAnchor">
-<a href="#plots" class="anchor" aria-hidden="true"></a>Plots</h2>
-<p>We can either plot the reorganized matrix</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">myMSBM</span><span class="op">)</span> </code></pre></div>
-<p><img src="MultiplexNetwork_principle_files/figure-html/plot-1.png" width="700"></p>
-<p>or the mesoscopic view</p>
+<code class="sourceCode R"><span class="va">res_PB</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/estimateMultiplexSBM.html">estimateMultiplexSBM</a></span><span class="op">(</span><span class="va">listSBM_PB</span><span class="op">)</span>
+<span class="va">res_PB</span><span class="op">$</span><span class="va">storedModels</span></code></pre></div>
+<pre><code>#&gt;   indexModel nbParams nbBlocks       ICL    loglik
+#&gt; 1          1        9        2 -1926.202 -1894.847
+#&gt; 2          2        2        1 -2362.585 -2355.207</code></pre>
+<p>One can now plot the reorganized matrices and the predicted values.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">plotOptions</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>vertex.size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6</span>,<span class="fl">3</span>,<span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span>
-<span class="va">plotOptions</span><span class="op">$</span><span class="va">vertex.shape</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">'circle'</span>,<span class="fl">4</span><span class="op">)</span>
-<span class="va">plotOptions</span><span class="op">$</span><span class="va">vertex.color</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'darkolivegreen3'</span>,<span class="st">'darkgoldenrod2'</span>,<span class="st">'salmon2'</span>,<span class="st">'cadetblue2'</span><span class="op">)</span>
-<span class="va">plotOptions</span><span class="op">$</span><span class="va">edge.curved</span> <span class="op">=</span> <span class="fl">0.1</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">myMSBM</span>,type <span class="op">=</span> <span class="st">'meso'</span>,plotOptions<span class="op">=</span><span class="va">plotOptions</span><span class="op">)</span></code></pre></div>
-<p>Will soon be ready</p>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res_PB</span><span class="op">)</span></code></pre></div>
+<p><img src="MultiplexNetwork_principle_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res_PB</span>,type<span class="op">=</span><span class="st">'expected'</span><span class="op">)</span></code></pre></div>
+<p><img src="MultiplexNetwork_principle_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
+<p>One can also compare the estimated clusters to the simulated clusters. We recover the clusters perfectly.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">All</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotAlluvial.html">plotAlluvial</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>simulated  <span class="op">=</span> <span class="va">mySampleMultiplexSBM_PB</span><span class="op">$</span><span class="va">memberships</span><span class="op">$</span><span class="va">Individuals</span>, estim<span class="op">=</span><span class="va">res_PB</span><span class="op">$</span><span class="va">memberships</span><span class="op">$</span><span class="va">Individuals</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p><img src="MultiplexNetwork_principle_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">All</span>
+<span class="co">#&gt; $plotOptions</span>
+<span class="co">#&gt; $plotOptions$curvy</span>
+<span class="co">#&gt; [1] 0.3</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $plotOptions$alpha</span>
+<span class="co">#&gt; [1] 0.8</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $plotOptions$gap.width</span>
+<span class="co">#&gt; [1] 0.1</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $plotOptions$col</span>
+<span class="co">#&gt; [1] "darkolivegreen3"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $plotOptions$border</span>
+<span class="co">#&gt; [1] "white"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $tableFreq</span>
+<span class="co">#&gt;   simulated estim Freq</span>
+<span class="co">#&gt; 2         2     1   25</span>
+<span class="co">#&gt; 3         1     2   15</span></code></pre></div>
+<pre><code>-  2  Gaussian bipartite dependent Layers with 3 row clusters and 3 col clusters. </code></pre>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">res_GG</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/estimateMultiplexSBM.html">estimateMultiplexSBM</a></span><span class="op">(</span><span class="va">listSBM_GG</span>,dependent <span class="op">=</span> <span class="cn">TRUE</span>,estimOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>plot <span class="op">=</span> <span class="cn">FALSE</span>,verbosity <span class="op">=</span> <span class="fl">0</span> <span class="op">)</span><span class="op">)</span>
+<span class="va">res_GG</span><span class="op">$</span><span class="va">storedModels</span></code></pre></div>
+<pre><code>#&gt;   indexModel nbParams rowBlocks colBlocks nbBlocks       ICL    loglik
+#&gt; 5          5       18         3         2        5 -9467.993 -9394.099
+#&gt; 6          6       23         4         2        6 -9489.056 -9396.019
+#&gt; 7          7       28         5         2        7 -9509.624 -9397.443
+#&gt; 8          8       33         6         2        8 -9530.222 -9398.897
+#&gt; 4          4       13         2         2        4 -9543.194 -9488.444
+#&gt; 3          3        8         2         1        3 -9584.737 -9548.641
+#&gt; 2          2        5         1         1        2 -9667.705 -9642.276
+#&gt; 1          0       NA         0         0        0        NA        NA</code></pre>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res_GG</span><span class="op">)</span></code></pre></div>
+<p><img src="MultiplexNetwork_principle_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
+<ul>
+<li>2 Bernoulli dependent Layers</li>
+</ul>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">res_BB</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/estimateMultiplexSBM.html">estimateMultiplexSBM</a></span><span class="op">(</span><span class="va">listSBM_BB</span>,dependent <span class="op">=</span>  <span class="cn">TRUE</span>,estimOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>plot <span class="op">=</span> <span class="cn">FALSE</span>,verbosity <span class="op">=</span> <span class="fl">0</span> <span class="op">)</span><span class="op">)</span>
+<span class="va">res_BB</span><span class="op">$</span><span class="va">storedModels</span></code></pre></div>
+<pre><code>#&gt;   indexModel nbParams nbBlocks       ICL    loglik
+#&gt; 2          2       13        2 -1836.174 -1786.056
+#&gt; 3          3       29        3 -1890.421 -1778.117
+#&gt; 4          4       51        4 -1963.078 -1764.451
+#&gt; 1          1        3        1 -2061.409 -2049.340</code></pre>
+</div>
 </div>
 <div id="references" class="section level2 unnumbered">
 <h2 class="hasAnchor">

@@ -171,10 +171,26 @@
     <p>a MultiplexSBM_fit object with the estimated parameters and the blocks</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The list of parameters <code>estimOptions</code> essentially tunes the optimization process and the variational EM algorithm. See the details in the function "estimateMultipartiteSBM" if dependent=FALSE, details in the function "estimateSimpleSBM" otherwise.</p>
+    <p>The list of parameters <code>estimOptions</code> essentially tunes the optimization process and the variational EM algorithm, with the following parameters</p><ul>
+<li><p>"nbCores"integer for number of cores used.  Default is 2</p></li>
+<li><p>"verbosity"integer for verbosity (0, 1). Default is 1</p></li>
+<li><p>"nbBlocksRange"List of length the number of functional groups, each element supplying the minimal and maximal number of blocks to be explored. The names of the list must be the names of the functional groups.  Default value is from 1 to 10)</p></li>
+<li><p>"initBM"Boolean. True if using simple and bipartite SBM as initialisations. Default value  = TRUE</p></li>
+<li><p>"maxiterVEM"Number of max. number of iterations in  the VEM. Default value  = 100</p></li>
+<li><p>"maxiterVE"Number of max. number of iterations in  the VE. Default value  = 100</p></li>
+<li><p>"plot"boolean, should the ICL by dynamically plotted or not. Default is TRUE. For dependent networks</p></li>
+<li><p>"exploreFactor"control the exploration of the number of groups. For dependent networks</p></li>
+<li><p>"exploreMin"explore at least until exploreMin even if the exploration factor rule is achieved. Default 4. See the package blockmodels for details. For dependent networks</p></li>
+<li><p>"exploreMax"Stop exploration at exploreMax  even if the exploration factor rule is not achieved. Default Inf. See the package blockmodels for details. For dependent networks</p></li>
+<li><p>"nbBlocksRange"minimal and maximal number or blocks explored. For dependent networks</p></li>
+<li><p>"fast"logical: should approximation be used for Bernoulli model with covariates. Default to <code>TRUE</code>. For dependent networks</p></li>
+</ul>
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'>## MultiplexSBM without dependence between layers</span></span>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'>### =======================================</span></span>
+<span class='r-in'><span class='co'>### MULTIPLEX SBM without dependence between layers</span></span>
+<span class='r-in'><span class='co'>##</span></span>
 <span class='r-in'><span class='va'>Nnodes</span> <span class='op'>&lt;-</span> <span class='fl'>40</span></span>
 <span class='r-in'><span class='va'>blockProp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>.4</span>,<span class='fl'>.6</span><span class='op'>)</span></span>
 <span class='r-in'><span class='va'>nbLayers</span> <span class='op'>&lt;-</span> <span class='fl'>2</span></span>
@@ -203,7 +219,9 @@
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "ICL : 1794.96 . Nb of blocks: [ 1 ]"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "ICL : 5198.86 . Nb of blocks: [ 2 ]"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "Best model------ ICL : 5198.86 . Nb of clusters: [ 2 ] for [ node ] respectively"</span>
-<span class='r-in'><span class='co'>## MultiplexSBM Gaussian with dependence</span></span>
+<span class='r-in'><span class='co'>### =======================================</span></span>
+<span class='r-in'><span class='co'>### MULTIPLEX SBM Gaussian with dependence</span></span>
+<span class='r-in'><span class='co'>##</span></span>
 <span class='r-in'><span class='va'>Q</span> <span class='op'>&lt;-</span> <span class='fl'>3</span></span>
 <span class='r-in'><span class='va'>nbLayers</span> <span class='op'>&lt;-</span> <span class='fl'>2</span></span>
 <span class='r-in'><span class='va'>connectParam</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span></span>
