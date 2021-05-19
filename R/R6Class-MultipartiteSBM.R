@@ -30,7 +30,8 @@ MultipartiteSBM <-
           ~switch(.x,
             "bernoulli"  = stopifnot(all(.y$mean >= 0), all(.y$mean <= 1)),
             "poisson"    = stopifnot(all(.y$mean >= 0)),
-            "gaussian"   = stopifnot(length(.y$var) == 1, .y$var > 0),
+            #"gaussian"   = stopifnot(length(.y$var) == 1, .y$var > 0),
+            "gaussian"   = stopifnot(.y$var > 0),
             "ZIgaussian" = stopifnot(all(.y$p0 >= 0), all(.y$p0 <= 1))
           )
         )
