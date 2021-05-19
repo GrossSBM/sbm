@@ -53,10 +53,15 @@ MultiplexSBM_fit <-
           stop("list of networks provided does not correspond to a Multiplex architecture")
         super$initialize(netList)
         # CHECKING dependence structure
+
+
         if (dependentNet) {
 
-          if (! ( all(self$directed == TRUE) | all(self$directed == FALSE)) )
-            stop("in the dependent case, all networks should be either directed or not directed")
+
+          if (length(lab_per_col) == 1){
+            if (! ( all(self$directed == TRUE) | all(self$directed == FALSE)) )
+              stop("in the dependent case, all networks should be either directed or not directed")
+          }
 
           dBern  <- isTRUE(all.equal(self$modelName, rep("bernoulli", self$nbNetworks)))
           dGauss <- isTRUE(all.equal(self$modelName, rep("gaussian" , self$nbNetworks)))

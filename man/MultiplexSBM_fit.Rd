@@ -27,7 +27,11 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
+\item{\code{nbBlocks}}{vector of size 2: number of blocks (rows, columns)}
+
 \item{\code{dependentNetwork}}{: connection parameters in each network}
+
+\item{\code{storedModels}}{data.frame of all models fitted (and stored) during the optimization}
 
 \item{\code{namesLayers}}{: names of the various Networks}
 }
