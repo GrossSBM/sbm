@@ -384,7 +384,6 @@ estimateMultiplexSBM <- function(listSBM,
 {
 
   myMSBM <- MultiplexSBM_fit$new(listSBM,dependentNet= dependent)
-
   if (dependent)
   {
     currentOptions <- list(
