@@ -1,5 +1,5 @@
 ---
-title: "Stochastic Block Models for Multiplex  networks"
+title: "Stochastic Block Models for Multiplex networks"
 subtitle: "War and Alliance case study"
 author: "team großBM"
 date: "`r Sys.Date()`"

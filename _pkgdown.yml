@@ -17,6 +17,10 @@ navbar:
         href: articles/SBM_fungus_tree_network.html
       - text: "Mutualistic ecological network with multipartite SBM"
         href: articles/Multipartite_EcologicalNetwork.html
+      - text: "Multiplex SBM: Principle and illustration"
+        href: articles/MultiplexNetwork_principle.html
+      - text: "Multiplex SBM: War and Alliance case study"
+        href: articles/Multiplex_allianceNwar_case_study.html
     - text: "Changelog"
       href: news/index.html
   right:
@@ -71,7 +75,7 @@ reference:
     - '`plotMyMultipartiteMatrix`'
 - title: 'Data sets'
   desc: >
-    Set of data available
+    Sets of data available
   contents:
     - '`fungusTreeNetwork`'
     - '`multipartiteEcologicalNetwork`'
