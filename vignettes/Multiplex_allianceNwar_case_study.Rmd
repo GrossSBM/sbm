@@ -25,6 +25,7 @@ knitr::opts_chunk$set(
 The `war` data set comes with the `missSBM` package:
 
 ```{r load data set}
+library(sbm)
 data("war")
 ```
 
@@ -46,7 +47,6 @@ B = as.matrix(get.adjacency(war$belligerent))
 
 We can start with a plot of this multiplex network:
 ```{r}
-library(sbm)
 netA = defineSBM(A,model="bernoulli",dimLabels = "country") 
 netB = defineSBM(B,model="bernoulli",dimLabels = "country")
 plotMyMultiplexMatrix(list(netA,netB))
