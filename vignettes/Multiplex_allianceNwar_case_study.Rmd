@@ -10,7 +10,7 @@ output:
 bibliography: references.bib
 link-citations: yes
 vignette: >
-  %\VignetteIndexEntry{Stochastic Block Models for Multiplex  networks}
+  %\VignetteIndexEntry{Stochastic Block Models for Multiplex  networks : application}
   %\VignetteEngine{knitr::rmarkdown} 
   %\VignetteEncoding{UTF-8}
 ---
@@ -36,7 +36,7 @@ These two networks were extracted from [https://www.correlatesofwar.org/](https:
 
 # Data manipulation
 
-Since they don't have the same size, we choose to only consider nodes (countries) which were at war with at least one other country. This correponds to the first 83 nodes in the Alliance network.
+Since they don't have the same size, we choose to only consider nodes (countries) which were at war with at least one other country. This corresponds to the first 83 nodes in the Alliance network.
 
 ```{r manipulation}
 library(igraph)
@@ -84,7 +84,7 @@ We then set `dependent=TRUE`
 ```{r}
 MultiplexFitdep = estimateMultiplexSBM(list(netA,netB),dependent = TRUE,estimOptions = list(verbosity=0))
 ```
-We can retrive the clustering and compare it to the one obtained in the indepedent case.
+We can retrieve the clustering and compare it to the one obtained in the independent case.
 ```{r}
 clust_country_dep = MultiplexFitdep$memberships[[1]]
 sort(clust_country_indep)

@@ -10,7 +10,7 @@ output:
 bibliography: references.bib
 link-citations: yes
 vignette: >
-  %\VignetteIndexEntry{Stochastic Block Models for Multiplex  networks}
+  %\VignetteIndexEntry{Stochastic Block Models for Multiplex  networks : principle and simulated datasets.}
   %\VignetteEngine{knitr::rmarkdown} 
   %\VignetteEncoding{UTF-8}
 ---

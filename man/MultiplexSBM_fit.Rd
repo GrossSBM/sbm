@@ -44,6 +44,7 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 \item \href{#method-optimize}{\code{MultiplexSBM_fit$optimize()}}
 \item \href{#method-plot}{\code{MultiplexSBM_fit$plot()}}
 \item \href{#method-show}{\code{MultiplexSBM_fit$show()}}
+\item \href{#method-predict}{\code{MultiplexSBM_fit$predict()}}
 \item \href{#method-clone}{\code{MultiplexSBM_fit$clone()}}
 }
 }
@@ -52,7 +53,6 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 \itemize{
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="rNetwork">}\href{../../sbm/html/SBM.html#method-rNetwork}{\code{sbm::SBM$rNetwork()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM" data-id="print">}\href{../../sbm/html/MultipartiteSBM.html#method-print}{\code{sbm::MultipartiteSBM$print()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM_fit" data-id="predict">}\href{../../sbm/html/MultipartiteSBM_fit.html#method-predict}{\code{sbm::MultipartiteSBM_fit$predict()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM_fit" data-id="setModel">}\href{../../sbm/html/MultipartiteSBM_fit.html#method-setModel}{\code{sbm::MultipartiteSBM_fit$setModel()}}\out{</span>}
 }
 \out{</details>}
@@ -133,6 +133,19 @@ show method
 \item{\code{type}}{character used to specify the type of SBM}
 }
 \if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-predict"></a>}}
+\if{latex}{\out{\hypertarget{method-predict}{}}}
+\subsection{Method \code{predict()}}{
+prediction under the currently estimated model
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MultiplexSBM_fit$predict()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+a list of matrices matrix of expected values for each dyad
 }
 }
 \if{html}{\out{<hr>}}
