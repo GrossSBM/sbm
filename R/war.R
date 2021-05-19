@@ -1,0 +1,23 @@
+#' War data set
+#'
+#' This dataset contains two networks where the nodes are countries and an
+#' edge in network "belligerent" means that the two countries have been at
+#' least once at war between years 1816 to 2007 while an edge in network "alliance"
+#' means that the two countries have had a formal alliance between years 1816 to 2012.
+#'  The network `belligerent` have less nodes since countries which have not been at
+#'  war are not considered.
+#' @format A list with 2 two igraph objects, \code{alliance} and \code{belligerent}.
+#' Each graph have three attributes: 'name' (the country name), 'power' (a score related to military power: the higher, the better) and
+#' 'trade' (a score related to the trade effort between pairs of countries).
+#'
+#' @references Sarkees, Meredith Reid and Frank Wayman (2010). Resort to War: 1816 - 2007. Washington DC: CQ Press.
+#' @references Gibler, Douglas M. 2009. International military alliances, 1648-2008. CQ Press
+#' @examples
+#' data(war)
+#' class(war$belligerent)
+#' igraph::gorder(war$alliance)
+#' igraph::gorder(war$belligerent)
+#' igraph::edges(war$alliance)
+#' igraph::get.graph.attribute(war$alliance)
+#' @source networks were extracted from <https://www.correlatesofwar.org/>
+"war"

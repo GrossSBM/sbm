@@ -25,7 +25,6 @@ knitr::opts_chunk$set(
 The `war` data set comes with the `missSBM` package:
 
 ```{r load data set}
-library(missSBM)
 data("war")
 ```
 
