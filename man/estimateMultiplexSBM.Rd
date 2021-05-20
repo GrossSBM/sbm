@@ -37,6 +37,7 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 }
 }
 \examples{
+\dontrun{
 ### =======================================
 ### MULTIPLEX SBM without dependence between layers
 ##
@@ -57,7 +58,6 @@ mySampleMultiplexSBM <-
 listSBM <- mySampleMultiplexSBM$listSBM
 estimOptions <- list(initBM = FALSE, nbCores  = 2)
 myMultiplexSBM <- estimateMultiplexSBM(listSBM,estimOptions,dependent=FALSE)
-\dontrun{
 ### =======================================
 ### MULTIPLEX SBM Gaussian with dependence
 ##

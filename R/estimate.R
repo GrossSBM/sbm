@@ -324,6 +324,7 @@ estimateMultipartiteSBM <- function(listSBM,
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' ### =======================================
 #' ### MULTIPLEX SBM without dependence between layers
 #' ##
@@ -345,7 +346,6 @@ estimateMultipartiteSBM <- function(listSBM,
 #' estimOptions <- list(initBM = FALSE, nbCores  = 2)
 #' myMultiplexSBM <- estimateMultiplexSBM(listSBM,estimOptions,dependent=FALSE)
 
-#' \dontrun{
 #' ### =======================================
 #' ### MULTIPLEX SBM Gaussian with dependence
 #' ##
