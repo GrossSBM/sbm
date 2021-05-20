@@ -29,6 +29,7 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 }
 }
 \examples{
+\dontrun{
 ## About the Parts/Functional Groups (FG)
 blockProp <- list(c(0.16 ,0.40 ,0.44),c(0.3,0.7)) # prop of blocks in each FG
 archiMultipartite <-  rbind(c(1,2),c(2,2),c(1,1)) # architecture of the multipartite net.
@@ -49,8 +50,9 @@ mySampleMSBM <- sampleMultipartiteSBM(nbNodes, blockProp,
                                       directed, dimLabels = c('A','B'), seed = 2)
 listSBM <- mySampleMSBM$listSBM
 estimOptions <- list(initBM = FALSE, nbCores  = 2)
-myMSBM <- estimateMultipartiteSBM(listSBM,estimOptions)
+myMSBM <- estimateMultipartiteSBM(listSBM, estimOptions)
 plot(myMSBM, type = "data")
 plot(myMSBM, type = "expected")
 plot(myMSBM, type = "meso")
+}
 }

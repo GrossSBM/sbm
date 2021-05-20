@@ -57,6 +57,7 @@ mySampleMultiplexSBM <-
 listSBM <- mySampleMultiplexSBM$listSBM
 estimOptions <- list(initBM = FALSE, nbCores  = 2)
 myMultiplexSBM <- estimateMultiplexSBM(listSBM,estimOptions,dependent=FALSE)
+\dontrun{
 ### =======================================
 ### MULTIPLEX SBM Gaussian with dependence
 ##
@@ -114,4 +115,5 @@ mySampleMultiplexSBM <-
      dependent=TRUE)
 listSBM <- mySampleMultiplexSBM$listSBM
 myMultiplexSBM <- estimateMultiplexSBM(listSBM,estimOptions,dependent=TRUE)
+}
 }

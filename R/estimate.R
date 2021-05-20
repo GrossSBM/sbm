@@ -243,6 +243,7 @@ estimateBipartiteSBM <- function(netMat,
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' ## About the Parts/Functional Groups (FG)
 #' blockProp <- list(c(0.16 ,0.40 ,0.44),c(0.3,0.7)) # prop of blocks in each FG
 #' archiMultipartite <-  rbind(c(1,2),c(2,2),c(1,1)) # architecture of the multipartite net.
@@ -263,10 +264,11 @@ estimateBipartiteSBM <- function(netMat,
 #'                                       directed, dimLabels = c('A','B'), seed = 2)
 #' listSBM <- mySampleMSBM$listSBM
 #' estimOptions <- list(initBM = FALSE, nbCores  = 2)
-#' myMSBM <- estimateMultipartiteSBM(listSBM,estimOptions)
+#' myMSBM <- estimateMultipartiteSBM(listSBM, estimOptions)
 #' plot(myMSBM, type = "data")
 #' plot(myMSBM, type = "expected")
 #' plot(myMSBM, type = "meso")
+#' }
 estimateMultipartiteSBM <- function(listSBM,
                                     estimOptions = list())
 {
@@ -343,6 +345,7 @@ estimateMultipartiteSBM <- function(listSBM,
 #' estimOptions <- list(initBM = FALSE, nbCores  = 2)
 #' myMultiplexSBM <- estimateMultiplexSBM(listSBM,estimOptions,dependent=FALSE)
 
+#' \dontrun{
 #' ### =======================================
 #' ### MULTIPLEX SBM Gaussian with dependence
 #' ##
@@ -400,6 +403,7 @@ estimateMultipartiteSBM <- function(listSBM,
 #'      dependent=TRUE)
 #' listSBM <- mySampleMultiplexSBM$listSBM
 #' myMultiplexSBM <- estimateMultiplexSBM(listSBM,estimOptions,dependent=TRUE)
+#' }
 estimateMultiplexSBM <- function(listSBM,
                                     dependent = FALSE,
                                     estimOptions = list())
