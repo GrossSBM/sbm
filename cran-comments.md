@@ -1,7 +1,6 @@
 
 ## Changes since last CRAN release (major)
 
-
 * support for multipartite SBM
 * support for multiplex SBM
 * improvement of the plot methods
@@ -10,22 +9,17 @@
 
 ## Tested environments
 
-
 * Windows Server 2008 R2 SP1, R-release, 32/64 bit (R-hub builder)
 * Ubuntu 20.04, R-release GCC (R-hub builder)
 * Fedora Linux, R-devel, clang, gfortran (R-hub builder)
 * Oracle Solaris 10, x86, 32 bit, R-release  (R-hub builder)
-
 * macOS 10.13.6 High Sierra, R-release, CRAN's setup (R-hub builder)
 * Windows latest (github-action)
 * macOS Catalina 10.15, R-release (github action)
 * Linux Ubuntu 16.04, R-release (github-action)
 * local R installation, R 4.0.5, Ubuntu 20.04
-
-Failure
-* Windows Server 2008 R2 SP1, R-devel, 32/64 bit
-* win-builder (R version old release)
-* win-builder (R version release)
+* win-builder (R devel)
+* win-builder (R release)
 
 ## R CMD check results (local)
 
@@ -44,3 +38,8 @@ Some note due to possibly mis-spelled words in DESCRIPTION (which are false posi
   et (18:49, 18:98)
   Multipartite (16:45)
   
+On R-devel Windows
+Examples with CPU (user + system) or elapsed time > 10s
+                        user system elapsed
+estimateMultipartiteSBM 2.14   0.14   32.23
+estimateMultiplexSBM    1.55   0.03   13.04
