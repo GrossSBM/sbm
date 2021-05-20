@@ -194,7 +194,8 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'>### =======================================</span></span>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='co'>### =======================================</span></span>
 <span class='r-in'><span class='co'>### MULTIPLEX SBM without dependence between layers</span></span>
 <span class='r-in'><span class='co'>##</span></span>
 <span class='r-in'><span class='va'>Nnodes</span> <span class='op'>&lt;-</span> <span class='fl'>40</span></span>
@@ -211,21 +212,9 @@
 <span class='r-in'>   connectParam <span class='op'>=</span> <span class='va'>connectParam</span>,</span>
 <span class='r-in'>   model<span class='op'>=</span><span class='va'>model</span>,</span>
 <span class='r-in'>   type<span class='op'>=</span><span class='va'>type</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "use of sampleMultipartite"</span>
 <span class='r-in'><span class='va'>listSBM</span> <span class='op'>&lt;-</span> <span class='va'>mySampleMultiplexSBM</span><span class='op'>$</span><span class='va'>listSBM</span></span>
 <span class='r-in'><span class='va'>estimOptions</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>initBM <span class='op'>=</span> <span class='cn'>FALSE</span>, nbCores  <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span></span>
 <span class='r-in'><span class='va'>myMultiplexSBM</span> <span class='op'>&lt;-</span> <span class='fu'>estimateMultiplexSBM</span><span class='op'>(</span><span class='va'>listSBM</span>,<span class='va'>estimOptions</span>,dependent<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "------------Nb of entities in each functional group--------------"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> node </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   40 </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "------------Probability distributions on each network--------------"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "bernoulli" "poisson"  </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "-------------------------------------------------------------------"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] " ------ Searching the numbers of blocks starting from [ 1 ] blocks"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "ICL : -2468.45 . Nb of blocks: [ 1 ]"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "ICL : -1911.77 . Nb of blocks: [ 2 ]"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "Best model------ ICL : -1911.77 . Nb of clusters: [ 2 ] for [ node ] respectively"</span>
-<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
 <span class='r-in'><span class='co'>### =======================================</span></span>
 <span class='r-in'><span class='co'>### MULTIPLEX SBM Gaussian with dependence</span></span>
 <span class='r-in'><span class='co'>##</span></span>
