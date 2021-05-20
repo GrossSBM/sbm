@@ -222,9 +222,10 @@
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "bernoulli" "poisson"  </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "-------------------------------------------------------------------"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] " ------ Searching the numbers of blocks starting from [ 1 ] blocks"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "ICL : 1794.96 . Nb of blocks: [ 1 ]"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "ICL : 5198.86 . Nb of blocks: [ 2 ]"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "Best model------ ICL : 5198.86 . Nb of clusters: [ 2 ] for [ node ] respectively"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "ICL : -2468.45 . Nb of blocks: [ 1 ]"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "ICL : -1911.77 . Nb of blocks: [ 2 ]"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "Best model------ ICL : -1911.77 . Nb of clusters: [ 2 ] for [ node ] respectively"</span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
 <span class='r-in'><span class='co'>### =======================================</span></span>
 <span class='r-in'><span class='co'>### MULTIPLEX SBM Gaussian with dependence</span></span>
 <span class='r-in'><span class='co'>##</span></span>
@@ -250,57 +251,6 @@
 <span class='r-in'>     dependent<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span></span>
 <span class='r-in'><span class='va'>listSBM</span> <span class='op'>&lt;-</span> <span class='va'>mySampleMultiplexSBM</span><span class='op'>$</span><span class='va'>listSBM</span></span>
 <span class='r-in'><span class='va'>myMultiplexSBM</span> <span class='op'>&lt;-</span> <span class='fu'>estimateMultiplexSBM</span><span class='op'>(</span><span class='va'>listSBM</span>,<span class='va'>estimOptions</span>,dependent<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> -&gt; Estimation for 1 groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-plt'><img src='estimateMultiplexSBM-1.png' alt='' width='700' height='433' /></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> -&gt; Pass 1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     -&gt; With ascending number of groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         -&gt; For 2 groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-plt'><img src='estimateMultiplexSBM-2.png' alt='' width='700' height='433' /></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         -&gt; For 3 groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-plt'><img src='estimateMultiplexSBM-3.png' alt='' width='700' height='433' /></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         -&gt; For 4 groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-plt'><img src='estimateMultiplexSBM-4.png' alt='' width='700' height='433' /></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         -&gt; For 5 groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-plt'><img src='estimateMultiplexSBM-5.png' alt='' width='700' height='433' /></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     -&gt; With descending number of groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         -&gt; For 4 groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-plt'><img src='estimateMultiplexSBM-6.png' alt='' width='700' height='433' /></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         -&gt; For 3 groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-plt'><img src='estimateMultiplexSBM-7.png' alt='' width='700' height='433' /></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         -&gt; For 2 groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-plt'><img src='estimateMultiplexSBM-8.png' alt='' width='700' height='433' /></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> -&gt; Pass 2</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     -&gt; With ascending number of groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         -&gt; For 2 groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         -&gt; For 3 groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         -&gt; For 4 groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         -&gt; For 5 groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-plt'><img src='estimateMultiplexSBM-9.png' alt='' width='700' height='433' /></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     -&gt; With descending number of groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         -&gt; For 4 groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-plt'><img src='estimateMultiplexSBM-10.png' alt='' width='700' height='433' /></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         -&gt; For 3 groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         -&gt; For 2 groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> -&gt; Pass 3</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     -&gt; With ascending number of groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         -&gt; For 2 groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         -&gt; For 3 groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         -&gt; For 4 groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         -&gt; For 5 groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     -&gt; With descending number of groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         -&gt; For 4 groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         -&gt; For 3 groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         -&gt; For 2 groups</span>
 <span class='r-in'><span class='co'>## MultiplexSBM Bernoulli with dependence</span></span>
 <span class='r-in'><span class='va'>Q</span> <span class='op'>&lt;-</span> <span class='fl'>2</span></span>
 <span class='r-in'><span class='va'>P00</span><span class='op'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='va'>Q</span><span class='op'>*</span><span class='va'>Q</span><span class='op'>)</span>,<span class='va'>Q</span>,<span class='va'>Q</span><span class='op'>)</span></span>
@@ -333,47 +283,7 @@
 <span class='r-in'>     dependent<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span></span>
 <span class='r-in'><span class='va'>listSBM</span> <span class='op'>&lt;-</span> <span class='va'>mySampleMultiplexSBM</span><span class='op'>$</span><span class='va'>listSBM</span></span>
 <span class='r-in'><span class='va'>myMultiplexSBM</span> <span class='op'>&lt;-</span> <span class='fu'>estimateMultiplexSBM</span><span class='op'>(</span><span class='va'>listSBM</span>,<span class='va'>estimOptions</span>,dependent<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> -&gt; Estimation for 1 groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-plt'><img src='estimateMultiplexSBM-11.png' alt='' width='700' height='433' /></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> -&gt; Pass 1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     -&gt; With ascending number of groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         -&gt; For 2 groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-plt'><img src='estimateMultiplexSBM-12.png' alt='' width='700' height='433' /></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         -&gt; For 3 groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-plt'><img src='estimateMultiplexSBM-13.png' alt='' width='700' height='433' /></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         -&gt; For 4 groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-plt'><img src='estimateMultiplexSBM-14.png' alt='' width='700' height='433' /></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     -&gt; With descending number of groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         -&gt; For 3 groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-plt'><img src='estimateMultiplexSBM-15.png' alt='' width='700' height='433' /></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         -&gt; For 2 groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-plt'><img src='estimateMultiplexSBM-16.png' alt='' width='700' height='433' /></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> -&gt; Pass 2</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     -&gt; With ascending number of groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         -&gt; For 2 groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         -&gt; For 3 groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         -&gt; For 4 groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-plt'><img src='estimateMultiplexSBM-17.png' alt='' width='700' height='433' /></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     -&gt; With descending number of groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         -&gt; For 3 groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-plt'><img src='estimateMultiplexSBM-18.png' alt='' width='700' height='433' /></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         -&gt; For 2 groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> -&gt; Pass 3</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     -&gt; With ascending number of groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         -&gt; For 2 groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         -&gt; For 3 groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         -&gt; For 4 groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     -&gt; With descending number of groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         -&gt; For 3 groups</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>         -&gt; For 2 groups</span>
+<span class='r-in'><span class='op'>}</span></span>
 </code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
