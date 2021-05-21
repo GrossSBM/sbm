@@ -1,3 +1,7 @@
+# sbm dev
+
+waiting for new features!
+
 # sbm 0.4.1
 
 * advanced plotting functions for multilayer/multiplex SBM
