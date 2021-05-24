@@ -6,7 +6,7 @@
 #' @param netMat a matrix describing the network: either an adjacency (square) or incidence matrix with possibly weighted entries.
 #' @param model character describing the model for the relation between nodes (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'}, ...). Default is \code{'bernoulli'}.
 #' @param directed logical: is the network directed or not? Only relevant when \code{type} is \code{'Simple'}. Default is \code{TRUE} if \code{netMat} is symmetric, \code{FALSE} otherwise
-#' @param dimLabels an optional list of labels for each dimension (in row, in column)
+#' @param dimLabels an optional label for referring to the nodes
 #' @param covariates a list of matrices with same dimension as mat describing covariates at the edge level. No covariate per Default.
 #' @param estimOptions a list of parameters controlling the inference algorithm and model selection. See details.
 #'
@@ -127,7 +127,7 @@ estimateSimpleSBM <- function(netMat,
 #'
 #' @param netMat a matrix describing the network: either an adjacency (square) or incidence matrix with possibly weighted entries.
 #' @param model character describing the model for the relation between nodes (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'}, ...). Default is \code{'bernoulli'}.
-#' @param dimLabels an optional list of labels for each dimension (in row, in column)
+#' @param dimLabels an optional vector of labels for each dimension (in row, in column)
 #' @param covariates a list of matrices with same dimension as mat describing covariates at the edge level. No covariate per Default.
 #' @param estimOptions a list of parameters controlling the inference algorithm and model selection. See details.
 #'
