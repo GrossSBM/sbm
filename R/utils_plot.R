@@ -406,7 +406,7 @@ plotMeso <- function(thetaMean, pi,model,directed,bipartite,nbNodes,nodeLabels,p
                          layout = NULL,
                          vertex.color = myFavColor[1:nbFG],
                          vertex.frame.color = rep("black",nbFG),#"white",                 # Node border color
-                         vertex.shape = myFavForm[1:nbFG],                        # One of “none”, “circle”, “square”, “csquare”, “rectangle” “crectangle”, “vrectangle”, “pie”, “raster”, or “sphere”
+                         vertex.shape = myFavForm[1:nbFG],                        # One of "none", "circle", "square", "csquare", "rectangle" "crectangle", "vrectangle", "pie", "raster", or "sphere"
                          vertex.size = rep(1,nbFG),                               # Size of the node (default is 15)
                          vertex.size2 = rep(NA,nbFG),                              # The second size of the node (e.g. for a rectangle)
                          # === vertex label
@@ -422,7 +422,7 @@ plotMeso <- function(thetaMean, pi,model,directed,bipartite,nbNodes,nodeLabels,p
                          edge.width = 1,                    # Edge width, defaults to 10
                          edge.arrow.size = 1,                            # Arrow size, defaults to 1
                          edge.arrow.width = 2,                           # Arrow width, defaults to 1
-                         edge.lty = "solid",                             # Line type, could be 0 or “blank”, 1 or “solid”, 2 or “dashed”, 3 or “dotted”, 4 or “dotdash”, 5 or “longdash”, 6 or “twodash”
+                         edge.lty = "solid",                             # Line Type, could be 0 or "blank", 1 or"solid", 2 or "dashed", 3 or "dotted", 4 or "dotdash", 5 or "longdash", 6 or "twodash"
                          edge.curved = 0.3
                          )
 
@@ -577,7 +577,7 @@ plotMesoMultipartite <- function(E,theta, list_pi,v_distrib,directed,nbNodes,nod
                          edge.width = 1,                    # Edge width, defaults to 1
                          edge.arrow.size = 1,                            # Arrow size, defaults to 1
                          edge.arrow.width = 1,                           # Arrow width, defaults to 1
-                         edge.lty = "solid",                             # Line type, could be 0 or “blank”, 1 or “solid”, 2 or “dashed”, 3 or “dotted”, 4 or “dotdash”, 5 or “longdash”, 6 or “twodash”
+                         edge.lty = "solid",                             # Line Type, could be 0 or "blank", 1 or"solid", 2 or "dashed", 3 or "dotted", 4 or "dotdash", 5 or "longdash", 6 or "twodash"
                          edge.curved = 0.3)
 
   currentOptions[names(plotOptions)] <- plotOptions
