@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-The `war` data set comes with the `missSBM` package:
+The `war` data set comes in the `sbm` package:
 
 ```{r load-data-set}
 library(sbm)
