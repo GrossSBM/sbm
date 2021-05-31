@@ -45,8 +45,6 @@
 
 
 
-
-
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -58,16 +56,9 @@
 
 
 
-
-  
-
-  
-
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -81,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sbm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.1-9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2</span>
       </span>
     </div>
 
@@ -153,7 +144,7 @@
     <p>Estimation for multipartite SBM</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>estimateMultipartiteSBM</span><span class='op'>(</span><span class='va'>listSBM</span>, estimOptions <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></code></pre></div>
+    <pre class="usage"><span class='fu'>estimateMultipartiteSBM</span><span class='op'>(</span><span class='va'>listSBM</span>, estimOptions <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -184,33 +175,33 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
-<span class='r-in'><span class='co'>## About the Parts/Functional Groups (FG)</span></span>
-<span class='r-in'><span class='va'>blockProp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.16</span> ,<span class='fl'>0.40</span> ,<span class='fl'>0.44</span><span class='op'>)</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.3</span>,<span class='fl'>0.7</span><span class='op'>)</span><span class='op'>)</span> <span class='co'># prop of blocks in each FG</span></span>
-<span class='r-in'><span class='va'>archiMultipartite</span> <span class='op'>&lt;-</span>  <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>2</span><span class='op'>)</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>,<span class='fl'>2</span><span class='op'>)</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span> <span class='co'># architecture of the multipartite net.</span></span>
-<span class='r-in'><span class='va'>nbNodes</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>60</span>,<span class='fl'>50</span><span class='op'>)</span></span>
-<span class='r-in'><span class='co'>## About the connection matrices</span></span>
-<span class='r-in'><span class='va'>directed</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>NA</span>, <span class='cn'>TRUE</span>, <span class='cn'>FALSE</span><span class='op'>)</span> <span class='co'># type of each network</span></span>
-<span class='r-in'><span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'gaussian'</span>,<span class='st'>'bernoulli'</span>,<span class='st'>'poisson'</span><span class='op'>)</span></span>
-<span class='r-in'><span class='va'>C1</span> <span class='op'>&lt;-</span></span>
-<span class='r-in'> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>mean <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>6.1</span>, <span class='fl'>8.9</span>, <span class='fl'>6.6</span>, <span class='fl'>9.8</span>, <span class='fl'>2.6</span>, <span class='fl'>1.0</span><span class='op'>)</span>, <span class='fl'>3</span>, <span class='fl'>2</span><span class='op'>)</span>,</span>
-<span class='r-in'>      var  <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1.6</span>, <span class='fl'>1.6</span>, <span class='fl'>1.8</span>, <span class='fl'>1.7</span> ,<span class='fl'>2.3</span>, <span class='fl'>1.5</span><span class='op'>)</span>,<span class='fl'>3</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span></span>
-<span class='r-in'><span class='va'>C2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>mean <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.7</span>,<span class='fl'>1.0</span>, <span class='fl'>0.4</span>, <span class='fl'>0.6</span><span class='op'>)</span>,<span class='fl'>2</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span></span>
-<span class='r-in'><span class='va'>m3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2.5</span>, <span class='fl'>2.6</span> ,<span class='fl'>2.2</span> ,<span class='fl'>2.2</span>, <span class='fl'>2.7</span> ,<span class='fl'>3.0</span> ,<span class='fl'>3.6</span>, <span class='fl'>3.5</span>, <span class='fl'>3.3</span><span class='op'>)</span>,<span class='fl'>3</span>,<span class='fl'>3</span> <span class='op'>)</span></span>
-<span class='r-in'><span class='va'>C3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>mean <span class='op'>=</span> <span class='fl'>.5</span> <span class='op'>*</span> <span class='op'>(</span><span class='va'>m3</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span><span class='op'>(</span><span class='va'>m3</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
-<span class='r-in'><span class='va'>connectParam</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>C1</span>, <span class='va'>C2</span>, <span class='va'>C3</span><span class='op'>)</span></span>
-<span class='r-in'><span class='co'>## Graph Sampling</span></span>
-<span class='r-in'><span class='va'>mySampleMSBM</span> <span class='op'>&lt;-</span> <span class='fu'><a href='sampleMultipartiteSBM.html'>sampleMultipartiteSBM</a></span><span class='op'>(</span><span class='va'>nbNodes</span>, <span class='va'>blockProp</span>,</span>
-<span class='r-in'>                                      <span class='va'>archiMultipartite</span>, <span class='va'>connectParam</span>, <span class='va'>model</span>,</span>
-<span class='r-in'>                                      <span class='va'>directed</span>, dimLabels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'A'</span>,<span class='st'>'B'</span><span class='op'>)</span>, seed <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span></span>
-<span class='r-in'><span class='va'>listSBM</span> <span class='op'>&lt;-</span> <span class='va'>mySampleMSBM</span><span class='op'>$</span><span class='va'>listSBM</span></span>
-<span class='r-in'><span class='va'>estimOptions</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>initBM <span class='op'>=</span> <span class='cn'>FALSE</span>, nbCores  <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span></span>
-<span class='r-in'><span class='va'>myMSBM</span> <span class='op'>&lt;-</span> <span class='fu'>estimateMultipartiteSBM</span><span class='op'>(</span><span class='va'>listSBM</span>, <span class='va'>estimOptions</span><span class='op'>)</span></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>myMSBM</span>, type <span class='op'>=</span> <span class='st'>"data"</span><span class='op'>)</span></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>myMSBM</span>, type <span class='op'>=</span> <span class='st'>"expected"</span><span class='op'>)</span></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>myMSBM</span>, type <span class='op'>=</span> <span class='st'>"meso"</span><span class='op'>)</span></span>
-<span class='r-in'><span class='op'>}</span></span>
-</code></pre></div>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='co'>## About the Parts/Functional Groups (FG)</span>
+<span class='va'>blockProp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.16</span> ,<span class='fl'>0.40</span> ,<span class='fl'>0.44</span><span class='op'>)</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.3</span>,<span class='fl'>0.7</span><span class='op'>)</span><span class='op'>)</span> <span class='co'># prop of blocks in each FG</span>
+<span class='va'>archiMultipartite</span> <span class='op'>&lt;-</span>  <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>2</span><span class='op'>)</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>,<span class='fl'>2</span><span class='op'>)</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span> <span class='co'># architecture of the multipartite net.</span>
+<span class='va'>nbNodes</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>60</span>,<span class='fl'>50</span><span class='op'>)</span>
+<span class='co'>## About the connection matrices</span>
+<span class='va'>directed</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>NA</span>, <span class='cn'>TRUE</span>, <span class='cn'>FALSE</span><span class='op'>)</span> <span class='co'># type of each network</span>
+<span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'gaussian'</span>,<span class='st'>'bernoulli'</span>,<span class='st'>'poisson'</span><span class='op'>)</span>
+<span class='va'>C1</span> <span class='op'>&lt;-</span>
+ <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>mean <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>6.1</span>, <span class='fl'>8.9</span>, <span class='fl'>6.6</span>, <span class='fl'>9.8</span>, <span class='fl'>2.6</span>, <span class='fl'>1.0</span><span class='op'>)</span>, <span class='fl'>3</span>, <span class='fl'>2</span><span class='op'>)</span>,
+      var  <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1.6</span>, <span class='fl'>1.6</span>, <span class='fl'>1.8</span>, <span class='fl'>1.7</span> ,<span class='fl'>2.3</span>, <span class='fl'>1.5</span><span class='op'>)</span>,<span class='fl'>3</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>C2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>mean <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.7</span>,<span class='fl'>1.0</span>, <span class='fl'>0.4</span>, <span class='fl'>0.6</span><span class='op'>)</span>,<span class='fl'>2</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>m3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2.5</span>, <span class='fl'>2.6</span> ,<span class='fl'>2.2</span> ,<span class='fl'>2.2</span>, <span class='fl'>2.7</span> ,<span class='fl'>3.0</span> ,<span class='fl'>3.6</span>, <span class='fl'>3.5</span>, <span class='fl'>3.3</span><span class='op'>)</span>,<span class='fl'>3</span>,<span class='fl'>3</span> <span class='op'>)</span>
+<span class='va'>C3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>mean <span class='op'>=</span> <span class='fl'>.5</span> <span class='op'>*</span> <span class='op'>(</span><span class='va'>m3</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span><span class='op'>(</span><span class='va'>m3</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>connectParam</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>C1</span>, <span class='va'>C2</span>, <span class='va'>C3</span><span class='op'>)</span>
+<span class='co'>## Graph Sampling</span>
+<span class='va'>mySampleMSBM</span> <span class='op'>&lt;-</span> <span class='fu'><a href='sampleMultipartiteSBM.html'>sampleMultipartiteSBM</a></span><span class='op'>(</span><span class='va'>nbNodes</span>, <span class='va'>blockProp</span>,
+                                      <span class='va'>archiMultipartite</span>, <span class='va'>connectParam</span>, <span class='va'>model</span>,
+                                      <span class='va'>directed</span>, dimLabels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'A'</span>,<span class='st'>'B'</span><span class='op'>)</span>, seed <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+<span class='va'>listSBM</span> <span class='op'>&lt;-</span> <span class='va'>mySampleMSBM</span><span class='op'>$</span><span class='va'>listSBM</span>
+<span class='va'>estimOptions</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>initBM <span class='op'>=</span> <span class='cn'>FALSE</span>, nbCores  <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+<span class='va'>myMSBM</span> <span class='op'>&lt;-</span> <span class='fu'>estimateMultipartiteSBM</span><span class='op'>(</span><span class='va'>listSBM</span>, <span class='va'>estimOptions</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>myMSBM</span>, type <span class='op'>=</span> <span class='st'>"data"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>myMSBM</span>, type <span class='op'>=</span> <span class='st'>"expected"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>myMSBM</span>, type <span class='op'>=</span> <span class='st'>"meso"</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -222,11 +213,11 @@
 
       <footer>
       <div class="copyright">
-  <p><p>Developed by Julien Chiquet, Sophie Donnet, Pierre Barbillon.</p></p>
+  <p>Developed by Julien Chiquet, Sophie Donnet, Pierre Barbillon.</p>
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
@@ -234,8 +225,6 @@
 
   
 
-
-  
 
   </body>
 </html>

@@ -19,8 +19,6 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-article">
       <header><div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
@@ -33,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sbm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.1-9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2</span>
       </span>
     </div>
 
@@ -78,7 +76,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/GrossSBM/GSBM" class="external-link">
+  <a href="https://github.com/GrossSBM/GSBM">
     <span class="fas fa-github"></span>
      
   </a>
@@ -97,30 +95,30 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Stochastic Block Models for Multiplex networks</h1>
-            <h3 data-toc-skip class="subtitle">War and Alliance case study</h3>
-                        <h4 data-toc-skip class="author">team großBM</h4>
+            <h3 class="subtitle">War and Alliance case study</h3>
+                        <h4 class="author">team großBM</h4>
             
-            <h4 data-toc-skip class="date">2021-05-21</h4>
+            <h4 class="date">2021-05-31</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/GrossSBM/sbm/blob/master/vignettes/Multiplex_allianceNwar_case_study.Rmd" class="external-link"><code>vignettes/Multiplex_allianceNwar_case_study.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/GrossSBM/sbm/blob/master/vignettes/Multiplex_allianceNwar_case_study.Rmd"><code>vignettes/Multiplex_allianceNwar_case_study.Rmd</code></a></small>
       <div class="hidden name"><code>Multiplex_allianceNwar_case_study.Rmd</code></div>
 
     </div>
 
     
     
-<p>The <code>war</code> data set comes with the <code>missSBM</code> package:</p>
+<p>The <code>war</code> data set comes in the <code>sbm</code> package:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://grosssbm.github.io/sbm/" class="external-link">sbm</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"war"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://grosssbm.github.io/sbm/">sbm</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"war"</span><span class="op">)</span></code></pre></div>
 <p>This data set contains a list of two networks (<code>belligerent</code> and <code>alliance</code>) where the nodes are countries; an edge in the network <code>belligerent</code> means that the two countries have been at war at least once between years 1816 to 2007; an edge in network <code>alliance</code> means that the two countries have had a formal alliance between years 1816 and 2012. The network <code>belligerent</code> have less nodes since countries which have not been at war at all are not considered.</p>
-<p>These two networks were extracted from <a href="https://www.correlatesofwar.org/" class="external-link">https://www.correlatesofwar.org/</a> (see <span class="citation">Sarkees and Wayman (<a href="#ref-sarkees2010resort" role="doc-biblioref">2010</a>)</span> for war data, and <span class="citation">Gibler (<a href="#ref-gibler2008international" role="doc-biblioref">2008</a>)</span> for formal alliance). Version 4.0 was used for war data and version 4.1 for formal alliance.</p>
+<p>These two networks were extracted from <a href="https://www.correlatesofwar.org/">https://www.correlatesofwar.org/</a> (see <span class="citation">Sarkees and Wayman (<a href="#ref-sarkees2010resort" role="doc-biblioref">2010</a>)</span> for war data, and <span class="citation">Gibler (<a href="#ref-gibler2008international" role="doc-biblioref">2008</a>)</span> for formal alliance). Version 4.0 was used for war data and version 4.1 for formal alliance.</p>
 <div id="data-manipulation" class="section level1">
 <h1 class="hasAnchor">
-<a href="#data-manipulation" class="anchor" aria-hidden="true"></a>Data manipulation</h1>
+<a href="#data-manipulation" class="anchor"></a>Data manipulation</h1>
 <p>Since they don’t have the same size, we choose to only consider nodes (countries) which were at war with at least one other country. This corresponds to the first 83 nodes in the Alliance network.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://igraph.org" class="external-link">igraph</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://igraph.org">igraph</a></span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Attaching package: 'igraph'</span>
 <span class="co">#&gt; The following objects are masked from 'package:stats':</span>
@@ -129,22 +127,27 @@
 <span class="co">#&gt; The following object is masked from 'package:base':</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;     union</span>
-<span class="va">A</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/igraph/man/as_adjacency_matrix.html" class="external-link">get.adjacency</a></span><span class="op">(</span><span class="va">war</span><span class="op">$</span><span class="va">alliance</span><span class="op">)</span><span class="op">)</span>
+<span class="va">A</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/igraph/man/as_adjacency_matrix.html">get.adjacency</a></span><span class="op">(</span><span class="va">war</span><span class="op">$</span><span class="va">alliance</span><span class="op">)</span><span class="op">)</span>
 <span class="va">A</span> <span class="op">=</span> <span class="va">A</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">83</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">83</span><span class="op">]</span>
-<span class="va">B</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/igraph/man/as_adjacency_matrix.html" class="external-link">get.adjacency</a></span><span class="op">(</span><span class="va">war</span><span class="op">$</span><span class="va">belligerent</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<span class="va">B</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/igraph/man/as_adjacency_matrix.html">get.adjacency</a></span><span class="op">(</span><span class="va">war</span><span class="op">$</span><span class="va">belligerent</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>We can start with a plot of this multiplex network:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">netA</span> <span class="op">=</span> <span class="fu"><a href="../reference/defineSBM.html">defineSBM</a></span><span class="op">(</span><span class="va">A</span>,model<span class="op">=</span><span class="st">"bernoulli"</span>,dimLabels <span class="op">=</span> <span class="st">"country"</span><span class="op">)</span> 
 <span class="va">netB</span> <span class="op">=</span> <span class="fu"><a href="../reference/defineSBM.html">defineSBM</a></span><span class="op">(</span><span class="va">B</span>,model<span class="op">=</span><span class="st">"bernoulli"</span>,dimLabels <span class="op">=</span> <span class="st">"country"</span><span class="op">)</span>
-<span class="fu"><a href="../reference/plotMyMultiplexMatrix.html">plotMyMultiplexMatrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">netA</span>,<span class="va">netB</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/plotMyMultiplexMatrix.html">plotMyMultiplexMatrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">netA</span>,<span class="va">netB</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
+<span class="co">#&gt; caller; using TRUE</span>
+
+<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
+<span class="co">#&gt; caller; using TRUE</span></code></pre></div>
 <p><img src="Multiplex_allianceNwar_case_study_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
 </div>
 <div id="fitting-a-multiplex-sbm-model-where-the-two-layers-are-assumed-to-be-independent" class="section level1">
 <h1 class="hasAnchor">
-<a href="#fitting-a-multiplex-sbm-model-where-the-two-layers-are-assumed-to-be-independent" class="anchor" aria-hidden="true"></a>Fitting a multiplex SBM model where the two layers are assumed to be independent</h1>
+<a href="#fitting-a-multiplex-sbm-model-where-the-two-layers-are-assumed-to-be-independent" class="anchor"></a>Fitting a multiplex SBM model where the two layers are assumed to be independent</h1>
 <p>We run the estimation of this multiplex model. By setting <code>dependent=FALSE</code>, we declare that we consider the two layers to be independent conditionally on the latent block variables.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">MultiplexFitIndep</span> <span class="op">=</span> <span class="fu"><a href="../reference/estimateMultiplexSBM.html">estimateMultiplexSBM</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">netA</span>,<span class="va">netB</span><span class="op">)</span>,dependent <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">MultiplexFitIndep</span> <span class="op">=</span> <span class="fu"><a href="../reference/estimateMultiplexSBM.html">estimateMultiplexSBM</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">netA</span>,<span class="va">netB</span><span class="op">)</span>,dependent <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="co">#&gt; [1] "------------Nb of entities in each functional group--------------"</span>
 <span class="co">#&gt; country </span>
 <span class="co">#&gt;      83 </span>
@@ -161,7 +164,7 @@
 <p>We can retrieve the clustering</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">clust_country_indep</span> <span class="op">=</span> <span class="va">MultiplexFitIndep</span><span class="op">$</span><span class="va">memberships</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
-<span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="va">clust_country_indep</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span><span class="op">(</span><span class="va">clust_country_indep</span><span class="op">)</span>
 <span class="co">#&gt;       United States of America                         Canada </span>
 <span class="co">#&gt;                              1                              1 </span>
 <span class="co">#&gt;                         Belize                    El Salvador </span>
@@ -248,22 +251,32 @@
 <span class="co">#&gt;                              5</span></code></pre></div>
 <p>And we can plot the reorganized adjacency matrices or the corresponding expectations:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">MultiplexFitIndep</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">MultiplexFitIndep</span><span class="op">)</span>
+<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
+<span class="co">#&gt; caller; using TRUE</span>
+
+<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
+<span class="co">#&gt; caller; using TRUE</span></code></pre></div>
 <p><img src="Multiplex_allianceNwar_case_study_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">MultiplexFitIndep</span>,type<span class="op">=</span><span class="st">"expected"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">MultiplexFitIndep</span>,type<span class="op">=</span><span class="st">"expected"</span><span class="op">)</span>
+<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
+<span class="co">#&gt; caller; using TRUE</span>
+
+<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
+<span class="co">#&gt; caller; using TRUE</span></code></pre></div>
 <p><img src="Multiplex_allianceNwar_case_study_files/figure-html/unnamed-chunk-5-2.png" width="700"></p>
 </div>
 <div id="fitting-a-multiplex-sbm-model-where-the-two-layers-are-assumed-to-be-dependent" class="section level1">
 <h1 class="hasAnchor">
-<a href="#fitting-a-multiplex-sbm-model-where-the-two-layers-are-assumed-to-be-dependent" class="anchor" aria-hidden="true"></a>Fitting a multiplex SBM model where the two layers are assumed to be dependent</h1>
+<a href="#fitting-a-multiplex-sbm-model-where-the-two-layers-are-assumed-to-be-dependent" class="anchor"></a>Fitting a multiplex SBM model where the two layers are assumed to be dependent</h1>
 <p>Now we assume that the two layers are dependent conditionally to the latent block variables. We then set <code>dependent=TRUE</code></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">MultiplexFitdep</span> <span class="op">=</span> <span class="fu"><a href="../reference/estimateMultiplexSBM.html">estimateMultiplexSBM</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">netA</span>,<span class="va">netB</span><span class="op">)</span>,dependent <span class="op">=</span> <span class="cn">TRUE</span>,estimOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>verbosity<span class="op">=</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">MultiplexFitdep</span> <span class="op">=</span> <span class="fu"><a href="../reference/estimateMultiplexSBM.html">estimateMultiplexSBM</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">netA</span>,<span class="va">netB</span><span class="op">)</span>,dependent <span class="op">=</span> <span class="cn">TRUE</span>,estimOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>verbosity<span class="op">=</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>We can retrieve the clustering and compare it to the one obtained in the independent case.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">clust_country_dep</span> <span class="op">=</span> <span class="va">MultiplexFitdep</span><span class="op">$</span><span class="va">memberships</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
-<span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="va">clust_country_indep</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span><span class="op">(</span><span class="va">clust_country_indep</span><span class="op">)</span>
 <span class="co">#&gt;       United States of America                         Canada </span>
 <span class="co">#&gt;                              1                              1 </span>
 <span class="co">#&gt;                         Belize                    El Salvador </span>
@@ -348,7 +361,7 @@
 <span class="co">#&gt;                              5                              5 </span>
 <span class="co">#&gt;                  Guinea-Bissau </span>
 <span class="co">#&gt;                              5</span>
-<span class="fu">aricode</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/aricode/man/ARI.html" class="external-link">ARI</a></span><span class="op">(</span><span class="va">clust_country_indep</span>,<span class="va">clust_country_dep</span><span class="op">)</span> 
+<span class="fu">aricode</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/aricode/man/ARI.html">ARI</a></span><span class="op">(</span><span class="va">clust_country_indep</span>,<span class="va">clust_country_dep</span><span class="op">)</span> 
 <span class="co">#&gt; [1] 0.8886699</span></code></pre></div>
 <p>On top of the clustering comparison, we can compare the ICL criteria to see which of the dependent or independent models is a best fit:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
@@ -358,12 +371,21 @@
 <span class="co">#&gt; [1] -1434.602</span></code></pre></div>
 <p>We can do the same plots for the reorganized matrices and the corresponding expectations. Note that the expectations correspond to the marginal expectation of each layer and it may be relevant to have a look to the conditional expectations.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">MultiplexFitdep</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">MultiplexFitdep</span><span class="op">)</span>
+<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
+<span class="co">#&gt; caller; using TRUE</span>
+
+<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
+<span class="co">#&gt; caller; using TRUE</span></code></pre></div>
 <p><img src="Multiplex_allianceNwar_case_study_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">MultiplexFitdep</span>,type<span class="op">=</span><span class="st">"expected"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">MultiplexFitdep</span>,type<span class="op">=</span><span class="st">"expected"</span><span class="op">)</span>
 <span class="co">#&gt; Warning in self$predict(): provided expectations are the marginal expectations</span>
-<span class="co">#&gt; in the dependent case</span></code></pre></div>
+<span class="co">#&gt; in the dependent case</span>
+
+<span class="co">#&gt; Warning in self$predict(): 'as.is' should be specified by the caller; using TRUE</span>
+
+<span class="co">#&gt; Warning in self$predict(): 'as.is' should be specified by the caller; using TRUE</span></code></pre></div>
 <p><img src="Multiplex_allianceNwar_case_study_files/figure-html/unnamed-chunk-9-2.png" width="700"></p>
 <p>For instance, we may want to compare the marginal distribution for two countries in their given blocks to have being at war while they are allied at some point (before or after):</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
@@ -371,14 +393,14 @@
 <span class="va">p01</span> <span class="op">=</span> <span class="va">MultiplexFitdep</span><span class="op">$</span><span class="va">connectParam</span><span class="op">$</span><span class="va">prob01</span>
 <span class="va">p10</span> <span class="op">=</span> <span class="va">MultiplexFitdep</span><span class="op">$</span><span class="va">connectParam</span><span class="op">$</span><span class="va">prob10</span>
 <span class="co"># conditional probabilities of being at war while having been or will be allied</span>
-<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">p11</span><span class="op">/</span><span class="op">(</span><span class="va">p11</span><span class="op">+</span><span class="va">p10</span><span class="op">)</span>,<span class="fl">2</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">p11</span><span class="op">/</span><span class="op">(</span><span class="va">p11</span><span class="op">+</span><span class="va">p10</span><span class="op">)</span>,<span class="fl">2</span><span class="op">)</span>
 <span class="co">#&gt;      [,1] [,2] [,3] [,4]</span>
 <span class="co">#&gt; [1,] 0.09 0.10 0.03 0.43</span>
 <span class="co">#&gt; [2,] 0.10 0.11 0.09 0.14</span>
 <span class="co">#&gt; [3,] 0.03 0.09 0.05 0.03</span>
 <span class="co">#&gt; [4,] 0.43 0.14 0.03 0.01</span>
 <span class="co"># marginal probabilities of being at war</span>
-<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">p11</span><span class="op">+</span><span class="va">p01</span>,<span class="fl">2</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">p11</span><span class="op">+</span><span class="va">p01</span>,<span class="fl">2</span><span class="op">)</span>
 <span class="co">#&gt;      [,1] [,2] [,3] [,4]</span>
 <span class="co">#&gt; [1,] 0.07 0.04 0.03 0.14</span>
 <span class="co">#&gt; [2,] 0.04 0.10 0.04 0.13</span>
@@ -386,7 +408,7 @@
 <span class="co">#&gt; [4,] 0.14 0.13 0.03 0.02</span></code></pre></div>
 <div id="references" class="section level2 unnumbered">
 <h2 class="hasAnchor">
-<a href="#references" class="anchor" aria-hidden="true"></a>References</h2>
+<a href="#references" class="anchor"></a>References</h2>
 <div id="refs" class="references">
 <div id="ref-gibler2008international">
 <p>Gibler, Douglas M. 2008. <em>International Military Alliances, 1648-2008</em>. CQ Press.</p>
@@ -410,13 +432,11 @@
 
 
       <footer><div class="copyright">
-  <p></p>
-<p>Developed by Julien Chiquet, Sophie Donnet, Pierre Barbillon.</p>
+  <p>Developed by Julien Chiquet, Sophie Donnet, Pierre Barbillon.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9001.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
@@ -424,8 +444,6 @@
 
   
 
-
-  
 
   </body>
 </html>
