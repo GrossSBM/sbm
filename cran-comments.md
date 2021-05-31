@@ -29,4 +29,4 @@ R CMD check succeeded
 
 ## R CMD check results (CRAN setup)
 
-Some note due to presence of large components
+For a couple of platforms, a note due to the presence of large components (armadillo library)
