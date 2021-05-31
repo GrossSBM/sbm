@@ -17,7 +17,7 @@ estimateBipartiteSBM(
 
 \item{model}{character describing the model for the relation between nodes (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'}, ...). Default is \code{'bernoulli'}.}
 
-\item{dimLabels}{an optional list of labels for each dimension (in row, in column)}
+\item{dimLabels}{an optional vector of labels for each dimension (in row, in column)}
 
 \item{covariates}{a list of matrices with same dimension as mat describing covariates at the edge level. No covariate per Default.}
 

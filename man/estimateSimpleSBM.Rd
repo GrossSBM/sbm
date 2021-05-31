@@ -20,7 +20,7 @@ estimateSimpleSBM(
 
 \item{directed}{logical: is the network directed or not? Only relevant when \code{type} is \code{'Simple'}. Default is \code{TRUE} if \code{netMat} is symmetric, \code{FALSE} otherwise}
 
-\item{dimLabels}{an optional list of labels for each dimension (in row, in column)}
+\item{dimLabels}{an optional label for referring to the nodes}
 
 \item{covariates}{a list of matrices with same dimension as mat describing covariates at the edge level. No covariate per Default.}
 

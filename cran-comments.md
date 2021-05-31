@@ -1,25 +1,22 @@
 
-## Changes since last CRAN release (major)
+## Version 0.4.2
 
-* support for multipartite SBM
-* support for multiplex SBM
-* improvement of the plot methods
-* simplification/restructuration of classes
-* various bug fixes (prediction of Bipartite and Simple SBM, selectModels for Bipartite SBM, estimOptions not taken into account,  display of field covarArray in the absence of covariate)
+As requested by CRAN maintainer, this is a minor release correcting a warning on flavor "Debian-clang-deval" due to an encoding error.
 
 ## Tested environments
 
-* Windows Server 2008 R2 SP1, R-release, 32/64 bit (R-hub builder)
+* Debian Linux, R-devel, clang (R-hub builder)
 * Ubuntu 20.04, R-release GCC (R-hub builder)
 * Fedora Linux, R-devel, clang, gfortran (R-hub builder)
 * Oracle Solaris 10, x86, 32 bit, R-release  (R-hub builder)
 * macOS 10.13.6 High Sierra, R-release, CRAN's setup (R-hub builder)
+* local R installation, R 4.1.0, Ubuntu 20.04
+* win-builder (R Under development)
+* win-builder (R 4.0.5)
+* Windows Server 2008 R2 SP1, R-release, 32/64 bit (R-hub builder)
 * Windows latest (github-action)
 * macOS Catalina 10.15, R-release (github action)
 * Linux Ubuntu 16.04, R-release (github-action)
-* local R installation, R 4.0.5, Ubuntu 20.04
-* win-builder (R devel)
-* win-builder (R release)
 
 ## R CMD check results (local)
 
@@ -32,14 +29,4 @@ R CMD check succeeded
 
 ## R CMD check results (CRAN setup)
 
-Some note due to possibly mis-spelled words in DESCRIPTION (which are false positive)
-  al (18:52, 18:101)
-  Barbillon (18:39)
-  et (18:49, 18:98)
-  Multipartite (16:45)
-  
-On R-devel Windows
-Examples with CPU (user + system) or elapsed time > 10s
-                        user system elapsed
-estimateMultipartiteSBM 2.14   0.14   32.23
-estimateMultiplexSBM    1.55   0.03   13.04
+Some note due to presence of large components

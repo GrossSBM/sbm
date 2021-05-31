@@ -1,6 +1,6 @@
-# sbm dev
+# sbm 0.4.2
 
-waiting for new features!
+* minor changes (encoding)
 
 # sbm 0.4.1
 
