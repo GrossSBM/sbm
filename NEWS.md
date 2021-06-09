@@ -1,4 +1,4 @@
-# sbm 0.4.3
+# sbm 0.4.3 [2021-06-09]
 
 * minor changes
    - comply with new faceting scale checks in ggplot2
@@ -9,7 +9,7 @@
 
 * minor changes (encoding)
 
-# sbm 0.4.1
+# sbm 0.4.1 []
 
 * advanced plotting functions for multilayer/multiplex SBM
 * enhanced support for multiplex SBM
