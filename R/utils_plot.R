@@ -97,7 +97,10 @@ plotMatrix = function(Mat, dimLabels, clustering = NULL, plotOptions = list()){
 
   g <- g +  labs(x = '', y = '') +  theme(aspect.ratio = n1/n2, axis.ticks = element_blank(), panel.background = element_rect(fill = "white"))
   if (!is.null(dimLabels[1]) & !is.null(dimLabels[2])){
-    g <- g+ facet_grid(FG_row ~ FG_col,scales = 'free', space = 'free')}
+    #g <- g+ facet_grid(FG_row ~ FG_col,scales = 'free', space = 'free')
+    g <- g+ facet_grid(FG_row ~ FG_col)
+
+    }
   if (!currentOptions$legend){g <- g +theme(legend.position = 'none')}else{
     g <- g +theme(legend.position = currentOptions$legend.position)
     if(!currentOptions$legend.title){g <- g+ theme(legend.title = element_blank())}}
@@ -305,7 +308,7 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG,namesLayers, dist
   ############# PLOT
 
   g <- ggplot2::ggplot(melted_Mat, aes(y = .data$names_row, x = .data$names_col, fill = .data$link))
-  g <- g +  geom_raster()
+  g <- g +  geom_tile()
   g <- g +  theme(axis.ticks = element_blank(),panel.background = element_rect(fill = "white"))
   g <- g +  labs(x = '', y = '')
   g <- g +  scale_x_discrete(drop = TRUE) + scale_y_discrete(drop = TRUE)
@@ -341,8 +344,10 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG,namesLayers, dist
   }
 
 
-  g <- g + facet_grid(FG_row~ FG_col, scales = 'free', space = 'free')
+  g <- g + facet_grid(FG_row~ FG_col, scales = 'free')#coord_equal()
+  #g <- g + facet_grid(FG_row~ FG_col, scales = 'free', space = 'free')
 
+  #g <- g + facet_grid(FG_row~ FG_col)
 
 
 
@@ -372,9 +377,6 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG,namesLayers, dist
       separCol$nameSepCol[i] <- melted_Mat$names_col[melted_Mat$index_row==1][separCol$sepCol[i]]}
     }
 
-
-
-
     separRow <- data.frame(sepRow = 0.5 + rep(nbNodes*GRow,nbBlocks - 1) -(separate),
                            FG_row = rep(namesFG,nbBlocks-1),
                            FG_row_index = rep(1:nbFG,nbBlocks-1))
@@ -390,6 +392,7 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG,namesLayers, dist
   }
 
   if (!is.null(currentOptions$title)){g <- g + ggtitle(currentOptions$title) }
+
   g
 }
 
