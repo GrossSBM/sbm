@@ -167,12 +167,7 @@ The dataset –compiled and conducted by <span class="citation">Dáttilo et al. 
 <span class="co">#&gt; NULL</span></code></pre></div>
 <p>A plot of the data can be obtained with following command</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/plotMyMultipartiteMatrix.html">plotMyMultipartiteMatrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">PlantFlovis</span>,<span class="va">PlantAnt</span>,<span class="va">PlantBird</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
-<span class="co">#&gt; caller; using TRUE</span>
-
-<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
-<span class="co">#&gt; caller; using TRUE</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="../reference/plotMyMultipartiteMatrix.html">plotMyMultipartiteMatrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">PlantFlovis</span>,<span class="va">PlantAnt</span>,<span class="va">PlantBird</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="Multipartite_EcologicalNetwork_files/figure-html/plot%20data-1.png" width="700"></p>
 </div>
 <div id="mathematical-background" class="section level3">
@@ -187,7 +182,7 @@ The dataset –compiled and conducted by <span class="citation">Dáttilo et al. 
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimOptions</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>initBM <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="va">listSBM</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">PlantFlovis</span>, <span class="va">PlantAnt</span>, <span class="va">PlantBird</span><span class="op">)</span>
-<span class="va">myMSBM</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/estimateMultipartiteSBM.html">estimateMultipartiteSBM</a></span><span class="op">(</span><span class="va">listSBM</span>,<span class="va">estimOptions</span><span class="op">)</span></code></pre></div>
+<span class="va">myMSBM</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/estimateMultipartiteSBM.html">estimateMultipartiteSBM</a></span><span class="op">(</span><span class="va">listSBM</span>, <span class="va">estimOptions</span><span class="op">)</span></code></pre></div>
 <p> contains the estimated parameters of the models we run through during the search of the better numbers of blocks.</p>
 <p>RES_MBM contains the dataset and the results.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
@@ -297,12 +292,7 @@ The dataset –compiled and conducted by <span class="citation">Dáttilo et al. 
 <a href="#plots" class="anchor"></a>Plots</h2>
 <p>We can either plot the reorganized matrix</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">myMSBM</span><span class="op">)</span> 
-<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
-<span class="co">#&gt; caller; using TRUE</span>
-
-<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
-<span class="co">#&gt; caller; using TRUE</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">myMSBM</span><span class="op">)</span> </code></pre></div>
 <p><img src="Multipartite_EcologicalNetwork_files/figure-html/plot-1.png" width="700"></p>
 <p>or the mesoscopic view</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">

@@ -134,12 +134,7 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">netA</span> <span class="op">=</span> <span class="fu"><a href="../reference/defineSBM.html">defineSBM</a></span><span class="op">(</span><span class="va">A</span>,model<span class="op">=</span><span class="st">"bernoulli"</span>,dimLabels <span class="op">=</span> <span class="st">"country"</span><span class="op">)</span> 
 <span class="va">netB</span> <span class="op">=</span> <span class="fu"><a href="../reference/defineSBM.html">defineSBM</a></span><span class="op">(</span><span class="va">B</span>,model<span class="op">=</span><span class="st">"bernoulli"</span>,dimLabels <span class="op">=</span> <span class="st">"country"</span><span class="op">)</span>
-<span class="fu"><a href="../reference/plotMyMultiplexMatrix.html">plotMyMultiplexMatrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">netA</span>,<span class="va">netB</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
-<span class="co">#&gt; caller; using TRUE</span>
-
-<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
-<span class="co">#&gt; caller; using TRUE</span></code></pre></div>
+<span class="fu"><a href="../reference/plotMyMultiplexMatrix.html">plotMyMultiplexMatrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">netA</span>,<span class="va">netB</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="Multiplex_allianceNwar_case_study_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
 </div>
 <div id="fitting-a-multiplex-sbm-model-where-the-two-layers-are-assumed-to-be-independent" class="section level1">
@@ -147,20 +142,7 @@
 <a href="#fitting-a-multiplex-sbm-model-where-the-two-layers-are-assumed-to-be-independent" class="anchor"></a>Fitting a multiplex SBM model where the two layers are assumed to be independent</h1>
 <p>We run the estimation of this multiplex model. By setting <code>dependent=FALSE</code>, we declare that we consider the two layers to be independent conditionally on the latent block variables.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">MultiplexFitIndep</span> <span class="op">=</span> <span class="fu"><a href="../reference/estimateMultiplexSBM.html">estimateMultiplexSBM</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">netA</span>,<span class="va">netB</span><span class="op">)</span>,dependent <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="co">#&gt; [1] "------------Nb of entities in each functional group--------------"</span>
-<span class="co">#&gt; country </span>
-<span class="co">#&gt;      83 </span>
-<span class="co">#&gt; [1] "------------Probability distributions on each network--------------"</span>
-<span class="co">#&gt; [1] "bernoulli" "bernoulli"</span>
-<span class="co">#&gt; [1] "-------------------------------------------------------------------"</span>
-<span class="co">#&gt; [1] " ------ Searching the numbers of blocks starting from [ 1 ] blocks"</span>
-<span class="co">#&gt; [1] "ICL : -2708.58 . Nb of blocks: [ 1 ]"</span>
-<span class="co">#&gt; [1] "ICL : -1728.54 . Nb of blocks: [ 2 ]"</span>
-<span class="co">#&gt; [1] "ICL : -1562.54 . Nb of blocks: [ 3 ]"</span>
-<span class="co">#&gt; [1] "ICL : -1460.03 . Nb of blocks: [ 4 ]"</span>
-<span class="co">#&gt; [1] "ICL : -1434.6 . Nb of blocks: [ 5 ]"</span>
-<span class="co">#&gt; [1] "Best model------ ICL : -1434.6 . Nb of clusters: [ 5 ] for [ country ] respectively"</span></code></pre></div>
+<code class="sourceCode R"><span class="va">MultiplexFitIndep</span> <span class="op">=</span> <span class="fu"><a href="../reference/estimateMultiplexSBM.html">estimateMultiplexSBM</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">netA</span>,<span class="va">netB</span><span class="op">)</span>, dependent <span class="op">=</span> <span class="cn">FALSE</span>, estimOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>verbosity<span class="op">=</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>We can retrieve the clustering</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">clust_country_indep</span> <span class="op">=</span> <span class="va">MultiplexFitIndep</span><span class="op">$</span><span class="va">memberships</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
@@ -251,21 +233,11 @@
 <span class="co">#&gt;                              5</span></code></pre></div>
 <p>And we can plot the reorganized adjacency matrices or the corresponding expectations:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">MultiplexFitIndep</span><span class="op">)</span>
-<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
-<span class="co">#&gt; caller; using TRUE</span>
-
-<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
-<span class="co">#&gt; caller; using TRUE</span></code></pre></div>
-<p><img src="Multiplex_allianceNwar_case_study_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">MultiplexFitIndep</span><span class="op">)</span></code></pre></div>
+<p><img src="Multiplex_allianceNwar_case_study_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">MultiplexFitIndep</span>,type<span class="op">=</span><span class="st">"expected"</span><span class="op">)</span>
-<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
-<span class="co">#&gt; caller; using TRUE</span>
-
-<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
-<span class="co">#&gt; caller; using TRUE</span></code></pre></div>
-<p><img src="Multiplex_allianceNwar_case_study_files/figure-html/unnamed-chunk-5-2.png" width="700"></p>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">MultiplexFitIndep</span>,type<span class="op">=</span><span class="st">"expected"</span><span class="op">)</span></code></pre></div>
+<p><img src="Multiplex_allianceNwar_case_study_files/figure-html/unnamed-chunk-6-2.png" width="700"></p>
 </div>
 <div id="fitting-a-multiplex-sbm-model-where-the-two-layers-are-assumed-to-be-dependent" class="section level1">
 <h1 class="hasAnchor">
@@ -371,22 +343,13 @@
 <span class="co">#&gt; [1] -1434.602</span></code></pre></div>
 <p>We can do the same plots for the reorganized matrices and the corresponding expectations. Note that the expectations correspond to the marginal expectation of each layer and it may be relevant to have a look to the conditional expectations.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">MultiplexFitdep</span><span class="op">)</span>
-<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
-<span class="co">#&gt; caller; using TRUE</span>
-
-<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
-<span class="co">#&gt; caller; using TRUE</span></code></pre></div>
-<p><img src="Multiplex_allianceNwar_case_study_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">MultiplexFitdep</span><span class="op">)</span></code></pre></div>
+<p><img src="Multiplex_allianceNwar_case_study_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">MultiplexFitdep</span>,type<span class="op">=</span><span class="st">"expected"</span><span class="op">)</span>
 <span class="co">#&gt; Warning in self$predict(): provided expectations are the marginal expectations</span>
-<span class="co">#&gt; in the dependent case</span>
-
-<span class="co">#&gt; Warning in self$predict(): 'as.is' should be specified by the caller; using TRUE</span>
-
-<span class="co">#&gt; Warning in self$predict(): 'as.is' should be specified by the caller; using TRUE</span></code></pre></div>
-<p><img src="Multiplex_allianceNwar_case_study_files/figure-html/unnamed-chunk-9-2.png" width="700"></p>
+<span class="co">#&gt; in the dependent case</span></code></pre></div>
+<p><img src="Multiplex_allianceNwar_case_study_files/figure-html/unnamed-chunk-10-2.png" width="700"></p>
 <p>For instance, we may want to compare the marginal distribution for two countries in their given blocks to have being at war while they are allied at some point (before or after):</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p11</span> <span class="op">=</span> <span class="va">MultiplexFitdep</span><span class="op">$</span><span class="va">connectParam</span><span class="op">$</span><span class="va">prob11</span>

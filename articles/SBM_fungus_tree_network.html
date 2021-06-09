@@ -166,12 +166,7 @@
 <code class="sourceCode R"><span class="va">tree_tree_binary</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">*</span> <span class="op">(</span><span class="va">fungusTreeNetwork</span><span class="op">$</span><span class="va">tree_tree</span> <span class="op">!=</span> <span class="fl">0</span><span class="op">)</span></code></pre></div>
 <p>The simple function <code>plotMyMatrix</code> can be use to represent simple or bipartite SBM:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/plotMyMatrix.html">plotMyMatrix</a></span><span class="op">(</span><span class="va">tree_tree_binary</span>, dimLabels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>row <span class="op">=</span> <span class="st">'tree'</span>, col <span class="op">=</span> <span class="st">'tree'</span><span class="op">)</span> <span class="op">)</span>
-<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
-<span class="co">#&gt; caller; using TRUE</span>
-
-<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
-<span class="co">#&gt; caller; using TRUE</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="../reference/plotMyMatrix.html">plotMyMatrix</a></span><span class="op">(</span><span class="va">tree_tree_binary</span>, dimLabels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>row <span class="op">=</span> <span class="st">'tree'</span>, col <span class="op">=</span> <span class="st">'tree'</span><span class="op">)</span> <span class="op">)</span></code></pre></div>
 <p><img src="SBM_fungus_tree_network_files/figure-html/tree_tree_binary%20network%20plot%20data-1.png" width="700"></p>
 <p>We look for some latent structure of the network by adjusting a simple SBM with the function <code>estimateSimpleSBM</code>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -207,21 +202,11 @@
 <span class="co">#&gt; [1] 0</span></code></pre></div>
 <p>The plot method is available as a S3 or R6 method. The default represents the network data reordered according to the memberships estimated in the SBM</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">mySimpleSBM</span>, type <span class="op">=</span> <span class="st">"data"</span>, dimLabels  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>row <span class="op">=</span> <span class="st">'tree'</span>, col<span class="op">=</span> <span class="st">'tree'</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
-<span class="co">#&gt; caller; using TRUE</span>
-
-<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
-<span class="co">#&gt; caller; using TRUE</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">mySimpleSBM</span>, type <span class="op">=</span> <span class="st">"data"</span>, dimLabels  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>row <span class="op">=</span> <span class="st">'tree'</span>, col<span class="op">=</span> <span class="st">'tree'</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBMfit%20plot1-1.png" width="700"></p>
 <p>One can also plot the expected network which, in case of the Bernoulli model, corresponds to the probability of connection between any pair of nodes in the network.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">mySimpleSBM</span>, type <span class="op">=</span> <span class="st">"expected"</span><span class="op">)</span>
-<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
-<span class="co">#&gt; caller; using TRUE</span>
-
-<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
-<span class="co">#&gt; caller; using TRUE</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">mySimpleSBM</span>, type <span class="op">=</span> <span class="st">"expected"</span><span class="op">)</span></code></pre></div>
 <p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBMfit%20plot2-1.png" width="700"></p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">mySimpleSBM</span>, type <span class="op">=</span> <span class="st">"meso"</span><span class="op">)</span></code></pre></div>
@@ -319,12 +304,7 @@
 <code class="sourceCode R"><span class="va">mySimpleSBM</span><span class="op">$</span><span class="fu">setModel</span><span class="op">(</span><span class="fl">4</span><span class="op">)</span>
 <span class="va">mySimpleSBM</span><span class="op">$</span><span class="va">nbBlocks</span>
 <span class="co">#&gt; [1] 4</span>
-<span class="va">mySimpleSBM</span><span class="op">$</span><span class="fu">plot</span><span class="op">(</span>type <span class="op">=</span> <span class="st">'expected'</span><span class="op">)</span>
-<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
-<span class="co">#&gt; caller; using TRUE</span>
-
-<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
-<span class="co">#&gt; caller; using TRUE</span></code></pre></div>
+<span class="va">mySimpleSBM</span><span class="op">$</span><span class="fu">plot</span><span class="op">(</span>type <span class="op">=</span> <span class="st">'expected'</span><span class="op">)</span></code></pre></div>
 <p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBMfit%20changeModel-1.png" width="700"></p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mySimpleSBM</span><span class="op">$</span><span class="fu">setModel</span><span class="op">(</span><span class="fl">5</span><span class="op">)</span></code></pre></div>
@@ -337,12 +317,7 @@
 <p>We plot the matrix with function <code>plotMyMatrix</code>:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">tree_tree</span> <span class="op">&lt;-</span> <span class="va">fungusTreeNetwork</span><span class="op">$</span><span class="va">tree_tree</span>
-<span class="fu"><a href="../reference/plotMyMatrix.html">plotMyMatrix</a></span><span class="op">(</span><span class="va">tree_tree</span>, dimLabels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>row <span class="op">=</span> <span class="st">'tree'</span>, col <span class="op">=</span> <span class="st">'tree'</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
-<span class="co">#&gt; caller; using TRUE</span>
-
-<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
-<span class="co">#&gt; caller; using TRUE</span></code></pre></div>
+<span class="fu"><a href="../reference/plotMyMatrix.html">plotMyMatrix</a></span><span class="op">(</span><span class="va">tree_tree</span>, dimLabels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>row <span class="op">=</span> <span class="st">'tree'</span>, col <span class="op">=</span> <span class="st">'tree'</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="SBM_fungus_tree_network_files/figure-html/tree_tree%20network%20plot%20data-1.png" width="700"></p>
 <p>Here again, we look for some latent structure of the network by adjusting a simple SBM with the function <code>estimateSimpleSBM</code>, considering a Poisson distribution on the edges.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
@@ -378,21 +353,11 @@
 <span class="co">#&gt; [1] 0</span></code></pre></div>
 <p>We now plot the matrix reordered according to the memberships estimated in the SBM</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">mySimpleSBMPoisson</span>, type <span class="op">=</span> <span class="st">"data"</span>, dimLabels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>row <span class="op">=</span> <span class="st">'tree'</span>, col<span class="op">=</span> <span class="st">'tree'</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
-<span class="co">#&gt; caller; using TRUE</span>
-
-<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
-<span class="co">#&gt; caller; using TRUE</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">mySimpleSBMPoisson</span>, type <span class="op">=</span> <span class="st">"data"</span>, dimLabels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>row <span class="op">=</span> <span class="st">'tree'</span>, col<span class="op">=</span> <span class="st">'tree'</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBMfitPoisson%20plot1-1.png" width="700"></p>
 <p>One can also plot the expected network which, in case of the Poisson model, corresponds to the expectation of connection between any pair of nodes in the network.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">mySimpleSBMPoisson</span>, type <span class="op">=</span> <span class="st">"expected"</span>, dimLabels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>row <span class="op">=</span> <span class="st">'tree'</span>, col<span class="op">=</span> <span class="st">'tree'</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
-<span class="co">#&gt; caller; using TRUE</span>
-
-<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
-<span class="co">#&gt; caller; using TRUE</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">mySimpleSBMPoisson</span>, type <span class="op">=</span> <span class="st">"expected"</span>, dimLabels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>row <span class="op">=</span> <span class="st">'tree'</span>, col<span class="op">=</span> <span class="st">'tree'</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBMfitPoisson%20plot2-1.png" width="700"></p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">mySimpleSBMPoisson</span>, type <span class="op">=</span> <span class="st">"meso"</span><span class="op">)</span></code></pre></div>
@@ -470,12 +435,7 @@
 <a href="#analysis-of-the-treefungi-data" class="anchor"></a>Analysis of the tree/fungi data</h2>
 <p>We now analyze the bipartite tree/fungi interactions. The incidence matrix can be plotted with the function </p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/plotMyMatrix.html">plotMyMatrix</a></span><span class="op">(</span><span class="va">fungusTreeNetwork</span><span class="op">$</span><span class="va">fungus_tree</span>, dimLabels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>row <span class="op">=</span> <span class="st">'fungis'</span>, col<span class="op">=</span> <span class="st">'tree'</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
-<span class="co">#&gt; caller; using TRUE</span>
-
-<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
-<span class="co">#&gt; caller; using TRUE</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="../reference/plotMyMatrix.html">plotMyMatrix</a></span><span class="op">(</span><span class="va">fungusTreeNetwork</span><span class="op">$</span><span class="va">fungus_tree</span>, dimLabels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>row <span class="op">=</span> <span class="st">'fungis'</span>, col<span class="op">=</span> <span class="st">'tree'</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="SBM_fungus_tree_network_files/figure-html/plot%20incidence-1.png" width="700"></p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">myBipartiteSBM</span> <span class="op">&lt;-</span> 
@@ -510,12 +470,7 @@
 <span class="co">#&gt; [4,] 0.01834547 0.154334411 0.001330278 0.019219920</span></code></pre></div>
 <p>We can now plot the reorganized matrix.</p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">myBipartiteSBM</span>, dimLabels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'fungis'</span>, <span class="st">'tree'</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
-<span class="co">#&gt; caller; using TRUE</span>
-
-<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
-<span class="co">#&gt; caller; using TRUE</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">myBipartiteSBM</span>, dimLabels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'fungis'</span>, <span class="st">'tree'</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="SBM_fungus_tree_network_files/figure-html/plot%20bipartite-1.png" width="700"></p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">myBipartiteSBM</span>, type  <span class="op">=</span> <span class="st">'meso'</span>, 

@@ -206,12 +206,7 @@ See <span class="citation">Barbillon et al. (<a href="#ref-multiplexSBM" role="d
 <span class="co">#&gt; [1] "use of sampleMultipartite"</span>
 <span class="va">listSBM_PB</span> <span class="op">&lt;-</span> <span class="va">mySampleMultiplexSBM_PB</span><span class="op">$</span><span class="va">listSBM</span>
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">listSBM_PB</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Bernoulli"</span>,<span class="st">"Poisson"</span><span class="op">)</span>  
-<span class="fu"><a href="../reference/plotMyMultiplexMatrix.html">plotMyMultiplexMatrix</a></span><span class="op">(</span><span class="va">listSBM_PB</span><span class="op">)</span>
-<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
-<span class="co">#&gt; caller; using TRUE</span>
-
-<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
-<span class="co">#&gt; caller; using TRUE</span></code></pre></div>
+<span class="fu"><a href="../reference/plotMyMultiplexMatrix.html">plotMyMultiplexMatrix</a></span><span class="op">(</span><span class="va">listSBM_PB</span><span class="op">)</span></code></pre></div>
 <p><img src="MultiplexNetwork_principle_files/figure-html/Independant%20Poisson%20bernoulli-1.png" width="700"></p>
 <p>The resulting object is a list of SBM objects (of the SBM class). To build such an object from an observed matrix use the function <code>defineSBM</code>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -272,12 +267,7 @@ See <span class="citation">Barbillon et al. (<a href="#ref-multiplexSBM" role="d
      dimLabels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'row'</span>,<span class="st">'col'</span><span class="op">)</span>,
      seed <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
 <span class="va">listSBM_GG</span> <span class="op">&lt;-</span> <span class="va">mySampleMultiplexSBM_GG</span><span class="op">$</span><span class="va">listSBM</span>
-<span class="fu"><a href="../reference/plotMyMultiplexMatrix.html">plotMyMultiplexMatrix</a></span><span class="op">(</span><span class="va">listSBM_GG</span><span class="op">)</span>
-<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
-<span class="co">#&gt; caller; using TRUE</span>
-
-<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
-<span class="co">#&gt; caller; using TRUE</span></code></pre></div>
+<span class="fu"><a href="../reference/plotMyMultiplexMatrix.html">plotMyMultiplexMatrix</a></span><span class="op">(</span><span class="va">listSBM_GG</span><span class="op">)</span></code></pre></div>
 <p><img src="MultiplexNetwork_principle_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
 <ul>
 <li>2 Bernoulli dependent Layers and 2 clusters</li>
@@ -316,12 +306,7 @@ See <span class="citation">Barbillon et al. (<a href="#ref-multiplexSBM" role="d
      dependent<span class="op">=</span><span class="cn">TRUE</span>,
      seed <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
 <span class="va">listSBM_BB</span> <span class="op">&lt;-</span> <span class="va">mySampleMultiplexSBM</span><span class="op">$</span><span class="va">listSBM</span>
-<span class="fu"><a href="../reference/plotMyMultiplexMatrix.html">plotMyMultiplexMatrix</a></span><span class="op">(</span><span class="va">listSBM_BB</span><span class="op">)</span>
-<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
-<span class="co">#&gt; caller; using TRUE</span>
-
-<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
-<span class="co">#&gt; caller; using TRUE</span></code></pre></div>
+<span class="fu"><a href="../reference/plotMyMultiplexMatrix.html">plotMyMultiplexMatrix</a></span><span class="op">(</span><span class="va">listSBM_BB</span><span class="op">)</span></code></pre></div>
 <p><img src="MultiplexNetwork_principle_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 </div>
 <div id="inference-1" class="section level3">
@@ -339,20 +324,10 @@ See <span class="citation">Barbillon et al. (<a href="#ref-multiplexSBM" role="d
 #&gt; 2          2        2        1 -2362.585 -2355.207</code></pre>
 <p>One can now plot the reorganized matrices and the predicted values.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">res_PB</span><span class="op">)</span>
-<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
-<span class="co">#&gt; caller; using TRUE</span>
-
-<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
-<span class="co">#&gt; caller; using TRUE</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">res_PB</span><span class="op">)</span></code></pre></div>
 <p><img src="MultiplexNetwork_principle_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">res_PB</span>,type<span class="op">=</span><span class="st">'expected'</span><span class="op">)</span>
-<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
-<span class="co">#&gt; caller; using TRUE</span>
-
-<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
-<span class="co">#&gt; caller; using TRUE</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">res_PB</span>,type<span class="op">=</span><span class="st">'expected'</span><span class="op">)</span></code></pre></div>
 <p><img src="MultiplexNetwork_principle_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
 <p>One can also compare the estimated clusters to the simulated clusters. We recover the clusters perfectly.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
@@ -395,12 +370,7 @@ See <span class="citation">Barbillon et al. (<a href="#ref-multiplexSBM" role="d
 #&gt; 2          2        5         1         1        2 -9667.705 -9642.276
 #&gt; 1          0       NA         0         0        0        NA        NA</code></pre>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">res_GG</span><span class="op">)</span>
-<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
-<span class="co">#&gt; caller; using TRUE</span>
-
-<span class="co">#&gt; Warning in type.convert.default(X[[i]], ...): 'as.is' should be specified by the</span>
-<span class="co">#&gt; caller; using TRUE</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">res_GG</span><span class="op">)</span></code></pre></div>
 <p><img src="MultiplexNetwork_principle_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
 <ul>
 <li>2 Bernoulli dependent Layers</li>
