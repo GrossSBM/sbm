@@ -3,6 +3,7 @@ myRepeat <- function(v,Qrow,Qcol){c(rep(v[1],Qrow),rep(v[2],Qcol))}
 #' @importFrom rlang .data
 #' @importFrom utils head
 #' @importFrom prodlim row.match
+#' @importFrom reshape2 melt
 #----------------------------------------------------------------------------------
 plotMatrix = function(Mat, dimLabels, clustering = NULL, plotOptions = list()){
 
@@ -62,7 +63,7 @@ plotMatrix = function(Mat, dimLabels, clustering = NULL, plotOptions = list()){
   FGRow <- rep(dimLabels[1], times = n1)
   FGCol <- rep(dimLabels[2], times = n2)
 
-  melted_Mat = reshape::melt(t(Mat))
+  melted_Mat <- reshape2::melt(t(Mat))
 
   names(melted_Mat) <- c('names_col','names_row','link')
   if(is.numeric(melted_Mat$names_col)){melted_Mat$names_col <- as.character(melted_Mat$names_col)}
@@ -77,9 +78,6 @@ plotMatrix = function(Mat, dimLabels, clustering = NULL, plotOptions = list()){
   melted_Mat$FG_row <- as.factor(rep(FGRow, each = n2))
   melted_Mat$FG_col <- as.factor(rep(FGCol,  n1))
   if (binary) { melted_Mat$link <- as.factor(melted_Mat$link)}
-
-
-
 
   g <- ggplot(data = melted_Mat, aes(y = .data$names_row, x = .data$names_col, fill = .data$link))
   g <- g + geom_tile()
@@ -285,7 +283,7 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG,namesLayers, dist
   FGRow <- rep(namesFG, times = nbNodes*GRow)
 
   ############# meltedMat
-  melted_Mat = reshape::melt(t(MetaMat))
+  melted_Mat = reshape2::melt(t(MetaMat))
   names(melted_Mat) <- c('names_col','names_row','link')
   if (all(is.na(melted_Mat$names_col))){melted_Mat$names_col <- rep(1:n2,n1)}
   if (all(is.na(melted_Mat$names_row))){melted_Mat$names_row <- n1 - rep(1:n1,each = n2) + 1}

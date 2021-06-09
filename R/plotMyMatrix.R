@@ -34,6 +34,6 @@ plotMyMatrix = function(Mat, dimLabels = list(row = 'row', col = 'col'), cluster
   }
   if (is.null(names(dimLabels))){names(dimLabels) = c('row','col')}
 
-  g <- plotMatrix(Mat, dimLabels = dimLabels, clustering,plotOptions)
+  g <- plotMatrix(Mat, dimLabels = dimLabels, clustering, plotOptions)
   g
 }

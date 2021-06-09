@@ -45,7 +45,7 @@ Imports:
     GREMLINS,
     stringr,
     rlang,
-    reshape,
+    reshape2,
     prodlim
 Collate: 
     'R6Class-SBM.R'
