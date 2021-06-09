@@ -1,3 +1,7 @@
+# sbm 0.4.3
+
+* minor changes (comply with new faceting scale checks in ggplot2)
+
 # sbm 0.4.2
 
 * minor changes (encoding)
