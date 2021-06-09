@@ -1,7 +1,8 @@
 
 ## Version 0.4.3
 
-Minor release that solves a reverse dependency problem i the upcoming version of ggplot2 (v3.3.4)
+Minor release that solves a reverse dependency problem in the upcoming version of ggplot2 (v3.3.4)
+and avoid some testing for Windows and in the vignettes to save time during check
 
 ## Tested environments
 

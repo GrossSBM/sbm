@@ -1,6 +1,9 @@
 # sbm 0.4.3
 
-* minor changes (comply with new faceting scale checks in ggplot2)
+* minor changes
+   - comply with new faceting scale checks in ggplot2
+   - avoid testing on Windows when multi-core is not available
+   - save output of multiplex vignette to save time during CRAN check
 
 # sbm 0.4.2
 
