@@ -58,8 +58,13 @@ We run the estimation of this multiplex model. By setting `dependent=FALSE`,
 we declare that we consider the two layers to be independent conditionally
 on the latent block variables.
 
-```{r}
-MultiplexFitIndep = estimateMultiplexSBM(list(netA,netB),dependent = FALSE)
+
+```{r, echo = FALSE, results='hide'}
+MultiplexFitIndep <- readRDS("Multiplex_allianceNwar_case_study.rds")
+```
+
+```{r, eval = FALSE}
+MultiplexFitIndep = estimateMultiplexSBM(list(netA,netB), dependent = FALSE, estimOptions = list(verbosity=0))
 ```
 
 We can retrieve the clustering
@@ -76,7 +81,6 @@ plot(MultiplexFitIndep,type="expected")
 
 
 # Fitting a multiplex SBM model where the two layers are assumed to be dependent
-
 
 Now we assume that the two layers are dependent conditionally to the latent block variables.
 We then set `dependent=TRUE`
