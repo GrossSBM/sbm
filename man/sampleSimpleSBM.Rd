@@ -10,7 +10,7 @@ sampleSimpleSBM(
   connectParam,
   model = "bernoulli",
   directed = FALSE,
-  dimLabels = c(node = "nodeName"),
+  dimLabels = c("node"),
   covariates = list(),
   covariatesParam = numeric(0)
 )
@@ -84,7 +84,7 @@ means <- diag(15., 3) + 5 # connectivity matrix: affiliation network
 connectParam <- list(mean = means, var = 2)
 
 ## Graph Sampling
-mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam, model = "gaussian")
+mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam, model = "gaussian",dimLabels='Tree')
 plot(mySampler)
 plot(mySampler,type='meso')
 hist(mySampler$networkData)

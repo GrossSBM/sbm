@@ -1,11 +1,14 @@
+#----------------------------------------------------------------------------------
 myRepeat <- function(v,Qrow,Qcol){c(rep(v[1],Qrow),rep(v[2],Qcol))}
-
+#----------------------------------------------------------------------------------
 #' @importFrom rlang .data
 #' @importFrom utils head
 #' @importFrom prodlim row.match
 #' @importFrom reshape2 melt
 #----------------------------------------------------------------------------------
 plotMatrix = function(Mat, dimLabels, clustering = NULL, plotOptions = list()){
+
+
 
   ###############################################"
   currentOptions = list(line.color  = 'red',legend = FALSE,rowNames = FALSE, colNames = FALSE,title=NULL)
@@ -16,6 +19,11 @@ plotMatrix = function(Mat, dimLabels, clustering = NULL, plotOptions = list()){
 
   n1 <- dim(Mat)[1]
   n2 <- dim(Mat)[2]
+
+  if (length(dimLabels) == 1){dimLabels = rep(dimLabels,2); names(dimLabels)  =c('row','col')}
+  if (is.null(names(dimLabels))){names(dimLabels) = c('row','col')}
+
+
 
   if (is.null(rownames(Mat))){rownames(Mat) = as.factor(1:n1)}
   if (is.null(colnames(Mat))){colnames(Mat) = as.factor(1:n2)}
@@ -342,8 +350,8 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG,namesLayers, dist
   }
 
 
-  g <- g + facet_grid(FG_row~ FG_col, scales = 'free')#coord_equal()
-  #g <- g + facet_grid(FG_row~ FG_col, scales = 'free', space = 'free')
+  #g <- g + facet_grid(FG_row~ FG_col, scales = 'free')#coord_equal()
+  g <- g + facet_grid(FG_row~ FG_col, scales = 'free', space = 'free')
 
   #g <- g + facet_grid(FG_row~ FG_col)
 

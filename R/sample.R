@@ -59,7 +59,7 @@
 #' connectParam <- list(mean = means, var = 2)
 #'
 #' ## Graph Sampling
-#' mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam, model = "gaussian")
+#' mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam, model = "gaussian",dimLabels='Tree')
 #' plot(mySampler)
 #' plot(mySampler,type='meso')
 #' hist(mySampler$networkData)
@@ -69,7 +69,7 @@ sampleSimpleSBM <- function(nbNodes,
                             connectParam,
                             model = 'bernoulli',
                             directed = FALSE,
-                            dimLabels = c(node = "nodeName"),
+                            dimLabels = c("node"),
                             covariates = list(),
                             covariatesParam = numeric(0)) {
 
@@ -151,7 +151,7 @@ sampleBipartiteSBM <- function(nbNodes,
                             blockProp,
                             connectParam,
                             model = 'bernoulli',
-                            dimLabels    = c(row = "rowName", col = "colName"),
+                            dimLabels    = c(row = "row", col = "col"),
                             covariates = list(),
                             covariatesParam = numeric(0)) {
 

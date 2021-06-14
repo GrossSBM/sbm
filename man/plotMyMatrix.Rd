@@ -6,7 +6,7 @@
 \usage{
 plotMyMatrix(
   Mat,
-  dimLabels = list(row = "row", col = "col"),
+  dimLabels = c(row = "row", col = "col"),
   clustering = NULL,
   plotOptions = NULL
 )
@@ -14,7 +14,7 @@ plotMyMatrix(
 \arguments{
 \item{Mat}{: a matrix representing the network}
 
-\item{dimLabels}{: a list of length 2 specifying the types of nodes in row and col  (functional group) (Default is \code{NULL})}
+\item{dimLabels}{: a vector of length 1 or 2 specifying the types of nodes in row and col  (functional group) (Default is \code{NULL})}
 
 \item{clustering}{: a list of length 2 specifying a clustering on row and col}
 
@@ -41,8 +41,8 @@ The list of parameters \code{plotOptions} for the matrix plot is
 }
 \examples{
 M <- matrix(sample(c(0,1),900,replace=TRUE),30,30)
-plotMyMatrix(M, plotOptions= list(legend = FALSE))
+plotMyMatrix(M, dimLabels = c('individulals'), plotOptions= list(legend = FALSE))
 M2 <- matrix( rpois(800,10),40,20)
-plotMyMatrix(M2, dimLabels=list(row= 'reader',col = 'book'), plotOptions = list(legend = TRUE))
+plotMyMatrix(M2, dimLabels = c(row = 'reader',col = 'book'), plotOptions = list(legend = TRUE))
 
 }
