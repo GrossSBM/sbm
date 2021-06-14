@@ -15,7 +15,7 @@ SimpleSBM <-
       #' @param dimLabels optional label for the node (default is "nodeName")
       #' @param covarParam optional vector of covariates effect
       #' @param covarList optional list of covariates data
-      initialize = function(model, nbNodes, directed, blockProp, connectParam, dimLabels=c(node="nodeName"), covarParam=numeric(length(covarList)), covarList=list()) {
+      initialize = function(model, nbNodes, directed, blockProp, connectParam, dimLabels=c("node"), covarParam=numeric(length(covarList)), covarList=list()) {
 
         ## SANITY CHECKS (on parameters)
         stopifnot(length(dimLabels) == 1)
@@ -105,13 +105,16 @@ SimpleSBM <-
               nodeLabels = as.list(private$dimlab),
               plotOptions),
           "data" =
-            plotMatrix(self$networkData,
-                       private$dimlab,
-                       clustering, plotOptions),
+            plotMatrix(
+              Mat         = self$networkData,
+              dimLabels   = private$dimlab,
+              clustering  = clustering,
+              plotOptions = plotOptions),
           "expected" =
-            plotMatrix(self$expectation,
-                       private$dimlab,
-                       clustering, plotOptions)
+            plotMatrix(
+              Mat         = self$expectation,
+              dimLabels   = private$dimlab,
+              clustering  = clustering)
         )
       }
     ),

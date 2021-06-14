@@ -41,7 +41,7 @@ BipartiteSBM_fit <-
       #' @param model character (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'})
       #' @param dimLabels labels of each dimension (in row, in columns)
       #' @param covarList and optional list of covariates, each of whom must have the same dimension as \code{incidenceMatrix}
-      initialize = function(incidenceMatrix, model, dimLabels=c(row="rowName", col="colName"), covarList=list()) {
+      initialize = function(incidenceMatrix, model, dimLabels=c(row="row", col="col"), covarList=list()) {
 
         ## SANITY CHECKS on data
         stopifnot(is.matrix(incidenceMatrix))                            # must be a matrix
