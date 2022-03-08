@@ -74,6 +74,8 @@ SimpleSBM <-
         } else {
           res <- private$Z %*% mu %*% t(private$Z)
         }
+        rownames(res)<- rownames(private$Y)
+        colnames(res)<- colnames(private$Y)
         res
       },
       #' @description show method
@@ -114,7 +116,8 @@ SimpleSBM <-
             plotMatrix(
               Mat         = self$expectation,
               dimLabels   = private$dimlab,
-              clustering  = clustering)
+              clustering  = clustering,
+              plotOptions = plotOptions)
         )
       }
     ),

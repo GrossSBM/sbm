@@ -80,7 +80,10 @@ BipartiteSBM <-
         } else {
           res <- private$Z[[1]] %*% mu %*% t(private$Z[[2]])
         }
+        rownames(res)<- rownames(private$Y)
+        colnames(res)<- colnames(private$Y)
         res
+
       },
       #' @description show method
       #' @param type character used to specify the type of SBM
@@ -113,11 +116,13 @@ BipartiteSBM <-
           "data" =
             plotMatrix(self$networkData,
                        private$dimlab,
-                       clustering, plotOptions),
+                       clustering,
+                       plotOptions),
           "expected" =
             plotMatrix(self$expectation,
                        private$dimlab,
-                       clustering, plotOptions)
+                       clustering,
+                       plotOptions)
         )
       }
     ),
@@ -171,7 +176,7 @@ BipartiteSBM <-
       },
 ### field with access only
       #' @field nbBlocks vector of size 2: number of blocks (rows, columns)
-      nbBlocks    = function(value) {map_int(private$pi, length)},
+      nbBlocks = function(value) {if(!is.null(private$Z)) setNames(map_int(private$pi, length), private$dimlab)},
       #' @field nbDyads number of dyads (potential edges in the network)
       nbDyads     = function(value) {private$dim[1] * private$dim[2]},
       #' @field nbConnectParam number of parameter used for the connectivity
