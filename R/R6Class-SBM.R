@@ -87,8 +87,10 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       #' @param store should the sampled network be stored (and overwrite the existing data)? Default to FALSE
       #' @return a list with the sampled block and network
       rNetwork = function(store = FALSE) {
-        Z <- self$rMemberships(store = store)
+        Zsave <- private$Z
+        Z <- self$rMemberships(store = TRUE)
         E <- self$rEdges(store = store)
+        if (!store) private$Z <- Zsave
         list(indMemberships = Z, networkData = E)
       },
       #' @description print method
