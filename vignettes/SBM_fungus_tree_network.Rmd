@@ -74,7 +74,7 @@ tree_tree_binary <- 1 * (fungusTreeNetwork$tree_tree != 0)
 The simple function `plotMyMatrix` can be use to represent simple or bipartite SBM:
 
 ```{r tree_tree_binary network plot data}
-plotMyMatrix(tree_tree_binary, dimLabels = list(row = 'tree', col = 'tree') )
+plotMyMatrix(tree_tree_binary, dimLabels =c('tree'))
 ```
 
 We look for some latent structure of the network by adjusting a simple SBM with the function `estimateSimpleSBM`.
@@ -102,7 +102,7 @@ mySimpleSBM$nbCovariates
 
 The plot method is available as a S3 or R6 method. The default represents the network data reordered according to the memberships estimated in the SBM
 ```{r simpleSBMfit plot1}
-plot(mySimpleSBM, type = "data", dimLabels  = list(row = 'tree', col= 'tree'))
+plot(mySimpleSBM, type = "data", dimLabels  = c('tree'))
 ```
 
 One can also plot the expected network which, in case of the Bernoulli model, corresponds to the probability of connection between any pair of nodes in the network.
@@ -155,7 +155,7 @@ We plot the matrix with function `plotMyMatrix`:
 
 ```{r tree_tree network plot data}
 tree_tree <- fungusTreeNetwork$tree_tree
-plotMyMatrix(tree_tree, dimLabels = list(row = 'tree', col = 'tree'))
+plotMyMatrix(tree_tree, dimLabels = c('tree'))
 ```
 
 Here again, we look for some latent structure of the network by adjusting a simple SBM with the function `estimateSimpleSBM`, considering a Poisson distribution on the edges. 
@@ -183,14 +183,14 @@ mySimpleSBMPoisson$nbCovariates
 
 We now plot the matrix reordered according to the memberships estimated in the SBM
 ```{r simpleSBMfitPoisson plot1}
-plot(mySimpleSBMPoisson, type = "data", dimLabels = list(row = 'tree', col= 'tree'))
+plot(mySimpleSBMPoisson, type = "data", dimLabels =c('tree'))
 ```
  
 One can also plot the expected network which, in case of the Poisson model, corresponds to the expectation of connection between any pair of nodes in the network.
 
 
 ```{r simpleSBMfitPoisson plot2}
-plot(mySimpleSBMPoisson, type = "expected", dimLabels = list(row = 'tree', col= 'tree'))
+plot(mySimpleSBMPoisson, type = "expected", dimLabels = c('tree'))
 ```
 
 ```{r simpleSBMfitPoisson plotmeso}
@@ -239,15 +239,15 @@ mySimpleSBMCov$covarParam
 
 
 ```{r simpleSBMfitPoisson covar coef}
-coef(mySimpleSBMCov, 'covariates')
+#coef(mySimpleSBMCov, 'covariates')
 ```
 
 S3 methods are also available for fit and prediction (results hidden here)
 
 ```{r simpleSBMfitPoisson covar fitted, results='hide'}
-fitted(mySimpleSBMCov)
-predict(mySimpleSBMCov)
-predict(mySimpleSBMCov, fungusTreeNetwork$covar_tree)
+#fitted(mySimpleSBMCov)
+#predict(mySimpleSBMCov)
+#predict(mySimpleSBMCov, fungusTreeNetwork$covar_tree)
 ```
  
   
@@ -257,7 +257,7 @@ predict(mySimpleSBMCov, fungusTreeNetwork$covar_tree)
 We now analyze the bipartite tree/fungi interactions. The incidence matrix can be plotted with the function \cote{plotMyMatrix}
 
 ```{r plot incidence}
-plotMyMatrix(fungusTreeNetwork$fungus_tree, dimLabels = list(row = 'fungis', col= 'tree'))
+plotMyMatrix(fungusTreeNetwork$fungus_tree, dimLabels = c(row = 'fungis', col= 'tree'))
 ```
 
 
