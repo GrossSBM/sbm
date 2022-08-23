@@ -81,7 +81,7 @@ We look for some latent structure of the network by adjusting a simple SBM with 
 
 ```{r simpleSBM}
 mySimpleSBM <- tree_tree_binary %>% 
-  estimateSimpleSBM("bernoulli", dimLabels = 'tree', estimOptions = list(verbosity = 0, plot = FALSE))
+  estimateSimpleSBM("bernoulli", dimLabels = 'tree', estimOptions = list(verbosity = 1, plot = TRUE))
 ```
 
 Once fitted, the user can manipulate the fitted model by accessing the various fields and methods enjoyed by the class `simpleSBMfit`. Most important fields and methods are recalled to the user via the `show` method:
@@ -239,7 +239,7 @@ mySimpleSBMCov$covarParam
 
 
 ```{r simpleSBMfitPoisson covar coef}
-#coef(mySimpleSBMCov, 'covariates')
+coef(mySimpleSBMCov, 'covariates')
 ```
 
 S3 methods are also available for fit and prediction (results hidden here)
