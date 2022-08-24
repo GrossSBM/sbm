@@ -1,10 +1,10 @@
 pandoc: 2.7.3
-pkgdown: 1.6.1
+pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
   Multipartite_EcologicalNetwork: Multipartite_EcologicalNetwork.html
   MultiplexNetwork_principle: MultiplexNetwork_principle.html
   Multiplex_allianceNwar_case_study: Multiplex_allianceNwar_case_study.html
   SBM_fungus_tree_network: SBM_fungus_tree_network.html
-last_built: 2021-10-04T15:22Z
+last_built: 2022-08-24T15:58Z
 
