@@ -7,12 +7,12 @@
 
 [![website](https://github.com/GrossSBM/sbm/workflows/pkgdown/badge.svg)](https://grosssbm.github.io/sbm/)
 ![R-CMD-check](https://github.com/GrossSBM/sbm/workflows/R-CMD-check/badge.svg?branch=master)
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/sbm)](https://cran.r-project.org/package=sbm)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/sbm)](https://cran.r-project.org/package=sbm)
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![](https://img.shields.io/github/last-commit/grossSBM/sbm.svg)](https://github.com/GrossSBM/sbm/commits/master)
 [![Codecov test
-coverage](https://codecov.io/gh/GrossSBM/sbm/branch/master/graph/badge.svg)](https://codecov.io/gh/GrossSBM/sbm?branch=master)
+coverage](https://codecov.io/gh/GrossSBM/sbm/branch/master/graph/badge.svg)](https://app.codecov.io/gh/GrossSBM/sbm?branch=master)
 <!-- badges: end -->
 
 The goal of the package `sbm` is to regroup into a unique framework

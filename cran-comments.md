@@ -9,11 +9,11 @@
 	- Ubuntu Linux 20.04.1 LTS, R-release, GCC
 
 * tested remotely with github-action
-  - Linux ubuntu 20.04, R-release (github-action)
-  - Linux ubuntu 20.04, R-oldrel (github-action)
-  - Linux ubuntu 20.04, R-devel (github-action)
+  - Linux ubuntu 20.04, R-release 
+  - Linux ubuntu 20.04, R-oldrel 
+  - Linux ubuntu 20.04, R-devel 
   - Windows Server 2022, R-release, 64 bit
-  - macOS Big Sur 11, R-release (github action)
+  - macOS Big Sur 11, R-release
 
 - tested remotely with win-builder (R version 4.1.2, R version 4.1.3)
 
