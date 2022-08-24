@@ -1,3 +1,8 @@
+# sbm 0.4.4 [2022-08-24]
+
+* small bug fixes
+* comply to new CRAN policy for HTML5 in documentation files
+
 # sbm 0.4.3 [2021-06-09]
 
 * minor changes
@@ -9,7 +14,7 @@
 
 * minor changes (encoding)
 
-# sbm 0.4.1 []
+# sbm 0.4.1
 
 * advanced plotting functions for multilayer/multiplex SBM
 * enhanced support for multiplex SBM
