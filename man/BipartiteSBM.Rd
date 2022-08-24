@@ -37,26 +37,26 @@ R6 class for Bipartite SBM
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{BipartiteSBM$new()}}
-\item \href{#method-rMemberships}{\code{BipartiteSBM$rMemberships()}}
-\item \href{#method-rEdges}{\code{BipartiteSBM$rEdges()}}
-\item \href{#method-predict}{\code{BipartiteSBM$predict()}}
-\item \href{#method-show}{\code{BipartiteSBM$show()}}
-\item \href{#method-plot}{\code{BipartiteSBM$plot()}}
-\item \href{#method-clone}{\code{BipartiteSBM$clone()}}
+\item \href{#method-BipartiteSBM-new}{\code{BipartiteSBM$new()}}
+\item \href{#method-BipartiteSBM-rMemberships}{\code{BipartiteSBM$rMemberships()}}
+\item \href{#method-BipartiteSBM-rEdges}{\code{BipartiteSBM$rEdges()}}
+\item \href{#method-BipartiteSBM-predict}{\code{BipartiteSBM$predict()}}
+\item \href{#method-BipartiteSBM-show}{\code{BipartiteSBM$show()}}
+\item \href{#method-BipartiteSBM-plot}{\code{BipartiteSBM$plot()}}
+\item \href{#method-BipartiteSBM-clone}{\code{BipartiteSBM$clone()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="print">}\href{../../sbm/html/SBM.html#method-print}{\code{sbm::SBM$print()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="rNetwork">}\href{../../sbm/html/SBM.html#method-rNetwork}{\code{sbm::SBM$rNetwork()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="print"><a href='../../sbm/html/SBM.html#method-SBM-print'><code>sbm::SBM$print()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="rNetwork"><a href='../../sbm/html/SBM.html#method-SBM-rNetwork'><code>sbm::SBM$rNetwork()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-BipartiteSBM-new"></a>}}
+\if{latex}{\out{\hypertarget{method-BipartiteSBM-new}{}}}
 \subsection{Method \code{new()}}{
 constructor for SBM
 \subsection{Usage}{
@@ -92,8 +92,8 @@ constructor for SBM
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-rMemberships"></a>}}
-\if{latex}{\out{\hypertarget{method-rMemberships}{}}}
+\if{html}{\out{<a id="method-BipartiteSBM-rMemberships"></a>}}
+\if{latex}{\out{\hypertarget{method-BipartiteSBM-rMemberships}{}}}
 \subsection{Method \code{rMemberships()}}{
 a method to sample new block memberships for the current SBM
 \subsection{Usage}{
@@ -112,8 +112,8 @@ the sampled blocks
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-rEdges"></a>}}
-\if{latex}{\out{\hypertarget{method-rEdges}{}}}
+\if{html}{\out{<a id="method-BipartiteSBM-rEdges"></a>}}
+\if{latex}{\out{\hypertarget{method-BipartiteSBM-rEdges}{}}}
 \subsection{Method \code{rEdges()}}{
 a method to sample a network data (edges) for the current SBM
 \subsection{Usage}{
@@ -132,8 +132,8 @@ the sampled network
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-predict"></a>}}
-\if{latex}{\out{\hypertarget{method-predict}{}}}
+\if{html}{\out{<a id="method-BipartiteSBM-predict"></a>}}
+\if{latex}{\out{\hypertarget{method-BipartiteSBM-predict}{}}}
 \subsection{Method \code{predict()}}{
 prediction under the current parameters
 \subsection{Usage}{
@@ -151,8 +151,8 @@ prediction under the current parameters
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-show"></a>}}
-\if{latex}{\out{\hypertarget{method-show}{}}}
+\if{html}{\out{<a id="method-BipartiteSBM-show"></a>}}
+\if{latex}{\out{\hypertarget{method-BipartiteSBM-show}{}}}
 \subsection{Method \code{show()}}{
 show method
 \subsection{Usage}{
@@ -168,8 +168,8 @@ show method
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-plot"></a>}}
-\if{latex}{\out{\hypertarget{method-plot}{}}}
+\if{html}{\out{<a id="method-BipartiteSBM-plot"></a>}}
+\if{latex}{\out{\hypertarget{method-BipartiteSBM-plot}{}}}
 \subsection{Method \code{plot()}}{
 basic matrix plot method for BipartiteSBM object or mesoscopic plot
 \subsection{Usage}{
@@ -196,8 +196,8 @@ a ggplot2 object for the \code{'data'} and \code{'expected'}, a list with the ig
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-BipartiteSBM-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-BipartiteSBM-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

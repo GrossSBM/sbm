@@ -36,7 +36,7 @@ if (Sys.info()['sysname'] != "Windows") {
     ## parameters
     expect_equal(mySBM$modelName, 'bernoulli')
     expect_equal(unname(mySBM$nbNodes), nbNodes)
-    expect_equal(mySBM$dimLabels, c(row="rowName", col="colName"))
+    expect_equal(mySBM$dimLabels, c(row="row", col="col"))
     expect_equal(mySBM$nbDyads, nbNodes[1]*nbNodes[2])
     expect_true(is.matrix(mySBM$connectParam$mean))
 
@@ -109,7 +109,7 @@ if (Sys.info()['sysname'] != "Windows") {
     ## parameters
     expect_equal(mySBM$modelName, 'poisson')
     expect_equal(unname(mySBM$nbNodes), nbNodes)
-    expect_equal(mySBM$dimLabels, c(row="rowName", col="colName"))
+    expect_equal(mySBM$dimLabels, c(row="row", col="col"))
     expect_equal(mySBM$nbDyads, nbNodes[1]*nbNodes[2])
     expect_true(is.matrix(mySBM$connectParam$mean))
 
@@ -187,7 +187,7 @@ if (Sys.info()['sysname'] != "Windows") {
     ## parameters
     expect_equal(mySBM$modelName, 'gaussian')
     expect_equal(unname(mySBM$nbNodes), nbNodes)
-    expect_equal(mySBM$dimLabels, c(row="rowName", col="colName"))
+    expect_equal(mySBM$dimLabels, c(row="row", col="col"))
     expect_equal(mySBM$nbDyads, nbNodes[1]*nbNodes[2])
     expect_true(is.matrix(mySBM$connectParam$mean))
 

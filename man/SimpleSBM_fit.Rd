@@ -43,29 +43,29 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{SimpleSBM_fit$new()}}
-\item \href{#method-optimize}{\code{SimpleSBM_fit$optimize()}}
-\item \href{#method-setModel}{\code{SimpleSBM_fit$setModel()}}
-\item \href{#method-reorder}{\code{SimpleSBM_fit$reorder()}}
-\item \href{#method-show}{\code{SimpleSBM_fit$show()}}
-\item \href{#method-clone}{\code{SimpleSBM_fit$clone()}}
+\item \href{#method-SimpleSBM_fit-new}{\code{SimpleSBM_fit$new()}}
+\item \href{#method-SimpleSBM_fit-optimize}{\code{SimpleSBM_fit$optimize()}}
+\item \href{#method-SimpleSBM_fit-setModel}{\code{SimpleSBM_fit$setModel()}}
+\item \href{#method-SimpleSBM_fit-reorder}{\code{SimpleSBM_fit$reorder()}}
+\item \href{#method-SimpleSBM_fit-show}{\code{SimpleSBM_fit$show()}}
+\item \href{#method-SimpleSBM_fit-clone}{\code{SimpleSBM_fit$clone()}}
 }
 }
-\if{html}{
-\out{<details ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="print">}\href{../../sbm/html/SBM.html#method-print}{\code{sbm::SBM$print()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="rNetwork">}\href{../../sbm/html/SBM.html#method-rNetwork}{\code{sbm::SBM$rNetwork()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SimpleSBM" data-id="plot">}\href{../../sbm/html/SimpleSBM.html#method-plot}{\code{sbm::SimpleSBM$plot()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SimpleSBM" data-id="predict">}\href{../../sbm/html/SimpleSBM.html#method-predict}{\code{sbm::SimpleSBM$predict()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SimpleSBM" data-id="rEdges">}\href{../../sbm/html/SimpleSBM.html#method-rEdges}{\code{sbm::SimpleSBM$rEdges()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SimpleSBM" data-id="rMemberships">}\href{../../sbm/html/SimpleSBM.html#method-rMemberships}{\code{sbm::SimpleSBM$rMemberships()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="print"><a href='../../sbm/html/SBM.html#method-SBM-print'><code>sbm::SBM$print()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="rNetwork"><a href='../../sbm/html/SBM.html#method-SBM-rNetwork'><code>sbm::SBM$rNetwork()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="sbm" data-topic="SimpleSBM" data-id="plot"><a href='../../sbm/html/SimpleSBM.html#method-SimpleSBM-plot'><code>sbm::SimpleSBM$plot()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="sbm" data-topic="SimpleSBM" data-id="predict"><a href='../../sbm/html/SimpleSBM.html#method-SimpleSBM-predict'><code>sbm::SimpleSBM$predict()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="sbm" data-topic="SimpleSBM" data-id="rEdges"><a href='../../sbm/html/SimpleSBM.html#method-SimpleSBM-rEdges'><code>sbm::SimpleSBM$rEdges()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="sbm" data-topic="SimpleSBM" data-id="rMemberships"><a href='../../sbm/html/SimpleSBM.html#method-SimpleSBM-rMemberships'><code>sbm::SimpleSBM$rMemberships()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-SimpleSBM_fit-new"></a>}}
+\if{latex}{\out{\hypertarget{method-SimpleSBM_fit-new}{}}}
 \subsection{Method \code{new()}}{
 constructor for a Simple SBM fit
 \subsection{Usage}{
@@ -95,8 +95,8 @@ constructor for a Simple SBM fit
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-optimize"></a>}}
-\if{latex}{\out{\hypertarget{method-optimize}{}}}
+\if{html}{\out{<a id="method-SimpleSBM_fit-optimize"></a>}}
+\if{latex}{\out{\hypertarget{method-SimpleSBM_fit-optimize}{}}}
 \subsection{Method \code{optimize()}}{
 function to perform optimization
 \subsection{Usage}{
@@ -112,8 +112,8 @@ function to perform optimization
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-setModel"></a>}}
-\if{latex}{\out{\hypertarget{method-setModel}{}}}
+\if{html}{\out{<a id="method-SimpleSBM_fit-setModel"></a>}}
+\if{latex}{\out{\hypertarget{method-SimpleSBM_fit-setModel}{}}}
 \subsection{Method \code{setModel()}}{
 method to select a specific model among the ones fitted during the optimization.
 Fields of the current SBM_fit will be updated accordingly.
@@ -130,8 +130,8 @@ Fields of the current SBM_fit will be updated accordingly.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-reorder"></a>}}
-\if{latex}{\out{\hypertarget{method-reorder}{}}}
+\if{html}{\out{<a id="method-SimpleSBM_fit-reorder"></a>}}
+\if{latex}{\out{\hypertarget{method-SimpleSBM_fit-reorder}{}}}
 \subsection{Method \code{reorder()}}{
 permute group labels by order of decreasing probability
 \subsection{Usage}{
@@ -140,8 +140,8 @@ permute group labels by order of decreasing probability
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-show"></a>}}
-\if{latex}{\out{\hypertarget{method-show}{}}}
+\if{html}{\out{<a id="method-SimpleSBM_fit-show"></a>}}
+\if{latex}{\out{\hypertarget{method-SimpleSBM_fit-show}{}}}
 \subsection{Method \code{show()}}{
 show method
 \subsection{Usage}{
@@ -157,8 +157,8 @@ show method
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-SimpleSBM_fit-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-SimpleSBM_fit-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

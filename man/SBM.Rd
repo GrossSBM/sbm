@@ -42,16 +42,16 @@ R6 virtual class for SBM representation (mother class of SimpleSBM, BipartiteSBM
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{SBM$new()}}
-\item \href{#method-rNetwork}{\code{SBM$rNetwork()}}
-\item \href{#method-show}{\code{SBM$show()}}
-\item \href{#method-print}{\code{SBM$print()}}
-\item \href{#method-clone}{\code{SBM$clone()}}
+\item \href{#method-SBM-new}{\code{SBM$new()}}
+\item \href{#method-SBM-rNetwork}{\code{SBM$rNetwork()}}
+\item \href{#method-SBM-show}{\code{SBM$show()}}
+\item \href{#method-SBM-print}{\code{SBM$print()}}
+\item \href{#method-SBM-clone}{\code{SBM$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-SBM-new"></a>}}
+\if{latex}{\out{\hypertarget{method-SBM-new}{}}}
 \subsection{Method \code{new()}}{
 constructor for SBM
 \subsection{Usage}{
@@ -90,8 +90,8 @@ constructor for SBM
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-rNetwork"></a>}}
-\if{latex}{\out{\hypertarget{method-rNetwork}{}}}
+\if{html}{\out{<a id="method-SBM-rNetwork"></a>}}
+\if{latex}{\out{\hypertarget{method-SBM-rNetwork}{}}}
 \subsection{Method \code{rNetwork()}}{
 a method to sample a network data for the current SBM (blocks and edges)
 \subsection{Usage}{
@@ -110,8 +110,8 @@ a list with the sampled block and network
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-show"></a>}}
-\if{latex}{\out{\hypertarget{method-show}{}}}
+\if{html}{\out{<a id="method-SBM-show"></a>}}
+\if{latex}{\out{\hypertarget{method-SBM-show}{}}}
 \subsection{Method \code{show()}}{
 print method
 \subsection{Usage}{
@@ -127,8 +127,8 @@ print method
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-print"></a>}}
-\if{latex}{\out{\hypertarget{method-print}{}}}
+\if{html}{\out{<a id="method-SBM-print"></a>}}
+\if{latex}{\out{\hypertarget{method-SBM-print}{}}}
 \subsection{Method \code{print()}}{
 print method
 \subsection{Usage}{
@@ -137,8 +137,8 @@ print method
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-SBM-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-SBM-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

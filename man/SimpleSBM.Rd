@@ -37,26 +37,26 @@ R6 class for Simple SBM
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{SimpleSBM$new()}}
-\item \href{#method-rMemberships}{\code{SimpleSBM$rMemberships()}}
-\item \href{#method-rEdges}{\code{SimpleSBM$rEdges()}}
-\item \href{#method-predict}{\code{SimpleSBM$predict()}}
-\item \href{#method-show}{\code{SimpleSBM$show()}}
-\item \href{#method-plot}{\code{SimpleSBM$plot()}}
-\item \href{#method-clone}{\code{SimpleSBM$clone()}}
+\item \href{#method-SimpleSBM-new}{\code{SimpleSBM$new()}}
+\item \href{#method-SimpleSBM-rMemberships}{\code{SimpleSBM$rMemberships()}}
+\item \href{#method-SimpleSBM-rEdges}{\code{SimpleSBM$rEdges()}}
+\item \href{#method-SimpleSBM-predict}{\code{SimpleSBM$predict()}}
+\item \href{#method-SimpleSBM-show}{\code{SimpleSBM$show()}}
+\item \href{#method-SimpleSBM-plot}{\code{SimpleSBM$plot()}}
+\item \href{#method-SimpleSBM-clone}{\code{SimpleSBM$clone()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="print">}\href{../../sbm/html/SBM.html#method-print}{\code{sbm::SBM$print()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="rNetwork">}\href{../../sbm/html/SBM.html#method-rNetwork}{\code{sbm::SBM$rNetwork()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="print"><a href='../../sbm/html/SBM.html#method-SBM-print'><code>sbm::SBM$print()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="rNetwork"><a href='../../sbm/html/SBM.html#method-SBM-rNetwork'><code>sbm::SBM$rNetwork()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-SimpleSBM-new"></a>}}
+\if{latex}{\out{\hypertarget{method-SimpleSBM-new}{}}}
 \subsection{Method \code{new()}}{
 constructor for SBM
 \subsection{Usage}{
@@ -66,7 +66,7 @@ constructor for SBM
   directed,
   blockProp,
   connectParam,
-  dimLabels = c(node = "nodeName"),
+  dimLabels = c("node"),
   covarParam = numeric(length(covarList)),
   covarList = list()
 )}\if{html}{\out{</div>}}
@@ -95,8 +95,8 @@ constructor for SBM
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-rMemberships"></a>}}
-\if{latex}{\out{\hypertarget{method-rMemberships}{}}}
+\if{html}{\out{<a id="method-SimpleSBM-rMemberships"></a>}}
+\if{latex}{\out{\hypertarget{method-SimpleSBM-rMemberships}{}}}
 \subsection{Method \code{rMemberships()}}{
 a method to sample new block memberships for the current SBM
 \subsection{Usage}{
@@ -115,8 +115,8 @@ the sampled blocks
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-rEdges"></a>}}
-\if{latex}{\out{\hypertarget{method-rEdges}{}}}
+\if{html}{\out{<a id="method-SimpleSBM-rEdges"></a>}}
+\if{latex}{\out{\hypertarget{method-SimpleSBM-rEdges}{}}}
 \subsection{Method \code{rEdges()}}{
 a method to sample a network data (edges) for the current SBM
 \subsection{Usage}{
@@ -135,8 +135,8 @@ the sampled network
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-predict"></a>}}
-\if{latex}{\out{\hypertarget{method-predict}{}}}
+\if{html}{\out{<a id="method-SimpleSBM-predict"></a>}}
+\if{latex}{\out{\hypertarget{method-SimpleSBM-predict}{}}}
 \subsection{Method \code{predict()}}{
 prediction under the currently parameters
 \subsection{Usage}{
@@ -157,8 +157,8 @@ a matrix of expected values for each dyad
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-show"></a>}}
-\if{latex}{\out{\hypertarget{method-show}{}}}
+\if{html}{\out{<a id="method-SimpleSBM-show"></a>}}
+\if{latex}{\out{\hypertarget{method-SimpleSBM-show}{}}}
 \subsection{Method \code{show()}}{
 show method
 \subsection{Usage}{
@@ -174,8 +174,8 @@ show method
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-plot"></a>}}
-\if{latex}{\out{\hypertarget{method-plot}{}}}
+\if{html}{\out{<a id="method-SimpleSBM-plot"></a>}}
+\if{latex}{\out{\hypertarget{method-SimpleSBM-plot}{}}}
 \subsection{Method \code{plot()}}{
 basic matrix plot method for SimpleSBM object or mesoscopic plot
 \subsection{Usage}{
@@ -202,8 +202,8 @@ a ggplot2 object for the \code{'data'} and \code{'expected'}, a list with the ig
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-SimpleSBM-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-SimpleSBM-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

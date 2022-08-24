@@ -39,23 +39,23 @@ R6 Class definition of a Multipartite SBM
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{MultipartiteSBM$new()}}
-\item \href{#method-show}{\code{MultipartiteSBM$show()}}
-\item \href{#method-print}{\code{MultipartiteSBM$print()}}
-\item \href{#method-plot}{\code{MultipartiteSBM$plot()}}
-\item \href{#method-clone}{\code{MultipartiteSBM$clone()}}
+\item \href{#method-MultipartiteSBM-new}{\code{MultipartiteSBM$new()}}
+\item \href{#method-MultipartiteSBM-show}{\code{MultipartiteSBM$show()}}
+\item \href{#method-MultipartiteSBM-print}{\code{MultipartiteSBM$print()}}
+\item \href{#method-MultipartiteSBM-plot}{\code{MultipartiteSBM$plot()}}
+\item \href{#method-MultipartiteSBM-clone}{\code{MultipartiteSBM$clone()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="rNetwork">}\href{../../sbm/html/SBM.html#method-rNetwork}{\code{sbm::SBM$rNetwork()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="rNetwork"><a href='../../sbm/html/SBM.html#method-SBM-rNetwork'><code>sbm::SBM$rNetwork()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-MultipartiteSBM-new"></a>}}
+\if{latex}{\out{\hypertarget{method-MultipartiteSBM-new}{}}}
 \subsection{Method \code{new()}}{
 constructor for Multipartite SBM
 \subsection{Usage}{
@@ -91,8 +91,8 @@ constructor for Multipartite SBM
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-show"></a>}}
-\if{latex}{\out{\hypertarget{method-show}{}}}
+\if{html}{\out{<a id="method-MultipartiteSBM-show"></a>}}
+\if{latex}{\out{\hypertarget{method-MultipartiteSBM-show}{}}}
 \subsection{Method \code{show()}}{
 print method
 \subsection{Usage}{
@@ -108,8 +108,8 @@ print method
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-print"></a>}}
-\if{latex}{\out{\hypertarget{method-print}{}}}
+\if{html}{\out{<a id="method-MultipartiteSBM-print"></a>}}
+\if{latex}{\out{\hypertarget{method-MultipartiteSBM-print}{}}}
 \subsection{Method \code{print()}}{
 print method
 \subsection{Usage}{
@@ -118,8 +118,8 @@ print method
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-plot"></a>}}
-\if{latex}{\out{\hypertarget{method-plot}{}}}
+\if{html}{\out{<a id="method-MultipartiteSBM-plot"></a>}}
+\if{latex}{\out{\hypertarget{method-MultipartiteSBM-plot}{}}}
 \subsection{Method \code{plot()}}{
 plot Multipartite Network
 \subsection{Usage}{
@@ -143,8 +143,8 @@ plot Multipartite Network
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-MultipartiteSBM-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-MultipartiteSBM-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

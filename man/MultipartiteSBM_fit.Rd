@@ -38,26 +38,26 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{MultipartiteSBM_fit$new()}}
-\item \href{#method-optimize}{\code{MultipartiteSBM_fit$optimize()}}
-\item \href{#method-predict}{\code{MultipartiteSBM_fit$predict()}}
-\item \href{#method-setModel}{\code{MultipartiteSBM_fit$setModel()}}
-\item \href{#method-show}{\code{MultipartiteSBM_fit$show()}}
-\item \href{#method-clone}{\code{MultipartiteSBM_fit$clone()}}
+\item \href{#method-MultipartiteSBM_fit-new}{\code{MultipartiteSBM_fit$new()}}
+\item \href{#method-MultipartiteSBM_fit-optimize}{\code{MultipartiteSBM_fit$optimize()}}
+\item \href{#method-MultipartiteSBM_fit-predict}{\code{MultipartiteSBM_fit$predict()}}
+\item \href{#method-MultipartiteSBM_fit-setModel}{\code{MultipartiteSBM_fit$setModel()}}
+\item \href{#method-MultipartiteSBM_fit-show}{\code{MultipartiteSBM_fit$show()}}
+\item \href{#method-MultipartiteSBM_fit-clone}{\code{MultipartiteSBM_fit$clone()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="rNetwork">}\href{../../sbm/html/SBM.html#method-rNetwork}{\code{sbm::SBM$rNetwork()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM" data-id="plot">}\href{../../sbm/html/MultipartiteSBM.html#method-plot}{\code{sbm::MultipartiteSBM$plot()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM" data-id="print">}\href{../../sbm/html/MultipartiteSBM.html#method-print}{\code{sbm::MultipartiteSBM$print()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="rNetwork"><a href='../../sbm/html/SBM.html#method-SBM-rNetwork'><code>sbm::SBM$rNetwork()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM" data-id="plot"><a href='../../sbm/html/MultipartiteSBM.html#method-MultipartiteSBM-plot'><code>sbm::MultipartiteSBM$plot()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM" data-id="print"><a href='../../sbm/html/MultipartiteSBM.html#method-MultipartiteSBM-print'><code>sbm::MultipartiteSBM$print()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-MultipartiteSBM_fit-new"></a>}}
+\if{latex}{\out{\hypertarget{method-MultipartiteSBM_fit-new}{}}}
 \subsection{Method \code{new()}}{
 constructor for Multipartite SBM
 \subsection{Usage}{
@@ -73,8 +73,8 @@ constructor for Multipartite SBM
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-optimize"></a>}}
-\if{latex}{\out{\hypertarget{method-optimize}{}}}
+\if{html}{\out{<a id="method-MultipartiteSBM_fit-optimize"></a>}}
+\if{latex}{\out{\hypertarget{method-MultipartiteSBM_fit-optimize}{}}}
 \subsection{Method \code{optimize()}}{
 estimation of multipartiteSBM via GREMLINS
 \subsection{Usage}{
@@ -90,8 +90,8 @@ estimation of multipartiteSBM via GREMLINS
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-predict"></a>}}
-\if{latex}{\out{\hypertarget{method-predict}{}}}
+\if{html}{\out{<a id="method-MultipartiteSBM_fit-predict"></a>}}
+\if{latex}{\out{\hypertarget{method-MultipartiteSBM_fit-predict}{}}}
 \subsection{Method \code{predict()}}{
 prediction under the currently estimated model
 \subsection{Usage}{
@@ -103,8 +103,8 @@ a list of matrices matrix of expected values for each dyad
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-setModel"></a>}}
-\if{latex}{\out{\hypertarget{method-setModel}{}}}
+\if{html}{\out{<a id="method-MultipartiteSBM_fit-setModel"></a>}}
+\if{latex}{\out{\hypertarget{method-MultipartiteSBM_fit-setModel}{}}}
 \subsection{Method \code{setModel()}}{
 method to select a specific model among the ones fitted during the optimization.
 Fields of the current MultipartiteSBM_fit will be updated accordingly.
@@ -121,8 +121,8 @@ Fields of the current MultipartiteSBM_fit will be updated accordingly.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-show"></a>}}
-\if{latex}{\out{\hypertarget{method-show}{}}}
+\if{html}{\out{<a id="method-MultipartiteSBM_fit-show"></a>}}
+\if{latex}{\out{\hypertarget{method-MultipartiteSBM_fit-show}{}}}
 \subsection{Method \code{show()}}{
 show method
 \subsection{Usage}{
@@ -138,8 +138,8 @@ show method
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-MultipartiteSBM_fit-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-MultipartiteSBM_fit-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

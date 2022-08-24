@@ -40,26 +40,26 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{MultiplexSBM_fit$new()}}
-\item \href{#method-optimize}{\code{MultiplexSBM_fit$optimize()}}
-\item \href{#method-plot}{\code{MultiplexSBM_fit$plot()}}
-\item \href{#method-show}{\code{MultiplexSBM_fit$show()}}
-\item \href{#method-predict}{\code{MultiplexSBM_fit$predict()}}
-\item \href{#method-clone}{\code{MultiplexSBM_fit$clone()}}
+\item \href{#method-MultiplexSBM_fit-new}{\code{MultiplexSBM_fit$new()}}
+\item \href{#method-MultiplexSBM_fit-optimize}{\code{MultiplexSBM_fit$optimize()}}
+\item \href{#method-MultiplexSBM_fit-plot}{\code{MultiplexSBM_fit$plot()}}
+\item \href{#method-MultiplexSBM_fit-show}{\code{MultiplexSBM_fit$show()}}
+\item \href{#method-MultiplexSBM_fit-predict}{\code{MultiplexSBM_fit$predict()}}
+\item \href{#method-MultiplexSBM_fit-clone}{\code{MultiplexSBM_fit$clone()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="rNetwork">}\href{../../sbm/html/SBM.html#method-rNetwork}{\code{sbm::SBM$rNetwork()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM" data-id="print">}\href{../../sbm/html/MultipartiteSBM.html#method-print}{\code{sbm::MultipartiteSBM$print()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM_fit" data-id="setModel">}\href{../../sbm/html/MultipartiteSBM_fit.html#method-setModel}{\code{sbm::MultipartiteSBM_fit$setModel()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="rNetwork"><a href='../../sbm/html/SBM.html#method-SBM-rNetwork'><code>sbm::SBM$rNetwork()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM" data-id="print"><a href='../../sbm/html/MultipartiteSBM.html#method-MultipartiteSBM-print'><code>sbm::MultipartiteSBM$print()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM_fit" data-id="setModel"><a href='../../sbm/html/MultipartiteSBM_fit.html#method-MultipartiteSBM_fit-setModel'><code>sbm::MultipartiteSBM_fit$setModel()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-MultiplexSBM_fit-new"></a>}}
+\if{latex}{\out{\hypertarget{method-MultiplexSBM_fit-new}{}}}
 \subsection{Method \code{new()}}{
 constructor for Multiplex SBM
 \subsection{Usage}{
@@ -77,8 +77,8 @@ constructor for Multiplex SBM
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-optimize"></a>}}
-\if{latex}{\out{\hypertarget{method-optimize}{}}}
+\if{html}{\out{<a id="method-MultiplexSBM_fit-optimize"></a>}}
+\if{latex}{\out{\hypertarget{method-MultiplexSBM_fit-optimize}{}}}
 \subsection{Method \code{optimize()}}{
 estimation of multipartiteSBM via GREMLINS
 \subsection{Usage}{
@@ -94,8 +94,8 @@ estimation of multipartiteSBM via GREMLINS
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-plot"></a>}}
-\if{latex}{\out{\hypertarget{method-plot}{}}}
+\if{html}{\out{<a id="method-MultiplexSBM_fit-plot"></a>}}
+\if{latex}{\out{\hypertarget{method-MultiplexSBM_fit-plot}{}}}
 \subsection{Method \code{plot()}}{
 plot Multiplex Network
 \subsection{Usage}{
@@ -119,8 +119,8 @@ plot Multiplex Network
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-show"></a>}}
-\if{latex}{\out{\hypertarget{method-show}{}}}
+\if{html}{\out{<a id="method-MultiplexSBM_fit-show"></a>}}
+\if{latex}{\out{\hypertarget{method-MultiplexSBM_fit-show}{}}}
 \subsection{Method \code{show()}}{
 show method
 \subsection{Usage}{
@@ -136,8 +136,8 @@ show method
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-predict"></a>}}
-\if{latex}{\out{\hypertarget{method-predict}{}}}
+\if{html}{\out{<a id="method-MultiplexSBM_fit-predict"></a>}}
+\if{latex}{\out{\hypertarget{method-MultiplexSBM_fit-predict}{}}}
 \subsection{Method \code{predict()}}{
 prediction under the currently estimated model
 \subsection{Usage}{
@@ -149,8 +149,8 @@ a list of matrices matrix of expected values for each dyad
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-MultiplexSBM_fit-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-MultiplexSBM_fit-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{
