@@ -1,0 +1,88 @@
+---
+title: "Représentation de réseaux avec visNetwork"
+author: "Collectif FinistR"
+date: "2022-08-25"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r packages, message=FALSE}
+library(visNetwork)
+library(igraph)
+library(sbm)
+```
+
+
+## Conversion au bon format
+
+Les formats classiques pour stocker un réseau peuvent être des  listes de paires de nœuds ou des matrices d'adjacence.
+Le package `visNetwork` a besoin de deux tableaux de données donnant les nœuds et les arêtes du réseau.
+
+Si nous avons une matrice d'adjacence, la fonction `graph_from_adjacency` du package `igraph` et la fonction `toVisNetworkData` aident à faire la conversion. Nous prenons l'exemple du réseau des arbres qui sont liés par une arête s'ils sont parasités par au moins une espèce de champignon commune :
+```{r conversion}
+data("fungusTreeNetwork")
+G <- ((fungusTreeNetwork$tree_tree>0)*1)  |> graph_from_adjacency_matrix() |>
+  toVisNetworkData()
+lapply(G,head)
+```
+
+
+Des colonnes additionnelles peuvent être ajoutées à `G$nodes` et `G$edges` afin de changer les formes, les couleurs, les tailles, les noms des nœuds et des arêtes respectivement.
+Par exemple, nous importons les noms des espèces d'arbre du jeu de données.
+
+```{r d}
+G$nodes$label <- fungusTreeNetwork$tree_names
+```
+
+## Représentation
+
+
+Nous pouvons demander alors de représenter le graphe grace au package :
+```{r rep}
+visNetwork(nodes=G$nodes,edges=G$edges) |> visIgraphLayout()
+```
+
+Si on n'ajoute pas la commande `visIgraphLayout()`, la représentation a du mal à se stabiliser.
+
+## Essai de représentation des sorties du modèle SBM appliqué au réseau
+
+Nous utilisons le package `sbm` sur le réseau débarrassé des nœuds non connectés.
+
+```{r runsbm}
+A <- (fungusTreeNetwork$tree_tree>0)*1
+deg <- rowSums(A)
+A <- A[deg>0,deg>0]
+mysbm <- estimateSimpleSBM(A,estimOptions = list(plot=FALSE,verbosity=0))
+mycluster <- mysbm$memberships
+```
+
+Nous pouvons ajouter en tant qu'attribut coloré le groupe de nœuds
+```{r}
+library(RColorBrewer)
+myColors <- brewer.pal(mysbm$nbBlocks,"Set1")
+G <- A  |> graph_from_adjacency_matrix() |>
+  toVisNetworkData()
+G$nodes$label <- fungusTreeNetwork$tree_names[deg>0]
+G$nodes$color <- myColors[mycluster]
+visNetwork(nodes=G$nodes,edges=G$edges) |> visIgraphLayout()
+```
+
+On peut également essayer de faire un réseau mésoscopique où un nœud représentera un groupe de nœuds du réseau initial agrégés dans le même bloc.
+
+```{r}
+grille <- expand.grid(1:mysbm$nbBlocks,1:mysbm$nbBlocks)
+meso_nodes <- data.frame(id=1:mysbm$nbBlocks,label=as.character(1:mysbm$nbBlocks),
+                             value=mysbm$blockProp)
+
+meso_edges <- data.frame(from=grille[,1],to=grille[,2],
+                         width=sapply(1:nrow(grille),function(i){mysbm$connectParam$mean[grille[i,1],grille[i,2]]}))
+```
+
+```{r visnet}
+visNetwork(nodes = meso_nodes,edges=meso_edges) |> visIgraphLayout()
+```
+
+
