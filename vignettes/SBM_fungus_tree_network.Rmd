@@ -1,6 +1,6 @@
 ---
 title: "Simple and Bipartite Stochastic Block Models"
-subtitle: "An illustration on antogonistic tree/fungus network"
+subtitle: "An illustration on antagonistic tree/fungus network"
 author: "team großBM"
 date: "`r Sys.Date()`"
 output:
@@ -100,7 +100,7 @@ mySimpleSBM$nbNodes
 mySimpleSBM$nbCovariates
 ```
 
-The plot method is available as a S3 or R6 method. The default represents the network data reordered according to the memberships estimated in the SBM
+The plot method is available as a S3 or R6 method. The default represents the network data reordered according to the memberships estimated in the SBM.
 ```{r simpleSBMfit plot1}
 plot(mySimpleSBM, type = "data", dimLabels  = c('tree'))
 ```
@@ -128,7 +128,7 @@ During the estimation, a certain range of models are explored corresponding to d
 mySimpleSBM$storedModels %>% kable()
 ```
 
-We can then what models are competitive in terms of model selection by checking the ICL
+We can then see what models are competitive in terms of model selection by checking the ICL:
 
 ```{r simpleSBM ICL}
 mySimpleSBM$storedModels %>%  ggplot() + aes(x = nbBlocks, y = ICL)  + geom_line() + geom_point(alpha = 0.5)
@@ -181,7 +181,7 @@ mySimpleSBMPoisson$nbNodes
 mySimpleSBMPoisson$nbCovariates
 ```
 
-We now plot the matrix reordered according to the memberships estimated in the SBM
+We now plot the matrix reordered according to the memberships estimated in the SBM:
 ```{r simpleSBMfitPoisson plot1}
 plot(mySimpleSBMPoisson, type = "data", dimLabels =c('tree'))
 ```

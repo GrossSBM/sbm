@@ -21,11 +21,25 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
+## Preliminaries
+
+This vignette illustrates the use of the `estimateMultiplexSBM` function and the methods accompanying the R6 classes `multiplexSBMfit` on the `war` data set.
+ 
+
+### Requirements
+
+The packages required for the analysis are **sbm** plus some others for data manipulation and representation:
+
+```{r setup, message=FALSE, warning=FALSE}
+library(sbm)
+library(igraph)
+library(aricode)
+```
+### Data set
 
 The `war` data set comes in the `sbm` package:
 
 ```{r load-data-set}
-library(sbm)
 data("war")
 ```
 
@@ -39,17 +53,16 @@ These two networks were extracted from [https://www.correlatesofwar.org/](https:
 Since they don't have the same size, we choose to only consider nodes (countries) which were at war with at least one other country. This corresponds to the first 83 nodes in the Alliance network.
 
 ```{r manipulation}
-library(igraph)
-A = as.matrix(get.adjacency(war$alliance))
-A = A[1:83,1:83]
-B = as.matrix(get.adjacency(war$belligerent))
+A <- as.matrix(get.adjacency(war$alliance))
+A <- A[1:83, 1:83]
+B <- as.matrix(get.adjacency(war$belligerent))
 ```
 
 We can start with a plot of this multiplex network:
 ```{r}
-netA = defineSBM(A,model="bernoulli",dimLabels = "country") 
-netB = defineSBM(B,model="bernoulli",dimLabels = "country")
-plotMyMultiplexMatrix(list(netA,netB))
+netA <- defineSBM(A, model = "bernoulli", dimLabels = "country")
+netB <- defineSBM(B, model = "bernoulli", dimLabels = "country")
+plotMyMultiplexMatrix(list(netA, netB))
 ```
 
 # Fitting a multiplex SBM model where the two layers are assumed to be independent
@@ -64,36 +77,38 @@ MultiplexFitIndep <- readRDS("Multiplex_allianceNwar_case_study.rds")
 ```
 
 ```{r, eval = FALSE}
-MultiplexFitIndep = estimateMultiplexSBM(list(netA,netB), dependent = FALSE, estimOptions = list(verbosity=0))
+MultiplexFitIndep <- estimateMultiplexSBM(list(netA, netB), dependent = FALSE,
+    estimOptions = list(verbosity = 0))
 ```
 
 We can retrieve the clustering
 ```{r}
-clust_country_indep = MultiplexFitIndep$memberships[[1]]
+clust_country_indep <- MultiplexFitIndep$memberships[[1]]
 sort(clust_country_indep)
 ```
 
 And we can plot the reorganized adjacency matrices or the corresponding expectations:
 ```{r}
 plot(MultiplexFitIndep)
-plot(MultiplexFitIndep,type="expected")
+plot(MultiplexFitIndep, type = "expected")
 ```
 
 
 # Fitting a multiplex SBM model where the two layers are assumed to be dependent
 
 Now we assume that the two layers are dependent conditionally to the latent block variables.
-We then set `dependent=TRUE`
+We then set `dependent = TRUE`
 ```{r}
-MultiplexFitdep = estimateMultiplexSBM(list(netA,netB),dependent = TRUE,estimOptions = list(verbosity=0))
+MultiplexFitdep <- estimateMultiplexSBM(list(netA, netB), dependent = TRUE,
+    estimOptions = list(verbosity = 0))
 ```
 We can retrieve the clustering and compare it to the one obtained in the independent case.
 ```{r}
-clust_country_dep = MultiplexFitdep$memberships[[1]]
+clust_country_dep <- MultiplexFitdep$memberships[[1]]
 sort(clust_country_indep)
-aricode::ARI(clust_country_indep,clust_country_dep) 
+aricode::ARI(clust_country_indep, clust_country_dep)
 ```
-On top of the clustering comparison, we can compare the ICL criteria to see which of the dependent or independent models is a best fit:
+On top of the clustering comparison, we can compare the ICL criterion to see which of the dependent or independent models is a best fit:
 ```{r}
 MultiplexFitdep$ICL
 MultiplexFitIndep$ICL
@@ -102,21 +117,22 @@ MultiplexFitIndep$ICL
 
 
 We can do the same plots for the reorganized matrices and the corresponding expectations.
-Note that the expectations correspond to the marginal expectation of each layer and it may be relevant to have a look to the conditional expectations.
+Note that the expectations correspond to the marginal expectation of each layer and it may be relevant to have a look at the conditional expectations.
 ```{r}
 plot(MultiplexFitdep)
-plot(MultiplexFitdep,type="expected")
+plot(MultiplexFitdep, type = "expected")
 ```
 
 For instance, we may want to compare the marginal distribution for two countries in their given blocks to have being at war while they are allied at some point (before or after):
 ```{r}
-p11 = MultiplexFitdep$connectParam$prob11
-p01 = MultiplexFitdep$connectParam$prob01
-p10 = MultiplexFitdep$connectParam$prob10
-# conditional probabilities of being at war while having been or will be allied
-round(p11/(p11+p10),2)
+p11 <- MultiplexFitdep$connectParam$prob11
+p01 <- MultiplexFitdep$connectParam$prob01
+p10 <- MultiplexFitdep$connectParam$prob10
+# conditional probabilities of being at war while having been or will
+# be allied
+round(p11/(p11 + p10), 2)
 # marginal probabilities of being at war
-round(p11+p01,2)
+round(p11 + p01, 2)
 ```
 
 
