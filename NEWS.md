@@ -1,3 +1,7 @@
+## sbm version dev 
+
+* included a fix for purrr
+
 # sbm 0.4.4 [2022-08-24]
 
 * small bug fixes
