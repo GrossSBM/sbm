@@ -1,6 +1,3 @@
-Barbillon
-et
-al
 BipartiteSBM
 Blockmodels
 CICOLMA
@@ -38,6 +35,7 @@ Variational
 Wayman
 al
 antogonistic
+arXiv
 arxiv
 blockmodel
 blockmodels
@@ -52,6 +50,7 @@ crectangle
 csquare
 darkolivegreen
 de
+dev
 dimLabels
 doi
 dotdash
@@ -82,7 +81,6 @@ maxiterVEM
 meso
 mesoscopic
 multilayer
-Multipartite
 multipartite
 multipartiteSBM
 multipartiteSBMfit
@@ -98,6 +96,7 @@ nodeName
 nodeNames
 plotMyMatrix
 plotOptions
+purrr
 restructuration
 roundProduct
 rowNames
