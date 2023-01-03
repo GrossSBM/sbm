@@ -93,12 +93,15 @@
 
       
 
-      </header><script src="MultiplexNetwork_principle_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Stochastic Block Models for Multiplex networks</h1>
-            <h3 data-toc-skip class="subtitle">Principle and illustration</h3>
-                        <h4 data-toc-skip class="author">team großBM</h4>
+      <h1 data-toc-skip>Stochastic Block Models for Multiplex
+networks</h1>
+            <h3 data-toc-skip class="subtitle">Principle and
+illustration</h3>
+                        <h4 data-toc-skip class="author">team
+großBM</h4>
             
             <h4 data-toc-skip class="date">2023-01-03</h4>
       
@@ -112,7 +115,9 @@
 <div class="section level2">
 <h2 id="preliminaries">Preliminaries<a class="anchor" aria-label="anchor" href="#preliminaries"></a>
 </h2>
-<p>This vignette illustrates the use of the <code>estimateMultiplexSBM</code> function and the methods accompanying the R6 classes <code>multiplexSBMfit</code>.</p>
+<p>This vignette illustrates the use of the
+<code>estimateMultiplexSBM</code> function and the methods accompanying
+the R6 classes <code>multiplexSBMfit</code>.</p>
 <div class="section level3">
 <h3 id="requirements">Requirements<a class="anchor" aria-label="anchor" href="#requirements"></a>
 </h3>
@@ -124,10 +129,16 @@
 <div class="section level2">
 <h2 id="multiplex-network-data">Multiplex network data<a class="anchor" aria-label="anchor" href="#multiplex-network-data"></a>
 </h2>
-<p>Multiplex networks refer to a collection of networks involving the same sets of nodes, each network corresponding to a give type of interaction. Each network may also be referred as a layer. Such a network is studied in <span class="citation">Barbillon et al. (<a href="#ref-multiplexSBM" role="doc-biblioref">2017</a>)</span> where the nodes are researchers and two networks are provided:</p>
+<p>Multiplex networks refer to a collection of networks involving the
+same sets of nodes, each network corresponding to a give type of
+interaction. Each network may also be referred as a layer. Such a
+network is studied in <span class="citation">Barbillon et al. (<a href="#ref-multiplexSBM" role="doc-biblioref">2017</a>)</span> where the
+nodes are researchers and two networks are provided:</p>
 <pre><code>* a network representing the relations of advices between researchers,
 * a network representing the exchanges between the laboratories the researchers belong to. </code></pre>
-<p>In <span class="citation">Kéfi (<a href="#ref-multiplexKefi" role="doc-biblioref">2016</a>)</span>, the nodes are species and each network corresponds to a type of ecological relation, namely trophic links, negative non trophic links and positive non trophic links.</p>
+<p>In <span class="citation">Kéfi (<a href="#ref-multiplexKefi" role="doc-biblioref">2016</a>)</span>, the nodes are species and each
+network corresponds to a type of ecological relation, namely trophic
+links, negative non trophic links and positive non trophic links.</p>
 </div>
 <div class="section level2">
 <h2 id="stochastic-block-models-for-multiplex-networks">Stochastic Block models for multiplex networks<a class="anchor" aria-label="anchor" href="#stochastic-block-models-for-multiplex-networks"></a>
@@ -135,43 +146,85 @@
 <div class="section level3">
 <h3 id="general-formulation-of-the-model">General formulation of the model<a class="anchor" aria-label="anchor" href="#general-formulation-of-the-model"></a>
 </h3>
-<p>We give here a few details on Stochastic Block Models (SBM) for multiplex networks.</p>
-<p>Assume that one studies <span class="math inline">\(n\)</span> nodes and observes <span class="math inline">\(L\)</span> types of links, resulting into <span class="math inline">\(L\)</span> matrices <span class="math inline">\((X^\ell_{ij})_{i,j = 1,\dots,n}\)</span>, $= 1, , L. Block models assume that the nodes are divided into <span class="math inline">\(K\)</span> clusters, this clustering being encoded into the latent variables <span class="math inline">\((Z_i)_{i=1,\dots,n}\)</span> such that <span class="math inline">\(Z_i = k\)</span> if node <span class="math inline">\(i\)</span> belongs to cluster <span class="math inline">\(k\)</span>.</p>
-<p>The relations between nodes <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> are driven by the clusters they belong to :</p>
-<p><span class="math display">\[ (X^1_{ij}, \dots,X^L_{ij})  | Z_i = q, Z_j = r \sim_{ind} \mathcal{F}(\cdot;\theta_{qr})\]</span> where <span class="math inline">\(\mathcal{F}\)</span> is a <span class="math inline">\(L\)</span> dimensional probability distribution adapted to the data.</p>
+<p>We give here a few details on Stochastic Block Models (SBM) for
+multiplex networks.</p>
+<p>Assume that one studies <span class="math inline">\(n\)</span> nodes
+and observes <span class="math inline">\(L\)</span> types of links,
+resulting into <span class="math inline">\(L\)</span> matrices <span class="math inline">\((X^\ell_{ij})_{i,j = 1,\dots,n}\)</span>, $= 1, ,
+L. Block models assume that the nodes are divided into <span class="math inline">\(K\)</span> clusters, this clustering being encoded
+into the latent variables <span class="math inline">\((Z_i)_{i=1,\dots,n}\)</span> such that <span class="math inline">\(Z_i = k\)</span> if node <span class="math inline">\(i\)</span> belongs to cluster <span class="math inline">\(k\)</span>.</p>
+<p>The relations between nodes <span class="math inline">\(i\)</span>
+and <span class="math inline">\(j\)</span> are driven by the clusters
+they belong to :</p>
+<p><span class="math display">\[ (X^1_{ij}, \dots,X^L_{ij})  | Z_i = q,
+Z_j = r \sim_{ind} \mathcal{F}(\cdot;\theta_{qr})\]</span> where <span class="math inline">\(\mathcal{F}\)</span> is a <span class="math inline">\(L\)</span> dimensional probability distribution
+adapted to the data.</p>
 <p><em>Examples</em></p>
 <ul>
-<li>If all the networks are binary (<span class="math inline">\(X^\ell_{ij} \in \{0,1\}\)</span>) then <span class="math inline">\(\mathcal{F}\)</span> is a <span class="math inline">\(L\)</span>-variate Bernoulli distribution and <span class="math display">\[ \theta_{qr} = (p^{\omega}_{qr}, \omega \in \{0,1\}^L)\]</span> with <span class="math inline">\(p^{\omega_\ell}_{qr} \in [0,1]\)</span>.<br>
+<li>If all the networks are binary (<span class="math inline">\(X^\ell_{ij} \in \{0,1\}\)</span>) then <span class="math inline">\(\mathcal{F}\)</span> is a <span class="math inline">\(L\)</span>-variate Bernoulli distribution and
+<span class="math display">\[ \theta_{qr} = (p^{\omega}_{qr}, \omega \in
+\{0,1\}^L)\]</span> with <span class="math inline">\(p^{\omega_\ell}_{qr} \in [0,1]\)</span>.<br>
 </li>
-<li>If all the networks are weighted with real values (<span class="math inline">\(X^\ell_{ij} \in \mathbb{R}\)</span>) then <span class="math inline">\(\mathcal{F}\)</span> could be a <span class="math inline">\(L\)</span>-dimensional Gaussian distribution and <span class="math display">\[ \theta_{qr} = (\mu_{qr},\Sigma_{qr})\]</span> with <span class="math inline">\(\mu_{qr} \in \mathbb{R}^L\)</span>, <span class="math inline">\(\Sigma_{qr}\)</span> a <span class="math inline">\(L\)</span> covariance matrix.</li>
+<li>If all the networks are weighted with real values (<span class="math inline">\(X^\ell_{ij} \in \mathbb{R}\)</span>) then <span class="math inline">\(\mathcal{F}\)</span> could be a <span class="math inline">\(L\)</span>-dimensional Gaussian distribution and
+<span class="math display">\[ \theta_{qr} =
+(\mu_{qr},\Sigma_{qr})\]</span> with <span class="math inline">\(\mu_{qr} \in \mathbb{R}^L\)</span>, <span class="math inline">\(\Sigma_{qr}\)</span> a <span class="math inline">\(L\)</span> covariance matrix.</li>
 </ul>
-<p>Note that these two models assume that the <span class="math inline">\(L\)</span> interactions are dependent <strong>conditionally to the clustering</strong>. The integration against the latent variables <span class="math inline">\(Z\)</span> (clustering) implies that the interactions between two pairs of nodes are also dependent.</p>
-<p>A collection of models are implemented in our package <code>sbm</code>. These models can be classified into two groups : either the layers are dependent conditionally to <span class="math inline">\(Z\)</span> or not.</p>
+<p>Note that these two models assume that the <span class="math inline">\(L\)</span> interactions are dependent
+<strong>conditionally to the clustering</strong>. The integration
+against the latent variables <span class="math inline">\(Z\)</span>
+(clustering) implies that the interactions between two pairs of nodes
+are also dependent.</p>
+<p>A collection of models are implemented in our package
+<code>sbm</code>. These models can be classified into two groups :
+either the layers are dependent conditionally to <span class="math inline">\(Z\)</span> or not.</p>
 </div>
 <div class="section level3">
 <h3 id="dependent-and-independent-layers-conditionally-to-z-">Dependent and independent layers conditionally to <span class="math inline">\(Z\)</span>.<a class="anchor" aria-label="anchor" href="#dependent-and-independent-layers-conditionally-to-z-"></a>
 </h3>
 <p>We consider conditional dependence in a few numbers of models :</p>
 <ul>
-<li><p>for <span class="math inline">\(L=2\)</span> Binary networks (Bernoulli)</p></li>
-<li><p>For any number <span class="math inline">\(L\)</span> of layer with Gaussian multivariate distributions but restricted to <span class="math inline">\(\Sigma_{qr} = \Sigma\)</span> (same covariance in any blocks)</p></li>
+<li><p>for <span class="math inline">\(L=2\)</span> Binary networks
+(Bernoulli)</p></li>
+<li><p>For any number <span class="math inline">\(L\)</span> of layer
+with Gaussian multivariate distributions but restricted to <span class="math inline">\(\Sigma_{qr} = \Sigma\)</span> (same covariance in
+any blocks)</p></li>
 </ul>
-<p>In the Binary case, the number of parameters of dependent layers explodes with the number of layers <span class="math inline">\(L\)</span> and the results become difficult to understand. As a consequence, we also implemented inference methods for independent layers conditionally to the clusterings for any number of layers.</p>
-<p>In the case of independent layers conditionally to the clusters, we assume that for any <span class="math inline">\(\ell,i,j\)</span>, <span class="math display">\[ X^\ell_{ij}  | Z_i = q, Z_j = r \sim_{ind} \mathcal{F}_\ell(\cdot;\theta^\ell_{qr})\]</span> where any <span class="math inline">\(\mathcal{F}_\ell\)</span> can be Bernoulli, Poisson, Gaussian or Zero Inflated Gaussian.</p>
+<p>In the Binary case, the number of parameters of dependent layers
+explodes with the number of layers <span class="math inline">\(L\)</span> and the results become difficult to
+understand. As a consequence, we also implemented inference methods for
+independent layers conditionally to the clusterings for any number of
+layers.</p>
+<p>In the case of independent layers conditionally to the clusters, we
+assume that for any <span class="math inline">\(\ell,i,j\)</span>, <span class="math display">\[ X^\ell_{ij}  | Z_i = q, Z_j = r \sim_{ind}
+\mathcal{F}_\ell(\cdot;\theta^\ell_{qr})\]</span> where any <span class="math inline">\(\mathcal{F}_\ell\)</span> can be Bernoulli,
+Poisson, Gaussian or Zero Inflated Gaussian.</p>
 </div>
 <div class="section level3">
 <h3 id="bipartite-multiplex-networks-">Bipartite multiplex networks.<a class="anchor" aria-label="anchor" href="#bipartite-multiplex-networks-"></a>
 </h3>
-<p>All the previous models can be extended to bipartite networks (i.e. when the nodes in row are different from the nodes in column). In that case, two clusterings are introduced. Assume that the row (respectively column) nodes are divided into <span class="math inline">\(K_1\)</span> (resp. <span class="math inline">\(K_2\)</span>) clusters, and denote <span class="math inline">\((Z^1_i)_{i=1,\dots,n}\)</span> (resp. <span class="math inline">\((Z^2_j)_{i=j,\dots,p}\)</span> ) the row (resp. col) clusterings.</p>
-<p>The relations between nodes <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> are driven by the clusters they belong to :</p>
-<p><span class="math display">\[ (X^1_{ij}, \dots,X^L_{ij})  | Z^1_i = q, Z^2_j = r \sim_{ind} \mathcal{F}(\cdot;\theta_{qr})\]</span></p>
+<p>All the previous models can be extended to bipartite networks
+(i.e. when the nodes in row are different from the nodes in column). In
+that case, two clusterings are introduced. Assume that the row
+(respectively column) nodes are divided into <span class="math inline">\(K_1\)</span> (resp. <span class="math inline">\(K_2\)</span>) clusters, and denote <span class="math inline">\((Z^1_i)_{i=1,\dots,n}\)</span> (resp. <span class="math inline">\((Z^2_j)_{i=j,\dots,p}\)</span> ) the row (resp.
+col) clusterings.</p>
+<p>The relations between nodes <span class="math inline">\(i\)</span>
+and <span class="math inline">\(j\)</span> are driven by the clusters
+they belong to :</p>
+<p><span class="math display">\[ (X^1_{ij}, \dots,X^L_{ij})  | Z^1_i =
+q, Z^2_j = r \sim_{ind} \mathcal{F}(\cdot;\theta_{qr})\]</span></p>
 </div>
 <div class="section level3">
 <h3 id="inference">Inference<a class="anchor" aria-label="anchor" href="#inference"></a>
 </h3>
-<p>The maximization of the likelihood is obtained via a Variational version of the EM algorithm. The number of blocks is chosen via a penalized likelihood criterion (ICL).<br>
+<p>The maximization of the likelihood is obtained via a Variational
+version of the EM algorithm. The number of blocks is chosen via a
+penalized likelihood criterion (ICL).<br>
 See <span class="citation">Barbillon et al. (<a href="#ref-multiplexSBM" role="doc-biblioref">2017</a>)</span> for details.</p>
-<p>Note that, in the case of dependent networks, the inference is performed via the <code>blockmodels</code> package, while the <code>GREMLINS</code> package is used in the case of independent networks. As a consequence, the <code>estimOptions</code> arguments are slightly different.</p>
+<p>Note that, in the case of dependent networks, the inference is
+performed via the <code>blockmodels</code> package, while the
+<code>GREMLINS</code> package is used in the case of independent
+networks. As a consequence, the <code>estimOptions</code> arguments are
+slightly different.</p>
 </div>
 </div>
 <div class="section level2">
@@ -180,8 +233,13 @@ See <span class="citation">Barbillon et al. (<a href="#ref-multiplexSBM" role="d
 <div class="section level3">
 <h3 id="data-simulation">Data simulation<a class="anchor" aria-label="anchor" href="#data-simulation"></a>
 </h3>
-<p>The function <code>mySampleMultiplexSBM</code> supplies a method to simulate multiplex networks. The argument <code>dependent</code> is set to <code>FALSE</code> by default (assuming independent layers conditionally to the clusterings).</p>
-<p>We simulate hereafter <span class="math inline">\(2\)</span> simple (i.e. non bipartite) layers. The corresponding matrices can be plotted using the function <code>plotMyMultpiplexMatrix</code>.</p>
+<p>The function <code>mySampleMultiplexSBM</code> supplies a method to
+simulate multiplex networks. The argument <code>dependent</code> is set
+to <code>FALSE</code> by default (assuming independent layers
+conditionally to the clusterings).</p>
+<p>We simulate hereafter <span class="math inline">\(2\)</span> simple
+(i.e. non bipartite) layers. The corresponding matrices can be plotted
+using the function <code>plotMyMultpiplexMatrix</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">nbLayers</span> <span class="op">&lt;-</span> <span class="fl">2</span></span></code></pre></div>
 <p><strong>Examples</strong></p>
@@ -210,7 +268,9 @@ See <span class="citation">Barbillon et al. (<a href="#ref-multiplexSBM" role="d
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">listSBM_PB</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Bernoulli"</span>,<span class="st">"Poisson"</span><span class="op">)</span>  </span>
 <span><span class="fu"><a href="../reference/plotMyMultiplexMatrix.html">plotMyMultiplexMatrix</a></span><span class="op">(</span><span class="va">listSBM_PB</span><span class="op">)</span></span></code></pre></div>
 <p><img src="MultiplexNetwork_principle_files/figure-html/Independant%20Poisson%20bernoulli-1.png" width="700"></p>
-<p>The resulting object is a list of SBM objects (of the SBM class). To build such an object from an observed matrix use the function <code>defineSBM</code>.</p>
+<p>The resulting object is a list of SBM objects (of the SBM class). To
+build such an object from an observed matrix use the function
+<code>defineSBM</code>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">listSBM_PB</span></span>
 <span><span class="co">#&gt; $Bernoulli</span></span>
@@ -314,7 +374,11 @@ See <span class="citation">Barbillon et al. (<a href="#ref-multiplexSBM" role="d
 <div class="section level3">
 <h3 id="inference-1">Inference<a class="anchor" aria-label="anchor" href="#inference-1"></a>
 </h3>
-<p>We are now able to perform inference on the each multiplex network (search of the “best” number of clusters in terms of ICL). To do so, we have to chose the model, i.e. the distribution used in each matrix and the dependence or independence between matrices conditionally to the clusters.</p>
+<p>We are now able to perform inference on the each multiplex network
+(search of the “best” number of clusters in terms of ICL). To do so, we
+have to chose the model, i.e. the distribution used in each matrix and
+the dependence or independence between matrices conditionally to the
+clusters.</p>
 <ul>
 <li>2 directed Layers : one Poisson, one Bernoulli and two clusters</li>
 </ul>
@@ -324,14 +388,16 @@ See <span class="citation">Barbillon et al. (<a href="#ref-multiplexSBM" role="d
 <pre><code><span><span class="co">#&gt;   indexModel nbParams nbBlocks       ICL    loglik</span></span>
 <span><span class="co">#&gt; 1          1        9        2 -1926.202 -1894.847</span></span>
 <span><span class="co">#&gt; 2          2        2        1 -2362.585 -2355.207</span></span></code></pre>
-<p>One can now plot the reorganized matrices and the predicted values.</p>
+<p>One can now plot the reorganized matrices and the predicted
+values.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res_PB</span><span class="op">)</span></span></code></pre></div>
 <p><img src="MultiplexNetwork_principle_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res_PB</span>,type<span class="op">=</span><span class="st">'expected'</span><span class="op">)</span></span></code></pre></div>
 <p><img src="MultiplexNetwork_principle_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
-<p>One can also compare the estimated clusters to the simulated clusters. We recover the clusters perfectly.</p>
+<p>One can also compare the estimated clusters to the simulated
+clusters. We recover the clusters perfectly.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">All</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotAlluvial.html">plotAlluvial</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>simulated  <span class="op">=</span> <span class="va">mySampleMultiplexSBM_PB</span><span class="op">$</span><span class="va">memberships</span><span class="op">$</span><span class="va">Individuals</span>, estim<span class="op">=</span><span class="va">res_PB</span><span class="op">$</span><span class="va">memberships</span><span class="op">$</span><span class="va">Individuals</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="MultiplexNetwork_principle_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
@@ -388,14 +454,21 @@ See <span class="citation">Barbillon et al. (<a href="#ref-multiplexSBM" role="d
 </div>
 </div>
 <div class="section level2 unnumbered">
-<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references">
-<div id="ref-multiplexSBM">
-<p>Barbillon, Pierre, Sophie Donnet, Emmanuel Lazega, and Avner Bar-Hen. 2017. “Stochastic block models for multiplex networks: an application to a multilevel network of researchers.” <em>Journal of the Royal Statistical Society Series A</em> 180 (1): 295–314. <a href="https://ideas.repec.org/a/bla/jorssa/v180y2017i1p295-314.html" class="external-link">https://ideas.repec.org/a/bla/jorssa/v180y2017i1p295-314.html</a>.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-multiplexSBM" class="csl-entry">
+Barbillon, Pierre, Sophie Donnet, Emmanuel Lazega, and Avner Bar-Hen.
+2017. <span>“<span class="nocase">Stochastic block models for multiplex
+networks: an application to a multilevel network of
+researchers</span>.”</span> <em>Journal of the Royal Statistical Society
+Series A</em> 180 (1): 295–314. <a href="https://ideas.repec.org/a/bla/jorssa/v180y2017i1p295-314.html" class="external-link">https://ideas.repec.org/a/bla/jorssa/v180y2017i1p295-314.html</a>.
 </div>
-<div id="ref-multiplexKefi">
-<p>Kéfi, Vincent AND Wieters, Sonia AND Miele. 2016. “How Structured Is the Entangled Bank? The Surprisingly Simple Organization of Multiplex Ecological Networks Leads to Increased Persistence and Resilience.” <em>PLOS Biology</em> 14 (8): 1–21. <a href="https://doi.org/10.1371/journal.pbio.1002527" class="external-link">https://doi.org/10.1371/journal.pbio.1002527</a>.</p>
+<div id="ref-multiplexKefi" class="csl-entry">
+Kéfi, Vincent AND Wieters, Sonia AND Miele. 2016. <span>“How Structured
+Is the Entangled Bank? The Surprisingly Simple Organization of Multiplex
+Ecological Networks Leads to Increased Persistence and
+Resilience.”</span> <em>PLOS Biology</em> 14 (8): 1–21. <a href="https://doi.org/10.1371/journal.pbio.1002527" class="external-link">https://doi.org/10.1371/journal.pbio.1002527</a>.
 </div>
 </div>
 </div>

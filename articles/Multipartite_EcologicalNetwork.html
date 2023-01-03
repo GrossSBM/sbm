@@ -93,12 +93,14 @@
 
       
 
-      </header><script src="Multipartite_EcologicalNetwork_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Multipartite Stochastic Block Models</h1>
-            <h3 data-toc-skip class="subtitle">An illustration on a mutualistic ecological network</h3>
-                        <h4 data-toc-skip class="author">team großBM</h4>
+            <h3 data-toc-skip class="subtitle">An illustration on a
+mutualistic ecological network</h3>
+                        <h4 data-toc-skip class="author">team
+großBM</h4>
             
             <h4 data-toc-skip class="date">2023-01-03</h4>
       
@@ -112,11 +114,14 @@
 <div class="section level2">
 <h2 id="preliminaries">Preliminaries<a class="anchor" aria-label="anchor" href="#preliminaries"></a>
 </h2>
-<p>This vignette illustrates the use of the <code>estimateMultipartiteSBM</code> function and the methods accompanying the R6 classes `multipartiteSBMfit’.</p>
+<p>This vignette illustrates the use of the
+<code>estimateMultipartiteSBM</code> function and the methods
+accompanying the R6 classes `multipartiteSBMfit’.</p>
 <div class="section level3">
 <h3 id="requirements">Requirements<a class="anchor" aria-label="anchor" href="#requirements"></a>
 </h3>
-<p>The packages required for the analysis are <strong>sbm</strong> plus some others for data manipulation and representation:</p>
+<p>The packages required for the analysis are <strong>sbm</strong> plus
+some others for data manipulation and representation:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://grosssbm.github.io/sbm/" class="external-link">sbm</a></span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -124,11 +129,33 @@
 <div class="section level2">
 <h2 id="dataset">Dataset<a class="anchor" aria-label="anchor" href="#dataset"></a>
 </h2>
-<p>We apply our methodology to an ecological mutualistic multipartite network.<br>
-The dataset –compiled and conducted by <span class="citation">Dáttilo et al. (<a href="#ref-Dattilo" role="doc-biblioref">2016</a>)</span> at Centro de Investigaciones Costeras La Mancha (CICOLMA), located on the central coast of the Gulf of Mexico, Veracruz, Mexico– involves three general types of plant-animal mutualistic interaction: pollination, seed dispersal by frugivorous birds, and protective mutualisms between ants and plants with extrafloral nectaries.</p>
-<p>The dataset –which is one of the largest compiled so far with respect to species richness, number of interactions and sampling effort– includes 4 functional groups, namely plants, pollinator species (referred as floral visitors), ant species and frugivorous bird species. Three binary bipartite networks have been collected representing interactions between 1/ plants and florals visitor, 2/ plants and ants, and 3/ plants and seed dispersal birds, resulting into three bipartite networks.</p>
-<p>The FG are of respective sizes: <span class="math inline">\(n_1 = 141\)</span> plant species, <span class="math inline">\(n_2 = 173\)</span> pollinator species, <span class="math inline">\(n_3 = 46\)</span> frugivorous bird species and <span class="math inline">\(n_4 = 30\)</span> ant species.</p>
-<p>The 3 networks contain <span class="math inline">\(753\)</span> observed interactions of which <span class="math inline">\(55\%\)</span> are plant-pollinator interactions, <span class="math inline">\(17\%\)</span> are plant-birds interactions and <span class="math inline">\(28\%\)</span> are plant-ant interactions.</p>
+<p>We apply our methodology to an ecological mutualistic multipartite
+network.<br>
+The dataset –compiled and conducted by <span class="citation">Dáttilo et
+al. (<a href="#ref-Dattilo" role="doc-biblioref">2016</a>)</span> at
+Centro de Investigaciones Costeras La Mancha (CICOLMA), located on the
+central coast of the Gulf of Mexico, Veracruz, Mexico– involves three
+general types of plant-animal mutualistic interaction: pollination, seed
+dispersal by frugivorous birds, and protective mutualisms between ants
+and plants with extrafloral nectaries.</p>
+<p>The dataset –which is one of the largest compiled so far with respect
+to species richness, number of interactions and sampling effort–
+includes 4 functional groups, namely plants, pollinator species
+(referred as floral visitors), ant species and frugivorous bird species.
+Three binary bipartite networks have been collected representing
+interactions between 1/ plants and florals visitor, 2/ plants and ants,
+and 3/ plants and seed dispersal birds, resulting into three bipartite
+networks.</p>
+<p>The FG are of respective sizes: <span class="math inline">\(n_1 =
+141\)</span> plant species, <span class="math inline">\(n_2 =
+173\)</span> pollinator species, <span class="math inline">\(n_3 =
+46\)</span> frugivorous bird species and <span class="math inline">\(n_4
+= 30\)</span> ant species.</p>
+<p>The 3 networks contain <span class="math inline">\(753\)</span>
+observed interactions of which <span class="math inline">\(55\%\)</span>
+are plant-pollinator interactions, <span class="math inline">\(17\%\)</span> are plant-birds interactions and
+<span class="math inline">\(28\%\)</span> are plant-ant
+interactions.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">multipartiteEcologicalNetwork</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">multipartiteEcologicalNetwork</span><span class="op">)</span></span>
@@ -150,7 +177,13 @@ The dataset –compiled and conducted by <span class="citation">Dáttilo et al. 
 <div class="section level3">
 <h3 id="formatting-the-data">Formatting the data<a class="anchor" aria-label="anchor" href="#formatting-the-data"></a>
 </h3>
-<p>We format the data to be able to use our functions i.e. we transform the matrices into an list containing <em>the matrix</em>, <em>its type</em> : <code>inc</code> for incidence matrix, <code>adj</code> for adjacency symmetric, and <code>diradj</code> for non symmetric (oriented) adjacency matrix, the name of functional group in row and the name of functional group in column. The three matrices are gathered in a list.</p>
+<p>We format the data to be able to use our functions i.e. we transform
+the matrices into an list containing <em>the matrix</em>, <em>its
+type</em> : <code>inc</code> for incidence matrix, <code>adj</code> for
+adjacency symmetric, and <code>diradj</code> for non symmetric
+(oriented) adjacency matrix, the name of functional group in row and the
+name of functional group in column. The three matrices are gathered in a
+list.</p>
 <p>To do so, we use the function <code>defineNetwork</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Net</span> <span class="op">&lt;-</span> <span class="va">multipartiteEcologicalNetwork</span></span>
@@ -163,7 +196,8 @@ The dataset –compiled and conducted by <span class="citation">Dáttilo et al. 
 <span>                      dimLabels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Plants"</span>, <span class="st">"Ants"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">PlantBird</span> <span class="op">=</span> <span class="fu"><a href="../reference/defineSBM.html">defineSBM</a></span><span class="op">(</span><span class="va">Net</span><span class="op">$</span><span class="va">Inc_plant_bird</span>,<span class="va">model</span>,<span class="va">type</span>,<span class="va">directed</span>,</span>
 <span>                     dimLabels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Plants"</span>, <span class="st">"Birds"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>If one wants to keep a track of the names of the species, they should be used as rownames and colnames in the matrices.</p>
+<p>If one wants to keep a track of the names of the species, they should
+be used as rownames and colnames in the matrices.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">PlantFlovis</span><span class="op">$</span><span class="va">netMatrix</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span></span>
 <span><span class="co">#&gt; NULL</span></span></code></pre></div>
@@ -175,17 +209,20 @@ The dataset –compiled and conducted by <span class="citation">Dáttilo et al. 
 <div class="section level3">
 <h3 id="mathematical-background">Mathematical Background<a class="anchor" aria-label="anchor" href="#mathematical-background"></a>
 </h3>
-<p>See <span class="citation">Bar-Hen, P., and S. (<a href="#ref-multipartite" role="doc-biblioref">n.d.</a>)</span> for details.</p>
+<p>See <span class="citation">Bar-Hen, P., and S. (<a href="#ref-multipartite" role="doc-biblioref">To appear</a>)</span> for
+details.</p>
 </div>
 <div class="section level3">
 <h3 id="inference">Inference<a class="anchor" aria-label="anchor" href="#inference"></a>
 </h3>
-<p>The model selection and the estimation are performed with the function <code>estimatemultipartiteBM</code>.</p>
+<p>The model selection and the estimation are performed with the
+function <code>estimatemultipartiteBM</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">estimOptions</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>initBM <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">listSBM</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">PlantFlovis</span>, <span class="va">PlantAnt</span>, <span class="va">PlantBird</span><span class="op">)</span></span>
 <span><span class="va">myMSBM</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/estimateMultipartiteSBM.html">estimateMultipartiteSBM</a></span><span class="op">(</span><span class="va">listSBM</span>, <span class="va">estimOptions</span><span class="op">)</span></span></code></pre></div>
-<p> contains the estimated parameters of the models we run through during the search of the better numbers of blocks.</p>
+<p> contains the estimated parameters of the models we run through
+during the search of the better numbers of blocks.</p>
 <p>RES_MBM contains the dataset and the results.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">myMSBM</span></span>
@@ -206,7 +243,9 @@ The dataset –compiled and conducted by <span class="citation">Dáttilo et al. 
 <code class="sourceCode R"><span><span class="va">myMSBM</span><span class="op">$</span><span class="va">nbBlocks</span></span>
 <span><span class="co">#&gt; Plants Flovis   Ants  Birds </span></span>
 <span><span class="co">#&gt;      7      2      2      1</span></span></code></pre></div>
-<p>To see the parameters estimated for the better model we use the following command <code>myMSBM$connectParam</code> or <code>myMSBM$blockProp</code></p>
+<p>To see the parameters estimated for the better model we use the
+following command <code>myMSBM$connectParam</code> or
+<code>myMSBM$blockProp</code></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">myMSBM</span><span class="op">$</span><span class="va">blockProp</span></span>
 <span><span class="co">#&gt; $Plants</span></span>
@@ -255,7 +294,8 @@ The dataset –compiled and conducted by <span class="citation">Dáttilo et al. 
 <span><span class="co">#&gt; [5,] 1.625224e-02</span></span>
 <span><span class="co">#&gt; [6,] 7.534085e-02</span></span>
 <span><span class="co">#&gt; [7,] 1.253527e-03</span></span></code></pre></div>
-<p>The clustering supplied by the better model are in <code>myMSBM$memberships***</code>.</p>
+<p>The clustering supplied by the better model are in
+<code>myMSBM$memberships***</code>.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">myMSBM</span><span class="op">$</span><span class="va">memberships</span><span class="op">$</span><span class="va">Plants</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -306,14 +346,22 @@ The dataset –compiled and conducted by <span class="citation">Dáttilo et al. 
 <p><img src="Multipartite_EcologicalNetwork_files/figure-html/plot%20meso-1.png" width="700"></p>
 </div>
 <div class="section level2 unnumbered">
-<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references">
-<div id="ref-multipartite">
-<p>Bar-Hen, A, Barbillon P., and Donnet S. n.d. “Block Models for Multipartite networks.Applications in Ecology and Ethnobiology.” <em>Statistical Modelling</em>.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-multipartite" class="csl-entry">
+Bar-Hen, A, Barbillon P., and Donnet S. To appear. <span>“Block Models
+for Multipartite Networks.applications in Ecology and
+Ethnobiology.”</span> <em>Statistical Modelling</em>, To appear.
 </div>
-<div id="ref-Dattilo">
-<p>Dáttilo, Wesley, Nubia Lara-Rodrı́guez, Pedro Jordano, Paulo R. Guimarães, John N. Thompson, Robert J. Marquis, Lucas P. Medeiros, Raul Ortiz-Pulido, Maria A. Marcos-Garcı́a, and Victor Rico-Gray. 2016. “Unravelling Darwin’s Entangled Bank: Architecture and Robustness of Mutualistic Networks with Multiple Interaction Types.” <em>Proceedings of the Royal Society of London B: Biological Sciences</em> 283 (1843).</p>
+<div id="ref-Dattilo" class="csl-entry">
+Dáttilo, Wesley, Nubia Lara-Rodrı́guez, Pedro Jordano, Paulo R.
+Guimarães, John N. Thompson, Robert J. Marquis, Lucas P. Medeiros, Raul
+Ortiz-Pulido, Maria A. Marcos-Garcı́a, and Victor Rico-Gray. 2016.
+<span>“Unravelling <span>D</span>arwin<span>’</span>s Entangled Bank:
+Architecture and Robustness of Mutualistic Networks with Multiple
+Interaction Types.”</span> <em>Proceedings of the Royal Society of
+London B: Biological Sciences</em> 283 (1843).
 </div>
 </div>
 </div>

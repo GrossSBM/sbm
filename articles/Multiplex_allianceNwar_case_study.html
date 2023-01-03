@@ -93,12 +93,15 @@
 
       
 
-      </header><script src="Multiplex_allianceNwar_case_study_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Stochastic Block Models for Multiplex networks</h1>
-            <h3 data-toc-skip class="subtitle">War and Alliance case study</h3>
-                        <h4 data-toc-skip class="author">team großBM</h4>
+      <h1 data-toc-skip>Stochastic Block Models for Multiplex
+networks</h1>
+            <h3 data-toc-skip class="subtitle">War and Alliance case
+study</h3>
+                        <h4 data-toc-skip class="author">team
+großBM</h4>
             
             <h4 data-toc-skip class="date">2023-01-03</h4>
       
@@ -109,16 +112,29 @@
 
     
     
-<p>The <code>war</code> data set comes in the <code>sbm</code> package:</p>
+<p>The <code>war</code> data set comes in the <code>sbm</code>
+package:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://grosssbm.github.io/sbm/" class="external-link">sbm</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"war"</span><span class="op">)</span></span></code></pre></div>
-<p>This data set contains a list of two networks (<code>belligerent</code> and <code>alliance</code>) where the nodes are countries; an edge in the network <code>belligerent</code> means that the two countries have been at war at least once between years 1816 to 2007; an edge in network <code>alliance</code> means that the two countries have had a formal alliance between years 1816 and 2012. The network <code>belligerent</code> have less nodes since countries which have not been at war at all are not considered.</p>
-<p>These two networks were extracted from <a href="https://www.correlatesofwar.org/" class="external-link">https://www.correlatesofwar.org/</a> (see <span class="citation">Sarkees and Wayman (<a href="#ref-sarkees2010resort" role="doc-biblioref">2010</a>)</span> for war data, and <span class="citation">Gibler (<a href="#ref-gibler2008international" role="doc-biblioref">2008</a>)</span> for formal alliance). Version 4.0 was used for war data and version 4.1 for formal alliance.</p>
+<p>This data set contains a list of two networks
+(<code>belligerent</code> and <code>alliance</code>) where the nodes are
+countries; an edge in the network <code>belligerent</code> means that
+the two countries have been at war at least once between years 1816 to
+2007; an edge in network <code>alliance</code> means that the two
+countries have had a formal alliance between years 1816 and 2012. The
+network <code>belligerent</code> have less nodes since countries which
+have not been at war at all are not considered.</p>
+<p>These two networks were extracted from <a href="https://www.correlatesofwar.org/" class="external-link">https://www.correlatesofwar.org/</a>
+(see <span class="citation">Sarkees and Wayman (<a href="#ref-sarkees2010resort" role="doc-biblioref">2010</a>)</span> for
+war data, and <span class="citation">Gibler (<a href="#ref-gibler2008international" role="doc-biblioref">2008</a>)</span> for formal alliance). Version 4.0
+was used for war data and version 4.1 for formal alliance.</p>
 <div class="section level2">
 <h2 id="data-manipulation">Data manipulation<a class="anchor" aria-label="anchor" href="#data-manipulation"></a>
 </h2>
-<p>Since they don’t have the same size, we choose to only consider nodes (countries) which were at war with at least one other country. This corresponds to the first 83 nodes in the Alliance network.</p>
+<p>Since they don’t have the same size, we choose to only consider nodes
+(countries) which were at war with at least one other country. This
+corresponds to the first 83 nodes in the Alliance network.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://igraph.org" class="external-link">igraph</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -140,9 +156,12 @@
 <p><img src="Multiplex_allianceNwar_case_study_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
 </div>
 <div class="section level2">
-<h2 id="fitting-a-multiplex-sbm-model-where-the-two-layers-are-assumed-to-be-independent">Fitting a multiplex SBM model where the two layers are assumed to be independent<a class="anchor" aria-label="anchor" href="#fitting-a-multiplex-sbm-model-where-the-two-layers-are-assumed-to-be-independent"></a>
+<h2 id="fitting-a-multiplex-sbm-model-where-the-two-layers-are-assumed-to-be-independent">Fitting a multiplex SBM model where the two layers are assumed to be
+independent<a class="anchor" aria-label="anchor" href="#fitting-a-multiplex-sbm-model-where-the-two-layers-are-assumed-to-be-independent"></a>
 </h2>
-<p>We run the estimation of this multiplex model. By setting <code>dependent=FALSE</code>, we declare that we consider the two layers to be independent conditionally on the latent block variables.</p>
+<p>We run the estimation of this multiplex model. By setting
+<code>dependent=FALSE</code>, we declare that we consider the two layers
+to be independent conditionally on the latent block variables.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">MultiplexFitIndep</span> <span class="op">=</span> <span class="fu"><a href="../reference/estimateMultiplexSBM.html">estimateMultiplexSBM</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">netA</span>,<span class="va">netB</span><span class="op">)</span>, dependent <span class="op">=</span> <span class="cn">FALSE</span>, estimOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>verbosity<span class="op">=</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>We can retrieve the clustering</p>
@@ -233,7 +252,8 @@
 <span><span class="co">#&gt;                              5                              5 </span></span>
 <span><span class="co">#&gt;                  Guinea-Bissau </span></span>
 <span><span class="co">#&gt;                              5</span></span></code></pre></div>
-<p>And we can plot the reorganized adjacency matrices or the corresponding expectations:</p>
+<p>And we can plot the reorganized adjacency matrices or the
+corresponding expectations:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">MultiplexFitIndep</span><span class="op">)</span></span></code></pre></div>
 <p><img src="Multiplex_allianceNwar_case_study_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
@@ -242,12 +262,15 @@
 <p><img src="Multiplex_allianceNwar_case_study_files/figure-html/unnamed-chunk-6-2.png" width="700"></p>
 </div>
 <div class="section level2">
-<h2 id="fitting-a-multiplex-sbm-model-where-the-two-layers-are-assumed-to-be-dependent">Fitting a multiplex SBM model where the two layers are assumed to be dependent<a class="anchor" aria-label="anchor" href="#fitting-a-multiplex-sbm-model-where-the-two-layers-are-assumed-to-be-dependent"></a>
+<h2 id="fitting-a-multiplex-sbm-model-where-the-two-layers-are-assumed-to-be-dependent">Fitting a multiplex SBM model where the two layers are assumed to be
+dependent<a class="anchor" aria-label="anchor" href="#fitting-a-multiplex-sbm-model-where-the-two-layers-are-assumed-to-be-dependent"></a>
 </h2>
-<p>Now we assume that the two layers are dependent conditionally to the latent block variables. We then set <code>dependent=TRUE</code></p>
+<p>Now we assume that the two layers are dependent conditionally to the
+latent block variables. We then set <code>dependent=TRUE</code></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">MultiplexFitdep</span> <span class="op">=</span> <span class="fu"><a href="../reference/estimateMultiplexSBM.html">estimateMultiplexSBM</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">netA</span>,<span class="va">netB</span><span class="op">)</span>,dependent <span class="op">=</span> <span class="cn">TRUE</span>,estimOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>verbosity<span class="op">=</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>We can retrieve the clustering and compare it to the one obtained in the independent case.</p>
+<p>We can retrieve the clustering and compare it to the one obtained in
+the independent case.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">clust_country_dep</span> <span class="op">=</span> <span class="va">MultiplexFitdep</span><span class="op">$</span><span class="va">memberships</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="va">clust_country_indep</span><span class="op">)</span></span>
@@ -337,13 +360,17 @@
 <span><span class="co">#&gt;                              5</span></span>
 <span><span class="fu">aricode</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/aricode/man/ARI.html" class="external-link">ARI</a></span><span class="op">(</span><span class="va">clust_country_indep</span>,<span class="va">clust_country_dep</span><span class="op">)</span> </span>
 <span><span class="co">#&gt; [1] 0.8886699</span></span></code></pre></div>
-<p>On top of the clustering comparison, we can compare the ICL criteria to see which of the dependent or independent models is a best fit:</p>
+<p>On top of the clustering comparison, we can compare the ICL criteria
+to see which of the dependent or independent models is a best fit:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">MultiplexFitdep</span><span class="op">$</span><span class="va">ICL</span></span>
 <span><span class="co">#&gt; [1] -1470.276</span></span>
 <span><span class="va">MultiplexFitIndep</span><span class="op">$</span><span class="va">ICL</span></span>
 <span><span class="co">#&gt; [1] -1434.602</span></span></code></pre></div>
-<p>We can do the same plots for the reorganized matrices and the corresponding expectations. Note that the expectations correspond to the marginal expectation of each layer and it may be relevant to have a look to the conditional expectations.</p>
+<p>We can do the same plots for the reorganized matrices and the
+corresponding expectations. Note that the expectations correspond to the
+marginal expectation of each layer and it may be relevant to have a look
+to the conditional expectations.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">MultiplexFitdep</span><span class="op">)</span></span></code></pre></div>
 <p><img src="Multiplex_allianceNwar_case_study_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
@@ -352,7 +379,9 @@
 <span><span class="co">#&gt; Warning in self$predict(): provided expectations are the marginal expectations</span></span>
 <span><span class="co">#&gt; in the dependent case</span></span></code></pre></div>
 <p><img src="Multiplex_allianceNwar_case_study_files/figure-html/unnamed-chunk-10-2.png" width="700"></p>
-<p>For instance, we may want to compare the marginal distribution for two countries in their given blocks to have being at war while they are allied at some point (before or after):</p>
+<p>For instance, we may want to compare the marginal distribution for
+two countries in their given blocks to have being at war while they are
+allied at some point (before or after):</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p11</span> <span class="op">=</span> <span class="va">MultiplexFitdep</span><span class="op">$</span><span class="va">connectParam</span><span class="op">$</span><span class="va">prob11</span></span>
 <span><span class="va">p01</span> <span class="op">=</span> <span class="va">MultiplexFitdep</span><span class="op">$</span><span class="va">connectParam</span><span class="op">$</span><span class="va">prob01</span></span>
@@ -372,14 +401,17 @@
 <span><span class="co">#&gt; [3,] 0.03 0.04 0.05 0.03</span></span>
 <span><span class="co">#&gt; [4,] 0.14 0.13 0.03 0.02</span></span></code></pre></div>
 <div class="section level3">
-<h3 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+<h3 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h3>
-<div id="refs" class="references">
-<div id="ref-gibler2008international">
-<p>Gibler, Douglas M. 2008. <em>International Military Alliances, 1648-2008</em>. CQ Press.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-gibler2008international" class="csl-entry">
+Gibler, Douglas M. 2008. <em>International Military Alliances,
+1648-2008</em>. CQ Press.
 </div>
-<div id="ref-sarkees2010resort">
-<p>Sarkees, Meredith Reid, and Frank Whelon Wayman. 2010. <em>Resort to War: A Data Guide to Inter-State, Extra-State, Intra-State, and Non-State Wars, 1816-2007</em>. Cq Pr.</p>
+<div id="ref-sarkees2010resort" class="csl-entry">
+Sarkees, Meredith Reid, and Frank Whelon Wayman. 2010. <em>Resort to
+War: A Data Guide to Inter-State, Extra-State, Intra-State, and
+Non-State Wars, 1816-2007</em>. Cq Pr.
 </div>
 </div>
 </div>
