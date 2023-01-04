@@ -1,7 +1,9 @@
 
-## sbm version 0.4.4
+## sbm version 0.4.5
 
-* tested locally on Ubuntu Linux 20.04.1 LTS, R-release, GCC
+Includes a fix for purrr version 1.0.0 which causes failure on some CRAN platforms  
+
+* tested locally on Ubuntu Linux 22.04 LTS, R-release, GCC
 
 * tested remotely with R-hub 
   - Windows Server 2022, R-devel, 64 bit
@@ -9,9 +11,9 @@
 	- Ubuntu Linux 20.04.1 LTS, R-release, GCC
 
 * tested remotely with github-action
-  - Linux ubuntu 20.04, R-release 
-  - Linux ubuntu 20.04, R-oldrel 
-  - Linux ubuntu 20.04, R-devel 
+  - Linux ubuntu 22.04, R-release 
+  - Linux ubuntu 22.04, R-oldrel 
+  - Linux ubuntu 22.04, R-devel 
   - Windows Server 2022, R-release, 64 bit
   - macOS Big Sur 11, R-release
 

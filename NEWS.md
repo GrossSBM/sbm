@@ -1,6 +1,6 @@
-# sbm version dev 
+# sbm 0.4.5 [2023-01-04]
 
-* included a fix for purrr
+* included a fix for purrr version 1.0.0
 
 # sbm 0.4.4 [2022-08-24]
 
