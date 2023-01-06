@@ -10,7 +10,7 @@ Each graph have three attributes: 'name' (the country name), 'power' (a score re
 'trade' (a score related to the trade effort between pairs of countries).
 }
 \source{
-networks were extracted from \url{https://www.correlatesofwar.org/}
+networks were extracted from \url{https://correlatesofwar.org/}
 }
 \usage{
 war
