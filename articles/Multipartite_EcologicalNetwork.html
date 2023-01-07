@@ -120,8 +120,8 @@ accompanying the R6 classes `multipartiteSBMfit’.</p>
 <div class="section level3">
 <h3 id="requirements">Requirements<a class="anchor" aria-label="anchor" href="#requirements"></a>
 </h3>
-<p>The packages required for the analysis are <strong>sbm</strong> plus
-some others for data manipulation and representation:</p>
+<p>The only package required for the analysis is
+<strong>sbm</strong>:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://grosssbm.github.io/sbm/" class="external-link">sbm</a></span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -140,7 +140,7 @@ dispersal by frugivorous birds, and protective mutualisms between ants
 and plants with extrafloral nectaries.</p>
 <p>The dataset –which is one of the largest compiled so far with respect
 to species richness, number of interactions and sampling effort–
-includes 4 functional groups, namely plants, pollinator species
+includes 4 functional groups (FG), namely plants, pollinator species
 (referred as floral visitors), ant species and frugivorous bird species.
 Three binary bipartite networks have been collected representing
 interactions between 1/ plants and florals visitor, 2/ plants and ants,
@@ -187,29 +187,29 @@ list.</p>
 <p>To do so, we use the function <code>defineNetwork</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Net</span> <span class="op">&lt;-</span> <span class="va">multipartiteEcologicalNetwork</span></span>
-<span><span class="va">type</span><span class="op">=</span><span class="st">'bipartite'</span></span>
-<span><span class="va">model</span> <span class="op">=</span> <span class="st">'bernoulli'</span></span>
+<span><span class="va">type</span> <span class="op">=</span> <span class="st">"bipartite"</span></span>
+<span><span class="va">model</span> <span class="op">=</span> <span class="st">"bernoulli"</span></span>
 <span><span class="va">directed</span> <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span><span class="va">PlantFlovis</span> <span class="op">=</span> <span class="fu"><a href="../reference/defineSBM.html">defineSBM</a></span><span class="op">(</span><span class="va">Net</span><span class="op">$</span><span class="va">Inc_plant_flovis</span>, <span class="va">model</span>,<span class="va">type</span>,<span class="va">directed</span>,</span>
-<span>                        dimLabels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Plants"</span>, <span class="st">"Flovis"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">PlantAnt</span> <span class="op">=</span> <span class="fu"><a href="../reference/defineSBM.html">defineSBM</a></span><span class="op">(</span><span class="va">Net</span><span class="op">$</span><span class="va">Inc_plant_ant</span>,<span class="va">model</span>,<span class="va">type</span>,<span class="va">directed</span>,</span>
-<span>                      dimLabels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Plants"</span>, <span class="st">"Ants"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">PlantBird</span> <span class="op">=</span> <span class="fu"><a href="../reference/defineSBM.html">defineSBM</a></span><span class="op">(</span><span class="va">Net</span><span class="op">$</span><span class="va">Inc_plant_bird</span>,<span class="va">model</span>,<span class="va">type</span>,<span class="va">directed</span>,</span>
-<span>                     dimLabels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Plants"</span>, <span class="st">"Birds"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">PlantFlovis</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/defineSBM.html">defineSBM</a></span><span class="op">(</span><span class="va">Net</span><span class="op">$</span><span class="va">Inc_plant_flovis</span>, <span class="va">model</span>, <span class="va">type</span>, <span class="va">directed</span>, dimLabels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Plants"</span>,</span>
+<span>    <span class="st">"Flovis"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">PlantAnt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/defineSBM.html">defineSBM</a></span><span class="op">(</span><span class="va">Net</span><span class="op">$</span><span class="va">Inc_plant_ant</span>, <span class="va">model</span>, <span class="va">type</span>, <span class="va">directed</span>, dimLabels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Plants"</span>,</span>
+<span>    <span class="st">"Ants"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">PlantBird</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/defineSBM.html">defineSBM</a></span><span class="op">(</span><span class="va">Net</span><span class="op">$</span><span class="va">Inc_plant_bird</span>, <span class="va">model</span>, <span class="va">type</span>, <span class="va">directed</span>, dimLabels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Plants"</span>,</span>
+<span>    <span class="st">"Birds"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>If one wants to keep a track of the names of the species, they should
 be used as rownames and colnames in the matrices.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">PlantFlovis</span><span class="op">$</span><span class="va">netMatrix</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span></span>
+<code class="sourceCode R"><span><span class="va">PlantFlovis</span><span class="op">$</span><span class="va">netMatrix</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span></span>
 <span><span class="co">#&gt; NULL</span></span></code></pre></div>
 <p>A plot of the data can be obtained with following command</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotMyMultipartiteMatrix.html">plotMyMultipartiteMatrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">PlantFlovis</span>,<span class="va">PlantAnt</span>,<span class="va">PlantBird</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotMyMultipartiteMatrix.html">plotMyMultipartiteMatrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">PlantFlovis</span>, <span class="va">PlantAnt</span>, <span class="va">PlantBird</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="Multipartite_EcologicalNetwork_files/figure-html/plot%20data-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="mathematical-background">Mathematical Background<a class="anchor" aria-label="anchor" href="#mathematical-background"></a>
 </h3>
-<p>See <span class="citation">Bar-Hen, P., and S. (<a href="#ref-multipartite" role="doc-biblioref">To appear</a>)</span> for
+<p>See <span class="citation">Bar-Hen, Barbillon, and Donnet (<a href="#ref-multipartite" role="doc-biblioref">2022</a>)</span> for
 details.</p>
 </div>
 <div class="section level3">
@@ -223,7 +223,6 @@ function <code>estimatemultipartiteBM</code>.</p>
 <span><span class="va">myMSBM</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/estimateMultipartiteSBM.html">estimateMultipartiteSBM</a></span><span class="op">(</span><span class="va">listSBM</span>, <span class="va">estimOptions</span><span class="op">)</span></span></code></pre></div>
 <p> contains the estimated parameters of the models we run through
 during the search of the better numbers of blocks.</p>
-<p>RES_MBM contains the dataset and the results.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">myMSBM</span></span>
 <span><span class="co">#&gt; Fit of a Multipartite Stochastic Block Model </span></span>
@@ -238,14 +237,14 @@ during the search of the better numbers of blocks.</p>
 <span><span class="co">#&gt;   $probMemberships, $loglik, $ICL, $storedModels, </span></span>
 <span><span class="co">#&gt; * R6 and S3 methods </span></span>
 <span><span class="co">#&gt;   plot, print, coef, predict, fitted, $setModel, $reorder</span></span></code></pre></div>
-<p>The best model has the following numbers of blocks</p>
+<p>The best model has the following numbers of blocks:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">myMSBM</span><span class="op">$</span><span class="va">nbBlocks</span></span>
 <span><span class="co">#&gt; Plants Flovis   Ants  Birds </span></span>
 <span><span class="co">#&gt;      7      2      2      1</span></span></code></pre></div>
 <p>To see the parameters estimated for the better model we use the
 following command <code>myMSBM$connectParam</code> or
-<code>myMSBM$blockProp</code></p>
+<code>myMSBM$blockProp</code>:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">myMSBM</span><span class="op">$</span><span class="va">blockProp</span></span>
 <span><span class="co">#&gt; $Plants</span></span>
@@ -295,7 +294,7 @@ following command <code>myMSBM$connectParam</code> or
 <span><span class="co">#&gt; [6,] 7.534085e-02</span></span>
 <span><span class="co">#&gt; [7,] 1.253527e-03</span></span></code></pre></div>
 <p>The clustering supplied by the better model are in
-<code>myMSBM$memberships***</code>.</p>
+<code>myMSBM$memberships$***</code>.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">myMSBM</span><span class="op">$</span><span class="va">memberships</span><span class="op">$</span><span class="va">Plants</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -332,17 +331,18 @@ following command <code>myMSBM$connectParam</code> or
 <div class="section level2">
 <h2 id="plots">Plots<a class="anchor" aria-label="anchor" href="#plots"></a>
 </h2>
-<p>We can either plot the reorganized matrix</p>
+<p>We can either plot the reorganized matrix:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">myMSBM</span><span class="op">)</span> </span></code></pre></div>
 <p><img src="Multipartite_EcologicalNetwork_files/figure-html/plot-1.png" width="700"></p>
-<p>or the mesoscopic view</p>
+<p>or the mesoscopic view:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">plotOptions</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>vertex.size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>,<span class="fl">6</span>,<span class="fl">4</span>,<span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">plotOptions</span><span class="op">$</span><span class="va">vertex.shape</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">'circle'</span>,<span class="fl">4</span><span class="op">)</span></span>
-<span><span class="va">plotOptions</span><span class="op">$</span><span class="va">vertex.color</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'darkolivegreen3'</span>,<span class="st">'darkgoldenrod2'</span>,<span class="st">'salmon2'</span>,<span class="st">'cadetblue2'</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">plotOptions</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>vertex.size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">6</span>, <span class="fl">4</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">plotOptions</span><span class="op">$</span><span class="va">vertex.shape</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"circle"</span>, <span class="fl">4</span><span class="op">)</span></span>
+<span><span class="va">plotOptions</span><span class="op">$</span><span class="va">vertex.color</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"darkolivegreen3"</span>, <span class="st">"darkgoldenrod2"</span>, <span class="st">"salmon2"</span>,</span>
+<span>    <span class="st">"cadetblue2"</span><span class="op">)</span></span>
 <span><span class="va">plotOptions</span><span class="op">$</span><span class="va">edge.curved</span> <span class="op">=</span> <span class="fl">0.1</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">myMSBM</span>,type <span class="op">=</span> <span class="st">'meso'</span>,plotOptions<span class="op">=</span><span class="va">plotOptions</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">myMSBM</span>, type <span class="op">=</span> <span class="st">"meso"</span>, plotOptions <span class="op">=</span> <span class="va">plotOptions</span><span class="op">)</span></span></code></pre></div>
 <p><img src="Multipartite_EcologicalNetwork_files/figure-html/plot%20meso-1.png" width="700"></p>
 </div>
 <div class="section level2 unnumbered">
@@ -350,9 +350,10 @@ following command <code>myMSBM$connectParam</code> or
 </h2>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-multipartite" class="csl-entry">
-Bar-Hen, A, Barbillon P., and Donnet S. To appear. <span>“Block Models
-for Multipartite Networks.applications in Ecology and
-Ethnobiology.”</span> <em>Statistical Modelling</em>, To appear.
+Bar-Hen, Avner, Pierre Barbillon, and Sophie Donnet. 2022. <span>“Block
+Models for Generalized Multipartite Networks: Applications in Ecology
+and Ethnobiology.”</span> <em>Statistical Modelling</em> 22 (4): 273–96.
+<a href="https://doi.org/10.1177/1471082X20963254" class="external-link">https://doi.org/10.1177/1471082X20963254</a>.
 </div>
 <div id="ref-Dattilo" class="csl-entry">
 Dáttilo, Wesley, Nubia Lara-Rodrı́guez, Pedro Jordano, Paulo R.
