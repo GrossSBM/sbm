@@ -45,7 +45,7 @@ data("war")
 
 This data set contains a list of two networks (`belligerent` and `alliance`) where the nodes are countries; an edge in the network `belligerent` means that the two countries have been at war at least once between years 1816 to 2007; an edge in network `alliance` means that the two countries have had a formal alliance between years 1816 and 2012.  The network `belligerent` have less nodes since countries which have not been at war at all are not considered.
 
-These two networks were extracted from [https://www.correlatesofwar.org/](https://www.correlatesofwar.org/) (see @sarkees2010resort for war data, and  @gibler2008international for formal alliance). Version 4.0 was used for war data and version 4.1 for formal alliance. 
+These two networks were extracted from [https://correlatesofwar.org/](https://correlatesofwar.org/) (see @sarkees2010resort for war data, and  @gibler2008international for formal alliance). Version 4.0 was used for war data and version 4.1 for formal alliance. 
 
 
 # Data manipulation

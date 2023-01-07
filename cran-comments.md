@@ -1,29 +1,38 @@
 
-## Version 0.4.3
+Resubmission of sbm 0.4.5, fixing reference to moved URL (CRAN maintainer request)
 
-Minor release that solves a reverse dependency problem in the upcoming version of ggplot2 (v3.3.4)
-and avoid some testing for Windows and in the vignettes to save time during check
+>  Found the following (possibly) invalid URLs:
+     URL: https://www.correlatesofwar.org/ (moved to
+https://correlatesofwar.org/)
+       From: man/war.Rd
+             inst/doc/Multiplex_allianceNwar_case_study.html
+       Status: 301
+       Message: Moved Permanently
 
-## Tested environments
+## sbm version 0.4.5
 
-* Ubuntu 20.04, R-release GCC (R-hub builder)
-* Fedora Linux, R-devel, clang, gfortran (R-hub builder)
-* Debian Linux, R-devel, clang (R-hub builder)
-* Oracle Solaris 10, x86, 32 bit, R-release  (R-hub builder)
-* macOS 10.13.6 High Sierra, R-release, CRAN's setup (R-hub builder)
-* Windows Server 2008 R2 SP1, R-release, 32/64 bit (R-hub builder)
-* local R installation, R 4.1.0, Ubuntu 20.04
-* win-builder (R 4.0.5)
-* win-builder (R 4.1.0)
-* win-builder (R Under development)
-* Windows latest (github-action)
-* macOS Catalina 10.15, R-release (github action)
-* Linux Ubuntu 20.04, R-release, R-devel (github-action)
+Includes a fix for purrr version 1.0.0 which causes failure on some CRAN platforms  
 
+* tested locally on Ubuntu Linux 22.04 LTS, R-release, GCC
+
+* tested remotely with R-hub 
+  - Windows Server 2022, R-devel, 64 bit
+	- Ubuntu Linux 20.04.1 LTS, R-release, GCC
+
+* tested remotely with github-action
+  - Linux ubuntu 22.04, R-release 
+  - Linux ubuntu 22.04, R-oldrel 
+  - Linux ubuntu 22.04, R-devel 
+  - Windows Server 2022, R-release, 64 bit
+  - macOS Big Sur 11, R-release
+
+- tested remotely with win-builder (R stable and R under development)
+  failed on R old release (purrr not available)
+  
 ## R CMD check results (local)
 
-── R CMD check results ────────────────────────────────────────── sbm 0.4.3 ────
-Duration: 2m 15.5s
+── R CMD check results ────────────────────────────────────────── sbm 0.4.5 ────
+Duration: 2m 55s
 
 0 errors ✓ | 0 warnings ✓ | 0 notes ✓
 
