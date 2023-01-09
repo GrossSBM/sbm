@@ -20,9 +20,9 @@ Includes a fix for purrr version 1.0.0 which causes failure on some CRAN platfor
 	- Ubuntu Linux 20.04.1 LTS, R-release, GCC
 
 * tested remotely with github-action
-  - Linux ubuntu 22.04, R-release 
-  - Linux ubuntu 22.04, R-oldrel 
-  - Linux ubuntu 22.04, R-devel 
+  - Linux Ubuntu 22.04, R-release 
+  - Linux Ubuntu 22.04, R-oldrel 
+  - Linux Ubuntu 22.04, R-devel 
   - Windows Server 2022, R-release, 64 bit
   - macOS Big Sur 11, R-release
 
