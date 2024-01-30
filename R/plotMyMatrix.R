@@ -5,16 +5,15 @@
 #' @param clustering : a list of length 2 specifying a clustering on row and col
 #' @param plotOptions : a list providing options. See details below.
 #' @details The list of parameters \code{plotOptions} for the matrix plot is
-#'  \itemize{
-#'  \item{"legend": }{Boolean. Set TRUE if you want to see the legend. Default value is FALSE}
-#'  \item{"legend.title": }{Boolean. Set TRUE if you want to print the title of the legend. Default value is FALSE}
-#'  \item{"legend.position": }{Position of the legend. Possible values are 'bottom', 'top','left,'right'. Default value is 'bottom'}
-#'  \item{"rowNames": }{Set true if the rownames must be plotted. Default value is FALSE}
-#'  \item{"colNames": }{Set true if the colNames must be plotted. Default value is FALSE}
-#'  \item{"line.color": }{Chain of character. The color of the lines to separate groups if a clustering is provided. Default value is red}
-#'  \item{"line.width": }{Numeric. Width  of the lines to separate groups. Default value is NULL, automatically chosen}
-#'  \item{"title": }{Chain of character. Title of the plot. Default value is NULL}
-#'  }
+#'  * "legend":  Boolean. Set TRUE if you want to see the legend. Default value is FALSE
+#'  * "legend.title":  Boolean. Set TRUE if you want to print the title of the legend. Default value is FALSE
+#'  * "legend.position":  Position of the legend. Possible values are 'bottom', 'top','left,'right'. Default value is 'bottom'
+#'  * "rowNames":  Set true if the rownames must be plotted. Default value is FALSE
+#'  * "colNames":  Set true if the colNames must be plotted. Default value is FALSE
+#'  * "line.color":  Chain of character. The color of the lines to separate groups if a clustering is provided. Default value is red
+#'  * "line.width":  Numeric. Width  of the lines to separate groups. Default value is NULL, automatically chosen
+#'  * "title":  Chain of character. Title of the plot. Default value is NULL
+#'
 #' @return a ggplot object corresponding to the plot
 #' @export
 #'

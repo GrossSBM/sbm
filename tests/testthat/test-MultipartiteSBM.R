@@ -70,9 +70,10 @@ test_that("initializing Multipartite SBM works", {
     expect_lt(myMBM$ICL, myMBM$loglik)
 
     # S3 methods
-    ## expect_silent(plot(myMBM, type = "data"))
+    #
+    expect_silent(plot(myMBM, type = "data"))
     expect_silent(plot(myMBM, type = "meso"))
-    ##  expect_silent(plot(myMBM, type = "expected"))
+    expect_silent(plot(myMBM, type = "expected"))
     expect_equal(coef(myMBM, 'connectivity'), myMBM$connectParam)
     expect_equal(coef(myMBM, 'block')       , myMBM$blockProp)
 

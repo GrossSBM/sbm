@@ -392,9 +392,8 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG,namesLayers, dist
     testRow <- vapply(1:(nbSep*nbFG),function(i){1*(G[separRow$FG_row_index[i],separRow$FG_col_index[i]]==1)},1)
     separRow <- separRow[testRow==1,]
 
-
-    g <- g + geom_vline(data= separCol, aes(xintercept =  .data$sepCol),size= currentOptions$line.width, col=currentOptions$line.color)
-    g <- g + geom_hline(data= separRow, aes(yintercept = .data$sepRow),size= currentOptions$line.width, col=currentOptions$line.color)
+    g <- g + geom_vline(data= separCol, aes(xintercept =  .data$sepCol), linewidth = currentOptions$line.width, col=currentOptions$line.color)
+    g <- g + geom_hline(data= separRow, aes(yintercept = .data$sepRow), linewidth = currentOptions$line.width, col=currentOptions$line.color)
   }
 
   if (!is.null(currentOptions$title)){g <- g + ggtitle(currentOptions$title) }
@@ -485,14 +484,14 @@ plotMeso <- function(thetaMean, pi,model,directed,bipartite,nbNodes,nodeLabels,p
     colnames(alpha.norm) <- paste(vertex.label$col,1:length(pi$col),sep='')
     rownames(alpha.norm) <- paste(vertex.label$row,1:length(pi$row),sep='')
     vlab <- c(rownames(alpha.norm),colnames(alpha.norm))
-    g <- igraph::graph_from_incidence_matrix(alpha.norm, weighted = TRUE)
+    g <- suppressWarnings(igraph::graph_from_incidence_matrix(alpha.norm, weighted = TRUE))
     u <- c(pi$row*nbNodes[1],pi$col*nbNodes[2])
     if (is.null(layout)){ layout <- igraph::layout_as_bipartite(g)}
   }else{
     vlab <- paste(vertex.label,1:length(pi),sep = "")
     u <- pi*nbNodes[1]
     mode <- ifelse(directed,'directed','undirected')
-    g <- igraph::graph.adjacency(alpha.norm, mode = mode, weighted = TRUE)
+    g <- suppressWarnings(igraph::graph.adjacency(alpha.norm, mode = mode, weighted = TRUE))
     if (is.null(layout)){layout <- igraph::layout_with_fr(g)}
   }
 
@@ -652,7 +651,7 @@ plotMesoMultipartite <- function(E,theta, list_pi,v_distrib,directed,nbNodes,nod
 
 
   colnames(alpha.norm) <- rownames(alpha.norm) <- labelNode
-  g <- igraph::graph.adjacency(alpha.norm, mode = 'directed', weighted = TRUE,diag = TRUE)
+  g <- suppressWarnings(igraph::graph.adjacency(alpha.norm, mode = 'directed', weighted = TRUE, diag = TRUE))
   if (is.null(layout)){layout <- igraph::layout_with_fr(g)}
   u <- unlist(lapply(1:nbFG, function(p){list_pi[[p]]*10}))
 

@@ -4,13 +4,11 @@
 #' @param plotOptions : a list containing the options for Alluvial plots
 
 #' @details The list of parameters \code{plotOptions} provides the following options
-#'  \itemize{
-#'  \item{"curvy"}{numeric, controls the curvature of the alluvial. Default value = 0.3}
-#'  \item{"alpha}{numeric, vector of transparency of the stripes. Default value = 0.8}
-#'  \item{"gap.width"}{numeric, relative width of inter-category gaps. Default value = 0.1}
-#'  \item{"col"}{vector of colors of the stripes. Default value = "darkolivegreen3"}
-#'  \item{"border"}{vector of border colors for the stripes. Default is white}
-#' }
+#'  * "curvy" numeric, controls the curvature of the alluvial. Default value = 0.3
+#'  * "alpha numeric, vector of transparency of the stripes. Default value = 0.8
+#'  * "gap.width" numeric, relative width of inter-category gaps. Default value = 0.1
+#'  * "col" vector of colors of the stripes. Default value = "darkolivegreen3"
+#'  * "border" vector of border colors for the stripes. Default is white
 #'
 #' @return display the alluvial plot, returns the plotOptions as a list
 #' @export

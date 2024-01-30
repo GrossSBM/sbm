@@ -11,16 +11,15 @@
 #' @param estimOptions a list of parameters controlling the inference algorithm and model selection. See details.
 #'
 #' @details The list of parameters \code{estimOptions} essentially tunes the optimization process and the variational EM algorithm, with the following parameters
-#'  \itemize{
-#'  \item{"nbCores"}{integer for number of cores used. Default is 2}
-#'  \item{"verbosity"}{integer for verbosity (0, 1). Default is 1}
-#'  \item{"plot"}{boolean, should the ICL by dynamically plotted or not. Default is TRUE}
-#'  \item{"exploreFactor"}{control the exploration of the number of groups}
-#'  \item{"exploreMin"}{explore at least until exploreMin even if the exploration factor rule is achieved. Default 4. See the package blockmodels for details.}
-#'  \item{"exploreMax"}{Stop exploration at exploreMax  even if the exploration factor rule is not achieved. Default Inf. See the package blockmodels for details.}
-#'  \item{"nbBlocksRange"}{minimal and maximal number or blocks explored}
-#'  \item{"fast"}{logical: should approximation be used for Bernoulli model with covariates. Default to \code{TRUE}}
-#' }
+#' * "nbCores integer for number of cores used. Default is 2
+#' * "verbosity" integer for verbosity (0, 1). Default is 1
+#' * "plot" boolean, should the ICL by dynamically plotted or not. Default is TRUE
+#' * "exploreFactor" control the exploration of the number of groups
+#' * "exploreMin" explore at least until exploreMin even if the exploration factor rule is achieved. Default 4. See the package blockmodels for details.
+#' * "exploreMax" Stop exploration at exploreMax  even if the exploration factor rule is not achieved. Default Inf. See the package blockmodels for details.
+#' * "nbBlocksRange" minimal and maximal number or blocks explored
+#' * "fast" logical: should approximation be used for Bernoulli model with covariates. Default to \code{TRUE}
+#'
 #' @return  a list with the estimated parameters. See details...
 #'
 #' @examples
@@ -131,16 +130,8 @@ estimateSimpleSBM <- function(netMat,
 #' @param covariates a list of matrices with same dimension as mat describing covariates at the edge level. No covariate per Default.
 #' @param estimOptions a list of parameters controlling the inference algorithm and model selection. See details.
 #'
-#' @details The list of parameters \code{estimOptions} essentially tunes the optimization process and the variational EM algorithm, with the following parameters
-#'  \itemize{
-#'  \item{"nbCores"}{integer for number of cores used. Default is 2}
-#'  \item{"verbosity"}{integer for verbosity (0, 1). Default is 1}
-#'  \item{"plot"}{boolean, should the ICL by dynamically plotted or not. Default is TRUE}
-#'  \item{"exploreFactor"}{control the exploration of the number of groups}
-#'  \item{"exploreMin"}{explore at least until exploreMin even if the exploration factor rule is achieved. Default 4. See the package blockmodels for details.}
-#'  \item{"exploreMax"}{Stop exploration at exploreMax  even if the exploration factor rule is not achieved. Default Inf. See the package blockmodels for details.}
-#'  \item{"fast"}{logical: should approximation be used for Bernoulli model with covariates. Default to \code{TRUE}}
-#' }
+#' @inherit estimateSimpleSBM details
+#'
 #' @return  a list with the estimated parameters. See details...
 #'
 #' @examples
@@ -231,14 +222,13 @@ estimateBipartiteSBM <- function(netMat,
 #' @param listSBM list of networks that were defined by the \code{defineSBM} function
 #' @param estimOptions options for the inference procedure
 #' @details The list of parameters \code{estimOptions} essentially tunes the optimization process and the variational EM algorithm, with the following parameters
-#'  \itemize{
-#'  \item{"nbCores"}{integer for number of cores used.  Default is 2}
-#'  \item{"verbosity"}{integer for verbosity (0, 1). Default is 1}
-#'  \item{"nbBlocksRange"}{List of length the number of functional groups, each element supplying the minimal and maximal number of blocks to be explored. The names of the list must be the names of the functional groups.  Default value is from 1 to 10)}
-#'  \item{"initBM"}{Boolean. True if using simple and bipartite SBM as initialisations. Default value  = TRUE}
-#'  \item{"maxiterVEM"}{Number of max. number of iterations in  the VEM. Default value  = 100}
-#'  \item{"maxiterVE"}{Number of max. number of iterations in  the VE. Default value  = 100}
-#'}
+#' * "nbCores" integer for number of cores used.  Default is 2
+#' * "verbosity" integer for verbosity (0, 1). Default is 1
+#' * "nbBlocksRange" List of length the number of functional groups, each element supplying the minimal and maximal number of blocks to be explored. The names of the list must be the names of the functional groups.  Default value is from 1 to 10)
+#' * "initBM" Boolean. True if using simple and bipartite SBM as initialisations. Default value  = TRUE
+#' * "maxiterVEM" Number of max. number of iterations in  the VEM. Default value  = 100
+#' * "maxiterVE" Number of max. number of iterations in  the VE. Default value  = 100
+#'
 #' @return a MultipartiteSBM_fit object with the estimated parameters and the blocks in each Functional Group
 #' @export
 #'
@@ -304,22 +294,19 @@ estimateMultipartiteSBM <- function(listSBM,
 #' @param dependent logical parameter indicating whether the networks in the multiplex structure are dependent beyond the latent variables,
 #' @param estimOptions options for the inference procedure
 #' @details The list of parameters \code{estimOptions} essentially tunes the optimization process and the variational EM algorithm, with the following parameters
-#'  \itemize{
-#'  \item{"nbCores"}{integer for number of cores used.  Default is 2}
-#'  \item{"verbosity"}{integer for verbosity (0, 1). Default is 1}
-#'  \item{"nbBlocksRange"}{List of length the number of functional groups, each element supplying the minimal and maximal number of blocks to be explored. The names of the list must be the names of the functional groups.  Default value is from 1 to 10)}
-#'  \item{"initBM"}{Boolean. True if using simple and bipartite SBM as initialisations. Default value  = TRUE}
-#'  \item{"maxiterVEM"}{Number of max. number of iterations in  the VEM. Default value  = 100}
-#'  \item{"maxiterVE"}{Number of max. number of iterations in  the VE. Default value  = 100}
-#'  \item{"plot"}{boolean, should the ICL by dynamically plotted or not. Default is TRUE. For dependent networks}
-#'  \item{"exploreFactor"}{control the exploration of the number of groups. For dependent networks}
-#'  \item{"exploreMin"}{explore at least until exploreMin even if the exploration factor rule is achieved. Default 4. See the package blockmodels for details. For dependent networks}
-#'  \item{"exploreMax"}{Stop exploration at exploreMax  even if the exploration factor rule is not achieved. Default Inf. See the package blockmodels for details. For dependent networks}
-#'  \item{"nbBlocksRange"}{minimal and maximal number or blocks explored. For dependent networks}
-#'  \item{"fast"}{logical: should approximation be used for Bernoulli model with covariates. Default to \code{TRUE}. For dependent networks}
-
-
-#'}
+#' * "nbCores" integer for number of cores used.  Default is 2
+#' * "verbosity" integer for verbosity (0, 1). Default is 1
+#' * "nbBlocksRange" List of length the number of functional groups, each element supplying the minimal and maximal number of blocks to be explored. The names of the list must be the names of the functional groups.  Default value is from 1 to 10)
+#' * "initBM" Boolean. True if using simple and bipartite SBM as initialisations. Default value  = TRUE
+#' * "maxiterVEM" Number of max. number of iterations in  the VEM. Default value  = 100
+#' * "maxiterVE" Number of max. number of iterations in  the VE. Default value  = 100
+#' * "plot" boolean, should the ICL by dynamically plotted or not. Default is TRUE. For dependent networks
+#' * "exploreFactor" control the exploration of the number of groups. For dependent networks
+#' * "exploreMin" explore at least until exploreMin even if the exploration factor rule is achieved. Default 4. See the package blockmodels for details. For dependent networks
+#' * "exploreMax" Stop exploration at exploreMax  even if the exploration factor rule is not achieved. Default Inf. See the package blockmodels for details. For dependent networks
+#' * "nbBlocksRange" minimal and maximal number or blocks explored. For dependent networks
+#' * "fast" logical: should approximation be used for Bernoulli model with covariates. Default to \code{TRUE}. For dependent networks
+#'
 #' @return a MultiplexSBM_fit object with the estimated parameters and the blocks
 #' @export
 #'

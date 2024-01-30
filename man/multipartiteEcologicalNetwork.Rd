@@ -6,11 +6,10 @@
 \title{Ecological multipartite interaction network}
 \format{
 A list a 3 binary  incidence matrices
-\describe{
-\item{Inc_plant_ant}{Interactions between plants (rows) and ants (cols). Matrix with 141 rows and 30 columns}
-\item{Inc_plant_bird}{Interactions between plants (rows) and birds (cols). Matrix with141 rows and 46 columns}
-\item{Inc_plant_flovis}{Interactions between plants (rows) and pollinators (cols). Matrix with 141 rows and 173 columns}
-...
+\itemize{
+\item Inc_plant_ant Interactions between plants (rows) and ants (cols). Matrix with 141 rows and 30 columns
+\item Inc_plant_bird Interactions between plants (rows) and birds (cols). Matrix with141 rows and 46 columns
+\item Inc_plant_flovis Interactions between plants (rows) and pollinators (cols). Matrix with 141 rows and 173 columns
 }
 }
 \source{

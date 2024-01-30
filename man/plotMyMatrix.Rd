@@ -29,14 +29,14 @@ Plot an adjacency or incidence Matrix
 \details{
 The list of parameters \code{plotOptions} for the matrix plot is
 \itemize{
-\item{"legend": }{Boolean. Set TRUE if you want to see the legend. Default value is FALSE}
-\item{"legend.title": }{Boolean. Set TRUE if you want to print the title of the legend. Default value is FALSE}
-\item{"legend.position": }{Position of the legend. Possible values are 'bottom', 'top','left,'right'. Default value is 'bottom'}
-\item{"rowNames": }{Set true if the rownames must be plotted. Default value is FALSE}
-\item{"colNames": }{Set true if the colNames must be plotted. Default value is FALSE}
-\item{"line.color": }{Chain of character. The color of the lines to separate groups if a clustering is provided. Default value is red}
-\item{"line.width": }{Numeric. Width  of the lines to separate groups. Default value is NULL, automatically chosen}
-\item{"title": }{Chain of character. Title of the plot. Default value is NULL}
+\item "legend":  Boolean. Set TRUE if you want to see the legend. Default value is FALSE
+\item "legend.title":  Boolean. Set TRUE if you want to print the title of the legend. Default value is FALSE
+\item "legend.position":  Position of the legend. Possible values are 'bottom', 'top','left,'right'. Default value is 'bottom'
+\item "rowNames":  Set true if the rownames must be plotted. Default value is FALSE
+\item "colNames":  Set true if the colNames must be plotted. Default value is FALSE
+\item "line.color":  Chain of character. The color of the lines to separate groups if a clustering is provided. Default value is red
+\item "line.width":  Numeric. Width  of the lines to separate groups. Default value is NULL, automatically chosen
+\item "title":  Chain of character. Title of the plot. Default value is NULL
 }
 }
 \examples{
