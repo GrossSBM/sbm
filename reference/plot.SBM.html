@@ -123,36 +123,96 @@
     </div>
     <div id="details">
     <h2>Details</h2>
-    <p>The list of parameters <code>plotOptions</code>  for the mesoscopic plot is:</p><ul><li><p>"seed": seed to control the layout</p></li>
-<li><p>"title": character string for the title. Default value is NULL</p></li>
-<li><p>"layout": Default value = NULL</p></li>
-<li><p>"vertex.color": Default value is "salmon2"</p></li>
-<li><p>"vertex.frame.color": Node border color.Default value is "black"</p></li>
-<li><p>"vertex.shape": One of "none", "circle", "square", "csquare", "rectangle" "crectangle", "vrectangle", "pie", "raster", or "sphere". Default value = "circle"</p></li>
-<li><p>"vertex.size": Size of the node (default is 2)</p></li>
-<li><p>"vertex.size2": The second size of the node (e.g. for a rectangle)</p></li>
-<li><p>"vertex.label.name": Names of the vertices. Default value is the label of the nodes</p></li>
-<li><p>"vertex.label.color": Default value is  "black"</p></li>
-<li><p>"vertex.label.font": Default value is 2. Font: 1 plain, 2 bold, 3, italic, 4 bold italic, 5 symbol</p></li>
-<li><p>"vertex.label.cex": Font size (multiplication factor, device-dependent).Default value is  0.9.</p></li>
-<li><p>"vertex.label.dist": Distance between the label and the vertex. Default value is  0</p></li>
-<li><p>"vertex.label.degree": The position of the label in relation to the vertex. default value is 0</p></li>
-<li><p>"edge.threshold": Threshold under which the edge is not plotted. Default value is = -Inf</p></li>
-<li><p>"edge.color": Default value is "gray"</p></li>
-<li><p>"edge.width": Factor parameter. Default value is 10</p></li>
-<li><p>"edge.arrow.size": Default value is 1</p></li>
-<li><p>"edge.arrow.width": Default value is 2</p></li>
-<li><p>"edge.lty": Line type, could be 0 or "blank", 1 or "solid", 2 or "dashed", 3 or "dotted", 4 or "dotdash", 5 or "longdash", 6 or "twodash". Default value is "solid"</p></li>
-<li><p>"edge.curved": Default value is = 0.3.</p></li>
-</ul><p>For type = 'data' or 'expected plot', the list of parameters <code>plotOptions</code> is</p><ul><li><p>"legend": Boolean. Set TRUE if you want to see the legend. Default value is FALSE</p></li>
-<li><p>"legend.title":Boolean. Set TRUE if you want to print the title of the legend. Default value is FALSE</p></li>
-<li><p>"legend.position":Position of the legend. Possible values are 'bottom', 'top','left,'right'. Default value is 'bottom'</p></li>
-<li><p>"rowNames":Set true if the rownames must be plotted. Default value is FALSE</p></li>
-<li><p>"colNames":Set true if the colNames must be plotted. Default value is FALSE</p></li>
-<li><p>"line.color": Chain of character. The color of the lines to separate groups if a clustering is provided. Default value is red</p></li>
-<li><p>"line.width": Numeric. Width  of the lines to separate groups. Default value is NULL, automatically chosen</p></li>
-<li><p>"title": Chain of character. Title of the plot. Default value is NULL</p></li>
-</ul></div>
+    <p>The list of parameters <code>plotOptions</code>  for the mesoscopic plot is:</p><dl><dt>"seed": </dt>
+<dd><p>seed to control the layout</p></dd>
+
+<dt>"title": </dt>
+<dd><p>character string for the title. Default value is NULL</p></dd>
+
+<dt>"layout": </dt>
+<dd><p>Default value = NULL</p></dd>
+
+<dt>"vertex.color": </dt>
+<dd><p>Default value is "salmon2"</p></dd>
+
+<dt>"vertex.frame.color": </dt>
+<dd><p>Node border color.Default value is "black"</p></dd>
+
+<dt>"vertex.shape": </dt>
+<dd><p>One of "none", "circle", "square", "csquare", "rectangle" "crectangle", "vrectangle", "pie", "raster", or "sphere". Default value = "circle"</p></dd>
+
+<dt>"vertex.size": </dt>
+<dd><p>Size of the node (default is 2)</p></dd>
+
+<dt>"vertex.size2": </dt>
+<dd><p>The second size of the node (e.g. for a rectangle)</p></dd>
+
+<dt>"vertex.label.name": </dt>
+<dd><p>Names of the vertices. Default value is the label of the nodes</p></dd>
+
+<dt>"vertex.label.color": </dt>
+<dd><p>Default value is  "black"</p></dd>
+
+<dt>"vertex.label.font": </dt>
+<dd><p>Default value is 2. Font: 1 plain, 2 bold, 3, italic, 4 bold italic, 5 symbol</p></dd>
+
+<dt>"vertex.label.cex": </dt>
+<dd><p>Font size (multiplication factor, device-dependent).Default value is  0.9.</p></dd>
+
+<dt>"vertex.label.dist": </dt>
+<dd><p>Distance between the label and the vertex. Default value is  0</p></dd>
+
+<dt>"vertex.label.degree": </dt>
+<dd><p>The position of the label in relation to the vertex. default value is 0</p></dd>
+
+<dt>"edge.threshold": </dt>
+<dd><p>Threshold under which the edge is not plotted. Default value is = -Inf</p></dd>
+
+<dt>"edge.color": </dt>
+<dd><p>Default value is "gray"</p></dd>
+
+<dt>"edge.width": </dt>
+<dd><p>Factor parameter. Default value is 10</p></dd>
+
+<dt>"edge.arrow.size": </dt>
+<dd><p>Default value is 1</p></dd>
+
+<dt>"edge.arrow.width": </dt>
+<dd><p>Default value is 2</p></dd>
+
+<dt>"edge.lty": </dt>
+<dd><p>Line type, could be 0 or "blank", 1 or "solid", 2 or "dashed", 3 or "dotted", 4 or "dotdash", 5 or "longdash", 6 or "twodash". Default value is "solid"</p></dd>
+
+<dt>"edge.curved": </dt>
+<dd><p>Default value is = 0.3.</p></dd>
+
+
+</dl><p>For type = 'data' or 'expected plot', the list of parameters <code>plotOptions</code> is</p><dl><dt>"legend": </dt>
+<dd><p>Boolean. Set TRUE if you want to see the legend. Default value is FALSE</p></dd>
+
+<dt>"legend.title":</dt>
+<dd><p>Boolean. Set TRUE if you want to print the title of the legend. Default value is FALSE</p></dd>
+
+<dt>"legend.position":</dt>
+<dd><p>Position of the legend. Possible values are 'bottom', 'top','left,'right'. Default value is 'bottom'</p></dd>
+
+<dt>"rowNames":</dt>
+<dd><p>Set true if the rownames must be plotted. Default value is FALSE</p></dd>
+
+<dt>"colNames":</dt>
+<dd><p>Set true if the colNames must be plotted. Default value is FALSE</p></dd>
+
+<dt>"line.color": </dt>
+<dd><p>Chain of character. The color of the lines to separate groups if a clustering is provided. Default value is red</p></dd>
+
+<dt>"line.width": </dt>
+<dd><p>Numeric. Width  of the lines to separate groups. Default value is NULL, automatically chosen</p></dd>
+
+<dt>"title": </dt>
+<dd><p>Chain of character. Title of the plot. Default value is NULL</p></dd>
+
+
+</dl></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

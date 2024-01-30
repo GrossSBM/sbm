@@ -115,11 +115,17 @@ Each graph have three attributes: 'name' (the country name), 'power' (a score re
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">war</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">war</span><span class="op">$</span><span class="va">belligerent</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "igraph"</span>
-<span class="r-in"><span><span class="fu">igraph</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/igraph/man/gorder.html" class="external-link">gorder</a></span><span class="op">(</span><span class="va">war</span><span class="op">$</span><span class="va">alliance</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">igraph</span><span class="fu">::</span><span class="fu"><a href="https://r.igraph.org/reference/gorder.html" class="external-link">gorder</a></span><span class="op">(</span><span class="va">war</span><span class="op">$</span><span class="va">alliance</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> This graph was created by an old(er) igraph version.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   Call upgrade_graph() on it to use with the current igraph version</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   For now we convert it on the fly...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 171</span>
-<span class="r-in"><span><span class="fu">igraph</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/igraph/man/gorder.html" class="external-link">gorder</a></span><span class="op">(</span><span class="va">war</span><span class="op">$</span><span class="va">belligerent</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">igraph</span><span class="fu">::</span><span class="fu"><a href="https://r.igraph.org/reference/gorder.html" class="external-link">gorder</a></span><span class="op">(</span><span class="va">war</span><span class="op">$</span><span class="va">belligerent</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> This graph was created by an old(er) igraph version.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   Call upgrade_graph() on it to use with the current igraph version</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   For now we convert it on the fly...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 83</span>
-<span class="r-in"><span><span class="fu">igraph</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/igraph/man/edge.html" class="external-link">edges</a></span><span class="op">(</span><span class="va">war</span><span class="op">$</span><span class="va">alliance</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">igraph</span><span class="fu">::</span><span class="fu"><a href="https://r.igraph.org/reference/edge.html" class="external-link">edges</a></span><span class="op">(</span><span class="va">war</span><span class="op">$</span><span class="va">alliance</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> IGRAPH 00c3a83 UN-- 171 1654 -- </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> + attr: trade (g/n), power (g/n), name (v/c)</span>
@@ -136,7 +142,7 @@ Each graph have three attributes: 'name' (the country name), 'power' (a score re
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "igraph.edge"</span>
-<span class="r-in"><span><span class="fu">igraph</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/igraph/man/graph_attr.html" class="external-link">get.graph.attribute</a></span><span class="op">(</span><span class="va">war</span><span class="op">$</span><span class="va">alliance</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">igraph</span><span class="fu">::</span><span class="fu"><a href="https://r.igraph.org/reference/graph_attr.html" class="external-link">get.graph.attribute</a></span><span class="op">(</span><span class="va">war</span><span class="op">$</span><span class="va">alliance</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $trade</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                  United States of America    Canada     Bahamas</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> United States of America                         11838636 83309.874 29769.84735</span>
