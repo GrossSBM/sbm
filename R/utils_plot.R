@@ -652,7 +652,7 @@ plotMesoMultipartite <- function(E,theta, list_pi,v_distrib,directed,nbNodes,nod
 
 
   colnames(alpha.norm) <- rownames(alpha.norm) <- labelNode
-  g <- igraph::graph.adjacency(alpha.norm, mode = 'directed', weighted = TRUE,diag = TRUE)
+  g <- suppressWarnings(igraph::graph.adjacency(alpha.norm, mode = 'directed', weighted = TRUE, diag = TRUE))
   if (is.null(layout)){layout <- igraph::layout_with_fr(g)}
   u <- unlist(lapply(1:nbFG, function(p){list_pi[[p]]*10}))
 
