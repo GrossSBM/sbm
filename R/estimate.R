@@ -130,7 +130,7 @@ estimateSimpleSBM <- function(netMat,
 #' @param covariates a list of matrices with same dimension as mat describing covariates at the edge level. No covariate per Default.
 #' @param estimOptions a list of parameters controlling the inference algorithm and model selection. See details.
 #'
-#' @inheritSection estimateSimpleSBM details
+#' @inherit estimateSimpleSBM details
 #'
 #' @return  a list with the estimated parameters. See details...
 #'

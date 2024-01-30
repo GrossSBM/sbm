@@ -200,7 +200,7 @@ predict.SBM <- function(object, covarList = object$covarList, theta_p0 = 0, ...)
 #' @param plotOptions list with parameters for 'meso' type plot and data type plot. Details are given below
 #' @param ... additional parameters for S3 compatibility. Not used
 #' @details The list of parameters \code{plotOptions}  for the mesoscopic plot is:
-#'  \itemize{
+#'  \describe{
 #'  \item{"seed": }{seed to control the layout}
 #'  \item{"title": }{character string for the title. Default value is NULL}
 #'  \item{"layout": }{Default value = NULL}
@@ -224,7 +224,7 @@ predict.SBM <- function(object, covarList = object$covarList, theta_p0 = 0, ...)
 #'  \item{"edge.curved": }{Default value is = 0.3.}
 #' }
 #' For type = 'data' or 'expected plot', the list of parameters \code{plotOptions} is
-#' \itemize{
+#' \describe{
 #'  \item{"legend": }{Boolean. Set TRUE if you want to see the legend. Default value is FALSE}
 #'  \item{"legend.title":}{Boolean. Set TRUE if you want to print the title of the legend. Default value is FALSE}
 #'  \item{"legend.position":}{Position of the legend. Possible values are 'bottom', 'top','left,'right'. Default value is 'bottom'}

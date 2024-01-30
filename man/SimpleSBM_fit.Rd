@@ -10,17 +10,6 @@ R6 Class definition of a Simple SBM fit
 }
 \details{
 This class is designed to give a representation and adjust an SBM fitted with blockmodels.
-
-The list of parameters \code{estimOptions} essentially tunes the optimization process and the variational EM algorithm, with the following parameters
-\itemize{
-\item{"nbCores"}{integer for number of cores used. Default is 2}
-\item{"verbosity"}{integer for verbosity (0, 1). Default is 1}
-\item{"plot"}{boolean, should the ICL by dynamically plotted or not. Default is TRUE}
-\item{"exploreFactor"}{control the exploration of the number of groups}
-\item{"exploreMin"}{explore at least until exploreMin even if the exploration factor rule is achieved. Default 4. See the package blockmodels for details.}
-\item{"exploreMin"}{Stop exploration at exploreMax  even if the exploration factor rule is not achieved. Default Inf. See the package blockmodels for details.}
-\item{"fast"}{logical: should approximation be used for Bernoulli model with covariates. Default to \code{TRUE}}
-}
 }
 \section{Super classes}{
 \code{\link[sbm:SBM]{sbm::SBM}} -> \code{\link[sbm:SimpleSBM]{sbm::SimpleSBM}} -> \code{SimpleSBM_fit}
