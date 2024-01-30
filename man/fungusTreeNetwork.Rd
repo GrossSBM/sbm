@@ -6,12 +6,12 @@
 \title{fungus-tree interaction network}
 \format{
 A list with the following entries:
-\describe{
-\item{fungi_list}{list of the fungus species names}
-\item{tree_list}{list of the tree species names}
-\item{fungus_tree}{binary fungus-tree interactions}
-\item{tree_tree}{weighted tree-tree interactions (number of common fungal species two tree species host) }
-\item{covar_tree}{covariates associated to pairs of trees (namely genetic, taxonomic and geographic distances)}
+\itemize{
+\item fungi_list list of the fungus species names
+\item tree_list list of the tree species names
+\item fungus_tree binary fungus-tree interactions
+\item tree_tree weighted tree-tree interactions (number of common fungal species two tree species host)
+\item covar_tree covariates associated to pairs of trees (namely genetic, taxonomic and geographic distances)
 }
 }
 \source{

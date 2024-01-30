@@ -22,18 +22,18 @@ Estimation for Multiplex SBM
 \details{
 The list of parameters \code{estimOptions} essentially tunes the optimization process and the variational EM algorithm, with the following parameters
 \itemize{
-\item{"nbCores"}{integer for number of cores used.  Default is 2}
-\item{"verbosity"}{integer for verbosity (0, 1). Default is 1}
-\item{"nbBlocksRange"}{List of length the number of functional groups, each element supplying the minimal and maximal number of blocks to be explored. The names of the list must be the names of the functional groups.  Default value is from 1 to 10)}
-\item{"initBM"}{Boolean. True if using simple and bipartite SBM as initialisations. Default value  = TRUE}
-\item{"maxiterVEM"}{Number of max. number of iterations in  the VEM. Default value  = 100}
-\item{"maxiterVE"}{Number of max. number of iterations in  the VE. Default value  = 100}
-\item{"plot"}{boolean, should the ICL by dynamically plotted or not. Default is TRUE. For dependent networks}
-\item{"exploreFactor"}{control the exploration of the number of groups. For dependent networks}
-\item{"exploreMin"}{explore at least until exploreMin even if the exploration factor rule is achieved. Default 4. See the package blockmodels for details. For dependent networks}
-\item{"exploreMax"}{Stop exploration at exploreMax  even if the exploration factor rule is not achieved. Default Inf. See the package blockmodels for details. For dependent networks}
-\item{"nbBlocksRange"}{minimal and maximal number or blocks explored. For dependent networks}
-\item{"fast"}{logical: should approximation be used for Bernoulli model with covariates. Default to \code{TRUE}. For dependent networks}
+\item "nbCores" integer for number of cores used.  Default is 2
+\item "verbosity" integer for verbosity (0, 1). Default is 1
+\item "nbBlocksRange" List of length the number of functional groups, each element supplying the minimal and maximal number of blocks to be explored. The names of the list must be the names of the functional groups.  Default value is from 1 to 10)
+\item "initBM" Boolean. True if using simple and bipartite SBM as initialisations. Default value  = TRUE
+\item "maxiterVEM" Number of max. number of iterations in  the VEM. Default value  = 100
+\item "maxiterVE" Number of max. number of iterations in  the VE. Default value  = 100
+\item "plot" boolean, should the ICL by dynamically plotted or not. Default is TRUE. For dependent networks
+\item "exploreFactor" control the exploration of the number of groups. For dependent networks
+\item "exploreMin" explore at least until exploreMin even if the exploration factor rule is achieved. Default 4. See the package blockmodels for details. For dependent networks
+\item "exploreMax" Stop exploration at exploreMax  even if the exploration factor rule is not achieved. Default Inf. See the package blockmodels for details. For dependent networks
+\item "nbBlocksRange" minimal and maximal number or blocks explored. For dependent networks
+\item "fast" logical: should approximation be used for Bernoulli model with covariates. Default to \code{TRUE}. For dependent networks
 }
 }
 \examples{
