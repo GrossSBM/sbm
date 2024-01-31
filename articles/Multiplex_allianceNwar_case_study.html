@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sbm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.5-9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.6</span>
       </span>
     </div>
 
@@ -103,7 +103,7 @@ study</h3>
                         <h4 data-toc-skip class="author">team
 großBM</h4>
             
-            <h4 data-toc-skip class="date">2024-01-30</h4>
+            <h4 data-toc-skip class="date">2024-01-31</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/GrossSBM/sbm/blob/HEAD/vignettes/Multiplex_allianceNwar_case_study.Rmd" class="external-link"><code>vignettes/Multiplex_allianceNwar_case_study.Rmd</code></a></small>
       <div class="hidden name"><code>Multiplex_allianceNwar_case_study.Rmd</code></div>
@@ -157,12 +157,17 @@ was used for war data and version 4.1 for formal alliance.</p>
 (countries) which were at war with at least one other country. This
 corresponds to the first 83 nodes in the Alliance network.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">A</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://r.igraph.org/reference/as_adjacency_matrix.html" class="external-link">get.adjacency</a></span><span class="op">(</span><span class="va">war</span><span class="op">$</span><span class="va">alliance</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">A</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://r.igraph.org/reference/get.adjacency.html" class="external-link">get.adjacency</a></span><span class="op">(</span><span class="va">war</span><span class="op">$</span><span class="va">alliance</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: `get.adjacency()` was deprecated in igraph 2.0.0.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please use `as_adjacency_matrix()` instead.</span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">generated.</span></span></span>
 <span><span class="co">#&gt; This graph was created by an old(er) igraph version.</span></span>
 <span><span class="co">#&gt;   Call upgrade_graph() on it to use with the current igraph version</span></span>
 <span><span class="co">#&gt;   For now we convert it on the fly...</span></span>
 <span><span class="va">A</span> <span class="op">&lt;-</span> <span class="va">A</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">83</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">83</span><span class="op">]</span></span>
-<span><span class="va">B</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://r.igraph.org/reference/as_adjacency_matrix.html" class="external-link">get.adjacency</a></span><span class="op">(</span><span class="va">war</span><span class="op">$</span><span class="va">belligerent</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">B</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://r.igraph.org/reference/get.adjacency.html" class="external-link">get.adjacency</a></span><span class="op">(</span><span class="va">war</span><span class="op">$</span><span class="va">belligerent</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; This graph was created by an old(er) igraph version.</span></span>
 <span><span class="co">#&gt;   Call upgrade_graph() on it to use with the current igraph version</span></span>
 <span><span class="co">#&gt;   For now we convert it on the fly...</span></span></code></pre></div>
