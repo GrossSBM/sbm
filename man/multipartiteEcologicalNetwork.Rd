@@ -13,7 +13,9 @@ A list a 3 binary  incidence matrices
 }
 }
 \source{
-Dataset  compiled and conducted at Centro de Investigaciones Costeras La Mancha (CICOLMA), located on the central coast of the Gulf of Mexico, Veracruz, Mexico. \url{https://royalsocietypublishing.org/doi/full/10.1098/rspb.2016.1564} \url{https://github.com/lucaspdmedeiros/multi-network_core_removal/tree/master/data}
+Dataset  compiled and conducted at Centro de Investigaciones Costeras La Mancha (CICOLMA), located on the central
+coast of the Gulf of Mexico, Veracruz, Mexico. see \doi{10.1098/rspb.2016.1564} and
+\url{https://github.com/lucaspdmedeiros/multi-network_core_removal/tree/master/data}
 }
 \usage{
 multipartiteEcologicalNetwork

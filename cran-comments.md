@@ -1,17 +1,8 @@
 
-Resubmission of sbm 0.4.5, fixing reference to moved URL (CRAN maintainer request)
+## sbm version 0.4.6
 
->  Found the following (possibly) invalid URLs:
-     URL: https://www.correlatesofwar.org/ (moved to
-https://correlatesofwar.org/)
-       From: man/war.Rd
-             inst/doc/Multiplex_allianceNwar_case_study.html
-       Status: 301
-       Message: Moved Permanently
-
-## sbm version 0.4.5
-
-Includes a fix for purrr version 1.0.0 which causes failure on some CRAN platforms  
+- fixing use of \itemize in documentation 
+- remove warnings due to deprecated function in igraph
 
 * tested locally on Ubuntu Linux 22.04 LTS, R-release, GCC
 
@@ -31,8 +22,8 @@ Includes a fix for purrr version 1.0.0 which causes failure on some CRAN platfor
   
 ## R CMD check results (local)
 
-── R CMD check results ────────────────────────────────────────── sbm 0.4.5 ────
-Duration: 2m 55s
+── R CMD check results ────────────────────────────────────────── sbm 0.4.6 ────
+Duration: 2m 56s
 
 0 errors ✓ | 0 warnings ✓ | 0 notes ✓
 
