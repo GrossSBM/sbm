@@ -10,6 +10,9 @@
   - Windows Server 2022, R-devel, 64 bit
 	- Ubuntu Linux 20.04.1 LTS, R-release, GCC
 
+* tested remotely with R-winbuilder 
+  - Windows Old release, unstable, unstable
+
 * tested remotely with github-action
   - Linux Ubuntu 22.04, R-release 
   - Linux Ubuntu 22.04, R-oldrel 
@@ -17,9 +20,6 @@
   - Windows Server 2022, R-release, 64 bit
   - macOS Big Sur 11, R-release
 
-- tested remotely with win-builder (R stable and R under development)
-  failed on R old release (purrr not available)
-  
 ## R CMD check results (local)
 
 ── R CMD check results ────────────────────────────────────────── sbm 0.4.6 ────

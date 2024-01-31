@@ -1,3 +1,8 @@
+# sbm 0.4.6 [2024-01-31]
+
+* fixing use of \itemize in documentation 
+* remove warnings due to deprecated function in igraph
+
 # sbm 0.4.5 [2023-01-04]
 
 * included a fix for purrr version 1.0.0
