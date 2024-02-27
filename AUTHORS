@@ -1,11 +1,4 @@
-Authors@R: 
-  c(person(given = "Julien", family = "Chiquet", role = c("aut", "cre"),
-           email = "julien.chiquet@inrae.fr",
-           comment = c(ORCID = "0000-0002-3629-3429")),
-    person(given = "Sophie", family = "Donnet", role = c("aut"),
-           email = "sophie.donnet@inrae.fr",
-           comment = c(ORCID = "0000-0003-4370-7316")),
-    person("großBM team", role = c("ctb")),
-    person(given = "Pierre", family = "Barbillon", role = c("aut"),
-           email = "pierre.barbillon@agroparistech.fr",
-           comment = c(ORCID = "0000-0002-7766-7693")))
+# Contributors
+* Julien Chiquet, Maintainer, Developer
+* Sophie Donnet, Developer
+* Pierre Barbillon, Developer
