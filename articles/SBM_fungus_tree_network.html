@@ -6,20 +6,19 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Simple and Bipartite Stochastic Block Models • sbm</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Simple and Bipartite Stochastic Block Models">
-<meta property="og:description" content="sbm">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-article">
       <header><div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -42,7 +41,7 @@
 <li>
   <a>
     <span class="fa fa-home"></span>
-     
+
   </a>
 </li>
 <li>
@@ -54,7 +53,7 @@
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Vignettes
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -80,7 +79,7 @@
 <li>
   <a href="https://github.com/GrossSBM/GSBM" class="external-link">
     <span class="fa fa-github"></span>
-     
+
   </a>
 </li>
       </ul>
@@ -91,7 +90,7 @@
 </div>
 <!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
@@ -103,9 +102,9 @@ antagonistic tree/fungus network</h3>
                         <h4 data-toc-skip class="author">team
 großBM</h4>
             
-            <h4 data-toc-skip class="date">2024-02-27</h4>
+            <h4 data-toc-skip class="date">2024-09-09</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/GrossSBM/sbm/blob/HEAD/vignettes/SBM_fungus_tree_network.Rmd" class="external-link"><code>vignettes/SBM_fungus_tree_network.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/GrossSBM/sbm/blob/master/vignettes/SBM_fungus_tree_network.Rmd" class="external-link"><code>vignettes/SBM_fungus_tree_network.Rmd</code></a></small>
       <div class="hidden name"><code>SBM_fungus_tree_network.Rmd</code></div>
 
     </div>
@@ -132,8 +131,8 @@ some others for data manipulation and representation:</p>
 <div class="section level3">
 <h3 id="data-set-antagonistic-treefungus-interaction-network">Data set: antagonistic tree/fungus interaction network<a class="anchor" aria-label="anchor" href="#data-set-antagonistic-treefungus-interaction-network"></a>
 </h3>
-<p>We consider the fungus-tree interaction network studied by <span class="citation">Vacher, Piou, and Desprez-Loustau (<a href="#ref-tree_fungus_network" role="doc-biblioref">2008</a>)</span>,
-available with the package <strong>sbm</strong>:</p>
+<p>We consider the fungus-tree interaction network studied by <span class="citation">Vacher, Piou, and Desprez-Loustau (<a href="#ref-tree_fungus_network">2008</a>)</span>, available with the
+package <strong>sbm</strong>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"fungusTreeNetwork"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">fungusTreeNetwork</span>, max.level <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
@@ -143,8 +142,11 @@ available with the package <strong>sbm</strong>:</p>
 <span><span class="co">#&gt;  $ tree_tree   : num [1:51, 1:51] 0 12 9 3 2 2 0 0 2 7 ...</span></span>
 <span><span class="co">#&gt;  $ fungus_tree : int [1:154, 1:51] 0 0 0 0 1 1 1 0 0 0 ...</span></span>
 <span><span class="co">#&gt;  $ covar_tree  :List of 3</span></span></code></pre></div>
-<p>This data set provides information about <span class="math inline">\(154\)</span> fungi sampled on <span class="math inline">\(51\)</span> tree species. It is a list with the
-following entries:</p>
+<p>This data set provides information about
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>154</mn><annotation encoding="application/x-tex">154</annotation></semantics></math>
+fungi sampled on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>51</mn><annotation encoding="application/x-tex">51</annotation></semantics></math>
+tree species. It is a list with the following entries:</p>
 <ul>
 <li>
 <code>fungi_list</code>: list of the fungus species names</li>
@@ -166,7 +168,7 @@ fungi.</p>
 <div class="section level3">
 <h3 id="mathematical-background">Mathematical Background<a class="anchor" aria-label="anchor" href="#mathematical-background"></a>
 </h3>
-<p>See <span class="citation">Leger (<a href="#ref-blockmodels" role="doc-biblioref">2016</a>)</span> for details.</p>
+<p>See <span class="citation">Leger (<a href="#ref-blockmodels">2016</a>)</span> for details.</p>
 </div>
 </div>
 <div class="section level2">
@@ -196,15 +198,10 @@ simple SBM with the function <code>estimateSimpleSBM</code>.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; -&gt; Pass 1</span></span>
 <span><span class="co">#&gt; </span></span></code></pre>
-<p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-2.png" width="700"><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-3.png" width="700"><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-4.png" width="700"><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-5.png" width="700"><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-6.png" width="700"><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-7.png" width="700"><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-8.png" width="700"></p>
-<p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-9.png" width="700"></p>
-<p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-10.png" width="700"></p>
-<p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-11.png" width="700"></p>
-<p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-12.png" width="700"><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-13.png" width="700"><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-14.png" width="700"></p>
+<p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-2.png" width="700"><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-3.png" width="700"><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-4.png" width="700"><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-5.png" width="700"><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-6.png" width="700"><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-7.png" width="700"><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-8.png" width="700"><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-9.png" width="700"><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-10.png" width="700"><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-11.png" width="700"><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-12.png" width="700"><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-13.png" width="700"><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-14.png" width="700"></p>
 <pre><code><span><span class="co">#&gt; -&gt; Pass 2</span></span>
 <span><span class="co">#&gt; </span></span></code></pre>
-<p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-15.png" width="700"><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-16.png" width="700"></p>
-<p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-17.png" width="700"></p>
+<p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-15.png" width="700"><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-16.png" width="700"><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-17.png" width="700"></p>
 <pre><code><span><span class="co">#&gt; -&gt; Pass 3</span></span></code></pre>
 <p>Once fitted, the user can manipulate the fitted model by accessing
 the various fields and methods enjoyed by the class
@@ -439,9 +436,12 @@ nodes in the network.</p>
 </h3>
 <p>We have on each pair of trees 3 covariates, namely the genetic
 distance, the taxonomic distance and the geographic distance. Each
-covariate has to be introduced as a matrix: <span class="math inline">\(X^k_{ij}\)</span> corresponds to the value of the
-<span class="math inline">\(k\)</span>-th covariate describing the
-couple <span class="math inline">\((i,j)\)</span>.</p>
+covariate has to be introduced as a matrix:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>X</mi><mrow><mi>i</mi><mi>j</mi></mrow><mi>k</mi></msubsup><annotation encoding="application/x-tex">X^k_{ij}</annotation></semantics></math>
+corresponds to the value of the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>-th
+covariate describing the couple
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>i</mi><mo>,</mo><mi>j</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(i,j)</annotation></semantics></math>.</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mySimpleSBMCov</span><span class="op">&lt;-</span> </span>
 <span>  <span class="va">tree_tree</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
@@ -460,33 +460,35 @@ criteria)</li>
 <code class="sourceCode R"><span><span class="va">mySimpleSBMCov</span><span class="op">$</span><span class="va">nbBlocks</span></span>
 <span><span class="co">#&gt; [1] 4</span></span></code></pre></div>
 <ul>
-<li>We can now extract the parameters of interest, namely (<span class="math inline">\(\lambda\)</span>, <span class="math inline">\(\pi\)</span>) and the clustering of the
-nodes.</li>
+<li>We can now extract the parameters of interest, namely
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation encoding="application/x-tex">\lambda</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>π</mi><annotation encoding="application/x-tex">\pi</annotation></semantics></math>)
+and the clustering of the nodes.</li>
 </ul>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mySimpleSBMCov</span><span class="op">$</span><span class="va">connectParam</span></span>
 <span><span class="co">#&gt; $mean</span></span>
 <span><span class="co">#&gt;           [,1]       [,2]      [,3]      [,4]</span></span>
-<span><span class="co">#&gt; [1,] 28.184661 14.8837525 5.9576476 1.2386211</span></span>
-<span><span class="co">#&gt; [2,] 14.883753  9.5567197 3.7908857 0.4100245</span></span>
-<span><span class="co">#&gt; [3,]  5.957648  3.7908857 1.6177904 0.3840582</span></span>
-<span><span class="co">#&gt; [4,]  1.238621  0.4100245 0.3840582 0.1892473</span></span>
+<span><span class="co">#&gt; [1,] 28.203992 14.8912245 5.9616968 1.2393019</span></span>
+<span><span class="co">#&gt; [2,] 14.891225  9.5630078 3.7924302 0.4103065</span></span>
+<span><span class="co">#&gt; [3,]  5.961697  3.7924302 1.6186169 0.3842198</span></span>
+<span><span class="co">#&gt; [4,]  1.239302  0.4103065 0.3842198 0.1893406</span></span>
 <span><span class="va">mySimpleSBMCov</span><span class="op">$</span><span class="va">blockProp</span></span>
-<span><span class="co">#&gt; [1] 0.3715916 0.2159544 0.2354120 0.1770421</span></span>
+<span><span class="co">#&gt; [1] 0.3715916 0.2159544 0.2354118 0.1770423</span></span>
 <span><span class="va">mySimpleSBMCov</span><span class="op">$</span><span class="va">memberships</span></span>
 <span><span class="co">#&gt;  [1] 1 1 2 1 2 2 4 4 2 1 3 1 1 1 1 2 1 2 3 3 2 1 2 1 3 3 2 1 3 2 3 1 4 1 1 3 1 3</span></span>
 <span><span class="co">#&gt; [39] 4 1 1 3 2 4 4 1 4 4 3 3 4</span></span>
 <span><span class="va">mySimpleSBMCov</span><span class="op">$</span><span class="va">covarParam</span></span>
 <span><span class="co">#&gt;            [,1]</span></span>
-<span><span class="co">#&gt; [1,]  0.1977418</span></span>
-<span><span class="co">#&gt; [2,] -2.0548142</span></span>
-<span><span class="co">#&gt; [3,] -0.3579126</span></span></code></pre></div>
+<span><span class="co">#&gt; [1,]  0.1974181</span></span>
+<span><span class="co">#&gt; [2,] -2.0552202</span></span>
+<span><span class="co">#&gt; [3,] -0.3583405</span></span></code></pre></div>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">mySimpleSBMCov</span>, <span class="st">'covariates'</span><span class="op">)</span></span>
 <span><span class="co">#&gt;            [,1]</span></span>
-<span><span class="co">#&gt; [1,]  0.1977418</span></span>
-<span><span class="co">#&gt; [2,] -2.0548142</span></span>
-<span><span class="co">#&gt; [3,] -0.3579126</span></span></code></pre></div>
+<span><span class="co">#&gt; [1,]  0.1974181</span></span>
+<span><span class="co">#&gt; [2,] -2.0552202</span></span>
+<span><span class="co">#&gt; [3,] -0.3583405</span></span></code></pre></div>
 <p>S3 methods are also available for fit and prediction (results hidden
 here)</p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
@@ -547,7 +549,7 @@ matrix can be plotted with the function </p>
 <div class="section level2 unnumbered">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div id="ref-blockmodels" class="csl-entry">
 Leger, Jean-Benoist. 2016. <span>“Blockmodels: A r-Package for
 Estimating in Latent Block Model and Stochastic Block Model, with
@@ -566,9 +568,7 @@ One</em> 3 (3): e1740.
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
-    </nav>
-</div>
+      </div>
 
 </div>
 
@@ -581,16 +581,16 @@ One</em> 3 (3): e1740.
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
       </footer>
 </div>
 
-  
 
 
-  
+
+
 
   </body>
 </html>

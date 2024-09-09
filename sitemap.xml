@@ -1,129 +1,45 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>/404.html</loc>
-  </url>
-  <url>
-    <loc>/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>/articles/Multipartite_EcologicalNetwork.html</loc>
-  </url>
-  <url>
-    <loc>/articles/MultiplexNetwork_principle.html</loc>
-  </url>
-  <url>
-    <loc>/articles/Multiplex_allianceNwar_case_study.html</loc>
-  </url>
-  <url>
-    <loc>/articles/SBM_fungus_tree_network.html</loc>
-  </url>
-  <url>
-    <loc>/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/news/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/BipartiteSBM.html</loc>
-  </url>
-  <url>
-    <loc>/reference/BipartiteSBM_fit.html</loc>
-  </url>
-  <url>
-    <loc>/reference/MultipartiteSBM.html</loc>
-  </url>
-  <url>
-    <loc>/reference/MultipartiteSBM_fit.html</loc>
-  </url>
-  <url>
-    <loc>/reference/MultiplexSBM_fit.html</loc>
-  </url>
-  <url>
-    <loc>/reference/SBM.html</loc>
-  </url>
-  <url>
-    <loc>/reference/SimpleSBM.html</loc>
-  </url>
-  <url>
-    <loc>/reference/SimpleSBM_fit.html</loc>
-  </url>
-  <url>
-    <loc>/reference/coef.SBM.html</loc>
-  </url>
-  <url>
-    <loc>/reference/defineSBM.html</loc>
-  </url>
-  <url>
-    <loc>/reference/estimateBipartiteSBM.html</loc>
-  </url>
-  <url>
-    <loc>/reference/estimateMultipartiteSBM.html</loc>
-  </url>
-  <url>
-    <loc>/reference/estimateMultiplexSBM.html</loc>
-  </url>
-  <url>
-    <loc>/reference/estimateSimpleSBM.html</loc>
-  </url>
-  <url>
-    <loc>/reference/fitted.SBM.html</loc>
-  </url>
-  <url>
-    <loc>/reference/fungusTreeNetwork.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/is_SBM.html</loc>
-  </url>
-  <url>
-    <loc>/reference/multipartiteEcologicalNetwork.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pipe.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plot.SBM.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plotAlluvial.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plotMyMatrix.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plotMyMultipartiteMatrix.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plotMyMultiplexMatrix.html</loc>
-  </url>
-  <url>
-    <loc>/reference/predict.SBM.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sampleBipartiteSBM.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sampleMultipartiteSBM.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sampleMultiplexSBM.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sampleSimpleSBM.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sbm-package.html</loc>
-  </url>
-  <url>
-    <loc>/reference/war.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/LICENSE.html</loc></url>
+<url><loc>/articles/Multipartite_EcologicalNetwork.html</loc></url>
+<url><loc>/articles/MultiplexNetwork_principle.html</loc></url>
+<url><loc>/articles/Multiplex_allianceNwar_case_study.html</loc></url>
+<url><loc>/articles/SBM_fungus_tree_network.html</loc></url>
+<url><loc>/articles/index.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/news/index.html</loc></url>
+<url><loc>/reference/BipartiteSBM.html</loc></url>
+<url><loc>/reference/BipartiteSBM_fit.html</loc></url>
+<url><loc>/reference/MultipartiteSBM.html</loc></url>
+<url><loc>/reference/MultipartiteSBM_fit.html</loc></url>
+<url><loc>/reference/MultiplexSBM_fit.html</loc></url>
+<url><loc>/reference/SBM.html</loc></url>
+<url><loc>/reference/SimpleSBM.html</loc></url>
+<url><loc>/reference/SimpleSBM_fit.html</loc></url>
+<url><loc>/reference/coef.SBM.html</loc></url>
+<url><loc>/reference/defineSBM.html</loc></url>
+<url><loc>/reference/estimateBipartiteSBM.html</loc></url>
+<url><loc>/reference/estimateMultipartiteSBM.html</loc></url>
+<url><loc>/reference/estimateMultiplexSBM.html</loc></url>
+<url><loc>/reference/estimateSimpleSBM.html</loc></url>
+<url><loc>/reference/fitted.SBM.html</loc></url>
+<url><loc>/reference/fungusTreeNetwork.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/is_SBM.html</loc></url>
+<url><loc>/reference/multipartiteEcologicalNetwork.html</loc></url>
+<url><loc>/reference/pipe.html</loc></url>
+<url><loc>/reference/plot.SBM.html</loc></url>
+<url><loc>/reference/plotAlluvial.html</loc></url>
+<url><loc>/reference/plotMyMatrix.html</loc></url>
+<url><loc>/reference/plotMyMultipartiteMatrix.html</loc></url>
+<url><loc>/reference/plotMyMultiplexMatrix.html</loc></url>
+<url><loc>/reference/predict.SBM.html</loc></url>
+<url><loc>/reference/sampleBipartiteSBM.html</loc></url>
+<url><loc>/reference/sampleMultipartiteSBM.html</loc></url>
+<url><loc>/reference/sampleMultiplexSBM.html</loc></url>
+<url><loc>/reference/sampleSimpleSBM.html</loc></url>
+<url><loc>/reference/sbm-package.html</loc></url>
+<url><loc>/reference/war.html</loc></url>
 </urlset>
+
