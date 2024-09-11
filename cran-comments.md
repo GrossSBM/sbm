@@ -1,8 +1,9 @@
 
-## sbm version 0.4.6
+# sbm 0.4.7
 
-- fixing use of \itemize in documentation 
-- remove warnings due to deprecated function in igraph
+* remove spelling.out file causing NOTE on CRAN
+* unnaming `$penalty` for bipartite
+* updating arXiv links in DESCRIPTION
 
 * tested locally on Ubuntu Linux 22.04 LTS, R-release, GCC
 
@@ -22,8 +23,8 @@
 
 ## R CMD check results (local)
 
-── R CMD check results ────────────────────────────────────────── sbm 0.4.6 ────
-Duration: 2m 56s
+── R CMD check results ────────────────────────────────────────── sbm 0.4.7 ────
+Duration: 2m 52s
 
 0 errors ✓ | 0 warnings ✓ | 0 notes ✓
 
