@@ -1,3 +1,8 @@
+# sbm 0.4.7 [2024-09-11]
+
+* remove spelling.out file causing NOTE on CRAN
+* unnaming `$penalty` for bipartite
+ 
 # sbm 0.4.6 [2024-01-31]
 
 * fixing use of \itemize in documentation 
