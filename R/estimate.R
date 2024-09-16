@@ -27,7 +27,7 @@
 #' ### SIMPLE BINARY SBM (Bernoulli model)
 #'
 #' ## Graph parameters & Sampling
-#' nbNodes  <- 90
+#' nbNodes  <- 60
 #' blockProp <- c(.5, .25, .25) # group proportions
 #' means <- diag(.4, 3) + 0.05  # connectivity matrix: affiliation network
 #' connectParam <- list(mean = means)
@@ -47,7 +47,7 @@
 #' ### SIMPLE POISSON SBM
 #'
 #' ## Graph parameters & Sampling
-#' nbNodes  <- 90
+#' nbNodes  <- 60
 #' blockProp <- c(.5, .25, .25) # group proportions
 #' means <- diag(15., 3) + 5    # connectivity matrix: affiliation network
 #' connectParam <- list(mean = means)
@@ -66,7 +66,7 @@
 #' ### SIMPLE GAUSSIAN SBM
 #'
 #' ## Graph parameters & Sampling
-#' nbNodes  <- 90
+#' nbNodes  <- 60
 #' blockProp <- c(.5, .25, .25)      # group proportions
 #' means <- diag(15., 3) + 5 # connectivity matrix: affiliation network
 #' connectParam <- list(mean = means, var = 2)
