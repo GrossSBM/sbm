@@ -2,22 +2,16 @@
 # sbm 0.4.7
 
 * remove spelling.out file causing NOTE on CRAN
-* unnaming `$penalty` for bipartite
+* un-naming `$penalty` for bipartite
 * updating arXiv links in DESCRIPTION
 
-* tested locally on Ubuntu Linux 22.04 LTS, R-release, GCC
-
-* tested remotely with R-hub 
-  - Windows Server 2022, R-devel, 64 bit
-	- Ubuntu Linux 20.04.1 LTS, R-release, GCC
+* tested locally on Ubuntu Linux 24.04 LTS, R-release, GCC
 
 * tested remotely with R-winbuilder 
   - Windows Old release, unstable, unstable
 
 * tested remotely with github-action
-  - Linux Ubuntu 22.04, R-release 
-  - Linux Ubuntu 22.04, R-oldrel 
-  - Linux Ubuntu 22.04, R-devel 
+  - Linux Ubuntu 22.04, R-release, R-oldrel , R-devel 
   - Windows Server 2022, R-release, 64 bit
   - macOS Big Sur 11, R-release
 
