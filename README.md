@@ -6,7 +6,7 @@
 <!-- badges: start -->
 
 [![website](https://github.com/GrossSBM/sbm/workflows/pkgdown/badge.svg)](https://grosssbm.github.io/sbm/)
-![R-CMD-check](https://github.com/GrossSBM/sbm/workflows/R-CMD-check/badge.svg?branch=master)
+[![R-CMD-check](https://github.com/GrossSBM/sbm/actions/workflows/check-standard.yaml/badge.svg)](https://github.com/GrossSBM/sbm/actions/workflows/check-standard.yaml)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/sbm)](https://CRAN.R-project.org/package=sbm)
 [![Lifecycle:
