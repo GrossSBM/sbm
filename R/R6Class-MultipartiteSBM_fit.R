@@ -109,10 +109,11 @@ MultipartiteSBM_fit <-
         currentOptions <- list(
           verbosity     = 1,
           nbBlocksRange = rep(list(c(1, 10)), length(private$dimlab)),
-          nbCores       = 2,
-          maxiterVE     = 100,
-          maxiterVEM    = 100,
-          initBM = TRUE
+          nbCores = 2,
+          maxiterVE = 100,
+          maxiterVEM = 100,
+          initBM = TRUE,
+          givenclassif = NULL
         )
         names(currentOptions$nbBlocksRange) <- private$dimlab
         ## Current options are default expect for those passed by the user
@@ -145,17 +146,19 @@ MultipartiteSBM_fit <-
         if (sum(abs(v_Kmin - v_Kmax)) > 0) {
           private$GREMLINSobject <- GREMLINS::multipartiteBM(
             list_Net = listNetG,
-            v_distrib = vdistrib ,
+            v_distrib = vdistrib,
             namesFG = namesFG,
-            v_Kmin = v_Kmin  ,
-            v_Kmax = v_Kmax ,
-            v_Kinit = NULL ,
+            v_Kmin = v_Kmin,
+            v_Kmax = v_Kmax,
+            v_Kinit = NULL,
             initBM = initBM,
-            keep = TRUE ,
+            keep = TRUE,
             verbose = verbose,
             nbCores = nbCores,
-            maxiterVE =  maxiterVE ,
-            maxiterVEM =  maxiterVEM)
+            maxiterVE = maxiterVE,
+            maxiterVEM = maxiterVEM,
+            givenclassif = givenclassif
+          )
         } else {
           private$GREMLINSobject <- GREMLINS::multipartiteBMFixedModel(
             list_Net = listNetG,
