@@ -34,7 +34,7 @@ Imports:
     magrittr,
     dplyr,
     purrr,
-    blockmodels,
+    blockmodels (>= 1.2.0),
     R6,
     Rcpp,
     igraph,
@@ -74,3 +74,5 @@ LinkingTo:
 VignetteBuilder: knitr
 Depends: 
     R (>= 3.5.0)
+Remotes:
+    Polarolouis/blockmodels
