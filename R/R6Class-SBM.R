@@ -18,6 +18,8 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       beta          = NULL, # vector of covariates parameters
       Y             = NULL, # network data (matrix or list of matrices)
       X             = NULL, # list of covariates
+      Xnodes        = NULL, # List of nodes covariates
+      B             = NULL, # List of matrices for the nodes covariates
       Z             = NULL, # indicator/probablities of blocks belonging
       sampling_func = NULL  # a list of functions to sample edge values, depending on the model
     ),
@@ -38,7 +40,9 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
                             blockProp    = vector("numeric"  , 0),
                             connectParam = vector("list"     , 0),
                             covarParam   = numeric(length(covarList)),
-                            covarList    = list()) {
+                            covarList    = list(),
+                            nodesCovarList = list(),
+                            nodesCovarParam = list()) {
         ## SANITY CHECK
         stopifnot(is.character(model), all(model %in% available_models_edges))
         stopifnot(is.logical(directed))
@@ -56,6 +60,8 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
         private$pi         <- blockProp
         private$theta      <- connectParam
         private$beta       <- covarParam
+        private$Xnodes     <- nodesCovarList
+        private$B          <- nodesCovarParam
 
         private$link <- map(model,
           ~switch(.x,
@@ -99,12 +105,15 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
         cat(type, "--", self$modelName, "variant\n")
         cat("=====================================================================\n")
         cat("Dimension = (", self$nbNodes, ") - (",
-            self$nbBlocks, ") blocks and",
-          ifelse(self$nbCovariates > 0, self$nbCovariates, "no"), "covariate(s).\n")
+            self$nbBlocks, ") blocks, ",
+          ifelse(self$nbCovariates > 0, self$nbCovariates, "no"), " edge covariate(s) and ", sapply(seq_along(self$nbNodesCovariates), function(node_type_idx) {
+            return(paste(ifelse(self$nbNodesCovariates[node_type_idx] > 0, self$nbNodesCovariates[node_type_idx], "no"), names(self$nbNodesCovariates)[node_type_idx], " covariate(s)"))
+          }),".\n")
         cat("=====================================================================\n")
         cat("* Useful fields \n")
         cat("  $nbNodes, $modelName, $dimLabels, $nbBlocks, $nbCovariates, $nbDyads\n")
         cat("  $blockProp, $connectParam, $covarParam, $covarList, $covarEffect \n")
+        cat("  $nbNodesCovariates, $nodesCovariates, $nodesCovarParam \n")
         cat("  $expectation, $indMemberships, $memberships \n")
         cat("* R6 and S3 methods \n")
         cat("  $rNetwork, $rMemberships, $rEdges, plot, print, coef \n")
@@ -136,6 +145,18 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       covarArray  = function(value) {if (self$nbCovariates > 0) simplify2array(private$X) else return(array())},
       #' @field covarEffect effect of covariates
       covarEffect = function(value) {if (self$nbCovariates > 0) return(roundProduct(private$X, private$beta)) else return(numeric(0))},
+      #' @field nbNodesCovariates the dimension of the nodes covariates
+      nbNodesCovariates = function(value) {
+        ncolVec <- sapply(private$Xnodes, ncol)
+        if (length(ncolVec) > 0 && !is.list(ncolVec)) {
+          return(ncolVec[ncolVec > 0])
+        } else {
+          return(rep(0, length(private$dim)))
+        }},
+      #' @field nodesCovariates the list of nodes covariates
+      nodesCovariates = function(value) {if (length(self$nbNodesCovariates) > 0) return(private$Xnodes) else return(list())},
+      #' @field nodesCovarParam the list of nodes covariates parameters
+      nodesCovarParam = function(value) {if (length(self$nbNodesCovariates) > 0) return(private$B) else return(list())},
       #' @field networkData the network data (adjacency or incidence matrix or list of such object)
       networkData = function(value) {return(private$Y)},
       #' @field expectation expected values of connection under the current model

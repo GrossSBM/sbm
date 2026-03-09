@@ -15,7 +15,8 @@ SimpleSBM <-
       #' @param dimLabels optional label for the node (default is "nodeName")
       #' @param covarParam optional vector of covariates effect
       #' @param covarList optional list of covariates data
-      initialize = function(model, nbNodes, directed, blockProp, connectParam, dimLabels=c("node"), covarParam=numeric(length(covarList)), covarList=list()) {
+      #' @param nodesCovar optional matrix of nodes covariates
+      initialize = function(model, nbNodes, directed, blockProp, connectParam, dimLabels=c("node"), covarParam=numeric(length(covarList)), covarList=list(), nodesCovar = matrix(nrow = 0, ncol = 0), nodesCovarParam = list()) {
 
         ## SANITY CHECKS (on parameters)
         stopifnot(length(dimLabels) == 1)
@@ -32,7 +33,7 @@ SimpleSBM <-
         )
 
         if (!directed) stopifnot(isSymmetric(connectParam$mean)) # connectivity and direction must agree
-        super$initialize(model, directed, nbNodes, dimLabels, blockProp, connectParam, covarParam, covarList)
+        super$initialize(model, directed, nbNodes, dimLabels, blockProp, connectParam, covarParam, covarList, nodesCovarList = list(node = nodesCovar))
       },
       #' @description a method to sample new block memberships for the current SBM
       #' @param store should the sampled blocks be stored (and overwrite the existing data)? Default to FALSE
@@ -171,7 +172,7 @@ SimpleSBM <-
       },
 ### field with access only
       #' @field nbBlocks number of blocks
-      nbBlocks    = function(value) {length(private$pi)},
+      nbBlocks    = function(value) {ncol(private$Z)},
       #' @field nbDyads number of dyads (potential edges in the network)
       nbDyads     = function(value) {ifelse(private$directed_, self$nbNodes*(private$dim - 1), private$dim*(private$dim - 1)/2)},
       #' @field nbConnectParam number of parameter used for the connectivity

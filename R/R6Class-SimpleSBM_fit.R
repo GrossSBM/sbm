@@ -27,8 +27,9 @@ SimpleSBM_fit <-
           "gaussian_covariates"       = list(mean = parameters$mu, var = parameters$sigma2),
           "ZIgaussian"                = list(mean = parameters$mu, var = parameters$sigma2, p0 = parameters$p0),
         )
+        private$B <- private$BMobject$memberships[[index]]$B # 0x0 matrix if there are no nodes covariates
         private$Z  <- private$BMobject$memberships[[index]]$Z
-        private$pi <- colMeans(private$Z)
+        private$pi <- private$BMobject$memberships[[index]]$alpha
       }
     ),
     public = list(
@@ -38,7 +39,8 @@ SimpleSBM_fit <-
       #' @param directed logical, directed network or not. In not, \code{adjacencyMatrix} must be symmetric.
       #' @param dimLabels list of labels of each dimension (in row, in columns)
       #' @param covarList and optional list of covariates, each of whom must have the same dimension as \code{adjacencyMatrix}
-      initialize = function(adjacencyMatrix, model, directed, dimLabels=c(node="nodeName"), covarList=list()) {
+      #' @param nodesCovar optional matrix describing the nodes covariates, there must be as many rows as there are nodes in the network
+      initialize = function(adjacencyMatrix, model, directed, dimLabels=c(node="nodeName"), covarList=list(), nodesCovar = matrix(nrow = 0, ncol = 0)) {
 
         ## SANITY CHECKS (on data)
         stopifnot(is.matrix(adjacencyMatrix))                   # must be a matrix
@@ -47,6 +49,7 @@ SimpleSBM_fit <-
         stopifnot(isSymmetric(adjacencyMatrix) == !directed)    # symmetry and direction must agree
         stopifnot(all(sapply(covarList, nrow) == nrow(adjacencyMatrix))) # consistency of the covariates
         stopifnot(all(sapply(covarList, ncol) == ncol(adjacencyMatrix))) # with the network data
+        stopifnot("Nodes covariates is either not provided or a matrix with as many rows as there is nodes." = length(nodesCovar) == 0 || (length(nodesCovar) > 0 && is.matrix(nodesCovar) && nrow(nodesCovar) == nrow(adjacencyMatrix)))
 
         ## INITIALIZE THE SBM OBJECT ACCORDING TO THE DATA
         connectParam <- switch(model,
@@ -62,7 +65,8 @@ SimpleSBM_fit <-
                          blockProp    = vector("numeric", 0),
                          connectParam = connectParam,
                          dimLabels    = dimLabels,
-                         covarList    = covarList)
+                         covarList    = covarList,
+                         nodesCovar   = nodesCovar)
         private$Y <- adjacencyMatrix
       },
       #--------------------------------------------
@@ -99,6 +103,7 @@ SimpleSBM_fit <-
         ## generating arguments for blockmodels call
         args <- list(membership_type =  ifelse(!private$directed_, "SBM_sym", "SBM"), adj = .na2zero(private$Y))
         if (self$nbCovariates > 0) args$covariates <- private$X
+        if (self$nbNodesCovariates > 0) args$nodes_covariates <- setNames(private$Xnodes, "node")
         args <- c(args, blockmodelsOptions)
 
         ## model construction
@@ -125,8 +130,13 @@ SimpleSBM_fit <-
       },
       #' @description permute group labels by order of decreasing probability
       reorder = function(){
-        o <- order(private$theta$mean %*% private$pi, decreasing = TRUE)
-        private$pi <- private$pi[o]
+        if(self$nbNodesCovariates > 0) {
+          order_pi <- colMeans(private$pi)
+        }else{
+          order_pi <- private$pi
+        }
+        o <- order(private$theta$mean %*% order_pi, decreasing = TRUE)
+        private$pi <- ifelse(self$nbNodesCovariates > 0, private$pi[o, ], private$pi[o])
         private$theta$mean <- private$theta$mean[o, o, drop = FALSE]
         private$Z <- private$Z[, o, drop = FALSE]
       },
