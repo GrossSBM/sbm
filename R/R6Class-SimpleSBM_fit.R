@@ -28,9 +28,6 @@ SimpleSBM_fit <-
           "ZIgaussian"                = list(mean = parameters$mu, var = parameters$sigma2, p0 = parameters$p0),
         )
         private$B <- private$BMobject$memberships[[index]]$B # 0x0 matrix if there are no nodes covariates
-        # if (self$nbNodesCovariates > 0) {
-        #   private$B <- matrix(private$B, ncol = ncol(private$Z))
-        # }
         private$Z  <- private$BMobject$memberships[[index]]$Z
         private$pi <- private$BMobject$memberships[[index]]$alpha
       }
@@ -142,8 +139,10 @@ SimpleSBM_fit <-
         private$pi <- ifelse(self$nbNodesCovariates > 0, private$pi[o, ], private$pi[o])
         private$theta$mean <- private$theta$mean[o, o, drop = FALSE]
         private$Z <- private$Z[, o, drop = FALSE]
-        private$B <- private$B[, o, drop = FALSE]
-        private$B <- private$B - private$B[,ncol(B)]
+        if (self$nbNodesCovariates > 0) {
+          private$B <- private$B[, o, drop = FALSE]
+          private$B <- private$B - private$B[,ncol(B)]
+        }
       },
       #--------------------------------------------
       #' @description show method
