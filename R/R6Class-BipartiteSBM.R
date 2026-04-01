@@ -21,8 +21,8 @@ BipartiteSBM <-
         stopifnot(length(blockProp) ==  2, is.list(blockProp),
                   length(blockProp[[1]]) ==  nrow(connectParam$mean), # dimensions match between vector of
                   length(blockProp[[2]]) ==  ncol(connectParam$mean)) # block proportion and connectParam$mean
-        stopifnot(all(blockProp[[1]] >= 0), any(blockProp[[1]] >0))   # positive proportions
-        stopifnot(all(blockProp[[2]] >= 0), any(blockProp[[2]] > 0))
+        stopifnot(all(blockProp[[1]] >= 0))   # positive proportions
+        stopifnot(all(blockProp[[2]] >= 0))
         names(blockProp) <- names(dimLabels)
 
         ## Check that connectivity parameters and model are consistent
