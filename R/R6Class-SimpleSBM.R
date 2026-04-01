@@ -19,7 +19,7 @@ SimpleSBM <-
 
         ## SANITY CHECKS (on parameters)
         stopifnot(length(dimLabels) == 1)
-        stopifnot(is.atomic(blockProp), all(blockProp > 0), all(blockProp < 1)) # positive proportions
+        stopifnot(is.atomic(blockProp), all(blockProp >= 0), any(blockProp!=0)) # positive proportions
         stopifnot(all.equal(length(blockProp), ncol(connectParam$mean)),        # dimensions match between vector of
                   all.equal(length(blockProp), nrow(connectParam$mean)))        # block proportion and connectParam$mean
 
