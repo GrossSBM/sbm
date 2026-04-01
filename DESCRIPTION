@@ -34,7 +34,7 @@ Imports:
     magrittr,
     dplyr,
     purrr,
-    blockmodels (>= 1.2.0),
+    blockmodels (>= 1.2.1),
     R6,
     Rcpp,
     igraph,
