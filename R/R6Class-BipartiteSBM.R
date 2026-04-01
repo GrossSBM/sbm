@@ -177,8 +177,10 @@ BipartiteSBM <-
 ### field with access only
       #' @field nbBlocks vector of size 2: number of blocks (rows, columns)
       nbBlocks = function(value) {if(!is.null(private$Z)) setNames(map_int(private$pi, length), private$dimlab)},
+      #' @field mask Mask for the (potential) NAs in the adjacency matrix
+      mask        = function(value) {mask <- (!is.na(private$Y)) * 1L},
       #' @field nbDyads number of dyads (potential edges in the network)
-      nbDyads     = function(value) {private$dim[1] * private$dim[2]},
+      nbDyads     = function(value) {sum(self$mask)},
       #' @field nbConnectParam number of parameter used for the connectivity
       nbConnectParam = function(value) {sum(map_int(private$theta, ~length(.x)))},
       #' @field memberships list of size 2: vector of memberships in row, in column.
