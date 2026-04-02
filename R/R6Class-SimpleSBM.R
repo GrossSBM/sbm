@@ -180,7 +180,13 @@ SimpleSBM <-
       #' @field nbBlocks number of blocks
       nbBlocks    = function(value) {ncol(private$Z)},
       #' @field nbDyads number of dyads (potential edges in the network)
-      nbDyads     = function(value) {ifelse(private$directed_, sum(self$mask), sum(self$mask)/2)},#self$nbNodes*(private$dim - 1), private$dim*(private$dim - 1)/2)},
+      nbDyads     = function(value) {
+        if (is.null(private$Y)){
+          ifelse(private$directed_, self$nbNodes*(private$dim - 1), private$dim*(private$dim - 1)/2)
+        } else {
+          ifelse(private$directed_, sum(self$mask), sum(self$mask)/2)
+        }
+        },
       #' @field nbConnectParam number of parameter used for the connectivity
       nbConnectParam = function(value) {ifelse(private$directed_, self$nbBlocks^2, self$nbBlocks*(self$nbBlocks + 1)/2)},
       #' @field memberships vector of clustering
