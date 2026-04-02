@@ -147,25 +147,30 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       covarEffect = function(value) {if (self$nbCovariates > 0) return(roundProduct(private$X, private$beta)) else return(numeric(0))},
       #' @field nbNodesCovariates the dimension of the nodes covariates
       nbNodesCovariates = function(value) {
-        if (!is.null(private$Xnodes)){
-        ncolVec <- sapply(private$Xnodes, function(cov_matrix){
-          if (!is.null(cov_matrix)){
-            return(ncol(cov_matrix))
-          } else {
+        dim_names <- names(private$dimlab)
+        if (is.null(dim_names) || !any(nzchar(dim_names))) {
+          dim_names <- private$dimlab
+        }
+        out <- setNames(rep(0, length(private$dim)), dim_names)
+        if (!is.null(private$Xnodes) && length(private$Xnodes) > 0) {
+          ncolVec <- sapply(private$Xnodes, function(cov_matrix) {
+            if (!is.null(cov_matrix)) {
+              return(ncol(cov_matrix))
+            }
             return(0)
-          }
-        })
-        ncolVec <- setNames(ncolVec, private$dimlab)
-          if (length(ncolVec) > 0 && any(sapply(ncolVec, function(nbNodesCov) nbNodesCov > 0))) {
-            return(ncolVec[ncolVec > 0])
+          })
+          if (!is.null(names(ncolVec)) && any(nzchar(names(ncolVec)))) {
+            out[names(ncolVec)] <- ncolVec
+          } else {
+            out[seq_len(min(length(out), length(ncolVec)))] <- ncolVec[seq_len(min(length(out), length(ncolVec)))]
           }
         }
-        return(setNames(rep(0, length(private$dim)), private$dimlab))
-        },
+        return(out)
+      },
       #' @field nodesCovariates the list of nodes covariates
-      nodesCovariates = function(value) {if (length(self$nbNodesCovariates) > 0) return(private$Xnodes) else return(list())},
+      nodesCovariates = function(value) {if (any(self$nbNodesCovariates > 0)) return(private$Xnodes) else return(list())},
       #' @field nodesCovarParam the list of nodes covariates parameters
-      nodesCovarParam = function(value) {if (length(self$nbNodesCovariates) > 0) return(private$B) else return(list())},
+      nodesCovarParam = function(value) {if (any(self$nbNodesCovariates > 0)) return(private$B) else return(list())},
       #' @field networkData the network data (adjacency or incidence matrix or list of such object)
       networkData = function(value) {return(private$Y)},
       #' @field expectation expected values of connection under the current model
