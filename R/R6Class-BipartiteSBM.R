@@ -14,7 +14,7 @@ BipartiteSBM <-
       #' @param dimLabels optional labels of each dimension (in row, in column)
       #' @param covarParam optional vector of covariates effect
       #' @param covarList optional list of covariates data
-      initialize = function(model, nbNodes, blockProp, connectParam, dimLabels=c(row="row", col="col"), covarParam=numeric(length(covarList)), covarList=list()) {
+      initialize = function(model, nbNodes, blockProp, connectParam, dimLabels=c(row="row", col="col"), covarParam=numeric(length(covarList)), covarList=list(), nodesCovar = list(), nodesCovarParam = list()) {
 
         ## SANITY CHECKS (on parameters)
         stopifnot(length(dimLabels) == 2)
@@ -35,7 +35,7 @@ BipartiteSBM <-
                                    connectParam$var > 0, all(connectParam$p0 >= 0), all(connectParam$p0 <= 1))
         )
 
-        super$initialize(model, NA, nbNodes, dimLabels, blockProp, connectParam, covarParam, covarList)
+        super$initialize(model, NA, nbNodes, dimLabels, blockProp, connectParam, covarParam, covarList, nodesCovarList = nodesCovar)
       },
       #' @description a method to sample new block memberships for the current SBM
       #' @param store should the sampled blocks be stored (and overwrite the existing data)? Default to FALSE

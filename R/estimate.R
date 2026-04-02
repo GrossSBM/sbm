@@ -187,7 +187,8 @@ estimateBipartiteSBM <- function(netMat,
                                  model        = 'bernoulli',
                                  dimLabels    = c(row = "row", col = "col"),
                                  covariates   = list(),
-                                 estimOptions = list()) {
+                                 estimOptions = list(),
+                                 nodes_covariates = NULL) {
 
   ## Set default options for estimation
   if (!is.null(estimOptions$verbosity)){
@@ -206,7 +207,7 @@ estimateBipartiteSBM <- function(netMat,
   currentOptions[names(estimOptions)] <- estimOptions
 
   ## Construct the SBM model
-  mySBM <-  BipartiteSBM_fit$new(netMat, model, dimLabels, covariates)
+  mySBM <-  BipartiteSBM_fit$new(netMat, model, dimLabels, covariates, nodes_covariates)
 
   ## Perform optimization
   mySBM$optimize(currentOptions)

@@ -27,6 +27,13 @@ BipartiteSBM_fit <-
           "gaussian_covariates"       = list(mean = parameters$mu, var = parameters$sigma2),
           "ZIgaussian"                = list(mean = parameters$mu, var = parameters$sigma2, p0 = parameters$p0),
         )
+        private$B < list()
+        if (length(private$BMobject$memberships[[index]][["B"]]) > 0) {
+          private[["B"]][["row"]] <- private$BMobject$memberships[[index]][["B"]]
+        }
+        if (length(private$BMobject$memberships[[index]][["G"]]) > 0) {
+          private[["B"]][["col"]] <- private$BMobject$memberships[[index]][["G"]]
+        } 
         private$Z <- list(
           row = private$BMobject$memberships[[index]]$Z1,
           col = private$BMobject$memberships[[index]]$Z2
@@ -40,11 +47,16 @@ BipartiteSBM_fit <-
       #' @param model character (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'})
       #' @param dimLabels labels of each dimension (in row, in columns)
       #' @param covarList and optional list of covariates, each of whom must have the same dimension as \code{incidenceMatrix}
-      initialize = function(incidenceMatrix, model, dimLabels = c(row = "row", col = "col"), covarList = list()) {
+      initialize = function(incidenceMatrix, model, dimLabels = c(row = "row", col = "col"), covarList = list(), nodesCovar = list()) {
         ## SANITY CHECKS on data
         stopifnot(is.matrix(incidenceMatrix)) # must be a matrix
         stopifnot(all(sapply(covarList, nrow) == nrow(incidenceMatrix))) # consistency of the covariates
         stopifnot(all(sapply(covarList, ncol) == ncol(incidenceMatrix))) # with the network data
+        stopifnot("Nodes covariates are either not provided or a list of one or two matrices named 'row' or 'col', with as many rows as there is row or col nodes." = (length(nodesCovar) == 0 ||
+        (length(nodesCovar) <= 2 && all(names(nodesCovar) %in% c("row", "col")) && 
+        ((length(nodesCovar[["row"]]) == 0 || is.matrix(nodesCovar[["row"]]) && nrow(nodesCovar[["row"]]) == nrow(incidenceMatrix)) && 
+        (length(nodesCovar[["col"]]) == 0 || is.matrix(nodesCovar[["col"]]) && nrow(nodesCovar[["col"]]) == ncol(incidenceMatrix))))))
+
 
         ## INITIALIZE THE SBM OBJECT ACCORDING TO THE DATA
         connectParam <- switch(model,
@@ -61,7 +73,8 @@ BipartiteSBM_fit <-
           blockProp = rep(list(vector("numeric", 0)), 2),
           connectParam = connectParam,
           dimLabels = dimLabels,
-          covarList = covarList
+          covarList = covarList,
+          nodesCovar = nodesCovar
         )
         private$Y <- incidenceMatrix
       },
@@ -98,6 +111,7 @@ BipartiteSBM_fit <-
 
         args <- list(membership_type = "LBM", adj = private$Y)
         if (self$nbCovariates > 0) args$covariates <- private$X
+        if (any(self$nbNodesCovariates > 0)) args$nodes_covariates <- private$Xnodes
         args <- c(args, blockmodelsOptions)
 
         ## model construction
@@ -133,6 +147,14 @@ BipartiteSBM_fit <-
         private$theta$mean <- private$theta$mean[oRow, oCol, drop = FALSE]
         private$Z[[1]] <- private$Z[[1]][, oRow, drop = FALSE]
         private$Z[[2]] <- private$Z[[2]][, oCol, drop = FALSE]
+        if (length(private$B[["row"]]) > 0){
+          private$B[["row"]] <- private$B[["row"]][, oRow, drop = FALSE]
+          private$B[["row"]] <- private$B[["row"]] - private$B[["row"]][,ncol(private$B[["row"]])]
+        }
+        if (length(private$B[["col"]]) > 0){
+          private$B[["col"]] <- private$B[["col"]][, oCol, drop = FALSE]
+          private$B[["col"]] <- private$B[["col"]] - private$B[["col"]][,ncol(private$B[["col"]])]
+        }
       },
       #' @description show method
       #' @param type character used to specify the type of SBM
