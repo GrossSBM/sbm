@@ -147,12 +147,21 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       covarEffect = function(value) {if (self$nbCovariates > 0) return(roundProduct(private$X, private$beta)) else return(numeric(0))},
       #' @field nbNodesCovariates the dimension of the nodes covariates
       nbNodesCovariates = function(value) {
-        ncolVec <- sapply(private$Xnodes, ncol)
-        if (length(ncolVec) > 0 && !is.list(ncolVec)) {
-          return(ncolVec[ncolVec > 0])
-        } else {
-          return(rep(0, length(private$dim)))
-        }},
+        if (!is.null(private$Xnodes)){
+        ncolVec <- sapply(private$Xnodes, function(cov_matrix){
+          if (!is.null(cov_matrix)){
+            return(ncol(cov_matrix))
+          } else {
+            return(0)
+          }
+        })
+        ncolVec <- setNames(ncolVec, private$dimlab)
+          if (length(ncolVec) > 0 && any(sapply(ncolVec, function(nbNodesCov) nbNodesCov > 0))) {
+            return(ncolVec[ncolVec > 0])
+          }
+        }
+        return(setNames(rep(0, length(private$dim)), private$dimlab))
+        },
       #' @field nodesCovariates the list of nodes covariates
       nodesCovariates = function(value) {if (length(self$nbNodesCovariates) > 0) return(private$Xnodes) else return(list())},
       #' @field nodesCovarParam the list of nodes covariates parameters
