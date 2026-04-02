@@ -1,5 +1,6 @@
 as_indicator <- function(clustering) {
-  K <- length(unique(clustering))
+  #K <- length(unique(clustering))
+  K <- max(clustering)
   N  <- length(clustering)
   Z <- matrix(0, N, K)
   Z[cbind(seq.int(N), clustering)] <- 1
