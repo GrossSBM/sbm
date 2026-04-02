@@ -38,7 +38,7 @@ BipartiteSBM_fit <-
           row = private$BMobject$memberships[[index]]$Z1,
           col = private$BMobject$memberships[[index]]$Z2
         )
-        private$pi <- lapply(private$Z, colMeans)
+        private$pi <- list(row = private$BMobject$memberships[[index]]$alpha1, col = private$BMobject$memberships[[index]]$alpha2)
       }
     ),
     public = list(
