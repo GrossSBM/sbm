@@ -115,8 +115,8 @@ plotMatrix = function(Mat, dimLabels, clustering = NULL, plotOptions = list()){
 
 
   if (!is.null(clustering)) {
-    g <- g + geom_vline(data = sepCol,mapping = aes_string(xintercept = 'sep'),size = currentOptions$line.width, col=currentOptions$line.color)
-    g <- g + geom_hline(data = sepRow + 1,mapping = aes_string(yintercept = 'sep'),size = currentOptions$line.width, col=currentOptions$line.color)
+    g <- g + geom_vline(data = sepCol, mapping = aes(xintercept = .data[["sep"]]), linewidth = currentOptions$line.width, col = currentOptions$line.color)
+    g <- g + geom_hline(data = sepRow + 1, mapping = aes(yintercept = .data[["sep"]]), linewidth = currentOptions$line.width, col = currentOptions$line.color)
   }
   if (!is.null(currentOptions$title)){g <- g + ggtitle(currentOptions$title) }
   g
