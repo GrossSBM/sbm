@@ -132,18 +132,19 @@ SimpleSBM_fit <-
       },
       #' @description permute group labels by order of decreasing probability
       reorder = function(){
-        if(self$nbNodesCovariates > 0 && self$nbBlocks >= 2L) {
+        are_covariates <- (self$nbNodesCovariates > 0 && self$nbBlocks >= 2L && is.matrix(private$pi))
+        if(are_covariates) {
           order_pi <- colMeans(private$pi)
         }else{
           order_pi <- private$pi
         }
         o <- order(private$theta$mean %*% order_pi, decreasing = TRUE)
-        private$pi <- ifelse(self$nbNodesCovariates > 0  && self$nbBlocks >= 2L, private$pi[o, ], private$pi[o])
+        private$pi <- ifelse(are_covariates, private$pi[o, ], private$pi[o])
         private$theta$mean <- private$theta$mean[o, o, drop = FALSE]
         private$Z <- private$Z[, o, drop = FALSE]
         if (self$nbNodesCovariates > 0 && self$nbBlocks >= 2L) {
           private$B <- private$B[, o, drop = FALSE]
-          private$B <- private$B - private$B[,ncol(B)]
+          private$B <- private$B - private$B[,ncol(private$B)]
         }
       },
       #--------------------------------------------
