@@ -548,7 +548,7 @@ test_that("SimpleSBM_fit with NA 'Bernoulli' model, undirected, no covariate", {
   ## parameters
   expect_equal(mySBM$modelName, 'bernoulli')
   expect_equal(unname(mySBM$nbNodes), nbNodes)
-  expect_equal(mySBM$nbDyads, (sum(mask) - sum(diag(mask)))/2)
+  expect_equal(mySBM$nbDyads, sum(mask)/2 - sum(diag(mask)))
   expect_true(all(is.na(diag(mySBM$networkData))))
   expect_true(isSymmetric(mySBM$networkData))
   expect_true(!mySBM$directed)
@@ -572,7 +572,7 @@ test_that("SimpleSBM_fit with NA 'Bernoulli' model, undirected, no covariate", {
 
   ## Field set after optimization
   expect_equal(mySBM$nbConnectParam, nbBlocks * (nbBlocks + 1)/2 )
-  expect_equal(mySBM$penalty, (nbBlocks * (nbBlocks + 1))/2 * log(nbNodes *(nbNodes-1)/2) +  (nbBlocks - 1) * log(nbNodes))
+  expect_equal(mySBM$penalty, (nbBlocks * (nbBlocks + 1))/2 * log(sum(mask)/2 - sum(diag(mask))) +  (nbBlocks - 1) * log(nbNodes))
   expect_equal(mySBM$entropy, -sum(mySBM$probMemberships * log(mySBM$probMemberships)))
 
   ## Expectation
@@ -668,7 +668,7 @@ test_that("SimpleSBM_fit 'Bernoulli' model, directed, no covariate", {
   mySBM$setModel(3)
 
   expect_equal(mySBM$nbConnectParam, nbBlocks * nbBlocks)
-  expect_equal(mySBM$penalty, nbBlocks * nbBlocks * log(nbNodes * (nbNodes -1)) +  (nbBlocks - 1) * log(nbNodes))
+  expect_equal(mySBM$penalty, nbBlocks * nbBlocks * log(sum(mask) - sum(diag(mask))) +  (nbBlocks - 1) * log(nbNodes))
   expect_equal(mySBM$entropy, -sum(mySBM$probMemberships * log(mySBM$probMemberships)))
 
   ## Expectation
@@ -742,7 +742,7 @@ test_that("SimpleSBM_fit 'Poisson' model, undirected, no covariate", {
   ## parameters
   expect_equal(mySBM$modelName, 'poisson')
   expect_equal(unname(mySBM$nbNodes), nbNodes)
-  expect_equal(mySBM$nbDyads, (sum(mask)-sum(diag(mask)))/2)
+  expect_equal(mySBM$nbDyads, sum(mask)/2-sum(diag(mask)))
   expect_true(all(is.na(diag(mySBM$networkData))))
   expect_true(isSymmetric(mySBM$networkData))
   expect_true(!mySBM$directed)
@@ -921,7 +921,7 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, no covariate", {
   ## parameters
   expect_equal(mySBM$modelName, 'gaussian')
   expect_equal(unname(mySBM$nbNodes), nbNodes)
-  expect_equal(mySBM$nbDyads, (sum(mask)-sum(diag(mask)))/2)
+  expect_equal(mySBM$nbDyads, sum(mask)/2-sum(diag(mask)))
   expect_true(all(is.na(diag(mySBM$networkData))))
   expect_true(isSymmetric(mySBM$networkData))
   expect_true(!mySBM$directed)
