@@ -170,10 +170,22 @@ SimpleSBM <-
         }
       },
 ### field with access only
+      #' @field mask Mask for the (potential) NAs in the adjacency matrix
+      mask        = function(value) {
+        mask <- (!is.na(private$Y)) * 1L
+        diag(mask) <- 0
+        return(mask)
+      },
       #' @field nbBlocks number of blocks
       nbBlocks    = function(value) {length(private$pi)},
       #' @field nbDyads number of dyads (potential edges in the network)
-      nbDyads     = function(value) {ifelse(private$directed_, self$nbNodes*(private$dim - 1), private$dim*(private$dim - 1)/2)},
+      nbDyads     = function(value) {
+        if (is.null(private$Y)){
+          ifelse(private$directed_, self$nbNodes*(private$dim - 1), private$dim*(private$dim - 1)/2)
+        } else {
+          ifelse(private$directed_, sum(self$mask), sum(self$mask)/2)
+        }
+        },
       #' @field nbConnectParam number of parameter used for the connectivity
       nbConnectParam = function(value) {ifelse(private$directed_, self$nbBlocks^2, self$nbBlocks*(self$nbBlocks + 1)/2)},
       #' @field memberships vector of clustering
