@@ -1,0 +1,12 @@
+{
+    "[r]": {
+        "editor.formatOnPaste": false,
+        "editor.formatOnSave": false,
+        "editor.formatOnType": false
+    },
+    "[cpp]": {
+        "editor.formatOnPaste": false,
+        "editor.formatOnSave": false,
+        "editor.formatOnType": false
+    }
+}
