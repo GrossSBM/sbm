@@ -510,3 +510,553 @@ test_that("active binding are working in the class", {
 
 })
 
+## NA support ---------
+
+test_that("SimpleSBM_fit with NA 'Bernoulli' model, undirected, no covariate", {
+
+  ## SIMPLE UNDIRECTED BERNOULLI SBM
+  means <- diag(.4, 3) + 0.05
+  connectParam <- list(mean = means)
+
+  ## Basic construction - check for wrong specifications
+  mySampler <- SimpleSBM$new('bernoulli', nbNodes, FALSE, blockProp, connectParam)
+  mySampler$rMemberships(store = TRUE)
+  mySampler$rEdges(store = TRUE)
+
+  M <- mySampler$networkData
+  off_diag <- which(row(M) != col(M))
+  set.seed(1234)
+  to_remove <- sample(off_diag, size = max(1, floor(0.05 * length(off_diag))))
+  true_na_values <- M[to_remove]
+  M[to_remove] <- NA
+  M[lower.tri(M)] <- t(M)[lower.tri(M)]
+
+  mask <- (!is.na(M))*1
+
+  ## Construction----------------------------------------------------------------
+  mySBM <- SimpleSBM_fit$new(M, 'bernoulli', FALSE)
+  expect_error(SimpleSBM_fit$new(M, 'bernouilli', FALSE))
+  expect_error(SimpleSBM_fit$new(M[1:20, 1:30], 'bernouilli', FALSE))
+  expect_error(SimpleSBM_fit$new(M, 'bernoulli', TRUE))
+
+  ## Checking class
+  expect_true(inherits(mySBM, "SBM"))
+  expect_true(inherits(mySBM, "SimpleSBM"))
+  expect_true(inherits(mySBM, "SimpleSBM_fit"))
+
+  ## Checking field access and format prior to estimation
+  ## parameters
+  expect_equal(mySBM$modelName, 'bernoulli')
+  expect_equal(unname(mySBM$nbNodes), nbNodes)
+  expect_equal(mySBM$nbDyads, sum(mask)/2 - sum(diag(mask)))
+  expect_true(all(is.na(diag(mySBM$networkData))))
+  expect_true(isSymmetric(mySBM$networkData))
+  expect_true(!mySBM$directed)
+  expect_true(is.matrix(mySBM$connectParam$mean))
+
+  ## covariates
+  expect_null(mySBM$covarExpect)
+  expect_equal(mySBM$nbCovariates, 0)
+  expect_equal(mySBM$covarList, list())
+  expect_equal(mySBM$covarParam, numeric(0))
+  expect_equal(mySBM$covarEffect, numeric(0))
+
+  ## S3 methods
+  expect_equal(coef(mySBM, 'connectivity'), mySBM$connectParam)
+  expect_equal(coef(mySBM, 'block')       , mySBM$blockProp)
+  expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
+
+  ## Estimation-----------------------------------------------------------------
+  BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0))
+  mySBM$setModel(3)
+
+  ## Field set after optimization
+  expect_equal(mySBM$nbConnectParam, nbBlocks * (nbBlocks + 1)/2 )
+  expect_equal(mySBM$penalty, (nbBlocks * (nbBlocks + 1))/2 * log(sum(mask)/2 - sum(diag(mask))) +  (nbBlocks - 1) * log(nbNodes))
+  expect_equal(mySBM$entropy, -sum(mySBM$probMemberships * log(mySBM$probMemberships)))
+
+  ## Expectation
+  expect_equal(dim(mySBM$expectation), c(nbNodes, nbNodes))
+  expect_true(all(mySBM$expectation >= 0, na.rm = TRUE))
+  expect_true(all(mySBM$expectation <= 1, na.rm = TRUE))
+  expect_null(mySBM$connectParam$var)
+
+  ## S3 methods
+  expect_equal(coef(mySBM, 'connectivity'), mySBM$connectParam)
+  expect_equal(coef(mySBM, 'block')       , mySBM$blockProp)
+  expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
+  expect_equal(mySBM$predict(), predict(mySBM))
+  expect_equal(fitted(mySBM), predict(mySBM))
+
+  ## blocks
+  expect_equal(mySBM$nbBlocks, nbBlocks)
+  expect_equal(dim(mySBM$probMemberships), c(nbNodes, nbBlocks))
+  expect_equal(sort(unique(mySBM$memberships)), 1:nbBlocks)
+  expect_equal(length(mySBM$memberships), nbNodes)
+
+  ## correctness
+  expect_lt(rmse(mySBM$connectParam$mean, means), 0.25)
+  expect_lt(1 - aricode::ARI(mySBM$memberships, mySampler$memberships), 0.25)
+  expect_lt(1 - pROC::auc(true_na_values, predict(mySBM)[to_remove], quiet = TRUE), 0.25)
+
+  ## prediction wrt BM
+  for (Q in mySBM$storedModels$indexModel) {
+    pred_bm  <- BM_out$prediction(Q = Q)
+    mySBM$setModel(Q)
+    pred_sbm <- predict(mySBM)
+    expect_lt( rmse(pred_bm, pred_sbm), 1e-12)
+  }
+
+})
+
+test_that("SimpleSBM_fit 'Bernoulli' model, directed, no covariate", {
+
+  ## SIMPLE UNDIRECTED BERNOULLI SBM
+  means <- matrix(c(1:9)/10, 3,  3)
+  connectParam <- list(mean = means)
+
+  ## Basic construction - check for wrong specifications
+  mySampler <- SimpleSBM$new('bernoulli', nbNodes, TRUE, blockProp, connectParam)
+  mySampler$rMemberships(store = TRUE)
+  mySampler$rEdges(store = TRUE)
+
+  M <- mySampler$networkData
+  off_diag <- which(row(M) != col(M))
+  set.seed(1234)
+  to_remove <- sample(off_diag, size = max(1, floor(0.05 * length(off_diag))))
+  true_na_values <- M[to_remove]
+  M[to_remove] <- NA
+
+  mask <- (!is.na(M))*1
+
+
+  ## Construction----------------------------------------------------------------
+  mySBM <- SimpleSBM_fit$new(M, 'bernoulli', TRUE)
+  expect_error(SimpleSBM_fit$new(M, 'bernouilli', TRUE))
+  expect_error(SimpleSBM_fit$new(M, 'bernoulli', FALSE))
+  expect_error(SimpleSBM_fit$new(M[1:20, 1:30], 'bernouilli', FALSE))
+
+  ## Checking class
+  expect_true(inherits(mySBM, "SBM"))
+  expect_true(inherits(mySBM, "SimpleSBM"))
+  expect_true(inherits(mySBM, "SimpleSBM_fit"))
+
+  ## Checking field access and format prior to estimation
+  ## parameters
+  expect_equal(mySBM$modelName, 'bernoulli')
+  expect_equal(unname(mySBM$nbNodes), nbNodes)
+  expect_equal(mySBM$nbDyads, sum(mask) - sum(diag(mask)))
+  expect_true(all(is.na(diag(mySBM$networkData))))
+  expect_true(!isSymmetric(mySBM$networkData))
+  expect_true(mySBM$directed)
+  expect_true(is.matrix(mySBM$connectParam$mean))
+
+  ## covariates
+  expect_null(mySBM$covarExpect)
+  expect_equal(mySBM$nbCovariates, 0)
+  expect_equal(mySBM$covarList, list())
+  expect_equal(mySBM$covarParam, numeric(0))
+  expect_equal(mySBM$covarEffect, numeric(0))
+
+  ## S3 methods
+  expect_equal(coef(mySBM, 'connectivity'), mySBM$connectParam)
+  expect_equal(coef(mySBM, 'block')       , mySBM$blockProp)
+  expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
+
+  ## Estimation-----------------------------------------------------------------
+  BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0))
+  mySBM$setModel(3)
+
+  expect_equal(mySBM$nbConnectParam, nbBlocks * nbBlocks)
+  expect_equal(mySBM$penalty, nbBlocks * nbBlocks * log(sum(mask) - sum(diag(mask))) +  (nbBlocks - 1) * log(nbNodes))
+  expect_equal(mySBM$entropy, -sum(mySBM$probMemberships * log(mySBM$probMemberships)))
+
+  ## Expectation
+  expect_equal(dim(mySBM$expectation), c(nbNodes, nbNodes))
+  expect_true(all(mySBM$expectation >= 0, na.rm = TRUE))
+  expect_true(all(mySBM$expectation <= 1, na.rm = TRUE))
+  expect_null(mySBM$connectParam$var)
+
+  ## blocks
+  expect_equal(mySBM$nbBlocks, nbBlocks)
+  expect_equal(dim(mySBM$probMemberships), c(nbNodes, nbBlocks))
+  expect_equal(sort(unique(mySBM$memberships)), 1:nbBlocks)
+  expect_equal(length(mySBM$memberships), nbNodes)
+
+  ## S3 methods
+  expect_equal(coef(mySBM, 'connectivity'), mySBM$connectParam)
+  expect_equal(coef(mySBM, 'block')       , mySBM$blockProp)
+  expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
+  expect_equal(mySBM$predict(), predict(mySBM))
+  expect_equal(fitted(mySBM), predict(mySBM))
+
+  ## correctness
+  expect_lt(rmse(sort(mySBM$connectParam$mean), means), 0.2)
+  expect_lt(1 - aricode::ARI(mySBM$memberships, mySampler$memberships), 0.2)
+  expect_lt(1 - pROC::auc(true_na_values, predict(mySBM)[to_remove], quiet = TRUE), 0.25)
+
+  ## prediction wrt BM
+  for (Q in mySBM$storedModels$indexModel) {
+    pred_bm  <- BM_out$prediction(Q = Q)
+    mySBM$setModel(Q)
+    pred_sbm <- predict(mySBM)
+    expect_lt( rmse(pred_bm, pred_sbm), 1e-12)
+  }
+
+})
+
+test_that("SimpleSBM_fit 'Poisson' model, undirected, no covariate", {
+
+  ## SIMPLE UNDIRECTED POISSON SBM
+  means <- diag(15., 3) + 5
+  connectParam <- list(mean = means)
+
+  ## Basic construction - check for wrong specifications
+  mySampler <- SimpleSBM$new('poisson', nbNodes, FALSE, blockProp, connectParam)
+  mySampler$rMemberships(store = TRUE)
+  mySampler$rEdges(store = TRUE)
+
+  M <- mySampler$networkData
+  off_diag <- which(row(M) != col(M))
+  set.seed(1234)
+  to_remove <- sample(off_diag, size = max(1, floor(0.05 * length(off_diag))))
+  true_na_values <- M[to_remove]
+  M[to_remove] <- NA
+  M[lower.tri(M)] <- t(M)[lower.tri(M)]
+
+  mask <- (!is.na(M))*1
+
+
+  ## Construction----------------------------------------------------------------
+  mySBM <- SimpleSBM_fit$new(M, 'poisson', FALSE)
+  expect_error(SimpleSBM_fit$new(M, 'poison', FALSE))
+  expect_error(SimpleSBM_fit$new(M[1:20, 1:30], 'poisson', FALSE))
+  expect_error(SimpleSBM_fit$new(M, 'poisson', TRUE))
+
+  ## Checking class
+  expect_true(inherits(mySBM, "SBM"))
+  expect_true(inherits(mySBM, "SimpleSBM"))
+  expect_true(inherits(mySBM, "SimpleSBM_fit"))
+
+  ## Checking field access and format prior to estimation
+  ## parameters
+  expect_equal(mySBM$modelName, 'poisson')
+  expect_equal(unname(mySBM$nbNodes), nbNodes)
+  expect_equal(mySBM$nbDyads, sum(mask)/2-sum(diag(mask)))
+  expect_true(all(is.na(diag(mySBM$networkData))))
+  expect_true(isSymmetric(mySBM$networkData))
+  expect_true(!mySBM$directed)
+  expect_true(is.matrix(mySBM$connectParam$mean))
+
+  ## covariates
+  expect_null(mySBM$covarExpect)
+  expect_equal(mySBM$nbCovariates, 0)
+  expect_equal(mySBM$covarList, list())
+  expect_equal(mySBM$covarParam, numeric(0))
+  expect_equal(mySBM$covarEffect, numeric(0))
+
+  ## S3 methods
+  expect_equal(coef(mySBM, 'connectivity'), mySBM$connectParam)
+  expect_equal(coef(mySBM, 'block')       , mySBM$blockProp)
+  expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
+
+  ## Estimation-----------------------------------------------------------------
+  BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0))
+  mySBM$setModel(3)
+
+  ## Expectation
+  expect_equal(dim(mySBM$expectation), c(nbNodes, nbNodes))
+  expect_true(all(mySampler$expectation >= 0, na.rm = TRUE))
+  expect_null(mySBM$connectParam$var)
+
+  ## S3 methods
+  expect_equal(coef(mySBM, 'connectivity'), mySBM$connectParam)
+  expect_equal(coef(mySBM, 'block')       , mySBM$blockProp)
+  expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
+  expect_equal(mySBM$predict(), predict(mySBM))
+  expect_equal(fitted(mySBM), predict(mySBM))
+
+  ## blocks
+  expect_equal(mySBM$nbBlocks, nbBlocks)
+  expect_equal(dim(mySBM$probMemberships), c(nbNodes, nbBlocks))
+  expect_equal(sort(unique(mySBM$memberships)), 1:nbBlocks)
+  expect_equal(length(mySBM$memberships), nbNodes)
+
+  ## correctness
+  expect_lt(rmse(mySBM$connectParam$mean, means), 1e-1)
+  expect_lt(1 - aricode::ARI(mySBM$memberships, mySampler$memberships), 1e-1)
+
+  ## prediction wrt BM
+  for (Q in mySBM$storedModels$indexModel) {
+    pred_bm  <- BM_out$prediction(Q = Q)
+    mySBM$setModel(Q)
+    pred_sbm <- predict(mySBM)
+    expect_lt( rmse(pred_bm, pred_sbm), 1e-12)
+  }
+
+})
+
+test_that("SimpleSBM_fit 'Poisson' model, directed, no covariate", {
+
+  ## SIMPLE UNDIRECTED BERNOULLI SBM
+  means <- matrix(1:9, 3,  3)
+  connectParam <- list(mean = means)
+
+  ## Basic construction - check for wrong specifications
+  mySampler <- SimpleSBM$new('poisson', nbNodes, TRUE, blockProp, connectParam)
+  mySampler$rMemberships(store = TRUE)
+  mySampler$rEdges(store = TRUE)
+
+  M <- mySampler$networkData
+  off_diag <- which(row(M) != col(M))
+  set.seed(1234)
+  to_remove <- sample(off_diag, size = max(1, floor(0.05 * length(off_diag))))
+  true_na_values <- M[to_remove]
+  M[to_remove] <- NA
+
+  mask <- (!is.na(M))*1
+
+  ## Construction----------------------------------------------------------------
+  mySBM <- SimpleSBM_fit$new(M, 'poisson', TRUE)
+  expect_error(SimpleSBM_fit$new(SamplerBernoulli$networkData, 'poison', TRUE))
+  expect_error(SimpleSBM_fit$new(SamplerBernoulli$networkData, 'poisson', FALSE))
+
+  ## Checking class
+  expect_true(inherits(mySBM, "SBM"))
+  expect_true(inherits(mySBM, "SimpleSBM"))
+  expect_true(inherits(mySBM, "SimpleSBM_fit"))
+
+  ## Checking field access and format prior to estimation
+  ## parameters
+  expect_equal(mySBM$modelName, 'poisson')
+  expect_equal(unname(mySBM$nbNodes), nbNodes)
+  expect_equal(mySBM$nbDyads, sum(mask) - sum(diag(mask)))
+  expect_true(all(is.na(diag(mySBM$networkData))))
+  expect_true(!isSymmetric(mySBM$networkData))
+  expect_true(mySBM$directed)
+  expect_true(is.matrix(mySBM$connectParam$mean))
+
+  ## covariates
+  expect_null(mySBM$covarExpect)
+  expect_equal(mySBM$nbCovariates, 0)
+  expect_equal(mySBM$covarList, list())
+  expect_equal(mySBM$covarParam, numeric(0))
+  expect_equal(mySBM$covarEffect, numeric(0))
+
+  ## S3 methods
+  expect_equal(coef(mySBM, 'connectivity'), mySBM$connectParam)
+  expect_equal(coef(mySBM, 'block')       , mySBM$blockProp)
+  expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
+
+  ## Estimation-----------------------------------------------------------------
+  BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0))
+  mySBM$setModel(3)
+
+  ## Expectation
+  expect_equal(dim(mySBM$expectation), c(nbNodes, nbNodes))
+  expect_true(all(mySampler$expectation >= 0, na.rm = TRUE))
+  expect_null(mySBM$connectParam$var)
+
+  ## blocks
+  expect_equal(mySBM$nbBlocks, nbBlocks)
+  expect_equal(dim(mySBM$probMemberships), c(nbNodes, nbBlocks))
+  expect_equal(sort(unique(mySBM$memberships)), 1:nbBlocks)
+  expect_equal(length(mySBM$memberships), nbNodes)
+
+  ## S3 methods
+  expect_equal(coef(mySBM, 'connectivity'), mySBM$connectParam)
+  expect_equal(coef(mySBM, 'block')       , mySBM$blockProp)
+  expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
+  expect_equal(mySBM$predict(), predict(mySBM))
+  expect_equal(fitted(mySBM), predict(mySBM))
+
+  ## correctness
+  expect_lt(rmse(sort(mySBM$connectParam$mean), means), 1e-1)
+  expect_lt(1 - aricode::ARI(mySBM$memberships, mySampler$memberships), 1e-1)
+
+  ## prediction wrt BM
+  for (Q in mySBM$storedModels$indexModel) {
+    pred_bm  <- BM_out$prediction(Q = Q)
+    mySBM$setModel(Q)
+    pred_sbm <- predict(mySBM)
+    expect_lt( rmse(pred_bm, pred_sbm), 1e-12)
+  }
+
+})
+
+
+test_that("SimpleSBM_fit 'Gaussian' model, undirected, no covariate", {
+
+  ## SIMPLE UNDIRECTED GAUSSIAN SBM
+  means <- diag(15., 3) + 5 # connectivity matrix: affiliation network
+  connectParam <- list(mean = means, var = 2)
+
+  ## Basic construction - check for wrong specifications
+  mySampler <- SimpleSBM$new('gaussian', nbNodes, FALSE, blockProp, connectParam)
+  mySampler$rMemberships(store = TRUE)
+  mySampler$rEdges(store = TRUE)
+
+  M <- mySampler$networkData
+  off_diag <- which(row(M) != col(M))
+  set.seed(1234)
+  to_remove <- sample(off_diag, size = max(1, floor(0.05 * length(off_diag))))
+  true_na_values <- M[to_remove]
+  M[to_remove] <- NA
+  M[lower.tri(M)] <- t(M)[lower.tri(M)]
+
+  mask <- (!is.na(M))*1
+
+  ## Construction----------------------------------------------------------------
+  mySBM <- SimpleSBM_fit$new(M, 'gaussian', FALSE)
+  expect_error(SimpleSBM_fit$new(SamplerBernoulli$networkData, 'normal', FALSE))
+  expect_error(SimpleSBM_fit$new(SamplerBernoulli$networkData[1:20, 1:30], 'gaussian', FALSE))
+  expect_error(SimpleSBM_fit$new(SamplerBernoulli$networkData, 'gaussian', TRUE))
+
+  ## Checking class
+  expect_true(inherits(mySBM, "SBM"))
+  expect_true(inherits(mySBM, "SimpleSBM"))
+  expect_true(inherits(mySBM, "SimpleSBM_fit"))
+
+  ## Checking field access and format prior to estimation
+  ## parameters
+  expect_equal(mySBM$modelName, 'gaussian')
+  expect_equal(unname(mySBM$nbNodes), nbNodes)
+  expect_equal(mySBM$nbDyads, sum(mask)/2-sum(diag(mask)))
+  expect_true(all(is.na(diag(mySBM$networkData))))
+  expect_true(isSymmetric(mySBM$networkData))
+  expect_true(!mySBM$directed)
+  expect_true(is.matrix(mySBM$connectParam$mean))
+
+  ## covariates
+  expect_null(mySBM$covarExpect)
+  expect_equal(mySBM$nbCovariates, 0)
+  expect_equal(mySBM$covarList, list())
+  expect_equal(mySBM$covarParam, numeric(0))
+
+  ## S3 methods
+  expect_equal(coef(mySBM, 'connectivity'), mySBM$connectParam)
+  expect_equal(coef(mySBM, 'block')       , mySBM$blockProp)
+  expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
+
+  ## Estimation-----------------------------------------------------------------
+  BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0))
+  mySBM$setModel(3)
+
+  ## Expectation
+  expect_equal(dim(mySBM$expectation), c(nbNodes, nbNodes))
+  expect_gt(mySBM$connectParam$var, 0)
+
+  ## blocks
+  expect_equal(mySBM$nbBlocks, nbBlocks)
+  expect_equal(dim(mySBM$probMemberships), c(nbNodes, nbBlocks))
+  expect_equal(sort(unique(mySBM$memberships)), 1:nbBlocks)
+  expect_equal(length(mySBM$memberships), nbNodes)
+
+  ## S3 methods
+  expect_equal(coef(mySBM, 'connectivity'), mySBM$connectParam)
+  expect_equal(coef(mySBM, 'block')       , mySBM$blockProp)
+  expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
+  expect_equal(mySBM$predict(), predict(mySBM))
+  expect_equal(fitted(mySBM), predict(mySBM))
+
+  ## correctness
+  expect_lt(rmse(mySBM$connectParam$mean, means), 1e-1)
+  expect_lt(1 - aricode::ARI(mySBM$memberships, mySampler$memberships), 1e-1)
+
+  ## prediction wrt BM
+  for (Q in mySBM$storedModels$indexModel) {
+    pred_bm  <- BM_out$prediction(Q = Q)
+    mySBM$setModel(Q)
+    pred_sbm <- predict(mySBM)
+    expect_lt( rmse(pred_bm, pred_sbm), 1e-12)
+  }
+
+})
+
+test_that("SimpleSBM_fit 'Gaussian' model, undirected, no covariate", {
+
+  ## SIMPLE UNDIRECTED GAUSSIAN SBM
+  means <- matrix(1:9,3,3)
+  connectParam <- list(mean = means, var = 2)
+
+  ## Basic construction - check for wrong specifications
+  mySampler <- SimpleSBM$new('gaussian', nbNodes, TRUE, blockProp, connectParam)
+  mySampler$rMemberships(store = TRUE)
+  mySampler$rEdges(store = TRUE)
+
+  M <- mySampler$networkData
+  off_diag <- which(row(M) != col(M))
+  set.seed(1234)
+  to_remove <- sample(off_diag, size = max(1, floor(0.05 * length(off_diag))))
+  true_na_values <- M[to_remove]
+  M[to_remove] <- NA
+
+  mask <- (!is.na(M))*1
+
+  ## Construction----------------------------------------------------------------
+  mySBM <- SimpleSBM_fit$new(M, 'gaussian', TRUE)
+  expect_error(SimpleSBM_fit$new(SamplerBernoulli$networkData, 'normal', TRUE))
+  expect_error(SimpleSBM_fit$new(SamplerBernoulli$networkData[1:20, 1:30], 'gaussian', TRUE))
+  expect_error(SimpleSBM_fit$new(SamplerBernoulli$networkData, 'gaussian', FALSE))
+
+  ## Checking class
+  expect_true(inherits(mySBM, "SBM"))
+  expect_true(inherits(mySBM, "SimpleSBM"))
+  expect_true(inherits(mySBM, "SimpleSBM_fit"))
+
+  ## Checking field access and format prior to estimation
+  ## parameters
+  expect_equal(mySBM$modelName, 'gaussian')
+  expect_equal(unname(mySBM$nbNodes), nbNodes)
+  expect_equal(mySBM$nbDyads, sum(mask) - sum(diag(mask)))
+  expect_true(all(is.na(diag(mySBM$networkData))))
+  expect_true(!isSymmetric(mySBM$networkData))
+  expect_true(mySBM$directed)
+  expect_true(is.matrix(mySBM$connectParam$mean))
+
+  ## covariates
+  expect_null(mySBM$covarExpect)
+  expect_equal(mySBM$nbCovariates, 0)
+  expect_equal(mySBM$covarList, list())
+  expect_equal(mySBM$covarParam, numeric(0))
+  expect_equal(mySBM$covarEffect, numeric(0))
+
+  ## S3 methods
+  expect_equal(coef(mySBM, 'connectivity'), mySBM$connectParam)
+  expect_equal(coef(mySBM, 'block')       , mySBM$blockProp)
+  expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
+
+  ## Estimation-----------------------------------------------------------------
+  BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0))
+  mySBM$setModel(3)
+
+  ## Expectation
+  expect_equal(dim(mySBM$expectation), c(nbNodes, nbNodes))
+  expect_gt(mySBM$connectParam$var, 0)
+
+  ## blocks
+  expect_equal(mySBM$nbBlocks, nbBlocks)
+  expect_equal(dim(mySBM$probMemberships), c(nbNodes, nbBlocks))
+  expect_equal(sort(unique(mySBM$memberships)), 1:nbBlocks)
+  expect_equal(length(mySBM$memberships), nbNodes)
+
+  ## S3 methods
+  expect_equal(coef(mySBM, 'connectivity'), mySBM$connectParam)
+  expect_equal(coef(mySBM, 'block')       , mySBM$blockProp)
+  expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
+  expect_equal(mySBM$predict(), predict(mySBM))
+  expect_equal(fitted(mySBM), predict(mySBM))
+
+  ## correctness
+  expect_lt(rmse(sort(mySBM$connectParam$mean), means), 1e-1)
+  expect_lt(1 - aricode::ARI(mySBM$memberships, mySampler$memberships), 1e-1)
+
+  ## prediction wrt BM
+  for (Q in mySBM$storedModels$indexModel) {
+    pred_bm  <- BM_out$prediction(Q = Q)
+    mySBM$setModel(Q)
+    pred_sbm <- predict(mySBM)
+    expect_lt( rmse(pred_bm, pred_sbm), 1e-12)
+  }
+
+})

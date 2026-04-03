@@ -27,6 +27,7 @@ Suggests:
     knitr,
     rmarkdown,
     aricode,
+    pROC,
     covr
 Language: en-US
 Imports: 
