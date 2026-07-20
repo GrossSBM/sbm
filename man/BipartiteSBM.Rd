@@ -5,62 +5,59 @@
 \title{R6 class for Bipartite SBM}
 \description{
 R6 class for Bipartite SBM
-
-R6 class for Bipartite SBM
 }
 \section{Super class}{
-\code{\link[sbm:SBM]{sbm::SBM}} -> \code{BipartiteSBM}
+\code{\link[sbm:SBM]{SBM}} -> \code{BipartiteSBM}
 }
 \section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{dimLabels}}{vector of two characters giving the label of each connected dimension (row, col)}
+  \if{html}{\out{<div class="r6-active-bindings">}}
+  \describe{
+    \item{\code{dimLabels}}{vector of two characters giving the label of each connected dimension (row, col)}
 
-\item{\code{blockProp}}{list of two vectors of block proportions (aka prior probabilities of each block)}
+    \item{\code{blockProp}}{list of two vectors of block proportions (aka prior probabilities of each block)}
 
-\item{\code{connectParam}}{parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli}
+    \item{\code{connectParam}}{parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli}
 
-\item{\code{probMemberships}}{matrix of estimated probabilities for block memberships for all nodes}
+    \item{\code{probMemberships}}{matrix of estimated probabilities for block memberships for all nodes}
 
-\item{\code{nbBlocks}}{vector of size 2: number of blocks (rows, columns)}
+    \item{\code{nbBlocks}}{vector of size 2: number of blocks (rows, columns)}
 
-\item{\code{nbDyads}}{number of dyads (potential edges in the network)}
+    \item{\code{nbDyads}}{number of dyads (potential edges in the network)}
 
-\item{\code{nbConnectParam}}{number of parameter used for the connectivity}
+    \item{\code{nbConnectParam}}{number of parameter used for the connectivity}
 
-\item{\code{memberships}}{list of size 2: vector of memberships in row, in column.}
+    \item{\code{memberships}}{list of size 2: vector of memberships in row, in column.}
 
-\item{\code{indMemberships}}{matrix for clustering memberships}
-}
-\if{html}{\out{</div>}}
+    \item{\code{indMemberships}}{matrix for clustering memberships}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-BipartiteSBM-new}{\code{BipartiteSBM$new()}}
-\item \href{#method-BipartiteSBM-rMemberships}{\code{BipartiteSBM$rMemberships()}}
-\item \href{#method-BipartiteSBM-rEdges}{\code{BipartiteSBM$rEdges()}}
-\item \href{#method-BipartiteSBM-predict}{\code{BipartiteSBM$predict()}}
-\item \href{#method-BipartiteSBM-show}{\code{BipartiteSBM$show()}}
-\item \href{#method-BipartiteSBM-plot}{\code{BipartiteSBM$plot()}}
-\item \href{#method-BipartiteSBM-clone}{\code{BipartiteSBM$clone()}}
+  \itemize{
+    \item \href{#method-BipartiteSBM-initialize}{\code{BipartiteSBM$new()}}
+    \item \href{#method-BipartiteSBM-rMemberships}{\code{BipartiteSBM$rMemberships()}}
+    \item \href{#method-BipartiteSBM-rEdges}{\code{BipartiteSBM$rEdges()}}
+    \item \href{#method-BipartiteSBM-predict}{\code{BipartiteSBM$predict()}}
+    \item \href{#method-BipartiteSBM-show}{\code{BipartiteSBM$show()}}
+    \item \href{#method-BipartiteSBM-plot}{\code{BipartiteSBM$plot()}}
+    \item \href{#method-BipartiteSBM-clone}{\code{BipartiteSBM$clone()}}
+  }
 }
-}
-\if{html}{\out{
-<details open><summary>Inherited methods</summary>
+\if{html}{\out{<details open><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="print"><a href='../../sbm/html/SBM.html#method-SBM-print'><code>sbm::SBM$print()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="rNetwork"><a href='../../sbm/html/SBM.html#method-SBM-rNetwork'><code>sbm::SBM$rNetwork()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="print"><a href='../../sbm/html/SBM.html#method-SBM-print'><code>SBM$print()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="rNetwork"><a href='../../sbm/html/SBM.html#method-SBM-rNetwork'><code>SBM$rNetwork()</code></a></span></li>
 </ul>
-</details>
-}}
+</details>}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-BipartiteSBM-new"></a>}}
-\if{latex}{\out{\hypertarget{method-BipartiteSBM-new}{}}}
-\subsection{Method \code{new()}}{
-constructor for SBM
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{BipartiteSBM$new(
+\if{html}{\out{<a id="method-BipartiteSBM-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-BipartiteSBM-initialize}{}}}
+\subsection{\code{BipartiteSBM$new()}}{
+  constructor for SBM
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{BipartiteSBM$new(
   model,
   nbNodes,
   blockProp,
@@ -68,148 +65,152 @@ constructor for SBM
   dimLabels = c(row = "row", col = "col"),
   covarParam = numeric(length(covarList)),
   covarList = list()
-)}\if{html}{\out{</div>}}
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{model}}{character describing the type of model}
+      \item{\code{nbNodes}}{number of nodes in each dimension of the network}
+      \item{\code{blockProp}}{parameters for block proportions (vector of list of vectors)}
+      \item{\code{connectParam}}{list of parameters for connectivity with a matrix of means 'mean' and an optional scalar for the variance 'var'. The dimensions of mu must match \code{blockProp} lengths}
+      \item{\code{dimLabels}}{optional labels of each dimension (in row, in column)}
+      \item{\code{covarParam}}{optional vector of covariates effect}
+      \item{\code{covarList}}{optional list of covariates data}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{model}}{character describing the type of model}
-
-\item{\code{nbNodes}}{number of nodes in each dimension of the network}
-
-\item{\code{blockProp}}{parameters for block proportions (vector of list of vectors)}
-
-\item{\code{connectParam}}{list of parameters for connectivity with a matrix of means 'mean' and an optional scalar for the variance 'var'. The dimensions of mu must match \code{blockProp} lengths}
-
-\item{\code{dimLabels}}{optional labels of each dimension (in row, in column)}
-
-\item{\code{covarParam}}{optional vector of covariates effect}
-
-\item{\code{covarList}}{optional list of covariates data}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-BipartiteSBM-rMemberships"></a>}}
 \if{latex}{\out{\hypertarget{method-BipartiteSBM-rMemberships}{}}}
-\subsection{Method \code{rMemberships()}}{
-a method to sample new block memberships for the current SBM
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{BipartiteSBM$rMemberships(store = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{BipartiteSBM$rMemberships()}}{
+  a method to sample new block memberships for the current SBM
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{BipartiteSBM$rMemberships(store = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{store}}{should the sampled blocks be stored (and overwrite the existing data)? Default to FALSE}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    the sampled blocks
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{store}}{should the sampled blocks be stored (and overwrite the existing data)? Default to FALSE}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-the sampled blocks
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-BipartiteSBM-rEdges"></a>}}
 \if{latex}{\out{\hypertarget{method-BipartiteSBM-rEdges}{}}}
-\subsection{Method \code{rEdges()}}{
-a method to sample a network data (edges) for the current SBM
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{BipartiteSBM$rEdges(store = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{BipartiteSBM$rEdges()}}{
+  a method to sample a network data (edges) for the current SBM
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{BipartiteSBM$rEdges(store = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{store}}{should the sampled edges be stored (and overwrite the existing data)? Default to FALSE}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    the sampled network
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{store}}{should the sampled edges be stored (and overwrite the existing data)? Default to FALSE}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-the sampled network
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-BipartiteSBM-predict"></a>}}
 \if{latex}{\out{\hypertarget{method-BipartiteSBM-predict}{}}}
-\subsection{Method \code{predict()}}{
-prediction under the current parameters
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{BipartiteSBM$predict(covarList = self$covarList, theta_p0 = 0)}\if{html}{\out{</div>}}
+\subsection{\code{BipartiteSBM$predict()}}{
+  prediction under the current parameters
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{BipartiteSBM$predict(covarList = self$covarList, theta_p0 = 0)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{covarList}}{a list of covariates. By default, we use the covariates with which the model was estimated.}
+      \item{\code{theta_p0}}{double for thresholding...}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{covarList}}{a list of covariates. By default, we use the covariates with which the model was estimated.}
-
-\item{\code{theta_p0}}{double for thresholding...}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-BipartiteSBM-show"></a>}}
 \if{latex}{\out{\hypertarget{method-BipartiteSBM-show}{}}}
-\subsection{Method \code{show()}}{
-show method
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{BipartiteSBM$show(type = "Bipartite Stochastic Block Model")}\if{html}{\out{</div>}}
+\subsection{\code{BipartiteSBM$show()}}{
+  show method
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{BipartiteSBM$show(type = "Bipartite Stochastic Block Model")}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{type}}{character used to specify the type of SBM}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{type}}{character used to specify the type of SBM}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-BipartiteSBM-plot"></a>}}
 \if{latex}{\out{\hypertarget{method-BipartiteSBM-plot}{}}}
-\subsection{Method \code{plot()}}{
-basic matrix plot method for BipartiteSBM object or mesoscopic plot
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{BipartiteSBM$plot(
+\subsection{\code{BipartiteSBM$plot()}}{
+  basic matrix plot method for BipartiteSBM object or mesoscopic plot
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{BipartiteSBM$plot(
   type = c("data", "expected", "meso"),
   ordered = TRUE,
   plotOptions = list()
-)}\if{html}{\out{</div>}}
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{type}}{character for the type of plot: either 'data' (true connection), 'expected' (fitted connection) or 'meso' (mesoscopic view). Default to 'data'.}
+      \item{\code{ordered}}{logical: should the rows and columns be reordered according to the clustering? Default to \code{TRUE}.}
+      \item{\code{plotOptions}}{list with the parameters for the plot. See help of the corresponding S3 method for details.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    a ggplot2 object for the \code{'data'} and \code{'expected'}, a list with the igraph object \code{g}, the \code{layout} and the \code{plotOptions} for the \code{'meso'}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{type}}{character for the type of plot: either 'data' (true connection), 'expected' (fitted connection) or 'meso' (mesoscopic view). Default to 'data'.}
-
-\item{\code{ordered}}{logical: should the rows and columns be reordered according to the clustering? Default to \code{TRUE}.}
-
-\item{\code{plotOptions}}{list with the parameters for the plot. See help of the corresponding S3 method for details.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-a ggplot2 object for the \code{'data'} and \code{'expected'}, a list with the igraph object \code{g}, the \code{layout} and the \code{plotOptions} for the \code{'meso'}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-BipartiteSBM-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-BipartiteSBM-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{BipartiteSBM$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{BipartiteSBM$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{BipartiteSBM$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

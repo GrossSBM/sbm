@@ -27,6 +27,14 @@ BipartiteSBM_fit <-
           "gaussian_covariates"       = list(mean = parameters$mu, var = parameters$sigma2),
           "ZIgaussian"                = list(mean = parameters$mu, var = parameters$sigma2, p0 = parameters$p0),
         )
+
+        private$B < list()
+        if (length(private$BMobject$memberships[[index]][["B"]]) > 0) {
+          private[["B"]][["row"]] <- private$BMobject$memberships[[index]][["B"]]
+        }
+        if (length(private$BMobject$memberships[[index]][["G"]]) > 0) {
+          private[["B"]][["col"]] <- private$BMobject$memberships[[index]][["G"]]
+        }
         private$Z <- list(
           row = private$BMobject$memberships[[index]]$Z1,
           col = private$BMobject$memberships[[index]]$Z2
@@ -45,6 +53,13 @@ BipartiteSBM_fit <-
         stopifnot(is.matrix(incidenceMatrix)) # must be a matrix
         stopifnot(all(sapply(covarList, nrow) == nrow(incidenceMatrix))) # consistency of the covariates
         stopifnot(all(sapply(covarList, ncol) == ncol(incidenceMatrix))) # with the network data
+
+        stopifnot("Nodes covariates are either not provided or a list of one or two matrices named 'row' or 'col', with as many rows as there is row or col nodes." = (length(nodesCovar) == 0 ||
+        (length(nodesCovar) <= 2 && all(names(nodesCovar) %in% c("row", "col")) &&
+        ((length(nodesCovar[["row"]]) == 0 || is.matrix(nodesCovar[["row"]]) && nrow(nodesCovar[["row"]]) == nrow(incidenceMatrix)) &&
+        (length(nodesCovar[["col"]]) == 0 || is.matrix(nodesCovar[["col"]]) && nrow(nodesCovar[["col"]]) == ncol(incidenceMatrix))))))
+
+
 
         ## INITIALIZE THE SBM OBJECT ACCORDING TO THE DATA
         connectParam <- switch(model,
@@ -126,10 +141,29 @@ BipartiteSBM_fit <-
       },
       #' @description permute group labels by order of decreasing probability
       reorder = function() {
-        oRow <- order(private$theta$mean %*% private$pi[[2]], decreasing = TRUE)
-        oCol <- order(private$pi[[1]] %*% private$theta$mean, decreasing = TRUE)
-        private$pi[[1]] <- private$pi[[1]][oRow]
-        private$pi[[2]] <- private$pi[[2]][oCol]
+        if (self$nbNodesCovariates[2] > 0 && self$nbBlocks[2] >= 2L) {
+          order_pi_col <- colMeans(private$pi[[2]])
+        } else {
+          order_pi_col <- private$pi[[2]]
+        }
+        if (self$nbNodesCovariates[1] > 0 && self$nbBlocks[1] >= 2L) {
+          order_pi_row <- colMeans(private$pi[[1]])
+        } else {
+          order_pi_row <- private$pi[[1]]
+        }
+        oRow <- order(private$theta$mean %*% order_pi_col, decreasing = TRUE)
+        oCol <- order(order_pi_row %*% private$theta$mean, decreasing = TRUE)
+        if (self$nbNodesCovariates[1] > 0 && self$nbBlocks[1] >= 2L) {
+          private$pi[[1]] <- private$pi[[1]][, oRow, drop = FALSE]
+        } else {
+          private$pi[[1]] <- private$pi[[1]][oRow]
+        }
+        if (self$nbNodesCovariates[2] > 0 && self$nbBlocks[2] >= 2L) {
+          private$pi[[2]] <- private$pi[[2]][,oCol, drop = FALSE]
+        } else {
+          private$pi[[2]] <- private$pi[[2]][oCol]
+        }
+
         private$theta$mean <- private$theta$mean[oRow, oCol, drop = FALSE]
         private$Z[[1]] <- private$Z[[1]][, oRow, drop = FALSE]
         private$Z[[2]] <- private$Z[[2]][, oCol, drop = FALSE]
