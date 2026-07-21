@@ -31,6 +31,8 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       #' @param connectParam list of parameters for connectivity
       #' @param covarParam optional vector of covariates effect
       #' @param covarList optional list of covariates data
+      #' @param nodesCovarList  optional list of covariates on nodes (row and/or cols) driving the clustering,
+      #' @param nodesCovarParam  optional list of effect parameters of nodes covariates
       initialize = function(model        = vector("character", 0),
                             directed     = vector("logical"  , 0),
                             dimension    = vector("numeric"  , 0),
@@ -99,12 +101,15 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
         cat(type, "--", self$modelName, "variant\n")
         cat("=====================================================================\n")
         cat("Dimension = (", self$nbNodes, ") - (",
-            self$nbBlocks, ") blocks and",
-          ifelse(self$nbCovariates > 0, self$nbCovariates, "no"), "covariate(s).\n")
+            self$nbBlocks, ") blocks, ",
+          ifelse(self$nbCovariates > 0, self$nbCovariates, "no"), " edge covariate(s) and ", sapply(seq_along(self$nbNodesCovariates), function(node_type_idx) {
+            return(paste(ifelse(self$nbNodesCovariates[node_type_idx] > 0, self$nbNodesCovariates[node_type_idx], "no"), names(self$nbNodesCovariates)[node_type_idx], "node covariate(s)"))
+          }),".\n")
         cat("=====================================================================\n")
         cat("* Useful fields \n")
         cat("  $nbNodes, $modelName, $dimLabels, $nbBlocks, $nbCovariates, $nbDyads\n")
         cat("  $blockProp, $connectParam, $covarParam, $covarList, $covarEffect \n")
+        cat("  $nbNodesCovariates, $nodesCovariates, $nodesCovariatesParam \n")
         cat("  $expectation, $indMemberships, $memberships \n")
         cat("* R6 and S3 methods \n")
         cat("  $rNetwork, $rMemberships, $rEdges, plot, print, coef \n")
@@ -136,6 +141,32 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
       covarArray  = function(value) {if (self$nbCovariates > 0) simplify2array(private$X) else return(array())},
       #' @field covarEffect effect of covariates
       covarEffect = function(value) {if (self$nbCovariates > 0) return(roundProduct(private$X, private$beta)) else return(numeric(0))},
+      #' @field nbNodesCovariates the dimension of the nodes covariates
+      nbNodesCovariates = function(value) {
+        dim_names <- names(private$dimlab)
+        if (is.null(dim_names) || !any(nzchar(dim_names))) {
+          dim_names <- private$dimlab
+        }
+        out <- setNames(rep(0, length(private$dim)), dim_names)
+        if (!is.null(private$Xnodes) && length(private$Xnodes) > 0) {
+          ncolVec <- sapply(private$Xnodes, function(cov_matrix) {
+            if (!is.null(cov_matrix)) {
+              return(ncol(cov_matrix))
+            }
+            return(0)
+          })
+          if (!is.null(names(ncolVec)) && any(nzchar(names(ncolVec)))) {
+            out[names(ncolVec)] <- ncolVec
+          } else {
+            out[seq_len(min(length(out), length(ncolVec)))] <- ncolVec[seq_len(min(length(out), length(ncolVec)))]
+          }
+        }
+        return(out)
+      },
+      #' @field nodesCovariates the list of nodes covariates
+      nodesCovariates = function(value) {if (any(self$nbNodesCovariates > 0)) return(private$Xnodes) else return(list())},
+      #' @field nodesCovarParam the list of nodes covariates parameters
+      nodesCovariatesParam = function(value) {if (any(self$nbNodesCovariates > 0)) return(private$B) else return(list())},
       #' @field networkData the network data (adjacency or incidence matrix or list of such object)
       networkData = function(value) {return(private$Y)},
       #' @field expectation expected values of connection under the current model

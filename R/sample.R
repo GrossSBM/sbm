@@ -4,7 +4,7 @@
 #' for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models, and possibly with covariates
 #'
 #' @param nbNodes number of nodes in the network
-#' @param blockProp parameters for block proportions
+#' @param blockProp parameters for block proportions. Possibly null is the nodes affectation is driven by nodesCovariates.
 #' @param connectParam list of parameters for connectivity with a matrix of means 'mean' and an optional matrix of variances 'var', the sizes of which must match \code{blockProp} length
 #' @param model character describing the model for the relation between nodes (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'}, ...). Default is \code{'bernoulli'}.
 #' @param directed logical, directed network or not. Default is \code{FALSE}.

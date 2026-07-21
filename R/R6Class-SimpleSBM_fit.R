@@ -47,6 +47,7 @@ SimpleSBM_fit <-
         stopifnot(isSymmetric(adjacencyMatrix) == !directed)    # symmetry and direction must agree
         stopifnot(all(sapply(covarList, nrow) == nrow(adjacencyMatrix))) # consistency of the covariates
         stopifnot(all(sapply(covarList, ncol) == ncol(adjacencyMatrix))) # with the network data
+        stopifnot("Nodes covariates is either not provided or not a matrix with as many rows as there are nodes." = length(nodesCovar) == 0 || (length(nodesCovar) > 0 && is.matrix(nodesCovar) && nrow(nodesCovar) == nrow(adjacencyMatrix)))
 
         ## INITIALIZE THE SBM OBJECT ACCORDING TO THE DATA
         connectParam <- switch(model,
@@ -129,6 +130,11 @@ SimpleSBM_fit <-
         private$pi <- private$pi[o]
         private$theta$mean <- private$theta$mean[o, o, drop = FALSE]
         private$Z <- private$Z[, o, drop = FALSE]
+        if (self$nbNodesCovariates > 0 && self$nbBlocks >= 2L) {
+          private$B <- private$B[, o, drop = FALSE]
+          private$B <- private$B - private$B[,ncol(private$B)]
+          private$B <- list(private$B)
+        }
       },
       #--------------------------------------------
       #' @description show method

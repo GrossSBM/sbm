@@ -15,13 +15,24 @@ SimpleSBM <-
       #' @param dimLabels optional label for the node (default is "nodeName")
       #' @param covarParam optional vector of covariates effect
       #' @param covarList optional list of covariates data
-      initialize = function(model, nbNodes, directed, blockProp, connectParam, dimLabels=c("node"), covarParam=numeric(length(covarList)), covarList=list()) {
+      #' @param nodesCovar optional matrix of nodes covariates
+      #' @param nodesCovarParam optional matrix of parameters of effects of nodes covariates on clustering
+      initialize = function(model, nbNodes, directed, blockProp, connectParam, dimLabels=c("node"), covarParam=numeric(length(covarList)), covarList=list(), nodesCovar = matrix(0,0,0), nodesCovarParam = matrix(0,0,0)) {
 
         ## SANITY CHECKS (on parameters)
         stopifnot(length(dimLabels) == 1)
-        stopifnot(is.atomic(blockProp), all(blockProp >= 0)) # positive proportions
-        stopifnot(all.equal(length(blockProp), ncol(connectParam$mean)),        # dimensions match between vector of
+        if (length(nodesCovar) == 0){
+          stopifnot(is.atomic(blockProp))
+          stopifnot(all(blockProp > 0), all(blockProp < 1)) # positive proportions
+          stopifnot(all.equal(length(blockProp), ncol(connectParam$mean)),        # dimensions match between vector of
                   all.equal(length(blockProp), nrow(connectParam$mean)))        # block proportion and connectParam$mean
+        }else{
+          stopifnot(dim(nodesCovar)[1]==nbNodes)
+          #stopifnot(dim(nodesCovar)[2]==nrow(nodesCovarParam))
+          #stopifnot(ncol(nodesCovarParam)==nrow(connectParam$mean))
+        }
+
+
 
         ## Check that connectivity parameters and model are consistent
         switch(model,
@@ -32,13 +43,20 @@ SimpleSBM <-
         )
 
         if (!directed) stopifnot(isSymmetric(connectParam$mean)) # connectivity and direction must agree
-        super$initialize(model, directed, nbNodes, dimLabels, blockProp, connectParam, covarParam, covarList)
+
+        super$initialize(model, directed, nbNodes, dimLabels, blockProp, connectParam, covarParam, covarList, nodesCovarList = list(node = nodesCovar),nodesCovarParam=list(node=nodesCovarParam))
+
       },
       #' @description a method to sample new block memberships for the current SBM
       #' @param store should the sampled blocks be stored (and overwrite the existing data)? Default to FALSE
       #' @return the sampled blocks
       rMemberships = function(store = FALSE) {
-        Z <- t(rmultinom(private$dim, size = 1, prob = private$pi))
+        if (length(private$Xnodes[[1]])==0){
+          Z <- t(rmultinom(private$dim, size = 1, prob = private$pi))
+        }else{
+          pZ <-  .softmax(private$Xnodes[[1]] %*% private$B[[1]])
+          Z <- t(apply(pZ, 1, function(p) rmultinom(1, 1, prob = p)))
+        }
         if (store) private$Z <- Z
         Z
       },
@@ -135,8 +153,12 @@ SimpleSBM <-
       },
       #' @field blockProp vector of block proportions (aka prior probabilities of each block)
       blockProp   = function(value) {
-        if (missing(value))
-          return(private$pi)
+        if (missing(value)){
+          if(length(private$B[[1]])>0){
+            return(colMeans(.softmax(private$Xnodes[[1]]%*%private$B[[1]])))
+          }
+          return(colMeans(private$Z))
+        }
         else {
           stopifnot(is.numeric(value), is.atomic(value),
                     all(value > 0), all(value < 1)) # positive proportions
@@ -176,6 +198,12 @@ SimpleSBM <-
       nbDyads     = function(value) {ifelse(private$directed_, self$nbNodes*(private$dim - 1), private$dim*(private$dim - 1)/2)},
       #' @field nbConnectParam number of parameter used for the connectivity
       nbConnectParam = function(value) {ifelse(private$directed_, self$nbBlocks^2, self$nbBlocks*(self$nbBlocks + 1)/2)},
+      #' @field nodesCovariates matrix of covariates on nodes
+      nodesCovariates = function(value) {if (length(private$Xnodes[[1]])>0) private$Xnodes[[1]]},
+      #' @field nodesCovarParam the matrix of  nodes covariates parameters
+      nodesCovariatesParam = function(value) {if (length(private$Xnodes[[1]])>0) private$B[[1]]},
+      #' @field nbNodesCovariates nb of covariates on nodes
+      nbNodesCovariates = function(value) {ifelse(length(private$Xnodes[[1]])>0,ncol(private$Xnodes[[1]]),0)},
       #' @field memberships vector of clustering
       memberships = function(value) {if (!is.null(private$Z)) as_clustering(private$Z)},
       #' @field indMemberships matrix for clustering memberships
