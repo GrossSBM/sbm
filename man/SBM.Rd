@@ -19,8 +19,6 @@ R6 virtual class for SBM representation (mother class of SimpleSBM, BipartiteSBM
 
     \item{\code{nbCovariates}}{integer, the number of covariates}
 
-    \item{\code{blockProp}}{block proportions (aka prior probabilities of each block)}
-
     \item{\code{connectParam}}{parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli}
 
     \item{\code{covarParam}}{vector of regression parameters associated with the covariates.}
@@ -30,6 +28,12 @@ R6 virtual class for SBM representation (mother class of SimpleSBM, BipartiteSBM
     \item{\code{covarArray}}{the array of covariates}
 
     \item{\code{covarEffect}}{effect of covariates}
+
+    \item{\code{nbNodesCovariates}}{the dimension of the nodes covariates}
+
+    \item{\code{nodesCovariates}}{the list of nodes covariates}
+
+    \item{\code{nodesCovariatesParam}}{the list of nodes covariates parameters}
 
     \item{\code{networkData}}{the network data (adjacency or incidence matrix or list of such object)}
 
@@ -62,7 +66,9 @@ R6 virtual class for SBM representation (mother class of SimpleSBM, BipartiteSBM
   blockProp = vector("numeric", 0),
   connectParam = vector("list", 0),
   covarParam = numeric(length(covarList)),
-  covarList = list()
+  covarList = list(),
+  nodesCovarList = list(),
+  nodesCovarParam = list()
 )}
     \if{html}{\out{</div>}}
   }

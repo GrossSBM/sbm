@@ -69,7 +69,8 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
   incidenceMatrix,
   model,
   dimLabels = c(row = "row", col = "col"),
-  covarList = list()
+  covarList = list(),
+  nodesCovar = list()
 )}
     \if{html}{\out{</div>}}
   }
@@ -79,7 +80,7 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
       \item{\code{incidenceMatrix}}{rectangular (weighted) matrix}
       \item{\code{model}}{character (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'})}
       \item{\code{dimLabels}}{labels of each dimension (in row, in columns)}
-      \item{\code{covarList}}{and optional list of covariates, each of whom must have the same dimension as \code{incidenceMatrix}}
+      \item{\code{covarList}}{an  optional list of covariates, each of whom must have the same dimension as \code{incidenceMatrix}}
     }
     \if{html}{\out{</div>}}
   }

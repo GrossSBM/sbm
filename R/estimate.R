@@ -109,9 +109,7 @@ estimateSimpleSBM <- function(netMat,
   currentOptions[names(estimOptions)] <- estimOptions
 
   ## Construct the SBM model
-
   mySBM <- SimpleSBM_fit$new(netMat, model, directed, dimLabels, covariates, nodesCovariates)
-
 
   ## Perform optimization
   mySBM$optimize(currentOptions)
@@ -190,7 +188,7 @@ estimateBipartiteSBM <- function(netMat,
                                  model        = 'bernoulli',
                                  dimLabels    = c(row = "row", col = "col"),
                                  covariates   = list(),
-                                 nodesCovariates = list(),
+                                 nodesCovariates = vector('list',2),
                                  estimOptions = list()) {
 
   ## Set default options for estimation
@@ -206,6 +204,8 @@ estimateBipartiteSBM <- function(netMat,
     fast          = TRUE
   )
 
+  stopifnot("The vector of the types of nodes (dimLabels) must null or of length 2."= length(dimLabels)%in%c(0,2))
+  names(nodesCovariates) <- c('row','col')
   ## Current options are default expect for those passed by the user
   currentOptions[names(estimOptions)] <- estimOptions
 

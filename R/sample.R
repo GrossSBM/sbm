@@ -11,6 +11,8 @@
 #' @param dimLabels an optional list of labels for each dimension (in row, in column)
 #' @param covariates a list of matrices with same dimension as mat describing covariates at the edge level. No covariate per Default.
 #' @param covariatesParam optional vector of covariates effect. A zero length numeric vector by default.
+#' @param nodesCovariates an optional matrix with nbNodes rows and  nbNodesCovariates columns corresponding to covariates describing the nodes.  No nodesCovariate per Default.
+#' @param nodesCovariatesParam an optional matrix of dimension nbNodesCovariates  x nbBlocks  corresponding to effect of the nodesCovariates on the clustering.
 #'
 #' @return  an object with class \code{\link{SimpleSBM}}
 #'
@@ -65,15 +67,18 @@
 #' hist(mySampler$networkData)
 #' @export
 sampleSimpleSBM <- function(nbNodes,
-                            blockProp,
+                            blockProp = numeric(0),
                             connectParam,
                             model = 'bernoulli',
                             directed = FALSE,
                             dimLabels = c("node"),
                             covariates = list(),
-                            covariatesParam = numeric(0)) {
+                            covariatesParam = numeric(0),
+                            nodesCovariates = matrix(0,0,0),
+                            nodesCovariatesParam = matrix(0,0,0) ) {
 
-  mySampler <- SimpleSBM$new(model, nbNodes, directed, blockProp, connectParam, dimLabels, covariatesParam, covariates)
+
+  mySampler <- SimpleSBM$new(model, nbNodes, directed, blockProp, connectParam, dimLabels, covariatesParam, covariates, nodesCovariates, nodesCovariatesParam)
   mySampler$rNetwork(store = TRUE)
   mySampler
 }
@@ -90,7 +95,9 @@ sampleSimpleSBM <- function(nbNodes,
 #' @param dimLabels an optional list of labels for each dimension (in row, in column)
 #' @param covariates a list of matrices with same dimension as mat describing covariates at the edge level. No covariate per Default.
 #' @param covariatesParam optional vector of covariates effect. A zero length numeric vector by default.
-#'
+#' @param nodesCovariates a list of two matrices with nbNodes (or 0) rows and  nbNodesCovariates columns corresponding to covariates describing the two types of nodes.  No nodesCovariate per Default.
+#' @param nodesCovariatesParam a list of two matrices of dimension nbNodesCovariates (in row and col)  x nbBlocks (in row and col)  corresponding to effect of the nodesCovariates on the clustering.
+
 #' @return an object with class \code{\link{BipartiteSBM}}
 #'
 #' @examples
@@ -148,14 +155,35 @@ sampleSimpleSBM <- function(nbNodes,
 #'
 #' @export
 sampleBipartiteSBM <- function(nbNodes,
-                            blockProp,
+                            blockProp = vector("list", 2),
                             connectParam,
                             model = 'bernoulli',
-                            dimLabels    = c(row = "row", col = "col"),
+                            dimLabels = c(row = "row", col = "col"),
                             covariates = list(),
-                            covariatesParam = numeric(0)) {
+                            covariatesParam = numeric(0),
+                            nodesCovariates = vector("list", 2),
+                            nodesCovariatesParam = vector("list", 2)) {
 
-  mySampler <- BipartiteSBM$new(model, nbNodes, blockProp, connectParam, dimLabels, covariatesParam, covariates)
+
+  stopifnot(length(nbNodes)==2)
+  for(i in 1:2){
+    Qi <- dim(connectParam$mean)[i]
+    nodes_cov_i <-nrow(nodesCovariates[[i]])
+    if(is.null(nodes_cov_i)){nodes_cov_i=0}
+    if(nodes_cov_i>0){
+      stopifnot(nbNodes[i]==nodes_cov_i)
+      stopifnot(ncol(nodesCovariates[[i]]) == nrow(nodesCovariatesParam[[i]]))
+      stopifnot(Qi == ncol(nodesCovariatesParam[[i]]))
+    }else{
+    stopifnot(length(blockProp[[i]])==Qi)
+    }
+  }
+
+
+
+
+
+  mySampler <- BipartiteSBM$new(model, nbNodes, blockProp, connectParam, dimLabels, covariatesParam, covariates,nodesCovariates, nodesCovariatesParam)
   mySampler$rNetwork(store = TRUE)
   mySampler
 }

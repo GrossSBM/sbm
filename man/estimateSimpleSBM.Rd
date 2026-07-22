@@ -10,6 +10,7 @@ estimateSimpleSBM(
   directed = !isSymmetric(netMat),
   dimLabels = c("node"),
   covariates = list(),
+  nodesCovariates = matrix(0, 0, 0),
   estimOptions = list()
 )
 }
@@ -23,6 +24,8 @@ estimateSimpleSBM(
 \item{dimLabels}{an optional label for referring to the nodes}
 
 \item{covariates}{a list of matrices with same dimension as mat describing covariates at the edge level. No covariate per Default.}
+
+\item{nodesCovariates}{a matrix with the same number of rows as the number of nodes in the network, describing the nodes covariates. No nodes covariates per default.}
 
 \item{estimOptions}{a list of parameters controlling the inference algorithm and model selection. See details.}
 }

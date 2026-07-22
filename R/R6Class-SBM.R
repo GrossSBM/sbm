@@ -5,173 +5,208 @@ available_models_edges <- c('bernoulli', 'poisson', 'gaussian','ZIgaussian')
 #' @import R6
 SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipartite)
   R6::R6Class(classname = "SBM",
-    ## fields for internal use (referring to the mathematical notation)
-    private = list(
-      model         = NULL, # characters, the model name: distribution of the edges (bernoulli, poisson, gaussian)
-      directed_     = NULL, # vector of logical indicating if networks are directed, when appropriate
-      link          = NULL, # the link function (GLM-like)
-      invlink       = NULL, # the inverse link function (GLM-like)
-      dim           = NULL, # dimension: number of nodes for each group
-      dimlab        = NULL, # vector: the type of nodes in row and in col
-      pi            = NULL, # vector of parameters for block prior probabilities
-      theta         = NULL, # connectivity parameters between edges
-      beta          = NULL, # vector of covariates parameters
-      Y             = NULL, # network data (matrix or list of matrices)
-      X             = NULL, # list of covariates
-      Z             = NULL, # indicator/probablities of blocks belonging
-      sampling_func = NULL  # a list of functions to sample edge values, depending on the model
-    ),
-    public = list(
-      #' @description constructor for SBM
-      #' @param model character describing the type of model
-      #' @param directed logical describing if the network data is directed or not
-      #' @param dimension dimension of the network data
-      #' @param dimLabels labels of each dimension
-      #' @param blockProp parameters for block proportions (vector or list of vectors)
-      #' @param connectParam list of parameters for connectivity
-      #' @param covarParam optional vector of covariates effect
-      #' @param covarList optional list of covariates data
-      #' @param nodesCovarList  optional list of covariates on nodes (row and/or cols) driving the clustering,
-      #' @param nodesCovarParam  optional list of effect parameters of nodes covariates
-      initialize = function(model        = vector("character", 0),
-                            directed     = vector("logical"  , 0),
-                            dimension    = vector("numeric"  , 0),
-                            dimLabels    = vector("character", 0),
-                            blockProp    = vector("numeric"  , 0),
-                            connectParam = vector("list"     , 0),
-                            covarParam   = numeric(length(covarList)),
-                            covarList    = list()) {
-        ## SANITY CHECK
-        stopifnot(is.character(model), all(model %in% available_models_edges))
-        stopifnot(is.logical(directed))
-        stopifnot(is.character(dimLabels), length(dimLabels) == length(dimension))
-        stopifnot(is.numeric(dimension), all(dimension > 0))
-        stopifnot(is.list(connectParam))
-        stopifnot(all.equal(length(covarParam), length(covarList)))
+              ## fields for internal use (referring to the mathematical notation)
+              private = list(
+                model         = NULL, # characters, the model name: distribution of the edges (bernoulli, poisson, gaussian)
+                directed_     = NULL, # vector of logical indicating if networks are directed, when appropriate
+                link          = NULL, # the link function (GLM-like)
+                invlink       = NULL, # the inverse link function (GLM-like)
+                dim           = NULL, # dimension: number of nodes for each group
+                dimlab        = NULL, # vector: the type of nodes in row and in col
+                pi            = NULL, # vector of parameters for block prior probabilities
+                theta         = NULL, # connectivity parameters between edges
+                beta          = NULL, # vector of covariates parameters
+                Y             = NULL, # network data (matrix or list of matrices)
+                X             = NULL, # list of covariates
+                Xnodes        = NULL, # List of nodes covariates
+                B             = NULL, # List of matrices for the nodes covariates
+                Z             = NULL, # indicator/probablities of blocks belonging
+                sampling_func = NULL  # a list of functions to sample edge values, depending on the model
+              ),
+              public = list(
+                #' @description constructor for SBM
+                #' @param model character describing the type of model
+                #' @param directed logical describing if the network data is directed or not
+                #' @param dimension dimension of the network data
+                #' @param dimLabels labels of each dimension
+                #' @param blockProp parameters for block proportions (vector or list of vectors)
+                #' @param connectParam list of parameters for connectivity
+                #' @param covarParam optional vector of covariates effect
+                #' @param covarList optional list of covariates data
+                initialize = function(model        = vector("character", 0),
+                                      directed     = vector("logical"  , 0),
+                                      dimension    = vector("numeric"  , 0),
+                                      dimLabels    = vector("character", 0),
+                                      blockProp    = vector("numeric"  , 0),
+                                      connectParam = vector("list"     , 0),
+                                      covarParam   = numeric(length(covarList)),
+                                      covarList    = list(),
+                                      nodesCovarList = list(),
+                                      nodesCovarParam = list()) {
+                  ## SANITY CHECK
+                  stopifnot(is.character(model), all(model %in% available_models_edges))
+                  stopifnot(is.logical(directed))
+                  stopifnot(is.character(dimLabels), length(dimLabels) == length(dimension))
+                  stopifnot(is.numeric(dimension), all(dimension > 0))
+                  stopifnot(is.list(connectParam))
+                  stopifnot(all.equal(length(covarParam), length(covarList)))
 
-        ## MODEL & PARAMETERS
-        private$model      <- model
-        private$directed_  <- directed
-        private$dim        <- dimension
-        private$dimlab     <- dimLabels
-        private$X          <- covarList
-        private$pi         <- blockProp
-        private$theta      <- connectParam
-        private$beta       <- covarParam
+                  ## MODEL & PARAMETERS
+                  private$model      <- model
+                  private$directed_  <- directed
+                  private$dim        <- dimension
+                  private$dimlab     <- dimLabels
+                  private$X          <- covarList
+                  private$pi         <- blockProp
+                  private$theta      <- connectParam
+                  private$beta       <- covarParam
+                  private$Xnodes     <- nodesCovarList
+                  private$B          <- nodesCovarParam
+                  private$link <- map(model,
+                                      ~switch(.x,
+                                              "gaussian"   = function(x) {x},
+                                              "ZIgaussian" = function(x) {x},
+                                              "poisson"    = function(x) {log(x)},
+                                              "bernoulli"  = function(x) {.logit(x)},
+                                      )
+                  )
+                  private$invlink <- map(model,
+                                         ~switch(.x,
+                                                 "gaussian"   = function(x) {x},
+                                                 "ZIgaussian" = function(x) {x},
+                                                 "poisson"    = function(x) {exp(x)},
+                                                 "bernoulli"  = function(x) {.logistic(x)},
+                                         )
+                  )
 
-        private$link <- map(model,
-          ~switch(.x,
-                "gaussian"   = function(x) {x},
-                "ZIgaussian" = function(x) {x},
-                "poisson"    = function(x) {log(x)},
-                "bernoulli"  = function(x) {.logit(x)},
-                )
-          )
-        private$invlink <- map(model,
-          ~switch(.x,
-                "gaussian"   = function(x) {x},
-                "ZIgaussian" = function(x) {x},
-                "poisson"    = function(x) {exp(x)},
-                "bernoulli"  = function(x) {.logistic(x)},
-                )
-          )
+                  private$sampling_func <- map(model,
+                                               ~switch(.x,
+                                                       "gaussian"   = function(n, param) rnorm (n = n, mean = param$mean, sd = sqrt(param$var)),
+                                                       "ZIgaussian" = function(n, param) rbinom(n = n, size = 1, prob = 1 - param$p0) * rnorm(n = n, param$mean, sd = sqrt(param$var)),
+                                                       "poisson"    = function(n, param) rpois (n = n, lambda = param$mean) ,
+                                                       "bernoulli"  = function(n, param) rbinom(n = n, size = 1, prob   = param$mean)
+                                               )
+                  )
+                },
+                #' @description a method to sample a network data for the current SBM (blocks and edges)
+                #' @param store should the sampled network be stored (and overwrite the existing data)? Default to FALSE
+                #' @return a list with the sampled block and network
+                rNetwork = function(store = FALSE) {
+                  Zsave <- private$Z
+                  Z <- self$rMemberships(store = TRUE)
+                  E <- self$rEdges(store = store)
+                  if (!store) private$Z <- Zsave
+                  list(indMemberships = Z, networkData = E)
+                },
+                #' @description print method
+                #' @param type character to tune the displayed name
+                show = function(type = "Stochastic Block Model") {
+                  cat(type, "--", self$modelName, "variant\n")
+                  cat("=====================================================================\n")
+                  cat("Dimension = (", self$nbNodes, ") - (",
+                      self$nbBlocks, ") blocks. ",
+                      ifelse(self$nbCovariates > 0, self$nbCovariates, "no"), " edge covariate(s).",
+                      sapply(seq_along(self$nbNodesCovariates), function(node_type_idx) {
+                        return(paste(ifelse(self$nbNodesCovariates[node_type_idx] > 0, self$nbNodesCovariates[node_type_idx], "no")
+                                     , names(self$nbNodesCovariates)[node_type_idx], "node covariate(s)."))
+                      }),"\n")
+                  cat("=====================================================================\n")
+                  cat("* Useful fields \n")
+                  cat("  $nbNodes, $modelName, $dimLabels, $nbBlocks, $nbCovariates, $nbDyads\n")
+                  cat("  $blockProp, $connectParam, $covarParam, $covarList, $covarEffect \n")
+                  cat("  $nbNodesCovariates, $nodesCovariates, $nodesCovariatesParam \n")
+                  cat("  $expectation, $indMemberships, $memberships \n")
+                  cat("* R6 and S3 methods \n")
+                  cat("  $rNetwork, $rMemberships, $rEdges, plot(obj), print(obj), coef(obj) \n")
+                },
+                #' @description print method
+                print = function() self$show()
+              ),
+              ## active binding to access fields outside the class
+              active = list(
+                #' @field modelName character, the family of model for the distribution of the edges
+                modelName    = function(value) {private$model},
+                #' @field directed mode of the network data (directed or not or not applicable)
+                directed = function(value) {private$directed_},
+                #' @field dimLabels vector or list of characters, the label of each dimension
+                dimLabels    = function(value) {private$dimlab},
+                #' @field nbNodes vector describing the number of the successive elements connecting the network
+                nbNodes = function(value) {setNames(private$dim, private$dimlab)},
+                #' @field nbCovariates integer, the number of covariates
+                nbCovariates = function(value) {length(private$X)},
+                #' @field connectParam parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli
+                connectParam = function(value) {private$theta},
+                #' @field covarParam vector of regression parameters associated with the covariates.
+                covarParam  = function(value) {private$beta},
+                #' @field covarList list of matrices of covariates
+                covarList   = function(value) {private$X},
+                #' @field covarArray the array of covariates
+                covarArray  = function(value) {if (self$nbCovariates > 0) simplify2array(private$X) else return(array())},
+                #' @field covarEffect effect of covariates
+                covarEffect = function(value) {if (self$nbCovariates > 0) return(roundProduct(private$X, private$beta)) else return(numeric(0))},
+                #' @field nbNodesCovariates the dimension of the nodes covariates
+                nbNodesCovariates = function(value) {
+                  browser()
 
-        private$sampling_func <- map(model,
-          ~switch(.x,
-            "gaussian"   = function(n, param) rnorm (n = n, mean = param$mean, sd = sqrt(param$var)),
-            "ZIgaussian" = function(n, param) rbinom(n = n, size = 1, prob = 1 - param$p0) * rnorm(n = n, param$mean, sd = sqrt(param$var)),
-            "poisson"    = function(n, param) rpois (n = n, lambda = param$mean) ,
-            "bernoulli"  = function(n, param) rbinom(n = n, size = 1, prob   = param$mean)
-          )
-        )
-      },
-      #' @description a method to sample a network data for the current SBM (blocks and edges)
-      #' @param store should the sampled network be stored (and overwrite the existing data)? Default to FALSE
-      #' @return a list with the sampled block and network
-      rNetwork = function(store = FALSE) {
-        Zsave <- private$Z
-        Z <- self$rMemberships(store = TRUE)
-        E <- self$rEdges(store = store)
-        if (!store) private$Z <- Zsave
-        list(indMemberships = Z, networkData = E)
-      },
-      #' @description print method
-      #' @param type character to tune the displayed name
-      show = function(type = "Stochastic Block Model") {
-        cat(type, "--", self$modelName, "variant\n")
-        cat("=====================================================================\n")
-        cat("Dimension = (", self$nbNodes, ") - (",
-            self$nbBlocks, ") blocks, ",
-          ifelse(self$nbCovariates > 0, self$nbCovariates, "no"), " edge covariate(s) and ", sapply(seq_along(self$nbNodesCovariates), function(node_type_idx) {
-            return(paste(ifelse(self$nbNodesCovariates[node_type_idx] > 0, self$nbNodesCovariates[node_type_idx], "no"), names(self$nbNodesCovariates)[node_type_idx], "node covariate(s)"))
-          }),".\n")
-        cat("=====================================================================\n")
-        cat("* Useful fields \n")
-        cat("  $nbNodes, $modelName, $dimLabels, $nbBlocks, $nbCovariates, $nbDyads\n")
-        cat("  $blockProp, $connectParam, $covarParam, $covarList, $covarEffect \n")
-        cat("  $nbNodesCovariates, $nodesCovariates, $nodesCovariatesParam \n")
-        cat("  $expectation, $indMemberships, $memberships \n")
-        cat("* R6 and S3 methods \n")
-        cat("  $rNetwork, $rMemberships, $rEdges, plot, print, coef \n")
-        },
-      #' @description print method
-      print = function() self$show()
-    ),
-    ## active binding to access fields outside the class
-    active = list(
-      #' @field modelName character, the family of model for the distribution of the edges
-      modelName    = function(value) {private$model},
-      #' @field directed mode of the network data (directed or not or not applicable)
-      directed = function(value) {private$directed_},
-      #' @field dimLabels vector or list of characters, the label of each dimension
-      dimLabels    = function(value) {private$dimlab},
-      #' @field nbNodes vector describing the number of the successive elements connecting the network
-      nbNodes = function(value) {setNames(private$dim, private$dimlab)},
-      #' @field nbCovariates integer, the number of covariates
-      nbCovariates = function(value) {length(private$X)},
-      #' @field blockProp block proportions (aka prior probabilities of each block)
-      blockProp   = function(value) {private$pi},
-      #' @field connectParam parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli
-      connectParam = function(value) {private$theta},
-      #' @field covarParam vector of regression parameters associated with the covariates.
-      covarParam  = function(value) {private$beta},
-      #' @field covarList list of matrices of covariates
-      covarList   = function(value) {private$X},
-      #' @field covarArray the array of covariates
-      covarArray  = function(value) {if (self$nbCovariates > 0) simplify2array(private$X) else return(array())},
-      #' @field covarEffect effect of covariates
-      covarEffect = function(value) {if (self$nbCovariates > 0) return(roundProduct(private$X, private$beta)) else return(numeric(0))},
-      #' @field nbNodesCovariates the dimension of the nodes covariates
-      nbNodesCovariates = function(value) {
-        dim_names <- names(private$dimlab)
-        if (is.null(dim_names) || !any(nzchar(dim_names))) {
-          dim_names <- private$dimlab
-        }
-        out <- setNames(rep(0, length(private$dim)), dim_names)
-        if (!is.null(private$Xnodes) && length(private$Xnodes) > 0) {
-          ncolVec <- sapply(private$Xnodes, function(cov_matrix) {
-            if (!is.null(cov_matrix)) {
-              return(ncol(cov_matrix))
-            }
-            return(0)
-          })
-          if (!is.null(names(ncolVec)) && any(nzchar(names(ncolVec)))) {
-            out[names(ncolVec)] <- ncolVec
-          } else {
-            out[seq_len(min(length(out), length(ncolVec)))] <- ncolVec[seq_len(min(length(out), length(ncolVec)))]
-          }
-        }
-        return(out)
-      },
-      #' @field nodesCovariates the list of nodes covariates
-      nodesCovariates = function(value) {if (any(self$nbNodesCovariates > 0)) return(private$Xnodes) else return(list())},
-      #' @field nodesCovarParam the list of nodes covariates parameters
-      nodesCovariatesParam = function(value) {if (any(self$nbNodesCovariates > 0)) return(private$B) else return(list())},
-      #' @field networkData the network data (adjacency or incidence matrix or list of such object)
-      networkData = function(value) {return(private$Y)},
-      #' @field expectation expected values of connection under the current model
-      expectation = function() {self$predict()}
-    )
+                  u <- length(private$dimlab)
+                  l <- length(private$Xnodes)
+                  if(l==0){
+                    return(rep(0,u))
+                  }
+                  if(l>0){
+                    if(is.list(private$Xnodes)){
+                      ncolVec <- sapply(private$Xnodes, function(cov_matrix) {
+                      if (!is.null(cov_matrix)) {
+                        return(ncol(cov_matrix))
+                      }
+                      return(0)})}else{
+
+                      }
+
+
+
+
+
+                  #if (is.null(dim_names) || !any(nzchar(dim_names))) {
+                  #  dim_names <- private$dimlab
+                  #}
+                  out <- setNames(rep(0, length(private$dim)), dim_names)
+                  if (!is.null(private$Xnodes) && length(private$Xnodes) > 0) {
+                    ncolVec <- sapply(private$Xnodes, function(cov_matrix) {
+                      if (!is.null(cov_matrix)) {
+                        return(ncol(cov_matrix))
+                      }
+                      return(0)
+                    })
+                    if (!is.null(names(ncolVec)) && any(nzchar(names(ncolVec)))) {
+                      out[names(ncolVec)] <- ncolVec
+                    } else {
+                      out[seq_len(min(length(out), length(ncolVec)))] <- ncolVec[seq_len(min(length(out), length(ncolVec)))]
+                    }
+                  }
+                  return(out)
+                },
+                #' @field nodesCovariates the list of nodes covariates
+                nodesCovariates = function(value) {
+                  if (any(self$nbNodesCovariates > 0)){
+                    res <- private$Xnodes
+                    if(is.list(res)){names(res)<- private$dimlab}
+                    return(res)
+                    }else{
+                      return(list())
+                    }
+                  },
+                #' @field nodesCovariatesParam the list of nodes covariates parameters
+                nodesCovariatesParam = function(value) {
+                  if (any(self$nbNodesCovariates > 0)){
+                    res=private$B;
+                    if(is.list(res)){names(res) <- private$dimlab}
+                    return(res)}else{return(list())}},
+                #' @field networkData the network data (adjacency or incidence matrix or list of such object)
+                networkData = function(value) {return(private$Y)},
+                #' @field expectation expected values of connection under the current model
+                expectation = function() {self$predict()}
+              )
   )
 
 
@@ -291,8 +326,8 @@ plot.SBM = function(x, type = c('data', 'expected', 'meso'), ordered = TRUE, plo
 fitted.SBM <- function(object,  ...) {
   stopifnot(is_SBM(object))
   stopifnot(inherits(object, "SimpleSBM") |
-            inherits(object, "BipartiteSBM") |
-            inherits(object, "MultipartiteSBM")
-      )
+              inherits(object, "BipartiteSBM") |
+              inherits(object, "MultipartiteSBM")
+  )
   object$predict()
 }

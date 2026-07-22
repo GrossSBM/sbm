@@ -22,6 +22,8 @@ R6 class for Bipartite SBM
 
     \item{\code{nbBlocks}}{vector of size 2: number of blocks (rows, columns)}
 
+    \item{\code{mask}}{Mask for the (potential) NAs in the adjacency matrix}
+
     \item{\code{nbDyads}}{number of dyads (potential edges in the network)}
 
     \item{\code{nbConnectParam}}{number of parameter used for the connectivity}
@@ -60,11 +62,13 @@ R6 class for Bipartite SBM
     \preformatted{BipartiteSBM$new(
   model,
   nbNodes,
-  blockProp,
-  connectParam,
+  blockProp = vector("list", 2),
+  connectParam = list(mean = matrix(0, 0, 0)),
   dimLabels = c(row = "row", col = "col"),
   covarParam = numeric(length(covarList)),
-  covarList = list()
+  covarList = list(),
+  nodesCovar = vector("list", 2),
+  nodesCovarParam = vector("list", 2)
 )}
     \if{html}{\out{</div>}}
   }

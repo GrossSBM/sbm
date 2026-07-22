@@ -30,16 +30,17 @@ BipartiteSBM_fit <-
 
         private$B < list()
         if (length(private$BMobject$memberships[[index]][["B"]]) > 0) {
-          private[["B"]][["row"]] <- private$BMobject$memberships[[index]][["B"]]
+          private[["B"]][[1]] <- private$BMobject$memberships[[index]][["B"]]
         }
         if (length(private$BMobject$memberships[[index]][["G"]]) > 0) {
-          private[["B"]][["col"]] <- private$BMobject$memberships[[index]][["G"]]
+          private[["B"]][[2]] <- private$BMobject$memberships[[index]][["G"]]
         }
         private$Z <- list(
           row = private$BMobject$memberships[[index]]$Z1,
           col = private$BMobject$memberships[[index]]$Z2
         )
-        private$pi <- lapply(private$Z, colMeans)
+        private$pi <- list(row = private$BMobject$memberships[[index]]$alpha1, col = private$BMobject$memberships[[index]]$alpha2)
+
       }
     ),
     public = list(
@@ -47,17 +48,16 @@ BipartiteSBM_fit <-
       #' @param incidenceMatrix rectangular (weighted) matrix
       #' @param model character (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'})
       #' @param dimLabels labels of each dimension (in row, in columns)
-      #' @param covarList and optional list of covariates, each of whom must have the same dimension as \code{incidenceMatrix}
-      initialize = function(incidenceMatrix, model, dimLabels = c(row = "row", col = "col"), covarList = list()) {
+      #' @param covarList an  optional list of covariates, each of whom must have the same dimension as \code{incidenceMatrix}
+      initialize = function(incidenceMatrix, model, dimLabels = c(row = "row", col = "col"), covarList = list(), nodesCovar = list()) {
         ## SANITY CHECKS on data
         stopifnot(is.matrix(incidenceMatrix)) # must be a matrix
         stopifnot(all(sapply(covarList, nrow) == nrow(incidenceMatrix))) # consistency of the covariates
         stopifnot(all(sapply(covarList, ncol) == ncol(incidenceMatrix))) # with the network data
-
         stopifnot("Nodes covariates are either not provided or a list of one or two matrices named 'row' or 'col', with as many rows as there is row or col nodes." = (length(nodesCovar) == 0 ||
-        (length(nodesCovar) <= 2 && all(names(nodesCovar) %in% c("row", "col")) &&
-        ((length(nodesCovar[["row"]]) == 0 || is.matrix(nodesCovar[["row"]]) && nrow(nodesCovar[["row"]]) == nrow(incidenceMatrix)) &&
-        (length(nodesCovar[["col"]]) == 0 || is.matrix(nodesCovar[["col"]]) && nrow(nodesCovar[["col"]]) == ncol(incidenceMatrix))))))
+        (length(nodesCovar) == 2  &&
+        ((length(nodesCovar[[1]]) == 0 || is.matrix(nodesCovar[[1]]) && nrow(nodesCovar[[1]]) == nrow(incidenceMatrix)) &&
+        (length(nodesCovar[[2]]) == 0 || is.matrix(nodesCovar[[2]]) && nrow(nodesCovar[[2]]) == ncol(incidenceMatrix))))))
 
 
 
@@ -76,7 +76,8 @@ BipartiteSBM_fit <-
           blockProp = rep(list(vector("numeric", 0)), 2),
           connectParam = connectParam,
           dimLabels = dimLabels,
-          covarList = covarList
+          covarList = covarList,
+          nodesCovar = nodesCovar
         )
         private$Y <- incidenceMatrix
       },
@@ -113,6 +114,7 @@ BipartiteSBM_fit <-
 
         args <- list(membership_type = "LBM", adj = private$Y)
         if (self$nbCovariates > 0) args$covariates <- private$X
+        if (any(self$nbNodesCovariates > 0)) args$nodes_covariates <- private$Xnodes
         args <- c(args, blockmodelsOptions)
 
         ## model construction
@@ -141,6 +143,7 @@ BipartiteSBM_fit <-
       },
       #' @description permute group labels by order of decreasing probability
       reorder = function() {
+        browser()
         if (self$nbNodesCovariates[2] > 0 && self$nbBlocks[2] >= 2L) {
           order_pi_col <- colMeans(private$pi[[2]])
         } else {
@@ -167,6 +170,14 @@ BipartiteSBM_fit <-
         private$theta$mean <- private$theta$mean[oRow, oCol, drop = FALSE]
         private$Z[[1]] <- private$Z[[1]][, oRow, drop = FALSE]
         private$Z[[2]] <- private$Z[[2]][, oCol, drop = FALSE]
+        if (length(private$B[[1]]) > 0){
+          private$B[[1]] <- private$B[[1]][, oRow, drop = FALSE]
+          private$B[[1]] <- private$B[[1]] - private$B[[1]][,ncol(private$B[[1]])]
+        }
+        if (length(private$B[[2]]) > 0){
+          private$B[[2]] <- private$B[[2]][, oCol, drop = FALSE]
+          private$B[[2]] <- private$B[[2]] - private$B[[2]][,ncol(private$B[[2]])]
+        }
       },
       #' @description show method
       #' @param type character used to specify the type of SBM
@@ -189,7 +200,7 @@ BipartiteSBM_fit <-
       },
       #' @field penalty double, value of the penalty term in ICL
       penalty = function(value) {
-        unname((self$nbConnectParam + self$nbCovariates) * log(self$nbDyads) + (self$nbBlocks[1] - 1) * log(private$dim[1]) + (self$nbBlocks[2] - 1) * log(private$dim[2]))
+        unname((self$nbConnectParam + self$nbCovariates) * log(self$nbDyads) + max(1,self$nbNodesCovariates[1])*(self$nbBlocks[1] - 1) * log(private$dim[1]) + max(1,self$nbNodesCovariates[2])*(self$nbBlocks[2] - 1) * log(private$dim[2]))
       },
       #' @field entropy double, value of the entropy due to the clustering distribution
       entropy = function(value) {
@@ -202,7 +213,7 @@ BipartiteSBM_fit <-
         nbConnectParam <- c(NA, unlist(sapply(private$BMobject$model_parameters, function(param) param$n_parameters)))
         U <- data.frame(
           indexModel = rowBlocks + colBlocks,
-          nbParams = nbConnectParam + rowBlocks + colBlocks - 2,
+          nbParams = nbConnectParam + max(1,self$nbNodesCovariates[1])*(rowBlocks-1) + max(1,self$nbNodesCovariates[2])*(colBlocks - 1),
           rowBlocks = rowBlocks,
           colBlocks = colBlocks,
           nbBlocks = rowBlocks + colBlocks,

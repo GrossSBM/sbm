@@ -14,14 +14,11 @@ BipartiteSBM <-
       #' @param dimLabels optional labels of each dimension (in row, in column)
       #' @param covarParam optional vector of covariates effect
       #' @param covarList optional list of covariates data
-
       initialize = function(model, nbNodes, blockProp=vector("list", 2), connectParam=list(mean=matrix(0,0,0)), dimLabels=c(row="row", col="col"), covarParam=numeric(length(covarList)), covarList=list(), nodesCovar = vector("list", 2), nodesCovarParam = vector("list", 2)) {
 
         ## SANITY CHECKS (on parameters)
         stopifnot(length(dimLabels) == 2)
         stopifnot(length(blockProp) ==  2, is.list(blockProp))#,
-          #        length(blockProp[[1]]) ==  nrow(connectParam$mean), # dimensions match between vector of
-          #        length(blockProp[[2]]) ==  ncol(connectParam$mean)) # block proportion and connectParam$mean
         stopifnot(all(blockProp[[1]] > 0), all(blockProp[[1]] < 1))   # positive proportions
         stopifnot(all(blockProp[[2]] > 0), all(blockProp[[2]] < 1))
         names(blockProp) <- names(dimLabels)
@@ -36,9 +33,7 @@ BipartiteSBM <-
                                    connectParam$var > 0, all(connectParam$p0 >= 0), all(connectParam$p0 <= 1))
         )
 
-
         super$initialize(model, NA, nbNodes, dimLabels, blockProp, connectParam, covarParam, covarList, nodesCovarList = nodesCovar,nodesCovarParam=nodesCovarParam)
-
       },
       #' @description a method to sample new block memberships for the current SBM
       #' @param store should the sampled blocks be stored (and overwrite the existing data)? Default to FALSE
@@ -152,8 +147,16 @@ BipartiteSBM <-
         if (missing(value)){
             res=vector('list',2)
             names(res) <-private$dimlab
-            res[[1]] <- ifelse(length(private$B[[1]])>0, colMeans(.softmax(private$Xnodes[[1]]%*%private$B[[1]])),private$pi[[1]])
-            res[[2]] <- ifelse(length(private$B[[2]])>0, colMeans(.softmax(private$Xnodes[[2]]%*%private$B[[2]])),private$pi[[2]])
+            if(length(private$B[[1]])>0){
+              res[[1]] <-  colMeans(.softmax(private$Xnodes[[1]]%*%private$B[[1]]))
+              }else{
+              res[[1]] <- private$pi[[1]]
+              }
+            if(length(private$B[[2]])>0){
+              res[[2]] <-  colMeans(.softmax(private$Xnodes[[2]]%*%private$B[[2]]))
+            }else{
+              res[[2]] <- private$pi[[2]]
+            }
             return(res)
         }else{
           stopifnot(is.list(value), length(value) == length(private$dimlab))

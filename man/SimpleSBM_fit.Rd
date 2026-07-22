@@ -70,7 +70,8 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
   model,
   directed,
   dimLabels = c(node = "nodeName"),
-  covarList = list()
+  covarList = list(),
+  nodesCovar = matrix(nrow = 0, ncol = 0)
 )}
     \if{html}{\out{</div>}}
   }
@@ -82,6 +83,7 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
       \item{\code{directed}}{logical, directed network or not. In not, \code{adjacencyMatrix} must be symmetric.}
       \item{\code{dimLabels}}{list of labels of each dimension (in row, in columns)}
       \item{\code{covarList}}{and optional list of covariates, each of whom must have the same dimension as \code{adjacencyMatrix}}
+      \item{\code{nodesCovar}}{optional matrix of nodes covariates}
     }
     \if{html}{\out{</div>}}
   }

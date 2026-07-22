@@ -43,9 +43,7 @@ SimpleSBM <-
         )
 
         if (!directed) stopifnot(isSymmetric(connectParam$mean)) # connectivity and direction must agree
-
         super$initialize(model, directed, nbNodes, dimLabels, blockProp, connectParam, covarParam, covarList, nodesCovarList = list(node = nodesCovar),nodesCovarParam=list(node=nodesCovarParam))
-
       },
       #' @description a method to sample new block memberships for the current SBM
       #' @param store should the sampled blocks be stored (and overwrite the existing data)? Default to FALSE
@@ -192,8 +190,14 @@ SimpleSBM <-
         }
       },
 ### field with access only
+     #' @field mask Mask for the (potential) NAs in the adjacency matrix
+     mask        = function(value) {
+              mask <- (!is.na(private$Y)) * 1L
+              diag(mask) <- 0
+           return(mask)
+      },
       #' @field nbBlocks number of blocks
-      nbBlocks    = function(value) {length(private$pi)},
+      nbBlocks    = function(value) {ncol(private$Z)},
       #' @field nbDyads number of dyads (potential edges in the network)
       nbDyads     = function(value) {ifelse(private$directed_, self$nbNodes*(private$dim - 1), private$dim*(private$dim - 1)/2)},
       #' @field nbConnectParam number of parameter used for the connectivity
