@@ -33,6 +33,8 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
                 #' @param connectParam list of parameters for connectivity
                 #' @param covarParam optional vector of covariates effect
                 #' @param covarList optional list of covariates data
+                #' @param nodesCovarList optional list of covariates on nodes (rows and cols),
+                #' @param nodesCovarParam optional list of vector of node covariates effects on the clustering
                 initialize = function(model        = vector("character", 0),
                                       directed     = vector("logical"  , 0),
                                       dimension    = vector("numeric"  , 0),
@@ -105,9 +107,9 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
                   cat("=====================================================================\n")
                   cat("Dimension = (", self$nbNodes, ") - (",
                       self$nbBlocks, ") blocks. ",
-                      ifelse(self$nbCovariates > 0, self$nbCovariates, "no"), " edge covariate(s).",
+                      ifelse(self$nbCovariates > 0, self$nbCovariates, "No"), " edge covariate(s).",
                       sapply(seq_along(self$nbNodesCovariates), function(node_type_idx) {
-                        return(paste(ifelse(self$nbNodesCovariates[node_type_idx] > 0, self$nbNodesCovariates[node_type_idx], "no")
+                        return(paste(ifelse(self$nbNodesCovariates[node_type_idx] > 0, self$nbNodesCovariates[node_type_idx], "No")
                                      , names(self$nbNodesCovariates)[node_type_idx], "node covariate(s)."))
                       }),"\n")
                   cat("=====================================================================\n")
@@ -146,45 +148,11 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
                 covarEffect = function(value) {if (self$nbCovariates > 0) return(roundProduct(private$X, private$beta)) else return(numeric(0))},
                 #' @field nbNodesCovariates the dimension of the nodes covariates
                 nbNodesCovariates = function(value) {
-                  browser()
-
-                  u <- length(private$dimlab)
-                  l <- length(private$Xnodes)
-                  if(l==0){
-                    return(rep(0,u))
-                  }
-                  if(l>0){
-                    if(is.list(private$Xnodes)){
-                      ncolVec <- sapply(private$Xnodes, function(cov_matrix) {
-                      if (!is.null(cov_matrix)) {
-                        return(ncol(cov_matrix))
-                      }
-                      return(0)})}else{
-
-                      }
-
-
-
-
-
-                  #if (is.null(dim_names) || !any(nzchar(dim_names))) {
-                  #  dim_names <- private$dimlab
-                  #}
-                  out <- setNames(rep(0, length(private$dim)), dim_names)
-                  if (!is.null(private$Xnodes) && length(private$Xnodes) > 0) {
-                    ncolVec <- sapply(private$Xnodes, function(cov_matrix) {
-                      if (!is.null(cov_matrix)) {
-                        return(ncol(cov_matrix))
-                      }
-                      return(0)
-                    })
-                    if (!is.null(names(ncolVec)) && any(nzchar(names(ncolVec)))) {
-                      out[names(ncolVec)] <- ncolVec
-                    } else {
-                      out[seq_len(min(length(out), length(ncolVec)))] <- ncolVec[seq_len(min(length(out), length(ncolVec)))]
-                    }
-                  }
-                  return(out)
+                   if (is.null(private$Xnodes)){return(integer(0))}
+                   res <- vapply(private$Xnodes, function(mat) {
+                      if (is.null(mat)){ 0 } else {ncol(mat)}},1)
+                   names(res)<- self$dimLabels
+                   return(res)
                 },
                 #' @field nodesCovariates the list of nodes covariates
                 nodesCovariates = function(value) {

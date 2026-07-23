@@ -49,15 +49,16 @@ BipartiteSBM_fit <-
       #' @param model character (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'})
       #' @param dimLabels labels of each dimension (in row, in columns)
       #' @param covarList an  optional list of covariates, each of whom must have the same dimension as \code{incidenceMatrix}
-      initialize = function(incidenceMatrix, model, dimLabels = c(row = "row", col = "col"), covarList = list(), nodesCovar = list()) {
+      #' @param nodesCovarList an  optional list of two matrices of covariates, each of whom must have the same dimension as \code{incidenceMatrix}
+      initialize = function(incidenceMatrix, model, dimLabels = c(row = "row", col = "col"), covarList = list(), nodesCovarList = vector('list',2)) {
         ## SANITY CHECKS on data
         stopifnot(is.matrix(incidenceMatrix)) # must be a matrix
         stopifnot(all(sapply(covarList, nrow) == nrow(incidenceMatrix))) # consistency of the covariates
         stopifnot(all(sapply(covarList, ncol) == ncol(incidenceMatrix))) # with the network data
-        stopifnot("Nodes covariates are either not provided or a list of one or two matrices named 'row' or 'col', with as many rows as there is row or col nodes." = (length(nodesCovar) == 0 ||
-        (length(nodesCovar) == 2  &&
-        ((length(nodesCovar[[1]]) == 0 || is.matrix(nodesCovar[[1]]) && nrow(nodesCovar[[1]]) == nrow(incidenceMatrix)) &&
-        (length(nodesCovar[[2]]) == 0 || is.matrix(nodesCovar[[2]]) && nrow(nodesCovar[[2]]) == ncol(incidenceMatrix))))))
+        stopifnot("Nodes covariates are either not provided or a list of one or two matrices named 'row' or 'col', with as many rows as there is row or col nodes." = (length(nodesCovarList) == 0 ||
+        (length(nodesCovarList) == 2  &&
+        ((length(nodesCovarList[[1]]) == 0 || is.matrix(nodesCovarList[[1]]) && nrow(nodesCovarList[[1]]) == nrow(incidenceMatrix)) &&
+        (length(nodesCovarList[[2]]) == 0 || is.matrix(nodesCovarList[[2]]) && nrow(nodesCovarList[[2]]) == ncol(incidenceMatrix))))))
 
 
 
@@ -77,7 +78,7 @@ BipartiteSBM_fit <-
           connectParam = connectParam,
           dimLabels = dimLabels,
           covarList = covarList,
-          nodesCovar = nodesCovar
+          nodesCovarList = nodesCovarList
         )
         private$Y <- incidenceMatrix
       },
@@ -143,7 +144,7 @@ BipartiteSBM_fit <-
       },
       #' @description permute group labels by order of decreasing probability
       reorder = function() {
-        browser()
+
         if (self$nbNodesCovariates[2] > 0 && self$nbBlocks[2] >= 2L) {
           order_pi_col <- colMeans(private$pi[[2]])
         } else {
@@ -214,9 +215,8 @@ BipartiteSBM_fit <-
         U <- data.frame(
           indexModel = rowBlocks + colBlocks,
           nbParams = nbConnectParam + max(1,self$nbNodesCovariates[1])*(rowBlocks-1) + max(1,self$nbNodesCovariates[2])*(colBlocks - 1),
-          rowBlocks = rowBlocks,
-          colBlocks = colBlocks,
-          nbBlocks = rowBlocks + colBlocks,
+          nbRowBlocks = rowBlocks,
+          nbColBlocks = colBlocks,
           ICL = private$BMobject$ICL,
           loglik = private$BMobject$PL
         )

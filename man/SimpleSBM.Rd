@@ -9,13 +9,6 @@ R6 class for Simple SBM
 \section{Super class}{
 \code{\link[sbm:SBM]{SBM}} -> \code{SimpleSBM}
 }
-\section{Public fields}{
-  \if{html}{\out{<div class="r6-fields">}}
-  \describe{
-    \item{\code{nodesCovarParam}}{the matrix of  nodes covariates parameters}
-  }
-  \if{html}{\out{</div>}}
-}
 \section{Active bindings}{
   \if{html}{\out{<div class="r6-active-bindings">}}
   \describe{
@@ -37,15 +30,13 @@ R6 class for Simple SBM
 
     \item{\code{nodesCovariates}}{matrix of covariates on nodes}
 
-    \item{\code{nodesCovarParam}}{the matrix of  nodes covariates parameters}
+    \item{\code{nodesCovariatesParam}}{the matrix of  nodes covariates parameters}
 
     \item{\code{nbNodesCovariates}}{nb of covariates on nodes}
 
     \item{\code{memberships}}{vector of clustering}
 
     \item{\code{indMemberships}}{matrix for clustering memberships}
-
-    \item{\code{nodesCovariatesParam}}{the list of nodes covariates parameters}
   }
   \if{html}{\out{</div>}}
 }
@@ -83,8 +74,8 @@ R6 class for Simple SBM
   dimLabels = c("node"),
   covarParam = numeric(length(covarList)),
   covarList = list(),
-  nodesCovar = matrix(0, 0, 0),
-  nodesCovarParam = matrix(0, 0, 0)
+  nodesCovarList = list(node = matrix(0, 0, 0)),
+  nodesCovarParam = list(node = matrix(0, 0, 0))
 )}
     \if{html}{\out{</div>}}
   }
@@ -99,8 +90,8 @@ R6 class for Simple SBM
       \item{\code{dimLabels}}{optional label for the node (default is "nodeName")}
       \item{\code{covarParam}}{optional vector of covariates effect}
       \item{\code{covarList}}{optional list of covariates data}
-      \item{\code{nodesCovar}}{optional matrix of nodes covariates}
-      \item{\code{nodesCovarParam}}{optional matrix of parameters of effects of nodes covariates on clustering}
+      \item{\code{nodesCovarList}}{optional list of one matrix with nodes covariates}
+      \item{\code{nodesCovarParam}}{optional list of one matrix of parameters of effects of nodes covariates on clustering}
     }
     \if{html}{\out{</div>}}
   }

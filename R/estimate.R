@@ -108,8 +108,11 @@ estimateSimpleSBM <- function(netMat,
   ## Current options are default expect for those passed by the user
   currentOptions[names(estimOptions)] <- estimOptions
 
+
   ## Construct the SBM model
-  mySBM <- SimpleSBM_fit$new(netMat, model, directed, dimLabels, covariates, nodesCovariates)
+  nodesCovarList <- list(nodesCovariates)
+  names(nodesCovarList) <- dimLabels
+  mySBM <- SimpleSBM_fit$new(netMat, model, directed, dimLabels, covariates, nodesCovarList)
 
   ## Perform optimization
   mySBM$optimize(currentOptions)

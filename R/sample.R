@@ -77,8 +77,10 @@ sampleSimpleSBM <- function(nbNodes,
                             nodesCovariates = matrix(0,0,0),
                             nodesCovariatesParam = matrix(0,0,0) ) {
 
-
-  mySampler <- SimpleSBM$new(model, nbNodes, directed, blockProp, connectParam, dimLabels, covariatesParam, covariates, nodesCovariates, nodesCovariatesParam)
+  nodesCovarList=list(nodesCovariates)
+  names(nodesCovarList) <- dimLabels
+  nodesCovarParam <- list(nodesCovariatesParam)
+  mySampler <- SimpleSBM$new(model, nbNodes, directed, blockProp, connectParam, dimLabels, covariatesParam, covariates,nodesCovarList, nodesCovarParam)
   mySampler$rNetwork(store = TRUE)
   mySampler
 }

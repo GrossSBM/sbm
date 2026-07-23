@@ -41,7 +41,8 @@ SimpleSBM_fit <-
       #' @param directed logical, directed network or not. In not, \code{adjacencyMatrix} must be symmetric.
       #' @param dimLabels list of labels of each dimension (in row, in columns)
       #' @param covarList and optional list of covariates, each of whom must have the same dimension as \code{adjacencyMatrix}
-      initialize = function(adjacencyMatrix, model, directed, dimLabels=c(node="nodeName"),  covarList=list(), nodesCovar = matrix(nrow = 0, ncol = 0)) {
+      #' @param nodesCovarList optional list of one  matrix with nodes covariates
+      initialize = function(adjacencyMatrix, model, directed, dimLabels=c(node="nodeName"),  covarList=list(), nodesCovarList = list(matrix(nrow = 0, ncol = 0))) {
 
         ## SANITY CHECKS (on data)
         stopifnot(is.matrix(adjacencyMatrix))                   # must be a matrix
@@ -50,7 +51,7 @@ SimpleSBM_fit <-
         stopifnot(isSymmetric(adjacencyMatrix) == !directed)    # symmetry and direction must agree
         stopifnot(all(sapply(covarList, nrow) == nrow(adjacencyMatrix))) # consistency of the covariates
         stopifnot(all(sapply(covarList, ncol) == ncol(adjacencyMatrix))) # with the network data
-        stopifnot("Nodes covariates is either not provided or not a matrix with as many rows as there are nodes." = length(nodesCovar) == 0 || (length(nodesCovar) > 0 && is.matrix(nodesCovar) && nrow(nodesCovar) == nrow(adjacencyMatrix)))
+        stopifnot("Nodes covariates is either not provided or not a matrix with as many rows as there are nodes." = length(nodesCovarList[[1]]) == 0 || (length(nodesCovarList[[1]]) > 0 && is.matrix(nodesCovarList[[1]]) && nrow(nodesCovarList[[1]]) == nrow(adjacencyMatrix)))
 
         ## INITIALIZE THE SBM OBJECT ACCORDING TO THE DATA
         connectParam <- switch(model,
@@ -67,7 +68,7 @@ SimpleSBM_fit <-
                          connectParam = connectParam,
                          dimLabels    = dimLabels,
                          covarList    = covarList,
-                         nodesCovar   = nodesCovar)
+                         nodesCovarList   = nodesCovarList)
         private$Y <- adjacencyMatrix
       },
       #--------------------------------------------
@@ -105,7 +106,6 @@ SimpleSBM_fit <-
         args <- list(membership_type =  ifelse(!private$directed_, "SBM_sym", "SBM"), adj = .na2zero(private$Y))
         if (self$nbCovariates > 0) args$covariates <- private$X
         if (self$nbNodesCovariates > 0){
-          if(names(private$Xnodes)!=c('row','col')){names(private$Xnodes)=c('row','col')}
           args$nodes_covariates <- setNames(private$Xnodes, "node")
         }
         args <- c(args, blockmodelsOptions)

@@ -67,7 +67,7 @@ R6 class for Bipartite SBM
   dimLabels = c(row = "row", col = "col"),
   covarParam = numeric(length(covarList)),
   covarList = list(),
-  nodesCovar = vector("list", 2),
+  nodesCovarList = vector("list", 2),
   nodesCovarParam = vector("list", 2)
 )}
     \if{html}{\out{</div>}}
@@ -82,6 +82,8 @@ R6 class for Bipartite SBM
       \item{\code{dimLabels}}{optional labels of each dimension (in row, in column)}
       \item{\code{covarParam}}{optional vector of covariates effect}
       \item{\code{covarList}}{optional list of covariates data}
+      \item{\code{nodesCovarList}}{optional list of two matrices with nodes covariates}
+      \item{\code{nodesCovarParam}}{optional list of two matrices of parameters of effects of nodes covariates on clustering}
     }
     \if{html}{\out{</div>}}
   }

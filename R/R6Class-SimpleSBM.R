@@ -15,19 +15,19 @@ SimpleSBM <-
       #' @param dimLabels optional label for the node (default is "nodeName")
       #' @param covarParam optional vector of covariates effect
       #' @param covarList optional list of covariates data
-      #' @param nodesCovar optional matrix of nodes covariates
-      #' @param nodesCovarParam optional matrix of parameters of effects of nodes covariates on clustering
-      initialize = function(model, nbNodes, directed, blockProp, connectParam, dimLabels=c("node"), covarParam=numeric(length(covarList)), covarList=list(), nodesCovar = matrix(0,0,0), nodesCovarParam = matrix(0,0,0)) {
+      #' @param nodesCovarList optional list of one matrix with nodes covariates
+      #' @param nodesCovarParam optional list of one matrix of parameters of effects of nodes covariates on clustering
+      initialize = function(model, nbNodes, directed, blockProp, connectParam, dimLabels=c("node"), covarParam=numeric(length(covarList)), covarList=list(), nodesCovarList = list(node=matrix(0,0,0)), nodesCovarParam = list(node=matrix(0,0,0))) {
 
         ## SANITY CHECKS (on parameters)
         stopifnot(length(dimLabels) == 1)
-        if (length(nodesCovar) == 0){
+        if (length(nodesCovarList[[1]]) == 0){
           stopifnot(is.atomic(blockProp))
           stopifnot(all(blockProp > 0), all(blockProp < 1)) # positive proportions
           stopifnot(all.equal(length(blockProp), ncol(connectParam$mean)),        # dimensions match between vector of
                   all.equal(length(blockProp), nrow(connectParam$mean)))        # block proportion and connectParam$mean
         }else{
-          stopifnot(dim(nodesCovar)[1]==nbNodes)
+          stopifnot(dim(nodesCovarList[[1]])[1]==nbNodes)
           #stopifnot(dim(nodesCovar)[2]==nrow(nodesCovarParam))
           #stopifnot(ncol(nodesCovarParam)==nrow(connectParam$mean))
         }
@@ -43,7 +43,7 @@ SimpleSBM <-
         )
 
         if (!directed) stopifnot(isSymmetric(connectParam$mean)) # connectivity and direction must agree
-        super$initialize(model, directed, nbNodes, dimLabels, blockProp, connectParam, covarParam, covarList, nodesCovarList = list(node = nodesCovar),nodesCovarParam=list(node=nodesCovarParam))
+        super$initialize(model, directed, nbNodes, dimLabels, blockProp, connectParam, covarParam, covarList, nodesCovarList,nodesCovarParam=nodesCovarParam)
       },
       #' @description a method to sample new block memberships for the current SBM
       #' @param store should the sampled blocks be stored (and overwrite the existing data)? Default to FALSE
@@ -155,7 +155,7 @@ SimpleSBM <-
           if(length(private$B[[1]])>0){
             return(colMeans(.softmax(private$Xnodes[[1]]%*%private$B[[1]])))
           }
-          return(colMeans(private$Z))
+          return(private$pi)
         }
         else {
           stopifnot(is.numeric(value), is.atomic(value),
@@ -204,7 +204,7 @@ SimpleSBM <-
       nbConnectParam = function(value) {ifelse(private$directed_, self$nbBlocks^2, self$nbBlocks*(self$nbBlocks + 1)/2)},
       #' @field nodesCovariates matrix of covariates on nodes
       nodesCovariates = function(value) {if (length(private$Xnodes[[1]])>0) private$Xnodes[[1]]},
-      #' @field nodesCovarParam the matrix of  nodes covariates parameters
+      #' @field nodesCovariatesParam the matrix of  nodes covariates parameters
       nodesCovariatesParam = function(value) {if (length(private$Xnodes[[1]])>0) private$B[[1]]},
       #' @field nbNodesCovariates nb of covariates on nodes
       nbNodesCovariates = function(value) {ifelse(length(private$Xnodes[[1]])>0,ncol(private$Xnodes[[1]]),0)},

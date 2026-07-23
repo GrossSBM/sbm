@@ -14,7 +14,9 @@ BipartiteSBM <-
       #' @param dimLabels optional labels of each dimension (in row, in column)
       #' @param covarParam optional vector of covariates effect
       #' @param covarList optional list of covariates data
-      initialize = function(model, nbNodes, blockProp=vector("list", 2), connectParam=list(mean=matrix(0,0,0)), dimLabels=c(row="row", col="col"), covarParam=numeric(length(covarList)), covarList=list(), nodesCovar = vector("list", 2), nodesCovarParam = vector("list", 2)) {
+      #' @param nodesCovarList optional list of two matrices with nodes covariates
+      #' @param nodesCovarParam optional list of two matrices of parameters of effects of nodes covariates on clustering
+      initialize = function(model, nbNodes, blockProp=vector("list", 2), connectParam=list(mean=matrix(0,0,0)), dimLabels=c(row="row", col="col"), covarParam=numeric(length(covarList)), covarList=list(), nodesCovarList = vector("list", 2), nodesCovarParam = vector("list", 2)) {
 
         ## SANITY CHECKS (on parameters)
         stopifnot(length(dimLabels) == 2)
@@ -33,7 +35,7 @@ BipartiteSBM <-
                                    connectParam$var > 0, all(connectParam$p0 >= 0), all(connectParam$p0 <= 1))
         )
 
-        super$initialize(model, NA, nbNodes, dimLabels, blockProp, connectParam, covarParam, covarList, nodesCovarList = nodesCovar,nodesCovarParam=nodesCovarParam)
+        super$initialize(model, NA, nbNodes, dimLabels, blockProp, connectParam, covarParam, covarList, nodesCovarList = nodesCovarList,nodesCovarParam = nodesCovarParam)
       },
       #' @description a method to sample new block memberships for the current SBM
       #' @param store should the sampled blocks be stored (and overwrite the existing data)? Default to FALSE

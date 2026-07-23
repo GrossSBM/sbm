@@ -83,6 +83,8 @@ R6 virtual class for SBM representation (mother class of SimpleSBM, BipartiteSBM
       \item{\code{connectParam}}{list of parameters for connectivity}
       \item{\code{covarParam}}{optional vector of covariates effect}
       \item{\code{covarList}}{optional list of covariates data}
+      \item{\code{nodesCovarList}}{optional list of covariates on nodes (rows and cols),}
+      \item{\code{nodesCovarParam}}{optional list of vector of node covariates effects on the clustering}
     }
     \if{html}{\out{</div>}}
   }
