@@ -164,7 +164,7 @@ test_that("BipartiteSBM_fit 'Gaussian' model, with nodes covariates", {
 
     ## Basic construction
     mySampler <- BipartiteSBM$new("gaussian", nbNodes, blockProp, connectParam,
-        nodesCovar = nodesCovar
+        nodesCovariates = nodesCovar
     )
     mySampler$rMemberships(store = TRUE)
     mySampler$rEdges(store = TRUE)
