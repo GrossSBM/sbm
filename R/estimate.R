@@ -8,7 +8,7 @@
 #' @param directed logical: is the network directed or not? Only relevant when \code{type} is \code{'Simple'}. Default is \code{TRUE} if \code{netMat} is symmetric, \code{FALSE} otherwise
 #' @param dimLabels an optional label for referring to the nodes
 #' @param covariates a list of matrices with same dimension as mat describing covariates at the edge level. No covariate per Default.
-#' @param nodes_covariates a matrix with the same number of rows as the number of nodes in the network, describing the nodes covariates. No nodes covariates per default.
+#' @param nodesCovariates a matrix with the same number of rows as the number of nodes in the network, describing the nodes covariates. No nodes covariates per default.
 #' @param estimOptions a list of parameters controlling the inference algorithm and model selection. See details.
 #'
 #' @details The list of parameters \code{estimOptions} essentially tunes the optimization process and the variational EM algorithm, with the following parameters
@@ -87,7 +87,7 @@ estimateSimpleSBM <- function(netMat,
                               directed     = !isSymmetric(netMat),
                               dimLabels    = c("node"),
                               covariates   = list(),
-                              nodes_covariates = NULL,
+                              nodesCovariates = matrix(0,0,0),
                               estimOptions = list()) {
 
 
@@ -108,8 +108,11 @@ estimateSimpleSBM <- function(netMat,
   ## Current options are default expect for those passed by the user
   currentOptions[names(estimOptions)] <- estimOptions
 
+
   ## Construct the SBM model
-  mySBM <- SimpleSBM_fit$new(netMat, model, directed, dimLabels, covariates, nodes_covariates)
+  nodesCovarList <- list(nodesCovariates)
+  names(nodesCovarList) <- dimLabels
+  mySBM <- SimpleSBM_fit$new(netMat, model, directed, dimLabels, covariates, nodesCovarList)
 
   ## Perform optimization
   mySBM$optimize(currentOptions)
@@ -130,6 +133,7 @@ estimateSimpleSBM <- function(netMat,
 #' @param model character describing the model for the relation between nodes (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'}, ...). Default is \code{'bernoulli'}.
 #' @param dimLabels an optional vector of labels for each dimension (in row, in column)
 #' @param covariates a list of matrices with same dimension as mat describing covariates at the edge level. No covariate per Default.
+#' @param nodesCovariates a list of two matrices with the same number of rows as the number of nodes in rows and cols in the network, describing the nodes covariates for each type of nodes. No nodes covariates per default.
 #' @param estimOptions a list of parameters controlling the inference algorithm and model selection. See details.
 #'
 #' @inherit estimateSimpleSBM details
@@ -187,8 +191,8 @@ estimateBipartiteSBM <- function(netMat,
                                  model        = 'bernoulli',
                                  dimLabels    = c(row = "row", col = "col"),
                                  covariates   = list(),
-                                 estimOptions = list(),
-                                 nodes_covariates = NULL) {
+                                 nodesCovariates = vector('list',2),
+                                 estimOptions = list()) {
 
   ## Set default options for estimation
   if (!is.null(estimOptions$verbosity)){
@@ -203,11 +207,13 @@ estimateBipartiteSBM <- function(netMat,
     fast          = TRUE
   )
 
+  stopifnot("The vector of the types of nodes (dimLabels) must null or of length 2."= length(dimLabels)%in%c(0,2))
+  names(nodesCovariates) <- c('row','col')
   ## Current options are default expect for those passed by the user
   currentOptions[names(estimOptions)] <- estimOptions
 
   ## Construct the SBM model
-  mySBM <-  BipartiteSBM_fit$new(netMat, model, dimLabels, covariates, nodes_covariates)
+  mySBM <-  BipartiteSBM_fit$new(netMat, model, dimLabels, covariates, nodesCovariates)
 
   ## Perform optimization
   mySBM$optimize(currentOptions)

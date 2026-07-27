@@ -27,18 +27,20 @@ BipartiteSBM_fit <-
           "gaussian_covariates"       = list(mean = parameters$mu, var = parameters$sigma2),
           "ZIgaussian"                = list(mean = parameters$mu, var = parameters$sigma2, p0 = parameters$p0),
         )
+
         private$B < list()
         if (length(private$BMobject$memberships[[index]][["B"]]) > 0) {
-          private[["B"]][["row"]] <- private$BMobject$memberships[[index]][["B"]]
+          private[["B"]][[1]] <- private$BMobject$memberships[[index]][["B"]]
         }
         if (length(private$BMobject$memberships[[index]][["G"]]) > 0) {
-          private[["B"]][["col"]] <- private$BMobject$memberships[[index]][["G"]]
-        } 
+          private[["B"]][[2]] <- private$BMobject$memberships[[index]][["G"]]
+        }
         private$Z <- list(
           row = private$BMobject$memberships[[index]]$Z1,
           col = private$BMobject$memberships[[index]]$Z2
         )
         private$pi <- list(row = private$BMobject$memberships[[index]]$alpha1, col = private$BMobject$memberships[[index]]$alpha2)
+
       }
     ),
     public = list(
@@ -46,16 +48,18 @@ BipartiteSBM_fit <-
       #' @param incidenceMatrix rectangular (weighted) matrix
       #' @param model character (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'})
       #' @param dimLabels labels of each dimension (in row, in columns)
-      #' @param covarList and optional list of covariates, each of whom must have the same dimension as \code{incidenceMatrix}
-      initialize = function(incidenceMatrix, model, dimLabels = c(row = "row", col = "col"), covarList = list(), nodesCovar = list()) {
+      #' @param covarList an  optional list of covariates, each of whom must have the same dimension as \code{incidenceMatrix}
+      #' @param nodesCovarList an  optional list of two matrices of covariates, each of whom must have the same dimension as \code{incidenceMatrix}
+      initialize = function(incidenceMatrix, model, dimLabels = c(row = "row", col = "col"), covarList = list(), nodesCovarList = vector('list',2)) {
         ## SANITY CHECKS on data
         stopifnot(is.matrix(incidenceMatrix)) # must be a matrix
         stopifnot(all(sapply(covarList, nrow) == nrow(incidenceMatrix))) # consistency of the covariates
         stopifnot(all(sapply(covarList, ncol) == ncol(incidenceMatrix))) # with the network data
-        stopifnot("Nodes covariates are either not provided or a list of one or two matrices named 'row' or 'col', with as many rows as there is row or col nodes." = (length(nodesCovar) == 0 ||
-        (length(nodesCovar) <= 2 && all(names(nodesCovar) %in% c("row", "col")) && 
-        ((length(nodesCovar[["row"]]) == 0 || is.matrix(nodesCovar[["row"]]) && nrow(nodesCovar[["row"]]) == nrow(incidenceMatrix)) && 
-        (length(nodesCovar[["col"]]) == 0 || is.matrix(nodesCovar[["col"]]) && nrow(nodesCovar[["col"]]) == ncol(incidenceMatrix))))))
+        stopifnot("Nodes covariates are either not provided or a list of one or two matrices named 'row' or 'col', with as many rows as there is row or col nodes." = (length(nodesCovarList) == 0 ||
+        (length(nodesCovarList) == 2  &&
+        ((length(nodesCovarList[[1]]) == 0 || is.matrix(nodesCovarList[[1]]) && nrow(nodesCovarList[[1]]) == nrow(incidenceMatrix)) &&
+        (length(nodesCovarList[[2]]) == 0 || is.matrix(nodesCovarList[[2]]) && nrow(nodesCovarList[[2]]) == ncol(incidenceMatrix))))))
+
 
 
         ## INITIALIZE THE SBM OBJECT ACCORDING TO THE DATA
@@ -74,7 +78,7 @@ BipartiteSBM_fit <-
           connectParam = connectParam,
           dimLabels = dimLabels,
           covarList = covarList,
-          nodesCovar = nodesCovar
+          nodesCovarList = nodesCovarList
         )
         private$Y <- incidenceMatrix
       },
@@ -140,38 +144,40 @@ BipartiteSBM_fit <-
       },
       #' @description permute group labels by order of decreasing probability
       reorder = function() {
-        if (self$nbNodesCovariates["col"] > 0 && self$nbBlocks[2] >= 2L) {
+
+        if (self$nbNodesCovariates[2] > 0 && self$nbBlocks[2] >= 2L) {
           order_pi_col <- colMeans(private$pi[[2]])
         } else {
           order_pi_col <- private$pi[[2]]
         }
-        if (self$nbNodesCovariates["row"] > 0 && self$nbBlocks[1] >= 2L) {
+        if (self$nbNodesCovariates[1] > 0 && self$nbBlocks[1] >= 2L) {
           order_pi_row <- colMeans(private$pi[[1]])
         } else {
           order_pi_row <- private$pi[[1]]
         }
         oRow <- order(private$theta$mean %*% order_pi_col, decreasing = TRUE)
         oCol <- order(order_pi_row %*% private$theta$mean, decreasing = TRUE)
-        if (self$nbNodesCovariates["row"] > 0 && self$nbBlocks[1] >= 2L) {
+        if (self$nbNodesCovariates[1] > 0 && self$nbBlocks[1] >= 2L) {
           private$pi[[1]] <- private$pi[[1]][, oRow, drop = FALSE]
         } else {
           private$pi[[1]] <- private$pi[[1]][oRow]
         }
-        if (self$nbNodesCovariates["col"] > 0 && self$nbBlocks[2] >= 2L) {
+        if (self$nbNodesCovariates[2] > 0 && self$nbBlocks[2] >= 2L) {
           private$pi[[2]] <- private$pi[[2]][,oCol, drop = FALSE]
         } else {
           private$pi[[2]] <- private$pi[[2]][oCol]
         }
+
         private$theta$mean <- private$theta$mean[oRow, oCol, drop = FALSE]
         private$Z[[1]] <- private$Z[[1]][, oRow, drop = FALSE]
         private$Z[[2]] <- private$Z[[2]][, oCol, drop = FALSE]
-        if (length(private$B[["row"]]) > 0){
-          private$B[["row"]] <- private$B[["row"]][, oRow, drop = FALSE]
-          private$B[["row"]] <- private$B[["row"]] - private$B[["row"]][,ncol(private$B[["row"]])]
+        if (length(private$B[[1]]) > 0){
+          private$B[[1]] <- private$B[[1]][, oRow, drop = FALSE]
+          private$B[[1]] <- private$B[[1]] - private$B[[1]][,ncol(private$B[[1]])]
         }
-        if (length(private$B[["col"]]) > 0){
-          private$B[["col"]] <- private$B[["col"]][, oCol, drop = FALSE]
-          private$B[["col"]] <- private$B[["col"]] - private$B[["col"]][,ncol(private$B[["col"]])]
+        if (length(private$B[[2]]) > 0){
+          private$B[[2]] <- private$B[[2]][, oCol, drop = FALSE]
+          private$B[[2]] <- private$B[[2]] - private$B[[2]][,ncol(private$B[[2]])]
         }
       },
       #' @description show method
@@ -195,7 +201,7 @@ BipartiteSBM_fit <-
       },
       #' @field penalty double, value of the penalty term in ICL
       penalty = function(value) {
-        unname((self$nbConnectParam + self$nbCovariates) * log(self$nbDyads) + (self$nbBlocks[1] - 1) * log(private$dim[1]) + (self$nbBlocks[2] - 1) * log(private$dim[2]))
+        unname((self$nbConnectParam + self$nbCovariates) * log(self$nbDyads) + max(1,self$nbNodesCovariates[1])*(self$nbBlocks[1] - 1) * log(private$dim[1]) + max(1,self$nbNodesCovariates[2])*(self$nbBlocks[2] - 1) * log(private$dim[2]))
       },
       #' @field entropy double, value of the entropy due to the clustering distribution
       entropy = function(value) {
@@ -208,10 +214,9 @@ BipartiteSBM_fit <-
         nbConnectParam <- c(NA, unlist(sapply(private$BMobject$model_parameters, function(param) param$n_parameters)))
         U <- data.frame(
           indexModel = rowBlocks + colBlocks,
-          nbParams = nbConnectParam + rowBlocks + colBlocks - 2,
-          rowBlocks = rowBlocks,
-          colBlocks = colBlocks,
-          nbBlocks = rowBlocks + colBlocks,
+          nbParams = nbConnectParam + max(1,self$nbNodesCovariates[1])*(rowBlocks-1) + max(1,self$nbNodesCovariates[2])*(colBlocks - 1),
+          nbRowBlocks = rowBlocks,
+          nbColBlocks = colBlocks,
           ICL = private$BMobject$ICL,
           loglik = private$BMobject$PL
         )

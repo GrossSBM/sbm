@@ -6,12 +6,14 @@
 \usage{
 sampleBipartiteSBM(
   nbNodes,
-  blockProp,
+  blockProp = vector("list", 2),
   connectParam,
   model = "bernoulli",
   dimLabels = c(row = "row", col = "col"),
   covariates = list(),
-  covariatesParam = numeric(0)
+  covariatesParam = numeric(0),
+  nodesCovariates = vector("list", 2),
+  nodesCovariatesParam = vector("list", 2)
 )
 }
 \arguments{
@@ -28,6 +30,10 @@ sampleBipartiteSBM(
 \item{covariates}{a list of matrices with same dimension as mat describing covariates at the edge level. No covariate per Default.}
 
 \item{covariatesParam}{optional vector of covariates effect. A zero length numeric vector by default.}
+
+\item{nodesCovariates}{a list of two matrices with nbNodes (or 0) rows and  nbNodesCovariates columns corresponding to covariates describing the two types of nodes.  No nodesCovariate per Default.}
+
+\item{nodesCovariatesParam}{a list of two matrices of dimension nbNodesCovariates (in row and col)  x nbBlocks (in row and col)  corresponding to effect of the nodesCovariates on the clustering.}
 }
 \value{
 an object with class \code{\link{BipartiteSBM}}

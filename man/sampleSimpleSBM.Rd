@@ -6,19 +6,21 @@
 \usage{
 sampleSimpleSBM(
   nbNodes,
-  blockProp,
+  blockProp = numeric(0),
   connectParam,
   model = "bernoulli",
   directed = FALSE,
   dimLabels = c("node"),
   covariates = list(),
-  covariatesParam = numeric(0)
+  covariatesParam = numeric(0),
+  nodesCovariates = matrix(0, 0, 0),
+  nodesCovariatesParam = matrix(0, 0, 0)
 )
 }
 \arguments{
 \item{nbNodes}{number of nodes in the network}
 
-\item{blockProp}{parameters for block proportions}
+\item{blockProp}{parameters for block proportions. Possibly null is the nodes affectation is driven by nodesCovariates.}
 
 \item{connectParam}{list of parameters for connectivity with a matrix of means 'mean' and an optional matrix of variances 'var', the sizes of which must match \code{blockProp} length}
 
@@ -31,6 +33,10 @@ sampleSimpleSBM(
 \item{covariates}{a list of matrices with same dimension as mat describing covariates at the edge level. No covariate per Default.}
 
 \item{covariatesParam}{optional vector of covariates effect. A zero length numeric vector by default.}
+
+\item{nodesCovariates}{an optional matrix with nbNodes rows and  nbNodesCovariates columns corresponding to covariates describing the nodes.  No nodesCovariate per Default.}
+
+\item{nodesCovariatesParam}{an optional matrix of dimension nbNodesCovariates  x nbBlocks  corresponding to effect of the nodesCovariates on the clustering.}
 }
 \value{
 an object with class \code{\link{SimpleSBM}}

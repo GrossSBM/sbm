@@ -14,13 +14,13 @@ BipartiteSBM <-
       #' @param dimLabels optional labels of each dimension (in row, in column)
       #' @param covarParam optional vector of covariates effect
       #' @param covarList optional list of covariates data
-      initialize = function(model, nbNodes, blockProp, connectParam, dimLabels=c(row="row", col="col"), covarParam=numeric(length(covarList)), covarList=list(), nodesCovar = list(), nodesCovarParam = list()) {
+      #' @param nodesCovarList optional list of two matrices with nodes covariates
+      #' @param nodesCovarParam optional list of two matrices of parameters of effects of nodes covariates on clustering
+      initialize = function(model, nbNodes, blockProp=vector("list", 2), connectParam=list(mean=matrix(0,0,0)), dimLabels=c(row="row", col="col"), covarParam=numeric(length(covarList)), covarList=list(), nodesCovarList = vector("list", 2), nodesCovarParam = vector("list", 2)) {
 
         ## SANITY CHECKS (on parameters)
         stopifnot(length(dimLabels) == 2)
-        stopifnot(length(blockProp) ==  2, is.list(blockProp),
-                  length(blockProp[[1]]) ==  nrow(connectParam$mean), # dimensions match between vector of
-                  length(blockProp[[2]]) ==  ncol(connectParam$mean)) # block proportion and connectParam$mean
+        stopifnot(length(blockProp) ==  2, is.list(blockProp))#,
         stopifnot(all(blockProp[[1]] > 0), all(blockProp[[1]] < 1))   # positive proportions
         stopifnot(all(blockProp[[2]] > 0), all(blockProp[[2]] < 1))
         names(blockProp) <- names(dimLabels)
@@ -35,16 +35,22 @@ BipartiteSBM <-
                                    connectParam$var > 0, all(connectParam$p0 >= 0), all(connectParam$p0 <= 1))
         )
 
-        super$initialize(model, NA, nbNodes, dimLabels, blockProp, connectParam, covarParam, covarList, nodesCovarList = nodesCovar)
+        super$initialize(model, NA, nbNodes, dimLabels, blockProp, connectParam, covarParam, covarList, nodesCovarList = nodesCovarList,nodesCovarParam = nodesCovarParam)
       },
       #' @description a method to sample new block memberships for the current SBM
       #' @param store should the sampled blocks be stored (and overwrite the existing data)? Default to FALSE
       #' @return the sampled blocks
       rMemberships = function(store = FALSE) {
-        Z <- list(
-          row = t(rmultinom(private$dim[1], size = 1, prob = private$pi[[1]])),
-          col = t(rmultinom(private$dim[2], size = 1, prob = private$pi[[2]]))
-          )
+         Z = vector("list",2)
+         names(Z) <- c('row','col')
+         for (i in 1:2){
+           if (length(private$Xnodes[[i]])==0){
+             Z[[i]] <- t(rmultinom(private$dim[i], size = 1, prob = private$pi[[i]]))
+           }else{
+             pZ <-  .softmax(private$Xnodes[[i]] %*% private$B[[i]])
+             Z[[i]] <- t(apply(pZ, 1, function(p) rmultinom(1, 1, prob = p)))
+           }
+         }
         if(!is.null(private$dimlab)){names(Z) <- private$dimlab}
         if (store) private$Z <- Z
         Z
@@ -140,9 +146,21 @@ BipartiteSBM <-
       },
       #' @field blockProp list of two vectors of block proportions (aka prior probabilities of each block)
       blockProp   = function(value) {
-        if (missing(value))
-          return(private$pi)
-        else {
+        if (missing(value)){
+            res=vector('list',2)
+            names(res) <-private$dimlab
+            if(length(private$B[[1]])>0){
+              res[[1]] <-  colMeans(.softmax(private$Xnodes[[1]]%*%private$B[[1]]))
+              }else{
+              res[[1]] <- private$pi[[1]]
+              }
+            if(length(private$B[[2]])>0){
+              res[[2]] <-  colMeans(.softmax(private$Xnodes[[2]]%*%private$B[[2]]))
+            }else{
+              res[[2]] <- private$pi[[2]]
+            }
+            return(res)
+        }else{
           stopifnot(is.list(value), length(value) == length(private$dimlab))
           walk(value, ~stopifnot(is.numeric(.x), all(.x > 0), all(.x < 1)))
           private$pi <- setNames(value, private$dimlab)
@@ -176,7 +194,7 @@ BipartiteSBM <-
       },
 ### field with access only
       #' @field nbBlocks vector of size 2: number of blocks (rows, columns)
-      nbBlocks = function(value) {if(!is.null(private$Z)) setNames(map_int(private$pi, length), private$dimlab)},
+      nbBlocks = function(value) {if(!is.null(private$Z)) setNames(map_int(private$Z, ncol), private$dimlab)},
       #' @field mask Mask for the (potential) NAs in the adjacency matrix
       mask        = function(value) {mask <- (!is.na(private$Y)) * 1L},
       #' @field nbDyads number of dyads (potential edges in the network)

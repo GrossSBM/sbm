@@ -4,144 +4,162 @@
 \alias{MultipartiteSBM_fit}
 \title{R6 Class definition of a Multipartite SBM fit}
 \description{
-R6 Class definition of a Multipartite SBM fit
-
-R6 Class definition of a Multipartite SBM fit
-}
-\details{
 This class is designed to give a representation and adjust a Multipartite SBM fitted with GREMLIN.
 }
+\details{
+The list of parameters \code{estimOptions} essentially tunes the optimization process and the variational EM algorithm, with the following parameters
+\itemize{
+\item "nbCores integer for number of cores used. Default is 2
+\item "verbosity" integer for verbosity (0, 1). Default is 1
+\item "plot" boolean, should the ICL by dynamically plotted or not. Default is TRUE
+\item "exploreFactor" control the exploration of the number of groups
+\item "exploreMin" explore at least until exploreMin even if the exploration factor rule is achieved. Default 4. See the package blockmodels for details.
+\item "exploreMax" Stop exploration at exploreMax  even if the exploration factor rule is not achieved. Default Inf. See the package blockmodels for details.
+\item "nbBlocksRange" minimal and maximal number or blocks explored
+\item "fast" logical: should approximation be used for Bernoulli model with covariates. Default to \code{TRUE}
+}
+}
 \section{Super classes}{
-\code{\link[sbm:SBM]{sbm::SBM}} -> \code{\link[sbm:MultipartiteSBM]{sbm::MultipartiteSBM}} -> \code{MultipartiteSBM_fit}
+\code{\link[sbm:SBM]{SBM}} -> \code{\link[sbm:MultipartiteSBM]{MultipartiteSBM}} -> \code{MultipartiteSBM_fit}
 }
 \section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{loglik}}{double: approximation of the log-likelihood (variational lower bound) reached}
+  \if{html}{\out{<div class="r6-active-bindings">}}
+  \describe{
+    \item{\code{loglik}}{double: approximation of the log-likelihood (variational lower bound) reached}
 
-\item{\code{ICL}}{double: value of the integrated classification log-likelihood}
+    \item{\code{ICL}}{double: value of the integrated classification log-likelihood}
 
-\item{\code{storedModels}}{data.frame of all models fitted (and stored) during the optimization}
-}
-\if{html}{\out{</div>}}
+    \item{\code{storedModels}}{data.frame of all models fitted (and stored) during the optimization}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-MultipartiteSBM_fit-new}{\code{MultipartiteSBM_fit$new()}}
-\item \href{#method-MultipartiteSBM_fit-optimize}{\code{MultipartiteSBM_fit$optimize()}}
-\item \href{#method-MultipartiteSBM_fit-predict}{\code{MultipartiteSBM_fit$predict()}}
-\item \href{#method-MultipartiteSBM_fit-setModel}{\code{MultipartiteSBM_fit$setModel()}}
-\item \href{#method-MultipartiteSBM_fit-show}{\code{MultipartiteSBM_fit$show()}}
-\item \href{#method-MultipartiteSBM_fit-clone}{\code{MultipartiteSBM_fit$clone()}}
+  \itemize{
+    \item \href{#method-MultipartiteSBM_fit-initialize}{\code{MultipartiteSBM_fit$new()}}
+    \item \href{#method-MultipartiteSBM_fit-optimize}{\code{MultipartiteSBM_fit$optimize()}}
+    \item \href{#method-MultipartiteSBM_fit-predict}{\code{MultipartiteSBM_fit$predict()}}
+    \item \href{#method-MultipartiteSBM_fit-setModel}{\code{MultipartiteSBM_fit$setModel()}}
+    \item \href{#method-MultipartiteSBM_fit-show}{\code{MultipartiteSBM_fit$show()}}
+    \item \href{#method-MultipartiteSBM_fit-clone}{\code{MultipartiteSBM_fit$clone()}}
+  }
 }
-}
-\if{html}{\out{
-<details open><summary>Inherited methods</summary>
+\if{html}{\out{<details open><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="rNetwork"><a href='../../sbm/html/SBM.html#method-SBM-rNetwork'><code>sbm::SBM$rNetwork()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM" data-id="plot"><a href='../../sbm/html/MultipartiteSBM.html#method-MultipartiteSBM-plot'><code>sbm::MultipartiteSBM$plot()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM" data-id="print"><a href='../../sbm/html/MultipartiteSBM.html#method-MultipartiteSBM-print'><code>sbm::MultipartiteSBM$print()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="rNetwork"><a href='../../sbm/html/SBM.html#method-SBM-rNetwork'><code>SBM$rNetwork()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM" data-id="plot"><a href='../../sbm/html/MultipartiteSBM.html#method-MultipartiteSBM-plot'><code>MultipartiteSBM$plot()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM" data-id="print"><a href='../../sbm/html/MultipartiteSBM.html#method-MultipartiteSBM-print'><code>MultipartiteSBM$print()</code></a></span></li>
 </ul>
-</details>
-}}
+</details>}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-MultipartiteSBM_fit-new"></a>}}
-\if{latex}{\out{\hypertarget{method-MultipartiteSBM_fit-new}{}}}
-\subsection{Method \code{new()}}{
-constructor for Multipartite SBM
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MultipartiteSBM_fit$new(netList)}\if{html}{\out{</div>}}
+\if{html}{\out{<a id="method-MultipartiteSBM_fit-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-MultipartiteSBM_fit-initialize}{}}}
+\subsection{\code{MultipartiteSBM_fit$new()}}{
+  constructor for Multipartite SBM
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MultipartiteSBM_fit$new(netList)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{netList}}{list of SBM objects}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{netList}}{list of SBM objects}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MultipartiteSBM_fit-optimize"></a>}}
 \if{latex}{\out{\hypertarget{method-MultipartiteSBM_fit-optimize}{}}}
-\subsection{Method \code{optimize()}}{
-estimation of multipartiteSBM via GREMLINS
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MultipartiteSBM_fit$optimize(estimOptions)}\if{html}{\out{</div>}}
+\subsection{\code{MultipartiteSBM_fit$optimize()}}{
+  estimation of multipartiteSBM via GREMLINS
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MultipartiteSBM_fit$optimize(estimOptions)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{estimOptions}}{options for MultipartiteBM}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{estimOptions}}{options for MultipartiteBM}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MultipartiteSBM_fit-predict"></a>}}
 \if{latex}{\out{\hypertarget{method-MultipartiteSBM_fit-predict}{}}}
-\subsection{Method \code{predict()}}{
-prediction under the currently estimated model
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MultipartiteSBM_fit$predict()}\if{html}{\out{</div>}}
+\subsection{\code{MultipartiteSBM_fit$predict()}}{
+  prediction under the currently estimated model
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MultipartiteSBM_fit$predict()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    a list of matrices matrix of expected values for each dyad
+  }
 }
 
-\subsection{Returns}{
-a list of matrices matrix of expected values for each dyad
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MultipartiteSBM_fit-setModel"></a>}}
 \if{latex}{\out{\hypertarget{method-MultipartiteSBM_fit-setModel}{}}}
-\subsection{Method \code{setModel()}}{
-method to select a specific model among the ones fitted during the optimization.
+\subsection{\code{MultipartiteSBM_fit$setModel()}}{
+  method to select a specific model among the ones fitted during the optimization.
 Fields of the current MultipartiteSBM_fit will be updated accordingly.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MultipartiteSBM_fit$setModel(index)}\if{html}{\out{</div>}}
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MultipartiteSBM_fit$setModel(index)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{index}}{integer, the index of the model to be selected (row number in storedModels)}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{index}}{integer, the index of the model to be selected (row number in storedModels)}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MultipartiteSBM_fit-show"></a>}}
 \if{latex}{\out{\hypertarget{method-MultipartiteSBM_fit-show}{}}}
-\subsection{Method \code{show()}}{
-show method
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MultipartiteSBM_fit$show(type = "Fit of a Multipartite Stochastic Block Model")}\if{html}{\out{</div>}}
+\subsection{\code{MultipartiteSBM_fit$show()}}{
+  show method
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MultipartiteSBM_fit$show(type = "Fit of a Multipartite Stochastic Block Model")}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{type}}{character used to specify the type of SBM}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{type}}{character used to specify the type of SBM}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MultipartiteSBM_fit-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-MultipartiteSBM_fit-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MultipartiteSBM_fit$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{MultipartiteSBM_fit$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MultipartiteSBM_fit$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }
