@@ -31,7 +31,7 @@ SimpleSBM_fit <-
           private$B <- list(private$BMobject$memberships[[index]]$B) # 0x0 matrix if there are no nodes covariates
         }
         private$Z  <- private$BMobject$memberships[[index]]$Z
-        private$pi <- colMeans(private$Z)
+        private$pi <- private$BMobject$memberships[[index]]$alpha
       }
     ),
     public = list(
@@ -103,7 +103,7 @@ SimpleSBM_fit <-
         fast <- currentOptions$fast
 
         ## generating arguments for blockmodels call
-        args <- list(membership_type =  ifelse(!private$directed_, "SBM_sym", "SBM"), adj = .na2zero(private$Y))
+        args <- list(membership_type =  ifelse(!private$directed_, "SBM_sym", "SBM"), adj = private$Y)
         if (self$nbCovariates > 0) args$covariates <- private$X
         if (self$nbNodesCovariates > 0){
           args$nodes_covariates <- setNames(private$Xnodes, "node")
