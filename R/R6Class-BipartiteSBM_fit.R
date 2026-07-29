@@ -153,8 +153,7 @@ BipartiteSBM_fit <-
       #' @param index integer, the index of the model to be selected (row number in storedModels)
       setModel = function(index) {
         stopifnot(!is.null(private$BMobject))
-        models <- self$storedModels
-        stopifnot(index %in% min(models$indexModel):max(models$indexModel))
+        stopifnot(index %in% seq.int(nrow(self$storedModels)))
         private$import_from_BM(index)
         self$reorder()
       },
