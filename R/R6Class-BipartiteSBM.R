@@ -146,19 +146,33 @@ BipartiteSBM <-
       },
       #' @field blockProp list of two vectors of block proportions (aka prior probabilities of each block)
       blockProp   = function(value) {
+
         if (missing(value)){
             res=vector('list',2)
             names(res) <-private$dimlab
-            if(length(private$B[[1]])>0){
-              res[[1]] <-  colMeans(.softmax(private$Xnodes[[1]]%*%private$B[[1]]))
-              }else{
-              res[[1]] <- private$pi[[1]]
-              }
-            if(length(private$B[[2]])>0){
-              res[[2]] <-  colMeans(.softmax(private$Xnodes[[2]]%*%private$B[[2]]))
+            #------- if only one block on rows
+            if(self$nbBlocks[1]==1){
+              res[[1]] = c(1)
+            #------- if more than one block on rows
             }else{
-              res[[2]] <- private$pi[[2]]
+              if(length(private$B[[1]])>0){
+                res[[1]] <-  colMeans(.softmax(private$Xnodes[[1]]%*%private$B[[1]]))
+                }else{
+                res[[1]] <- private$pi[[1]]
+                }
             }
+            #------- if only one block on col
+            if(self$nbBlocks[2]==1){
+              res[[2]] = c(1)
+            }else{
+              #------- if more than one block on col
+              if(length(private$B[[2]])>0){
+                res[[2]] <-  colMeans(.softmax(private$Xnodes[[2]]%*%private$B[[2]]))
+              }else{
+                res[[2]] <- private$pi[[2]]
+              }
+            }
+
             return(res)
         }else{
           stopifnot(is.list(value), length(value) == length(private$dimlab))
@@ -194,7 +208,12 @@ BipartiteSBM <-
       },
 ### field with access only
       #' @field nbBlocks vector of size 2: number of blocks (rows, columns)
-      nbBlocks = function(value) {if(!is.null(private$Z)) setNames(map_int(private$Z, ncol), private$dimlab)},
+      nbBlocks = function(value) {
+        if(!is.null(private$Z)){
+          res <- sapply(private$Z,function(Mat){ifelse(is.matrix(Mat),ncol(Mat),1)})
+          names(res)<- private$dimlab
+        return(res)}
+      },
       #' @field mask Mask for the (potential) NAs in the adjacency matrix
       mask        = function(value) {mask <- (!is.na(private$Y)) * 1L},
       #' @field nbDyads number of dyads (potential edges in the network)

@@ -1,3 +1,5 @@
+rm(list=ls())
+library(sbm)
 set.seed(123)
 
 rmse <- function(theta, theta_star) {
@@ -10,17 +12,40 @@ blockProp <- list(row = c(1 / 3, 1 / 3, 1 / 3), col = c(1 / 3, 1 / 3, 1 / 3))
 nbBlocks <- sapply(blockProp, length)
 
 # Nodes covariates parameters
-nbNodesCovarRow <- 2
-nbNodesCovarCol <- 3
-nodesCovarRow <- matrix(rnorm(nbNodes[1] * nbNodesCovarRow), nbNodes[1], nbNodesCovarRow)
-nodesCovarCol <- matrix(rnorm(nbNodes[2] * nbNodesCovarCol), nbNodes[2], nbNodesCovarCol)
-nodesCovar <- list(row = nodesCovarRow, col = nodesCovarCol)
+nbNodesCovarRow <- 2+1
+nbNodesCovarCol <- 3+1
+nodesCovarRow <- cbind(1,matrix(rnorm(nbNodes[1] * (nbNodesCovarRow-1)), nbNodes[1], nbNodesCovarRow-1))
+nodesCovarCol <- cbind(1,matrix(rnorm(nbNodes[2] * (nbNodesCovarCol-1)), nbNodes[2], nbNodesCovarCol-1))
+nodesCovarList <- list(row = nodesCovarRow, col = nodesCovarCol)
 
-# Edge covariates parameters
-covarParam <- c(-2, 2)
-covar1 <- matrix(rnorm(prod(nbNodes)), nbNodes[1], nbNodes[2])
-covar2 <- matrix(rnorm(prod(nbNodes)), nbNodes[1], nbNodes[2])
-covarList <- list(covar1 = covar1, covar2 = covar2)
+
+B <- matrix(0,nbNodesCovarRow,nbBlocks[1])
+B[1,] <- c(-0.01, 3, 4)
+B[2,] <- c( 2,    0.4,  -2 )
+B[3,] <- c(1, 1, 3)
+B_contrQ <- B - B[,nbBlocks[1]]
+
+G <- matrix(0,nbNodesCovarCol,nbBlocks[2])
+G[1,] <- c(-0, 1, 0)
+G[2,] <- c( 2, 1, 0.4)
+G[3,] <- c( -2, 1, 2)
+G[4,] <- c( 0, 0, 2)
+G_contrQ <- G - G[,nbBlocks[2]]
+
+nodesCovariatesParam = vector('list',2)
+nodesCovariatesParam[[1]] <- B_contrQ
+nodesCovariatesParam[[2]] <- G_contrQ
+
+
+# # Edge covariates parameters
+# covarParam <- c(-2, 2)
+# covar1 <- matrix(rnorm(prod(nbNodes)), nbNodes[1], nbNodes[2])
+# covar2 <- matrix(rnorm(prod(nbNodes)), nbNodes[1], nbNodes[2])
+# covarList <- list(covar1 = covar1, covar2 = covar2)
+
+#------------------------------------------------------------------------------------------
+#---------------------------- TEST 1  'Bernoulli' model, with nodes covariates
+#------------------------------------------------------------------------------------------
 
 test_that("BipartiteSBM_fit 'Bernoulli' model, with nodes covariates (row and col)", {
     ## BIPARTITE BERNOULLI SBM WITH NODES COVARIATES
@@ -32,15 +57,15 @@ test_that("BipartiteSBM_fit 'Bernoulli' model, with nodes covariates (row and co
     connectParam <- list(mean = means)
 
     ## Basic construction with nodes covariates
-    mySampler <- BipartiteSBM$new("bernoulli", nbNodes, blockProp, connectParam,
-        nodesCovar = nodesCovar
+    mySampler <- BipartiteSBM$new("bernoulli", nbNodes= nbNodes, blockProp = vector('list',2), connectParam=connectParam,
+                                  nodesCovarList = nodesCovarList, nodesCovarParam = nodesCovariatesParam
     )
     mySampler$rMemberships(store = TRUE)
     mySampler$rEdges(store = TRUE)
 
     ## Construction
     mySBM <- BipartiteSBM_fit$new(mySampler$networkData, "bernoulli",
-        nodesCovar = nodesCovar
+                                  nodesCovarList = nodesCovarList
     )
 
     ## Checking class
@@ -54,10 +79,10 @@ test_that("BipartiteSBM_fit 'Bernoulli' model, with nodes covariates (row and co
     expect_equal(mySBM$dimLabels, c(row = "row", col = "col"))
 
     ## nodes covariates
-    expect_equal(unname(mySBM$nbNodesCovariates["row"]), nbNodesCovarRow)
-    expect_equal(unname(mySBM$nbNodesCovariates["col"]), nbNodesCovarCol)
-    expect_equal(dim(mySBM$nodesCovariates[["row"]]), c(nbNodes[1], nbNodesCovarRow))
-    expect_equal(dim(mySBM$nodesCovariates[["col"]]), c(nbNodes[2], nbNodesCovarCol))
+    expect_equal(unname(mySBM$nbNodesCovariates[1]), nbNodesCovarRow)
+    expect_equal(unname(mySBM$nbNodesCovariates[2]), nbNodesCovarCol)
+    expect_equal(dim(mySBM$nodesCovariates[[1]]), c(nbNodes[1], nbNodesCovarRow))
+    expect_equal(dim(mySBM$nodesCovariates[[2]]), c(nbNodes[2], nbNodesCovarCol))
 
     ## Estimation
     BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0, fast = TRUE))
@@ -73,9 +98,14 @@ test_that("BipartiteSBM_fit 'Bernoulli' model, with nodes covariates (row and co
     expect_true(all(mySBM$nbBlocks >= 1))
 
     ## nodes covariate parameters
-    expect_true(!is.null(mySBM$nodesCovarParam))
-    expect_true(length(mySBM$nodesCovarParam) > 0)
+    expect_true(!is.null(mySBM$nodesCovariatesParam))
+    expect_true(length(mySBM$nodesCovariatesParam) > 0)
 })
+
+#------------------------------------------------------------------------------------------
+#---------------------------- TEST 2  'Bernoulli' model, with nodes covariates only on row
+#------------------------------------------------------------------------------------------
+
 
 test_that("BipartiteSBM_fit 'Bernoulli' model, with nodes covariates (row only)", {
     ## BIPARTITE BERNOULLI SBM WITH NODES COVARIATES ON ROW ONLY
@@ -86,18 +116,24 @@ test_that("BipartiteSBM_fit 'Bernoulli' model, with nodes covariates (row only)"
     ), 3, 3, byrow = TRUE)
     connectParam <- list(mean = means)
 
-    nodesCovarRowOnly <- list(row = nodesCovarRow)
+    nodesCovarRowOnly <- list(row = nodesCovarRow,col=matrix(0,0,0))
+    blockPropRowOnly <- vector('list',2)
+    blockPropRowOnly[[1]] <- c()
+    blockPropRowOnly[[2]] <- blockProp[[2]]
+    nodesCovarParam2 <- nodesCovariatesParam
+    nodesCovarParam2[[2]] <- c()
 
     ## Basic construction
-    mySampler <- BipartiteSBM$new("bernoulli", nbNodes, blockProp, connectParam,
-        nodesCovar = nodesCovarRowOnly
+    mySampler <- BipartiteSBM$new("bernoulli", nbNodes=nbNodes, blockProp = blockPropRowOnly,  connectParam = connectParam,
+                                  nodesCovarList  = nodesCovarRowOnly, nodesCovarParam =nodesCovarParam2
     )
     mySampler$rMemberships(store = TRUE)
     mySampler$rEdges(store = TRUE)
 
     ## Construction
+
     mySBM <- BipartiteSBM_fit$new(mySampler$networkData, "bernoulli",
-        nodesCovar = nodesCovarRowOnly
+                                  nodesCovarList = nodesCovarRowOnly
     )
 
     ## Checking class
@@ -127,14 +163,14 @@ test_that("BipartiteSBM_fit 'Poisson' model, with nodes covariates", {
 
     ## Basic construction
     mySampler <- BipartiteSBM$new("poisson", nbNodes, blockProp, connectParam,
-        nodesCovar = nodesCovar
+                                  nodesCovarList = nodesCovarList, nodesCovarParam = nodesCovariatesParam
     )
     mySampler$rMemberships(store = TRUE)
     mySampler$rEdges(store = TRUE)
 
     ## Construction
     mySBM <- BipartiteSBM_fit$new(mySampler$networkData, "poisson",
-        nodesCovar = nodesCovar
+                                  nodesCovarList = nodesCovarList
     )
 
     ## Checking class
@@ -160,18 +196,17 @@ test_that("BipartiteSBM_fit 'Gaussian' model, with nodes covariates", {
         0.7, -0.2, 0.6,
         0.1, 0.4, -0.3
     ), 3, 3, byrow = TRUE)
-    connectParam <- list(mean = means, var = 0.1)
+    connectParam <- list(mean = means, var = matrix(0.1,3,3))
 
     ## Basic construction
     mySampler <- BipartiteSBM$new("gaussian", nbNodes, blockProp, connectParam,
-        nodesCovariates = nodesCovar
-    )
+                                  nodesCovarList = nodesCovarList, nodesCovarParam=nodesCovariatesParam)
     mySampler$rMemberships(store = TRUE)
     mySampler$rEdges(store = TRUE)
 
     ## Construction
     mySBM <- BipartiteSBM_fit$new(mySampler$networkData, "gaussian",
-        nodesCovar = nodesCovar
+                                  nodesCovarList =  nodesCovarList
     )
 
     ## Checking class

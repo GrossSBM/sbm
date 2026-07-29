@@ -212,9 +212,9 @@ estimateBipartiteSBM <- function(netMat,
   ## Current options are default expect for those passed by the user
   currentOptions[names(estimOptions)] <- estimOptions
 
+  ####
   ## Construct the SBM model
   mySBM <-  BipartiteSBM_fit$new(netMat, model, dimLabels, covariates, nodesCovariates)
-
   ## Perform optimization
   mySBM$optimize(currentOptions)
 

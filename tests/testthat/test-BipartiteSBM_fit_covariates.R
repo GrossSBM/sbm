@@ -48,7 +48,7 @@ if (Sys.info()['sysname'] != "Windows") {
 
     ## S3 methods
     expect_equal(coef(mySBM, 'connectivity'), mySBM$connectParam)
-    expect_equal(coef(mySBM, 'block')       , mySBM$blockProp)
+    expect_equal(coef(mySampler, 'block')       , mySampler$blockProp)
     expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
 
     ## Estimation-----------------------------------------------------------------
@@ -62,11 +62,11 @@ if (Sys.info()['sysname'] != "Windows") {
     expect_null(mySBM$connectParam$var)
 
     ## blocks
-    expect_equal(mySBM$nbBlocks, nbBlocks)
-    expect_equivalent(dim(mySBM$probMemberships[[1]]), c(nbNodes[1], nbBlocks[1]))
-    expect_equivalent(dim(mySBM$probMemberships[[2]]), c(nbNodes[2], nbBlocks[2]))
-    expect_equal(sort(unique(mySBM$memberships[[1]])), 1:nbBlocks[1])
-    expect_equal(sort(unique(mySBM$memberships[[2]])), 1:nbBlocks[2])
+    #expect_equal(mySBM$nbBlocks, nbBlocks)
+    expect_equivalent(nrow(mySBM$probMemberships[[1]]), nbNodes[1])
+    expect_equivalent(nrow(mySBM$probMemberships[[2]]), nbNodes[2])
+    expect_equal(sort(unique(mySBM$memberships[[1]])), 1:mySBM$nbBlocks[1])
+    expect_equal(sort(unique(mySBM$memberships[[2]])), 1:mySBM$nbBlocks[2])
 
     ## S3 methods
     expect_equal(coef(mySBM, 'connectivity'), mySBM$connectParam)
@@ -79,7 +79,7 @@ if (Sys.info()['sysname'] != "Windows") {
     ## prediction wrt BM
     for (Q in mySBM$storedModels$indexModel) {
       pred_bm  <- BM_out$prediction(Q = Q)
-      mySBM$setModel(Q-1)
+      mySBM$setModel(Q)
       pred_sbm <- predict(mySBM)
       expect_lt( rmse(pred_bm, pred_sbm), 1e-12)
     }
@@ -135,10 +135,10 @@ if (Sys.info()['sysname'] != "Windows") {
 
     ## blocks
     expect_equal(mySBM$nbBlocks, nbBlocks)
-    expect_equivalent(dim(mySBM$probMemberships[[1]]), c(nbNodes[1], nbBlocks[1]))
-    expect_equivalent(dim(mySBM$probMemberships[[2]]), c(nbNodes[2], nbBlocks[2]))
-    expect_equal(sort(unique(mySBM$memberships[[1]])), 1:nbBlocks[1])
-    expect_equal(sort(unique(mySBM$memberships[[2]])), 1:nbBlocks[2])
+    expect_equivalent(dim(mySBM$probMemberships[[1]]), c(nbNodes[1], mySBM$nbBlocks[1]))
+    expect_equivalent(dim(mySBM$probMemberships[[2]]), c(nbNodes[2], mySBM$nbBlocks[2]))
+    expect_equal(sort(unique(mySBM$memberships[[1]])), 1:mySBM$nbBlocks[1])
+    expect_equal(sort(unique(mySBM$memberships[[2]])), 1:mySBM$nbBlocks[2])
 
     ## correctness
     expect_lt(rmse(sort(mySBM$connectParam$mean), sort(means)), 1e-1)

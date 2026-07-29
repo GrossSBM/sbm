@@ -150,7 +150,8 @@ SBM <- # this virtual class is the mother of all subtypes of SBM (Simple or Bipa
                 nbNodesCovariates = function(value) {
                    if (is.null(private$Xnodes)){return(integer(0))}
                    res <- vapply(private$Xnodes, function(mat) {
-                      if (is.null(mat)){ 0 } else {ncol(mat)}},1)
+                      if (is.null(mat)){0}else{ncol(mat)}
+                     },1)
                    names(res)<- self$dimLabels
                    return(res)
                 },
