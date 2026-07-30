@@ -4,6 +4,11 @@
 \alias{MultiplexSBM_fit}
 \title{R6 Class definition of a Multiplex SBM fit}
 \description{
+R6 Class definition of a Multiplex SBM fit
+
+R6 Class definition of a Multiplex SBM fit
+}
+\details{
 This class is designed to give a representation and adjust a Multiplex SBM fitted with GREMLIN.
 
 The list of parameters \code{estimOptions} essentially tunes the optimization process and the variational EM algorithm, with the following parameters
@@ -17,154 +22,147 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 }
 }
 \section{Super classes}{
-\code{\link[sbm:SBM]{SBM}} -> \code{\link[sbm:MultipartiteSBM]{MultipartiteSBM}} -> \code{\link[sbm:MultipartiteSBM_fit]{MultipartiteSBM_fit}} -> \code{MultiplexSBM_fit}
+\code{\link[sbm:SBM]{sbm::SBM}} -> \code{\link[sbm:MultipartiteSBM]{sbm::MultipartiteSBM}} -> \code{\link[sbm:MultipartiteSBM_fit]{sbm::MultipartiteSBM_fit}} -> \code{MultiplexSBM_fit}
 }
 \section{Active bindings}{
-  \if{html}{\out{<div class="r6-active-bindings">}}
-  \describe{
-    \item{\code{nbBlocks}}{vector of size 2: number of blocks (rows, columns)}
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{nbBlocks}}{vector of size 2: number of blocks (rows, columns)}
 
-    \item{\code{dependentNetwork}}{: connection parameters in each network}
+\item{\code{dependentNetwork}}{: connection parameters in each network}
 
-    \item{\code{storedModels}}{data.frame of all models fitted (and stored) during the optimization}
+\item{\code{storedModels}}{data.frame of all models fitted (and stored) during the optimization}
 
-    \item{\code{namesLayers}}{: names of the various Networks}
-  }
-  \if{html}{\out{</div>}}
+\item{\code{namesLayers}}{: names of the various Networks}
+}
+\if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-  \itemize{
-    \item \href{#method-MultiplexSBM_fit-initialize}{\code{MultiplexSBM_fit$new()}}
-    \item \href{#method-MultiplexSBM_fit-optimize}{\code{MultiplexSBM_fit$optimize()}}
-    \item \href{#method-MultiplexSBM_fit-plot}{\code{MultiplexSBM_fit$plot()}}
-    \item \href{#method-MultiplexSBM_fit-show}{\code{MultiplexSBM_fit$show()}}
-    \item \href{#method-MultiplexSBM_fit-predict}{\code{MultiplexSBM_fit$predict()}}
-    \item \href{#method-MultiplexSBM_fit-clone}{\code{MultiplexSBM_fit$clone()}}
-  }
+\itemize{
+\item \href{#method-MultiplexSBM_fit-new}{\code{MultiplexSBM_fit$new()}}
+\item \href{#method-MultiplexSBM_fit-optimize}{\code{MultiplexSBM_fit$optimize()}}
+\item \href{#method-MultiplexSBM_fit-plot}{\code{MultiplexSBM_fit$plot()}}
+\item \href{#method-MultiplexSBM_fit-show}{\code{MultiplexSBM_fit$show()}}
+\item \href{#method-MultiplexSBM_fit-predict}{\code{MultiplexSBM_fit$predict()}}
+\item \href{#method-MultiplexSBM_fit-clone}{\code{MultiplexSBM_fit$clone()}}
 }
-\if{html}{\out{<details open><summary>Inherited methods</summary>
+}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
 <ul>
-  <li><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="rNetwork"><a href='../../sbm/html/SBM.html#method-SBM-rNetwork'><code>SBM$rNetwork()</code></a></span></li>
-  <li><span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM" data-id="print"><a href='../../sbm/html/MultipartiteSBM.html#method-MultipartiteSBM-print'><code>MultipartiteSBM$print()</code></a></span></li>
-  <li><span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM_fit" data-id="setModel"><a href='../../sbm/html/MultipartiteSBM_fit.html#method-MultipartiteSBM_fit-setModel'><code>MultipartiteSBM_fit$setModel()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="rNetwork"><a href='../../sbm/html/SBM.html#method-SBM-rNetwork'><code>sbm::SBM$rNetwork()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM" data-id="print"><a href='../../sbm/html/MultipartiteSBM.html#method-MultipartiteSBM-print'><code>sbm::MultipartiteSBM$print()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM_fit" data-id="setModel"><a href='../../sbm/html/MultipartiteSBM_fit.html#method-MultipartiteSBM_fit-setModel'><code>sbm::MultipartiteSBM_fit$setModel()</code></a></span></li>
 </ul>
-</details>}}
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-MultiplexSBM_fit-initialize"></a>}}
-\if{latex}{\out{\hypertarget{method-MultiplexSBM_fit-initialize}{}}}
-\subsection{\code{MultiplexSBM_fit$new()}}{
-  constructor for Multiplex SBM
-  \subsection{Usage}{
-    \if{html}{\out{<div class="r">}}
-    \preformatted{MultiplexSBM_fit$new(netList, dependentNet = FALSE)}
-    \if{html}{\out{</div>}}
-  }
-  \subsection{Arguments}{
-    \if{html}{\out{<div class="arguments">}}
-    \describe{
-      \item{\code{netList}}{list of SBM object with}
-      \item{\code{dependentNet}}{boolean indicating whether dependence is assumed between networks beyond the common dependence on the latent variables}
-    }
-    \if{html}{\out{</div>}}
-  }
+\if{html}{\out{<a id="method-MultiplexSBM_fit-new"></a>}}
+\if{latex}{\out{\hypertarget{method-MultiplexSBM_fit-new}{}}}
+\subsection{Method \code{new()}}{
+constructor for Multiplex SBM
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MultiplexSBM_fit$new(netList, dependentNet = FALSE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{netList}}{list of SBM object with}
+
+\item{\code{dependentNet}}{boolean indicating whether dependence is assumed between networks beyond the common dependence on the latent variables}
+}
+\if{html}{\out{</div>}}
+}
+}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MultiplexSBM_fit-optimize"></a>}}
 \if{latex}{\out{\hypertarget{method-MultiplexSBM_fit-optimize}{}}}
-\subsection{\code{MultiplexSBM_fit$optimize()}}{
-  estimation of multipartiteSBM via GREMLINS
-  \subsection{Usage}{
-    \if{html}{\out{<div class="r">}}
-    \preformatted{MultiplexSBM_fit$optimize(estimOptions)}
-    \if{html}{\out{</div>}}
-  }
-  \subsection{Arguments}{
-    \if{html}{\out{<div class="arguments">}}
-    \describe{
-      \item{\code{estimOptions}}{options for MultipartiteBM}
-    }
-    \if{html}{\out{</div>}}
-  }
+\subsection{Method \code{optimize()}}{
+estimation of multipartiteSBM via GREMLINS
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MultiplexSBM_fit$optimize(estimOptions)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{estimOptions}}{options for MultipartiteBM}
+}
+\if{html}{\out{</div>}}
+}
+}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MultiplexSBM_fit-plot"></a>}}
 \if{latex}{\out{\hypertarget{method-MultiplexSBM_fit-plot}{}}}
-\subsection{\code{MultiplexSBM_fit$plot()}}{
-  plot Multiplex Network
-  \subsection{Usage}{
-    \if{html}{\out{<div class="r">}}
-    \preformatted{MultiplexSBM_fit$plot(
+\subsection{Method \code{plot()}}{
+plot Multiplex Network
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MultiplexSBM_fit$plot(
   type = c("data", "expected"),
   ordered = TRUE,
   plotOptions = list()
-)}
-    \if{html}{\out{</div>}}
-  }
-  \subsection{Arguments}{
-    \if{html}{\out{<div class="arguments">}}
-    \describe{
-      \item{\code{type}}{character for the type of plot: either 'data' (true connection), 'expected' (fitted connection). Default to 'data'.}
-      \item{\code{ordered}}{TRUE is the matrices are plotted after reorganization with the blocks. Default value = TRUE}
-      \item{\code{plotOptions}}{list of plot options for the matrix view}
-    }
-    \if{html}{\out{</div>}}
-  }
+)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{type}}{character for the type of plot: either 'data' (true connection), 'expected' (fitted connection). Default to 'data'.}
+
+\item{\code{ordered}}{TRUE is the matrices are plotted after reorganization with the blocks. Default value = TRUE}
+
+\item{\code{plotOptions}}{list of plot options for the matrix view}
+}
+\if{html}{\out{</div>}}
+}
+}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MultiplexSBM_fit-show"></a>}}
 \if{latex}{\out{\hypertarget{method-MultiplexSBM_fit-show}{}}}
-\subsection{\code{MultiplexSBM_fit$show()}}{
-  show method
-  \subsection{Usage}{
-    \if{html}{\out{<div class="r">}}
-    \preformatted{MultiplexSBM_fit$show(type = "Fit of a Multiplex Stochastic Block Model")}
-    \if{html}{\out{</div>}}
-  }
-  \subsection{Arguments}{
-    \if{html}{\out{<div class="arguments">}}
-    \describe{
-      \item{\code{type}}{character used to specify the type of SBM}
-    }
-    \if{html}{\out{</div>}}
-  }
+\subsection{Method \code{show()}}{
+show method
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MultiplexSBM_fit$show(type = "Fit of a Multiplex Stochastic Block Model")}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{type}}{character used to specify the type of SBM}
+}
+\if{html}{\out{</div>}}
+}
+}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MultiplexSBM_fit-predict"></a>}}
 \if{latex}{\out{\hypertarget{method-MultiplexSBM_fit-predict}{}}}
-\subsection{\code{MultiplexSBM_fit$predict()}}{
-  prediction under the currently estimated model
-  \subsection{Usage}{
-    \if{html}{\out{<div class="r">}}
-    \preformatted{MultiplexSBM_fit$predict()}
-    \if{html}{\out{</div>}}
-  }
-  \subsection{Returns}{
-    a list of matrices matrix of expected values for each dyad
-  }
+\subsection{Method \code{predict()}}{
+prediction under the currently estimated model
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MultiplexSBM_fit$predict()}\if{html}{\out{</div>}}
 }
 
+\subsection{Returns}{
+a list of matrices matrix of expected values for each dyad
+}
+}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MultiplexSBM_fit-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-MultiplexSBM_fit-clone}{}}}
-\subsection{\code{MultiplexSBM_fit$clone()}}{
-  The objects of this class are cloneable with this method.
-  \subsection{Usage}{
-    \if{html}{\out{<div class="r">}}
-    \preformatted{MultiplexSBM_fit$clone(deep = FALSE)}
-    \if{html}{\out{</div>}}
-  }
-  \subsection{Arguments}{
-    \if{html}{\out{<div class="arguments">}}
-    \describe{
-      \item{\code{deep}}{Whether to make a deep clone.}
-    }
-    \if{html}{\out{</div>}}
-  }
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MultiplexSBM_fit$clone(deep = FALSE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
 }

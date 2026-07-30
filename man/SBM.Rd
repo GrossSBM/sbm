@@ -5,60 +5,61 @@
 \title{R6 virtual class for SBM representation (mother class of SimpleSBM, BipartiteSBM, MultipartiteSBM)}
 \description{
 R6 virtual class for SBM representation (mother class of SimpleSBM, BipartiteSBM, MultipartiteSBM)
+
+R6 virtual class for SBM representation (mother class of SimpleSBM, BipartiteSBM, MultipartiteSBM)
 }
 \section{Active bindings}{
-  \if{html}{\out{<div class="r6-active-bindings">}}
-  \describe{
-    \item{\code{modelName}}{character, the family of model for the distribution of the edges}
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{modelName}}{character, the family of model for the distribution of the edges}
 
-    \item{\code{directed}}{mode of the network data (directed or not or not applicable)}
+\item{\code{directed}}{mode of the network data (directed or not or not applicable)}
 
-    \item{\code{dimLabels}}{vector or list of characters, the label of each dimension}
+\item{\code{dimLabels}}{vector or list of characters, the label of each dimension}
 
-    \item{\code{nbNodes}}{vector describing the number of the successive elements connecting the network}
+\item{\code{nbNodes}}{vector describing the number of the successive elements connecting the network}
 
-    \item{\code{nbCovariates}}{integer, the number of covariates}
+\item{\code{nbCovariates}}{integer, the number of covariates}
 
-    \item{\code{connectParam}}{parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli}
+\item{\code{connectParam}}{parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli}
 
-    \item{\code{covarParam}}{vector of regression parameters associated with the covariates.}
+\item{\code{covarParam}}{vector of regression parameters associated with the covariates.}
 
-    \item{\code{covarList}}{list of matrices of covariates}
+\item{\code{covarList}}{list of matrices of covariates}
 
-    \item{\code{covarArray}}{the array of covariates}
+\item{\code{covarArray}}{the array of covariates}
 
-    \item{\code{covarEffect}}{effect of covariates}
+\item{\code{covarEffect}}{effect of covariates}
 
-    \item{\code{nbNodesCovariates}}{the dimension of the nodes covariates}
+\item{\code{nbNodesCovariates}}{the dimension of the nodes covariates}
 
-    \item{\code{nodesCovariates}}{the list of nodes covariates}
+\item{\code{nodesCovariates}}{the list of nodes covariates}
 
-    \item{\code{nodesCovariatesParam}}{the list of nodes covariates parameters}
+\item{\code{nodesCovariatesParam}}{the list of nodes covariates parameters}
 
-    \item{\code{networkData}}{the network data (adjacency or incidence matrix or list of such object)}
+\item{\code{networkData}}{the network data (adjacency or incidence matrix or list of such object)}
 
-    \item{\code{expectation}}{expected values of connection under the current model}
-  }
-  \if{html}{\out{</div>}}
+\item{\code{expectation}}{expected values of connection under the current model}
+}
+\if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-  \itemize{
-    \item \href{#method-SBM-initialize}{\code{SBM$new()}}
-    \item \href{#method-SBM-rNetwork}{\code{SBM$rNetwork()}}
-    \item \href{#method-SBM-show}{\code{SBM$show()}}
-    \item \href{#method-SBM-print}{\code{SBM$print()}}
-    \item \href{#method-SBM-clone}{\code{SBM$clone()}}
-  }
+\itemize{
+\item \href{#method-SBM-new}{\code{SBM$new()}}
+\item \href{#method-SBM-rNetwork}{\code{SBM$rNetwork()}}
+\item \href{#method-SBM-show}{\code{SBM$show()}}
+\item \href{#method-SBM-print}{\code{SBM$print()}}
+\item \href{#method-SBM-clone}{\code{SBM$clone()}}
+}
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-SBM-initialize"></a>}}
-\if{latex}{\out{\hypertarget{method-SBM-initialize}{}}}
-\subsection{\code{SBM$new()}}{
-  constructor for SBM
-  \subsection{Usage}{
-    \if{html}{\out{<div class="r">}}
-    \preformatted{SBM$new(
+\if{html}{\out{<a id="method-SBM-new"></a>}}
+\if{latex}{\out{\hypertarget{method-SBM-new}{}}}
+\subsection{Method \code{new()}}{
+constructor for SBM
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{SBM$new(
   model = vector("character", 0),
   directed = vector("logical", 0),
   dimension = vector("numeric", 0),
@@ -69,97 +70,97 @@ R6 virtual class for SBM representation (mother class of SimpleSBM, BipartiteSBM
   covarList = list(),
   nodesCovarList = list(),
   nodesCovarParam = list()
-)}
-    \if{html}{\out{</div>}}
-  }
-  \subsection{Arguments}{
-    \if{html}{\out{<div class="arguments">}}
-    \describe{
-      \item{\code{model}}{character describing the type of model}
-      \item{\code{directed}}{logical describing if the network data is directed or not}
-      \item{\code{dimension}}{dimension of the network data}
-      \item{\code{dimLabels}}{labels of each dimension}
-      \item{\code{blockProp}}{parameters for block proportions (vector or list of vectors)}
-      \item{\code{connectParam}}{list of parameters for connectivity}
-      \item{\code{covarParam}}{optional vector of covariates effect}
-      \item{\code{covarList}}{optional list of covariates data}
-      \item{\code{nodesCovarList}}{optional list of covariates on nodes (rows and cols),}
-      \item{\code{nodesCovarParam}}{optional list of vector of node covariates effects on the clustering}
-    }
-    \if{html}{\out{</div>}}
-  }
+)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{model}}{character describing the type of model}
+
+\item{\code{directed}}{logical describing if the network data is directed or not}
+
+\item{\code{dimension}}{dimension of the network data}
+
+\item{\code{dimLabels}}{labels of each dimension}
+
+\item{\code{blockProp}}{parameters for block proportions (vector or list of vectors)}
+
+\item{\code{connectParam}}{list of parameters for connectivity}
+
+\item{\code{covarParam}}{optional vector of covariates effect}
+
+\item{\code{covarList}}{optional list of covariates data}
+
+\item{\code{nodesCovarList}}{optional list of covariates on nodes (rows and cols),}
+
+\item{\code{nodesCovarParam}}{optional list of vector of node covariates effects on the clustering}
+}
+\if{html}{\out{</div>}}
+}
+}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-SBM-rNetwork"></a>}}
 \if{latex}{\out{\hypertarget{method-SBM-rNetwork}{}}}
-\subsection{\code{SBM$rNetwork()}}{
-  a method to sample a network data for the current SBM (blocks and edges)
-  \subsection{Usage}{
-    \if{html}{\out{<div class="r">}}
-    \preformatted{SBM$rNetwork(store = FALSE)}
-    \if{html}{\out{</div>}}
-  }
-  \subsection{Arguments}{
-    \if{html}{\out{<div class="arguments">}}
-    \describe{
-      \item{\code{store}}{should the sampled network be stored (and overwrite the existing data)? Default to FALSE}
-    }
-    \if{html}{\out{</div>}}
-  }
-  \subsection{Returns}{
-    a list with the sampled block and network
-  }
+\subsection{Method \code{rNetwork()}}{
+a method to sample a network data for the current SBM (blocks and edges)
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{SBM$rNetwork(store = FALSE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{store}}{should the sampled network be stored (and overwrite the existing data)? Default to FALSE}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+a list with the sampled block and network
+}
+}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-SBM-show"></a>}}
 \if{latex}{\out{\hypertarget{method-SBM-show}{}}}
-\subsection{\code{SBM$show()}}{
-  print method
-  \subsection{Usage}{
-    \if{html}{\out{<div class="r">}}
-    \preformatted{SBM$show(type = "Stochastic Block Model")}
-    \if{html}{\out{</div>}}
-  }
-  \subsection{Arguments}{
-    \if{html}{\out{<div class="arguments">}}
-    \describe{
-      \item{\code{type}}{character to tune the displayed name}
-    }
-    \if{html}{\out{</div>}}
-  }
+\subsection{Method \code{show()}}{
+print method
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{SBM$show(type = "Stochastic Block Model")}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{type}}{character to tune the displayed name}
+}
+\if{html}{\out{</div>}}
+}
+}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-SBM-print"></a>}}
 \if{latex}{\out{\hypertarget{method-SBM-print}{}}}
-\subsection{\code{SBM$print()}}{
-  print method
-  \subsection{Usage}{
-    \if{html}{\out{<div class="r">}}
-    \preformatted{SBM$print()}
-    \if{html}{\out{</div>}}
-  }
+\subsection{Method \code{print()}}{
+print method
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{SBM$print()}\if{html}{\out{</div>}}
 }
 
+}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-SBM-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-SBM-clone}{}}}
-\subsection{\code{SBM$clone()}}{
-  The objects of this class are cloneable with this method.
-  \subsection{Usage}{
-    \if{html}{\out{<div class="r">}}
-    \preformatted{SBM$clone(deep = FALSE)}
-    \if{html}{\out{</div>}}
-  }
-  \subsection{Arguments}{
-    \if{html}{\out{<div class="arguments">}}
-    \describe{
-      \item{\code{deep}}{Whether to make a deep clone.}
-    }
-    \if{html}{\out{</div>}}
-  }
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{SBM$clone(deep = FALSE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
 }

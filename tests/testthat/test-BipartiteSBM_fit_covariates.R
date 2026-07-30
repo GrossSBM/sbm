@@ -53,7 +53,9 @@ if (Sys.info()['sysname'] != "Windows") {
 
     ## Estimation-----------------------------------------------------------------
     BM_out <- mySBM$optimize(estimOptions  = list(verbosity = 0, fast = TRUE))
-    mySBM$setModel(4)
+    w = which((mySBM$storedModels$nbRowBlocks==nbBlocks[1])&(mySBM$storedModels$nbColBlocks ==nbBlocks[2]))
+    ind_w <- mySBM$storedModels[,1][w]
+    mySBM$setModel(ind_w)
 
     ## Expectation
     expect_equal(dim(mySBM$expectation), nbNodes)
@@ -126,7 +128,9 @@ if (Sys.info()['sysname'] != "Windows") {
 
     ## Estimation-----------------------------------------------------------------
     BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0))
-    mySBM$setModel(4)
+    w = which((mySBM$storedModels$nbRowBlocks==nbBlocks[1])&(mySBM$storedModels$nbColBlocks ==nbBlocks[2]))
+    ind_w <- mySBM$storedModels[,1][w]
+    mySBM$setModel(ind_w)
 
     ## Expectation
     expect_equal(dim(mySBM$expectation), nbNodes)
@@ -156,7 +160,7 @@ if (Sys.info()['sysname'] != "Windows") {
     ## prediction wrt BM
     for (Q in mySBM$storedModels$indexModel) {
       pred_bm  <- BM_out$prediction(Q = Q)
-      mySBM$setModel(Q-1)
+      mySBM$setModel(Q)
       pred_sbm <- predict(mySBM)
       expect_lt( rmse(pred_bm, pred_sbm), 1e-12)
     }
@@ -204,7 +208,9 @@ if (Sys.info()['sysname'] != "Windows") {
 
     ## Estimation-----------------------------------------------------------------
     BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0))
-    mySBM$setModel(4)
+    w = which((mySBM$storedModels$nbRowBlocks==nbBlocks[1])&(mySBM$storedModels$nbColBlocks ==nbBlocks[2]))
+    ind_w <- mySBM$storedModels[,1][w]
+    mySBM$setModel(ind_w)
 
     ## Expectation
     expect_equal(dim(mySBM$expectation), nbNodes)
@@ -232,7 +238,7 @@ if (Sys.info()['sysname'] != "Windows") {
     ## prediction wrt BM
     for (Q in mySBM$storedModels$indexModel) {
       pred_bm  <- BM_out$prediction(Q = Q)
-      mySBM$setModel(Q-1)
+      mySBM$setModel(Q)
       pred_sbm <- predict(mySBM)
       expect_lt( rmse(pred_bm, pred_sbm), 1e-12)
     }

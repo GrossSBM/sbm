@@ -212,7 +212,13 @@ BipartiteSBM <-
         if(!is.null(private$Z)){
           res <- sapply(private$Z,function(Mat){ifelse(is.matrix(Mat),ncol(Mat),1)})
           names(res)<- private$dimlab
-        return(res)}
+          return(res)
+        }
+        if(!is.null(private$pi)){
+          res <- sapply(private$pi,function(Mat){ifelse(is.matrix(Mat),ncol(Mat),length(Mat))})
+          names(res)<- private$dimlab
+          return(res)
+        }
       },
       #' @field mask Mask for the (potential) NAs in the adjacency matrix
       mask        = function(value) {mask <- (!is.na(private$Y)) * 1L},

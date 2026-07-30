@@ -14,7 +14,7 @@ test_that("Inference for Multiplex networks", {
     B <- 1*(matrix(runif(n*n),n,n)<Z%*%P%*%t(Z))
     netB <- defineSBM(B,"bernoulli",type = "simple",dimLabels=c("Actor"))
     myMultiplex <- MultiplexSBM_fit$new(list(netA,netB))
-    netC <- defineSBM(B,"poisson",type = "simple",dimLabels=c("Actor"))
+    netC <- defineSBM(B*4,"poisson",type = "simple",dimLabels=c("Actor"))
 
     expect_equal(myMultiplex$directed, c(TRUE,TRUE))
     expect_equal(myMultiplex$nbNetworks,2)
@@ -22,6 +22,8 @@ test_that("Inference for Multiplex networks", {
     expect_equal(MultiplexSBM_fit$new(list(netA,netB), TRUE)$dependentNetwork,TRUE)
     expect_error(MultiplexSBM_fit$new(list(netA,netC), TRUE))
     expect_error(MultiplexSBM_fit$new(list(netA,netB,netB), TRUE))
+    expect_error(defineSBM(B,"poisson",type = "simple",dimLabels=c("Actor")))
+
 
     currentOptions <- list(
       verbosity     = 1,

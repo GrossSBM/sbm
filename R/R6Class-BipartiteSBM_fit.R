@@ -70,6 +70,15 @@ BipartiteSBM_fit <-
 
 
 
+        isBinary <- all(.na2zero(incidenceMatrix) %in% c(0, 1))
+        anyRealnumber <- any(.na2zero(incidenceMatrix)%%1!=0)
+
+        if((isBinary)&(model!="bernoulli")){stop('Choose the bernoulli distribution for your binary data')}
+        if((!isBinary)&(model=="bernoulli")){stop('The bernoulli distribution is not adatped to your non binary data')}
+        if(anyRealnumber&(model %in% c("poisson","bernoulli"))){stop('Choose a distribution adapted to real numbers')}
+
+
+
         ## INITIALIZE THE SBM OBJECT ACCORDING TO THE DATA
         connectParam <- switch(model,
           "bernoulli"  = list(mean = matrix(0, 0, 0)),
@@ -94,6 +103,7 @@ BipartiteSBM_fit <-
       #' @param estimOptions a list of parameters controlling the inference algorithm and model selection. See details.
       #' @inherit estimateSimpleSBM details
       optimize = function(estimOptions = list()) {
+
         if (private$model == "ZIgaussian") stop("Inference not  yet  implemented for Bipartite ZI gaussian network")
 
         currentOptions <- list(
@@ -153,62 +163,81 @@ BipartiteSBM_fit <-
       #' @param index integer, the index of the model to be selected (row number in storedModels)
       setModel = function(index) {
         stopifnot(!is.null(private$BMobject))
-        stopifnot(index %in% seq.int(nrow(self$storedModels)))
+        stopifnot(index %in% self$storedModels$indexModel)
         private$import_from_BM(index)
         self$reorder()
       },
       #' @description permute group labels by order of decreasing probability
       reorder = function() {
 
-
-        ncol_Xnodes <- sapply(private$Xnodes,function(Mat){ifelse(is.null(Mat),0,ncol(Mat))})
-        blockProp_estim <- self$blockProp
-        nbBlocks <- self$nbBlocks
-
-        #if (ncol_Xnode[2] > 0 && self$nbBlocks[2] >= 2L) {
-        #  order_pi_col <- colMeans(private$pi[[2]])
-        #} else {
-        #  order_pi_col <- private$pi[[2]]
-        #}
-        #if (ncol_Xnode[1] > 0 && self$nbBlocks[1] >= 2L) {
-        #  order_pi_row <- colMeans(private$pi[[1]])
-        #} else {
-        #  order_pi_row <- private$pi[[1]]
-        #}
-        if(nbBlocks[1]>1){
-          oRow <- order(private$theta$mean %*%blockProp_estim[[2]], decreasing = TRUE)
-          }else{oRow=c(1)
-        }
-        if(nbBlocks[2]>1){
-          oCol <- order(blockProp_estim[[1]] %*% private$theta$mean, decreasing = TRUE)
-        }else{oCol=c(1)
-        }
-
-        if (ncol_Xnodes[1] > 0 && self$nbBlocks[1] >= 2L) {
-            private$pi[[1]] <- private$pi[[1]][, oRow, drop = FALSE]
-          } else {
-            private$pi[[1]] <- private$pi[[1]][oRow]
+        are_covariates <-sapply(1:2,function(l){ (self$nbNodesCovariates[l] > 0 && self$nbBlocks[l] >= 2L && is.matrix(private$pi[[l]]))})
+        o  <- lapply(2:1,function(l){
+         if(are_covariates[l]) {
+            pi_l <- colMeans(private$pi[[l]])
+          }else{
+            pi_l <- private$pi[[l]]
           }
+          if (l==1){
+            o_l <- order( pi_l%*%private$theta$mean, decreasing = TRUE)
+            }else{
+            o_l <- order( private$theta$mean %*% pi_l, decreasing = TRUE)
+            }
+          return(o_l)})
 
 
-          if (ncol_Xnodes[2] > 0 && self$nbBlocks[2] >= 2L) {
-            private$pi[[2]] <- private$pi[[2]][,oCol, drop = FALSE]
-          } else {
-          private$pi[[2]] <- private$pi[[2]][oCol]
+        private$theta$mean <- private$theta$mean[o[[1]], o[[2]], drop = FALSE]
+        for (l in 1:2){
+          if(are_covariates[l]){
+            private$pi[[l]] = private$pi[[l]][o[[l]], ]
+          }else{
+            private$pi[[l]] = private$pi[[l]][o[[l]]]
           }
+          private$Z[[l]] <- private$Z[[l]][, o[[l]], drop = FALSE]
+          if (self$nbNodesCovariates[l] > 0 && self$nbBlocks[l] >= 2L) {
+            private$B[[l]] <- private$B[[l]][, o[[l]], drop = FALSE]
+            private$B[[l]] <- private$B[[l]] - private$B[[l]][,ncol(private$B[[l]])]
+          }
+        }
 
 
-        private$theta$mean <- private$theta$mean[oRow, oCol, drop = FALSE]
-        private$Z[[1]] <- private$Z[[1]][, oRow, drop = FALSE]
-        private$Z[[2]] <- private$Z[[2]][, oCol, drop = FALSE]
-        if (length(private$B[[1]]) > 0){
-          private$B[[1]] <- private$B[[1]][, oRow, drop = FALSE]
-          private$B[[1]] <- private$B[[1]] - private$B[[1]][,ncol(private$B[[1]])]
-        }
-        if (length(private$B[[2]]) > 0){
-          private$B[[2]] <- private$B[[2]][, oCol, drop = FALSE]
-          private$B[[2]] <- private$B[[2]] - private$B[[2]][,ncol(private$B[[2]])]
-        }
+
+        #ncol_Xnodes <- sapply(private$Xnodes,function(Mat){ifelse(is.null(Mat),0,ncol(Mat))})
+        #blockProp_estim <- self$blockProp
+        #nbBlocks <- self$nbBlocks
+        # if(nbBlocks[1]>1){
+        #   oRow <- order(private$theta$mean %*%blockProp_estim[[2]], decreasing = TRUE)
+        #   }else{oRow=c(1)
+        # }
+        # if(nbBlocks[2]>1){
+        #   oCol <- order(blockProp_estim[[1]] %*% private$theta$mean, decreasing = TRUE)
+        # }else{oCol=c(1)
+        # }
+        #
+        # if (ncol_Xnodes[1] > 0 && self$nbBlocks[1] >= 2L) {
+        #     private$pi[[1]] <- private$pi[[1]][, oRow, drop = FALSE]
+        #   } else {
+        #     private$pi[[1]] <- private$pi[[1]][oRow]
+        #   }
+        #
+        #
+        #   if (ncol_Xnodes[2] > 0 && self$nbBlocks[2] >= 2L) {
+        #     private$pi[[2]] <- private$pi[[2]][,oCol, drop = FALSE]
+        #   } else {
+        #   private$pi[[2]] <- private$pi[[2]][oCol]
+        #   }
+        #
+        #
+        # private$theta$mean <- private$theta$mean[oRow, oCol, drop = FALSE]
+        # private$Z[[1]] <- private$Z[[1]][, oRow, drop = FALSE]
+        # private$Z[[2]] <- private$Z[[2]][, oCol, drop = FALSE]
+        # if (length(private$B[[1]]) > 0){
+        #   private$B[[1]] <- private$B[[1]][, oRow, drop = FALSE]
+        #   private$B[[1]] <- private$B[[1]] - private$B[[1]][,ncol(private$B[[1]])]
+        # }
+        # if (length(private$B[[2]]) > 0){
+        #   private$B[[2]] <- private$B[[2]][, oCol, drop = FALSE]
+        #   private$B[[2]] <- private$B[[2]] - private$B[[2]][,ncol(private$B[[2]])]
+        # }
       },
       #' @description show method
       #' @param type character used to specify the type of SBM
@@ -239,16 +268,18 @@ BipartiteSBM_fit <-
       },
       #' @field storedModels data.frame of all models fitted (and stored) during the optimization
       storedModels = function(value) {
+
+        #browser()
         rowBlocks <- c(0, unlist(sapply(private$BMobject$memberships, function(m) ncol(m$Z1))))
         colBlocks <- c(0, unlist(sapply(private$BMobject$memberships, function(m) ncol(m$Z2))))
         nbConnectParam <- c(NA, unlist(sapply(private$BMobject$model_parameters, function(param) param$n_parameters)))
         U <- data.frame(
-          indexModel = rowBlocks + colBlocks,
+          indexModel = 1:length(private$BMobject$ICL),
           nbParams = nbConnectParam + max(1,self$nbNodesCovariates[1])*(rowBlocks-1) + max(1,self$nbNodesCovariates[2])*(colBlocks - 1),
           nbRowBlocks = rowBlocks,
           nbColBlocks = colBlocks,
-          ICL = private$BMobject$ICL,
-          loglik = private$BMobject$PL
+          ICL = c(private$BMobject$ICL),
+          loglik = c(private$BMobject$PL)
         )
         U[!is.na(U$nbParams), , drop = FALSE]
       }

@@ -53,6 +53,15 @@ SimpleSBM_fit <-
         stopifnot(all(sapply(covarList, ncol) == ncol(adjacencyMatrix))) # with the network data
         stopifnot("Nodes covariates is either not provided or not a matrix with as many rows as there are nodes." = length(nodesCovarList[[1]]) == 0 || (length(nodesCovarList[[1]]) > 0 && is.matrix(nodesCovarList[[1]]) && nrow(nodesCovarList[[1]]) == nrow(adjacencyMatrix)))
 
+        isBinary <- all(.na2zero(adjacencyMatrix) %in% c(0, 1))
+        anyRealnumber <- any(.na2zero(adjacencyMatrix)%%1!=0)
+
+        if((isBinary)&(model!="bernoulli")){stop('Choose the bernoulli distribution for your binary data')}
+        if((!isBinary)&(model=="bernoulli")){stop('The bernoulli distribution is not adatped to your non binary data')}
+        if(anyRealnumber&(model %in% c("poisson","bernoulli"))){stop('Choose a distribution adapted to real numbers')}
+
+
+
         ## INITIALIZE THE SBM OBJECT ACCORDING TO THE DATA
         connectParam <- switch(model,
           "bernoulli"  = list(mean = matrix(0, 0, 0)),
@@ -76,6 +85,8 @@ SimpleSBM_fit <-
       #' @param estimOptions a list of parameters controlling the inference algorithm and model selection. See details.
       #' @inherit estimateSimpleSBM details
       optimize = function(estimOptions = list()){
+
+
 
         if(private$model == 'ZIgaussian') stop("Inference not yet implemented for ZI gaussian network")
 
@@ -142,7 +153,11 @@ SimpleSBM_fit <-
           order_pi <- private$pi
         }
         o <- order(private$theta$mean %*% order_pi, decreasing = TRUE)
-        private$pi <- ifelse(are_covariates, private$pi[o, ], private$pi[o])
+        if(are_covariates){
+          private$pi = private$pi[o, ]
+        }else{
+          private$pi=private$pi[o]
+        }
         private$theta$mean <- private$theta$mean[o, o, drop = FALSE]
         private$Z <- private$Z[, o, drop = FALSE]
         if (self$nbNodesCovariates > 0 && self$nbBlocks >= 2L) {

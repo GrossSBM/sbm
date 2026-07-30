@@ -5,67 +5,70 @@
 \title{R6 class for Simple SBM}
 \description{
 R6 class for Simple SBM
+
+R6 class for Simple SBM
 }
 \section{Super class}{
-\code{\link[sbm:SBM]{SBM}} -> \code{SimpleSBM}
+\code{\link[sbm:SBM]{sbm::SBM}} -> \code{SimpleSBM}
 }
 \section{Active bindings}{
-  \if{html}{\out{<div class="r6-active-bindings">}}
-  \describe{
-    \item{\code{dimLabels}}{a single character giving the label of the nodes}
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{dimLabels}}{a single character giving the label of the nodes}
 
-    \item{\code{blockProp}}{vector of block proportions (aka prior probabilities of each block)}
+\item{\code{blockProp}}{vector of block proportions (aka prior probabilities of each block)}
 
-    \item{\code{connectParam}}{parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli}
+\item{\code{connectParam}}{parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli}
 
-    \item{\code{probMemberships}}{matrix of estimated probabilities for block memberships for all nodes}
+\item{\code{probMemberships}}{matrix of estimated probabilities for block memberships for all nodes}
 
-    \item{\code{mask}}{Mask for the (potential) NAs in the adjacency matrix}
+\item{\code{mask}}{Mask for the (potential) NAs in the adjacency matrix}
 
-    \item{\code{nbBlocks}}{number of blocks}
+\item{\code{nbBlocks}}{number of blocks}
 
-    \item{\code{nbDyads}}{number of dyads (potential edges in the network)}
+\item{\code{nbDyads}}{number of dyads (potential edges in the network)}
 
-    \item{\code{nbConnectParam}}{number of parameter used for the connectivity}
+\item{\code{nbConnectParam}}{number of parameter used for the connectivity}
 
-    \item{\code{nodesCovariates}}{matrix of covariates on nodes}
+\item{\code{nodesCovariates}}{matrix of covariates on nodes}
 
-    \item{\code{nodesCovariatesParam}}{the matrix of  nodes covariates parameters}
+\item{\code{nodesCovariatesParam}}{the matrix of  nodes covariates parameters}
 
-    \item{\code{nbNodesCovariates}}{nb of covariates on nodes}
+\item{\code{nbNodesCovariates}}{nb of covariates on nodes}
 
-    \item{\code{memberships}}{vector of clustering}
+\item{\code{memberships}}{vector of clustering}
 
-    \item{\code{indMemberships}}{matrix for clustering memberships}
-  }
-  \if{html}{\out{</div>}}
+\item{\code{indMemberships}}{matrix for clustering memberships}
+}
+\if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-  \itemize{
-    \item \href{#method-SimpleSBM-initialize}{\code{SimpleSBM$new()}}
-    \item \href{#method-SimpleSBM-rMemberships}{\code{SimpleSBM$rMemberships()}}
-    \item \href{#method-SimpleSBM-rEdges}{\code{SimpleSBM$rEdges()}}
-    \item \href{#method-SimpleSBM-predict}{\code{SimpleSBM$predict()}}
-    \item \href{#method-SimpleSBM-show}{\code{SimpleSBM$show()}}
-    \item \href{#method-SimpleSBM-plot}{\code{SimpleSBM$plot()}}
-    \item \href{#method-SimpleSBM-clone}{\code{SimpleSBM$clone()}}
-  }
+\itemize{
+\item \href{#method-SimpleSBM-new}{\code{SimpleSBM$new()}}
+\item \href{#method-SimpleSBM-rMemberships}{\code{SimpleSBM$rMemberships()}}
+\item \href{#method-SimpleSBM-rEdges}{\code{SimpleSBM$rEdges()}}
+\item \href{#method-SimpleSBM-predict}{\code{SimpleSBM$predict()}}
+\item \href{#method-SimpleSBM-show}{\code{SimpleSBM$show()}}
+\item \href{#method-SimpleSBM-plot}{\code{SimpleSBM$plot()}}
+\item \href{#method-SimpleSBM-clone}{\code{SimpleSBM$clone()}}
 }
-\if{html}{\out{<details open><summary>Inherited methods</summary>
+}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
 <ul>
-  <li><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="print"><a href='../../sbm/html/SBM.html#method-SBM-print'><code>SBM$print()</code></a></span></li>
-  <li><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="rNetwork"><a href='../../sbm/html/SBM.html#method-SBM-rNetwork'><code>SBM$rNetwork()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="print"><a href='../../sbm/html/SBM.html#method-SBM-print'><code>sbm::SBM$print()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="rNetwork"><a href='../../sbm/html/SBM.html#method-SBM-rNetwork'><code>sbm::SBM$rNetwork()</code></a></span></li>
 </ul>
-</details>}}
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-SimpleSBM-initialize"></a>}}
-\if{latex}{\out{\hypertarget{method-SimpleSBM-initialize}{}}}
-\subsection{\code{SimpleSBM$new()}}{
-  constructor for SBM
-  \subsection{Usage}{
-    \if{html}{\out{<div class="r">}}
-    \preformatted{SimpleSBM$new(
+\if{html}{\out{<a id="method-SimpleSBM-new"></a>}}
+\if{latex}{\out{\hypertarget{method-SimpleSBM-new}{}}}
+\subsection{Method \code{new()}}{
+constructor for SBM
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{SimpleSBM$new(
   model,
   nbNodes,
   directed,
@@ -76,158 +79,157 @@ R6 class for Simple SBM
   covarList = list(),
   nodesCovarList = list(node = matrix(0, 0, 0)),
   nodesCovarParam = list(node = matrix(0, 0, 0))
-)}
-    \if{html}{\out{</div>}}
-  }
-  \subsection{Arguments}{
-    \if{html}{\out{<div class="arguments">}}
-    \describe{
-      \item{\code{model}}{character describing the type of model}
-      \item{\code{nbNodes}}{number of nodes in the network}
-      \item{\code{directed}}{logical, directed network or not.}
-      \item{\code{blockProp}}{parameters for block proportions (vector of list of vectors)}
-      \item{\code{connectParam}}{list of parameters for connectivity with a matrix of means 'mean' and an optional scalar for the variance 'var'. The size of mu must match \code{blockProp} length}
-      \item{\code{dimLabels}}{optional label for the node (default is "nodeName")}
-      \item{\code{covarParam}}{optional vector of covariates effect}
-      \item{\code{covarList}}{optional list of covariates data}
-      \item{\code{nodesCovarList}}{optional list of one matrix with nodes covariates}
-      \item{\code{nodesCovarParam}}{optional list of one matrix of parameters of effects of nodes covariates on clustering}
-    }
-    \if{html}{\out{</div>}}
-  }
+)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{model}}{character describing the type of model}
+
+\item{\code{nbNodes}}{number of nodes in the network}
+
+\item{\code{directed}}{logical, directed network or not.}
+
+\item{\code{blockProp}}{parameters for block proportions (vector of list of vectors)}
+
+\item{\code{connectParam}}{list of parameters for connectivity with a matrix of means 'mean' and an optional scalar for the variance 'var'. The size of mu must match \code{blockProp} length}
+
+\item{\code{dimLabels}}{optional label for the node (default is "nodeName")}
+
+\item{\code{covarParam}}{optional vector of covariates effect}
+
+\item{\code{covarList}}{optional list of covariates data}
+
+\item{\code{nodesCovarList}}{optional list of one matrix with nodes covariates}
+
+\item{\code{nodesCovarParam}}{optional list of one matrix of parameters of effects of nodes covariates on clustering}
+}
+\if{html}{\out{</div>}}
+}
+}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-SimpleSBM-rMemberships"></a>}}
 \if{latex}{\out{\hypertarget{method-SimpleSBM-rMemberships}{}}}
-\subsection{\code{SimpleSBM$rMemberships()}}{
-  a method to sample new block memberships for the current SBM
-  \subsection{Usage}{
-    \if{html}{\out{<div class="r">}}
-    \preformatted{SimpleSBM$rMemberships(store = FALSE)}
-    \if{html}{\out{</div>}}
-  }
-  \subsection{Arguments}{
-    \if{html}{\out{<div class="arguments">}}
-    \describe{
-      \item{\code{store}}{should the sampled blocks be stored (and overwrite the existing data)? Default to FALSE}
-    }
-    \if{html}{\out{</div>}}
-  }
-  \subsection{Returns}{
-    the sampled blocks
-  }
+\subsection{Method \code{rMemberships()}}{
+a method to sample new block memberships for the current SBM
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{SimpleSBM$rMemberships(store = FALSE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{store}}{should the sampled blocks be stored (and overwrite the existing data)? Default to FALSE}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+the sampled blocks
+}
+}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-SimpleSBM-rEdges"></a>}}
 \if{latex}{\out{\hypertarget{method-SimpleSBM-rEdges}{}}}
-\subsection{\code{SimpleSBM$rEdges()}}{
-  a method to sample a network data (edges) for the current SBM
-  \subsection{Usage}{
-    \if{html}{\out{<div class="r">}}
-    \preformatted{SimpleSBM$rEdges(store = FALSE)}
-    \if{html}{\out{</div>}}
-  }
-  \subsection{Arguments}{
-    \if{html}{\out{<div class="arguments">}}
-    \describe{
-      \item{\code{store}}{should the sampled edges be stored (and overwrite the existing data)? Default to FALSE}
-    }
-    \if{html}{\out{</div>}}
-  }
-  \subsection{Returns}{
-    the sampled network
-  }
+\subsection{Method \code{rEdges()}}{
+a method to sample a network data (edges) for the current SBM
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{SimpleSBM$rEdges(store = FALSE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{store}}{should the sampled edges be stored (and overwrite the existing data)? Default to FALSE}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+the sampled network
+}
+}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-SimpleSBM-predict"></a>}}
 \if{latex}{\out{\hypertarget{method-SimpleSBM-predict}{}}}
-\subsection{\code{SimpleSBM$predict()}}{
-  prediction under the currently parameters
-  \subsection{Usage}{
-    \if{html}{\out{<div class="r">}}
-    \preformatted{SimpleSBM$predict(covarList = self$covarList, theta_p0 = 0)}
-    \if{html}{\out{</div>}}
-  }
-  \subsection{Arguments}{
-    \if{html}{\out{<div class="arguments">}}
-    \describe{
-      \item{\code{covarList}}{a list of covariates. By default, we use the covariates with which the model was estimated}
-      \item{\code{theta_p0}}{a threshold...}
-    }
-    \if{html}{\out{</div>}}
-  }
-  \subsection{Returns}{
-    a matrix of expected values for each dyad
-  }
+\subsection{Method \code{predict()}}{
+prediction under the currently parameters
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{SimpleSBM$predict(covarList = self$covarList, theta_p0 = 0)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{covarList}}{a list of covariates. By default, we use the covariates with which the model was estimated}
+
+\item{\code{theta_p0}}{a threshold...}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+a matrix of expected values for each dyad
+}
+}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-SimpleSBM-show"></a>}}
 \if{latex}{\out{\hypertarget{method-SimpleSBM-show}{}}}
-\subsection{\code{SimpleSBM$show()}}{
-  show method
-  \subsection{Usage}{
-    \if{html}{\out{<div class="r">}}
-    \preformatted{SimpleSBM$show(type = "Simple Stochastic Block Model")}
-    \if{html}{\out{</div>}}
-  }
-  \subsection{Arguments}{
-    \if{html}{\out{<div class="arguments">}}
-    \describe{
-      \item{\code{type}}{character used to specify the type of SBM}
-    }
-    \if{html}{\out{</div>}}
-  }
+\subsection{Method \code{show()}}{
+show method
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{SimpleSBM$show(type = "Simple Stochastic Block Model")}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{type}}{character used to specify the type of SBM}
+}
+\if{html}{\out{</div>}}
+}
+}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-SimpleSBM-plot"></a>}}
 \if{latex}{\out{\hypertarget{method-SimpleSBM-plot}{}}}
-\subsection{\code{SimpleSBM$plot()}}{
-  basic matrix plot method for SimpleSBM object or mesoscopic plot
-  \subsection{Usage}{
-    \if{html}{\out{<div class="r">}}
-    \preformatted{SimpleSBM$plot(
+\subsection{Method \code{plot()}}{
+basic matrix plot method for SimpleSBM object or mesoscopic plot
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{SimpleSBM$plot(
   type = c("data", "expected", "meso"),
   ordered = TRUE,
   plotOptions = list()
-)}
-    \if{html}{\out{</div>}}
-  }
-  \subsection{Arguments}{
-    \if{html}{\out{<div class="arguments">}}
-    \describe{
-      \item{\code{type}}{character for the type of plot: either 'data' (true connection), 'expected' (fitted connection) or 'meso' (mesoscopic view). Default to 'data'.}
-      \item{\code{ordered}}{logical: should the rows and columns be reordered according to the clustering? Default to \code{TRUE}.}
-      \item{\code{plotOptions}}{list with the parameters for the plot. See help of the corresponding S3 method for details.}
-    }
-    \if{html}{\out{</div>}}
-  }
-  \subsection{Returns}{
-    a ggplot2 object for the \code{'data'} and \code{'expected'}, a list with the igraph object \code{g}, the \code{layout} and the \code{plotOptions} for the \code{'meso'}
-  }
+)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{type}}{character for the type of plot: either 'data' (true connection), 'expected' (fitted connection) or 'meso' (mesoscopic view). Default to 'data'.}
+
+\item{\code{ordered}}{logical: should the rows and columns be reordered according to the clustering? Default to \code{TRUE}.}
+
+\item{\code{plotOptions}}{list with the parameters for the plot. See help of the corresponding S3 method for details.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+a ggplot2 object for the \code{'data'} and \code{'expected'}, a list with the igraph object \code{g}, the \code{layout} and the \code{plotOptions} for the \code{'meso'}
+}
+}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-SimpleSBM-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-SimpleSBM-clone}{}}}
-\subsection{\code{SimpleSBM$clone()}}{
-  The objects of this class are cloneable with this method.
-  \subsection{Usage}{
-    \if{html}{\out{<div class="r">}}
-    \preformatted{SimpleSBM$clone(deep = FALSE)}
-    \if{html}{\out{</div>}}
-  }
-  \subsection{Arguments}{
-    \if{html}{\out{<div class="arguments">}}
-    \describe{
-      \item{\code{deep}}{Whether to make a deep clone.}
-    }
-    \if{html}{\out{</div>}}
-  }
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{SimpleSBM$clone(deep = FALSE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
 }

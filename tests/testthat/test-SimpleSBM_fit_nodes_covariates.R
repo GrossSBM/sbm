@@ -10,9 +10,12 @@ nbBlocks <- 3
 blockProp <- c(1 / 3, 1 / 3, 1 / 3)
 
 # Nodes covariates parameters
-nbNodesCovar <- 2
+nbNodesCovar <- 3
 nodesCovar <- matrix(rnorm(nbNodes * nbNodesCovar), nbNodes, nbNodesCovar)
-nodesCovarParam <- matrix(rnorm(nbBlocks * nbNodesCovar), nbBlocks, nbNodesCovar)
+nodesCovar[,1]=1;
+nodesCovar=list(nodesCovar)
+nodesCovarParam <- vector('list',1)
+nodesCovarParam[[1]] <- matrix(rnorm(nbBlocks * nbNodesCovar), nbBlocks, nbNodesCovar)
 
 # Edge covariates parameters
 covarParam <- c(-2, 2)
@@ -29,15 +32,15 @@ test_that("SimpleSBM_fit 'Bernoulli' model, undirected, with nodes covariates", 
 
     ## Basic construction with nodes covariates
     mySampler <- SimpleSBM$new("bernoulli", nbNodes, FALSE, blockProp, connectParam,
-        nodesCovar = nodesCovar
+        nodesCovarList = nodesCovar, nodesCovarParam =nodesCovarParam
     )
     mySampler$rMemberships(store = TRUE)
     mySampler$rEdges(store = TRUE)
 
     ## Construction----------------------------------------------------------------
     mySBM <- SimpleSBM_fit$new(mySampler$networkData, "bernoulli", FALSE,
-        nodesCovar = nodesCovar
-    )
+        nodesCovarList = nodesCovar)
+
 
     ## Checking class
     expect_true(inherits(mySBM, "SBM"))
@@ -51,9 +54,9 @@ test_that("SimpleSBM_fit 'Bernoulli' model, undirected, with nodes covariates", 
     expect_equal(mySBM$dimLabels, c(node = "nodeName"))
 
     ## nodes covariates
-    expect_equal(mySBM$nbNodesCovariates, c(node = nbNodesCovar))
-    expect_equal(dim(mySBM$nodesCovariates[["node"]]), c(nbNodes, nbNodesCovar))
-    expect_equal(mySBM$nodesCovariates, list(node = nodesCovar))
+    expect_equal(mySBM$nbNodesCovariates, c(nbNodesCovar))
+    expect_equal(dim(mySBM$nodesCovariates), c(nbNodes, nbNodesCovar))
+    expect_equal(mySBM$nodesCovariates, nodesCovar[[1]])
 
     ## Estimation-----------------------------------------------------------------
     BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0, fast = TRUE))
@@ -70,8 +73,8 @@ test_that("SimpleSBM_fit 'Bernoulli' model, undirected, with nodes covariates", 
     expect_equal(sort(unique(mySBM$memberships)), 1:nbBlocks)
 
     ## nodes covariate parameters should be initialized
-    expect_true(!is.null(mySBM$nodesCovarParam))
-    expect_true(length(mySBM$nodesCovarParam) > 0)
+    expect_true(!is.null(mySBM$nodesCovariatesParam))
+    expect_true(length(mySBM$nodesCovariatesParam) > 0)
 })
 
 test_that("SimpleSBM_fit 'Bernoulli' model, directed, with nodes covariates", {
@@ -85,14 +88,14 @@ test_that("SimpleSBM_fit 'Bernoulli' model, directed, with nodes covariates", {
 
     ## Basic construction
     mySampler <- SimpleSBM$new("bernoulli", nbNodes, TRUE, blockProp, connectParam,
-        nodesCovar = nodesCovar
+        nodesCovarList = nodesCovar, nodesCovarParam = nodesCovarParam
     )
     mySampler$rMemberships(store = TRUE)
     mySampler$rEdges(store = TRUE)
 
     ## Construction
     mySBM <- SimpleSBM_fit$new(mySampler$networkData, "bernoulli", TRUE,
-        nodesCovar = nodesCovar
+        nodesCovarList = nodesCovar
     )
 
     ## Checking class
@@ -101,7 +104,7 @@ test_that("SimpleSBM_fit 'Bernoulli' model, directed, with nodes covariates", {
 
     ## Checking field access prior to estimation
     expect_equal(mySBM$directed, TRUE)
-    expect_equal(mySBM$nbNodesCovariates, c(node = nbNodesCovar))
+    expect_equal(mySBM$nbNodesCovariates, c(nbNodesCovar))
     expect_equal(mySBM$nbDyads, nbNodes * (nbNodes - 1))
 
     ## Estimation
@@ -125,23 +128,23 @@ test_that("SimpleSBM_fit 'Poisson' model, undirected, with nodes covariates", {
 
     ## Basic construction
     mySampler <- SimpleSBM$new("poisson", nbNodes, FALSE, blockProp, connectParam,
-        nodesCovar = nodesCovar
+        nodesCovarList = nodesCovar, nodesCovarParam = nodesCovarParam
     )
     mySampler$rMemberships(store = TRUE)
     mySampler$rEdges(store = TRUE)
 
     ## Construction
     mySBM <- SimpleSBM_fit$new(mySampler$networkData, "poisson", FALSE,
-        nodesCovar = nodesCovar
+        nodesCovarList = nodesCovar
     )
 
     ## Checking class
     expect_true(inherits(mySBM, "SimpleSBM_fit"))
 
     ## Checking nodes covariates
-    expect_equal(mySBM$nbNodesCovariates, c(node = nbNodesCovar))
-    expect_equal(nrow(mySBM$nodesCovariates[["node"]]), nbNodes)
-    expect_equal(ncol(mySBM$nodesCovariates[["node"]]), nbNodesCovar)
+    expect_equal(mySBM$nbNodesCovariates, c(nbNodesCovar))
+    expect_equal(nrow(mySBM$nodesCovariates), nbNodes)
+    expect_equal(ncol(mySBM$nodesCovariates), nbNodesCovar)
 
     ## Estimation
     BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0, fast = TRUE))
@@ -166,7 +169,7 @@ test_that("SimpleSBM_fit without nodes covariates returns zero dimensions", {
     mySBM <- SimpleSBM_fit$new(mySampler$networkData, "bernoulli", FALSE)
 
     ## Check that nbNodesCovariates returns named vector of zeros
-    expect_equal(mySBM$nbNodesCovariates, c(node = 0))
+    expect_equal(mySBM$nbNodesCovariates, c(0))
 
     ## nodesCovariates should be empty
     expect_equal(length(mySBM$nodesCovariates), 0)

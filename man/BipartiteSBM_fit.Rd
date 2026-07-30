@@ -4,176 +4,162 @@
 \alias{BipartiteSBM_fit}
 \title{R6 Class definition of an Bipartite SBM fit}
 \description{
-This class is designed to give a representation and adjust an LBM fitted with blockmodels.
+R6 Class definition of an Bipartite SBM fit
+
+R6 Class definition of an Bipartite SBM fit
 }
 \details{
-The list of parameters \code{estimOptions} essentially tunes the optimization process and the variational EM algorithm, with the following parameters
-\itemize{
-\item "nbCores integer for number of cores used. Default is 2
-\item "verbosity" integer for verbosity (0, 1). Default is 1
-\item "plot" boolean, should the ICL by dynamically plotted or not. Default is TRUE
-\item "exploreFactor" control the exploration of the number of groups
-\item "exploreMin" explore at least until exploreMin even if the exploration factor rule is achieved. Default 4. See the package blockmodels for details.
-\item "exploreMax" Stop exploration at exploreMax  even if the exploration factor rule is not achieved. Default Inf. See the package blockmodels for details.
-\item "nbBlocksRange" minimal and maximal number or blocks explored
-\item "fast" logical: should approximation be used for Bernoulli model with covariates. Default to \code{TRUE}
-}
+This class is designed to give a representation and adjust an LBM fitted with blockmodels.
 }
 \section{Super classes}{
-\code{\link[sbm:SBM]{SBM}} -> \code{\link[sbm:BipartiteSBM]{BipartiteSBM}} -> \code{BipartiteSBM_fit}
+\code{\link[sbm:SBM]{sbm::SBM}} -> \code{\link[sbm:BipartiteSBM]{sbm::BipartiteSBM}} -> \code{BipartiteSBM_fit}
 }
 \section{Active bindings}{
-  \if{html}{\out{<div class="r6-active-bindings">}}
-  \describe{
-    \item{\code{loglik}}{double: approximation of the log-likelihood (variational lower bound) reached}
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{loglik}}{double: approximation of the log-likelihood (variational lower bound) reached}
 
-    \item{\code{ICL}}{double: value of the integrated classification log-likelihood}
+\item{\code{ICL}}{double: value of the integrated classification log-likelihood}
 
-    \item{\code{penalty}}{double, value of the penalty term in ICL}
+\item{\code{penalty}}{double, value of the penalty term in ICL}
 
-    \item{\code{entropy}}{double, value of the entropy due to the clustering distribution}
+\item{\code{entropy}}{double, value of the entropy due to the clustering distribution}
 
-    \item{\code{storedModels}}{data.frame of all models fitted (and stored) during the optimization}
-  }
-  \if{html}{\out{</div>}}
+\item{\code{storedModels}}{data.frame of all models fitted (and stored) during the optimization}
+}
+\if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-  \itemize{
-    \item \href{#method-BipartiteSBM_fit-initialize}{\code{BipartiteSBM_fit$new()}}
-    \item \href{#method-BipartiteSBM_fit-optimize}{\code{BipartiteSBM_fit$optimize()}}
-    \item \href{#method-BipartiteSBM_fit-setModel}{\code{BipartiteSBM_fit$setModel()}}
-    \item \href{#method-BipartiteSBM_fit-reorder}{\code{BipartiteSBM_fit$reorder()}}
-    \item \href{#method-BipartiteSBM_fit-show}{\code{BipartiteSBM_fit$show()}}
-    \item \href{#method-BipartiteSBM_fit-clone}{\code{BipartiteSBM_fit$clone()}}
-  }
+\itemize{
+\item \href{#method-BipartiteSBM_fit-new}{\code{BipartiteSBM_fit$new()}}
+\item \href{#method-BipartiteSBM_fit-optimize}{\code{BipartiteSBM_fit$optimize()}}
+\item \href{#method-BipartiteSBM_fit-setModel}{\code{BipartiteSBM_fit$setModel()}}
+\item \href{#method-BipartiteSBM_fit-reorder}{\code{BipartiteSBM_fit$reorder()}}
+\item \href{#method-BipartiteSBM_fit-show}{\code{BipartiteSBM_fit$show()}}
+\item \href{#method-BipartiteSBM_fit-clone}{\code{BipartiteSBM_fit$clone()}}
 }
-\if{html}{\out{<details><summary>Inherited methods</summary>
+}
+\if{html}{\out{
+<details><summary>Inherited methods</summary>
 <ul>
-  <li><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="print"><a href='../../sbm/html/SBM.html#method-SBM-print'><code>SBM$print()</code></a></span></li>
-  <li><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="rNetwork"><a href='../../sbm/html/SBM.html#method-SBM-rNetwork'><code>SBM$rNetwork()</code></a></span></li>
-  <li><span class="pkg-link" data-pkg="sbm" data-topic="BipartiteSBM" data-id="plot"><a href='../../sbm/html/BipartiteSBM.html#method-BipartiteSBM-plot'><code>BipartiteSBM$plot()</code></a></span></li>
-  <li><span class="pkg-link" data-pkg="sbm" data-topic="BipartiteSBM" data-id="predict"><a href='../../sbm/html/BipartiteSBM.html#method-BipartiteSBM-predict'><code>BipartiteSBM$predict()</code></a></span></li>
-  <li><span class="pkg-link" data-pkg="sbm" data-topic="BipartiteSBM" data-id="rEdges"><a href='../../sbm/html/BipartiteSBM.html#method-BipartiteSBM-rEdges'><code>BipartiteSBM$rEdges()</code></a></span></li>
-  <li><span class="pkg-link" data-pkg="sbm" data-topic="BipartiteSBM" data-id="rMemberships"><a href='../../sbm/html/BipartiteSBM.html#method-BipartiteSBM-rMemberships'><code>BipartiteSBM$rMemberships()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="print"><a href='../../sbm/html/SBM.html#method-SBM-print'><code>sbm::SBM$print()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="rNetwork"><a href='../../sbm/html/SBM.html#method-SBM-rNetwork'><code>sbm::SBM$rNetwork()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="sbm" data-topic="BipartiteSBM" data-id="plot"><a href='../../sbm/html/BipartiteSBM.html#method-BipartiteSBM-plot'><code>sbm::BipartiteSBM$plot()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="sbm" data-topic="BipartiteSBM" data-id="predict"><a href='../../sbm/html/BipartiteSBM.html#method-BipartiteSBM-predict'><code>sbm::BipartiteSBM$predict()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="sbm" data-topic="BipartiteSBM" data-id="rEdges"><a href='../../sbm/html/BipartiteSBM.html#method-BipartiteSBM-rEdges'><code>sbm::BipartiteSBM$rEdges()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="sbm" data-topic="BipartiteSBM" data-id="rMemberships"><a href='../../sbm/html/BipartiteSBM.html#method-BipartiteSBM-rMemberships'><code>sbm::BipartiteSBM$rMemberships()</code></a></span></li>
 </ul>
-</details>}}
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-BipartiteSBM_fit-initialize"></a>}}
-\if{latex}{\out{\hypertarget{method-BipartiteSBM_fit-initialize}{}}}
-\subsection{\code{BipartiteSBM_fit$new()}}{
-  constructor for a Bipartite SBM fit
-  \subsection{Usage}{
-    \if{html}{\out{<div class="r">}}
-    \preformatted{BipartiteSBM_fit$new(
+\if{html}{\out{<a id="method-BipartiteSBM_fit-new"></a>}}
+\if{latex}{\out{\hypertarget{method-BipartiteSBM_fit-new}{}}}
+\subsection{Method \code{new()}}{
+constructor for a Bipartite SBM fit
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{BipartiteSBM_fit$new(
   incidenceMatrix,
   model,
   dimLabels = c(row = "row", col = "col"),
   covarList = list(),
   nodesCovarList = vector("list", 2)
-)}
-    \if{html}{\out{</div>}}
-  }
-  \subsection{Arguments}{
-    \if{html}{\out{<div class="arguments">}}
-    \describe{
-      \item{\code{incidenceMatrix}}{rectangular (weighted) matrix}
-      \item{\code{model}}{character (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'})}
-      \item{\code{dimLabels}}{labels of each dimension (in row, in columns)}
-      \item{\code{covarList}}{an  optional list of covariates, each of whom must have the same dimension as \code{incidenceMatrix}}
-      \item{\code{nodesCovarList}}{an  optional list of two matrices of covariates, each of whom must have the same dimension as \code{incidenceMatrix}}
-    }
-    \if{html}{\out{</div>}}
-  }
+)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{incidenceMatrix}}{rectangular (weighted) matrix}
+
+\item{\code{model}}{character (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'})}
+
+\item{\code{dimLabels}}{labels of each dimension (in row, in columns)}
+
+\item{\code{covarList}}{an  optional list of covariates, each of whom must have the same dimension as \code{incidenceMatrix}}
+
+\item{\code{nodesCovarList}}{an  optional list of two matrices of covariates, each of whom must have the same dimension as \code{incidenceMatrix}}
+}
+\if{html}{\out{</div>}}
+}
+}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-BipartiteSBM_fit-optimize"></a>}}
 \if{latex}{\out{\hypertarget{method-BipartiteSBM_fit-optimize}{}}}
-\subsection{\code{BipartiteSBM_fit$optimize()}}{
-  function to perform optimization
-  \subsection{Usage}{
-    \if{html}{\out{<div class="r">}}
-    \preformatted{BipartiteSBM_fit$optimize(estimOptions = list())}
-    \if{html}{\out{</div>}}
-  }
-  \subsection{Arguments}{
-    \if{html}{\out{<div class="arguments">}}
-    \describe{
-      \item{\code{estimOptions}}{a list of parameters controlling the inference algorithm and model selection. See details.}
-    }
-    \if{html}{\out{</div>}}
-  }
+\subsection{Method \code{optimize()}}{
+function to perform optimization
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{BipartiteSBM_fit$optimize(estimOptions = list())}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{estimOptions}}{a list of parameters controlling the inference algorithm and model selection. See details.}
+}
+\if{html}{\out{</div>}}
+}
+}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-BipartiteSBM_fit-setModel"></a>}}
 \if{latex}{\out{\hypertarget{method-BipartiteSBM_fit-setModel}{}}}
-\subsection{\code{BipartiteSBM_fit$setModel()}}{
-  method to select a specific model among the ones fitted during the optimization.
+\subsection{Method \code{setModel()}}{
+method to select a specific model among the ones fitted during the optimization.
 Fields of the current SBM_fit will be updated accordingly.
-  \subsection{Usage}{
-    \if{html}{\out{<div class="r">}}
-    \preformatted{BipartiteSBM_fit$setModel(index)}
-    \if{html}{\out{</div>}}
-  }
-  \subsection{Arguments}{
-    \if{html}{\out{<div class="arguments">}}
-    \describe{
-      \item{\code{index}}{integer, the index of the model to be selected (row number in storedModels)}
-    }
-    \if{html}{\out{</div>}}
-  }
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{BipartiteSBM_fit$setModel(index)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{index}}{integer, the index of the model to be selected (row number in storedModels)}
+}
+\if{html}{\out{</div>}}
+}
+}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-BipartiteSBM_fit-reorder"></a>}}
 \if{latex}{\out{\hypertarget{method-BipartiteSBM_fit-reorder}{}}}
-\subsection{\code{BipartiteSBM_fit$reorder()}}{
-  permute group labels by order of decreasing probability
-  \subsection{Usage}{
-    \if{html}{\out{<div class="r">}}
-    \preformatted{BipartiteSBM_fit$reorder()}
-    \if{html}{\out{</div>}}
-  }
+\subsection{Method \code{reorder()}}{
+permute group labels by order of decreasing probability
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{BipartiteSBM_fit$reorder()}\if{html}{\out{</div>}}
 }
 
+}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-BipartiteSBM_fit-show"></a>}}
 \if{latex}{\out{\hypertarget{method-BipartiteSBM_fit-show}{}}}
-\subsection{\code{BipartiteSBM_fit$show()}}{
-  show method
-  \subsection{Usage}{
-    \if{html}{\out{<div class="r">}}
-    \preformatted{BipartiteSBM_fit$show(type = "Fit of a Bipartite Stochastic Block Model")}
-    \if{html}{\out{</div>}}
-  }
-  \subsection{Arguments}{
-    \if{html}{\out{<div class="arguments">}}
-    \describe{
-      \item{\code{type}}{character used to specify the type of SBM}
-    }
-    \if{html}{\out{</div>}}
-  }
+\subsection{Method \code{show()}}{
+show method
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{BipartiteSBM_fit$show(type = "Fit of a Bipartite Stochastic Block Model")}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{type}}{character used to specify the type of SBM}
+}
+\if{html}{\out{</div>}}
+}
+}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-BipartiteSBM_fit-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-BipartiteSBM_fit-clone}{}}}
-\subsection{\code{BipartiteSBM_fit$clone()}}{
-  The objects of this class are cloneable with this method.
-  \subsection{Usage}{
-    \if{html}{\out{<div class="r">}}
-    \preformatted{BipartiteSBM_fit$clone(deep = FALSE)}
-    \if{html}{\out{</div>}}
-  }
-  \subsection{Arguments}{
-    \if{html}{\out{<div class="arguments">}}
-    \describe{
-      \item{\code{deep}}{Whether to make a deep clone.}
-    }
-    \if{html}{\out{</div>}}
-  }
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{BipartiteSBM_fit$clone(deep = FALSE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
 }

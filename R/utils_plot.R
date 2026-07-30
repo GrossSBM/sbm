@@ -548,7 +548,10 @@ plotMesoMultipartite <- function(E,theta, list_pi,v_distrib,directed,nbNodes,nod
   list_thetaMean <- lapply(theta,function(u){u$mean})
 
   #------------------------------------------list of colors and forms  ---------
-  colors <- c('salmon2','darkolivegreen3','cadetblue2','darkgoldenrod2','lightsteelblue1','plum2','seagreen')
+  colors = plotOptions$colors
+  if(is.null(colors)){
+    colors <- c('salmon2','darkolivegreen3','cadetblue2','darkgoldenrod2','lightsteelblue1','plum2','seagreen')
+  }
   if ( (nbFG > length(colors)) & is.null(plotOptions$vertex.color)){stop('Too many FG. Define your own vertex.color')}
   forms <- c('circle', 'square', 'csquare', 'rectangle' , 'crectangle', 'vrectangle', 'pie', 'raster', 'sphere')
   if ( (nbFG > length(colors)) & is.null(plotOptions$vertexshape)){stop('Too many FG. Define your own vertex.shape')}

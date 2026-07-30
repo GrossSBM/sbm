@@ -15,7 +15,7 @@ test_that("BipartiteSBM_fit 'Bernoulli' model, undirected, no covariate", {
   connectParam <- list(mean = means)
 
   ## Basic construction - check for wrong specifications
-  mySampler <- BipartiteSBM$new("bernoulli", nbNodes, blockProp, connectParam)
+  mySampler <- BipartiteSBM$new("bernoulli", nbNodes, blockProp = blockProp, connectParam)
   mySampler$rMemberships(store = TRUE)
   mySampler$rEdges(store = TRUE)
 
@@ -48,7 +48,9 @@ test_that("BipartiteSBM_fit 'Bernoulli' model, undirected, no covariate", {
 
   ## Estimation-----------------------------------------------------------------
   BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0))
-  mySBM$setModel(4)
+  w = which((mySBM$storedModels$nbRowBlocks==nbBlocks[1])&(mySBM$storedModels$nbColBlocks ==nbBlocks[2]))
+  ind_w <- mySBM$storedModels[,1][w]
+  mySBM$setModel(ind_w)
 
   expect_equal(mySBM$nbConnectParam, unname(nbBlocks[1] * nbBlocks[2]))
   expect_equal(mySBM$penalty, unname(nbBlocks[1] * nbBlocks[2] * log(nbNodes[1] * nbNodes[2]) + (nbBlocks[1] - 1) * log(nbNodes[1]) + (nbBlocks[2] - 1) * log(nbNodes[2])))
@@ -83,7 +85,7 @@ test_that("BipartiteSBM_fit 'Bernoulli' model, undirected, no covariate", {
   ## prediction wrt BM
   for (Q in mySBM$storedModels$indexModel) {
     pred_bm <- BM_out$prediction(Q = Q)
-    mySBM$setModel(Q - 1)
+    mySBM$setModel(Q)
     pred_sbm <- predict(mySBM)
     expect_lt(rmse(pred_bm, pred_sbm), 1e-12)
   }
@@ -128,7 +130,9 @@ test_that("BipartiteSBM_fit 'Poisson' model, undirected, no covariate", {
 
   ## Estimation-----------------------------------------------------------------
   BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0))
-  mySBM$setModel(4)
+  w = which((mySBM$storedModels$nbRowBlocks==nbBlocks[1])&(mySBM$storedModels$nbColBlocks ==nbBlocks[2]))
+  ind_w <- mySBM$storedModels[,1][w]
+  mySBM$setModel(ind_w)
 
   ## Expectation
   expect_equal(dim(mySBM$expectation), nbNodes)
@@ -157,7 +161,7 @@ test_that("BipartiteSBM_fit 'Poisson' model, undirected, no covariate", {
   ## prediction wrt BM
   for (Q in mySBM$storedModels$indexModel) {
     pred_bm <- BM_out$prediction(Q = Q)
-    mySBM$setModel(Q - 1)
+    mySBM$setModel(Q)
     pred_sbm <- predict(mySBM)
     expect_lt(rmse(pred_bm, pred_sbm), 1e-12)
   }
@@ -202,7 +206,9 @@ test_that("BipartiteSBM_fit 'Gaussian' model, undirected, no covariate", {
 
   ## Estimation-----------------------------------------------------------------
   BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0))
-  mySBM$setModel(4)
+  w = which((mySBM$storedModels$nbRowBlocks==nbBlocks[1])&(mySBM$storedModels$nbColBlocks ==nbBlocks[2]))
+  ind_w <- mySBM$storedModels[,1][w]
+  mySBM$setModel(ind_w)
 
   ## Expectation
   expect_equal(dim(mySBM$expectation), nbNodes)
@@ -230,7 +236,7 @@ test_that("BipartiteSBM_fit 'Gaussian' model, undirected, no covariate", {
   ## prediction wrt BM
   for (Q in mySBM$storedModels$indexModel) {
     pred_bm <- BM_out$prediction(Q = Q)
-    mySBM$setModel(Q - 1)
+    mySBM$setModel(Q)
     pred_sbm <- predict(mySBM)
     expect_lt(rmse(pred_bm, pred_sbm), 1e-12)
   }
@@ -306,7 +312,10 @@ test_that("BipartiteSBM_fit 'Bernoulli' model, undirected, no covariate", {
 
   ## Estimation-----------------------------------------------------------------
   BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0))
-  mySBM$setModel(4)
+  w = which((mySBM$storedModels$nbRowBlocks==nbBlocks[1])&(mySBM$storedModels$nbColBlocks ==nbBlocks[2]))
+  ind_w <- mySBM$storedModels[,1][w]
+  mySBM$setModel(ind_w)
+
 
   expect_equal(mySBM$nbConnectParam, unname(nbBlocks[1] * nbBlocks[2]))
   expect_equal(mySBM$penalty, unname(nbBlocks[1] * nbBlocks[2] * log(sum(mask)) + (nbBlocks[1] - 1) * log(nbNodes[1]) + (nbBlocks[2] - 1) * log(nbNodes[2])))
@@ -342,7 +351,7 @@ test_that("BipartiteSBM_fit 'Bernoulli' model, undirected, no covariate", {
   ## prediction wrt BM
   for (Q in mySBM$storedModels$indexModel) {
     pred_bm <- BM_out$prediction(Q = Q)
-    mySBM$setModel(Q - 1)
+    mySBM$setModel(Q)
     pred_sbm <- predict(mySBM)
     expect_lt(rmse(pred_bm, pred_sbm), 1e-12)
   }

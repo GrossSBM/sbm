@@ -5,58 +5,61 @@
 \title{R6 Class definition of a Multipartite SBM}
 \description{
 R6 Class definition of a Multipartite SBM
+
+R6 Class definition of a Multipartite SBM
 }
 \section{Super class}{
-\code{\link[sbm:SBM]{SBM}} -> \code{MultipartiteSBM}
+\code{\link[sbm:SBM]{sbm::SBM}} -> \code{MultipartiteSBM}
 }
 \section{Active bindings}{
-  \if{html}{\out{<div class="r6-active-bindings">}}
-  \describe{
-    \item{\code{dimLabels}}{vector of characters giving the label of each connected dimension}
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{dimLabels}}{vector of characters giving the label of each connected dimension}
 
-    \item{\code{blockProp}}{list of two vectors of block proportions (aka prior probabilities of each block)}
+\item{\code{blockProp}}{list of two vectors of block proportions (aka prior probabilities of each block)}
 
-    \item{\code{connectParam}}{parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli}
+\item{\code{connectParam}}{parameters associated to the connectivity of the SBM, e.g. matrix of inter/inter block probabilities when model is Bernoulli}
 
-    \item{\code{probMemberships}}{matrix of estimated probabilities for block memberships for all nodes}
+\item{\code{probMemberships}}{matrix of estimated probabilities for block memberships for all nodes}
 
-    \item{\code{nbBlocks}}{: vector with the number of blocks in each FG}
+\item{\code{nbBlocks}}{: vector with the number of blocks in each FG}
 
-    \item{\code{nbConnectParam}}{number of parameter used for the connectivity}
+\item{\code{nbConnectParam}}{number of parameter used for the connectivity}
 
-    \item{\code{architecture}}{organization of the multipartite network}
+\item{\code{architecture}}{organization of the multipartite network}
 
-    \item{\code{nbNetworks}}{number of networks in the multipartite network}
+\item{\code{nbNetworks}}{number of networks in the multipartite network}
 
-    \item{\code{memberships}}{list of size 2: vector of memberships in all parts of the network}
+\item{\code{memberships}}{list of size 2: vector of memberships in all parts of the network}
 
-    \item{\code{indMemberships}}{matrix for clustering memberships}
-  }
-  \if{html}{\out{</div>}}
+\item{\code{indMemberships}}{matrix for clustering memberships}
+}
+\if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-  \itemize{
-    \item \href{#method-MultipartiteSBM-initialize}{\code{MultipartiteSBM$new()}}
-    \item \href{#method-MultipartiteSBM-show}{\code{MultipartiteSBM$show()}}
-    \item \href{#method-MultipartiteSBM-print}{\code{MultipartiteSBM$print()}}
-    \item \href{#method-MultipartiteSBM-plot}{\code{MultipartiteSBM$plot()}}
-    \item \href{#method-MultipartiteSBM-clone}{\code{MultipartiteSBM$clone()}}
-  }
+\itemize{
+\item \href{#method-MultipartiteSBM-new}{\code{MultipartiteSBM$new()}}
+\item \href{#method-MultipartiteSBM-show}{\code{MultipartiteSBM$show()}}
+\item \href{#method-MultipartiteSBM-print}{\code{MultipartiteSBM$print()}}
+\item \href{#method-MultipartiteSBM-plot}{\code{MultipartiteSBM$plot()}}
+\item \href{#method-MultipartiteSBM-clone}{\code{MultipartiteSBM$clone()}}
 }
-\if{html}{\out{<details open><summary>Inherited methods</summary>
+}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
 <ul>
-  <li><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="rNetwork"><a href='../../sbm/html/SBM.html#method-SBM-rNetwork'><code>SBM$rNetwork()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="rNetwork"><a href='../../sbm/html/SBM.html#method-SBM-rNetwork'><code>sbm::SBM$rNetwork()</code></a></span></li>
 </ul>
-</details>}}
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-MultipartiteSBM-initialize"></a>}}
-\if{latex}{\out{\hypertarget{method-MultipartiteSBM-initialize}{}}}
-\subsection{\code{MultipartiteSBM$new()}}{
-  constructor for Multipartite SBM
-  \subsection{Usage}{
-    \if{html}{\out{<div class="r">}}
-    \preformatted{MultipartiteSBM$new(
+\if{html}{\out{<a id="method-MultipartiteSBM-new"></a>}}
+\if{latex}{\out{\hypertarget{method-MultipartiteSBM-new}{}}}
+\subsection{Method \code{new()}}{
+constructor for Multipartite SBM
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MultipartiteSBM$new(
   model = character(0),
   architecture = matrix(NA, 0, 2),
   directed = logical(0),
@@ -64,97 +67,96 @@ R6 Class definition of a Multipartite SBM
   dimLabels = character(0),
   blockProp = list(),
   connectParam = list()
-)}
-    \if{html}{\out{</div>}}
-  }
-  \subsection{Arguments}{
-    \if{html}{\out{<div class="arguments">}}
-    \describe{
-      \item{\code{model}}{character describing the type of model}
-      \item{\code{architecture}}{a 2-column matrix describing interactions between the networks}
-      \item{\code{directed}}{vector of logical: are the network directed or not?}
-      \item{\code{nbNodes}}{number of nodes in each dimension/part of the network}
-      \item{\code{dimLabels}}{labels of each par of the network}
-      \item{\code{blockProp}}{parameters for block proportions (vector of list of vectors)}
-      \item{\code{connectParam}}{parameters of connectivity (vector of list of vectors)}
-    }
-    \if{html}{\out{</div>}}
-  }
+)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{model}}{character describing the type of model}
+
+\item{\code{architecture}}{a 2-column matrix describing interactions between the networks}
+
+\item{\code{directed}}{vector of logical: are the network directed or not?}
+
+\item{\code{nbNodes}}{number of nodes in each dimension/part of the network}
+
+\item{\code{dimLabels}}{labels of each par of the network}
+
+\item{\code{blockProp}}{parameters for block proportions (vector of list of vectors)}
+
+\item{\code{connectParam}}{parameters of connectivity (vector of list of vectors)}
+}
+\if{html}{\out{</div>}}
+}
+}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MultipartiteSBM-show"></a>}}
 \if{latex}{\out{\hypertarget{method-MultipartiteSBM-show}{}}}
-\subsection{\code{MultipartiteSBM$show()}}{
-  print method
-  \subsection{Usage}{
-    \if{html}{\out{<div class="r">}}
-    \preformatted{MultipartiteSBM$show(type = "Multipartite Stochastic Block Model")}
-    \if{html}{\out{</div>}}
-  }
-  \subsection{Arguments}{
-    \if{html}{\out{<div class="arguments">}}
-    \describe{
-      \item{\code{type}}{character to tune the displayed name}
-    }
-    \if{html}{\out{</div>}}
-  }
+\subsection{Method \code{show()}}{
+print method
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MultipartiteSBM$show(type = "Multipartite Stochastic Block Model")}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{type}}{character to tune the displayed name}
+}
+\if{html}{\out{</div>}}
+}
+}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MultipartiteSBM-print"></a>}}
 \if{latex}{\out{\hypertarget{method-MultipartiteSBM-print}{}}}
-\subsection{\code{MultipartiteSBM$print()}}{
-  print method
-  \subsection{Usage}{
-    \if{html}{\out{<div class="r">}}
-    \preformatted{MultipartiteSBM$print()}
-    \if{html}{\out{</div>}}
-  }
+\subsection{Method \code{print()}}{
+print method
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MultipartiteSBM$print()}\if{html}{\out{</div>}}
 }
 
+}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MultipartiteSBM-plot"></a>}}
 \if{latex}{\out{\hypertarget{method-MultipartiteSBM-plot}{}}}
-\subsection{\code{MultipartiteSBM$plot()}}{
-  plot Multipartite Network
-  \subsection{Usage}{
-    \if{html}{\out{<div class="r">}}
-    \preformatted{MultipartiteSBM$plot(
+\subsection{Method \code{plot()}}{
+plot Multipartite Network
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MultipartiteSBM$plot(
   type = c("data", "expected", "meso"),
   ordered = TRUE,
   plotOptions = list()
-)}
-    \if{html}{\out{</div>}}
-  }
-  \subsection{Arguments}{
-    \if{html}{\out{<div class="arguments">}}
-    \describe{
-      \item{\code{type}}{character for the type of plot: either 'data' (true connection), 'expected' (fitted connection) or 'meso' (mesoscopic view). Default to 'data'.}
-      \item{\code{ordered}}{TRUE is the matrices are plotted after reorganization with the blocks. Default value = TRUE}
-      \item{\code{plotOptions}}{list of plot options for the mesoscopic view or matrix view}
-    }
-    \if{html}{\out{</div>}}
-  }
+)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{type}}{character for the type of plot: either 'data' (true connection), 'expected' (fitted connection) or 'meso' (mesoscopic view). Default to 'data'.}
+
+\item{\code{ordered}}{TRUE is the matrices are plotted after reorganization with the blocks. Default value = TRUE}
+
+\item{\code{plotOptions}}{list of plot options for the mesoscopic view or matrix view}
+}
+\if{html}{\out{</div>}}
+}
+}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MultipartiteSBM-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-MultipartiteSBM-clone}{}}}
-\subsection{\code{MultipartiteSBM$clone()}}{
-  The objects of this class are cloneable with this method.
-  \subsection{Usage}{
-    \if{html}{\out{<div class="r">}}
-    \preformatted{MultipartiteSBM$clone(deep = FALSE)}
-    \if{html}{\out{</div>}}
-  }
-  \subsection{Arguments}{
-    \if{html}{\out{<div class="arguments">}}
-    \describe{
-      \item{\code{deep}}{Whether to make a deep clone.}
-    }
-    \if{html}{\out{</div>}}
-  }
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MultipartiteSBM$clone(deep = FALSE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
 }
