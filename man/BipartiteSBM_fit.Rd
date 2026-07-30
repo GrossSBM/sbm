@@ -62,7 +62,8 @@ constructor for a Bipartite SBM fit
   incidenceMatrix,
   model,
   dimLabels = c(row = "row", col = "col"),
-  covarList = list()
+  covarList = list(),
+  nodesCovarList = vector("list", 2)
 )}\if{html}{\out{</div>}}
 }
 
@@ -75,7 +76,9 @@ constructor for a Bipartite SBM fit
 
 \item{\code{dimLabels}}{labels of each dimension (in row, in columns)}
 
-\item{\code{covarList}}{and optional list of covariates, each of whom must have the same dimension as \code{incidenceMatrix}}
+\item{\code{covarList}}{an  optional list of covariates, each of whom must have the same dimension as \code{incidenceMatrix}}
+
+\item{\code{nodesCovarList}}{an  optional list of two matrices of covariates, each of whom must have the same dimension as \code{incidenceMatrix}}
 }
 \if{html}{\out{</div>}}
 }

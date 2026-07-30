@@ -27,8 +27,12 @@ as_clustering <- function(indicator) {
 .logit    <- function(x) {log(x/(1 - x))}
 
 .softmax <- function(x) {
-  b <- max(x)
-  exp(x - b) / sum(exp(x - b))
+  if(!is.matrix(x)){x1 = matrix(x,nrow=1)}else{x1=x}
+  x_shift <- x1 - apply(x1, 1, max)
+  ex <- exp(x_shift)
+  res <- ex / rowSums(ex)
+  if(!is.matrix(x)){res = as.vector(res)}
+  return(res)
 }
 
 .na2zero <- function(x) {

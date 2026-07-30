@@ -63,7 +63,8 @@ constructor for a Simple SBM fit
   model,
   directed,
   dimLabels = c(node = "nodeName"),
-  covarList = list()
+  covarList = list(),
+  nodesCovarList = list(matrix(nrow = 0, ncol = 0))
 )}\if{html}{\out{</div>}}
 }
 
@@ -79,6 +80,8 @@ constructor for a Simple SBM fit
 \item{\code{dimLabels}}{list of labels of each dimension (in row, in columns)}
 
 \item{\code{covarList}}{and optional list of covariates, each of whom must have the same dimension as \code{adjacencyMatrix}}
+
+\item{\code{nodesCovarList}}{optional list of one  matrix with nodes covariates}
 }
 \if{html}{\out{</div>}}
 }

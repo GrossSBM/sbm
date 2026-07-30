@@ -9,6 +9,7 @@ estimateBipartiteSBM(
   model = "bernoulli",
   dimLabels = c(row = "row", col = "col"),
   covariates = list(),
+  nodesCovariates = vector("list", 2),
   estimOptions = list()
 )
 }
@@ -20,6 +21,8 @@ estimateBipartiteSBM(
 \item{dimLabels}{an optional vector of labels for each dimension (in row, in column)}
 
 \item{covariates}{a list of matrices with same dimension as mat describing covariates at the edge level. No covariate per Default.}
+
+\item{nodesCovariates}{a list of two matrices with the same number of rows as the number of nodes in rows and cols in the network, describing the nodes covariates for each type of nodes. No nodes covariates per default.}
 
 \item{estimOptions}{a list of parameters controlling the inference algorithm and model selection. See details.}
 }

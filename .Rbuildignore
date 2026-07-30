@@ -16,3 +16,4 @@
 ^CRAN-SUBMISSION$
 ^rstudio$
 AUTHORS
+^\.vscode$

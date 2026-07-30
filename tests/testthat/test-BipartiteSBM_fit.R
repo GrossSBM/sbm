@@ -15,7 +15,7 @@ test_that("BipartiteSBM_fit 'Bernoulli' model, undirected, no covariate", {
   connectParam <- list(mean = means)
 
   ## Basic construction - check for wrong specifications
-  mySampler <- BipartiteSBM$new("bernoulli", nbNodes, blockProp, connectParam)
+  mySampler <- BipartiteSBM$new("bernoulli", nbNodes, blockProp = blockProp, connectParam)
   mySampler$rMemberships(store = TRUE)
   mySampler$rEdges(store = TRUE)
 
@@ -48,7 +48,9 @@ test_that("BipartiteSBM_fit 'Bernoulli' model, undirected, no covariate", {
 
   ## Estimation-----------------------------------------------------------------
   BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0))
-  mySBM$setModel(4)
+  w = which((mySBM$storedModels$nbRowBlocks==nbBlocks[1])&(mySBM$storedModels$nbColBlocks ==nbBlocks[2]))
+  ind_w <- mySBM$storedModels[,1][w]
+  mySBM$setModel(ind_w)
 
   expect_equal(mySBM$nbConnectParam, unname(nbBlocks[1] * nbBlocks[2]))
   expect_equal(mySBM$penalty, unname(nbBlocks[1] * nbBlocks[2] * log(nbNodes[1] * nbNodes[2]) + (nbBlocks[1] - 1) * log(nbNodes[1]) + (nbBlocks[2] - 1) * log(nbNodes[2])))
@@ -83,7 +85,7 @@ test_that("BipartiteSBM_fit 'Bernoulli' model, undirected, no covariate", {
   ## prediction wrt BM
   for (Q in mySBM$storedModels$indexModel) {
     pred_bm <- BM_out$prediction(Q = Q)
-    mySBM$setModel(Q - 1)
+    mySBM$setModel(Q)
     pred_sbm <- predict(mySBM)
     expect_lt(rmse(pred_bm, pred_sbm), 1e-12)
   }
@@ -128,7 +130,9 @@ test_that("BipartiteSBM_fit 'Poisson' model, undirected, no covariate", {
 
   ## Estimation-----------------------------------------------------------------
   BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0))
-  mySBM$setModel(4)
+  w = which((mySBM$storedModels$nbRowBlocks==nbBlocks[1])&(mySBM$storedModels$nbColBlocks ==nbBlocks[2]))
+  ind_w <- mySBM$storedModels[,1][w]
+  mySBM$setModel(ind_w)
 
   ## Expectation
   expect_equal(dim(mySBM$expectation), nbNodes)
@@ -157,7 +161,7 @@ test_that("BipartiteSBM_fit 'Poisson' model, undirected, no covariate", {
   ## prediction wrt BM
   for (Q in mySBM$storedModels$indexModel) {
     pred_bm <- BM_out$prediction(Q = Q)
-    mySBM$setModel(Q - 1)
+    mySBM$setModel(Q)
     pred_sbm <- predict(mySBM)
     expect_lt(rmse(pred_bm, pred_sbm), 1e-12)
   }
@@ -202,7 +206,9 @@ test_that("BipartiteSBM_fit 'Gaussian' model, undirected, no covariate", {
 
   ## Estimation-----------------------------------------------------------------
   BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0))
-  mySBM$setModel(4)
+  w = which((mySBM$storedModels$nbRowBlocks==nbBlocks[1])&(mySBM$storedModels$nbColBlocks ==nbBlocks[2]))
+  ind_w <- mySBM$storedModels[,1][w]
+  mySBM$setModel(ind_w)
 
   ## Expectation
   expect_equal(dim(mySBM$expectation), nbNodes)
@@ -230,7 +236,7 @@ test_that("BipartiteSBM_fit 'Gaussian' model, undirected, no covariate", {
   ## prediction wrt BM
   for (Q in mySBM$storedModels$indexModel) {
     pred_bm <- BM_out$prediction(Q = Q)
-    mySBM$setModel(Q - 1)
+    mySBM$setModel(Q)
     pred_sbm <- predict(mySBM)
     expect_lt(rmse(pred_bm, pred_sbm), 1e-12)
   }
@@ -254,4 +260,99 @@ test_that("active bindings are working in the class", {
   expect_equal(myBipartite$memberships[[1]], 1 + (tau1[, 1] < .5) * 1)
   expect_equal(dim(myBipartite$connectParam$mean), c(3, 2))
   expect_equal(length(myBipartite$blockProp), 2)
+})
+
+## NA support -----
+
+test_that("BipartiteSBM_fit 'Bernoulli' model, undirected, no covariate", {
+  ## BIPARTITE UNDIRECTED BERNOULLI SBM
+  means <- matrix(c(0.05, 0.95, 0.4, 0.75, 0.15, 0.6), 2, 3) # connectivity matrix
+  connectParam <- list(mean = means)
+
+  ## Basic construction - check for wrong specifications
+  mySampler <- BipartiteSBM$new("bernoulli", nbNodes, blockProp, connectParam)
+  mySampler$rMemberships(store = TRUE)
+  mySampler$rEdges(store = TRUE)
+
+  M <- mySampler$networkData
+  values_idx <- seq(1, nrow(M) * ncol(M))
+  set.seed(1234)
+  to_remove <- sample(values_idx, max(1, 0.05 * floor(length(values_idx))))
+  true_na_values <- M[to_remove]
+  M[to_remove] <- NA
+
+  mask <- (!is.na(M))*1
+
+  ## Construction----------------------------------------------------------------
+  mySBM <- BipartiteSBM_fit$new(M, "bernoulli")
+  expect_error(BipartiteSBM_fit$new(SamplerBernoulli$networkData, "bernouilli"))
+
+  ## Checking class
+  expect_true(inherits(mySBM, "SBM"))
+  expect_true(inherits(mySBM, "BipartiteSBM"))
+  expect_true(inherits(mySBM, "BipartiteSBM_fit"))
+
+  ## Checking field access and format prior to estimation
+  ## parameters
+  expect_equal(mySBM$modelName, "bernoulli")
+  expect_equal(unname(mySBM$nbNodes), nbNodes)
+  expect_equal(mySBM$nbDyads, sum(mask))
+  expect_true(is.matrix(mySBM$connectParam$mean))
+
+  ## covariates
+  expect_equal(mySBM$covarEffect, numeric(0))
+  expect_equal(mySBM$nbCovariates, 0)
+  expect_equal(mySBM$covarList, list())
+  expect_equal(mySBM$covarParam, numeric(0))
+
+  ## S3 methods
+  expect_equal(coef(mySBM, "connectivity"), mySBM$connectParam)
+  expect_equal(coef(mySBM, "block"), mySBM$blockProp)
+  expect_equal(coef(mySBM, "covariates"), mySBM$covarParam)
+
+  ## Estimation-----------------------------------------------------------------
+  BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0))
+  w = which((mySBM$storedModels$nbRowBlocks==nbBlocks[1])&(mySBM$storedModels$nbColBlocks ==nbBlocks[2]))
+  ind_w <- mySBM$storedModels[,1][w]
+  mySBM$setModel(ind_w)
+
+
+  expect_equal(mySBM$nbConnectParam, unname(nbBlocks[1] * nbBlocks[2]))
+  expect_equal(mySBM$penalty, unname(nbBlocks[1] * nbBlocks[2] * log(sum(mask)) + (nbBlocks[1] - 1) * log(nbNodes[1]) + (nbBlocks[2] - 1) * log(nbNodes[2])))
+  expect_equal(mySBM$entropy, -sum(mySBM$probMemberships[[1]] * log(mySBM$probMemberships[[1]]))
+  - sum(mySBM$probMemberships[[2]] * log(mySBM$probMemberships[[2]])))
+
+  ## Expectation
+  expect_equal(dim(mySBM$expectation), nbNodes)
+  expect_true(all(mySBM$expectation >= 0, na.rm = TRUE))
+  expect_true(all(mySBM$expectation <= 1, na.rm = TRUE))
+  expect_null(mySBM$connectParam$var)
+
+  ## blocks
+  expect_equal(mySBM$nbBlocks, nbBlocks)
+  expect_equivalent(dim(mySBM$probMemberships[[1]]), c(nbNodes[1], nbBlocks[1]))
+  expect_equivalent(dim(mySBM$probMemberships[[2]]), c(nbNodes[2], nbBlocks[2]))
+  expect_equal(sort(unique(mySBM$memberships[[1]])), 1:nbBlocks[1])
+  expect_equal(sort(unique(mySBM$memberships[[2]])), 1:nbBlocks[2])
+
+  ## S3 methods
+  expect_equal(coef(mySBM, "connectivity"), mySBM$connectParam)
+  expect_equal(coef(mySBM, "block"), mySBM$blockProp)
+  expect_equal(coef(mySBM, "covariates"), mySBM$covarParam)
+  expect_equal(mySBM$predict(), predict(mySBM))
+  expect_equal(fitted(mySBM), predict(mySBM))
+
+  ## correctness
+  expect_lt(rmse(sort(mySBM$connectParam$mean), sort(means)), .2)
+  expect_lt(1 - aricode::ARI(mySBM$memberships[[1]], mySampler$memberships[[1]]), .2)
+  expect_lt(1 - aricode::ARI(mySBM$memberships[[2]], mySampler$memberships[[2]]), .2)
+  expect_lt(1 - pROC::auc(true_na_values, predict(mySBM)[to_remove], quiet = TRUE), 0.25)
+
+  ## prediction wrt BM
+  for (Q in mySBM$storedModels$indexModel) {
+    pred_bm <- BM_out$prediction(Q = Q)
+    mySBM$setModel(Q)
+    pred_sbm <- predict(mySBM)
+    expect_lt(rmse(pred_bm, pred_sbm), 1e-12)
+  }
 })

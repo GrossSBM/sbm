@@ -22,11 +22,19 @@ R6 class for Simple SBM
 
 \item{\code{probMemberships}}{matrix of estimated probabilities for block memberships for all nodes}
 
+\item{\code{mask}}{Mask for the (potential) NAs in the adjacency matrix}
+
 \item{\code{nbBlocks}}{number of blocks}
 
 \item{\code{nbDyads}}{number of dyads (potential edges in the network)}
 
 \item{\code{nbConnectParam}}{number of parameter used for the connectivity}
+
+\item{\code{nodesCovariates}}{matrix of covariates on nodes}
+
+\item{\code{nodesCovariatesParam}}{the matrix of  nodes covariates parameters}
+
+\item{\code{nbNodesCovariates}}{nb of covariates on nodes}
 
 \item{\code{memberships}}{vector of clustering}
 
@@ -68,7 +76,9 @@ constructor for SBM
   connectParam,
   dimLabels = c("node"),
   covarParam = numeric(length(covarList)),
-  covarList = list()
+  covarList = list(),
+  nodesCovarList = list(node = matrix(0, 0, 0)),
+  nodesCovarParam = list(node = matrix(0, 0, 0))
 )}\if{html}{\out{</div>}}
 }
 
@@ -90,6 +100,10 @@ constructor for SBM
 \item{\code{covarParam}}{optional vector of covariates effect}
 
 \item{\code{covarList}}{optional list of covariates data}
+
+\item{\code{nodesCovarList}}{optional list of one matrix with nodes covariates}
+
+\item{\code{nodesCovarParam}}{optional list of one matrix of parameters of effects of nodes covariates on clustering}
 }
 \if{html}{\out{</div>}}
 }

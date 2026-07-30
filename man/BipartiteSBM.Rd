@@ -24,6 +24,8 @@ R6 class for Bipartite SBM
 
 \item{\code{nbBlocks}}{vector of size 2: number of blocks (rows, columns)}
 
+\item{\code{mask}}{Mask for the (potential) NAs in the adjacency matrix}
+
 \item{\code{nbDyads}}{number of dyads (potential edges in the network)}
 
 \item{\code{nbConnectParam}}{number of parameter used for the connectivity}
@@ -63,11 +65,13 @@ constructor for SBM
 \if{html}{\out{<div class="r">}}\preformatted{BipartiteSBM$new(
   model,
   nbNodes,
-  blockProp,
-  connectParam,
+  blockProp = vector("list", 2),
+  connectParam = list(mean = matrix(0, 0, 0)),
   dimLabels = c(row = "row", col = "col"),
   covarParam = numeric(length(covarList)),
-  covarList = list()
+  covarList = list(),
+  nodesCovarList = vector("list", 2),
+  nodesCovarParam = vector("list", 2)
 )}\if{html}{\out{</div>}}
 }
 
@@ -87,6 +91,10 @@ constructor for SBM
 \item{\code{covarParam}}{optional vector of covariates effect}
 
 \item{\code{covarList}}{optional list of covariates data}
+
+\item{\code{nodesCovarList}}{optional list of two matrices with nodes covariates}
+
+\item{\code{nodesCovarParam}}{optional list of two matrices of parameters of effects of nodes covariates on clustering}
 }
 \if{html}{\out{</div>}}
 }

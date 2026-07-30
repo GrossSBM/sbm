@@ -20,13 +20,13 @@ License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
 Suggests: 
     testthat,
     spelling,
     knitr,
     rmarkdown,
     aricode,
+    pROC,
     covr
 Language: en-US
 Imports: 
@@ -34,7 +34,7 @@ Imports:
     magrittr,
     dplyr,
     purrr,
-    blockmodels,
+    blockmodels (>= 1.2.1),
     R6,
     Rcpp,
     igraph,
@@ -74,3 +74,7 @@ LinkingTo:
 VignetteBuilder: knitr
 Depends: 
     R (>= 3.5.0)
+Remotes:
+    Polarolouis/blockmodels
+Config/roxygen2/version: 8.0.0
+RoxygenNote: 7.3.2

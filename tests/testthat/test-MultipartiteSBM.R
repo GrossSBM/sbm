@@ -33,7 +33,10 @@ test_that("initializing Multipartite SBM works", {
     expect_equal(unname(myMBM$networkData[[2]]$nbNodes),c(Q*npc,20))
     expect_equal(unname(myMBM$architecture), matrix(c(1,1,1,2), 2,2))
     if (packageVersion("purrr") >= "1.0.0") {
-      expect_equal(myMBM$blockProp, list(numeric(0), list(numeric(0), numeric(0))))
+      test_list <- vector('list',2)
+      test_list[[1]] = numeric(0)
+      test_list[[2]] = list(Actor=numeric(0),Stuff=numeric(0));
+      expect_equal(myMBM$blockProp,test_list )
     }
     expect_equal(myMBM$connectParam,
                       list(list(mean = matrix(0,0,0)), list(mean = matrix(0,0,0))))
