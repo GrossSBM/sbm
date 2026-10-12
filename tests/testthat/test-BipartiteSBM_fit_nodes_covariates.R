@@ -85,7 +85,7 @@ test_that("BipartiteSBM_fit 'Bernoulli' model, with nodes covariates (row and co
     expect_equal(dim(mySBM$nodesCovariates[[2]]), c(nbNodes[2], nbNodesCovarCol))
 
     ## Estimation
-    BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0, fast = TRUE))
+    BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0, fast = TRUE, nbCores = 1))
     mySBM$setModel(4)
 
     ## Expectation
@@ -145,7 +145,7 @@ test_that("BipartiteSBM_fit 'Bernoulli' model, with nodes covariates (row only)"
     expect_equal(dim(mySBM$nodesCovariates[["row"]]), c(nbNodes[1], nbNodesCovarRow))
 
     ## Estimation
-    BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0, fast = TRUE))
+    BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0, fast = TRUE, nbCores = 1))
     mySBM$setModel(2)
 
     ## Expectation
@@ -181,7 +181,7 @@ test_that("BipartiteSBM_fit 'Poisson' model, with nodes covariates", {
     expect_equal(length(mySBM$nodesCovariates), 2)
 
     ## Estimation
-    BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0, fast = TRUE))
+    BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0, fast = TRUE, nbCores = 1))
     mySBM$setModel(2)
 
     ## Expectation
@@ -217,7 +217,7 @@ test_that("BipartiteSBM_fit 'Gaussian' model, with nodes covariates", {
     expect_equal(unname(mySBM$nbNodesCovariates["col"]), nbNodesCovarCol)
 
     ## Estimation
-    BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0, fast = TRUE))
+    BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0, fast = TRUE, nbCores = 1))
     mySBM$setModel(2)
 
     ## Expectation
@@ -248,4 +248,42 @@ test_that("BipartiteSBM_fit without nodes covariates returns zero dimensions", {
 
     ## nodesCovariates should be empty
     expect_equal(length(mySBM$nodesCovariates), 0)
+})
+
+#------------------------------------------------------------------------------------------
+#---------------------------- TEST  nodes covariates on one side only, given as NULL
+#------------------------------------------------------------------------------------------
+
+test_that("BipartiteSBM_fit with nodes covariates on one side only, the other being NULL", {
+    means <- matrix(c(
+        0.05, 0.95, 0.40,
+        0.75, 0.15, 0.60,
+        0.30, 0.85, 0.10
+    ), 3, 3, byrow = TRUE)
+    connectParam <- list(mean = means)
+
+    mySampler <- BipartiteSBM$new("bernoulli", nbNodes = nbNodes, blockProp = vector('list',2), connectParam = connectParam,
+                                  nodesCovarList = nodesCovarList, nodesCovarParam = nodesCovariatesParam
+    )
+    mySampler$rMemberships(store = TRUE)
+    mySampler$rEdges(store = TRUE)
+
+    ## covariates on col only, row = NULL (default of estimateBipartiteSBM)
+    mySBM <- estimateBipartiteSBM(mySampler$networkData, "bernoulli",
+                                  nodesCovariates = list(NULL, nodesCovarCol),
+                                  estimOptions = list(verbosity = 0, plot = FALSE, nbCores = 1))
+    expect_equal(unname(mySBM$nbNodesCovariates), c(0, nbNodesCovarCol))
+    expect_true(is.vector(mySBM$blockProp$row))
+    expect_equal(length(mySBM$blockProp$row), unname(mySBM$nbBlocks["row"]))
+    expect_equal(dim(mySBM$expectation), nbNodes)
+
+    ## covariates on row only, col = NULL
+    mySBM <- BipartiteSBM_fit$new(mySampler$networkData, "bernoulli",
+                                  nodesCovarList = list(row = nodesCovarRow, col = NULL))
+    BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0, plot = FALSE, nbCores = 1))
+    expect_equal(unname(mySBM$nbNodesCovariates), c(nbNodesCovarRow, 0))
+    expect_true(is.vector(mySBM$blockProp$col))
+    expect_equal(length(mySBM$blockProp$col), unname(mySBM$nbBlocks["col"]))
+    mySBM$setModel(2)
+    expect_equal(dim(mySBM$expectation), nbNodes)
 })

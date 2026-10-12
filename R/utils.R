@@ -35,6 +35,13 @@ as_clustering <- function(indicator) {
   return(res)
 }
 
+## check that 'model' is a single character among the possible models
+## (by default, the models for which the inference is implemented in estimateSimpleSBM / estimateBipartiteSBM)
+.check_model <- function(model, possible_models = c('bernoulli', 'poisson', 'gaussian')) {
+  if (!(is.character(model) && length(model) == 1 && model %in% possible_models))
+    stop("The argument model must belong to: ", paste(possible_models, collapse = ", "), call. = FALSE)
+}
+
 .na2zero <- function(x) {
   x[is.na(x)] <- 0
   x

@@ -32,14 +32,14 @@ BipartiteSBM_fit <-
         private$pi <- list(row = private$BMobject$memberships[[index]]$alpha1, col = private$BMobject$memberships[[index]]$alpha2)
         if (length(private$BMobject$memberships[[index]][["B"]]) > 0) {
           private[["B"]][[1]] <- private$BMobject$memberships[[index]][["B"]]
-          if(ncol(private$Xnodes[[1]])==0){
+          if(self$nbNodesCovariates[1]==0){
             private[["B"]][[1]]=matrix(0,0,0)
             private$pi[[1]] = private$pi[[1]][1,]
             }
         }
         if (length(private$BMobject$memberships[[index]][["G"]]) > 0) {
           private[["B"]][[2]] <- private$BMobject$memberships[[index]][["G"]]
-          if(ncol(private$Xnodes[[2]])==0){
+          if(self$nbNodesCovariates[2]==0){
             private[["B"]][[2]]=matrix(0,0,0)
             private$pi[[2]] = private$pi[[2]][1,]}
         }
@@ -171,24 +171,18 @@ BipartiteSBM_fit <-
       reorder = function() {
 
         are_covariates <-sapply(1:2,function(l){ (self$nbNodesCovariates[l] > 0 && self$nbBlocks[l] >= 2L && is.matrix(private$pi[[l]]))})
-        o  <- lapply(2:1,function(l){
-         if(are_covariates[l]) {
-            pi_l <- colMeans(private$pi[[l]])
-          }else{
-            pi_l <- private$pi[[l]]
-          }
-          if (l==1){
-            o_l <- order( pi_l%*%private$theta$mean, decreasing = TRUE)
-            }else{
-            o_l <- order( private$theta$mean %*% pi_l, decreasing = TRUE)
-            }
-          return(o_l)})
-
+        ## mean block proportions on each side
+        pi_mean <- lapply(1:2, function(l) if (are_covariates[l]) colMeans(private$pi[[l]]) else private$pi[[l]])
+        ## row blocks: mean connection to an average col node
+        oRow <- order(private$theta$mean %*% pi_mean[[2]], decreasing = TRUE)
+        ## col blocks: mean connection from an average row node
+        oCol <- order(pi_mean[[1]] %*% private$theta$mean, decreasing = TRUE)
+        o <- list(oRow, oCol)
 
         private$theta$mean <- private$theta$mean[o[[1]], o[[2]], drop = FALSE]
         for (l in 1:2){
           if(are_covariates[l]){
-            private$pi[[l]] = private$pi[[l]][o[[l]], ]
+            private$pi[[l]] = private$pi[[l]][,o[[l]]]
           }else{
             private$pi[[l]] = private$pi[[l]][o[[l]]]
           }
@@ -268,18 +262,24 @@ BipartiteSBM_fit <-
       },
       #' @field storedModels data.frame of all models fitted (and stored) during the optimization
       storedModels = function(value) {
-
-        #browser()
-        rowBlocks <- c(0, unlist(sapply(private$BMobject$memberships, function(m) ncol(m$Z1))))
-        colBlocks <- c(0, unlist(sapply(private$BMobject$memberships, function(m) ncol(m$Z2))))
-        nbConnectParam <- c(NA, unlist(sapply(private$BMobject$model_parameters, function(param) param$n_parameters)))
+        ## blockmodels stores the LBM models at index Q1 + Q2: index 1 is empty (NULL).
+        ## We go through all the indices, with NA when no model is stored, so that
+        ## indexModel is always the position used by import_from_BM(index)
+        BM  <- private$BMobject
+        idx <- seq_along(BM$ICL)
+        extract <- function(lst, f) vapply(idx, function(i) {
+          if (i > length(lst) || is.null(lst[[i]])) NA_real_ else f(lst[[i]])
+        }, numeric(1))
+        rowBlocks      <- extract(BM$memberships,      function(m) ncol(m$Z1))
+        colBlocks      <- extract(BM$memberships,      function(m) ncol(m$Z2))
+        nbConnectParam <- extract(BM$model_parameters, function(param) param$n_parameters)
         U <- data.frame(
-          indexModel = 1:length(private$BMobject$ICL),
+          indexModel = idx,
           nbParams = nbConnectParam + max(1,self$nbNodesCovariates[1])*(rowBlocks-1) + max(1,self$nbNodesCovariates[2])*(colBlocks - 1),
           nbRowBlocks = rowBlocks,
           nbColBlocks = colBlocks,
-          ICL = c(private$BMobject$ICL),
-          loglik = c(private$BMobject$PL)
+          ICL = c(BM$ICL),
+          loglik = c(BM$PL)
         )
         U[!is.na(U$nbParams), , drop = FALSE]
       }

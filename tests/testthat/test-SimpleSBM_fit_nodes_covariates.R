@@ -15,7 +15,7 @@ nodesCovar <- matrix(rnorm(nbNodes * nbNodesCovar), nbNodes, nbNodesCovar)
 nodesCovar[,1]=1;
 nodesCovar=list(nodesCovar)
 nodesCovarParam <- vector('list',1)
-nodesCovarParam[[1]] <- matrix(rnorm(nbBlocks * nbNodesCovar), nbBlocks, nbNodesCovar)
+nodesCovarParam[[1]] <- matrix(rnorm(nbNodesCovar * nbBlocks), nbNodesCovar, nbBlocks)
 
 # Edge covariates parameters
 covarParam <- c(-2, 2)
@@ -59,7 +59,7 @@ test_that("SimpleSBM_fit 'Bernoulli' model, undirected, with nodes covariates", 
     expect_equal(mySBM$nodesCovariates, nodesCovar[[1]])
 
     ## Estimation-----------------------------------------------------------------
-    BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0, fast = TRUE))
+    BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0, fast = TRUE, nbCores = 1))
     mySBM$setModel(nbBlocks)
 
     ## Expectation
@@ -108,7 +108,7 @@ test_that("SimpleSBM_fit 'Bernoulli' model, directed, with nodes covariates", {
     expect_equal(mySBM$nbDyads, nbNodes * (nbNodes - 1))
 
     ## Estimation
-    BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0, fast = TRUE))
+    BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0, fast = TRUE, nbCores = 1))
     mySBM$setModel(nbBlocks)
 
     ## Expectation
@@ -147,7 +147,7 @@ test_that("SimpleSBM_fit 'Poisson' model, undirected, with nodes covariates", {
     expect_equal(ncol(mySBM$nodesCovariates), nbNodesCovar)
 
     ## Estimation
-    BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0, fast = TRUE))
+    BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0, fast = TRUE, nbCores = 1))
     mySBM$setModel(nbBlocks)
 
     ## Expectation
@@ -173,4 +173,32 @@ test_that("SimpleSBM_fit without nodes covariates returns zero dimensions", {
 
     ## nodesCovariates should be empty
     expect_equal(length(mySBM$nodesCovariates), 0)
+})
+
+test_that("SimpleSBM_fit with nodes covariates: setModel to one block does not keep the previous B", {
+    means <- diag(.4, 3) + 0.05
+    connectParam <- list(mean = means)
+
+    mySampler <- SimpleSBM$new("bernoulli", nbNodes, FALSE, blockProp, connectParam,
+        nodesCovarList = nodesCovar, nodesCovarParam = nodesCovarParam
+    )
+    mySampler$rMemberships(store = TRUE)
+    mySampler$rEdges(store = TRUE)
+
+    mySBM <- SimpleSBM_fit$new(mySampler$networkData, "bernoulli", FALSE,
+        nodesCovarList = nodesCovar)
+    BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0, fast = TRUE, nbCores = 1))
+
+    ## from a model with several blocks to the model with one block
+    mySBM$setModel(nbBlocks)
+    mySBM$setModel(1)
+    expect_equal(mySBM$nbBlocks, 1)
+    expect_equal(length(mySBM$nodesCovariatesParam), 0)
+    expect_equal(mySBM$blockProp, 1)
+
+    ## and back to several blocks
+    mySBM$setModel(nbBlocks)
+    expect_equal(mySBM$nbBlocks, nbBlocks)
+    expect_equal(dim(mySBM$nodesCovariatesParam), c(nbNodesCovar, nbBlocks))
+    expect_equal(length(mySBM$blockProp), nbBlocks)
 })

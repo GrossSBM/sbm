@@ -27,9 +27,8 @@ SimpleSBM_fit <-
           "gaussian_covariates"       = list(mean = parameters$mu, var = parameters$sigma2),
           "ZIgaussian"                = list(mean = parameters$mu, var = parameters$sigma2, p0 = parameters$p0),
         )
-        if (length(private$BMobject$memberships[[index]][["B"]]) > 0) {
-          private$B <- list(private$BMobject$memberships[[index]]$B) # 0x0 matrix if there are no nodes covariates
-        }
+        B <- private$BMobject$memberships[[index]][["B"]]
+        private$B <- list(if (length(B) > 0) B else matrix(0, 0, 0)) # 0x0 matrix if there are no nodes covariates or only one block
         private$Z  <- private$BMobject$memberships[[index]]$Z
         private$pi <- private$BMobject$memberships[[index]]$alpha
       }
@@ -154,7 +153,7 @@ SimpleSBM_fit <-
         }
         o <- order(private$theta$mean %*% order_pi, decreasing = TRUE)
         if(are_covariates){
-          private$pi = private$pi[o, ]
+          private$pi = private$pi[,o]
         }else{
           private$pi=private$pi[o]
         }

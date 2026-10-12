@@ -19,13 +19,8 @@ defineSBM = function(netMat,
   ## sanity check
   if (!type %in% c("simple","bipartite")) {stop("type not allowed")}
 
-  ## Validate 'model' argument
-  possible_models <- c('gaussian', 'poisson', 'bernoulli')
-  if (!model %in% possible_models) {
-    stop(paste("The argument model must belong to ",
-               paste(possible_models, collapse = ", "),sep=''))
-  }
-
+  ## Validate 'model' argument (all the models handled by the multipartite inference, including ZIgaussian)
+  .check_model(model, available_models_edges)
 
   #------------ add rownames and colnames if needed
   if(is.null(rownames(netMat))) rownames(netMat) <- 1:nrow(netMat)

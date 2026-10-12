@@ -106,14 +106,8 @@ estimateSimpleSBM <- function(netMat,
   )
 
   ## Validate 'model' argument
-  possible_models <- c('gaussian', 'poisson', 'bernoulli')
-  if (!model %in% possible_models) {
-    stop(paste("The argument model must belong to ",
-                 paste(possible_models, collapse = ", "),sep=''))
-  }
+  .check_model(model)
 
-
-      ## Current options are default expect for those passed by the user
   ## Current options are default expect for those passed by the user
   currentOptions[names(estimOptions)] <- estimOptions
 
@@ -222,15 +216,8 @@ estimateBipartiteSBM <- function(netMat,
   currentOptions[names(estimOptions)] <- estimOptions
 
   ## Validate 'model' argument
-  possible_models <- c('gaussian', 'poisson', 'bernoulli')
-  if (!model %in% possible_models) {
-    stop(paste("The argument model must belong to ",
-               paste(possible_models, collapse = ", "),sep=''))
-  }
+  .check_model(model)
 
-
-
-  ####
   ## Construct the SBM model
   mySBM <-  BipartiteSBM_fit$new(netMat, model, dimLabels, covariates, nodesCovariates)
   ## Perform optimization
