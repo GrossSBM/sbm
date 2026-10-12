@@ -76,5 +76,4 @@ Depends:
     R (>= 3.5.0)
 Remotes:
     Polarolouis/blockmodels
-Config/roxygen2/version: 8.0.0
-RoxygenNote: 7.3.2
+Config/roxygen2/version: 8.1.1

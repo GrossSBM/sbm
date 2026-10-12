@@ -998,6 +998,7 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, no covariate", {
   expect_error(SimpleSBM_fit$new(SamplerBernoulli$networkData, 'normal', TRUE))
   expect_error(SimpleSBM_fit$new(SamplerBernoulli$networkData[1:20, 1:30], 'gaussian', TRUE))
   expect_error(SimpleSBM_fit$new(SamplerBernoulli$networkData, 'gaussian', FALSE))
+  expect_error(SimpleSBM_fit$new(SamplerBernoulli$networkData, 'gausian', TRUE))
 
   ## Checking class
   expect_true(inherits(mySBM, "SBM"))

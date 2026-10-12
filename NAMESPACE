@@ -33,17 +33,21 @@ import(dplyr)
 import(ggplot2)
 import(purrr)
 importFrom(Rcpp,sourceCpp)
-importFrom(graphics,par)
-importFrom(graphics,plot)
+importFrom(graphics,
+  par,
+  plot
+)
 importFrom(magrittr,"%>%")
 importFrom(prodlim,row.match)
 importFrom(reshape2,melt)
 importFrom(rlang,.data)
-importFrom(stats,fitted)
-importFrom(stats,predict)
-importFrom(stats,rmultinom)
-importFrom(stats,rnorm)
-importFrom(stats,runif)
+importFrom(stats,
+  fitted,
+  predict,
+  rmultinom,
+  rnorm,
+  runif
+)
 importFrom(stringr,str_detect)
 importFrom(utils,head)
 useDynLib(sbm, .registration = TRUE)

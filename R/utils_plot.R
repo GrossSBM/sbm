@@ -10,11 +10,24 @@ plotMatrix = function(Mat, dimLabels, clustering = NULL, plotOptions = list()){
 
 
 
-  ###############################################"
-  currentOptions = list(line.color  = 'red',legend = FALSE,rowNames = FALSE, colNames = FALSE,title=NULL)
-  currentOptions$legend.title = FALSE
-  currentOptions$legend.position ='bottom'
-  currentOptions[names(plotOptions)] = plotOptions
+  ###############################################
+  # Core plotting options ----------------------------------------------------
+  # `blockBackground` (default FALSE) adds a red background to each block (row/col
+  # groups defined by `clustering`). Opacity is proportional to the average value
+  # of `Mat` inside the block, capped by `blockAlpha.max`.
+  currentOptions = list(
+    line.color = 'red',
+    legend = FALSE,
+    rowNames = FALSE,
+    colNames = FALSE,
+    title = NULL,
+    blockBackground = FALSE,
+    blockAlpha.max = 0.6,
+    legend.title = FALSE,
+    legend.position = 'bottom'
+  )
+  # Overwrite defaults with any user‑supplied options
+  currentOptions[names(plotOptions)] <- plotOptions
   ################################################
 
   n1 <- dim(Mat)[1]

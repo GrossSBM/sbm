@@ -19,6 +19,14 @@ defineSBM = function(netMat,
   ## sanity check
   if (!type %in% c("simple","bipartite")) {stop("type not allowed")}
 
+  ## Validate 'model' argument
+  possible_models <- c('gaussian', 'poisson', 'bernoulli')
+  if (!model %in% possible_models) {
+    stop(paste("The argument model must belong to ",
+               paste(possible_models, collapse = ", "),sep=''))
+  }
+
+
   #------------ add rownames and colnames if needed
   if(is.null(rownames(netMat))) rownames(netMat) <- 1:nrow(netMat)
   if(is.null(colnames(netMat))) colnames(netMat) <- 1:ncol(netMat)
