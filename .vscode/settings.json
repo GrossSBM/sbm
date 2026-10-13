@@ -2,11 +2,48 @@
     "[r]": {
         "editor.formatOnPaste": false,
         "editor.formatOnSave": false,
-        "editor.formatOnType": false
+        "editor.formatOnType": false,
+        "interpreters.startupBehavior": "always"
     },
     "[cpp]": {
         "editor.formatOnPaste": false,
         "editor.formatOnSave": false,
         "editor.formatOnType": false
+    },
+    "VsCodeTaskButtons.showCounter": false,
+    "VsCodeTaskButtons.tasks": [
+        {
+            "label": "$(book) Document",
+            "task": "R: Document",
+            "tooltip": "devtools::document()"
+        },
+        {
+            "label": "$(package) Install",
+            "task": "R: Install",
+            "tooltip": "document + install"
+        },
+        {
+            "label": "$(beaker) Test",
+            "task": "R: Test",
+            "tooltip": "devtools::test()"
+        },
+        {
+            "label": "$(checklist) Check",
+            "task": "R: Check",
+            "tooltip": "devtools::check()"
+        },
+        {
+            "label": "$(globe) Site",
+            "task": "Site: Build",
+            "tooltip": "pkgdown::build_site()"
+        },
+        {
+            "label": "$(eye) Preview",
+            "task": "Site: Preview",
+            "tooltip": "Open docs/index.html"
+        }
+    ],
+    "[python]": {
+        "interpreters.startupBehavior": "manual"
     }
 }
