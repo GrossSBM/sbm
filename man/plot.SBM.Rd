@@ -6,7 +6,7 @@
 \usage{
 \method{plot}{SBM}(
   x,
-  type = c("data", "expected", "meso"),
+  type = c("data", "expected", "graphon", "meso"),
   ordered = TRUE,
   plotOptions = list(),
   ...
@@ -15,7 +15,7 @@
 \arguments{
 \item{x}{an object inheriting from class SBM}
 
-\item{type}{character for the type of plot: either 'data' (true connection),  'expected' (fitted connection) or 'meso' (mesoscopic). Default to 'data'.}
+\item{type}{character for the type of plot: either 'data' (true connection),  'expected' (fitted connection), 'graphon' (block connectivity on the unit square, blocks sized by the block proportions) or 'meso' (mesoscopic). Default to 'data'. 'graphon' is only available for simple and bipartite SBM.}
 
 \item{ordered}{logical: should the rows and columns be ordered according to the clustering? Default to \code{TRUE} (not taken into account for 'meso').}
 
@@ -24,7 +24,7 @@
 \item{...}{additional parameters for S3 compatibility. Not used}
 }
 \value{
-a ggplot2 object for the \code{'data'} and \code{'expected'}, a list with the igraph object \code{g} and the \code{layout} for the \code{'meso'}
+a ggplot2 object for the \code{'data'}, \code{'expected'} and \code{'graphon'}, a list with the igraph object \code{g} and the \code{layout} for the \code{'meso'}
 }
 \description{
 Basic matrix plot method for SBM object or mesoscopic view
@@ -64,5 +64,17 @@ For type = 'data' or 'expected plot', the list of parameters \code{plotOptions} 
 \item{"line.color": }{Chain of character. The color of the lines to separate groups if a clustering is provided. Default value is red}
 \item{"line.width": }{Numeric. Width  of the lines to separate groups. Default value is NULL, automatically chosen}
 \item{"title": }{Chain of character. Title of the plot. Default value is NULL}
+\item{"blockBackground": }{Boolean. Color the background of each block (when \code{ordered = TRUE}), with an opacity growing with the mean value of the entries in the block. Default value is TRUE for \code{type = 'data'} and FALSE for \code{type = 'expected'}}
+\item{"block.color": }{Chain of character. The color of the block background. Default value is red}
+\item{"blockAlpha.min", "blockAlpha.max": }{Numeric. Opacity of the least and most dense blocks. Default values are 0.1 and 0.6}
 }
+For type = 'graphon', the blocks are drawn with the colors of the block background of the data plot.
+The axes are in number of nodes, so that the aspect ratio of the plot reflects the dimensions of the network.
+The list of parameters \code{plotOptions} is
+\describe{
+\item{"legend", "legend.title", "legend.position", "title", "line.color", "line.width": }{As for the 'data' plot}
+\item{"block.color", "blockAlpha.min", "blockAlpha.max": }{As for the 'data' plot}
+\item{"limits": }{Numeric vector of length 2. Range of the connectivity values mapped to the colors. Default value is NULL: from 0 to the maximal value (or the range for negative values). Set it to compare several graphons on the same color scale, for instance c(0, 1) for Bernoulli models}
+}
+The graphon is drawn from the connectivity parameters only, without the effect of the covariates.
 }

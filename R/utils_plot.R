@@ -1,8 +1,21 @@
 #----------------------------------------------------------------------------------
 myRepeat <- function(v,Qrow,Qcol){c(rep(v[1],Qrow),rep(v[2],Qcol))}
 #----------------------------------------------------------------------------------
+# Opacity of the block colors, growing with the value from `blockAlpha.min` to `blockAlpha.max`.
+# The values are rescaled between `limits` (by default [0, max] for non negative values, the range otherwise)
+blockAlpha <- function(m, plotOptions, limits = NULL){
+  if (is.null(limits)) {limits <- if (all(m >= 0, na.rm = TRUE)) c(0, max(m, na.rm = TRUE)) else range(m, na.rm = TRUE)}
+  intensity <- (pmin(pmax(m, limits[1]), limits[2]) - limits[1]) / diff(limits)
+  intensity[!is.finite(intensity)] <- 0
+  plotOptions$blockAlpha.min + (plotOptions$blockAlpha.max - plotOptions$blockAlpha.min) * intensity
+}
+# color `col` with opacity `a`, flattened on white
+blendWhite <- function(col, a){
+  grDevices::rgb(t(255 - a * (255 - grDevices::col2rgb(col))), maxColorValue = 255)
+}
+#----------------------------------------------------------------------------------
 #' @importFrom rlang .data
-#' @importFrom utils head
+#' @importFrom utils head modifyList
 #' @importFrom prodlim row.match
 #' @importFrom reshape2 melt
 #----------------------------------------------------------------------------------
@@ -12,16 +25,19 @@ plotMatrix = function(Mat, dimLabels, clustering = NULL, plotOptions = list()){
 
   ###############################################
   # Core plotting options ----------------------------------------------------
-  # `blockBackground` (default FALSE) adds a red background to each block (row/col
-  # groups defined by `clustering`). Opacity is proportional to the average value
-  # of `Mat` inside the block, capped by `blockAlpha.max`.
+  # `blockBackground` (default TRUE) adds a background to each block (row/col
+  # groups defined by `clustering`), colored with `block.color`. Opacity grows with
+  # the average value of `Mat` inside the block, from `blockAlpha.min` to `blockAlpha.max`.
+  # Without clustering, the blocks have no meaning and no background is drawn.
   currentOptions = list(
     line.color = 'red',
     legend = FALSE,
     rowNames = FALSE,
     colNames = FALSE,
     title = NULL,
-    blockBackground = FALSE,
+    blockBackground = TRUE,
+    block.color = 'red',
+    blockAlpha.min = 0.1,
     blockAlpha.max = 0.6,
     legend.title = FALSE,
     legend.position = 'bottom'
@@ -76,7 +92,26 @@ plotMatrix = function(Mat, dimLabels, clustering = NULL, plotOptions = list()){
     Mat <- Mat[oRow,oCol]
     names(sepCol) = names(sepRow) = 'sep'
     sepRow = n1 - sepRow
+
+    if (currentOptions$blockBackground) {
+      clRow <- clustering$row[oRow]
+      clCol <- (if (l == 2) clustering$col else clustering$row)[oCol]
+      endRow <- as.vector(cumsum(table(clRow))); startRow <- c(1, head(endRow, -1) + 1)
+      endCol <- as.vector(cumsum(table(clCol))); startCol <- c(1, head(endCol, -1) + 1)
+      blocks <- expand.grid(k = seq_along(endRow), q = seq_along(endCol))
+      blocks$mean <- mapply(function(k, q) {
+        mean(Mat[startRow[k]:endRow[k], startCol[q]:endCol[q]], na.rm = TRUE)
+      }, blocks$k, blocks$q)
+      # discrete axes: column j sits at x = j, row i at y = n1 - i + 1
+      blocks$xmin <- startCol[blocks$q] - 0.5
+      blocks$xmax <- endCol[blocks$q] + 0.5
+      blocks$ymin <- n1 - endRow[blocks$k] + 0.5
+      blocks$ymax <- n1 - startRow[blocks$k] + 1.5
+      m <- blocks$mean
+      blocks$alpha <- blockAlpha(blocks$mean, currentOptions)
+    }
   }
+  withBackground <- !is.null(clustering) && currentOptions$blockBackground
   if(is.null(currentOptions$line.width)){currentOptions$line.width = mean(dim(Mat))/300}
 
 
@@ -101,10 +136,20 @@ plotMatrix = function(Mat, dimLabels, clustering = NULL, plotOptions = list()){
   if (binary) { melted_Mat$link <- as.factor(melted_Mat$link)}
 
   g <- ggplot(data = melted_Mat, aes(y = .data$names_row, x = .data$names_col, fill = .data$link))
+  # with a block background, low values are transparent so that the background shows
+  low.color <- if (withBackground) "transparent" else "white"
   g <- g + geom_tile()
-  if (!binary) {g <-  g +  scale_fill_gradient(low = "white", high = "black", limits = u,na.value = "transparent")}
-  if (binary) {g <- g + scale_fill_manual(breaks = c("0", "1"),values = c("white", "black"),na.value = "transparent")}
-  g <- g  +  scale_x_discrete(drop = FALSE) + scale_y_discrete(drop = FALSE)
+  if (withBackground) {
+    g <- g + geom_rect(data = blocks, inherit.aes = FALSE,
+                       aes(xmin = .data$xmin, xmax = .data$xmax, ymin = .data$ymin, ymax = .data$ymax, alpha = .data$alpha),
+                       fill = currentOptions$block.color) +
+      scale_alpha_identity()
+    # draw the background under the tiles (added after them so the axes stay discrete)
+    g$layers <- g$layers[c(2, 1)]
+  }
+  if (!binary) {g <-  g +  scale_fill_gradient(low = low.color, high = "black", limits = u,na.value = "white")}
+  if (binary) {g <- g + scale_fill_manual(breaks = c("0", "1"),values = c(low.color, "black"),na.value = "white")}
+  g <- g  +  scale_x_discrete(drop = FALSE, expand = c(0, 0)) + scale_y_discrete(drop = FALSE, expand = c(0, 0))
   if (!currentOptions$colNames){
     g <- g + theme(axis.text.x = element_blank())
   }else{
@@ -114,12 +159,12 @@ plotMatrix = function(Mat, dimLabels, clustering = NULL, plotOptions = list()){
     g <- g + theme(axis.text.y = element_blank())
   }
 
-  g <- g +  labs(x = '', y = '') +  theme(aspect.ratio = n1/n2, axis.ticks = element_blank(), panel.background = element_rect(fill = "white"))
-  if (!is.null(dimLabels[1]) & !is.null(dimLabels[2])){
-    #g <- g+ facet_grid(FG_row ~ FG_col,scales = 'free', space = 'free')
-    g <- g+ facet_grid(FG_row ~ FG_col)
-
-    }
+  # the labels of the dimensions are the axis titles
+  g <- g +  labs(x = colFG, y = rowFG) +
+    theme(aspect.ratio = n1/n2, axis.ticks = element_blank(), panel.grid = element_blank(),
+          panel.background = element_rect(fill = "white"),
+          panel.border = element_rect(fill = NA, colour = "grey30", linewidth = 0.3),
+          plot.title = element_text(hjust = 0.5))
   if (!currentOptions$legend){g <- g +theme(legend.position = 'none')}else{
     g <- g +theme(legend.position = currentOptions$legend.position)
     if(!currentOptions$legend.title){g <- g+ theme(legend.title = element_blank())}}
@@ -134,6 +179,67 @@ plotMatrix = function(Mat, dimLabels, clustering = NULL, plotOptions = list()){
   if (!is.null(currentOptions$title)){g <- g + ggtitle(currentOptions$title) }
   g
   #if (!is.null(fileNameSave)) { ggsave(fileNameSave, width = 20, height = 20, units = "cm") }else{g}
+}
+##################################################################################
+#----------------------------------------------------------------------------------
+# Graphon of an SBM: the block connectivity drawn on the unit square, with blocks
+# sized by the block proportions. The axes are in number of nodes, so that the aspect
+# ratio of the plot reflects the dimensions of the network.
+#----------------------------------------------------------------------------------
+plotGraphon = function(thetaMean, pi, nbNodes, dimLabels, plotOptions = list()){
+
+  currentOptions = list(
+    line.color = 'red',
+    line.width = NULL,
+    legend = FALSE,
+    legend.title = FALSE,
+    legend.position = 'bottom',
+    title = NULL,
+    block.color = 'red',
+    blockAlpha.min = 0.1,
+    blockAlpha.max = 0.6,
+    limits = NULL
+  )
+  currentOptions[names(plotOptions)] <- plotOptions
+
+  if (!is.list(pi)) {pi <- list(pi, pi)}
+  nbNodes <- rep_len(nbNodes, 2)
+  dimLabels <- rep_len(dimLabels, 2)
+  if (is.null(currentOptions$line.width)) {currentOptions$line.width = mean(nbNodes)/300}
+
+  # block 1 in the top left corner, as in plotMatrix
+  endRow <- nbNodes[1] * cumsum(pi[[1]]); startRow <- c(0, head(endRow, -1))
+  endCol <- nbNodes[2] * cumsum(pi[[2]]); startCol <- c(0, head(endCol, -1))
+  blocks <- expand.grid(k = seq_along(pi[[1]]), q = seq_along(pi[[2]]))
+  blocks$value <- as.matrix(thetaMean)[cbind(blocks$k, blocks$q)]
+  blocks$xmin <- startCol[blocks$q]
+  blocks$xmax <- endCol[blocks$q]
+  blocks$ymin <- -endRow[blocks$k]
+  blocks$ymax <- -startRow[blocks$k]
+
+  limits <- currentOptions$limits
+  if (is.null(limits)) {limits <- if (all(blocks$value >= 0)) c(0, max(blocks$value)) else range(blocks$value)}
+  blocks$value <- pmin(pmax(blocks$value, limits[1]), limits[2])
+
+  g <- ggplot(blocks) +
+    geom_rect(aes(xmin = .data$xmin, xmax = .data$xmax, ymin = .data$ymin, ymax = .data$ymax, fill = .data$value)) +
+    scale_fill_gradient(low  = blendWhite(currentOptions$block.color, currentOptions$blockAlpha.min),
+                        high = blendWhite(currentOptions$block.color, currentOptions$blockAlpha.max),
+                        limits = limits) +
+    geom_vline(xintercept = startCol[-1], linewidth = currentOptions$line.width, col = currentOptions$line.color) +
+    geom_hline(yintercept = -startRow[-1], linewidth = currentOptions$line.width, col = currentOptions$line.color) +
+    coord_fixed(expand = FALSE) +
+    labs(x = dimLabels[2], y = dimLabels[1]) +
+    theme(axis.text = element_blank(), axis.ticks = element_blank(),
+          panel.grid = element_blank(), panel.background = element_rect(fill = "white"),
+          panel.border = element_rect(fill = NA, colour = "grey30", linewidth = 0.3),
+          plot.title = element_text(hjust = 0.5))
+
+  if (!currentOptions$legend){g <- g + theme(legend.position = 'none')}else{
+    g <- g + theme(legend.position = currentOptions$legend.position)
+    if (!currentOptions$legend.title){g <- g + theme(legend.title = element_blank())}}
+  if (!is.null(currentOptions$title)){g <- g + ggtitle(currentOptions$title)}
+  g
 }
 ##################################################################################
 #----------------------------------------------------------------------------------

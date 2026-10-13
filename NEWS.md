@@ -1,3 +1,10 @@
+# sbm (development version)
+
+* new plot type `type = 'graphon'` for simple and bipartite SBM: the block connectivity drawn on the unit square, blocks sized by the block proportions
+* new function `plotMyGraphon()` to draw the graphon of an SBM from its parameters
+* matrix plots (`type = 'data'`): each block gets a background whose opacity grows with its mean value (options `blockBackground`, `block.color`, `blockAlpha.min`, `blockAlpha.max`)
+* matrix plots: the labels of the dimensions are now the axis titles (instead of facet strips), missing values (diagonal of simple SBM) are drawn in white
+
 # sbm 0.4.7 [2024-09-16]
 
 * remove spelling.out file causing NOTE on CRAN

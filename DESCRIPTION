@@ -43,7 +43,8 @@ Imports:
     stringr,
     rlang,
     reshape2,
-    prodlim
+    prodlim,
+    grDevices
 Collate: 
     'R6Class-SBM.R'
     'R6Class-BipartiteSBM.R'
@@ -59,6 +60,7 @@ Collate:
     'fungusTreeNetwork.R'
     'multipartiteEcologicalNetwork.R'
     'plotAlluvial.R'
+    'plotMyGraphon.R'
     'plotMyMatrix.R'
     'plotMyMultipartiteMatrix.R'
     'plotMyMultiplexMatrix.R'

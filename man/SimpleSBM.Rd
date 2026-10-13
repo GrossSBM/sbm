@@ -191,7 +191,7 @@ R6 class for Simple SBM
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{SimpleSBM$plot(
-  type = c("data", "expected", "meso"),
+  type = c("data", "expected", "graphon", "meso"),
   ordered = TRUE,
   plotOptions = list()
 )}
@@ -200,14 +200,14 @@ R6 class for Simple SBM
   \subsection{Arguments}{
     \if{html}{\out{<div class="arguments">}}
     \describe{
-      \item{\code{type}}{character for the type of plot: either 'data' (true connection), 'expected' (fitted connection) or 'meso' (mesoscopic view). Default to 'data'.}
+      \item{\code{type}}{character for the type of plot: either 'data' (true connection), 'expected' (fitted connection), 'graphon' (block connectivity on the unit square, blocks sized by the block proportions) or 'meso' (mesoscopic view). Default to 'data'.}
       \item{\code{ordered}}{logical: should the rows and columns be reordered according to the clustering? Default to \code{TRUE}.}
       \item{\code{plotOptions}}{list with the parameters for the plot. See help of the corresponding S3 method for details.}
     }
     \if{html}{\out{</div>}}
   }
   \subsection{Returns}{
-    a ggplot2 object for the \code{'data'} and \code{'expected'}, a list with the igraph object \code{g}, the \code{layout} and the \code{plotOptions} for the \code{'meso'}
+    a ggplot2 object for the \code{'data'}, \code{'expected'} and \code{'graphon'}, a list with the igraph object \code{g}, the \code{layout} and the \code{plotOptions} for the \code{'meso'}
   }
 }
 

@@ -37,6 +37,9 @@ The list of parameters \code{plotOptions} for the matrix plot is
 \item "line.color":  Chain of character. The color of the lines to separate groups if a clustering is provided. Default value is red
 \item "line.width":  Numeric. Width  of the lines to separate groups. Default value is NULL, automatically chosen
 \item "title":  Chain of character. Title of the plot. Default value is NULL
+\item "blockBackground":  Boolean. Color the background of each block, with an opacity growing with the mean value of the entries in the block. Only used when a clustering is provided. Default value is TRUE
+\item "block.color":  Chain of character. The color of the block background. Default value is red
+\item "blockAlpha.min", "blockAlpha.max":  Numeric. Opacity of the least and most dense blocks. Default values are 0.1 and 0.6
 }
 }
 \examples{
