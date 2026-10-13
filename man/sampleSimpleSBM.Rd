@@ -20,7 +20,7 @@ sampleSimpleSBM(
 \arguments{
 \item{nbNodes}{number of nodes in the network}
 
-\item{blockProp}{parameters for block proportions. Possibly null is the nodes affectation is driven by nodesCovariates.}
+\item{blockProp}{parameters for block proportions. Possibly null if the nodes affectation is driven by \code{nodesCovariates}.}
 
 \item{connectParam}{list of parameters for connectivity with a matrix of means 'mean' and an optional matrix of variances 'var', the sizes of which must match \code{blockProp} length}
 
@@ -34,9 +34,9 @@ sampleSimpleSBM(
 
 \item{covariatesParam}{optional vector of covariates effect. A zero length numeric vector by default.}
 
-\item{nodesCovariates}{an optional matrix with nbNodes rows and  nbNodesCovariates columns corresponding to covariates describing the nodes.  No nodesCovariate per Default.}
+\item{nodesCovariates}{an optional matrix with \code{nbNodes} rows and \code{nbNodesCovariates} columns corresponding to covariates describing the nodes. No nodes covariates by default.}
 
-\item{nodesCovariatesParam}{an optional matrix of dimension nbNodesCovariates  x nbBlocks  corresponding to effect of the nodesCovariates on the clustering.}
+\item{nodesCovariatesParam}{an optional matrix of dimension \code{nbNodesCovariates} x \code{nbBlocks} corresponding to effect of the \code{nodesCovariates} on the clustering.}
 }
 \value{
 an object with class \code{\link{SimpleSBM}}

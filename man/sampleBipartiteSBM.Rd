@@ -31,9 +31,9 @@ sampleBipartiteSBM(
 
 \item{covariatesParam}{optional vector of covariates effect. A zero length numeric vector by default.}
 
-\item{nodesCovariates}{a list of two matrices with nbNodes (or 0) rows and  nbNodesCovariates columns corresponding to covariates describing the two types of nodes.  No nodesCovariate per Default.}
+\item{nodesCovariates}{a list of two matrices with \code{nbNodes} (or 0) rows and \code{nbNodesCovariates} columns corresponding to covariates describing the two types of nodes. No nodes covariates by default.}
 
-\item{nodesCovariatesParam}{a list of two matrices of dimension nbNodesCovariates (in row and col)  x nbBlocks (in row and col)  corresponding to effect of the nodesCovariates on the clustering.}
+\item{nodesCovariatesParam}{a list of two matrices of dimension \code{nbNodesCovariates} (in row and col) x \code{nbBlocks} (in row and col) corresponding to effect of the \code{nodesCovariates} on the clustering.}
 }
 \value{
 an object with class \code{\link{BipartiteSBM}}

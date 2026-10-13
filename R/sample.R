@@ -4,15 +4,15 @@
 #' for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models, and possibly with covariates
 #'
 #' @param nbNodes number of nodes in the network
-#' @param blockProp parameters for block proportions. Possibly null is the nodes affectation is driven by nodesCovariates.
+#' @param blockProp parameters for block proportions. Possibly null if the nodes affectation is driven by \code{nodesCovariates}.
 #' @param connectParam list of parameters for connectivity with a matrix of means 'mean' and an optional matrix of variances 'var', the sizes of which must match \code{blockProp} length
 #' @param model character describing the model for the relation between nodes (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'}, ...). Default is \code{'bernoulli'}.
 #' @param directed logical, directed network or not. Default is \code{FALSE}.
 #' @param dimLabels an optional list of labels for each dimension (in row, in column)
 #' @param covariates a list of matrices with same dimension as mat describing covariates at the edge level. No covariate per Default.
 #' @param covariatesParam optional vector of covariates effect. A zero length numeric vector by default.
-#' @param nodesCovariates an optional matrix with nbNodes rows and  nbNodesCovariates columns corresponding to covariates describing the nodes.  No nodesCovariate per Default.
-#' @param nodesCovariatesParam an optional matrix of dimension nbNodesCovariates  x nbBlocks  corresponding to effect of the nodesCovariates on the clustering.
+#' @param nodesCovariates an optional matrix with \code{nbNodes} rows and \code{nbNodesCovariates} columns corresponding to covariates describing the nodes. No nodes covariates by default.
+#' @param nodesCovariatesParam an optional matrix of dimension \code{nbNodesCovariates} x \code{nbBlocks} corresponding to effect of the \code{nodesCovariates} on the clustering.
 #'
 #' @return  an object with class \code{\link{SimpleSBM}}
 #'
@@ -97,8 +97,8 @@ sampleSimpleSBM <- function(nbNodes,
 #' @param dimLabels an optional list of labels for each dimension (in row, in column)
 #' @param covariates a list of matrices with same dimension as mat describing covariates at the edge level. No covariate per Default.
 #' @param covariatesParam optional vector of covariates effect. A zero length numeric vector by default.
-#' @param nodesCovariates a list of two matrices with nbNodes (or 0) rows and  nbNodesCovariates columns corresponding to covariates describing the two types of nodes.  No nodesCovariate per Default.
-#' @param nodesCovariatesParam a list of two matrices of dimension nbNodesCovariates (in row and col)  x nbBlocks (in row and col)  corresponding to effect of the nodesCovariates on the clustering.
+#' @param nodesCovariates a list of two matrices with \code{nbNodes} (or 0) rows and \code{nbNodesCovariates} columns corresponding to covariates describing the two types of nodes. No nodes covariates by default.
+#' @param nodesCovariatesParam a list of two matrices of dimension \code{nbNodesCovariates} (in row and col) x \code{nbBlocks} (in row and col) corresponding to effect of the \code{nodesCovariates} on the clustering.
 
 #' @return an object with class \code{\link{BipartiteSBM}}
 #'
