@@ -14,7 +14,7 @@
 #' @details The list of parameters \code{estimOptions} essentially tunes the optimization process and the variational EM algorithm, with the following parameters
 #' * "nbCores integer for number of cores used. Default is 2
 #' * "verbosity" integer for verbosity (0, 1). Default is 1
-#' * "plot" boolean, should the ICL by dynamically plotted or not. Default is TRUE
+#' * "plot" boolean, should the ICL be dynamically plotted or not. Default is TRUE, FALSE when "verbosity" is 0
 #' * "exploreFactor" control the exploration of the number of groups
 #' * "exploreMin" explore at least until exploreMin even if the exploration factor rule is achieved. Default 4. See the package blockmodels for details.
 #' * "exploreMax" Stop exploration at exploreMax  even if the exploration factor rule is not achieved. Default Inf. See the package blockmodels for details.
@@ -313,7 +313,7 @@ estimateMultipartiteSBM <- function(listSBM,
 #' * "initBM" Boolean. True if using simple and bipartite SBM as initialisations. Default value  = TRUE
 #' * "maxiterVEM" Number of max. number of iterations in  the VEM. Default value  = 100
 #' * "maxiterVE" Number of max. number of iterations in  the VE. Default value  = 100
-#' * "plot" boolean, should the ICL by dynamically plotted or not. Default is TRUE. For dependent networks
+#' * "plot" boolean, should the ICL be dynamically plotted or not. Default is TRUE, FALSE when "verbosity" is 0. For dependent networks
 #' * "exploreFactor" control the exploration of the number of groups. For dependent networks
 #' * "exploreMin" explore at least until exploreMin even if the exploration factor rule is achieved. Default 4. See the package blockmodels for details. For dependent networks
 #' * "exploreMax" Stop exploration at exploreMax  even if the exploration factor rule is not achieved. Default Inf. See the package blockmodels for details. For dependent networks

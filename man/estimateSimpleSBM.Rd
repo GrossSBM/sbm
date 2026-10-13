@@ -41,7 +41,7 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 \itemize{
 \item "nbCores integer for number of cores used. Default is 2
 \item "verbosity" integer for verbosity (0, 1). Default is 1
-\item "plot" boolean, should the ICL by dynamically plotted or not. Default is TRUE
+\item "plot" boolean, should the ICL be dynamically plotted or not. Default is TRUE, FALSE when "verbosity" is 0
 \item "exploreFactor" control the exploration of the number of groups
 \item "exploreMin" explore at least until exploreMin even if the exploration factor rule is achieved. Default 4. See the package blockmodels for details.
 \item "exploreMax" Stop exploration at exploreMax  even if the exploration factor rule is not achieved. Default Inf. See the package blockmodels for details.

@@ -95,6 +95,8 @@ MultiplexSBM_fit <-
             fast          = TRUE
           )
           currentOptions[names(estimOptions)] <- estimOptions
+          ## no plot when quiet, unless asked (as in estimate*SBM)
+          if (isTRUE(estimOptions$verbosity == 0) && is.null(estimOptions$plot)) {currentOptions$plot <- FALSE}
 
           ## Transform estimOptions to a suited for blockmodels list of options
           blockmodelsOptions <- list(

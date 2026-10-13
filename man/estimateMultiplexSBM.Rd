@@ -28,7 +28,7 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 \item "initBM" Boolean. True if using simple and bipartite SBM as initialisations. Default value  = TRUE
 \item "maxiterVEM" Number of max. number of iterations in  the VEM. Default value  = 100
 \item "maxiterVE" Number of max. number of iterations in  the VE. Default value  = 100
-\item "plot" boolean, should the ICL by dynamically plotted or not. Default is TRUE. For dependent networks
+\item "plot" boolean, should the ICL be dynamically plotted or not. Default is TRUE, FALSE when "verbosity" is 0. For dependent networks
 \item "exploreFactor" control the exploration of the number of groups. For dependent networks
 \item "exploreMin" explore at least until exploreMin even if the exploration factor rule is achieved. Default 4. See the package blockmodels for details. For dependent networks
 \item "exploreMax" Stop exploration at exploreMax  even if the exploration factor rule is not achieved. Default Inf. See the package blockmodels for details. For dependent networks
