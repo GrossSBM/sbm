@@ -219,7 +219,7 @@ SimpleSBM <-
       nodesCovariates = function(value) {if (length(private$Xnodes[[1]])>0) private$Xnodes[[1]]},
       #' @field nodesCovariatesParam the matrix of  nodes covariates parameters
       nodesCovariatesParam = function(value) {if (length(private$Xnodes[[1]])>0) private$B[[1]]},
-      #' @field nbNodesCovariates nb of covariates on nodes
+      #' @field nbNodesCovariates number of covariates on nodes
       nbNodesCovariates = function(value) {ifelse(length(private$Xnodes[[1]])>0,ncol(private$Xnodes[[1]]),0)},
       #' @field memberships vector of clustering
       memberships = function(value) {if (!is.null(private$Z)) as_clustering(private$Z)},

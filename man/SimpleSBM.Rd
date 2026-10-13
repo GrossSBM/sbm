@@ -32,7 +32,7 @@ R6 class for Simple SBM
 
     \item{\code{nodesCovariatesParam}}{the matrix of  nodes covariates parameters}
 
-    \item{\code{nbNodesCovariates}}{nb of covariates on nodes}
+    \item{\code{nbNodesCovariates}}{number of covariates on nodes}
 
     \item{\code{memberships}}{vector of clustering}
 
