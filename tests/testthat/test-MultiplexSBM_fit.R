@@ -27,6 +27,7 @@ test_that("Inference for Multiplex networks", {
 
     currentOptions <- list(
       verbosity     = 1,
+      plot          = FALSE,
       nbBlocksRange = list(c(1,10)),
       nbCores       = 2,
       maxiterVE     = 100,
@@ -42,7 +43,7 @@ test_that("Inference for Multiplex networks", {
     myMultiplexFitdep <- MultiplexSBM_fit$new(list(netA,netB),dependentNet = TRUE)
     currentOptions <- list(
       verbosity     = 3,
-      plot          = TRUE,
+      plot          = FALSE,
       explorFactor  = 1.5,
       nbBlocksRange = c(4,Inf),
       nbCores       = 2,

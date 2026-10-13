@@ -47,7 +47,7 @@ test_that("BipartiteSBM_fit 'Bernoulli' model, undirected, no covariate", {
   expect_equal(coef(mySBM, "covariates"), mySBM$covarParam)
 
   ## Estimation-----------------------------------------------------------------
-  BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0))
+  BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0, plot = FALSE))
   w = which((mySBM$storedModels$nbRowBlocks==nbBlocks[1])&(mySBM$storedModels$nbColBlocks ==nbBlocks[2]))
   ind_w <- mySBM$storedModels[,1][w]
   mySBM$setModel(ind_w)
@@ -129,7 +129,7 @@ test_that("BipartiteSBM_fit 'Poisson' model, undirected, no covariate", {
   expect_equal(coef(mySBM, "covariates"), mySBM$covarParam)
 
   ## Estimation-----------------------------------------------------------------
-  BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0))
+  BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0, plot = FALSE))
   w = which((mySBM$storedModels$nbRowBlocks==nbBlocks[1])&(mySBM$storedModels$nbColBlocks ==nbBlocks[2]))
   ind_w <- mySBM$storedModels[,1][w]
   mySBM$setModel(ind_w)
@@ -205,7 +205,7 @@ test_that("BipartiteSBM_fit 'Gaussian' model, undirected, no covariate", {
   expect_equal(coef(mySBM, "covariates"), mySBM$covarParam)
 
   ## Estimation-----------------------------------------------------------------
-  BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0))
+  BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0, plot = FALSE))
   w = which((mySBM$storedModels$nbRowBlocks==nbBlocks[1])&(mySBM$storedModels$nbColBlocks ==nbBlocks[2]))
   ind_w <- mySBM$storedModels[,1][w]
   mySBM$setModel(ind_w)
@@ -311,7 +311,7 @@ test_that("BipartiteSBM_fit 'Bernoulli' model, undirected, no covariate", {
   expect_equal(coef(mySBM, "covariates"), mySBM$covarParam)
 
   ## Estimation-----------------------------------------------------------------
-  BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0))
+  BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0, plot = FALSE))
   w = which((mySBM$storedModels$nbRowBlocks==nbBlocks[1])&(mySBM$storedModels$nbColBlocks ==nbBlocks[2]))
   ind_w <- mySBM$storedModels[,1][w]
   mySBM$setModel(ind_w)

@@ -52,7 +52,7 @@ test_that("SimpleSBM_fit 'Bernoulli' model, undirected, no covariate", {
   expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
 
   ## Estimation-----------------------------------------------------------------
-  BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0))
+  BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0, plot = FALSE))
   mySBM$setModel(3)
 
   ## Field set after optimization
@@ -138,7 +138,7 @@ test_that("SimpleSBM_fit 'Bernoulli' model, directed, no covariate", {
   expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
 
   ## Estimation-----------------------------------------------------------------
-  BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0))
+  BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0, plot = FALSE))
   mySBM$setModel(3)
 
   expect_equal(mySBM$nbConnectParam, nbBlocks * nbBlocks)
@@ -223,7 +223,7 @@ test_that("SimpleSBM_fit 'Poisson' model, undirected, no covariate", {
   expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
 
   ## Estimation-----------------------------------------------------------------
-  BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0))
+  BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0, plot = FALSE))
   mySBM$setModel(3)
 
   ## Expectation
@@ -302,7 +302,7 @@ test_that("SimpleSBM_fit 'Poisson' model, directed, no covariate", {
   expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
 
   ## Estimation-----------------------------------------------------------------
-  BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0))
+  BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0, plot = FALSE))
   mySBM$setModel(3)
 
   ## Expectation
@@ -382,7 +382,7 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, no covariate", {
   expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
 
   ## Estimation-----------------------------------------------------------------
-  BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0))
+  BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0, plot = FALSE))
   mySBM$setModel(3)
 
   ## Expectation
@@ -461,7 +461,7 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, no covariate", {
   expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
 
   ## Estimation-----------------------------------------------------------------
-  BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0))
+  BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0, plot = FALSE))
   mySBM$setModel(3)
 
   ## Expectation
@@ -567,7 +567,7 @@ test_that("SimpleSBM_fit with NA 'Bernoulli' model, undirected, no covariate", {
   expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
 
   ## Estimation-----------------------------------------------------------------
-  BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0))
+  BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0, plot = FALSE))
   mySBM$setModel(3)
 
   ## Field set after optimization
@@ -664,7 +664,7 @@ test_that("SimpleSBM_fit 'Bernoulli' model, directed, no covariate", {
   expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
 
   ## Estimation-----------------------------------------------------------------
-  BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0))
+  BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0, plot = FALSE))
   mySBM$setModel(3)
 
   expect_equal(mySBM$nbConnectParam, nbBlocks * nbBlocks)
@@ -761,7 +761,7 @@ test_that("SimpleSBM_fit 'Poisson' model, undirected, no covariate", {
   expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
 
   ## Estimation-----------------------------------------------------------------
-  BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0))
+  BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0, plot = FALSE))
   mySBM$setModel(3)
 
   ## Expectation
@@ -849,7 +849,7 @@ test_that("SimpleSBM_fit 'Poisson' model, directed, no covariate", {
   expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
 
   ## Estimation-----------------------------------------------------------------
-  BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0))
+  BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0, plot = FALSE))
   mySBM$setModel(3)
 
   ## Expectation
@@ -939,7 +939,7 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, no covariate", {
   expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
 
   ## Estimation-----------------------------------------------------------------
-  BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0))
+  BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0, plot = FALSE))
   mySBM$setModel(3)
 
   ## Expectation
@@ -1028,7 +1028,7 @@ test_that("SimpleSBM_fit 'Gaussian' model, undirected, no covariate", {
   expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
 
   ## Estimation-----------------------------------------------------------------
-  BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0))
+  BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0, plot = FALSE))
   mySBM$setModel(3)
 
   ## Expectation

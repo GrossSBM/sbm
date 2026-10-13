@@ -59,7 +59,7 @@ test_that("SimpleSBM_fit 'Bernoulli' model, undirected, with nodes covariates", 
     expect_equal(mySBM$nodesCovariates, nodesCovar[[1]])
 
     ## Estimation-----------------------------------------------------------------
-    BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0, fast = TRUE, nbCores = 1))
+    BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0, plot = FALSE, fast = TRUE, nbCores = 1))
     mySBM$setModel(nbBlocks)
 
     ## Expectation
@@ -108,7 +108,7 @@ test_that("SimpleSBM_fit 'Bernoulli' model, directed, with nodes covariates", {
     expect_equal(mySBM$nbDyads, nbNodes * (nbNodes - 1))
 
     ## Estimation
-    BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0, fast = TRUE, nbCores = 1))
+    BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0, plot = FALSE, fast = TRUE, nbCores = 1))
     mySBM$setModel(nbBlocks)
 
     ## Expectation
@@ -147,7 +147,7 @@ test_that("SimpleSBM_fit 'Poisson' model, undirected, with nodes covariates", {
     expect_equal(ncol(mySBM$nodesCovariates), nbNodesCovar)
 
     ## Estimation
-    BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0, fast = TRUE, nbCores = 1))
+    BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0, plot = FALSE, fast = TRUE, nbCores = 1))
     mySBM$setModel(nbBlocks)
 
     ## Expectation
@@ -187,7 +187,7 @@ test_that("SimpleSBM_fit with nodes covariates: setModel to one block does not k
 
     mySBM <- SimpleSBM_fit$new(mySampler$networkData, "bernoulli", FALSE,
         nodesCovarList = nodesCovar)
-    BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0, fast = TRUE, nbCores = 1))
+    BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0, plot = FALSE, fast = TRUE, nbCores = 1))
 
     ## from a model with several blocks to the model with one block
     mySBM$setModel(nbBlocks)

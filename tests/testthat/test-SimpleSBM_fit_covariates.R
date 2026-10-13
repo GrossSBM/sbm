@@ -64,7 +64,7 @@ if (Sys.info()['sysname'] != "Windows") {
     expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
 
     ## Estimation-----------------------------------------------------------------
-    BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0, fast = TRUE))
+    BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0, plot = FALSE, fast = TRUE))
     w = which(mySBM$storedModels$nbBlocks==nbBlocks)
     ind_w <- mySBM$storedModels[,1][w]
     mySBM$setModel(ind_w)
@@ -145,7 +145,7 @@ if (Sys.info()['sysname'] != "Windows") {
     expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
 
     ## Estimation-----------------------------------------------------------------
-    BM_out <- mySBM$optimize(estimOptions  = list(verbosity = 0, fast = TRUE))
+    BM_out <- mySBM$optimize(estimOptions  = list(verbosity = 0, plot = FALSE, fast = TRUE))
     w = which(mySBM$storedModels$nbBlocks==nbBlocks)
     ind_w <- mySBM$storedModels[,1][w]
     mySBM$setModel(ind_w)
@@ -226,7 +226,7 @@ if (Sys.info()['sysname'] != "Windows") {
     expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
 
     ## Estimation-----------------------------------------------------------------
-    BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0))
+    BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0, plot = FALSE))
     w = which(mySBM$storedModels$nbBlocks==nbBlocks)
     ind_w <- mySBM$storedModels[,1][w]
     mySBM$setModel(ind_w)
@@ -306,7 +306,7 @@ if (Sys.info()['sysname'] != "Windows") {
     expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
 
     ## Estimation-----------------------------------------------------------------
-    BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0))
+    BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0, plot = FALSE))
     w = which(mySBM$storedModels$nbBlocks==nbBlocks)
     ind_w <- mySBM$storedModels[,1][w]
     mySBM$setModel(ind_w)
@@ -387,7 +387,7 @@ if (Sys.info()['sysname'] != "Windows") {
     expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
 
     ## Estimation-----------------------------------------------------------------
-    BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0))
+    BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0, plot = FALSE))
     w = which(mySBM$storedModels$nbBlocks==nbBlocks)
     ind_w <- mySBM$storedModels[,1][w]
     mySBM$setModel(ind_w)
@@ -472,7 +472,7 @@ if (Sys.info()['sysname'] != "Windows") {
     expect_equal(coef(mySBM, 'covariates')  , mySBM$covarParam)
 
     ## Estimation-----------------------------------------------------------------
-    BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0))
+    BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0, plot = FALSE))
     w = which(mySBM$storedModels$nbBlocks==nbBlocks)
     ind_w <- mySBM$storedModels[,1][w]
     mySBM$setModel(ind_w)
