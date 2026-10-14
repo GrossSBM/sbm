@@ -75,7 +75,7 @@ MultiplexSBM_fit <-
       #' @description estimation of multipartiteSBM via GREMLINS
       #' @param estimOptions options for MultipartiteBM
       #' @details The list of parameters \code{estimOptions} essentially tunes the optimization process and the variational EM algorithm, with the following parameters
-      #'  * "nbCores" integer for number of cores used.  Default is 2
+      #'  * "nbCores" integer for number of cores used.  Default is 2 (1 under Positron, which does not allow forking)
       #'  * "verbosity" integer for verbosity (0, 1). Default is 1
       #'  * "nbBlocksRange" List of length the number of functional groups, each element supplying the minimal and maximal number of blocks to be explored. The names of the list must be the names of the functional groups.  Default value is from 1 to 10)
       #'  * "initBM" Boolean. True if using simple and bipartite SBM as initialisations. Default value  = TRUE
@@ -91,7 +91,7 @@ MultiplexSBM_fit <-
             plot          = TRUE,
             explorFactor  = 1.5,
             nbBlocksRange = c(4,Inf),
-            nbCores       = 2,
+            nbCores       = .default_nbCores(),
             fast          = TRUE
           )
           currentOptions[names(estimOptions)] <- estimOptions
@@ -104,7 +104,7 @@ MultiplexSBM_fit <-
             plotting           = if(currentOptions$plot) character(0) else "",
             explore_min        = currentOptions$nbBlocksRange[1],
             explore_max        = currentOptions$nbBlocksRange[2],
-            ncores             = currentOptions$nbCores,
+            ncores             = .check_nbCores(currentOptions$nbCores),
             exploration_factor = currentOptions$explorFactor
           )
 

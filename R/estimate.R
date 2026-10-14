@@ -12,7 +12,7 @@
 #' @param estimOptions a list of parameters controlling the inference algorithm and model selection. See details.
 #'
 #' @details The list of parameters \code{estimOptions} essentially tunes the optimization process and the variational EM algorithm, with the following parameters
-#' * "nbCores integer for number of cores used. Default is 2
+#' * "nbCores integer for number of cores used. Default is 2 (1 under Positron, which does not allow forking)
 #' * "verbosity" integer for verbosity (0, 1). Default is 1
 #' * "plot" boolean, should the ICL be dynamically plotted or not. Default is TRUE, FALSE when "verbosity" is 0
 #' * "exploreFactor" control the exploration of the number of groups
@@ -101,7 +101,7 @@ estimateSimpleSBM <- function(netMat,
     plot          = TRUE,
     explorFactor  = 1.5,
     nbBlocksRange = c(4,Inf),
-    nbCores       = 2,
+    nbCores       = .default_nbCores(),
     fast          = TRUE
   )
 
@@ -206,7 +206,7 @@ estimateBipartiteSBM <- function(netMat,
     plot          = TRUE,
     explorFactor  = 1.5,
     nbBlocksRange = c(4,Inf),
-    nbCores       = 2,
+    nbCores       = .default_nbCores(),
     fast          = TRUE
   )
 
@@ -236,7 +236,7 @@ estimateBipartiteSBM <- function(netMat,
 #' @param listSBM list of networks that were defined by the \code{defineSBM} function
 #' @param estimOptions options for the inference procedure
 #' @details The list of parameters \code{estimOptions} essentially tunes the optimization process and the variational EM algorithm, with the following parameters
-#' * "nbCores" integer for number of cores used.  Default is 2
+#' * "nbCores" integer for number of cores used.  Default is 2 (1 under Positron, which does not allow forking)
 #' * "verbosity" integer for verbosity (0, 1). Default is 1
 #' * "nbBlocksRange" List of length the number of functional groups, each element supplying the minimal and maximal number of blocks to be explored. The names of the list must be the names of the functional groups.  Default value is from 1 to 10)
 #' * "initBM" Boolean. True if using simple and bipartite SBM as initialisations. Default value  = TRUE
@@ -282,7 +282,7 @@ estimateMultipartiteSBM <- function(listSBM,
   currentOptions <- list(
     verbosity     = 1,
     nbBlocksRange = rep(list(c(1,10)), length(myMSBM$dimLabels)),
-    nbCores       = 2,
+    nbCores       = .default_nbCores(),
     maxiterVE     = 100,
     maxiterVEM    = 100,
     initBM = TRUE
@@ -307,7 +307,7 @@ estimateMultipartiteSBM <- function(listSBM,
 #' @param dependent logical parameter indicating whether the networks in the multiplex structure are dependent beyond the latent variables,
 #' @param estimOptions options for the inference procedure
 #' @details The list of parameters \code{estimOptions} essentially tunes the optimization process and the variational EM algorithm, with the following parameters
-#' * "nbCores" integer for number of cores used.  Default is 2
+#' * "nbCores" integer for number of cores used.  Default is 2 (1 under Positron, which does not allow forking)
 #' * "verbosity" integer for verbosity (0, 1). Default is 1
 #' * "nbBlocksRange" List of length the number of functional groups, each element supplying the minimal and maximal number of blocks to be explored. The names of the list must be the names of the functional groups.  Default value is from 1 to 10)
 #' * "initBM" Boolean. True if using simple and bipartite SBM as initialisations. Default value  = TRUE
@@ -423,7 +423,7 @@ estimateMultiplexSBM <- function(listSBM,
       plot          = TRUE,
       explorFactor  = 1.5,
       nbBlocksRange = c(4,Inf),
-      nbCores       = 2,
+      nbCores       = .default_nbCores(),
       fast          = TRUE
     )
   } else
@@ -431,7 +431,7 @@ estimateMultiplexSBM <- function(listSBM,
     currentOptions <- list(
       verbosity     = 1,
       nbBlocksRange = rep(list(c(1, 10)), length(myMSBM$dimLabels)),
-      nbCores       = 2,
+      nbCores       = .default_nbCores(),
       maxiterVE     = 100,
       maxiterVEM    = 100,
       initBM = TRUE

@@ -27,7 +27,8 @@ Suggests:
     rmarkdown,
     aricode,
     pROC,
-    covr
+    covr,
+    quarto
 Language: en-US
 Imports: 
     alluvial,
@@ -73,7 +74,7 @@ Collate:
 LinkingTo: 
     Rcpp,
     RcppArmadillo
-VignetteBuilder: knitr
+VignetteBuilder: knitr, quarto
 Depends: 
     R (>= 3.5.0)
 Remotes:

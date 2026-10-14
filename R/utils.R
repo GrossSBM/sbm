@@ -86,3 +86,17 @@ computeNbConnectParams_MBM <- function(nbBlocks,distrib,E,directed){
 }
 
 
+
+##-------------------------------- Parallel computing
+## Positron forbids forking the R session (used by parallel::mclapply in blockmodels and GREMLINS)
+.in_positron <- function() nzchar(Sys.getenv("POSITRON"))
+
+.default_nbCores <- function() if (.in_positron()) 1 else 2
+
+.check_nbCores <- function(nbCores) {
+  if (.in_positron() && nbCores > 1) {
+    warning("Positron does not allow forking the R session: 'nbCores' is set to 1.", call. = FALSE)
+    nbCores <- 1
+  }
+  nbCores
+}

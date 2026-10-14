@@ -96,7 +96,7 @@ SimpleSBM_fit <-
           exploreMin = 4,
           exploreMax  = Inf,
           nbBlocksRange = c(4,Inf),
-          nbCores       = 2,
+          nbCores       = .default_nbCores(),
           fast          = TRUE
         )
         currentOptions[names(estimOptions)] <- estimOptions
@@ -109,7 +109,7 @@ SimpleSBM_fit <-
           plotting           = if(currentOptions$plot) character(0) else "",
           explore_min        = currentOptions$exploreMin,
           explore_max        = currentOptions$exploreMax,
-          ncores             = currentOptions$nbCores,
+          ncores             = .check_nbCores(currentOptions$nbCores),
           exploration_factor = currentOptions$exploreFactor
          )
         fast <- currentOptions$fast

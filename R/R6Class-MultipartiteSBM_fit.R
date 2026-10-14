@@ -109,7 +109,7 @@ MultipartiteSBM_fit <-
         currentOptions <- list(
           verbosity     = 1,
           nbBlocksRange = rep(list(c(1, 10)), length(private$dimlab)),
-          nbCores       = 2,
+          nbCores       = .default_nbCores(),
           maxiterVE     = 100,
           maxiterVEM    = 100,
           initBM = TRUE
@@ -135,7 +135,7 @@ MultipartiteSBM_fit <-
         v_Kmin  <- map_dbl(currentOptions$nbBlocksRange, 1)
         v_Kmax  <- map_dbl(currentOptions$nbBlocksRange, 2)
         verbose <- (currentOptions$verbosity > 0)
-        nbCores <- currentOptions$nbCores
+        nbCores <- .check_nbCores(currentOptions$nbCores)
         maxiterVE <- currentOptions$maxiterVE
         maxiterVEM <- currentOptions$maxiterVEM
         namesFG <- names(currentOptions$nbBlocksRange)
