@@ -23,7 +23,7 @@ knitr::opts_chunk$set(
 
 ## Preliminaries
 
-This vignette illustrates the use of the covariates on nodes or edges in Stochastic Block models. 
+This vignette illustrates the use of the covariates on nodes in Stochastic Block models. 
 ### Requirements
 
 The packages required for the analysis are **sbm** plus some others for data manipulation and representation:
@@ -35,9 +35,9 @@ library(knitr)
 theme_set(theme_bw())
 ```
 
-### Data set: antagonistic tree/fungus interaction network
+### A simulated data set 
 
-We consider the fungus-tree interaction network studied by @tree_fungus_network, available with the package **sbm**:
+We simulate a simple binary networks  of ` ` nodes using the function `simulateavailable with the package **sbm**:
 
 ```{r import dataset}
 data("fungusTreeNetwork")

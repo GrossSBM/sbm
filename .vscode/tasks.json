@@ -10,7 +10,7 @@
         {
             "label": "R: Install",
             "type": "shell",
-            "command": "Rscript -e 'devtools::document(); devtools::install(upgrade = \"never\")'",
+            "command": "Rscript -e 'devtools::document(); devtools::install(upgrade = FALSE)'",
             "group": { "kind": "build", "isDefault": true },
             "problemMatcher": []
         },
@@ -30,7 +30,7 @@
         {
             "label": "Site: Build",
             "type": "shell",
-            "command": "Rscript -e 'devtools::install(upgrade = \"never\"); pkgdown::build_site(preview = FALSE)'",
+            "command": "Rscript -e 'devtools::install(upgrade = FALSE); pkgdown::build_site(preview = FALSE)'",
             "problemMatcher": []
         },
         {
