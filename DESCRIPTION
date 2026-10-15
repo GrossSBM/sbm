@@ -28,7 +28,8 @@ Suggests:
     aricode,
     pROC,
     covr,
-    quarto
+    quarto,
+    patchwork
 Language: en-US
 Imports: 
     alluvial,
