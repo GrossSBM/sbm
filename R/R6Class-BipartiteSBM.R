@@ -111,12 +111,8 @@ BipartiteSBM <-
         switch(match.arg(type),
           "meso" =
             plotMeso(
-              thetaMean  = private$theta$mean,
-              pi         = private$pi,
-              model      = private$model,
-              directed   = private$directed_,
-              bipartite  = TRUE,
-              nbNodes    = self$nbNodes,
+              piList     = unname(private$pi),
+              netList    = list(list(fg = c(1, 2), mean = private$theta$mean, directed = NA)),
               nodeLabels = as.list(private$dimlab),
               plotOptions),
           "data" =

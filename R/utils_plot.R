@@ -540,22 +540,26 @@ ggplotColors <- function(n){
   grDevices::hcl(h = seq(15, 375, length.out = n + 1), l = 65, c = 100)[1:n]
 }
 #-----------------------------------------------------------------
-# Mesoscopic view of a simple or bipartite SBM: the graphon drawn as a network.
-# Each block is a node whose area is proportional to the block proportion, colored
-# according to its type of nodes (rows / columns in the bipartite case). The connectivity
-# between two blocks (and within a block, as a loop) is drawn as an edge whose width and
-# color grow with the connectivity, with the same colors as the graphon.
+# Mesoscopic view of a simple, bipartite or multipartite SBM: the graphon drawn as a network.
+# Each block is a node whose area is proportional to the block proportion, colored and shaped
+# according to its type of nodes (functional group). The connectivity between two blocks (and
+# within a block, as a loop) is drawn as an edge whose width and color grow with the connectivity,
+# with the same colors as the graphon, on a scale common to all the networks.
+#   piList  : list of the block proportions, one element per functional group
+#   netList : list of the networks, each one a list with fg (the two functional groups),
+#             mean (the matrix of connectivities) and directed (logical, NA for bipartite)
 #-----------------------------------------------------------------
-plotMeso <- function(thetaMean, pi, model, directed, bipartite, nbNodes, nodeLabels, plotOptions){
+#' @importFrom graphics plot
+plotMeso <- function(piList, netList, nodeLabels, plotOptions){
 
-  nbFG <- if (bipartite) 2 else 1
+  nbFG <- length(piList)
   currentOptions <- list(
     seed = NULL,
     title = NULL,
     layout = NULL,
-    vertex.color = ggplotColors(2)[1:nbFG],
+    vertex.color = ggplotColors(max(nbFG, 2))[1:nbFG],
     vertex.frame.color = 'black',
-    vertex.shape = c('circle', 'square')[1:nbFG],
+    vertex.shape = rep_len(c('circle', 'square', 'diamond', 'triangle'), nbFG),
     vertex.size = 1,
     vertex.label.name = NULL,
     vertex.label.color = 'black',
@@ -576,18 +580,19 @@ plotMeso <- function(thetaMean, pi, model, directed, bipartite, nbNodes, nodeLab
   }
 
   #------------------ blocks (nodes of the mesoscopic graph)
-  piList <- if (bipartite) list(pi$row, pi$col) else list(pi)
   nbBlocks <- lengths(piList)
+  offset <- c(0, cumsum(nbBlocks))[1:nbFG]
   nodes <- data.frame(fg = rep(1:nbFG, nbBlocks), q = unlist(lapply(nbBlocks, seq_len)), pi = unlist(piList))
+  Q <- nrow(nodes)
 
   vertex.label <- currentOptions$vertex.label.name
   if (is.null(vertex.label)) {
-    if (bipartite) {
+    if (nbFG > 1) {
       # shortest prefixes of the labels of the dimensions which distinguish them
       dimLab <- unlist(nodeLabels)
       i <- 1
       prefix <- substr(dimLab, 1, i)
-      while (length(unique(prefix)) < 2 && i < max(nchar(dimLab))) {i <- i + 1; prefix <- substr(dimLab, 1, i)}
+      while (anyDuplicated(prefix) && i < max(nchar(dimLab))) {i <- i + 1; prefix <- substr(dimLab, 1, i)}
       nodes$label <- paste0(prefix[nodes$fg], nodes$q)
     } else {
       nodes$label <- as.character(nodes$q)
@@ -598,28 +603,22 @@ plotMeso <- function(thetaMean, pi, model, directed, bipartite, nbNodes, nodeLab
   }
 
   #------------------ connectivities (edges of the mesoscopic graph)
-  Q <- sum(nbBlocks)
-  offset <- c(0, cumsum(nbBlocks))[1:nbFG]
-  thetaMean <- as.matrix(thetaMean)
-  if (bipartite) {
-    edges <- expand.grid(q = 1:nbBlocks[1], l = 1:nbBlocks[2])
-    edges$value <- thetaMean[cbind(edges$q, edges$l)]
-    edges$from  <- edges$q
-    edges$to    <- offset[2] + edges$l
-  } else {
-    edges <- expand.grid(q = 1:Q, l = 1:Q)
-    if (!directed) {edges <- edges[edges$q <= edges$l, ]}
-    edges$value <- thetaMean[cbind(edges$q, edges$l)]
-    edges$from  <- edges$q
-    edges$to    <- edges$l
-  }
-  # same colors as the graphon
+  edges <- do.call(rbind, lapply(netList, function(net) {
+    i <- net$fg[1]; j <- net$fg[2]
+    m <- matrix(net$mean, nbBlocks[i], nbBlocks[j])
+    e <- expand.grid(q = 1:nbBlocks[i], l = 1:nbBlocks[j])
+    directed <- isTRUE(net$directed)
+    if (i == j && !directed) {e <- e[e$q <= e$l, ]}
+    data.frame(from = offset[i] + e$q, to = offset[j] + e$l,
+               value = m[cbind(e$q, e$l)], directed = directed)
+  }))
+  # same colors as the graphon, on a scale common to all the networks
+  allValues <- unlist(lapply(netList, function(net) net$mean))
   limits <- currentOptions$limits
-  if (is.null(limits)) {limits <- if (all(thetaMean >= 0)) c(0, max(thetaMean)) else range(thetaMean)}
-  edges$intensity <- (blockAlpha(edges$value, currentOptions, limits) - currentOptions$blockAlpha.min) /
-    (currentOptions$blockAlpha.max - currentOptions$blockAlpha.min)
-  edges$color <- vapply(blockAlpha(edges$value, currentOptions, limits),
-                        function(a) blendWhite(currentOptions$block.color, a), character(1))
+  if (is.null(limits)) {limits <- if (all(allValues >= 0)) c(0, max(allValues)) else range(allValues)}
+  alpha <- blockAlpha(edges$value, currentOptions, limits)
+  edges$intensity <- (alpha - currentOptions$blockAlpha.min) / (currentOptions$blockAlpha.max - currentOptions$blockAlpha.min)
+  edges$color <- vapply(alpha, function(a) blendWhite(currentOptions$block.color, a), character(1))
   edges$width <- currentOptions$edge.width * (0.2 + 2.8 * edges$intensity)
   edges <- edges[edges$value >= currentOptions$edge.threshold, ]
   edges <- edges[order(edges$intensity), ]
@@ -627,11 +626,8 @@ plotMeso <- function(thetaMean, pi, model, directed, bipartite, nbNodes, nodeLab
   #------------------ layout
   layout <- currentOptions$layout
   if (is.null(layout)) {
-    if (bipartite) {
-      # one row of blocks per type of nodes, the blocks being spaced by 1
-      maxQ <- max(nbBlocks)
-      layout <- cbind(x = c(seq_len(nbBlocks[1]) - (nbBlocks[1] + 1) / 2, seq_len(nbBlocks[2]) - (nbBlocks[2] + 1) / 2),
-                      y = rep(c(max(1.5, 0.6 * maxQ), 0), nbBlocks))
+    if (nbFG > 1) {
+      layout <- mesoLayoutFG(t(sapply(netList, function(net) net$fg)), nbBlocks)
     } else {
       # blocks attracted by their connectivity (the seed is set before the random layout)
       if (!is.null(currentOptions$seed)) {set.seed(currentOptions$seed)}
@@ -653,22 +649,26 @@ plotMeso <- function(thetaMean, pi, model, directed, bipartite, nbNodes, nodeLab
   nodes$shape <- currentOptions$vertex.shape[nodes$fg]
   nodes$fill  <- currentOptions$vertex.color[nodes$fg]
   # simple SBM: the connectivity within the blocks can be given by the color of the nodes
-  fillWithin <- !bipartite && currentOptions$withinBlock == 'fill'
+  fillWithin <- nbFG == 1 && currentOptions$withinBlock == 'fill'
   if (fillWithin) {
-    nodes$fill <- vapply(blockAlpha(diag(thetaMean), currentOptions, limits),
+    selfValue <- vapply(seq_len(Q), function(k) {
+      v <- edges$value[edges$from == k & edges$to == k]
+      if (length(v)) v else limits[1]}, numeric(1))
+    nodes$fill <- vapply(blockAlpha(selfValue, currentOptions, limits),
                          function(a) blendWhite(currentOptions$block.color, a), character(1))
   }
   nodes$frame <- currentOptions$vertex.frame.color[nodes$fg]
 
-  # nodes as polygons (circles or squares of the same area)
+  # nodes as polygons (circles, squares, diamonds or triangles of the same area)
   polys <- do.call(rbind, lapply(seq_len(Q), function(k) {
-    if (nodes$shape[k] == 'square') {
-      h <- nodes$r[k] * sqrt(base::pi) / 2
-      data.frame(id = k, x = nodes$x[k] + c(-h, h, h, -h), y = nodes$y[k] + c(-h, -h, h, h))
-    } else {
-      t <- seq(0, 2 * base::pi, length.out = 61)[-61]
-      data.frame(id = k, x = nodes$x[k] + nodes$r[k] * cos(t), y = nodes$y[k] + nodes$r[k] * sin(t))
-    }
+    r <- nodes$r[k]
+    xy <- switch(nodes$shape[k],
+      square   = {h <- r * sqrt(base::pi) / 2; cbind(c(-h, h, h, -h), c(-h, -h, h, h))},
+      diamond  = {h <- r * sqrt(base::pi / 2); cbind(c(0, h, 0, -h), c(-h, 0, h, 0))},
+      triangle = {R <- r * sqrt(4 * base::pi / sqrt(27)); t <- base::pi / 2 + c(0, 2, 4) * base::pi / 3
+                  cbind(R * cos(t), R * sin(t))},
+      {t <- seq(0, 2 * base::pi, length.out = 61)[-61]; cbind(r * cos(t), r * sin(t))})
+    data.frame(id = k, x = nodes$x[k] + xy[, 1], y = nodes$y[k] + xy[, 2])
   }))
   polys$fill  <- nodes$fill[polys$id]
   polys$frame <- nodes$frame[polys$id]
@@ -681,13 +681,17 @@ plotMeso <- function(thetaMean, pi, model, directed, bipartite, nbNodes, nodeLab
     len <- sqrt(dx^2 + dy^2)
     # distance from the center to the border of the node, in the direction of the edge
     toBorder <- function(k) {
-      h <- nodes$r[k] * sqrt(base::pi) / 2
-      ifelse(nodes$shape[k] == 'square', h / pmax(abs(dx), abs(dy)) * len, nodes$r[k])
+      ux <- abs(dx) / len; uy <- abs(dy) / len
+      r <- nodes$r[k]
+      ifelse(nodes$shape[k] == 'square', r * sqrt(base::pi) / 2 / pmax(ux, uy),
+      ifelse(nodes$shape[k] == 'diamond', r * sqrt(base::pi / 2) / (ux + uy), r))
     }
     inter$x    <- nodes$x[inter$from] + dx / len * toBorder(inter$from)
     inter$y    <- nodes$y[inter$from] + dy / len * toBorder(inter$from)
     inter$xend <- nodes$x[inter$to]   - dx / len * toBorder(inter$to)
     inter$yend <- nodes$y[inter$to]   - dy / len * toBorder(inter$to)
+    # undirected edges between aligned blocks would go through the blocks between them: curved
+    inter$curved <- inter$directed | abs(dy) < 1e-8 * max(1, len)
   }
   # connectivity within a block: loop on the outer side of the node
   loops <- if (fillWithin) edges[0, ] else edges[edges$from == edges$to, ]
@@ -719,15 +723,20 @@ plotMeso <- function(thetaMean, pi, model, directed, bipartite, nbNodes, nodeLab
                                               colour = .data$color, linewidth = .data$width),
                        lineend = 'round')
   }
+  edgeAes <- aes(x = .data$x, y = .data$y, xend = .data$xend, yend = .data$yend,
+                 colour = .data$color, linewidth = .data$width)
   if (nrow(inter) > 0) {
-    if (directed && !bipartite) {
-      g <- g + geom_curve(data = inter, aes(x = .data$x, y = .data$y, xend = .data$xend, yend = .data$yend,
-                                            colour = .data$color, linewidth = .data$width),
+    if (any(!inter$curved)) {
+      g <- g + geom_segment(data = inter[!inter$curved, ], edgeAes)
+    }
+    if (any(inter$curved & inter$directed)) {
+      g <- g + geom_curve(data = inter[inter$curved & inter$directed, ], edgeAes,
                           curvature = currentOptions$edge.curved,
                           arrow = arrow(length = unit(2.5 * currentOptions$edge.arrow.size, "mm"), type = "closed"))
-    } else {
-      g <- g + geom_segment(data = inter, aes(x = .data$x, y = .data$y, xend = .data$xend, yend = .data$yend,
-                                              colour = .data$color, linewidth = .data$width))
+    }
+    if (any(inter$curved & !inter$directed)) {
+      g <- g + geom_curve(data = inter[inter$curved & !inter$directed, ], edgeAes,
+                          curvature = max(abs(currentOptions$edge.curved), 0.3))
     }
   }
   g <- g +
@@ -742,165 +751,58 @@ plotMeso <- function(thetaMean, pi, model, directed, bipartite, nbNodes, nodeLab
   g
 }
 
-
-##################################################################################
-#----------------------------------------------------------------------------------
-##################################################################################
 #-----------------------------------------------------------------
-#' @importFrom graphics par
-#' @importFrom graphics plot
-plotMesoMultipartite <- function(E,theta, list_pi,v_distrib,directed,nbNodes,nodeLabels,plotOptions){
+# Layout of the blocks of several functional groups (FG): the blocks of each FG are aligned on a row,
+# spaced by 1. The FG with the most connections (the hub) is in the middle; the FG connected to it are
+# placed on the rows above or below it (balancing the number of blocks), the FG further away beyond
+# them, on the same side. FG on the same row are placed side by side.
+# For a bipartite SBM: the row blocks above, the column blocks below.
+#   arch     : matrix with 2 columns, the pairs of FG connected by a network
+#   nbBlocks : number of blocks of each FG
+#-----------------------------------------------------------------
+mesoLayoutFG <- function(arch, nbBlocks){
 
-  directed[is.na(directed)] <- FALSE
-  nbFG <- length(list_pi)
-  nbNet <- nrow(E)
-  nbBlocks <- sapply(list_pi,length)
+  nbFG <- length(nbBlocks)
+  A <- matrix(FALSE, nbFG, nbFG)
+  A[arch] <- TRUE
+  A <- A | t(A)
+  diag(A) <- FALSE
+  hub <- which.max(rowSums(A))
 
-  list_thetaMean <- lapply(theta,function(u){u$mean})
-
-  #------------------------------------------list of colors and forms  ---------
-  colors = plotOptions$colors
-  if(is.null(colors)){
-    colors <- c('salmon2','darkolivegreen3','cadetblue2','darkgoldenrod2','lightsteelblue1','plum2','seagreen')
-  }
-  if ( (nbFG > length(colors)) & is.null(plotOptions$vertex.color)){stop('Too many FG. Define your own vertex.color')}
-  forms <- c('circle', 'square', 'csquare', 'rectangle' , 'crectangle', 'vrectangle', 'pie', 'raster', 'sphere')
-  if ( (nbFG > length(colors)) & is.null(plotOptions$vertexshape)){stop('Too many FG. Define your own vertex.shape')}
-
-
-  #------------------------------------------------------------------------------
-
-  vertex.arg <- which(grepl( "vertex." , names(plotOptions) ))
-  for (w in vertex.arg){
-    ver.w <- plotOptions[[w]]
-    if(length(ver.w)==1){plotOptions[[w]] <- rep(ver.w,nbFG)}
-  }
-
-  #----------------------------------------------------------------------------------
-
-  currentOptions <- list(seed = NULL,
-                         title = NULL,
-                         layout = NULL,
-                         vertex.color = colors[1:nbFG],
-                         vertex.frame.color = rep("black",nbFG),#"white",                 # Node border color
-                         vertex.shape = forms[1:nbFG],                        #
-                         vertex.size = rep(1,nbFG),                               # Size of the node (default is 1)
-                         vertex.size2 = rep(NA,nbFG),                              # The second size of the node (e.g. for a rectangle)
-                         # === vertex label
-                         vertex.label.name = nodeLabels,                   # Character vector used to label the nodes
-                         vertex.label.color =  rep("black",nbFG),#"white",
-                         vertex.label.font = rep(2,nbFG),                          # Font: 1 plain, 2 bold, 3, italic, 4 bold italic, 5 symbol
-                         vertex.label.cex = rep(0.9,nbFG),                           # Font size (multiplication factor, device-dependent)
-                         vertex.label.dist = rep(0,nbFG),                          # Distance between the label and the vertex
-                         vertex.label.degree = rep(0,nbFG) ,                       # The position of the label in relation to the vertex (use pi)
-                         # === Edge
-                         edge.threshold = -Inf,
-                         edge.color = "gray",#"white",                           # Edge color
-                         edge.width = 1,                    # Edge width, defaults to 1
-                         edge.arrow.size = 1,                            # Arrow size, defaults to 1
-                         edge.arrow.width = 1,                           # Arrow width, defaults to 1
-                         edge.lty = "solid",                             # Line Type, could be 0 or "blank", 1 or"solid", 2 or "dashed", 3 or "dotted", 4 or "dotdash", 5 or "longdash", 6 or "twodash"
-                         edge.curved = 0.3)
-
-  currentOptions[names(plotOptions)] <- plotOptions
-
-
-  if (currentOptions$edge.threshold != -Inf) {
-    cat(paste("Nota bene: threshold on connections is",currentOptions$edge.threshold,sep = ' '))
-  }
-  #---------------------------------------"
-  if (is.null(plotOptions$vertex.label.name)){
-    vertex.label <- substr(currentOptions$vertex.label.name, 1, 1)
-    i = 1
-    while (length(unique(vertex.label)) < 2 & (i <= 2)) {i = i + 1; vertex.label <- substr(currentOptions$vertex.label.name, 1, i)}
-  }else{
-    vertex.label   = plotOptions$vertex.label.name
-  }
-  #if (is.atomic(vertex.label)){vertex.label= as.list(vertex.label)}
-
-  layout <- currentOptions$layout
-  myOptions <- currentOptions
-  w.vertex.options <-which(stringr::str_detect(names(currentOptions), "vertex."))
-  myOptions <- currentOptions
-  for (p in w.vertex.options){myOptions[[p]] = rep(currentOptions[[p]],nbBlocks)}
-
-  names(myOptions) <- names(currentOptions)
-  labelNode <- unlist(lapply(1:nbFG,function(q){paste(vertex.label[q],1:nbBlocks[q],sep='')}))
-
-  #--------------------------- metaGraph g
-
-  N <- sum(nbBlocks);
-  DIR <- alpha <- matrix(0, N,N);
-  alpha.norm <- alpha
-  G <- matrix(0, nbFG, nbFG);
-  for (e in 1:nrow(E)){G[E[e,1],E[e,2]] = 1}
-  #G[E[, 1], E[, 2]] = 1
-  EndFG <- cumsum(nbBlocks);  BegFG <- c(0, cumsum(nbBlocks)[-nbFG]) + 1
-  for (i in 1:nbFG) {
-    for (j in 1:nbFG) {
-      if (G[i, j] == 1) {
-        place_row <-  BegFG[i]:EndFG[i]
-        place_col <-  BegFG[j]:EndFG[j]
-        kij <-
-          which(rowSums(E == matrix(
-            rep(c(i, j), nbNet),
-            ncol = 2,
-            nrow = nbNet,
-            byrow = T
-          )) == 2)
-        alpha_rc <- list_thetaMean[[kij]]
-        alpha_rc[alpha_rc < currentOptions$edge.threshold] <- 0
-        alpha[place_row, place_col] <- alpha_rc
-        model_kij <- v_distrib[kij]
-
-        if (model_kij == "bernoulli"){alpha.norm_rc  = alpha_rc};
-        if (model_kij == "poisson"){alpha.norm_rc = alpha_rc/max(alpha_rc)}
-        if ( !(model_kij %in% c("bernoulli","poisson"))){alpha.norm_rc = (alpha_rc - min(alpha_rc))/(max(alpha_rc) - min(alpha_rc)) + 0.1}
-        alpha.norm[place_row, place_col] <- alpha.norm_rc
-        DIR[place_row,place_col] = directed[kij]
-      }
+  # breadth first search from the hub: level = distance to the hub, side = +1 (above) or -1 (below)
+  level <- rep(NA, nbFG); side <- rep(0, nbFG)
+  level[hub] <- 0
+  blocksBySide <- c(0, 0) # above, below
+  queue <- hub
+  repeat {
+    if (length(queue) == 0) {
+      # FG not connected to the previous ones: start again from the first one
+      if (all(!is.na(level))) break
+      f <- which(is.na(level))[1]
+      s <- if (blocksBySide[1] < blocksBySide[2]) 1 else -1
+      level[f] <- max(level, na.rm = TRUE) + 1; side[f] <- s
+      blocksBySide[(3 - s) / 2] <- blocksBySide[(3 - s) / 2] + nbBlocks[f]
+      queue <- f
+    }
+    f <- queue[1]; queue <- queue[-1]
+    for (g in which(A[f, ] & is.na(level))) {
+      level[g] <- level[f] + 1
+      side[g] <- if (f == hub) {if (blocksBySide[1] < blocksBySide[2]) 1 else -1} else side[f]
+      blocksBySide[(3 - side[g]) / 2] <- blocksBySide[(3 - side[g]) / 2] + nbBlocks[g]
+      queue <- c(queue, g)
     }
   }
+  row <- side * level
 
-
-
-  colnames(alpha.norm) <- rownames(alpha.norm) <- labelNode
-  g <- suppressWarnings(igraph::graph.adjacency(alpha.norm, mode = 'directed', weighted = TRUE, diag = TRUE))
-  if (is.null(layout)){layout <- igraph::layout_with_fr(g)}
-  u <- unlist(lapply(1:nbFG, function(p){list_pi[[p]]*10}))
-
-  igraph::E(g)$width <- 1 + as.integer(igraph::E(g)$weight*10)
-
-
-  DIR <-c(c(t(DIR))[c(t(alpha.norm)) != 0] != 'FALSE')
-
-  currentOptions$seed <- .Random.seed
-  set.seed(currentOptions$seed)
-  old_par <- par(mar = rep(0.15,4))
-  plot(g, layout = layout,
-     # === vertex
-     vertex.color = myOptions$vertex.color,
-     vertex.frame.color = myOptions$vertex.frame.color,
-     vertex.shape = myOptions$vertex.shape,
-     vertex.size = myOptions$vertex.size*u,
-     vertex.size2 = myOptions$vertex.size2,
-     # === vertex label
-     vertex.label = labelNode,
-     vertex.label.color = myOptions$vertex.label.color,
-     vertex.label.family = myOptions$vertex.label.family,
-     vertex.label.cex = myOptions$vertex.label.cex,
-     vertex.label.dist = myOptions$vertex.label.dist[1],
-     vertex.label.degree = myOptions$vertex.label.degree,
-     # === Edge
-     edge.color = myOptions$edge.color,
-     edge.width = 10*igraph::E(g)$weight*myOptions$edge.width,
-     edge.arrow.size = max(DIR)*myOptions$edge.arrow.size,
-     edge.arrow.width = max(DIR)*myOptions$edge.arrow.width,
-     edge.lty = myOptions$edge.lty,
-     edge.curved = myOptions$edge.curved,
-     main = myOptions$title
-     )
-    par(old_par)
-    list(g = g,layout = layout,plotOptions = currentOptions)
-
+  # blocks of the FG of each row side by side, the FG being separated by a gap of 1.5
+  x <- vector('list', nbFG)
+  for (r in unique(row)) {
+    fgs <- which(row == r)
+    starts <- cumsum(c(0, nbBlocks[fgs] + 0.5))[seq_along(fgs)]
+    width <- starts[length(fgs)] + nbBlocks[fgs[length(fgs)]] - 1
+    for (k in seq_along(fgs)) {x[[fgs[k]]] <- starts[k] + seq_len(nbBlocks[fgs[k]]) - 1 - width / 2}
+  }
+  maxQ <- max(tapply(nbBlocks, row, sum))
+  gap <- max(1.5, 0.6 * maxQ)
+  cbind(x = unlist(x), y = rep(row * gap, nbBlocks))
 }

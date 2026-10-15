@@ -67,9 +67,12 @@ MultipartiteSBM <-
         if (ordered) clustering <- self$memberships else clustering <- NULL
         switch(match.arg(type),
           "meso" =
-            plotMesoMultipartite(
-              private$arch, self$connectParam, private$pi, private$model,
-              private$directed_, private$dim, private$dimlab, plotOptions
+            plotMeso(
+              piList     = unname(private$pi),
+              netList    = lapply(seq_len(nrow(private$arch)), function(k)
+                list(fg = private$arch[k, ], mean = self$connectParam[[k]]$mean, directed = private$directed_[k])),
+              nodeLabels = as.list(private$dimlab),
+              plotOptions
             ),
           "data" =
             plotMultipartiteMatrix(

@@ -311,11 +311,7 @@ plot.SBM = function(x, type = c('data', 'expected', 'graphon', 'meso'), ordered 
 
   stopifnot(is_SBM(x))
   type <- match.arg(type)
-  if (type == 'meso' && !(inherits(x, "SimpleSBM") || inherits(x, "BipartiteSBM"))){
-    invisible(x$plot(type, ordered, plotOptions))
-  } else {
-    x$plot(type, ordered, plotOptions)
-  }
+  x$plot(type, ordered, plotOptions)
 }
 
 #' Extract model fitted values

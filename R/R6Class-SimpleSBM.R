@@ -114,12 +114,8 @@ SimpleSBM <-
         switch(match.arg(type),
           "meso" =
             plotMeso(
-              thetaMean  = private$theta$mean,
-              pi         = private$pi,
-              model      = private$model,
-              directed   = private$directed_,
-              bipartite  = FALSE,
-              nbNodes    = self$nbNodes,
+              piList     = list(private$pi),
+              netList    = list(list(fg = c(1, 1), mean = private$theta$mean, directed = private$directed_)),
               nodeLabels = as.list(private$dimlab),
               plotOptions),
           "data" =
