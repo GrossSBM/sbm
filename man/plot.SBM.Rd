@@ -61,6 +61,7 @@ For type = 'data' or 'expected plot', the list of parameters \code{plotOptions} 
 \item{"legend.position":}{Position of the legend. Possible values are 'bottom', 'top','left,'right'. Default value is 'bottom'}
 \item{"rowNames":}{Set true if the rownames must be plotted. Default value is FALSE}
 \item{"colNames":}{Set true if the colNames must be plotted. Default value is FALSE}
+\item{"names.size":}{Numeric. Size (in pts) of the row and column names. Default value is NULL: the size decreases with the number of nodes, so that the names do not overlap on a 5 inches plot}
 \item{"line.color": }{Chain of character. The color of the lines to separate groups if a clustering is provided. Default value is red}
 \item{"line.width": }{Numeric. Width  of the lines to separate groups. Default value is NULL, automatically chosen}
 \item{"title": }{Chain of character. Title of the plot. Default value is NULL}

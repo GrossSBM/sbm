@@ -34,6 +34,7 @@ plotMatrix = function(Mat, dimLabels, clustering = NULL, plotOptions = list()){
     legend = FALSE,
     rowNames = FALSE,
     colNames = FALSE,
+    names.size = NULL,
     title = NULL,
     blockBackground = TRUE,
     block.color = 'red',
@@ -150,13 +151,20 @@ plotMatrix = function(Mat, dimLabels, clustering = NULL, plotOptions = list()){
   if (!binary) {g <-  g +  scale_fill_gradient(low = low.color, high = "black", limits = u,na.value = "white")}
   if (binary) {g <- g + scale_fill_manual(breaks = c("0", "1"),values = c(low.color, "black"),na.value = "white")}
   g <- g  +  scale_x_discrete(drop = FALSE, expand = c(0, 0)) + scale_y_discrete(drop = FALSE, expand = c(0, 0))
+  # size of the names: by default, small enough for the names not to overlap on a
+  # 5 inches plot (rows and columns have the same width since aspect.ratio = n1/n2)
+  names.size <- currentOptions$names.size
+  if (is.null(names.size)) {names.size <- min(9, 250 / max(n1, n2))}
   if (!currentOptions$colNames){
     g <- g + theme(axis.text.x = element_blank())
   }else{
-    g <- g + theme(axis.text.x = element_text(angle = 90, hjust = 0))
+    # vertical names, ending at the axis and centered on their column
+    g <- g + theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5, size = names.size))
   }
   if (!currentOptions$rowNames){
     g <- g + theme(axis.text.y = element_blank())
+  }else{
+    g <- g + theme(axis.text.y = element_text(size = names.size))
   }
 
   # the labels of the dimensions are the axis titles
