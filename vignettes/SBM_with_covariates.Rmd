@@ -9,7 +9,7 @@ output:
 bibliography: references.bib
 link-citations: yes
 vignette: >
-  %\VignetteIndexEntry{Simple and Bipartite Stochastic Block Models}
+  %\VignetteIndexEntry{Using covariates in SBM}
   %\VignetteEngine{knitr::rmarkdown} 
   %\VignetteEncoding{UTF-8}
 ---

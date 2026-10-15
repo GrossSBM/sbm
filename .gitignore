@@ -47,3 +47,4 @@ inst/doc
 doc
 Meta
 tests/testthat/Rplots.pdf
+.vscode/

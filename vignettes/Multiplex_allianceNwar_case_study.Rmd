@@ -1,5 +1,5 @@
 ---
-title: "Stochastic Block Models for Multiplex networks"
+title: "Stochastic Block Models for Multiplex networks: application"
 subtitle: "War and Alliance case study"
 author: "team großBM"
 date: "`r Sys.Date()`"
@@ -10,7 +10,7 @@ output:
 bibliography: references.bib
 link-citations: yes
 vignette: >
-  %\VignetteIndexEntry{Stochastic Block Models for Multiplex  networks : application}
+  %\VignetteIndexEntry{Stochastic Block Models for Multiplex networks: application}
   %\VignetteEngine{knitr::rmarkdown} 
   %\VignetteEncoding{UTF-8}
 ---
