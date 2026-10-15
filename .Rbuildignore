@@ -18,3 +18,4 @@
 AUTHORS
 ^\.vscode$
 ^dev$
+^vignettes/\.quarto$

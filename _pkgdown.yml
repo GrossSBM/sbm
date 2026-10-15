@@ -1,20 +1,28 @@
-templates:
-  params:
-    bootswatch: readable
+url: https://grosssbm.github.io/sbm/
+
+template:
+  bootstrap: 5
+  bootswatch: cosmo
 
 navbar:
   title: "GroßBM"
-  type: inverse
+  bg: primary
   left:
-    - icon: fa-home
+    - icon: fa-house
+      href: index.html
+      aria-label: Home
     - text: "Home"
       href: index.html
     - text: "Reference"
       href: "reference/index.html"
     - text: "Vignettes"
       menu:
+      - text: "Simple and bipartite SBM: principle and illustration"
+        href: articles/SBM_principle.html
       - text: "Fungus-tree interaction with simple and bipartite SBM"
         href: articles/SBM_fungus_tree_network.html
+      - text: "SBM with covariates on nodes"
+        href: articles/SBM_nodes_covariates.html
       - text: "Mutualistic ecological network with multipartite SBM"
         href: articles/Multipartite_EcologicalNetwork.html
       - text: "Multiplex SBM: Principle and illustration"
@@ -25,7 +33,8 @@ navbar:
       href: news/index.html
   right:
     - icon: fa-github
-      href: https://github.com/GrossSBM/GSBM
+      href: https://github.com/GrossSBM/sbm
+      aria-label: GitHub
 
 reference:
 - title: 'Simple SBM'
