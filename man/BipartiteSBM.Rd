@@ -196,7 +196,7 @@ R6 class for Bipartite SBM
     \if{html}{\out{</div>}}
   }
   \subsection{Returns}{
-    a ggplot2 object for the \code{'data'}, \code{'expected'} and \code{'graphon'}, a list with the igraph object \code{g}, the \code{layout} and the \code{plotOptions} for the \code{'meso'}
+    a ggplot2 object
   }
 }
 

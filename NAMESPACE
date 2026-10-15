@@ -49,7 +49,6 @@ importFrom(stats,
   rnorm,
   runif
 )
-importFrom(stringr,str_detect)
 importFrom(utils,
   head,
   modifyList

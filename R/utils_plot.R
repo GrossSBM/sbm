@@ -528,134 +528,211 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG,namesLayers, dist
   g
 }
 
+# default colors of ggplot2 for n discrete values (hue palette)
+ggplotColors <- function(n){
+  grDevices::hcl(h = seq(15, 375, length.out = n + 1), l = 65, c = 100)[1:n]
+}
 #-----------------------------------------------------------------
-#' @importFrom graphics par plot
-#' @importFrom stringr str_detect
-plotMeso <- function(thetaMean, pi,model,directed,bipartite,nbNodes,nodeLabels,plotOptions){
+# Mesoscopic view of a simple or bipartite SBM: the graphon drawn as a network.
+# Each block is a node whose area is proportional to the block proportion, colored
+# according to its type of nodes (rows / columns in the bipartite case). The connectivity
+# between two blocks (and within a block, as a loop) is drawn as an edge whose width and
+# color grow with the connectivity, with the same colors as the graphon.
+#-----------------------------------------------------------------
+plotMeso <- function(thetaMean, pi, model, directed, bipartite, nbNodes, nodeLabels, plotOptions){
 
-  if(bipartite){nbFG = 2}else{nbFG = 1}
-  myFavColor <- c('salmon2','darkolivegreen3')
-  myFavForm <- c('circle','square')
-  currentOptions <- list(seed = NULL,
-                         title = NULL,
-                         layout = NULL,
-                         vertex.color = myFavColor[1:nbFG],
-                         vertex.frame.color = rep("black",nbFG),#"white",                 # Node border color
-                         vertex.shape = myFavForm[1:nbFG],                        # One of "none", "circle", "square", "csquare", "rectangle" "crectangle", "vrectangle", "pie", "raster", or "sphere"
-                         vertex.size = rep(1,nbFG),                               # Size of the node (default is 15)
-                         vertex.size2 = rep(NA,nbFG),                              # The second size of the node (e.g. for a rectangle)
-                         # === vertex label
-                         vertex.label.name = nodeLabels,                   # Character vector used to label the nodes
-                         vertex.label.color =  "black",#"white",
-                         vertex.label.font = rep(2,nbFG),                          # Font: 1 plain, 2 bold, 3, italic, 4 bold italic, 5 symbol
-                         vertex.label.cex = rep(0.9,nbFG),                           # Font size (multiplication factor, device-dependent)
-                         vertex.label.dist = rep(0,nbFG),                          # Distance between the label and the vertex
-                         vertex.label.degree = rep(0 ,nbFG),                       # The position of the label in relation to the vertex (use pi)
-                         # === Edge
-                         edge.threshold = -Inf,
-                         edge.color = "gray",#"white",                           # Edge color
-                         edge.width = 1,                    # Edge width, defaults to 10
-                         edge.arrow.size = 1,                            # Arrow size, defaults to 1
-                         edge.arrow.width = 2,                           # Arrow width, defaults to 1
-                         edge.lty = "solid",                             # Line Type, could be 0 or "blank", 1 or"solid", 2 or "dashed", 3 or "dotted", 4 or "dotdash", 5 or "longdash", 6 or "twodash"
-                         edge.curved = 0.3
-                         )
-
-
-  if(bipartite){
-    vertex.arg <- which(grepl( "vertex." , names(plotOptions) ))
-    for (w in vertex.arg){
-      ver.w <- plotOptions[[w]]
-      if(length(ver.w)==1){plotOptions[[w]] <- rep(ver.w,nbFG)}
-    }
- }
-  #---------------------------------------"
-
-  currentOptions[names(plotOptions)] <- plotOptions
-  #---------------------------------------"
-
-  layout <- currentOptions$layout
-
-  if (is.null(plotOptions$vertex.label.name)){
-    vertex.label <- substr(currentOptions$vertex.label.name, 1, 1)
-    i = 1
-    while (length(unique(vertex.label)) < 2 & (i <= 2)) {i = i + 1; vertex.label <- substr(currentOptions$vertex.label.name, 1, i)}
-  }else{
-    vertex.label   = plotOptions$vertex.label.name
-  }
-
-
-  myOptions <- currentOptions
-  if (bipartite){
-  Qrow <- length(pi$row)
-  Qcol <- length(pi$col)
-  w.vertex.options <- stringr::str_detect(names(currentOptions), "vertex.")
-  myOptions <- lapply(1:length(currentOptions),
-                      function(p){if (w.vertex.options[p]){myRepeat(currentOptions[[p]],Qrow,Qcol)}else{currentOptions[[p]]}})
-  names(myOptions) <- names(currentOptions)
-  }
-
-  if (is.atomic(vertex.label)){vertex.label= as.list(vertex.label)}
-
-  alpha <- thetaMean
-  alpha[alpha < currentOptions$edge.threshold] <- 0
-  if (model == "bernoulli"){alpha.norm  = alpha};
-  if (model == "poisson"){alpha.norm = alpha/max(alpha)}
-  if ( !(model %in% c("bernoulli","poisson"))){alpha.norm = (alpha - min(alpha))/(max(alpha) - min(alpha)) + 0.1}
-  if (currentOptions$edge.threshold != -Inf) {
-    cat(paste("Nota bene: threshold on connections is",currentOptions$edge.threshold,sep = ' '))
-  }
-
-  if (bipartite){
-    names(vertex.label) <- c('row','col')
-    colnames(alpha.norm) <- paste(vertex.label$col,1:length(pi$col),sep='')
-    rownames(alpha.norm) <- paste(vertex.label$row,1:length(pi$row),sep='')
-    vlab <- c(rownames(alpha.norm),colnames(alpha.norm))
-    g <- suppressWarnings(igraph::graph_from_incidence_matrix(alpha.norm, weighted = TRUE))
-    u <- c(pi$row*nbNodes[1],pi$col*nbNodes[2])
-    if (is.null(layout)){ layout <- igraph::layout_as_bipartite(g)}
-  }else{
-    vlab <- paste(vertex.label,1:length(pi),sep = "")
-    u <- pi*nbNodes[1]
-    mode <- ifelse(directed,'directed','undirected')
-    g <- suppressWarnings(igraph::graph.adjacency(alpha.norm, mode = mode, weighted = TRUE))
-    if (is.null(layout)){layout <- igraph::layout_with_fr(g)}
-  }
-
-  igraph::E(g)$width <- 1 + as.integer(igraph::E(g)$weight*10)
-
-  set.seed(currentOptions$seed)
-
-
-
-
-  old_par <- par(mar = rep(0.15,4))
-  plot(g, layout = layout,
-       # === vertex
-       vertex.color = myOptions$vertex.color,
-       vertex.frame.color = myOptions$vertex.frame.color,
-       vertex.shape = myOptions$vertex.shape,
-       vertex.size = myOptions$vertex.size*u,
-       vertex.size2 = myOptions$vertex.size2,
-       # === vertex label
-       vertex.label = vlab,
-       vertex.label.color = myOptions$vertex.label.color,
-       vertex.label.family = myOptions$vertex.label.family,
-       vertex.label.cex = myOptions$vertex.label.cex,
-       vertex.label.dist = myOptions$vertex.label.dist[1],
-       vertex.label.degree = myOptions$vertex.label.degree,
-       # === Edge
-       edge.color = myOptions$edge.color,
-       edge.width = 10*igraph::E(g)$weight*myOptions$edge.width,
-       edge.arrow.size = myOptions$edge.arrow.size,
-       edge.arrow.width = myOptions$edge.arrow.width,
-       edge.lty = myOptions$edge.lty,
-       edge.curved = myOptions$edge.curved,
-       main = myOptions$title
+  nbFG <- if (bipartite) 2 else 1
+  currentOptions <- list(
+    seed = NULL,
+    title = NULL,
+    layout = NULL,
+    vertex.color = ggplotColors(2)[1:nbFG],
+    vertex.frame.color = 'black',
+    vertex.shape = c('circle', 'square')[1:nbFG],
+    vertex.size = 1,
+    vertex.label.name = NULL,
+    vertex.label.color = 'black',
+    vertex.label.size = 3.5,
+    withinBlock = 'loop',
+    edge.threshold = -Inf,
+    edge.width = 1,
+    edge.curved = 0.2,
+    edge.arrow.size = 1,
+    block.color = 'red',
+    blockAlpha.min = 0.1,
+    blockAlpha.max = 0.6,
+    limits = NULL
   )
-  par(old_par)
-  list(g = g,layout = layout,plotOptions = currentOptions)
+  currentOptions[names(plotOptions)] <- plotOptions
+  for (opt in c('vertex.color', 'vertex.frame.color', 'vertex.shape', 'vertex.size')) {
+    currentOptions[[opt]] <- rep_len(currentOptions[[opt]], nbFG)
+  }
 
+  #------------------ blocks (nodes of the mesoscopic graph)
+  piList <- if (bipartite) list(pi$row, pi$col) else list(pi)
+  nbBlocks <- lengths(piList)
+  nodes <- data.frame(fg = rep(1:nbFG, nbBlocks), q = unlist(lapply(nbBlocks, seq_len)), pi = unlist(piList))
+
+  vertex.label <- currentOptions$vertex.label.name
+  if (is.null(vertex.label)) {
+    if (bipartite) {
+      # shortest prefixes of the labels of the dimensions which distinguish them
+      dimLab <- unlist(nodeLabels)
+      i <- 1
+      prefix <- substr(dimLab, 1, i)
+      while (length(unique(prefix)) < 2 && i < max(nchar(dimLab))) {i <- i + 1; prefix <- substr(dimLab, 1, i)}
+      nodes$label <- paste0(prefix[nodes$fg], nodes$q)
+    } else {
+      nodes$label <- as.character(nodes$q)
+    }
+  } else {
+    # prefix of the labels, one by type of nodes (as in the previous versions)
+    nodes$label <- paste0(rep_len(unlist(vertex.label), nbFG)[nodes$fg], nodes$q)
+  }
+
+  #------------------ connectivities (edges of the mesoscopic graph)
+  Q <- sum(nbBlocks)
+  offset <- c(0, cumsum(nbBlocks))[1:nbFG]
+  thetaMean <- as.matrix(thetaMean)
+  if (bipartite) {
+    edges <- expand.grid(q = 1:nbBlocks[1], l = 1:nbBlocks[2])
+    edges$value <- thetaMean[cbind(edges$q, edges$l)]
+    edges$from  <- edges$q
+    edges$to    <- offset[2] + edges$l
+  } else {
+    edges <- expand.grid(q = 1:Q, l = 1:Q)
+    if (!directed) {edges <- edges[edges$q <= edges$l, ]}
+    edges$value <- thetaMean[cbind(edges$q, edges$l)]
+    edges$from  <- edges$q
+    edges$to    <- edges$l
+  }
+  # same colors as the graphon
+  limits <- currentOptions$limits
+  if (is.null(limits)) {limits <- if (all(thetaMean >= 0)) c(0, max(thetaMean)) else range(thetaMean)}
+  edges$intensity <- (blockAlpha(edges$value, currentOptions, limits) - currentOptions$blockAlpha.min) /
+    (currentOptions$blockAlpha.max - currentOptions$blockAlpha.min)
+  edges$color <- vapply(blockAlpha(edges$value, currentOptions, limits),
+                        function(a) blendWhite(currentOptions$block.color, a), character(1))
+  edges$width <- currentOptions$edge.width * (0.2 + 2.8 * edges$intensity)
+  edges <- edges[edges$value >= currentOptions$edge.threshold, ]
+  edges <- edges[order(edges$intensity), ]
+
+  #------------------ layout
+  layout <- currentOptions$layout
+  if (is.null(layout)) {
+    if (bipartite) {
+      # one row of blocks per type of nodes, the blocks being spaced by 1
+      maxQ <- max(nbBlocks)
+      layout <- cbind(x = c(seq_len(nbBlocks[1]) - (nbBlocks[1] + 1) / 2, seq_len(nbBlocks[2]) - (nbBlocks[2] + 1) / 2),
+                      y = rep(c(max(1.5, 0.6 * maxQ), 0), nbBlocks))
+    } else {
+      # blocks attracted by their connectivity (the seed is set before the random layout)
+      if (!is.null(currentOptions$seed)) {set.seed(currentOptions$seed)}
+      inter <- edges[edges$from != edges$to, ]
+      g <- igraph::make_empty_graph(n = Q, directed = FALSE)
+      g <- igraph::add_edges(g, rbind(inter$from, inter$to), weight = 0.01 + inter$intensity)
+      layout <- if (Q == 1) matrix(0, 1, 2) else igraph::layout_with_fr(g, weights = igraph::E(g)$weight)
+      # spread the blocks: the closest ones are at distance 1
+      if (Q > 1) {layout <- layout / min(stats::dist(layout))}
+    }
+  }
+  layout <- as.matrix(layout)
+  nodes$x <- layout[, 1]
+  nodes$y <- layout[, 2]
+
+  # radius of the blocks: area proportional to the proportion, without overlap
+  dmin <- if (Q > 1) min(stats::dist(layout)) else 1
+  nodes$r <- currentOptions$vertex.size[nodes$fg] * 0.4 * dmin * sqrt(nodes$pi / max(nodes$pi))
+  nodes$shape <- currentOptions$vertex.shape[nodes$fg]
+  nodes$fill  <- currentOptions$vertex.color[nodes$fg]
+  # simple SBM: the connectivity within the blocks can be given by the color of the nodes
+  fillWithin <- !bipartite && currentOptions$withinBlock == 'fill'
+  if (fillWithin) {
+    nodes$fill <- vapply(blockAlpha(diag(thetaMean), currentOptions, limits),
+                         function(a) blendWhite(currentOptions$block.color, a), character(1))
+  }
+  nodes$frame <- currentOptions$vertex.frame.color[nodes$fg]
+
+  # nodes as polygons (circles or squares of the same area)
+  polys <- do.call(rbind, lapply(seq_len(Q), function(k) {
+    if (nodes$shape[k] == 'square') {
+      h <- nodes$r[k] * sqrt(base::pi) / 2
+      data.frame(id = k, x = nodes$x[k] + c(-h, h, h, -h), y = nodes$y[k] + c(-h, -h, h, h))
+    } else {
+      t <- seq(0, 2 * base::pi, length.out = 61)[-61]
+      data.frame(id = k, x = nodes$x[k] + nodes$r[k] * cos(t), y = nodes$y[k] + nodes$r[k] * sin(t))
+    }
+  }))
+  polys$fill  <- nodes$fill[polys$id]
+  polys$frame <- nodes$frame[polys$id]
+
+  #------------------ edges between blocks, from the border of the nodes
+  inter <- edges[edges$from != edges$to, ]
+  if (nrow(inter) > 0) {
+    dx <- nodes$x[inter$to] - nodes$x[inter$from]
+    dy <- nodes$y[inter$to] - nodes$y[inter$from]
+    len <- sqrt(dx^2 + dy^2)
+    # distance from the center to the border of the node, in the direction of the edge
+    toBorder <- function(k) {
+      h <- nodes$r[k] * sqrt(base::pi) / 2
+      ifelse(nodes$shape[k] == 'square', h / pmax(abs(dx), abs(dy)) * len, nodes$r[k])
+    }
+    inter$x    <- nodes$x[inter$from] + dx / len * toBorder(inter$from)
+    inter$y    <- nodes$y[inter$from] + dy / len * toBorder(inter$from)
+    inter$xend <- nodes$x[inter$to]   - dx / len * toBorder(inter$to)
+    inter$yend <- nodes$y[inter$to]   - dy / len * toBorder(inter$to)
+  }
+  # connectivity within a block: loop on the outer side of the node
+  loops <- if (fillWithin) edges[0, ] else edges[edges$from == edges$to, ]
+  loopPaths <- NULL
+  if (nrow(loops) > 0) {
+    loopPaths <- do.call(rbind, lapply(seq_len(nrow(loops)), function(k) {
+      i <- loops$from[k]
+      # direction in the middle of the largest angular gap between the other blocks
+      others <- setdiff(seq_len(Q), i)
+      d <- c(0, 1)
+      if (length(others) > 0) {
+        angles <- sort(atan2(nodes$y[others] - nodes$y[i], nodes$x[others] - nodes$x[i]))
+        gaps <- diff(c(angles, angles[1] + 2 * base::pi))
+        a <- angles[which.max(gaps)] + max(gaps) / 2
+        d <- c(cos(a), sin(a))
+      }
+      rl <- 0.6 * nodes$r[i]
+      cl <- c(nodes$x[i], nodes$y[i]) + d * (nodes$r[i] + 0.5 * rl)
+      t <- seq(0, 2 * base::pi, length.out = 61)
+      data.frame(id = k, x = cl[1] + rl * cos(t), y = cl[2] + rl * sin(t),
+                 color = loops$color[k], width = loops$width[k])
+    }))
+  }
+
+  #------------------ plot
+  g <- ggplot()
+  if (!is.null(loopPaths)) {
+    g <- g + geom_path(data = loopPaths, aes(x = .data$x, y = .data$y, group = .data$id,
+                                              colour = .data$color, linewidth = .data$width),
+                       lineend = 'round')
+  }
+  if (nrow(inter) > 0) {
+    if (directed && !bipartite) {
+      g <- g + geom_curve(data = inter, aes(x = .data$x, y = .data$y, xend = .data$xend, yend = .data$yend,
+                                            colour = .data$color, linewidth = .data$width),
+                          curvature = currentOptions$edge.curved,
+                          arrow = arrow(length = unit(2.5 * currentOptions$edge.arrow.size, "mm"), type = "closed"))
+    } else {
+      g <- g + geom_segment(data = inter, aes(x = .data$x, y = .data$y, xend = .data$xend, yend = .data$yend,
+                                              colour = .data$color, linewidth = .data$width))
+    }
+  }
+  g <- g +
+    geom_polygon(data = polys, aes(x = .data$x, y = .data$y, group = .data$id,
+                                   fill = .data$fill, colour = .data$frame)) +
+    geom_text(data = nodes, aes(x = .data$x, y = .data$y, label = .data$label),
+              colour = currentOptions$vertex.label.color, size = currentOptions$vertex.label.size) +
+    scale_colour_identity() + scale_fill_identity() + scale_linewidth_identity() +
+    coord_fixed() +
+    theme_void() + theme(plot.title = element_text(hjust = 0.5))
+  if (!is.null(currentOptions$title)) {g <- g + ggtitle(currentOptions$title)}
+  g
 }
 
 

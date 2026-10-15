@@ -24,21 +24,43 @@
 \item{...}{additional parameters for S3 compatibility. Not used}
 }
 \value{
-a ggplot2 object for the \code{'data'}, \code{'expected'} and \code{'graphon'}, a list with the igraph object \code{g} and the \code{layout} for the \code{'meso'}
+a ggplot2 object for the \code{'data'}, \code{'expected'} and \code{'graphon'}, and for the \code{'meso'} of simple and bipartite SBM. For the \code{'meso'} of multipartite SBM, a list with the igraph object \code{g} and the \code{layout} (invisibly)
 }
 \description{
 Basic matrix plot method for SBM object or mesoscopic view
 }
 \details{
-The list of parameters \code{plotOptions}  for the mesoscopic plot is:
+For simple and bipartite SBM, the mesoscopic view draws the graphon as a network: each block is a node whose area is
+proportional to the block proportion, and the connectivity between two blocks is an edge whose width and color grow with the
+connectivity, with the colors of the graphon. The connectivity within a block is drawn as a loop. Edges are curved arrows for directed networks.
+The list of parameters \code{plotOptions} for this mesoscopic plot is:
+\describe{
+\item{"seed": }{seed to control the layout (simple SBM). Default value is NULL}
+\item{"title": }{character string for the title. Default value is NULL}
+\item{"layout": }{matrix with the coordinates of the blocks (one row per block, rows then columns for the bipartite SBM). Default value is NULL: a force-directed layout for simple SBM, one line of blocks per type of nodes for bipartite SBM}
+\item{"vertex.color": }{Color of the blocks, one per type of nodes. Default values are the colors of ggplot2 (hue palette)}
+\item{"vertex.frame.color": }{Color of the border of the blocks. Default value is "black"}
+\item{"vertex.shape": }{"circle" or "square", one per type of nodes. Default value is "circle" for the rows and "square" for the columns}
+\item{"vertex.size": }{Factor multiplying the size of the blocks, one per type of nodes. Default value is 1}
+\item{"vertex.label.name": }{Prefix of the labels of the blocks, one per type of nodes. Default value is NULL: the number of the block for a simple SBM, the shortest prefixes of the labels of the dimensions which distinguish them for a bipartite SBM}
+\item{"vertex.label.color": }{Default value is "black"}
+\item{"vertex.label.size": }{Size of the labels. Default value is 3.5}
+\item{"withinBlock": }{Representation of the connectivity within the blocks for simple SBM: "loop" (a loop, as the other connections) or "fill" (the color of the block). Default value is "loop"}
+\item{"edge.threshold": }{Threshold under which the connectivity is not plotted. Default value is -Inf}
+\item{"edge.width": }{Factor multiplying the width of the edges. Default value is 1}
+\item{"edge.curved": }{Curvature of the edges for directed networks. Default value is 0.2}
+\item{"edge.arrow.size": }{Factor multiplying the size of the arrows for directed networks. Default value is 1}
+\item{"block.color", "blockAlpha.min", "blockAlpha.max", "limits": }{Colors of the connectivities, as for the graphon (see below)}
+}
+For multipartite SBM, the list of parameters \code{plotOptions} for the mesoscopic plot (drawn with igraph) is:
 \describe{
 \item{"seed": }{seed to control the layout}
 \item{"title": }{character string for the title. Default value is NULL}
 \item{"layout": }{Default value = NULL}
-\item{"vertex.color": }{Default value is "salmon2"}
+\item{"vertex.color": }{Colors of the functional groups}
 \item{"vertex.frame.color": }{Node border color.Default value is "black" }
 \item{"vertex.shape": }{One of "none", "circle", "square", "csquare", "rectangle" "crectangle", "vrectangle", "pie", "raster", or "sphere". Default value = "circle"}
-\item{"vertex.size": }{Size of the node (default is 2)}
+\item{"vertex.size": }{Size of the node (default is 1)}
 \item{"vertex.size2": }{The second size of the node (e.g. for a rectangle)}
 \item{"vertex.label.name": }{Names of the vertices. Default value is the label of the nodes}
 \item{"vertex.label.color": }{Default value is  "black"}
@@ -48,9 +70,9 @@ The list of parameters \code{plotOptions}  for the mesoscopic plot is:
 \item{"vertex.label.degree": }{The position of the label in relation to the vertex. default value is 0}
 \item{"edge.threshold": }{Threshold under which the edge is not plotted. Default value is = -Inf}
 \item{"edge.color": }{Default value is "gray"}
-\item{"edge.width": }{Factor parameter. Default value is 10}
+\item{"edge.width": }{Factor parameter. Default value is 1}
 \item{"edge.arrow.size": }{Default value is 1}
-\item{"edge.arrow.width": }{Default value is 2}
+\item{"edge.arrow.width": }{Default value is 1}
 \item{"edge.lty": }{Line type, could be 0 or "blank", 1 or "solid", 2 or "dashed", 3 or "dotted", 4 or "dotdash", 5 or "longdash", 6 or "twodash". Default value is "solid"}
 \item{"edge.curved": }{Default value is = 0.3.}
 }
