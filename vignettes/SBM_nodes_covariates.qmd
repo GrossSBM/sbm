@@ -6,6 +6,7 @@ format:
   html:
     toc: true
     toc-depth: 3
+    html-math-method: mathml # rendered by the browsers, even when the vignette is self-contained
 bibliography: references.bib
 link-citations: true
 knitr:
@@ -215,7 +216,7 @@ wanted: it is **not** added automatically.
 :::
 
 ```{r fit-covar}
-#| eval: !expr runFits
+#| eval: !expr exists("runFits") && runFits
 estimOptions <- list(verbosity = 0, plot = FALSE)
 
 fitCovar <- estimateSimpleSBM(
@@ -232,7 +233,7 @@ fitCovar
 For comparison, we fit the standard SBM, without covariates.
 
 ```{r fit-no-covar}
-#| eval: !expr runFits
+#| eval: !expr exists("runFits") && runFits
 fitNoCovar <- estimateSimpleSBM(
   Y, model = "bernoulli", directed = TRUE,
   estimOptions = estimOptions
@@ -311,7 +312,7 @@ with two covariates drawn independently of everything else, hence unrelated to
 the blocks.
 
 ```{r fit-useless}
-#| eval: !expr runFits
+#| eval: !expr exists("runFits") && runFits
 set.seed(123)
 Xuseless <- cbind(1, matrix(rnorm(2 * n), ncol = 2))
 fitUseless <- estimateSimpleSBM(
@@ -367,7 +368,7 @@ We now fit both models on the noisy network and compare the ARI of the four
 estimated clusterings. The aim is to illustrate the fact that, if the covariates drive the blocks, they can help to recover the topology of the network. 
 
 ```{r fit-noisy}
-#| eval: !expr runFits
+#| eval: !expr exists("runFits") && runFits
 fitNoCovarNoisy <- estimateSimpleSBM(
   Ynoisy, model = "bernoulli", directed = TRUE,
   estimOptions = estimOptions
@@ -409,7 +410,7 @@ $x_1$ only, $x_2$ only, and both. We also add a covariate $x_3$, drawn
 independently of everything else, which has no effect on the clustering.
 
 ```{r test-covar}
-#| eval: !expr runFits
+#| eval: !expr exists("runFits") && runFits
 x3 <- rnorm(n)
 covarSets <- list(
   "none"          = NULL,
@@ -568,7 +569,7 @@ The bipartite SBM with covariates on nodes is fitted with
 original network and on each of the networks with missing data.
 
 ```{r fit-bipartite}
-#| eval: !expr runFits
+#| eval: !expr exists("runFits") && runFits
 networksBip <- c(list(original = Ybip), YbipNA)
 fitBip <- lapply(networksBip, function(Yobs) {
   list(
@@ -657,7 +658,7 @@ We illustrate it on the network with `r 100 * epsilonNA[3]`% of missing
 entries, for which the covariates improve the clustering.
 
 ```{r fit-bipartite-row-only}
-#| eval: !expr runFits
+#| eval: !expr exists("runFits") && runFits
 fitBipRowOnly <- estimateBipartiteSBM(
   YbipNA[[lab[3]]], model = "bernoulli", dimLabels = c("row", "col"),
   nodesCovariates = list(X1, matrix(0, 0, 0)),

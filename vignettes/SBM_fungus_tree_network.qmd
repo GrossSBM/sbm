@@ -7,6 +7,7 @@ format:
   html:
     toc: true
     toc-depth: 3
+    html-math-method: mathml # rendered by the browsers, even when the vignette is self-contained
 bibliography: references.bib
 link-citations: true
 knitr:
@@ -116,7 +117,7 @@ with $\alpha_{ql} = \alpha_{lq}$ the probability of connection between a tree of
 :::
 
 ```{r simpleSBM}
-#| eval: !expr runFits
+#| eval: !expr exists("runFits") && runFits
 mySimpleSBM <- tree_tree_binary %>% 
   estimateSimpleSBM("bernoulli", dimLabels = 'tree', estimOptions = list(verbosity = 0, plot = FALSE))
 ```
@@ -214,7 +215,7 @@ with $\lambda_{ql} = \lambda_{lq}$ the mean number of fungi shared by a tree of 
 :::
 
 ```{r simpleSBM Poisson}
-#| eval: !expr runFits
+#| eval: !expr exists("runFits") && runFits
 mySimpleSBMPoisson <- tree_tree %>% 
   estimateSimpleSBM("poisson", dimLabels = 'tree', estimOptions = list(verbosity = 0, plot = FALSE))
 ```
@@ -307,7 +308,7 @@ The blocks now capture the structure of the network which is not explained by th
 :::
 
 ```{r covar SBM}
-#| eval: !expr runFits
+#| eval: !expr exists("runFits") && runFits
 mySimpleSBMCov<- 
   tree_tree %>% 
   estimateSimpleSBM(
@@ -374,7 +375,7 @@ with $\alpha_{qr}$ the probability that a fungus of block $r$ is observed on a t
 The model is fitted with the function `estimateBipartiteSBM`:
 
 ```{r tree_fungi_bipartite network}
-#| eval: !expr runFits
+#| eval: !expr exists("runFits") && runFits
 myBipartiteSBM <- 
   tree_fungus %>% 
   estimateBipartiteSBM(model = 'bernoulli', dimLabels = c('tree', 'fungis'), estimOptions = list(verbosity = 0, plot = FALSE))
