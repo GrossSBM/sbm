@@ -37,6 +37,7 @@ plotMatrix = function(Mat, dimLabels, clustering = NULL, plotOptions = list()){
     names.size = NULL,
     title = NULL,
     blockBackground = TRUE,
+    graphonColors = FALSE,
     block.color = 'red',
     blockAlpha.min = 0.1,
     blockAlpha.max = 0.6,
@@ -148,7 +149,13 @@ plotMatrix = function(Mat, dimLabels, clustering = NULL, plotOptions = list()){
     # draw the background under the tiles (added after them so the axes stay discrete)
     g$layers <- g$layers[c(2, 1)]
   }
-  if (!binary) {g <-  g +  scale_fill_gradient(low = low.color, high = "black", limits = u,na.value = "white")}
+  if (!binary && currentOptions$graphonColors) {
+    # same colors as the graphon (used for the expected network)
+    limitsGraphon <- if (all(Mat >= 0, na.rm = TRUE)) c(0, max(Mat, na.rm = TRUE)) else u
+    g <- g + scale_fill_gradient(low  = blendWhite(currentOptions$block.color, currentOptions$blockAlpha.min),
+                                 high = blendWhite(currentOptions$block.color, currentOptions$blockAlpha.max),
+                                 limits = limitsGraphon, na.value = "white")
+  } else if (!binary) {g <-  g +  scale_fill_gradient(low = low.color, high = "black", limits = u,na.value = "white")}
   if (binary) {g <- g + scale_fill_manual(breaks = c("0", "1"),values = c(low.color, "black"),na.value = "white")}
   g <- g  +  scale_x_discrete(drop = FALSE, expand = c(0, 0)) + scale_y_discrete(drop = FALSE, expand = c(0, 0))
   # size of the names: by default, small enough for the names not to overlap on a

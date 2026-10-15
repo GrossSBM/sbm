@@ -133,7 +133,7 @@ SimpleSBM <-
               Mat         = self$expectation,
               dimLabels   = private$dimlab,
               clustering  = clustering,
-              plotOptions = modifyList(list(blockBackground = FALSE), plotOptions)),
+              plotOptions = modifyList(list(blockBackground = FALSE, graphonColors = TRUE), plotOptions)),
           "graphon" =
             plotGraphon(
               thetaMean   = self$connectParam$mean,

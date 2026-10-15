@@ -292,6 +292,7 @@ predict.SBM <- function(object, covarList = object$covarList, theta_p0 = 0, ...)
 #'  \item{"line.width": }{Numeric. Width  of the lines to separate groups. Default value is NULL, automatically chosen}
 #'  \item{"title": }{Chain of character. Title of the plot. Default value is NULL}
 #'  \item{"blockBackground": }{Boolean. Color the background of each block (when \code{ordered = TRUE}), with an opacity growing with the mean value of the entries in the block. Default value is TRUE for \code{type = 'data'} and FALSE for \code{type = 'expected'}}
+#'  \item{"graphonColors": }{Boolean. Color the entries with the colors of the graphon (see below) instead of gray levels. Default value is TRUE for \code{type = 'expected'} and FALSE for \code{type = 'data'}}
 #'  \item{"block.color": }{Chain of character. The color of the block background. Default value is red}
 #'  \item{"blockAlpha.min", "blockAlpha.max": }{Numeric. Opacity of the least and most dense blocks. Default values are 0.1 and 0.6}
 #'  }

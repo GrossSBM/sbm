@@ -128,7 +128,7 @@ BipartiteSBM <-
             plotMatrix(self$expectation,
                        private$dimlab,
                        clustering,
-                       modifyList(list(blockBackground = FALSE), plotOptions)),
+                       modifyList(list(blockBackground = FALSE, graphonColors = TRUE), plotOptions)),
           "graphon" =
             plotGraphon(self$connectParam$mean,
                         self$blockProp,
