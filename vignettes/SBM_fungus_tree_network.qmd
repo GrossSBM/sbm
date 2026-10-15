@@ -243,6 +243,12 @@ plot(mySimpleSBMPoisson, type = "data", plotOptions = list(rowNames = TRUE, colN
   plot(mySimpleSBMPoisson, type = "graphon")
 ```
 
+The graphon can also be drawn as a network, in a mesoscopic view: each block is a node whose area is proportional to the block proportion $\widehat{\pi}_q$, and the mean number of shared fungi $\widehat{\lambda}_{ql}$ between two blocks is represented by an edge whose width and color grow with $\widehat{\lambda}_{ql}$, with the same colors as the graphon. The connectivity within a block, $\widehat{\lambda}_{qq}$, is represented by a loop. The layout being random, it is fixed with the option `seed`.
+
+```{r simpleSBMfitPoisson plotmeso}
+plot(mySimpleSBMPoisson, type = "meso", plotOptions = list(seed = 1))
+```
+
 The composition of the clusters can now be scrutinized:
 
 ```{r list names blocks Poisson}
@@ -388,6 +394,14 @@ We can now plot the reorganized matrix (top). The row blocks (trees) and the col
 #| fig-width: 8
 #| fig-height: 6
 plot(myBipartiteSBM, type = "data") / plot(myBipartiteSBM, type = "graphon")
+```
+
+In the mesoscopic view of a bipartite SBM, the blocks of trees (circles, on top) and the blocks of fungi (squares, at the bottom) are drawn with different colors and shapes, and each edge represents the probability of connection $\widehat{\alpha}_{qr}$ between a block of trees and a block of fungi:
+
+```{r plot bipartite meso}
+#| fig-width: 7
+#| fig-height: 4
+plot(myBipartiteSBM, type = "meso")
 ```
 
 The clusters of trees are:
