@@ -147,15 +147,47 @@ We can either plot the reorganized matrix:
 plot(myMSBM) 
 ``` 
 
-or the mesoscopic view:
-```{r plot meso, eval = TRUE}
-plotOptions = list(vertex.size = c(12, 6, 4, 4))
-plotOptions$vertex.shape = rep("circle", 4)
-plotOptions$vertex.color = c("darkolivegreen3", "darkgoldenrod2", "salmon2",
-    "cadetblue2")
-plotOptions$edge.curved = 0.1
-plot(myMSBM, type = "meso", plotOptions = plotOptions)
+or the mesoscopic view, where each block is a node and each connectivity an edge.
+The functional groups are distinguished by the colors of the nodes, and the labels
+of the blocks start with the name of their functional group (`P` for plants, `F`
+for floral visitors...). Within each functional group, the area of the nodes is
+proportional to the block proportions. The width and the color of the edges grow with
+the probability of connection between the blocks. The blocks are placed according to
+their connections (blocks strongly connected are close), whatever their functional
+group; this layout being random, it is fixed with the option `seed`.
+```{r plot meso, eval = TRUE, fig.width = 6, fig.height = 5}
+plot(myMSBM, type = "meso", plotOptions = list(seed = 1))
 ```
+
+Many connectivities are close to zero. They can be removed with
+`edge.threshold`, which makes the structure clearer: the plants of blocks 2, 3
+and 4 interact with the ants, the plants of blocks 3, 5 and 7 with the floral visitors, and the plants
+of blocks 1 and 6 with the birds.
+```{r plot meso threshold, eval = TRUE, fig.width = 6, fig.height = 5}
+plot(myMSBM, type = "meso", plotOptions = list(seed = 1, edge.threshold = 0.05))
+```
+
+The blocks can also be arranged with one row per functional group
+(`layout = "groups"`), and the colors of the functional groups chosen with
+`vertex.color`:
+```{r plot meso groups, eval = TRUE, fig.width = 6, fig.height = 5}
+plot(myMSBM, type = "meso",
+     plotOptions = list(layout = "groups", edge.threshold = 0.05,
+                        vertex.color = c("darkolivegreen3", "darkgoldenrod2", "mediumpurple2", "cadetblue2")))
+```
+
+Finally, the coordinates of the blocks are returned in the attribute `blockLayout`
+of the plot. They can be modified (here, the block F2 is moved next to F1) and given back with
+the option `layout`:
+```{r plot meso layout, eval = TRUE, fig.width = 6, fig.height = 5}
+g <- plot(myMSBM, type = "meso", plotOptions = list(seed = 1, edge.threshold = 0.05))
+myLayout <- attr(g, "blockLayout")
+head(myLayout)
+myLayout["F2", ] <- myLayout["F1", ] - c(1, 0)
+plot(myMSBM, type = "meso", plotOptions = list(layout = myLayout, edge.threshold = 0.05))
+```
+
+All the options are described in `?plot.SBM`.
 
  
 

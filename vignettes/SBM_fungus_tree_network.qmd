@@ -171,7 +171,7 @@ We can then see what models are competitive in terms of model selection by check
 mySimpleSBM$storedModels %>%  ggplot() + aes(x = nbBlocks, y = ICL)  + geom_line() + geom_point(alpha = 0.5)
 ```
 
-The 4-block or 6-block model could have been a "reasonnable" choice too, in place of the 5-block model. The user can update the current `simpleSBMfit` thanks to the the `setModel`.  
+The 4-block or 6-block model could have been a "reasonable" choice too, in place of the 5-block model. The user can update the current `simpleSBMfit` thanks to the `setModel`.  
 
 
  We use it to compare the clusterings obtained with 4, 5 and 6 blocks with an alluvial plot (function `plotAlluvial`): each vertical axis represents a clustering, and the stripes show how the trees move from one cluster to another. The stripes are colored according to the clusters of the first clustering, which shows how the clusters split when the number of blocks increases.
@@ -397,7 +397,7 @@ We can now plot the reorganized matrix (top). The row blocks (trees) and the col
 plot(myBipartiteSBM, type = "data") / plot(myBipartiteSBM, type = "graphon")
 ```
 
-In the mesoscopic view of a bipartite SBM, the blocks of trees (circles, on top) and the blocks of fungi (squares, at the bottom) are drawn with different colors and shapes, and each edge represents the probability of connection $\widehat{\alpha}_{qr}$ between a block of trees and a block of fungi:
+In the mesoscopic view of a bipartite SBM, the blocks of trees (on top) and the blocks of fungi (at the bottom) are drawn with different colors, and each edge represents the probability of connection $\widehat{\alpha}_{qr}$ between a block of trees and a block of fungi:
 
 ```{r plot bipartite meso}
 #| fig-width: 7

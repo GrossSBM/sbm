@@ -42,7 +42,6 @@ Imports:
     igraph,
     ggplot2,
     GREMLINS,
-    stringr,
     rlang,
     reshape2,
     prodlim,

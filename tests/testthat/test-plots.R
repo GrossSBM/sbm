@@ -84,4 +84,15 @@ test_that("the mesoscopic view of simple and bipartite SBM is a ggplot", {
   expect_equal(layerData(g, "GeomText")$label, c("r1", "r2", "c1", "c2", "c3"))
   g <- plot(bipartiteSampler, type = "meso", plotOptions = list(vertex.label.name = list(row = "A", col = "B")))
   expect_equal(layerData(g, "GeomText")$label, c("A1", "A2", "B1", "B2", "B3"))
+
+  ## the coordinates of the blocks are returned, and can be given back modified
+  g <- plot(simpleSampler, type = "meso", plotOptions = list(seed = 1))
+  lay <- attr(g, "blockLayout")
+  expect_equal(dim(lay), c(2, 2))
+  expect_equal(rownames(lay), c("1", "2"))
+  lay["1", ] <- c(-3, 0)
+  g <- plot(simpleSampler, type = "meso", plotOptions = list(layout = lay))
+  expect_equal(attr(g, "blockLayout"), lay)
+  expect_silent(ggplot2::ggplot_build(g))
+  expect_equal(unname(unlist(layerData(g, "GeomText")[1, c("x", "y")])), c(-3, 0))
 })

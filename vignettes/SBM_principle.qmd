@@ -234,9 +234,8 @@ showSBM(weightedNetwork, "Gaussian SBM")
 
 ### 3.6 Bipartite networks
 
-In a bipartite network, the mesoscopic view draws the blocks of rows (circles,
-on top) and the blocks of columns (squares, at the bottom) with different
-colors. A *modular* bipartite network is made of groups of rows interacting
+In a bipartite network, the mesoscopic view draws the blocks of rows (on top)
+and the blocks of columns (at the bottom) with different colors. A *modular* bipartite network is made of groups of rows interacting
 with their own group of columns.
 
 ```{r bipartite modular}
@@ -363,7 +362,7 @@ representation:
 ## The expected value of each edge
 We call **expected value of each edge** the value
 $$ \mathbb{E}[Y_{ij}] = \sum_{q=1}^Q\sum_{r=1}^Q \widehat{\tau}^{var}_{iq}\widehat{\tau}^{var}_{jr} \widehat{\alpha}_{qr}$$ 
-where $\widehat{\tau}^{var}_{iq} = \mathbb{P}(Z_i=q \mid y^{obs})$ approximated by the variational inference.  This value is obained by `mySimpleSBM$predict()`.  
+where $\widehat{\tau}^{var}_{iq} = \mathbb{P}(Z_i=q \mid y^{obs})$ approximated by the variational inference.  This value is obtained by `mySimpleSBM$predict()`.  
 ::: 
 
 

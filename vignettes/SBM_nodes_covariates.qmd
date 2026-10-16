@@ -91,7 +91,7 @@ $$
 $$
 
 Given the blocks, the edges are independent and their distribution only
-depends on the blocks of the nodes they invovle. In the Bernoulli case:
+depends on the blocks of the nodes they involve. In the Bernoulli case:
 $$
 Y_{ij} \mid Z_i = q, Z_j = l \sim \mathcal{B}ern(\alpha_{ql}).
 $$
@@ -129,7 +129,7 @@ where:
   logarithm of the number of nodes $n$.
 
 Without covariates, $p = 1$ and we recover the usual ICL of the SBM. Adding
-covariates increases the penalty, so the ICL favours the model with covariates
+covariates increases the penalty, so the ICL favors the model with covariates
 only if they increase $\mathbb{E}_{Z\sim p^{Var}}[\log p(Y, Z \mid X; \widehat{\theta})]$ enough, mainly through the term
 $\mathbb{E}_{Z\sim p^{Var}}[\log p(Z \mid X; \widehat{\theta})]$.  The number of blocks is chosen within each model, then
 the best model is the one with the highest ICL.

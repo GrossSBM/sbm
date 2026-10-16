@@ -24,27 +24,28 @@
 \item{...}{additional parameters for S3 compatibility. Not used}
 }
 \value{
-a ggplot2 object for the \code{'data'}, \code{'expected'} and \code{'graphon'}, and for the \code{'meso'} of simple and bipartite SBM. For the \code{'meso'} of multipartite SBM, a list with the igraph object \code{g} and the \code{layout} (invisibly)
+a ggplot2 object for the \code{'data'}, \code{'expected'} and \code{'graphon'}, and \code{'meso'}. For \code{'meso'}, the coordinates of the blocks are in the attribute \code{"blockLayout"} of the plot (a matrix with one row per block, named by the labels of the blocks): they can be modified and given back in \code{plotOptions$layout}, for instance \code{lay <- attr(plot(mySBM, type = "meso"), "blockLayout")}, then \code{lay["P1", ] <- c(0, 2)} and \code{plot(mySBM, type = "meso", plotOptions = list(layout = lay))}
 }
 \description{
 Basic matrix plot method for SBM object or mesoscopic view
 }
 \details{
 For simple and bipartite SBM, the mesoscopic view draws the graphon as a network: each block is a node whose area is
-proportional to the block proportion, and the connectivity between two blocks is an edge whose width and color grow with the
+proportional to the block proportion (the largest block of each type of nodes having the same size), and the connectivity between two blocks is an edge whose width and color grow with the
 connectivity, with the colors of the graphon. The connectivity within a block is drawn as a loop. Edges are curved arrows for directed networks.
 The list of parameters \code{plotOptions} for this mesoscopic plot is:
 \describe{
-\item{"seed": }{seed to control the layout (simple SBM). Default value is NULL}
+\item{"seed": }{seed to control the layout (free layout). Default value is NULL}
 \item{"title": }{character string for the title. Default value is NULL}
-\item{"layout": }{matrix with the coordinates of the blocks (one row per block, rows then columns for the bipartite SBM). Default value is NULL: a force-directed layout for simple SBM, one line of blocks per type of nodes for bipartite SBM}
-\item{"vertex.color": }{Color of the blocks, one per type of nodes. Default values are the colors of ggplot2 (hue palette)}
-\item{"vertex.frame.color": }{Color of the border of the blocks. Default value is "black"}
-\item{"vertex.shape": }{"circle" or "square", one per type of nodes. Default value is "circle" for the rows and "square" for the columns}
+\item{"layout": }{"free" (force-directed: the blocks are placed according to their connectivities), "groups" (one line of blocks per type of nodes, for bipartite SBM) or a matrix with the coordinates of the blocks (one row per block, rows then columns for the bipartite SBM). Default value is NULL: "free" for simple SBM, "groups" for bipartite SBM}
+\item{"vertex.color": }{Color of the blocks, one per type of nodes. Default values are taken in a hue palette without the reds of the connectivities}
+\item{"vertex.frame.color": }{Color of the border of the blocks. Default value is NA (no border)}
+\item{"vertex.shape": }{"circle", "square", "diamond" or "triangle", one per type of nodes. Default value is "circle": the types of nodes are distinguished by their colors}
 \item{"vertex.size": }{Factor multiplying the size of the blocks, one per type of nodes. Default value is 1}
 \item{"vertex.label.name": }{Prefix of the labels of the blocks, one per type of nodes. Default value is NULL: the number of the block for a simple SBM, the shortest prefixes of the labels of the dimensions which distinguish them for a bipartite SBM}
 \item{"vertex.label.color": }{Default value is "black"}
 \item{"vertex.label.size": }{Size of the labels. Default value is 3.5}
+\item{"vertex.label.inside": }{The label of a block is drawn inside it when its radius is at least this fraction of the radius of the largest block (for a label of 2 characters, the fraction being proportional to the number of characters), outside it otherwise. Default value is 0.5. Set it to 0 to draw all the labels inside the blocks}
 \item{"withinBlock": }{Representation of the connectivity within the blocks for simple SBM: "loop" (a loop, as the other connections) or "fill" (the color of the block). Default value is "loop"}
 \item{"edge.threshold": }{Threshold under which the connectivity is not plotted. Default value is -Inf}
 \item{"edge.width": }{Factor multiplying the width of the edges. Default value is 1}
@@ -54,12 +55,12 @@ The list of parameters \code{plotOptions} for this mesoscopic plot is:
 }
 For multipartite SBM, the list of parameters \code{plotOptions} for the mesoscopic plot (drawn with igraph) is:
 \describe{
-\item{"seed": }{seed to control the layout}
+\item{"seed": }{seed to control the free layout. Default value is NULL}
 \item{"title": }{character string for the title. Default value is NULL}
-\item{"layout": }{Default value = NULL}
-\item{"vertex.color": }{Colors of the functional groups}
-\item{"vertex.frame.color": }{Node border color.Default value is "black" }
-\item{"vertex.shape": }{One of "none", "circle", "square", "csquare", "rectangle" "crectangle", "vrectangle", "pie", "raster", or "sphere". Default value = "circle"}
+\item{"layout": }{"free" (the blocks are placed according to their connectivities, whatever their functional group), "groups" (one row of blocks per functional group) or a matrix with the coordinates of the blocks (one row per block, in the order of the functional groups). Default value is "free"}
+\item{"vertex.color": }{Colors of the functional groups. Default values are taken in a hue palette without the reds of the connectivities}
+\item{"vertex.frame.color": }{Color of the border of the blocks. Default value is NA (no border)}
+\item{"vertex.shape": }{"circle", "square", "diamond" or "triangle", one per functional group. Default value is "circle": the functional groups are distinguished by their colors}
 \item{"vertex.size": }{Size of the node (default is 1)}
 \item{"vertex.size2": }{The second size of the node (e.g. for a rectangle)}
 \item{"vertex.label.name": }{Names of the vertices. Default value is the label of the nodes}
@@ -68,6 +69,7 @@ For multipartite SBM, the list of parameters \code{plotOptions} for the mesoscop
 \item{"vertex.label.cex": }{Font size (multiplication factor, device-dependent).Default value is  0.9.}
 \item{"vertex.label.dist": }{Distance between the label and the vertex. Default value is  0}
 \item{"vertex.label.degree": }{The position of the label in relation to the vertex. default value is 0}
+\item{"vertex.label.inside": }{The label of a block is drawn inside it when its radius is at least this fraction of the radius of the largest block (for a label of 2 characters, the fraction being proportional to the number of characters), outside it otherwise. Default value is 0.5}
 \item{"edge.threshold": }{Threshold under which the edge is not plotted. Default value is = -Inf}
 \item{"edge.color": }{Default value is "gray"}
 \item{"edge.width": }{Factor parameter. Default value is 1}

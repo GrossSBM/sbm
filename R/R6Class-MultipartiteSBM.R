@@ -72,7 +72,8 @@ MultipartiteSBM <-
               netList    = lapply(seq_len(nrow(private$arch)), function(k)
                 list(fg = private$arch[k, ], mean = self$connectParam[[k]]$mean, directed = private$directed_[k])),
               nodeLabels = as.list(private$dimlab),
-              plotOptions
+              plotOptions,
+              defaultLayout = 'free'
             ),
           "data" =
             plotMultipartiteMatrix(

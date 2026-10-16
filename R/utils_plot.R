@@ -44,7 +44,7 @@ plotMatrix = function(Mat, dimLabels, clustering = NULL, plotOptions = list()){
     legend.title = FALSE,
     legend.position = 'bottom'
   )
-  # Overwrite defaults with any user‑supplied options
+  # Overwrite defaults with any user-supplied options
   currentOptions[names(plotOptions)] <- plotOptions
   ################################################
 
@@ -539,31 +539,40 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG,namesLayers, dist
 ggplotColors <- function(n){
   grDevices::hcl(h = seq(15, 375, length.out = n + 1), l = 65, c = 100)[1:n]
 }
+# colors of the types of nodes in the mesoscopic view: hue palette without the reds,
+# so that the nodes are not confused with the connectivities (drawn in red by default)
+mesoColors <- function(n){
+  if (n == 1) return(grDevices::hcl(h = 230, l = 65, c = 100))
+  grDevices::hcl(h = seq(285, 75, length.out = n), l = 65, c = 100)
+}
 #-----------------------------------------------------------------
 # Mesoscopic view of a simple, bipartite or multipartite SBM: the graphon drawn as a network.
-# Each block is a node whose area is proportional to the block proportion, colored and shaped
-# according to its type of nodes (functional group). The connectivity between two blocks (and
+# Each block is a node whose area is proportional to the block proportion, colored according to
+# its type of nodes (functional group). The connectivity between two blocks (and
 # within a block, as a loop) is drawn as an edge whose width and color grow with the connectivity,
 # with the same colors as the graphon, on a scale common to all the networks.
 #   piList  : list of the block proportions, one element per functional group
 #   netList : list of the networks, each one a list with fg (the two functional groups),
 #             mean (the matrix of connectivities) and directed (logical, NA for bipartite)
+#   defaultLayout : layout used when plotOptions$layout is NULL: 'groups' (one row of blocks per
+#             type of nodes) or 'free' (blocks attracted by their connectivity, whatever their type)
 #-----------------------------------------------------------------
 #' @importFrom graphics plot
-plotMeso <- function(piList, netList, nodeLabels, plotOptions){
+plotMeso <- function(piList, netList, nodeLabels, plotOptions, defaultLayout = 'groups'){
 
   nbFG <- length(piList)
   currentOptions <- list(
     seed = NULL,
     title = NULL,
     layout = NULL,
-    vertex.color = ggplotColors(max(nbFG, 2))[1:nbFG],
-    vertex.frame.color = 'black',
-    vertex.shape = rep_len(c('circle', 'square', 'diamond', 'triangle'), nbFG),
+    vertex.color = mesoColors(nbFG),
+    vertex.frame.color = NA,
+    vertex.shape = 'circle',
     vertex.size = 1,
     vertex.label.name = NULL,
     vertex.label.color = 'black',
     vertex.label.size = 3.5,
+    vertex.label.inside = 0.5,
     withinBlock = 'loop',
     edge.threshold = -Inf,
     edge.width = 1,
@@ -625,8 +634,10 @@ plotMeso <- function(piList, netList, nodeLabels, plotOptions){
 
   #------------------ layout
   layout <- currentOptions$layout
-  if (is.null(layout)) {
-    if (nbFG > 1) {
+  if (is.null(layout)) {layout <- if (nbFG == 1) 'free' else defaultLayout}
+  if (is.character(layout)) {
+    layout <- match.arg(layout, c('groups', 'free'))
+    if (layout == 'groups' && nbFG > 1) {
       layout <- mesoLayoutFG(t(sapply(netList, function(net) net$fg)), nbBlocks)
     } else {
       # blocks attracted by their connectivity (the seed is set before the random layout)
@@ -643,9 +654,11 @@ plotMeso <- function(piList, netList, nodeLabels, plotOptions){
   nodes$x <- layout[, 1]
   nodes$y <- layout[, 2]
 
-  # radius of the blocks: area proportional to the proportion, without overlap
+  # radius of the blocks: area proportional to the proportion, without overlap. The proportions
+  # sum to 1 within each type of nodes: the largest block of each type has the maximal size
   dmin <- if (Q > 1) min(stats::dist(layout)) else 1
-  nodes$r <- currentOptions$vertex.size[nodes$fg] * 0.4 * dmin * sqrt(nodes$pi / max(nodes$pi))
+  piMax <- vapply(piList, max, numeric(1))[nodes$fg]
+  nodes$r <- currentOptions$vertex.size[nodes$fg] * 0.4 * dmin * sqrt(nodes$pi / piMax)
   nodes$shape <- currentOptions$vertex.shape[nodes$fg]
   nodes$fill  <- currentOptions$vertex.color[nodes$fg]
   # simple SBM: the connectivity within the blocks can be given by the color of the nodes
@@ -658,6 +671,15 @@ plotMeso <- function(piList, netList, nodeLabels, plotOptions){
                          function(a) blendWhite(currentOptions$block.color, a), character(1))
   }
   nodes$frame <- currentOptions$vertex.frame.color[nodes$fg]
+
+  # free direction around each node: middle of the largest angular gap between the other blocks
+  nodes$angle <- vapply(seq_len(Q), function(i) {
+    others <- setdiff(seq_len(Q), i)
+    if (length(others) == 0) return(base::pi / 2)
+    angles <- sort(atan2(nodes$y[others] - nodes$y[i], nodes$x[others] - nodes$x[i]))
+    gaps <- diff(c(angles, angles[1] + 2 * base::pi))
+    angles[which.max(gaps)] + max(gaps) / 2
+  }, numeric(1))
 
   # nodes as polygons (circles, squares, diamonds or triangles of the same area)
   polys <- do.call(rbind, lapply(seq_len(Q), function(k) {
@@ -699,15 +721,7 @@ plotMeso <- function(piList, netList, nodeLabels, plotOptions){
   if (nrow(loops) > 0) {
     loopPaths <- do.call(rbind, lapply(seq_len(nrow(loops)), function(k) {
       i <- loops$from[k]
-      # direction in the middle of the largest angular gap between the other blocks
-      others <- setdiff(seq_len(Q), i)
-      d <- c(0, 1)
-      if (length(others) > 0) {
-        angles <- sort(atan2(nodes$y[others] - nodes$y[i], nodes$x[others] - nodes$x[i]))
-        gaps <- diff(c(angles, angles[1] + 2 * base::pi))
-        a <- angles[which.max(gaps)] + max(gaps) / 2
-        d <- c(cos(a), sin(a))
-      }
+      d <- c(cos(nodes$angle[i]), sin(nodes$angle[i]))
       rl <- 0.6 * nodes$r[i]
       cl <- c(nodes$x[i], nodes$y[i]) + d * (nodes$r[i] + 0.5 * rl)
       t <- seq(0, 2 * base::pi, length.out = 61)
@@ -715,6 +729,17 @@ plotMeso <- function(piList, netList, nodeLabels, plotOptions){
                  color = loops$color[k], width = loops$width[k])
     }))
   }
+
+  #------------------ labels: inside the large blocks, outside the small ones (beyond their loop)
+  # (minimal relative radius for a label of 2 characters, proportional to the number of characters)
+  inside <- nodes$r >= pmin(1, currentOptions$vertex.label.inside * nchar(nodes$label) / 2) * max(nodes$r)
+  hasLoop <- seq_len(Q) %in% loops$from
+  ext <- nodes$r * ifelse(nodes$shape == 'circle', 1, 1.3) * ifelse(hasLoop, 1.9, 1) + 0.05 * dmin
+  nodes$lx <- ifelse(inside, nodes$x, nodes$x + ext * cos(nodes$angle))
+  nodes$ly <- ifelse(inside, nodes$y, nodes$y + ext * sin(nodes$angle))
+  # text on the outer side of the anchor
+  nodes$hjust <- ifelse(inside, 0.5, (1 - round(cos(nodes$angle), 10)) / 2)
+  nodes$vjust <- ifelse(inside, 0.5, (1 - round(sin(nodes$angle), 10)) / 2)
 
   #------------------ plot
   g <- ggplot()
@@ -742,12 +767,15 @@ plotMeso <- function(piList, netList, nodeLabels, plotOptions){
   g <- g +
     geom_polygon(data = polys, aes(x = .data$x, y = .data$y, group = .data$id,
                                    fill = .data$fill, colour = .data$frame)) +
-    geom_text(data = nodes, aes(x = .data$x, y = .data$y, label = .data$label),
+    geom_text(data = nodes, aes(x = .data$lx, y = .data$ly, label = .data$label,
+                                hjust = .data$hjust, vjust = .data$vjust),
               colour = currentOptions$vertex.label.color, size = currentOptions$vertex.label.size) +
     scale_colour_identity() + scale_fill_identity() + scale_linewidth_identity() +
     coord_fixed() +
     theme_void() + theme(plot.title = element_text(hjust = 0.5))
   if (!is.null(currentOptions$title)) {g <- g + ggtitle(currentOptions$title)}
+  # coordinates of the blocks, to be modified and given back in plotOptions$layout
+  attr(g, 'blockLayout') <- matrix(c(nodes$x, nodes$y), Q, 2, dimnames = list(nodes$label, c('x', 'y')))
   g
 }
 
