@@ -257,7 +257,7 @@ predict.SBM <- function(object, covarList = object$covarList, theta_p0 = 0, ...)
 #'  \item{"edge.arrow.size": }{Factor multiplying the size of the arrows for directed networks. Default value is 1}
 #'  \item{"block.color", "blockAlpha.min", "blockAlpha.max", "limits": }{Colors of the connectivities, as for the graphon (see below)}
 #' }
-#' For multipartite SBM, the list of parameters \code{plotOptions} for the mesoscopic plot (drawn with igraph) is:
+#' For multipartite SBM, the list of parameters \code{plotOptions} for the mesoscopic plot (drawn with ggplot2, the free layout being computed with igraph) is:
 #'  \describe{
 #'  \item{"seed": }{seed to control the free layout. Default value is NULL}
 #'  \item{"title": }{character string for the title. Default value is NULL}
