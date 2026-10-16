@@ -85,7 +85,8 @@ MultipartiteSBM <-
             plotMultipartiteMatrix(
               self$predict(),
               private$arch, private$dim, private$dimlab, NULL,
-              private$model, clustering, plotOptions
+              private$model, clustering,
+              modifyList(list(blockBackground = FALSE, graphonColors = TRUE), plotOptions)
             )
         )
       }

@@ -31,6 +31,11 @@ plotOptions is a list containing the following items
 \item "line.color": The color of the lines to separate groups. Default value is red
 \item "line.width": Width  of the lines to separate groups. Default value is NULL, automatically chosen
 \item "title":  Title of the plot. Default value is NULL
+\item "names.size":  Numeric. Size (in pts) of the node names. Default value is NULL: the size decreases with the number of nodes
+\item "blockBackground":  Boolean. Color the background of each block, with an opacity growing with the mean value of the entries in the block. Only used when a clustering is provided. Default value is TRUE
+\item "graphonColors":  Boolean. Color the entries with the colors of the graphon (from \code{blockAlpha.min} to \code{blockAlpha.max} opacity of \code{block.color}) instead of white to black. Ignored for binary matrices. Default value is FALSE
+\item "block.color":  Chain of character. The color of the block background. Default value is red
+\item "blockAlpha.min", "blockAlpha.max":  Numeric. Opacity of the least and most dense blocks. Default values are 0.1 and 0.6
 }
 }
 \examples{

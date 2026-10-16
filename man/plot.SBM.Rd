@@ -15,7 +15,7 @@
 \arguments{
 \item{x}{an object inheriting from class SBM}
 
-\item{type}{character for the type of plot: either 'data' (true connection),  'expected' (fitted connection), 'graphon' (block connectivity on the unit square, blocks sized by the block proportions) or 'meso' (mesoscopic). Default to 'data'. 'graphon' is only available for simple and bipartite SBM.}
+\item{type}{character for the type of plot: either 'data' (true connection),  'expected' (fitted connection), 'graphon' (block connectivity on the unit square, blocks sized by the block proportions) or 'meso' (mesoscopic). Default to 'data'. 'graphon' is available for simple, bipartite and multiplex SBM (one panel per layer).}
 
 \item{ordered}{logical: should the rows and columns be ordered according to the clustering? Default to \code{TRUE} (not taken into account for 'meso').}
 

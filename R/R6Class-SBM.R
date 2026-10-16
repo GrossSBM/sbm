@@ -230,7 +230,7 @@ predict.SBM <- function(object, covarList = object$covarList, theta_p0 = 0, ...)
 #' Basic matrix plot method for SBM object or mesoscopic view
 #'
 #' @param x an object inheriting from class SBM
-#' @param type character for the type of plot: either 'data' (true connection),  'expected' (fitted connection), 'graphon' (block connectivity on the unit square, blocks sized by the block proportions) or 'meso' (mesoscopic). Default to 'data'. 'graphon' is only available for simple and bipartite SBM.
+#' @param type character for the type of plot: either 'data' (true connection),  'expected' (fitted connection), 'graphon' (block connectivity on the unit square, blocks sized by the block proportions) or 'meso' (mesoscopic). Default to 'data'. 'graphon' is available for simple, bipartite and multiplex SBM (one panel per layer).
 #' @param ordered logical: should the rows and columns be ordered according to the clustering? Default to \code{TRUE} (not taken into account for 'meso').
 #' @param plotOptions list with parameters for 'meso' type plot and data type plot. Details are given below
 #' @param ... additional parameters for S3 compatibility. Not used

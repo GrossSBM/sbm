@@ -97,7 +97,7 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{MultiplexSBM_fit$plot(
-  type = c("data", "expected"),
+  type = c("data", "expected", "graphon"),
   ordered = TRUE,
   plotOptions = list()
 )}
@@ -106,7 +106,7 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
   \subsection{Arguments}{
     \if{html}{\out{<div class="arguments">}}
     \describe{
-      \item{\code{type}}{character for the type of plot: either 'data' (true connection), 'expected' (fitted connection). Default to 'data'.}
+      \item{\code{type}}{character for the type of plot: either 'data' (true connection), 'expected' (fitted connection) or 'graphon' (block connectivity of each layer on the unit square, blocks sized by the block proportions; the marginal connectivity of each layer in the dependent case). Default to 'data'.}
       \item{\code{ordered}}{TRUE is the matrices are plotted after reorganization with the blocks. Default value = TRUE}
       \item{\code{plotOptions}}{list of plot options for the matrix view}
     }

@@ -135,6 +135,11 @@ MultipartiteSBM_fit <-
         v_Kmin  <- map_dbl(currentOptions$nbBlocksRange, 1)
         v_Kmax  <- map_dbl(currentOptions$nbBlocksRange, 2)
         verbose <- (currentOptions$verbosity > 0)
+        ## GREMLINS displays its progress bar with pbmcapply, which forks the session even on 1 core
+        if (verbose && .in_positron()) {
+          message("Positron does not allow forking the R session: GREMLINS progress bar is disabled.")
+          verbose <- FALSE
+        }
         nbCores <- .check_nbCores(currentOptions$nbCores)
         maxiterVE <- currentOptions$maxiterVE
         maxiterVEM <- currentOptions$maxiterVEM

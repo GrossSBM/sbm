@@ -13,6 +13,11 @@
 #'  * "line.color": The color of the lines to separate groups. Default value is red
 #'  * "line.width": Width  of the lines to separate groups. Default value is NULL, automatically chosen
 #'  * "title":  Title of the plot. Default value is NULL
+#'  * "names.size":  Numeric. Size (in pts) of the node names. Default value is NULL: the size decreases with the number of nodes
+#'  * "blockBackground":  Boolean. Color the background of each block, with an opacity growing with the mean value of the entries in the block. Only used when a clustering is provided. Default value is TRUE
+#'  * "graphonColors":  Boolean. Color the entries with the colors of the graphon (from \code{blockAlpha.min} to \code{blockAlpha.max} opacity of \code{block.color}) instead of white to black. Ignored for binary matrices. Default value is FALSE
+#'  * "block.color":  Chain of character. The color of the block background. Default value is red
+#'  * "blockAlpha.min", "blockAlpha.max":  Numeric. Opacity of the least and most dense blocks. Default values are 0.1 and 0.6
 #'
 #' @return a ggplot object corresponding to the plot
 #' @export

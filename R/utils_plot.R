@@ -225,8 +225,17 @@ plotGraphon = function(thetaMean, pi, nbNodes, dimLabels, plotOptions = list()){
   # block 1 in the top left corner, as in plotMatrix
   endRow <- nbNodes[1] * cumsum(pi[[1]]); startRow <- c(0, head(endRow, -1))
   endCol <- nbNodes[2] * cumsum(pi[[2]]); startCol <- c(0, head(endCol, -1))
-  blocks <- expand.grid(k = seq_along(pi[[1]]), q = seq_along(pi[[2]]))
-  blocks$value <- as.matrix(thetaMean)[cbind(blocks$k, blocks$q)]
+  # a list of connectivity matrices (multiplex networks) gives one panel per layer
+  multiplex <- is.list(thetaMean)
+  if (!multiplex) {thetaMean <- list(thetaMean)}
+  if (is.null(names(thetaMean))) {names(thetaMean) <- paste0("Layer", seq_along(thetaMean))}
+  blocks <- do.call(rbind, lapply(seq_along(thetaMean), function(l) {
+    b <- expand.grid(k = seq_along(pi[[1]]), q = seq_along(pi[[2]]))
+    b$value <- as.matrix(thetaMean[[l]])[cbind(b$k, b$q)]
+    b$layer <- names(thetaMean)[l]
+    b
+  }))
+  blocks$layer <- factor(blocks$layer, levels = names(thetaMean))
   blocks$xmin <- startCol[blocks$q]
   blocks$xmax <- endCol[blocks$q]
   blocks$ymin <- -endRow[blocks$k]
@@ -249,6 +258,11 @@ plotGraphon = function(thetaMean, pi, nbNodes, dimLabels, plotOptions = list()){
           panel.grid = element_blank(), panel.background = element_rect(fill = "white"),
           panel.border = element_rect(fill = NA, colour = "grey30", linewidth = 0.3),
           plot.title = element_text(hjust = 0.5))
+  if (multiplex) {
+    # as the multiplex matrix plots: the layers on top, the nodes at the bottom and on the right
+    g <- g + facet_wrap(~ layer) + scale_y_continuous(position = 'right') +
+      theme(strip.background = element_blank(), strip.text = element_text(size = rel(1.1)))
+  }
 
   if (!currentOptions$legend){g <- g + theme(legend.position = 'none')}else{
     g <- g + theme(legend.position = currentOptions$legend.position)
@@ -268,6 +282,8 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG,namesLayers, dist
 
   ###---------------------- check for multiplex
   wE <- which(duplicated(E) == FALSE)
+  # for multiplex networks: name of the layer of each new column group, and names of the nodes in row and col
+  layerLabels <- c(); multiplexTitles <- NULL
   if(length(wE) > 0){
     if (is.null(namesLayers)){namesLayers = paste("Layer", 1:nbNet, sep="")}
     for (i in wE){
@@ -276,8 +292,10 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG,namesLayers, dist
       if(length(p.i) > 1){
       test_bipartite <- (E[p.i[1],1]!=E[p.i[1],2])
       FGi <- E[p.i[1],2]
+      multiplexTitles <- c(row = unname(namesFG[E[p.i[1],1]]), col = unname(namesFG[FGi]))
       for (k in 1:length(p.i)){
         namesFG <- c(namesFG,paste(namesFG[FGi],namesLayers[k],sep='. '))
+        layerLabels[paste(namesFG[FGi],namesLayers[k],sep='. ')] <- namesLayers[k]
         nbNodes <- c(nbNodes,nbNodes[FGi])
         if (!is.null(clustering)){clustering[[length(clustering) + 1]] <- clustering[[FGi]]}
         if (!is.null(clustering)){names(clustering)<- namesFG}
@@ -304,7 +322,10 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG,namesLayers, dist
 
 
   #----------------------------------------
-  currentOptions = list(line.color  = 'red',legend = FALSE,compact = TRUE, normalized = FALSE,title=NULL)
+  # same block background and colors as plotMatrix (simple and bipartite SBM)
+  currentOptions = list(line.color  = 'red',legend = FALSE,compact = TRUE, normalized = FALSE,title=NULL,
+                        names.size = NULL, blockBackground = TRUE, graphonColors = FALSE,
+                        block.color = 'red', blockAlpha.min = 0.1, blockAlpha.max = 0.6)
   currentOptions$legend.title = FALSE
   currentOptions$legend.position ='bottom'
   currentOptions$nodeNames = FALSE
@@ -420,7 +441,30 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG,namesLayers, dist
   colnames(MetaMat) <- col_Names
 
 
-  if(is.null(currentOptions$line.width)){currentOptions$line.width = mean(dim(MetaMat))/300}
+  if(is.null(currentOptions$line.width)){currentOptions$line.width = mean(nbNodes)/300}
+
+  ############# block background, in the coordinates of each panel (as in plotMatrix)
+  withBackground <- reordered && currentOptions$blockBackground
+  if (withBackground) {
+    blocks <- do.call(rbind, lapply(1:nbNet, function(l) {
+      Mat <- list_Mat[[l]]
+      n_l <- nrow(Mat)
+      endRow <- as.vector(cumsum(table(clustering[[E[l, 1]]]))); startRow <- c(1, head(endRow, -1) + 1)
+      endCol <- as.vector(cumsum(table(clustering[[E[l, 2]]]))); startCol <- c(1, head(endCol, -1) + 1)
+      b <- expand.grid(k = seq_along(endRow), q = seq_along(endCol))
+      b$mean <- mapply(function(k, q) {
+        mean(Mat[startRow[k]:endRow[k], startCol[q]:endCol[q]], na.rm = TRUE)
+      }, b$k, b$q)
+      b$alpha <- blockAlpha(b$mean, currentOptions)
+      b$xmin <- startCol[b$q] - 0.5
+      b$xmax <- endCol[b$q] + 0.5
+      b$ymin <- n_l - endRow[b$k] + 0.5
+      b$ymax <- n_l - startRow[b$k] + 1.5
+      b$FG_row <- namesFG[E[l, 1]]
+      b$FG_col <- namesFG[E[l, 2]]
+      b
+    }))
+  }
   FGCol <- rep(namesFG, times = nbNodes*GCol)
   FGRow <- rep(namesFG, times = nbNodes*GRow)
 
@@ -449,14 +493,34 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG,namesLayers, dist
 
   g <- ggplot2::ggplot(melted_Mat, aes(y = .data$names_row, x = .data$names_col, fill = .data$link))
   g <- g +  geom_tile()
-  g <- g +  theme(axis.ticks = element_blank(),panel.background = element_rect(fill = "white"))
+  # with a block background, low values are transparent so that the background shows
+  low.color <- if (withBackground) "transparent" else "white"
+  if (withBackground) {
+    g <- g + geom_rect(data = blocks, inherit.aes = FALSE,
+                       aes(xmin = .data$xmin, xmax = .data$xmax, ymin = .data$ymin, ymax = .data$ymax, alpha = .data$alpha),
+                       fill = currentOptions$block.color) +
+      scale_alpha_identity()
+    # draw the background under the tiles (added after them so the axes stay discrete)
+    g$layers <- g$layers[c(2, 1)]
+  }
   g <- g +  labs(x = '', y = '')
-  g <- g +  scale_x_discrete(drop = TRUE) + scale_y_discrete(drop = TRUE)
+  g <- g +  scale_x_discrete(drop = TRUE, expand = c(0, 0)) +
+    scale_y_discrete(drop = TRUE, expand = c(0, 0), position = if (is.null(multiplexTitles)) 'left' else 'right')
 
   name_legend <- ifelse(normalized,"Norm. Link","Link")
-  if (!binary) {
+  if (!binary && currentOptions$graphonColors) {
+    # same colors as the graphon (used for the expected networks)
+    limitsGraphon <- if (range_melted[1] >= 0) c(0, range_melted[2]) else range_melted
+    g <- g + scale_fill_gradient(
+      low  = blendWhite(currentOptions$block.color, currentOptions$blockAlpha.min),
+      high = blendWhite(currentOptions$block.color, currentOptions$blockAlpha.max),
+      limits = limitsGraphon,
+      na.value = "transparent",
+      name = name_legend
+    )
+  } else if (!binary) {
     g <- g +  scale_fill_gradient(
-      low = "white",
+      low = low.color,
       high = "black",
       limits = range_melted,
       na.value = "transparent",
@@ -466,14 +530,22 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG,namesLayers, dist
     g <-
       g + scale_fill_manual(
         breaks = c("0", "1"),
-        values = c("white", "black"),
+        values = c(low.color, "black"),
         na.value = "transparent"
       )
   }
+  g <- g + theme(axis.ticks = element_blank(), panel.grid = element_blank(),
+                 panel.background = element_rect(fill = "white"),
+                 panel.border = element_rect(fill = NA, colour = "grey30", linewidth = 0.3),
+                 plot.title = element_text(hjust = 0.5))
+  # size of the names: by default, small enough for the names not to overlap
+  names.size <- currentOptions$names.size
+  if (is.null(names.size)) {names.size <- min(9, 250 / max(n1, n2))}
   if (!currentOptions$nodeNames){
     g <- g + theme(axis.text.x = element_blank(),axis.text.y = element_blank())
   }else{
-    g <- g + theme(axis.text.x = element_text(angle = 90, hjust = 0))
+    g <- g + theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5, size = names.size),
+                   axis.text.y = element_text(size = names.size))
   }
 
   if(!currentOptions$legend){
@@ -485,7 +557,19 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG,namesLayers, dist
 
 
   #g <- g + facet_grid(FG_row~ FG_col, scales = 'free')#coord_equal()
-  g <- g + facet_grid(FG_row~ FG_col, scales = 'free', space = 'free')
+  if (is.null(multiplexTitles)) {
+    # the functional groups are written as the axis titles of plotMatrix: columns at the bottom, rows on the left
+    g <- g + facet_grid(FG_row~ FG_col, scales = 'free', space = 'free', switch = 'both')
+    g <- g + theme(strip.background = element_blank(), strip.placement = 'outside',
+                   strip.text = element_text(size = rel(1.1)), axis.title = element_blank())
+  } else {
+    # multiplex: the layers are written on top, the nodes at the bottom and on the right (as the graphon)
+    g <- g + facet_grid(FG_row~ FG_col, scales = 'free', space = 'free',
+                        labeller = labeller(FG_col = function(x) unname(layerLabels[x])))
+    g <- g + labs(x = multiplexTitles[['col']], y = multiplexTitles[['row']])
+    g <- g + theme(strip.background = element_blank(), strip.text.x = element_text(size = rel(1.1)),
+                   strip.text.y = element_blank())
+  }
 
   #g <- g + facet_grid(FG_row~ FG_col)
 

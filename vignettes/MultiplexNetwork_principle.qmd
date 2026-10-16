@@ -2,144 +2,146 @@
 title: "Stochastic Block Models for Multiplex networks: principle"
 subtitle: "Principle and illustration"
 author: "team großBM"
-date: "`r Sys.Date()`"
-output:
-  rmarkdown::html_vignette:
+date: today
+format:
+  html:
     toc: true
-    toc_depth: 4
+    toc-depth: 3
+    html-math-method: mathml # rendered by the browsers, even when the vignette is self-contained
 bibliography: references.bib
-link-citations: yes
+link-citations: true
+knitr:
+  opts_chunk:
+    collapse: true
+    comment: "#>"
 vignette: >
   %\VignetteIndexEntry{Stochastic Block Models for Multiplex networks: principle}
-  %\VignetteEngine{knitr::rmarkdown} 
+  %\VignetteEngine{quarto::html}
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-```
+## 1. Preliminaries
 
-## Preliminaries
+This vignette illustrates the use of the `estimateMultiplexSBM` function and the methods accompanying the R6 class `MultiplexSBM_fit`.
 
-This vignette illustrates the use of the `estimateMultiplexSBM` function and the methods accompanying the R6 classes `multiplexSBMfit`.
-
-### Requirements
-
-The only package required for the analysis is **sbm**. 
+The only package required for the analysis is **sbm**.
 
 ```{r setup, message=FALSE, warning=FALSE}
 library(sbm)
 ```
 
+```{r precomputed-fits, include = FALSE}
+# The fits are precomputed by dev/precompute_MultiplexNetwork_principle.R and
+# loaded here. If the file is missing, the fits are run in the vignette.
+fitsFile <- "MultiplexNetwork_principle_fits.rda"
+runFits  <- !file.exists(fitsFile)
+if (!runFits) load(fitsFile)
+```
 
-## Multiplex network data 
+## 2. Multiplex network data
 
+Multiplex networks refer to a collection of networks involving the same sets of nodes, each network corresponding to a given type of interaction. Each network may also be referred as a layer.
+Such a network is studied in @multiplexSBM where the nodes are researchers and two networks are provided:
 
-Multiplex networks refer to a collection of networks involving the same sets of nodes, each network corresponding to a given type of interaction. Each network may also be referred as a layer. 
-Such a network is studied in  @multiplexSBM where the nodes are researchers and two networks are provided: 
-    
-    * a network representing the relations of advices between researchers,
-    * a network representing the exchanges between the laboratories the researchers belong to. 
+* a network representing the relations of advices between researchers,
+* a network representing the exchanges between the laboratories the researchers belong to.
 
-In @multiplexKefi, the nodes are species and each network corresponds to a type of ecological relation, namely trophic links, negative non trophic links and positive non trophic links. 
+In @multiplexKefi, the nodes are species and each network corresponds to a type of ecological relation, namely trophic links, negative non trophic links and positive non trophic links.
 
+## 3. Stochastic Block models for multiplex networks
 
-## Stochastic Block models for multiplex networks
+### 3.1 General formulation of the model
 
+We give here a few details on Stochastic Block Models (SBM) for multiplex networks.
 
-### General formulation of the model
-We give here a few details on Stochastic Block Models (SBM) for multiplex networks. 
+Assume that one studies $n$ nodes and observes $L$ types of links, resulting into $L$ matrices $(Y^\ell_{ij})_{i,j = 1,\dots,n}$, $\ell = 1, \dots, L$.
 
+::: {.callout-note}
+## The multiplex SBM
+The $n$ nodes are divided into $Q$ blocks with proportions
+$\pi = (\pi_1, \dots, \pi_Q)$, this clustering being encoded into the latent
+variables $(Z_i)_{i=1,\dots,n}$ such that $Z_i = q$ if node $i$ belongs to
+block $q$. The relations between nodes $i$ and $j$ are driven by the blocks
+they belong to:
+\begin{align*}
+ (Z_i)_{i} \text{ i.i.d.} \qquad & \mathbb{P}(Z_i = q) = \pi_q, \\
+ (Y^1_{ij}, \dots,Y^L_{ij})_{i \neq j} \text{ indep.} \mid (Z_i)_{i} \qquad & (Y^1_{ij}, \dots,Y^L_{ij}) \mid Z_i = q, Z_j = r \sim \mathcal{F}(\alpha_{qr}),
+\end{align*}
+where $\mathcal{F}$ is a $L$ dimensional probability distribution adapted to the data.
+:::
 
+*Examples*
 
-Assume that one studies   $n$ nodes and observes $L$ types of links, resulting into $L$ matrices $(X^\ell_{ij})_{i,j = 1,\dots,n}$, $\ell = 1, \dots, L$. 
-Block models assume  that the nodes are divided into $K$ clusters, this clustering being encoded into the latent variables $(Z_i)_{i=1,\dots,n}$ such that  $Z_i = k$ if node $i$ belongs to cluster $k$.  
+- If all the networks are binary ($Y^\ell_{ij} \in \{0,1\}$) then $\mathcal{F}$ is a $L$-variate Bernoulli distribution and
+  $$ \alpha_{qr} = (\alpha^{\omega}_{qr}, \omega \in \{0,1\}^L)$$
+  with $\alpha^{\omega}_{qr} = \mathbb{P}\left((Y^1_{ij}, \dots,Y^L_{ij}) = \omega \mid Z_i = q, Z_j = r\right) \in [0,1]$.
+- If all the networks are weighted with real values ($Y^\ell_{ij} \in \mathbb{R}$) then $\mathcal{F}$ could be a $L$-dimensional Gaussian distribution and
+  $$ \alpha_{qr} = (\mu_{qr},\Sigma_{qr})$$
+  with $\mu_{qr} \in \mathbb{R}^L$, $\Sigma_{qr}$ a $L \times L$ covariance matrix.
 
-The relations between nodes $i$ and $j$ are driven by the clusters they belong to : 
+Note that these two models assume that the $L$ interactions are dependent **conditionally to the clustering**. The integration against the latent variables $Z$ (clustering) implies that the interactions between two pairs of nodes are also dependent.
 
-$$ (X^1_{ij}, \dots,X^L_{ij})  | Z_i = q, Z_j = r \sim_{ind} \mathcal{F}(\cdot;\theta_{qr})$$
-where $\mathcal{F}$ is a $L$ dimensional probability distribution adapted to the data. 
+A collection of models are implemented in our package `sbm`. These models can be classified into two groups: either the layers are dependent conditionally to $Z$ or not.
 
-*Examples* 
+### 3.2 Dependent and independent layers conditionally to $Z$
 
-  - If all the networks are binary ($X^\ell_{ij} \in \{0,1\}$) then $\mathcal{F}$ is a $L$-variate Bernoulli distribution and 
-  $$ \theta_{qr} = (p^{\omega}_{qr}, \omega \in \{0,1\}^L)$$
-  with $p^{\omega_\ell}_{qr} \in [0,1]$.   
-  - If all the networks are weighted with real values ($X^\ell_{ij} \in \mathbb{R}$) then $\mathcal{F}$ could be a $L$-dimensional Gaussian distribution and
-  $$ \theta_{qr} = (\mu_{qr},\Sigma_{qr})$$
-  with $\mu_{qr} \in \mathbb{R}^L$, $\Sigma_{qr}$ a $L$ covariance matrix. 
-  
-Note that these two models assume that the $L$ interactions are dependent **conditionally to the clustering**.  The integration against the latent variables $Z$ (clustering) implies that the interactions between two pairs of nodes are also dependent. 
+We consider conditional dependence in a few numbers of models:
 
-A collection of models are implemented in our package `sbm`. These models can be classified into two groups : either the layers are dependent conditionally to $Z$ or not. 
+- for $L=2$ binary networks (Bernoulli);
+- for any number $L$ of layers with Gaussian multivariate distributions but restricted to $\Sigma_{qr} = \Sigma$ (same covariance in any blocks).
 
+In the binary case, the number of parameters of dependent layers explodes with the number of layers $L$ and the results become difficult to understand.
+As a consequence, we also implemented inference methods for independent layers conditionally to the clusterings for any number of layers.
 
-###  Dependent and independent layers conditionally to $Z$ 
+::: {.callout-note}
+## The multiplex SBM with independent layers
+The clustering $(Z_i)_{i}$ is the same as above but, conditionally to the
+clusters, the layers are independent: for any $\ell,i,j$,
+$$ Y^\ell_{ij} \mid Z_i = q, Z_j = r \sim_{ind} \mathcal{F}_\ell(\alpha^\ell_{qr}),$$
+where any $\mathcal{F}_\ell$ can be Bernoulli, Poisson, Gaussian or Zero Inflated Gaussian.
+:::
 
-We consider conditional dependence in a few numbers of models : 
+### 3.3 Bipartite multiplex networks
 
-  - for $L=2$ Binary networks (Bernoulli)
-  
-  - For any number $L$ of layers with Gaussian multivariate  distributions but restricted to  $\Sigma_{qr} = \Sigma$ (same covariance in any blocks).
+All the previous models can be extended to bipartite networks (i.e. when the nodes in row are different from the nodes in column). In that case, two clusterings are introduced.
 
-In the Binary case, the number of parameters of dependent layers explodes with the number of layers $L$ and the results become difficult to understand. 
-As a consequence, we also implemented inference methods for independent layers conditionally to the clusterings for any number of layers. 
+::: {.callout-note}
+## The bipartite multiplex SBM
+The $n_1$ row nodes are divided into $Q_1$ blocks with proportions $\pi^1$ and
+the $n_2$ column nodes into $Q_2$ blocks with proportions $\pi^2$, encoded into
+the row and column clusterings $(Z^1_i)_{i=1,\dots,n_1}$ and $(Z^2_j)_{j=1,\dots,n_2}$:
+\begin{align*}
+ (Z^1_i)_{i} \text{ i.i.d.} \qquad & \mathbb{P}(Z^1_i = q) = \pi^1_q, \\
+ (Z^2_j)_{j} \text{ i.i.d.}, \text{ indep. of } (Z^1_i)_{i} \qquad & \mathbb{P}(Z^2_j = r) = \pi^2_r, \\
+ (Y^1_{ij}, \dots,Y^L_{ij})_{i,j} \text{ indep.} \mid (Z^1_i)_{i}, (Z^2_j)_{j} \qquad & (Y^1_{ij}, \dots,Y^L_{ij}) \mid Z^1_i = q, Z^2_j = r \sim \mathcal{F}(\alpha_{qr}),
+\end{align*}
+with the same distributions $\mathcal{F}$ as above (or independent layers
+$Y^\ell_{ij} \mid Z^1_i = q, Z^2_j = r \sim \mathcal{F}_\ell(\alpha^\ell_{qr})$).
+:::
 
+### 3.4 Inference
 
+The maximization of the likelihood is obtained via a Variational version of the Expectation-Maximization algorithm.
+The number of blocks is chosen via a penalized likelihood criterion (ICL).
+See @multiplexSBM for details.
 
+Note that, in the case of dependent networks, the inference is performed via the `blockmodels` package, while the `GREMLINS` package is used in the case of independent networks. As a consequence, the `estimOptions` arguments are slightly different.
 
-In the case of independent layers conditionally to the clusters, we assume that for any $\ell,i,j$, 
-$$ X^\ell_{ij}  | Z_i = q, Z_j = r \sim_{ind} \mathcal{F}_\ell(\cdot;\theta^\ell_{qr})$$
-where any $\mathcal{F}_\ell$ can be Bernoulli, Poisson, Gaussian or Zero Inflated Gaussian. 
+## 4. Data simulation
 
+The function `sampleMultiplexSBM` supplies a method to simulate multiplex networks. The argument `dependent` is set to `FALSE` by default (assuming independent layers conditionally to the clusterings).
 
-### Bipartite multiplex networks 
-
-All the previous models can be extended to bipartite networks (i.e. when the nodes in row are different from the nodes in column). In that case, two clusterings are introduced. 
-Assume  that the row (respectively column) nodes are divided into $K_1$ (resp. $K_2$) clusters, and denote $(Z^1_i)_{i=1,\dots,n}$ (resp. $(Z^2_j)_{i=j,\dots,p}$ )  the row (resp. col) clusterings. 
-
-The relations between nodes $i$ and $j$ are driven by the clusters they belong to : 
-
-$$ (X^1_{ij}, \dots,X^L_{ij})  | Z^1_i = q, Z^2_j = r \sim_{ind} \mathcal{F}(\cdot;\theta_{qr})$$
-
-
-
-### Inference 
-
-The maximization of the likelihood is obtained via a Variational version of the Expectation- Maximization algorithm. 
-The number of blocks is chosen via a penalized likelihood criterion (ICL).  
-See @multiplexSBM for details. 
-
-Note that, in the case of dependent networks, the inference is performed via the `blockmodels` package, while the `GREMLINS` package is used in the case of independent networks. As a consequence, the `estimOptions` arguments are slightly different. 
-
-
-
-
-## Implementation 
-
-### Data simulation 
-
-The function `mySampleMultiplexSBM`  supplies a method to simulate multiplex networks. The argument `dependent` is set to `FALSE` by default (assuming independent layers conditionally to the clusterings). 
-
-We simulate hereafter $2$ simple (i.e. non bipartite) layers. The corresponding matrices can be plotted using the function `plotMyMultiplexMatrix`. 
-
+We simulate hereafter $2$ layers. The corresponding matrices can be plotted using the function `plotMyMultiplexMatrix`.
 
 ```{r param all}
 nbLayers <- 2
-``` 
+```
 
+### 4.1 Two independent directed layers: one Bernoulli, one Poisson, two clusters
 
-
-
-
-**Examples** 
-
-  - 2 directed Layers : one Poisson, one Bernoulli and two clusters 
-  
 ```{r Independant Poisson bernoulli}
+#| fig-width: 7
+#| fig-height: 4
 Nnodes <- 40
 blockProp <- c(.4,.6)
 set.seed(1)
@@ -157,21 +159,21 @@ mySampleMultiplexSBM_PB <-
    type=type,
    seed = 1)
 listSBM_PB <- mySampleMultiplexSBM_PB$listSBM
-names(listSBM_PB) <- c("Bernoulli","Poisson")  
+names(listSBM_PB) <- c("Bernoulli","Poisson")
 plotMyMultiplexMatrix(listSBM_PB)
-``` 
+```
 
+The resulting object is a list of SBM objects (of the SBM class). To build such an object from an observed matrix use the function `defineSBM`.
 
-The resulting object is a list of SBM objects (of the SBM class). To build such an object from an observed matrix use the function `defineSBM`. 
-
-
-```{r}
+```{r print listSBM_PB}
 listSBM_PB
 ```
 
-  -  2  Bipartite Gaussian dependent Layers and three clusters 
+### 4.2 Two dependent bipartite Gaussian layers: three row clusters, two column clusters
 
-```{r }
+```{r Dependent Gaussian bipartite}
+#| fig-width: 7
+#| fig-height: 4
 blockProp <- list(c(0.3, 0.3, 0.4), c(0.5, 0.5))
 Q <- sapply(blockProp, function(p) length(p))
 nbNodes <- c(80, 30)
@@ -196,11 +198,13 @@ mySampleMultiplexSBM_GG <-
      seed = 1)
 listSBM_GG <- mySampleMultiplexSBM_GG$listSBM
 plotMyMultiplexMatrix(listSBM_GG)
-``` 
+```
 
-  -  2  Bernoulli dependent Layers and 2 clusters 
+### 4.3 Two dependent directed Bernoulli layers: two clusters
 
-``` {r }
+```{r Dependent Bernoulli}
+#| fig-width: 7
+#| fig-height: 4
 ## MultiplexSBM Bernoulli with dependence
 Q <- 2
 set.seed(94)
@@ -235,83 +239,85 @@ mySampleMultiplexSBM <-
      seed = 1)
 listSBM_BB <- mySampleMultiplexSBM$listSBM
 plotMyMultiplexMatrix(listSBM_BB)
-``` 
+```
 
-### Inference 
+## 5. Inference
 
-We are now able to perform inference on the multiplex network (search of the "best" number of clusters in terms of ICL). To do so, we have to chose the model, i.e. the distribution used in each matrix and the dependence or independence between matrices conditionally to the clusters. 
+We are now able to perform inference on the multiplex network (search of the "best" number of clusters in terms of ICL). To do so, we have to chose the model, i.e. the distribution used in each matrix and the dependence or independence between matrices conditionally to the clusters.
 
+### 5.1 Two independent directed layers: one Bernoulli, one Poisson
 
-```{r, echo = FALSE, eval = TRUE}
-load(file = 'resVignetteSimuMultiplex.rda')
-``` 
-
-
-  - 2 directed Layers : one Poisson, one Bernoulli and two clusters 
-  
-  
-
-```{r, echo = TRUE, eval = FALSE}
+```{r estim PB}
+#| eval: !expr exists("runFits") && runFits
 res_PB <- estimateMultiplexSBM(listSBM_PB)
-res_PB$storedModels
-``` 
+```
 
-```{r, echo = FALSE, eval = TRUE}
+```{r storedModels PB}
 res_PB$storedModels
 ```
 
+One can now plot the reorganized matrices and the predicted values.
 
-
-One can now plot the reorganized matrices and the predicted values.  
-
-```{r, echo = TRUE, eval = TRUE}
+```{r plot PB}
+#| fig-width: 7
+#| fig-height: 4
 plot(res_PB)
-``` 
+```
 
-```{r, echo = TRUE, eval = TRUE}
+```{r plot PB expected}
+#| fig-width: 7
+#| fig-height: 4
 plot(res_PB, type = 'expected')
-``` 
-
-
-One can also compare the estimated clusters to the simulated clusters.  We recover the clusters perfectly. 
- 
-```{r}
-All <- plotAlluvial(list(simulated  = mySampleMultiplexSBM_PB$memberships$Individuals, estim = res_PB$memberships$Individuals))
-All
 ```
-    -  2  Gaussian bipartite dependent Layers with 3 row clusters and 3 col clusters. 
-    
- 
+
+or the graphon, i.e. the estimated connectivities alone, each block being represented by an interval whose length is its estimated proportion. The two layers following different distributions, the connectivities of each layer are divided by their maximum to be represented on the same color scale.
+
+```{r plot PB graphon}
+#| fig-width: 7
+#| fig-height: 4
+plot(res_PB, type = 'graphon')
+```
+
+One can also compare the estimated clusters to the simulated clusters: 
+```{r table  PB}
+table(mySampleMultiplexSBM_PB$memberships$Individuals, res_PB$memberships$Individuals)
+```
+We recover the clusters perfectly, up to the label switching of the blocks.
 
 
-```{r, echo = TRUE, eval = FALSE}
+
+### 5.2 Two dependent bipartite Gaussian layers
+
+```{r estim GG}
+#| eval: !expr exists("runFits") && runFits
 res_GG <- estimateMultiplexSBM(listSBM_GG, dependent = TRUE, estimOptions = list(plot = FALSE, verbosity = 0 ))
-res_GG$storedModels
-``` 
+```
 
-
-```{r, echo = FALSE, eval = TRUE}
+```{r storedModels GG}
 res_GG$storedModels
 ```
 
-
-```{r, echo = TRUE, eval = TRUE}
+```{r plot GG}
+#| fig-width: 7
+#| fig-height: 4
 plot(res_GG)
-``` 
-  
-  -  2  Bernoulli dependent Layers 
-
-
-```{r, echo = TRUE, eval = FALSE}
-res_BB <- estimateMultiplexSBM(listSBM_BB,dependent =  TRUE, estimOptions = list(plot = FALSE, verbosity = 0 ))
-res_BB$storedModels
-```   
-
-
-```{r, echo = FALSE, eval = TRUE}
-res_BB$storedModels
 ```
 
+```{r plot GG graphon}
+#| fig-width: 7
+#| fig-height: 4
+plot(res_GG, type = 'graphon', plotOptions = list(legend = TRUE))
+```
+
+### 5.3 Two dependent directed Bernoulli layers
+
+```{r estim BB}
+#| eval: !expr exists("runFits") && runFits
+res_BB <- estimateMultiplexSBM(listSBM_BB,dependent =  TRUE, estimOptions = list(plot = FALSE, verbosity = 0 ))
+```
+
+```{r storedModels BB}
+res_BB$storedModels
+```
 
 ## References
-
