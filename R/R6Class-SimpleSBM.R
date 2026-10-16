@@ -15,13 +15,24 @@ SimpleSBM <-
       #' @param dimLabels optional label for the node (default is "nodeName")
       #' @param covarParam optional vector of covariates effect
       #' @param covarList optional list of covariates data
-      initialize = function(model, nbNodes, directed, blockProp, connectParam, dimLabels=c("node"), covarParam=numeric(length(covarList)), covarList=list()) {
+      #' @param nodesCovarList optional list of one matrix with nodes covariates
+      #' @param nodesCovarParam optional list of one matrix of parameters of effects of nodes covariates on clustering
+      initialize = function(model, nbNodes, directed, blockProp, connectParam, dimLabels=c("node"), covarParam=numeric(length(covarList)), covarList=list(), nodesCovarList = list(node=matrix(0,0,0)), nodesCovarParam = list(node=matrix(0,0,0))) {
 
         ## SANITY CHECKS (on parameters)
         stopifnot(length(dimLabels) == 1)
-        stopifnot(is.atomic(blockProp), all(blockProp >= 0)) # positive proportions
-        stopifnot(all.equal(length(blockProp), ncol(connectParam$mean)),        # dimensions match between vector of
+        if (length(nodesCovarList[[1]]) == 0){
+          stopifnot(is.atomic(blockProp))
+          stopifnot(all(blockProp > 0), all(blockProp < 1)) # positive proportions
+          stopifnot(all.equal(length(blockProp), ncol(connectParam$mean)),        # dimensions match between vector of
                   all.equal(length(blockProp), nrow(connectParam$mean)))        # block proportion and connectParam$mean
+        }else{
+          stopifnot(dim(nodesCovarList[[1]])[1]==nbNodes)
+          #stopifnot(dim(nodesCovar)[2]==nrow(nodesCovarParam))
+          #stopifnot(ncol(nodesCovarParam)==nrow(connectParam$mean))
+        }
+
+
 
         ## Check that connectivity parameters and model are consistent
         switch(model,
@@ -32,13 +43,18 @@ SimpleSBM <-
         )
 
         if (!directed) stopifnot(isSymmetric(connectParam$mean)) # connectivity and direction must agree
-        super$initialize(model, directed, nbNodes, dimLabels, blockProp, connectParam, covarParam, covarList)
+        super$initialize(model, directed, nbNodes, dimLabels, blockProp, connectParam, covarParam, covarList, nodesCovarList,nodesCovarParam=nodesCovarParam)
       },
       #' @description a method to sample new block memberships for the current SBM
       #' @param store should the sampled blocks be stored (and overwrite the existing data)? Default to FALSE
       #' @return the sampled blocks
       rMemberships = function(store = FALSE) {
-        Z <- t(rmultinom(private$dim, size = 1, prob = private$pi))
+        if (length(private$Xnodes[[1]])==0){
+          Z <- t(rmultinom(private$dim, size = 1, prob = private$pi))
+        }else{
+          pZ <-  .softmax(private$Xnodes[[1]] %*% private$B[[1]])
+          Z <- t(apply(pZ, 1, function(p) rmultinom(1, 1, prob = p)))
+        }
         if (store) private$Z <- Z
         Z
       },
@@ -82,12 +98,12 @@ SimpleSBM <-
       #' @param type character used to specify the type of SBM
       show = function(type = "Simple Stochastic Block Model") {super$show(type)},
       #' @description basic matrix plot method for SimpleSBM object or mesoscopic plot
-      #' @param type character for the type of plot: either 'data' (true connection), 'expected' (fitted connection) or 'meso' (mesoscopic view). Default to 'data'.
+      #' @param type character for the type of plot: either 'data' (true connection), 'expected' (fitted connection), 'graphon' (block connectivity on the unit square, blocks sized by the block proportions) or 'meso' (mesoscopic view). Default to 'data'.
       #' @param ordered logical: should the rows and columns be reordered according to the clustering? Default to \code{TRUE}.
       #' @param plotOptions list with the parameters for the plot. See help of the corresponding S3 method for details.
-      #' @return a ggplot2 object for the \code{'data'} and \code{'expected'}, a list with the igraph object \code{g}, the \code{layout} and the \code{plotOptions} for the \code{'meso'}
+      #' @return a ggplot2 object
       #' @import ggplot2
-      plot = function(type = c('data','expected','meso'), ordered = TRUE, plotOptions = list()) {
+      plot = function(type = c('data','expected','graphon','meso'), ordered = TRUE, plotOptions = list()) {
 
         if(is.null(self$memberships)) {ordered <- FALSE; type <- 'data'}
         if (ordered & !is.null(self$memberships))
@@ -98,12 +114,8 @@ SimpleSBM <-
         switch(match.arg(type),
           "meso" =
             plotMeso(
-              thetaMean  = private$theta$mean,
-              pi         = private$pi,
-              model      = private$model,
-              directed   = private$directed_,
-              bipartite  = FALSE,
-              nbNodes    = self$nbNodes,
+              piList     = list(private$pi),
+              netList    = list(list(fg = c(1, 1), mean = private$theta$mean, directed = private$directed_)),
               nodeLabels = as.list(private$dimlab),
               plotOptions),
           "data" =
@@ -117,6 +129,13 @@ SimpleSBM <-
               Mat         = self$expectation,
               dimLabels   = private$dimlab,
               clustering  = clustering,
+              plotOptions = modifyList(list(blockBackground = FALSE, graphonColors = TRUE), plotOptions)),
+          "graphon" =
+            plotGraphon(
+              thetaMean   = self$connectParam$mean,
+              pi          = self$blockProp,
+              nbNodes     = self$nbNodes,
+              dimLabels   = private$dimlab,
               plotOptions = plotOptions)
         )
       }
@@ -135,8 +154,12 @@ SimpleSBM <-
       },
       #' @field blockProp vector of block proportions (aka prior probabilities of each block)
       blockProp   = function(value) {
-        if (missing(value))
+        if (missing(value)){
+          if(length(private$B[[1]])>0){
+            return(colMeans(.softmax(private$Xnodes[[1]]%*%private$B[[1]])))
+          }
           return(private$pi)
+        }
         else {
           stopifnot(is.numeric(value), is.atomic(value),
                     all(value > 0), all(value < 1)) # positive proportions
@@ -170,12 +193,30 @@ SimpleSBM <-
         }
       },
 ### field with access only
+     #' @field mask Mask for the (potential) NAs in the adjacency matrix
+     mask        = function(value) {
+              mask <- (!is.na(private$Y)) * 1L
+              diag(mask) <- 0
+           return(mask)
+      },
       #' @field nbBlocks number of blocks
-      nbBlocks    = function(value) {length(private$pi)},
+      nbBlocks    = function(value) {if(is.null(private$Z)){return(1)}else{return(ncol(private$Z))}},
       #' @field nbDyads number of dyads (potential edges in the network)
-      nbDyads     = function(value) {ifelse(private$directed_, self$nbNodes*(private$dim - 1), private$dim*(private$dim - 1)/2)},
+      nbDyads     = function(value) {
+        if (is.null(private$Y)){
+          ifelse(private$directed_, self$nbNodes*(private$dim - 1), private$dim*(private$dim - 1)/2)
+        } else {
+          ifelse(private$directed_, sum(self$mask), sum(self$mask)/2)
+        }
+        },
       #' @field nbConnectParam number of parameter used for the connectivity
       nbConnectParam = function(value) {ifelse(private$directed_, self$nbBlocks^2, self$nbBlocks*(self$nbBlocks + 1)/2)},
+      #' @field nodesCovariates matrix of covariates on nodes
+      nodesCovariates = function(value) {if (length(private$Xnodes[[1]])>0) private$Xnodes[[1]]},
+      #' @field nodesCovariatesParam the matrix of  nodes covariates parameters
+      nodesCovariatesParam = function(value) {if (length(private$Xnodes[[1]])>0) private$B[[1]]},
+      #' @field nbNodesCovariates number of covariates on nodes
+      nbNodesCovariates = function(value) {ifelse(length(private$Xnodes[[1]])>0,ncol(private$Xnodes[[1]]),0)},
       #' @field memberships vector of clustering
       memberships = function(value) {if (!is.null(private$Z)) as_clustering(private$Z)},
       #' @field indMemberships matrix for clustering memberships

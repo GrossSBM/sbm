@@ -9,6 +9,7 @@ estimateBipartiteSBM(
   model = "bernoulli",
   dimLabels = c(row = "row", col = "col"),
   covariates = list(),
+  nodesCovariates = vector("list", 2),
   estimOptions = list()
 )
 }
@@ -20,6 +21,8 @@ estimateBipartiteSBM(
 \item{dimLabels}{an optional vector of labels for each dimension (in row, in column)}
 
 \item{covariates}{a list of matrices with same dimension as mat describing covariates at the edge level. No covariate per Default.}
+
+\item{nodesCovariates}{a list of two matrices with the same number of rows as the number of nodes in rows and cols in the network, describing the nodes covariates for each type of nodes. No nodes covariates per default.}
 
 \item{estimOptions}{a list of parameters controlling the inference algorithm and model selection. See details.}
 }
@@ -33,9 +36,9 @@ for the distribution of the edges:  Bernoulli, Poisson, or Gaussian models.
 \details{
 The list of parameters \code{estimOptions} essentially tunes the optimization process and the variational EM algorithm, with the following parameters
 \itemize{
-\item "nbCores integer for number of cores used. Default is 2
+\item "nbCores integer for number of cores used. Default is 2 (1 under Positron, which does not allow forking)
 \item "verbosity" integer for verbosity (0, 1). Default is 1
-\item "plot" boolean, should the ICL by dynamically plotted or not. Default is TRUE
+\item "plot" boolean, should the ICL be dynamically plotted or not. Default is TRUE, FALSE when "verbosity" is 0
 \item "exploreFactor" control the exploration of the number of groups
 \item "exploreMin" explore at least until exploreMin even if the exploration factor rule is achieved. Default 4. See the package blockmodels for details.
 \item "exploreMax" Stop exploration at exploreMax  even if the exploration factor rule is not achieved. Default Inf. See the package blockmodels for details.

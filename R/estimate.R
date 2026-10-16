@@ -8,12 +8,13 @@
 #' @param directed logical: is the network directed or not? Only relevant when \code{type} is \code{'Simple'}. Default is \code{TRUE} if \code{netMat} is symmetric, \code{FALSE} otherwise
 #' @param dimLabels an optional label for referring to the nodes
 #' @param covariates a list of matrices with same dimension as mat describing covariates at the edge level. No covariate per Default.
+#' @param nodesCovariates a matrix with the same number of rows as the number of nodes in the network, describing the nodes covariates. No nodes covariates per default.
 #' @param estimOptions a list of parameters controlling the inference algorithm and model selection. See details.
 #'
 #' @details The list of parameters \code{estimOptions} essentially tunes the optimization process and the variational EM algorithm, with the following parameters
-#' * "nbCores integer for number of cores used. Default is 2
+#' * "nbCores integer for number of cores used. Default is 2 (1 under Positron, which does not allow forking)
 #' * "verbosity" integer for verbosity (0, 1). Default is 1
-#' * "plot" boolean, should the ICL by dynamically plotted or not. Default is TRUE
+#' * "plot" boolean, should the ICL be dynamically plotted or not. Default is TRUE, FALSE when "verbosity" is 0
 #' * "exploreFactor" control the exploration of the number of groups
 #' * "exploreMin" explore at least until exploreMin even if the exploration factor rule is achieved. Default 4. See the package blockmodels for details.
 #' * "exploreMax" Stop exploration at exploreMax  even if the exploration factor rule is not achieved. Default Inf. See the package blockmodels for details.
@@ -86,6 +87,7 @@ estimateSimpleSBM <- function(netMat,
                               directed     = !isSymmetric(netMat),
                               dimLabels    = c("node"),
                               covariates   = list(),
+                              nodesCovariates = matrix(0,0,0),
                               estimOptions = list()) {
 
 
@@ -99,15 +101,21 @@ estimateSimpleSBM <- function(netMat,
     plot          = TRUE,
     explorFactor  = 1.5,
     nbBlocksRange = c(4,Inf),
-    nbCores       = 2,
+    nbCores       = .default_nbCores(),
     fast          = TRUE
   )
+
+  ## Validate 'model' argument
+  .check_model(model)
 
   ## Current options are default expect for those passed by the user
   currentOptions[names(estimOptions)] <- estimOptions
 
+
   ## Construct the SBM model
-  mySBM <- SimpleSBM_fit$new(netMat, model, directed, dimLabels, covariates)
+  nodesCovarList <- list(nodesCovariates)
+  names(nodesCovarList) <- dimLabels
+  mySBM <- SimpleSBM_fit$new(netMat, model, directed, dimLabels, covariates, nodesCovarList)
 
   ## Perform optimization
   mySBM$optimize(currentOptions)
@@ -128,6 +136,7 @@ estimateSimpleSBM <- function(netMat,
 #' @param model character describing the model for the relation between nodes (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'}, ...). Default is \code{'bernoulli'}.
 #' @param dimLabels an optional vector of labels for each dimension (in row, in column)
 #' @param covariates a list of matrices with same dimension as mat describing covariates at the edge level. No covariate per Default.
+#' @param nodesCovariates a list of two matrices with the same number of rows as the number of nodes in rows and cols in the network, describing the nodes covariates for each type of nodes. No nodes covariates per default.
 #' @param estimOptions a list of parameters controlling the inference algorithm and model selection. See details.
 #'
 #' @inherit estimateSimpleSBM details
@@ -185,6 +194,7 @@ estimateBipartiteSBM <- function(netMat,
                                  model        = 'bernoulli',
                                  dimLabels    = c(row = "row", col = "col"),
                                  covariates   = list(),
+                                 nodesCovariates = vector('list',2),
                                  estimOptions = list()) {
 
   ## Set default options for estimation
@@ -196,16 +206,20 @@ estimateBipartiteSBM <- function(netMat,
     plot          = TRUE,
     explorFactor  = 1.5,
     nbBlocksRange = c(4,Inf),
-    nbCores       = 2,
+    nbCores       = .default_nbCores(),
     fast          = TRUE
   )
 
+  stopifnot("The vector of the types of nodes (dimLabels) must null or of length 2."= length(dimLabels)%in%c(0,2))
+  names(nodesCovariates) <- c('row','col')
   ## Current options are default expect for those passed by the user
   currentOptions[names(estimOptions)] <- estimOptions
 
-  ## Construct the SBM model
-  mySBM <-  BipartiteSBM_fit$new(netMat, model, dimLabels, covariates)
+  ## Validate 'model' argument
+  .check_model(model)
 
+  ## Construct the SBM model
+  mySBM <-  BipartiteSBM_fit$new(netMat, model, dimLabels, covariates, nodesCovariates)
   ## Perform optimization
   mySBM$optimize(currentOptions)
 
@@ -222,7 +236,7 @@ estimateBipartiteSBM <- function(netMat,
 #' @param listSBM list of networks that were defined by the \code{defineSBM} function
 #' @param estimOptions options for the inference procedure
 #' @details The list of parameters \code{estimOptions} essentially tunes the optimization process and the variational EM algorithm, with the following parameters
-#' * "nbCores" integer for number of cores used.  Default is 2
+#' * "nbCores" integer for number of cores used.  Default is 2 (1 under Positron, which does not allow forking)
 #' * "verbosity" integer for verbosity (0, 1). Default is 1
 #' * "nbBlocksRange" List of length the number of functional groups, each element supplying the minimal and maximal number of blocks to be explored. The names of the list must be the names of the functional groups.  Default value is from 1 to 10)
 #' * "initBM" Boolean. True if using simple and bipartite SBM as initialisations. Default value  = TRUE
@@ -265,11 +279,10 @@ estimateMultipartiteSBM <- function(listSBM,
 
   myMSBM <- MultipartiteSBM_fit$new(listSBM)
 
-
   currentOptions <- list(
     verbosity     = 1,
     nbBlocksRange = rep(list(c(1,10)), length(myMSBM$dimLabels)),
-    nbCores       = 2,
+    nbCores       = .default_nbCores(),
     maxiterVE     = 100,
     maxiterVEM    = 100,
     initBM = TRUE
@@ -294,13 +307,13 @@ estimateMultipartiteSBM <- function(listSBM,
 #' @param dependent logical parameter indicating whether the networks in the multiplex structure are dependent beyond the latent variables,
 #' @param estimOptions options for the inference procedure
 #' @details The list of parameters \code{estimOptions} essentially tunes the optimization process and the variational EM algorithm, with the following parameters
-#' * "nbCores" integer for number of cores used.  Default is 2
+#' * "nbCores" integer for number of cores used.  Default is 2 (1 under Positron, which does not allow forking)
 #' * "verbosity" integer for verbosity (0, 1). Default is 1
 #' * "nbBlocksRange" List of length the number of functional groups, each element supplying the minimal and maximal number of blocks to be explored. The names of the list must be the names of the functional groups.  Default value is from 1 to 10)
 #' * "initBM" Boolean. True if using simple and bipartite SBM as initialisations. Default value  = TRUE
 #' * "maxiterVEM" Number of max. number of iterations in  the VEM. Default value  = 100
 #' * "maxiterVE" Number of max. number of iterations in  the VE. Default value  = 100
-#' * "plot" boolean, should the ICL by dynamically plotted or not. Default is TRUE. For dependent networks
+#' * "plot" boolean, should the ICL be dynamically plotted or not. Default is TRUE, FALSE when "verbosity" is 0. For dependent networks
 #' * "exploreFactor" control the exploration of the number of groups. For dependent networks
 #' * "exploreMin" explore at least until exploreMin even if the exploration factor rule is achieved. Default 4. See the package blockmodels for details. For dependent networks
 #' * "exploreMax" Stop exploration at exploreMax  even if the exploration factor rule is not achieved. Default Inf. See the package blockmodels for details. For dependent networks
@@ -410,7 +423,7 @@ estimateMultiplexSBM <- function(listSBM,
       plot          = TRUE,
       explorFactor  = 1.5,
       nbBlocksRange = c(4,Inf),
-      nbCores       = 2,
+      nbCores       = .default_nbCores(),
       fast          = TRUE
     )
   } else
@@ -418,7 +431,7 @@ estimateMultiplexSBM <- function(listSBM,
     currentOptions <- list(
       verbosity     = 1,
       nbBlocksRange = rep(list(c(1, 10)), length(myMSBM$dimLabels)),
-      nbCores       = 2,
+      nbCores       = .default_nbCores(),
       maxiterVE     = 100,
       maxiterVEM    = 100,
       initBM = TRUE

@@ -10,9 +10,13 @@
 #'  * "legend.position":  Position of the legend. Possible values are 'bottom', 'top','left,'right'. Default value is 'bottom'
 #'  * "rowNames":  Set true if the rownames must be plotted. Default value is FALSE
 #'  * "colNames":  Set true if the colNames must be plotted. Default value is FALSE
+#'  * "names.size":  Numeric. Size (in pts) of the row and column names. Default value is NULL: the size decreases with the number of nodes, so that the names do not overlap on a 5 inches plot
 #'  * "line.color":  Chain of character. The color of the lines to separate groups if a clustering is provided. Default value is red
 #'  * "line.width":  Numeric. Width  of the lines to separate groups. Default value is NULL, automatically chosen
 #'  * "title":  Chain of character. Title of the plot. Default value is NULL
+#'  * "blockBackground":  Boolean. Color the background of each block, with an opacity growing with the mean value of the entries in the block. Only used when a clustering is provided. Default value is TRUE
+#'  * "block.color":  Chain of character. The color of the block background. Default value is red
+#'  * "blockAlpha.min", "blockAlpha.max":  Numeric. Opacity of the least and most dense blocks. Default values are 0.1 and 0.6
 #'
 #' @return a ggplot object corresponding to the plot
 #' @export

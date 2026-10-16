@@ -1,6 +1,6 @@
 Package: sbm
 Title: Stochastic Blockmodels
-Version: 0.4.7
+Version: 1.0.0
 Authors@R: 
   c(person(given = "Julien", family = "Chiquet", role = c("aut", "cre"),
            email = "julien.chiquet@inrae.fr",
@@ -20,30 +20,32 @@ License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
 Suggests: 
     testthat,
     spelling,
     knitr,
     rmarkdown,
     aricode,
-    covr
+    pROC,
+    covr,
+    quarto,
+    patchwork
 Language: en-US
 Imports: 
     alluvial,
     magrittr,
     dplyr,
     purrr,
-    blockmodels,
+    blockmodels (>= 1.2.1),
     R6,
     Rcpp,
     igraph,
     ggplot2,
     GREMLINS,
-    stringr,
     rlang,
     reshape2,
-    prodlim
+    prodlim,
+    grDevices
 Collate: 
     'R6Class-SBM.R'
     'R6Class-BipartiteSBM.R'
@@ -59,6 +61,7 @@ Collate:
     'fungusTreeNetwork.R'
     'multipartiteEcologicalNetwork.R'
     'plotAlluvial.R'
+    'plotMyGraphon.R'
     'plotMyMatrix.R'
     'plotMyMultipartiteMatrix.R'
     'plotMyMultiplexMatrix.R'
@@ -71,6 +74,9 @@ Collate:
 LinkingTo: 
     Rcpp,
     RcppArmadillo
-VignetteBuilder: knitr
+VignetteBuilder: knitr, quarto
 Depends: 
     R (>= 3.5.0)
+Remotes:
+    Polarolouis/blockmodels
+Config/roxygen2/version: 8.1.1

@@ -19,6 +19,7 @@ export(estimateMultiplexSBM)
 export(estimateSimpleSBM)
 export(is_SBM)
 export(plotAlluvial)
+export(plotMyGraphon)
 export(plotMyMatrix)
 export(plotMyMultipartiteMatrix)
 export(plotMyMultiplexMatrix)
@@ -33,17 +34,20 @@ import(dplyr)
 import(ggplot2)
 import(purrr)
 importFrom(Rcpp,sourceCpp)
-importFrom(graphics,par)
 importFrom(graphics,plot)
 importFrom(magrittr,"%>%")
 importFrom(prodlim,row.match)
 importFrom(reshape2,melt)
 importFrom(rlang,.data)
-importFrom(stats,fitted)
-importFrom(stats,predict)
-importFrom(stats,rmultinom)
-importFrom(stats,rnorm)
-importFrom(stats,runif)
-importFrom(stringr,str_detect)
-importFrom(utils,head)
+importFrom(stats,
+  fitted,
+  predict,
+  rmultinom,
+  rnorm,
+  runif
+)
+importFrom(utils,
+  head,
+  modifyList
+)
 useDynLib(sbm, .registration = TRUE)

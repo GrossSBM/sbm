@@ -11,7 +11,7 @@
 status](https://www.r-pkg.org/badges/version/sbm)](https://CRAN.R-project.org/package=sbm)
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-[![](https://img.shields.io/github/last-commit/grossSBM/sbm.svg)](https://github.com/GrossSBM/sbm/commits/master)
+[![Last commit](https://img.shields.io/github/last-commit/grossSBM/sbm.svg)](https://github.com/GrossSBM/sbm/commits/master)
 [![Codecov test
 coverage](https://codecov.io/gh/GrossSBM/sbm/branch/master/graph/badge.svg)](https://app.codecov.io/gh/GrossSBM/sbm?branch=master)
 <!-- badges: end -->

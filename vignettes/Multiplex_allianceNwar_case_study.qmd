@@ -1,0 +1,209 @@
+---
+title: "Stochastic Block Models for Multiplex networks: application"
+subtitle: "War and Alliance case study"
+author: "team großBM"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    html-math-method: mathml # rendered by the browsers, even when the vignette is self-contained
+bibliography: references.bib
+link-citations: true
+knitr:
+  opts_chunk:
+    collapse: true
+    comment: "#>"
+vignette: >
+  %\VignetteIndexEntry{Stochastic Block Models for Multiplex networks: application}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+---
+
+## 1. Preliminaries
+
+This vignette illustrates the use of the `estimateMultiplexSBM` function and the methods accompanying the R6 class `MultiplexSBM_fit` on the `war` data set.
+The models are described in the vignette *Stochastic Block Models for Multiplex networks: principle*.
+
+The packages required for the analysis are **sbm** plus some others for data manipulation and representation:
+
+```{r setup, message=FALSE, warning=FALSE}
+library(sbm)
+library(igraph)
+library(aricode)
+library(knitr)
+library(patchwork) # to put figures side by side
+```
+
+To display the composition of the clusters, we use the following function, which gives a table with the names of the nodes of each cluster in a column:
+
+```{r cluster composition function}
+clusterComposition <- function(memberships, nodeNames) {
+  clusters <- split(nodeNames, factor(memberships, levels = 1:max(memberships)))
+  maxSize  <- max(lengths(clusters))
+  tab <- sapply(clusters, function(x) c(x, rep("", maxSize - length(x))))
+  colnames(tab) <- paste("Cluster", seq_along(clusters))
+  as.data.frame(tab)
+}
+```
+
+```{r precomputed-fits, include = FALSE}
+# The fits are precomputed by dev/precompute_Multiplex_allianceNwar_case_study.R
+# and loaded here. If the file is missing, the fits are run in the vignette.
+fitsFile <- "Multiplex_allianceNwar_case_study_fits.rda"
+runFits  <- !file.exists(fitsFile)
+if (!runFits) load(fitsFile)
+```
+
+## 2. Data set
+
+### 2.1 Description of the data
+
+The `war` data set comes in the `sbm` package:
+
+```{r load-data-set}
+data("war")
+```
+
+This data set contains a list of two networks (`belligerent` and `alliance`) where the nodes are countries; an edge in the network `belligerent` means that the two countries have been at war at least once between years 1816 to 2007; an edge in network `alliance` means that the two countries have had a formal alliance between years 1816 and 2012. The network `belligerent` has less nodes since countries which have not been at war at all are not considered.
+
+These two networks were extracted from [https://correlatesofwar.org/](https://correlatesofwar.org/) (see @sarkees2010resort for war data, and @gibler2008international for formal alliance). Version 4.0 was used for war data and version 4.1 for formal alliance.
+
+### 2.2 Data manipulation
+
+Since they don't have the same size, we choose to only consider nodes (countries) which were at war with at least one other country. This corresponds to the first 83 nodes in the Alliance network.
+
+```{r manipulation, message = FALSE}
+A <- as_adjacency_matrix(war$alliance, sparse = FALSE)
+A <- A[1:83, 1:83]
+B <- as_adjacency_matrix(war$belligerent, sparse = FALSE)
+```
+
+We can start with a plot of this multiplex network:
+
+```{r plot data}
+#| fig-width: 7
+#| fig-height: 4
+netA <- defineSBM(A, model = "bernoulli", dimLabels = "country")
+netB <- defineSBM(B, model = "bernoulli", dimLabels = "country")
+listNet <- list(Alliance = netA, Belligerence = netB)
+plotMyMultiplexMatrix(listNet)
+```
+
+## 3. Multiplex SBM with independent layers
+
+We run the estimation of this multiplex model. By setting `dependent = FALSE`,
+we declare that we consider the two layers to be independent conditionally
+on the latent block variables.
+
+::: {.callout-note}
+## The multiplex SBM with independent layers
+Denoting $Y^1$ the alliance network and $Y^2$ the war network, the $n = 83$
+countries are divided into $Q$ blocks with proportions $\pi$ and, for
+$\ell = 1, 2$,
+$$ Y^\ell_{ij} \mid Z_i = q, Z_j = r \sim_{ind} \mathcal{B}ern(\alpha^\ell_{qr}).$$
+:::
+
+```{r estim indep}
+#| eval: !expr exists("runFits") && runFits
+MultiplexFitIndep <- estimateMultiplexSBM(listNet, dependent = FALSE,
+    estimOptions = list(verbosity = 0))
+```
+
+We can retrieve the clustering:
+
+```{r clust indep}
+clust_country_indep <- MultiplexFitIndep$memberships[[1]]
+kable(clusterComposition(clust_country_indep, rownames(A)),
+      caption = "Country clusters (independent layers)")
+```
+
+And we can plot the reorganized adjacency matrices, or the graphon, i.e. the estimated connectivities $\widehat{\alpha}^\ell_{qr}$ alone: each block is represented by an interval whose length is its estimated proportion $\widehat{\pi}_q$, and the rectangle $q \times r$ of the layer $\ell$ is colored according to $\widehat{\alpha}^\ell_{qr}$, the two layers sharing the same color scale.
+The graphon is close to the plot of the expectations (`type = "expected"`), which colors each pair of countries $(i,j)$ with $\sum_{q,r} \widehat{\tau}_{iq}\widehat{\tau}_{jr}\widehat{\alpha}^\ell_{qr}$, $\widehat{\tau}_{iq}$ being the estimated probability that country $i$ belongs to block $q$: the two plots coincide when the clustering is clear-cut, but the graphon only depends on the parameters, not on the nodes.
+
+```{r plot indep}
+#| fig-width: 7
+#| fig-height: 4
+plot(MultiplexFitIndep)
+plot(MultiplexFitIndep, type = "graphon")
+```
+
+## 4. Multiplex SBM with dependent layers
+
+Now we assume that the two layers are dependent conditionally to the latent block variables.
+We then set `dependent = TRUE`.
+
+::: {.callout-note}
+## The multiplex SBM with dependent layers
+Conditionally to the blocks, the pair $(Y^1_{ij}, Y^2_{ij})$ follows a
+bivariate Bernoulli distribution: for any $\omega = (\omega_1, \omega_2) \in \{0,1\}^2$,
+$$ \mathbb{P}\left((Y^1_{ij}, Y^2_{ij}) = \omega \mid Z_i = q, Z_j = r\right) = \alpha^{\omega}_{qr},$$
+with $\alpha^{00}_{qr} + \alpha^{01}_{qr} + \alpha^{10}_{qr} + \alpha^{11}_{qr} = 1$.
+These probabilities are stored in `connectParam$prob00`, `connectParam$prob01`,
+`connectParam$prob10` and `connectParam$prob11`.
+:::
+
+```{r estim dep}
+#| eval: !expr exists("runFits") && runFits
+MultiplexFitdep <- estimateMultiplexSBM(listNet, dependent = TRUE,
+    estimOptions = list(verbosity = 0))
+```
+
+We can retrieve the clustering and compare it to the one obtained in the independent case.
+
+```{r clust dep}
+clust_country_dep <- MultiplexFitdep$memberships[[1]]
+kable(clusterComposition(clust_country_dep, rownames(A)),
+      caption = "Country clusters (dependent layers)")
+
+
+plotAlluvial(list(independent = clust_country_indep, dependent = clust_country_dep))
+```
+From independent to dependent, the model gathers blocks 3 and 2, i.e put together all the countries of Latino and south America. 
+
+On top of the clustering comparison, we can compare the ICL criterion to see which of the dependent or independent models is a best fit:
+
+```{r ICL}
+MultiplexFitdep$ICL
+MultiplexFitIndep$ICL
+```
+
+We can do the same plots for the reorganized matrices and the graphon.
+Note that the graphon represents the marginal connectivity of each layer, $\widehat{\alpha}^{10}_{qr} + \widehat{\alpha}^{11}_{qr}$ for the alliances and $\widehat{\alpha}^{01}_{qr} + \widehat{\alpha}^{11}_{qr}$ for the wars, and it may be relevant to have a look at the conditional probabilities.
+
+```{r plot dep}
+#| fig-width: 7
+#| fig-height: 4
+plot(MultiplexFitdep)
+plot(MultiplexFitdep, type = "graphon")
+```
+
+For instance, we may want to compare, for two countries in given blocks, the probability of having been at war while being allied at some point (before or after), $\alpha^{11}_{qr} / (\alpha^{11}_{qr} + \alpha^{10}_{qr})$, to the marginal probability of having been at war, $\alpha^{11}_{qr} + \alpha^{01}_{qr}$:
+
+```{r conditional probabilities}
+p11 <- MultiplexFitdep$connectParam$prob11
+p01 <- MultiplexFitdep$connectParam$prob01
+p10 <- MultiplexFitdep$connectParam$prob10
+round(p11/(p11 + p10), 2)
+
+```
+
+These two matrices can be represented as graphons, side by side with **patchwork**, on the same color scale:
+
+```{r conditional probabilities graphon}
+#| fig-width: 8
+#| fig-height: 4.5
+pCond <- p11/(p11 + p10) # conditional probabilities of being at war while having been or will
+# be allied
+pMarg <- p11 + p01 # marginal probabilities of being at war
+limits <- c(0, max(pCond, pMarg))
+optGraphon <- list(limits = limits, legend = TRUE, legend.title = TRUE)
+gCond <- plotMyGraphon(pCond, MultiplexFitdep$blockProp, nbNodes = 83, dimLabels = "country",
+  plotOptions = c(optGraphon, title = "P(war | alliance)"))
+gMarg <- plotMyGraphon(pMarg, MultiplexFitdep$blockProp, nbNodes = 83, dimLabels = "country",
+  plotOptions = c(optGraphon, title = "P(war)"))
+(gCond | gMarg) + plot_layout(guides = "collect") & 
+  ggplot2::labs(fill = "Probability") & ggplot2::theme(legend.position = "bottom")
+```
+
+## References
