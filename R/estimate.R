@@ -19,6 +19,10 @@
 #' * "exploreMax" Stop exploration at exploreMax  even if the exploration factor rule is not achieved. Default Inf. See the package blockmodels for details.
 #' * "nbBlocksRange" minimal and maximal number or blocks explored
 #' * "fast" logical: should approximation be used for Bernoulli model with covariates. Default to \code{TRUE}
+#' * "explorationDirection" (only used for BipartiteSBM) a vector of two integers which controls the
+#' exploration direction for groups number. When provided, the exploring
+#' strategy is made to explore the provided group number. The two integer
+#' value representing the row group number and the column group number.
 #'
 #' @return  a list with the estimated parameters. See details...
 #'
