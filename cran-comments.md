@@ -4,8 +4,8 @@
 ## TO DO before the CRAN submission (then remove this section)
 
 * wait for `blockmodels` with nodes covariates and NA support to be on CRAN
-  (CRAN has 1.1.5, the fork `Polarolouis/blockmodels` is 1.2.1)
-* remove the `Remotes: Polarolouis/blockmodels` line in DESCRIPTION
+  (CRAN has 1.1.5, `GrossSBM/blockmodels` master is 1.2.1, release in GrossSBM/blockmodels#10)
+* remove the `Remotes: GrossSBM/blockmodels` line in DESCRIPTION
 * check that `blockmodels (>= 1.2.1)` in DESCRIPTION matches the version actually published
 * run `R CMD check --as-cran`
 

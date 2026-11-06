@@ -78,5 +78,5 @@ VignetteBuilder: knitr, quarto
 Depends: 
     R (>= 3.5.0)
 Remotes:
-    Polarolouis/blockmodels
+    GrossSBM/blockmodels
 Config/roxygen2/version: 8.1.1

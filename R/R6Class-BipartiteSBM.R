@@ -77,10 +77,11 @@ BipartiteSBM <-
         if (length(covarList) > 0) {
           stopifnot(all(sapply(covarList, nrow) == self$nbNodes[1]),
                     all(sapply(covarList, ncol) == self$nbNodes[2]))
+          covarEffect <- roundProduct(covarList, private$beta)
           if (self$modelName == "bernoulli") {
-            res <- private$invlink[[1L]](private$Z[[1]] %*% private$link[[1L]]( mu ) %*% t(private$Z[[2]]) + self$covarEffect)
+            res <- .bernoulli_covariates_expectation(private$Z[[1]], private$Z[[2]], mu, covarEffect)
           } else {
-            res <- private$invlink[[1L]](private$link[[1L]](private$Z[[1]] %*% mu %*% t(private$Z[[2]])) + self$covarEffect)
+            res <- private$invlink[[1L]](private$link[[1L]](private$Z[[1]] %*% mu %*% t(private$Z[[2]])) + covarEffect)
           }
 
         } else {

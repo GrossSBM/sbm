@@ -169,7 +169,7 @@ if (Sys.info()['sysname'] != "Windows") {
     expect_equal(mySBM$predict(), predict(mySBM))
     expect_equal(predict(mySBM), fitted(mySBM))
 
-    expect_equal(predict(mySBM, covarList[1]), fitted(mySBM))
+    expect_equal(predict(mySBM, covarList_directed[1]), fitted(mySBM))
 
     ## prediction wrt BM
     for (Q in mySBM$storedModels$indexModel) {
@@ -329,7 +329,7 @@ if (Sys.info()['sysname'] != "Windows") {
     expect_equal(mySBM$predict(), predict(mySBM))
     expect_equal(predict(mySBM), fitted(mySBM))
 
-    expect_equal(predict(mySBM, covarList[1]), fitted(mySBM))
+    expect_equal(predict(mySBM, covarList_directed[1]), fitted(mySBM))
 
     ## prediction wrt BM
     for (Q in mySBM$storedModels$indexModel) {
@@ -427,7 +427,7 @@ if (Sys.info()['sysname'] != "Windows") {
   })
 
 
-  test_that("SimpleSBM_fit 'Gaussian' model, undirected, two covariates", {
+  test_that("SimpleSBM_fit 'Gaussian' model, directed, two covariates", {
 
     ## SIMPLE UNDIRECTED GAUSSIAN SBM
     means <- matrix(c(1, 4, 7, 10),2,2)
@@ -498,7 +498,7 @@ if (Sys.info()['sysname'] != "Windows") {
     expect_equal(mySBM$predict(), predict(mySBM))
     expect_equal(predict(mySBM), fitted(mySBM))
 
-    expect_equal(predict(mySBM, covarList), fitted(mySBM))
+    expect_equal(predict(mySBM, covarList_directed), fitted(mySBM))
 
     ## prediction wrt BM
     for (Q in mySBM$storedModels$indexModel) {
