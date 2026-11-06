@@ -1,0 +1,89 @@
+# Plot an adjacency or incidence Matrix
+
+Plot an adjacency or incidence Matrix
+
+## Usage
+
+``` r
+plotMyMatrix(
+  Mat,
+  dimLabels = c(row = "row", col = "col"),
+  clustering = NULL,
+  plotOptions = NULL
+)
+```
+
+## Arguments
+
+- Mat:
+
+  : a matrix representing the network
+
+- dimLabels:
+
+  : a vector of length 1 or 2 specifying the types of nodes in row and
+  col (functional group) (Default is `NULL`)
+
+- clustering:
+
+  : a list of length 2 specifying a clustering on row and col
+
+- plotOptions:
+
+  : a list providing options. See details below.
+
+## Value
+
+a ggplot object corresponding to the plot
+
+## Details
+
+The list of parameters `plotOptions` for the matrix plot is
+
+- "legend": Boolean. Set TRUE if you want to see the legend. Default
+  value is FALSE
+
+- "legend.title": Boolean. Set TRUE if you want to print the title of
+  the legend. Default value is FALSE
+
+- "legend.position": Position of the legend. Possible values are
+  'bottom', 'top','left,'right'. Default value is 'bottom'
+
+- "rowNames": Set true if the rownames must be plotted. Default value is
+  FALSE
+
+- "colNames": Set true if the colNames must be plotted. Default value is
+  FALSE
+
+- "names.size": Numeric. Size (in pts) of the row and column names.
+  Default value is NULL: the size decreases with the number of nodes, so
+  that the names do not overlap on a 5 inches plot
+
+- "line.color": Chain of character. The color of the lines to separate
+  groups if a clustering is provided. Default value is red
+
+- "line.width": Numeric. Width of the lines to separate groups. Default
+  value is NULL, automatically chosen
+
+- "title": Chain of character. Title of the plot. Default value is NULL
+
+- "blockBackground": Boolean. Color the background of each block, with
+  an opacity growing with the mean value of the entries in the block.
+  Only used when a clustering is provided. Default value is TRUE
+
+- "block.color": Chain of character. The color of the block background.
+  Default value is red
+
+- "blockAlpha.min", "blockAlpha.max": Numeric. Opacity of the least and
+  most dense blocks. Default values are 0.1 and 0.6
+
+## Examples
+
+``` r
+M <- matrix(sample(c(0,1),900,replace=TRUE),30,30)
+plotMyMatrix(M, dimLabels = c('individulals'), plotOptions= list(legend = FALSE))
+
+M2 <- matrix( rpois(800,10),40,20)
+plotMyMatrix(M2, dimLabels = c(row = 'reader',col = 'book'), plotOptions = list(legend = TRUE))
+
+```

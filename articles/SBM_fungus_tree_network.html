@@ -4,136 +4,107 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Simple and Bipartite Stochastic Block Models • sbm</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
-<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Simple and Bipartite Stochastic Block Models">
-<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
+<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><script src="SBM_fungus_tree_network_files/libs/quarto-html/popper.min.js"></script><script src="SBM_fungus_tree_network_files/libs/quarto-html/tippy.umd.min.js"></script><link href="SBM_fungus_tree_network_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="SBM_fungus_tree_network_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Simple and Bipartite Stochastic Block Models">
 </head>
-<body data-spy="scroll" data-target="#toc">
+<body>
+    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
-    <div class="container template-article">
-      <header><div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">sbm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.7</span>
-      </span>
-    </div>
+    <nav class="navbar navbar-expand-lg fixed-top bg-primary" data-bs-theme="dark" aria-label="Site navigation"><div class="container">
 
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-<li>
-  <a>
-    <span class="fa fa-home"></span>
+    <a class="navbar-brand me-2" href="../index.html">sbm</a>
 
-  </a>
-</li>
-<li>
-  <a href="../index.html">Home</a>
-</li>
-<li>
-  <a href="../reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Vignettes
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="../articles/SBM_fungus_tree_network.html">Fungus-tree interaction with simple and bipartite SBM</a>
-    </li>
-    <li>
-      <a href="../articles/Multipartite_EcologicalNetwork.html">Mutualistic ecological network with multipartite SBM</a>
-    </li>
-    <li>
-      <a href="../articles/MultiplexNetwork_principle.html">Multiplex SBM: Principle and illustration</a>
-    </li>
-    <li>
-      <a href="../articles/Multiplex_allianceNwar_case_study.html">Multiplex SBM: War and Alliance case study</a>
-    </li>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse ms-3">
+      <ul class="navbar-nav me-auto">
+<li class="nav-item"><a class="nav-link" href="../index.html" aria-label="Home"><span class="fa fa-house"></span></a></li>
+<li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+<li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="active nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-vignettes" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Vignettes</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-vignettes">
+<li><a class="dropdown-item" href="../articles/SBM_principle.html">Simple and bipartite SBM: principle and illustration</a></li>
+    <li><a class="dropdown-item" href="../articles/SBM_fungus_tree_network.html">Fungus-tree interaction with simple and bipartite SBM</a></li>
+    <li><a class="dropdown-item" href="../articles/SBM_nodes_covariates.html">SBM with covariates on nodes</a></li>
+    <li><a class="dropdown-item" href="../articles/Multipartite_EcologicalNetwork.html">Mutualistic ecological network with multipartite SBM</a></li>
+    <li><a class="dropdown-item" href="../articles/MultiplexNetwork_principle.html">Multiplex SBM: Principle and illustration</a></li>
+    <li><a class="dropdown-item" href="../articles/Multiplex_allianceNwar_case_study.html">Multiplex SBM: War and Alliance case study</a></li>
   </ul>
 </li>
-<li>
-  <a href="../news/index.html">Changelog</a>
-</li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/GrossSBM/GSBM" class="external-link">
-    <span class="fa fa-github"></span>
-
-  </a>
-</li>
+<ul class="navbar-nav">
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/GrossSBM/sbm" aria-label="GitHub"><span class="fa fa-github"></span></a></li>
       </ul>
 </div>
-<!--/.nav-collapse -->
+
+
   </div>
-<!--/.container -->
-</div>
-<!--/.navbar -->
+</nav><div class="container template-quarto">
+<div class="row">
+  <main id="main" class="col-md-9"><div class="page-header">
 
+      <h1>Simple and Bipartite Stochastic Block Models</h1>
+      <p class="subtitle">An illustration on antagonistic tree/fungus network</p>
+      <p class="author">S. Donnet</p>
+      <p class="date">2026-11-06</p>
 
-
-      </header><div class="row">
-  <div class="col-md-9 contents">
-    <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Simple and Bipartite Stochastic Block
-Models</h1>
-            <h3 data-toc-skip class="subtitle">An illustration on
-antagonistic tree/fungus network</h3>
-                        <h4 data-toc-skip class="author">team
-großBM</h4>
-            
-            <h4 data-toc-skip class="date">2026-07-20</h4>
-      
-      <small class="dont-index">Source: <a href="https://github.com/GrossSBM/sbm/blob/master/vignettes/SBM_fungus_tree_network.Rmd" class="external-link"><code>vignettes/SBM_fungus_tree_network.Rmd</code></a></small>
-      <div class="hidden name"><code>SBM_fungus_tree_network.Rmd</code></div>
-
+      <small class="dont-index">Source: <a href="https://github.com/GrossSBM/sbm/blob/master/vignettes/SBM_fungus_tree_network.qmd" class="external-link"><code>vignettes/SBM_fungus_tree_network.qmd</code></a></small>
+      <div class="d-none name"><code></code></div>
     </div>
 
-    
-    
-<div class="section level2">
-<h2 id="preliminaries">Preliminaries<a class="anchor" aria-label="anchor" href="#preliminaries"></a>
+
+
+
+
+
+    <div class="quarto-figure quarto-figure-center">
+<figure><p><img src="Tree-Fungus.jpg" style="width:30.0%"></p>
+<figcaption><em>Flammulina velutipes</em>, photo by Kork, license <a href="https://creativecommons.org/licenses/by/3.0/" class="external-link">CC BY 3.0</a></figcaption></figure>
+</div>
+<section class="level2"><h2 id="preliminaries">1. Preliminaries<a class="anchor" aria-label="anchor" href="#preliminaries"></a>
 </h2>
-<p>This vignette illustrates the use of the <code>estimateSBM</code>
-function and the methods accompanying the R6 classes
-<code>SimpleSBMfit</code> and <code>BipartiteSBMfit</code>.</p>
-<div class="section level3">
-<h3 id="requirements">Requirements<a class="anchor" aria-label="anchor" href="#requirements"></a>
+<p>This vignette illustrates the use of the <code>estimateSBM</code> function and the methods accompanying the R6 classes <code>SimpleSBMfit</code> and <code>BipartiteSBMfit</code>.</p>
+<section class="level3"><h3 id="requirements">1.1 Requirements<a class="anchor" aria-label="anchor" href="#requirements"></a>
 </h3>
-<p>The packages required for the analysis are <strong>sbm</strong> plus
-some others for data manipulation and representation:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://grosssbm.github.io/sbm/" class="external-link">sbm</a></span><span class="op">)</span></span>
+<p>The packages required for the analysis are obviously <strong>sbm</strong> plus some others for data manipulation and representation:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://grosssbm.github.io/sbm/">sbm</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://yihui.org/knitr/" class="external-link">knitr</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/get_theme.html" class="external-link">theme_set</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com" class="external-link">patchwork</a></span><span class="op">)</span> <span class="co"># to put figures side by side</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="data-set-antagonistic-treefungus-interaction-network">Data set: antagonistic tree/fungus interaction network<a class="anchor" aria-label="anchor" href="#data-set-antagonistic-treefungus-interaction-network"></a>
+<p>To display the composition of the clusters, we use the following function, which gives a table with the names of the nodes of each cluster in a column:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">clusterComposition</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">memberships</span>, <span class="va">nodeNames</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">clusters</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">nodeNames</span>, <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">memberships</span>, levels <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">memberships</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">maxSize</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lengths.html" class="external-link">lengths</a></span><span class="op">(</span><span class="va">clusters</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">tab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">clusters</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">""</span>, <span class="va">maxSize</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">tab</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"Cluster"</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">clusters</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">tab</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+</div>
+</section><section class="level3"><h3 id="data-set-antagonistic-treefungus-interaction-network">1.2 Data set: antagonistic tree/fungus interaction network<a class="anchor" aria-label="anchor" href="#data-set-antagonistic-treefungus-interaction-network"></a>
 </h3>
-<p>We consider the fungus-tree interaction network studied by <span class="citation">Vacher et al. (<a href="#ref-tree_fungus_network">2008</a>)</span>, available with the
-package <strong>sbm</strong>:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<p>We consider the fungus-tree interaction network studied by <span class="citation" data-cites="tree_fungus_network">Vacher et al. (<a href="#ref-tree_fungus_network" role="doc-biblioref">2008</a>)</span>, available with the package <strong>sbm</strong>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"fungusTreeNetwork"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">fungusTreeNetwork</span>, max.level <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 5</span></span>
@@ -142,91 +113,88 @@ package <strong>sbm</strong>:</p>
 <span><span class="co">#&gt;  $ tree_tree   : num [1:51, 1:51] 0 12 9 3 2 2 0 0 2 7 ...</span></span>
 <span><span class="co">#&gt;  $ fungus_tree : int [1:154, 1:51] 0 0 0 0 1 1 1 0 0 0 ...</span></span>
 <span><span class="co">#&gt;  $ covar_tree  :List of 3</span></span></code></pre></div>
-<p>This data set provides information about
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>154</mn><annotation encoding="application/x-tex">154</annotation></semantics></math>
-fungi sampled on
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>51</mn><annotation encoding="application/x-tex">51</annotation></semantics></math>
-tree species. It is a list with the following entries:</p>
+</div>
+<p>This data set provides information about 154 fungi sampled on 51 tree species. It is a list with the following entries:</p>
 <ul>
 <li>
-<code>fungi_list</code>: list of the fungus species names</li>
+<code>fungus_names</code>: list of the fungus species names</li>
 <li>
-<code>tree_list</code> : list of the tree species names</li>
+<code>tree_names</code> : list of the tree species names</li>
 <li>
 <code>fungus_tree</code> : binary fungus-tree interactions</li>
 <li>
-<code>tree_tree</code> : weighted tree-tree interactions (number of
-common fungal species two tree species host)</li>
+<code>tree_tree</code> : weighted tree-tree interactions (number of common fungal species two tree species host)</li>
 <li>
-<code>covar_tree</code> : covariates associated to pairs of trees
-(namely genetic, taxonomic and geographic distances)</li>
+<code>covar_tree</code> : covariates associated to pairs of trees (namely genetic, taxonomic and geographic distances)</li>
 </ul>
-<p>We first consider the tree-tree interactions resulting into a Simple
-Network. Then we consider the bipartite network between trees and
-fungi.</p>
-</div>
-<div class="section level3">
-<h3 id="mathematical-background">Mathematical Background<a class="anchor" aria-label="anchor" href="#mathematical-background"></a>
+<p>We first consider the tree-tree interactions resulting into a Simple Network. Then we consider the bipartite network between trees and fungi.</p>
+</section><section class="level3"><h3 id="mathematical-background">1.3 Mathematical Background<a class="anchor" aria-label="anchor" href="#mathematical-background"></a>
 </h3>
-<p>See <span class="citation">Leger (<a href="#ref-blockmodels">2016</a>)</span> for details.</p>
-</div>
-</div>
-<div class="section level2">
-<h2 id="analysis-of-the-treetree-data">Analysis of the tree/tree data<a class="anchor" aria-label="anchor" href="#analysis-of-the-treetree-data"></a>
+<p>In all the models, each node <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math> belongs to a latent block <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Z</mi><mi>i</mi></msub><annotation encoding="application/x-tex">Z_i</annotation></semantics></math>, and the edges are independent given the blocks, with a distribution depending only on the blocks of the nodes they involve. The model fitted in each section is recalled before the fit. The parameters are estimated with a variational EM algorithm, and the number of blocks is selected with the Integrated Classification Likelihood (ICL). See <span class="citation" data-cites="blockmodels">Leger (<a href="#ref-blockmodels" role="doc-biblioref">2016</a>)</span> and <span class="citation" data-cites="legervacher">Jean-Benoist Leger (<a href="#ref-legervacher" role="doc-biblioref">2015</a>)</span> for details.</p>
+</section></section><section class="level2"><h2 id="analysis-of-the-treetree-data">2. Analysis of the tree/tree data<a class="anchor" aria-label="anchor" href="#analysis-of-the-treetree-data"></a>
 </h2>
-<div class="section level3">
-<h3 id="tree-tree-binary-interaction-networks">Tree-tree binary interaction networks<a class="anchor" aria-label="anchor" href="#tree-tree-binary-interaction-networks"></a>
+<section class="level3"><h3 id="tree-tree-binary-interaction-networks">2.1 Tree-tree binary interaction networks<a class="anchor" aria-label="anchor" href="#tree-tree-binary-interaction-networks"></a>
 </h3>
-<p>We first consider the binary network where an edge is drawn between
-two trees when they do share a least one common fungi:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">tree_tree_binary</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">*</span> <span class="op">(</span><span class="va">fungusTreeNetwork</span><span class="op">$</span><span class="va">tree_tree</span> <span class="op">!=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
-<p>The simple function <code>plotMyMatrix</code> can be use to represent
-simple or bipartite SBM:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<p>We first consider the binary network where an edge is drawn between two trees when they do share a least one common fungi:</p>
+<p>Some names are long. For trees, the species of the group are given in parentheses (for instance “Cultivated Poplars (Populus trichocarpa, P. canescens, P.alba, P.nigra and their cultivated hybrids)”). For fungi, some names give the grouped species in parentheses (for instance “Botrytis cinerea (grouped with Botryotinia fuckeliana (anamorphic type))”) or a variety or special form (for instance “Coleosporium tussilaginis f.sp. senecionis-silvatici”). To keep the plots and tables readable, we only keep the part before the parentheses, and the genus and species for fungi: the short names still identify each tree and each fungus.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">treeNames</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/trimws.html" class="external-link">trimws</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">sub</a></span><span class="op">(</span><span class="st">"\\(.*"</span>, <span class="st">""</span>, <span class="va">fungusTreeNetwork</span><span class="op">$</span><span class="va">tree_names</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">fungusNames</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/trimws.html" class="external-link">trimws</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">sub</a></span><span class="op">(</span><span class="st">" (var\\.|f\\.sp\\.) .*"</span>, <span class="st">""</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">sub</a></span><span class="op">(</span><span class="st">"\\(.*"</span>, <span class="st">""</span>, <span class="va">fungusTreeNetwork</span><span class="op">$</span><span class="va">fungus_names</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">tree_tree_binary</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">*</span> <span class="op">(</span><span class="va">fungusTreeNetwork</span><span class="op">$</span><span class="va">tree_tree</span> <span class="op">!=</span> <span class="fl">0</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">tree_tree_binary</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">tree_tree_binary</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">treeNames</span></span></code></pre></div>
+</div>
+<p>The simple function <code>plotMyMatrix</code> can be use to represent simple or bipartite SBM:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotMyMatrix.html">plotMyMatrix</a></span><span class="op">(</span><span class="va">tree_tree_binary</span>, dimLabels <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'tree'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SBM_fungus_tree_network_files/figure-html/tree_tree_binary%20network%20plot%20data-1.png" class="r-plt" alt="" width="700"></p>
-<p>We look for some latent structure of the network by adjusting a
-simple SBM with the function <code>estimateSimpleSBM</code>.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="cell-output-display">
+<div>
+<figure><p><img src="SBM_fungus_tree_network_files/figure-html/tree_tree_binary%20network%20plot%20data-1.png" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We look for some latent structure of the network by adjusting a simple SBM with the function <code>estimateSimpleSBM</code>.</p>
+<div>
+<blockquote>
+<p><strong>The Bernoulli SBM</strong></p>
+<p>The <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math> trees are divided into <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Q</mi><annotation encoding="application/x-tex">Q</annotation></semantics></math> blocks, with proportions <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mo>=</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>π</mi><mn>1</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>π</mi><mi>Q</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\pi = (\pi_1, \dots, \pi_Q)</annotation></semantics></math>, and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Y</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">Y_{ij} = 1</annotation></semantics></math> if trees <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math> and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>j</mi><annotation encoding="application/x-tex">j</annotation></semantics></math> share at least one fungus. The network being undirected, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Y</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>=</mo><msub><mi>Y</mi><mrow><mi>j</mi><mi>i</mi></mrow></msub></mrow><annotation encoding="application/x-tex">Y_{ij} = Y_{ji}</annotation></semantics></math> and the model is defined for <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mo>&lt;</mo><mi>j</mi></mrow><annotation encoding="application/x-tex">i &lt; j</annotation></semantics></math>: <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mo stretchy="false" form="prefix">(</mo><msub><mi>Z</mi><mi>i</mi></msub><msub><mo stretchy="false" form="postfix">)</mo><mi>i</mi></msub><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> i.i.d.</mtext></mrow><mspace width="2.0em"></mspace></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mi mathvariant="double-struck">ℙ</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>Z</mi><mi>i</mi></msub><mo>=</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msub><mi>π</mi><mi>q</mi></msub><mo>,</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mo stretchy="false" form="prefix">(</mo><msub><mi>Y</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><msub><mo stretchy="false" form="postfix">)</mo><mrow><mi>i</mi><mo>&lt;</mo><mi>j</mi></mrow></msub><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> indep.</mtext></mrow><mo>∣</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>Z</mi><mi>i</mi></msub><msub><mo stretchy="false" form="postfix">)</mo><mi>i</mi></msub><mspace width="2.0em"></mspace></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><msub><mi>Y</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>∣</mo><msub><mi>Z</mi><mi>i</mi></msub><mo>=</mo><mi>q</mi><mo>,</mo><msub><mi>Z</mi><mi>j</mi></msub><mo>=</mo><mi>l</mi><mo>∼</mo><mi mathvariant="script">ℬ</mi><mi>e</mi><mi>r</mi><mi>n</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>α</mi><mrow><mi>q</mi><mi>l</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo><mo>,</mo></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{align*}
+ (Z_i)_{i} \text{ i.i.d.} \qquad &amp; \mathbb{P}(Z_i = q) = \pi_q, \\
+ (Y_{ij})_{i&lt;j} \text{ indep.} \mid (Z_i)_{i} \qquad &amp; Y_{ij} \mid Z_i = q, Z_j = l \sim \mathcal{B}ern(\alpha_{ql}),
+\end{align*}</annotation></semantics></math> with <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>α</mi><mrow><mi>q</mi><mi>l</mi></mrow></msub><mo>=</mo><msub><mi>α</mi><mrow><mi>l</mi><mi>q</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\alpha_{ql} = \alpha_{lq}</annotation></semantics></math> the probability of connection between a tree of block <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math> and a tree of block <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>l</mi><annotation encoding="application/x-tex">l</annotation></semantics></math>.</p>
+</blockquote>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mySimpleSBM</span> <span class="op">&lt;-</span> <span class="va">tree_tree_binary</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/estimateSimpleSBM.html">estimateSimpleSBM</a></span><span class="op">(</span><span class="st">"bernoulli"</span>, dimLabels <span class="op">=</span> <span class="st">'tree'</span>, estimOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>verbosity <span class="op">=</span> <span class="fl">1</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; -&gt; Estimation for 1 groups</span></span>
-<span><span class="co">#&gt; </span></span></code></pre></div>
-<p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-1.png" class="r-plt" alt="" width="700"></p>
-<pre><code><span><span class="co">#&gt; -&gt; Computation of eigen decomposition used for initalizations</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; -&gt; Pass 1</span></span>
-<span><span class="co">#&gt; </span></span></code></pre>
-<p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-2.png" class="r-plt" alt="" width="700"><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-3.png" class="r-plt" alt="" width="700"><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-4.png" class="r-plt" alt="" width="700"><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-5.png" class="r-plt" alt="" width="700"><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-6.png" class="r-plt" alt="" width="700"><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-7.png" class="r-plt" alt="" width="700"><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-8.png" class="r-plt" alt="" width="700"><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-9.png" class="r-plt" alt="" width="700"><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-10.png" class="r-plt" alt="" width="700"><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-11.png" class="r-plt" alt="" width="700"><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-12.png" class="r-plt" alt="" width="700"><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-13.png" class="r-plt" alt="" width="700"><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-14.png" class="r-plt" alt="" width="700"></p>
-<pre><code><span><span class="co">#&gt; -&gt; Pass 2</span></span>
-<span><span class="co">#&gt; </span></span></code></pre>
-<p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-15.png" class="r-plt" alt="" width="700"><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-16.png" class="r-plt" alt="" width="700"><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM-17.png" class="r-plt" alt="" width="700"></p>
-<pre><code><span><span class="co">#&gt; -&gt; Pass 3</span></span></code></pre>
-<p>Once fitted, the user can manipulate the fitted model by accessing
-the various fields and methods enjoyed by the class
-<code>simpleSBMfit</code>. Most important fields and methods are
-recalled to the user via the <code>show</code> method:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<span>  <span class="fu"><a href="../reference/estimateSimpleSBM.html">estimateSimpleSBM</a></span><span class="op">(</span><span class="st">"bernoulli"</span>, dimLabels <span class="op">=</span> <span class="st">'tree'</span>, estimOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>verbosity <span class="op">=</span> <span class="fl">0</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<p>Once fitted, the user can manipulate the fitted model by accessing the various fields and methods enjoyed by the class <code>simpleSBMfit</code>. Most important fields and methods are recalled to the user via the <code>show</code> method:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">mySimpleSBM</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "SimpleSBM_fit" "SimpleSBM"     "SBM"           "R6"</span></span>
 <span><span class="va">mySimpleSBM</span></span>
 <span><span class="co">#&gt; Fit of a Simple Stochastic Block Model -- bernoulli variant</span></span>
 <span><span class="co">#&gt; =====================================================================</span></span>
-<span><span class="co">#&gt; Dimension = ( 51 ) - ( 5 ) blocks and no covariate(s).</span></span>
+<span><span class="co">#&gt; Dimension = ( 51 ) - ( 5 ) blocks.  No  edge covariate(s). No  node covariate(s). </span></span>
 <span><span class="co">#&gt; =====================================================================</span></span>
 <span><span class="co">#&gt; * Useful fields </span></span>
 <span><span class="co">#&gt;   $nbNodes, $modelName, $dimLabels, $nbBlocks, $nbCovariates, $nbDyads</span></span>
 <span><span class="co">#&gt;   $blockProp, $connectParam, $covarParam, $covarList, $covarEffect </span></span>
+<span><span class="co">#&gt;   $nbNodesCovariates, $nodesCovariates, $nodesCovariatesParam </span></span>
 <span><span class="co">#&gt;   $expectation, $indMemberships, $memberships </span></span>
 <span><span class="co">#&gt; * R6 and S3 methods </span></span>
-<span><span class="co">#&gt;   $rNetwork, $rMemberships, $rEdges, plot, print, coef </span></span>
+<span><span class="co">#&gt;   $rNetwork, $rMemberships, $rEdges, plot(obj), print(obj), coef(obj) </span></span>
 <span><span class="co">#&gt; * Additional fields</span></span>
 <span><span class="co">#&gt;   $probMemberships, $loglik, $ICL, $storedModels, </span></span>
 <span><span class="co">#&gt; * Additional methods </span></span>
 <span><span class="co">#&gt;   predict, fitted, $setModel, $reorder</span></span></code></pre></div>
+</div>
 <p>For instance,</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mySimpleSBM</span><span class="op">$</span><span class="va">nbBlocks</span></span>
 <span><span class="co">#&gt; [1] 5</span></span>
 <span><span class="va">mySimpleSBM</span><span class="op">$</span><span class="va">nbNodes</span></span>
@@ -234,22 +202,23 @@ recalled to the user via the <code>show</code> method:</p>
 <span><span class="co">#&gt;   51</span></span>
 <span><span class="va">mySimpleSBM</span><span class="op">$</span><span class="va">nbCovariates</span></span>
 <span><span class="co">#&gt; [1] 0</span></span></code></pre></div>
-<p>The plot method is available as a S3 or R6 method. The default
-represents the network data reordered according to the memberships
-estimated in the SBM.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mySimpleSBM</span>, type <span class="op">=</span> <span class="st">"data"</span>, dimLabels  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'tree'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBMfit%20plot1-1.png" class="r-plt" alt="" width="700"></p>
-<p>One can also plot the expected network which, in case of the
-Bernoulli model, corresponds to the probability of connection between
-any pair of nodes in the network.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mySimpleSBM</span>, type <span class="op">=</span> <span class="st">"expected"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBMfit%20plot2-1.png" class="r-plt" alt="" width="700"></p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mySimpleSBM</span>, type <span class="op">=</span> <span class="st">"meso"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBMfit%20plotmeso-1.png" class="r-plt" alt="" width="700"></p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+</div>
+<p>The plot method is available as a S3 or R6 method. The default represents the network data reordered according to the memberships estimated in the SBM. The red lines separate the blocks, and the background of each block is colored with an opacity growing with the mean value of the entries of the block: in the Bernoulli model, it is the estimated probability of connection <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mover><mi>α</mi><mo accent="true">̂</mo></mover><mrow><mi>q</mi><mi>l</mi></mrow></msub><annotation encoding="application/x-tex">\widehat{\alpha}_{ql}</annotation></semantics></math> between the blocks <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math> and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>l</mi><annotation encoding="application/x-tex">l</annotation></semantics></math>.</p>
+<p>The estimated connectivity can also be represented alone, as a graphon: each block is represented by an interval of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[0,1]</annotation></semantics></math> whose length is its estimated proportion <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mover><mi>π</mi><mo accent="true">̂</mo></mover><mi>q</mi></msub><annotation encoding="application/x-tex">\widehat{\pi}_q</annotation></semantics></math>, and the square <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>×</mo><mi>l</mi></mrow><annotation encoding="application/x-tex">q \times l</annotation></semantics></math> is colored according to <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mover><mi>α</mi><mo accent="true">̂</mo></mover><mrow><mi>q</mi><mi>l</mi></mrow></msub><annotation encoding="application/x-tex">\widehat{\alpha}_{ql}</annotation></semantics></math>, with the same colors as the background of the data plot. We put the two plots side by side with the package <strong>patchwork</strong>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mySimpleSBM</span>, type <span class="op">=</span> <span class="st">"data"</span>, plotOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>rowNames <span class="op">=</span> <span class="cn">TRUE</span>, colNames <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">|</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mySimpleSBM</span>, type <span class="op">=</span> <span class="st">"graphon"</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure><p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBMfit%20plot1-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The parameters of the graphon can be displayed as follows:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">mySimpleSBM</span>, <span class="st">'block'</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 0.3320954 0.1766383 0.1378665 0.1766999 0.1766999</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">mySimpleSBM</span>, <span class="st">'connectivity'</span><span class="op">)</span></span>
@@ -260,142 +229,169 @@ any pair of nodes in the network.</p>
 <span><span class="co">#&gt; [3,] 0.92749023 0.2939096 0.79890626 0.05802394 0.02169247</span></span>
 <span><span class="co">#&gt; [4,] 0.60851311 0.9190488 0.05802394 0.47209785 0.06626655</span></span>
 <span><span class="co">#&gt; [5,] 0.05994511 0.2261776 0.02169247 0.06626655 0.02899357</span></span></code></pre></div>
-<div class="section level4">
-<h4 id="about-model-selection-and-choice-of-the-number-of-blocks">About model selection and choice of the number of blocks<a class="anchor" aria-label="anchor" href="#about-model-selection-and-choice-of-the-number-of-blocks"></a>
+</div>
+<section class="level4"><h4 id="about-model-selection-and-choice-of-the-number-of-blocks">About model selection and choice of the number of blocks<a class="anchor" aria-label="anchor" href="#about-model-selection-and-choice-of-the-number-of-blocks"></a>
 </h4>
-<p>During the estimation, a certain range of models are explored
-corresponding to different number of blocks. By default, the best model
-in terms of Integrated Classification Likelihood is sent back. In fact,
-all the model are stored internally. The user can have a quick glance at
-them via the <code>$storedModels</code> field:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<p>During the estimation, a certain range of models are explored corresponding to different number of blocks. By default, the best model in terms of Integrated Classification Likelihood is sent back. In fact, all the model are stored internally. The user can have a quick glance at them via the <code>$storedModels</code> field:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mySimpleSBM</span><span class="op">$</span><span class="va">storedModels</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<table class="table">
+<div class="cell-output-display">
+<table class="table caption-top">
 <thead><tr class="header">
-<th align="right">indexModel</th>
-<th align="right">nbParams</th>
-<th align="right">nbBlocks</th>
-<th align="right">ICL</th>
-<th align="right">loglik</th>
+<th style="text-align: right;">indexModel</th>
+<th style="text-align: right;">nbParams</th>
+<th style="text-align: right;">nbBlocks</th>
+<th style="text-align: right;">ICL</th>
+<th style="text-align: right;">loglik</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">-883.3334</td>
-<td align="right">-879.7581</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">-883.3334</td>
+<td style="text-align: right;">-879.7581</td>
 </tr>
 <tr class="even">
-<td align="right">2</td>
-<td align="right">4</td>
-<td align="right">2</td>
-<td align="right">-619.0799</td>
-<td align="right">-606.3880</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">-619.0799</td>
+<td style="text-align: right;">-606.3880</td>
 </tr>
 <tr class="odd">
-<td align="right">3</td>
-<td align="right">8</td>
-<td align="right">3</td>
-<td align="right">-537.5179</td>
-<td align="right">-512.1339</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">-537.5179</td>
+<td style="text-align: right;">-512.1339</td>
 </tr>
 <tr class="even">
-<td align="right">4</td>
-<td align="right">13</td>
-<td align="right">4</td>
-<td align="right">-540.6318</td>
-<td align="right">-498.9806</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">-540.6318</td>
+<td style="text-align: right;">-498.9806</td>
 </tr>
 <tr class="odd">
-<td align="right">5</td>
-<td align="right">19</td>
-<td align="right">5</td>
-<td align="right">-520.6645</td>
-<td align="right">-459.1706</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">-520.6645</td>
+<td style="text-align: right;">-459.1706</td>
 </tr>
 <tr class="even">
-<td align="right">6</td>
-<td align="right">26</td>
-<td align="right">6</td>
-<td align="right">-530.6278</td>
-<td align="right">-445.7159</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">-530.6278</td>
+<td style="text-align: right;">-445.7159</td>
 </tr>
 <tr class="odd">
-<td align="right">7</td>
-<td align="right">34</td>
-<td align="right">7</td>
-<td align="right">-544.0191</td>
-<td align="right">-432.1138</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">34</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">-544.0191</td>
+<td style="text-align: right;">-432.1138</td>
 </tr>
 <tr class="even">
-<td align="right">8</td>
-<td align="right">43</td>
-<td align="right">8</td>
-<td align="right">-562.1450</td>
-<td align="right">-419.6710</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">43</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">-562.1450</td>
+<td style="text-align: right;">-419.6710</td>
 </tr>
 </tbody>
 </table>
-<p>We can then see what models are competitive in terms of model
-selection by checking the ICL:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+</div>
+</div>
+<p>We can then see what models are competitive in terms of model selection by checking the ICL:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mySimpleSBM</span><span class="op">$</span><span class="va">storedModels</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">nbBlocks</span>, y <span class="op">=</span> <span class="va">ICL</span><span class="op">)</span>  <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM%20ICL-1.png" class="r-plt" alt="" width="700"></p>
-<p>The 4-block model could have been a good choice too, in place of the
-5-block model. The user can update the current <code>simpleSBMfit</code>
-thanks to the the <code>setModel</code> method:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mySimpleSBM</span><span class="op">$</span><span class="fu">setModel</span><span class="op">(</span><span class="fl">4</span><span class="op">)</span></span>
-<span><span class="va">mySimpleSBM</span><span class="op">$</span><span class="va">nbBlocks</span></span>
-<span><span class="co">#&gt; [1] 4</span></span>
-<span><span class="va">mySimpleSBM</span><span class="op">$</span><span class="fu">plot</span><span class="op">(</span>type <span class="op">=</span> <span class="st">'expected'</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBMfit%20changeModel-1.png" class="r-plt" alt="" width="700"></p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mySimpleSBM</span><span class="op">$</span><span class="fu">setModel</span><span class="op">(</span><span class="fl">5</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure><p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBM%20ICL-1.png" width="480"></p>
+</figure>
 </div>
 </div>
-<div class="section level3">
-<h3 id="analysis-of-the-weighted-interaction-network">Analysis of the weighted interaction network<a class="anchor" aria-label="anchor" href="#analysis-of-the-weighted-interaction-network"></a>
+</div>
+<p>The 4-block or 6-block model could have been a “reasonable” choice too, in place of the 5-block model. The user can update the current <code>simpleSBMfit</code> thanks to the <code>setModel</code>.</p>
+<p>We use it to compare the clusterings obtained with 4, 5 and 6 blocks with an alluvial plot (function <code>plotAlluvial</code>): each vertical axis represents a clustering, and the stripes show how the trees move from one cluster to another. The stripes are colored according to the clusters of the first clustering, which shows how the clusters split when the number of blocks increases.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">clust_5blocks</span> <span class="op">&lt;-</span><span class="va">mySimpleSBM</span><span class="op">$</span><span class="va">memberships</span></span>
+<span><span class="va">mySimpleSBM</span><span class="op">$</span><span class="fu">setModel</span><span class="op">(</span><span class="fl">4</span><span class="op">)</span></span>
+<span><span class="va">clust_4blocks</span> <span class="op">&lt;-</span><span class="va">mySimpleSBM</span><span class="op">$</span><span class="va">memberships</span></span>
+<span><span class="va">mySimpleSBM</span><span class="op">$</span><span class="fu">setModel</span><span class="op">(</span><span class="fl">6</span><span class="op">)</span></span>
+<span><span class="va">clust_6blocks</span> <span class="op">&lt;-</span><span class="va">mySimpleSBM</span><span class="op">$</span><span class="va">memberships</span></span>
+<span><span class="va">mySimpleSBM</span><span class="op">$</span><span class="fu">setModel</span><span class="op">(</span><span class="fl">5</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/plotAlluvial.html">plotAlluvial</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">'4 blocks'</span><span class="op">=</span><span class="va">clust_4blocks</span>,<span class="st">'5 blocks'</span><span class="op">=</span><span class="va">clust_5blocks</span>,<span class="st">'6 blocks'</span><span class="op">=</span><span class="va">clust_6blocks</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure><p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBMfit%20changeModel-1.png" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We observe that going from 4 blocks to 5 blocks roughly divides block 1 into two clusters. Similarly, going from 5 blocks to 6 blocks, roughly divides block 4 into two smaller blocks.</p>
+</section></section><section class="level3"><h3 id="analysis-of-the-weighted-interaction-network">2.2 Analysis of the weighted interaction network<a class="anchor" aria-label="anchor" href="#analysis-of-the-weighted-interaction-network"></a>
 </h3>
-<p>Instead of considering the binary network tree-tree we may consider
-the weighted network where the link between two trees is the number of
-fungi they share.</p>
+<p>Instead of considering the binary network tree-tree we may consider the weighted network where the link between two trees is the number of fungi they share.</p>
 <p>We plot the matrix with function <code>plotMyMatrix</code>:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tree_tree</span> <span class="op">&lt;-</span> <span class="va">fungusTreeNetwork</span><span class="op">$</span><span class="va">tree_tree</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">tree_tree</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">tree_tree</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">treeNames</span></span>
 <span><span class="fu"><a href="../reference/plotMyMatrix.html">plotMyMatrix</a></span><span class="op">(</span><span class="va">tree_tree</span>, dimLabels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'tree'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SBM_fungus_tree_network_files/figure-html/tree_tree%20network%20plot%20data-1.png" class="r-plt" alt="" width="700"></p>
-<p>Here again, we look for some latent structure of the network by
-adjusting a simple SBM with the function <code>estimateSimpleSBM</code>,
-considering a Poisson distribution on the edges.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="cell-output-display">
+<div>
+<figure><p><img src="SBM_fungus_tree_network_files/figure-html/tree_tree%20network%20plot%20data-1.png" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Here again, we look for some latent structure of the network by adjusting a simple SBM with the function <code>estimateSimpleSBM</code>, considering a Poisson distribution on the edges.</p>
+<div>
+<blockquote>
+<p><strong>The Poisson SBM</strong></p>
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Y</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><annotation encoding="application/x-tex">Y_{ij}</annotation></semantics></math> is now the number of fungi shared by trees <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math> and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>j</mi><annotation encoding="application/x-tex">j</annotation></semantics></math>. The blocks are defined as before, and <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mo stretchy="false" form="prefix">(</mo><msub><mi>Z</mi><mi>i</mi></msub><msub><mo stretchy="false" form="postfix">)</mo><mi>i</mi></msub><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> i.i.d.</mtext></mrow><mspace width="2.0em"></mspace></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mi mathvariant="double-struck">ℙ</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>Z</mi><mi>i</mi></msub><mo>=</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msub><mi>π</mi><mi>q</mi></msub><mo>,</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mo stretchy="false" form="prefix">(</mo><msub><mi>Y</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><msub><mo stretchy="false" form="postfix">)</mo><mrow><mi>i</mi><mo>&lt;</mo><mi>j</mi></mrow></msub><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> indep.</mtext></mrow><mo>∣</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>Z</mi><mi>i</mi></msub><msub><mo stretchy="false" form="postfix">)</mo><mi>i</mi></msub><mspace width="2.0em"></mspace></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><msub><mi>Y</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>∣</mo><msub><mi>Z</mi><mi>i</mi></msub><mo>=</mo><mi>q</mi><mo>,</mo><msub><mi>Z</mi><mi>j</mi></msub><mo>=</mo><mi>l</mi><mo>∼</mo><mi mathvariant="script">𝒫</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>λ</mi><mrow><mi>q</mi><mi>l</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo><mo>,</mo></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{align*}
+ (Z_i)_{i} \text{ i.i.d.} \qquad &amp; \mathbb{P}(Z_i = q) = \pi_q, \\
+ (Y_{ij})_{i&lt;j} \text{ indep.} \mid (Z_i)_{i} \qquad &amp; Y_{ij} \mid Z_i = q, Z_j = l \sim \mathcal{P}(\lambda_{ql}),
+\end{align*}</annotation></semantics></math> with <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>λ</mi><mrow><mi>q</mi><mi>l</mi></mrow></msub><mo>=</mo><msub><mi>λ</mi><mrow><mi>l</mi><mi>q</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\lambda_{ql} = \lambda_{lq}</annotation></semantics></math> the mean number of fungi shared by a tree of block <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math> and a tree of block <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>l</mi><annotation encoding="application/x-tex">l</annotation></semantics></math>.</p>
+</blockquote>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mySimpleSBMPoisson</span> <span class="op">&lt;-</span> <span class="va">tree_tree</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/estimateSimpleSBM.html">estimateSimpleSBM</a></span><span class="op">(</span><span class="st">"poisson"</span>, dimLabels <span class="op">=</span> <span class="st">'tree'</span>, estimOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>verbosity <span class="op">=</span> <span class="fl">0</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>Once fitted, the user can manipulate the fitted model by accessing
-the various fields and methods enjoyed by the class
-<code>simpleSBMfit</code>. Most important fields and methods are
-recalled to the user via the <code>show</code> method:</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+</div>
+<p>Once fitted, the user can manipulate the fitted model by accessing the various fields and methods enjoyed by the class <code>simpleSBMfit</code>. Most important fields and methods are recalled to the user via the <code>show</code> method:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">mySimpleSBMPoisson</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "SimpleSBM_fit" "SimpleSBM"     "SBM"           "R6"</span></span>
 <span><span class="va">mySimpleSBMPoisson</span></span>
 <span><span class="co">#&gt; Fit of a Simple Stochastic Block Model -- poisson variant</span></span>
 <span><span class="co">#&gt; =====================================================================</span></span>
-<span><span class="co">#&gt; Dimension = ( 51 ) - ( 6 ) blocks and no covariate(s).</span></span>
+<span><span class="co">#&gt; Dimension = ( 51 ) - ( 6 ) blocks.  No  edge covariate(s). No  node covariate(s). </span></span>
 <span><span class="co">#&gt; =====================================================================</span></span>
 <span><span class="co">#&gt; * Useful fields </span></span>
 <span><span class="co">#&gt;   $nbNodes, $modelName, $dimLabels, $nbBlocks, $nbCovariates, $nbDyads</span></span>
 <span><span class="co">#&gt;   $blockProp, $connectParam, $covarParam, $covarList, $covarEffect </span></span>
+<span><span class="co">#&gt;   $nbNodesCovariates, $nodesCovariates, $nodesCovariatesParam </span></span>
 <span><span class="co">#&gt;   $expectation, $indMemberships, $memberships </span></span>
 <span><span class="co">#&gt; * R6 and S3 methods </span></span>
-<span><span class="co">#&gt;   $rNetwork, $rMemberships, $rEdges, plot, print, coef </span></span>
+<span><span class="co">#&gt;   $rNetwork, $rMemberships, $rEdges, plot(obj), print(obj), coef(obj) </span></span>
 <span><span class="co">#&gt; * Additional fields</span></span>
 <span><span class="co">#&gt;   $probMemberships, $loglik, $ICL, $storedModels, </span></span>
 <span><span class="co">#&gt; * Additional methods </span></span>
 <span><span class="co">#&gt;   predict, fitted, $setModel, $reorder</span></span></code></pre></div>
+</div>
 <p>For instance,</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mySimpleSBMPoisson</span><span class="op">$</span><span class="va">nbBlocks</span></span>
 <span><span class="co">#&gt; [1] 6</span></span>
 <span><span class="va">mySimpleSBMPoisson</span><span class="op">$</span><span class="va">nbNodes</span></span>
@@ -403,46 +399,174 @@ recalled to the user via the <code>show</code> method:</p>
 <span><span class="co">#&gt;   51</span></span>
 <span><span class="va">mySimpleSBMPoisson</span><span class="op">$</span><span class="va">nbCovariates</span></span>
 <span><span class="co">#&gt; [1] 0</span></span></code></pre></div>
-<p>We now plot the matrix reordered according to the memberships
-estimated in the SBM:</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mySimpleSBMPoisson</span>, type <span class="op">=</span> <span class="st">"data"</span>, dimLabels <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'tree'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBMfitPoisson%20plot1-1.png" class="r-plt" alt="" width="700"></p>
-<p>One can also plot the expected network which, in case of the Poisson
-model, corresponds to the expectation of connection between any pair of
-nodes in the network.</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mySimpleSBMPoisson</span>, type <span class="op">=</span> <span class="st">"expected"</span>, dimLabels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'tree'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBMfitPoisson%20plot2-1.png" class="r-plt" alt="" width="700"></p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mySimpleSBMPoisson</span>, type <span class="op">=</span> <span class="st">"meso"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBMfitPoisson%20plotmeso-1.png" class="r-plt" alt="" width="700"></p>
-<p>The same manipulations can be made on the models as before.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">mySimpleSBMPoisson</span>, <span class="st">'block'</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.1763561 0.1957351 0.1375982 0.1569772 0.1569772 0.1763561</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">mySimpleSBMPoisson</span>, <span class="st">'connectivity'</span><span class="op">)</span></span>
-<span><span class="co">#&gt; $mean</span></span>
-<span><span class="co">#&gt;           [,1]      [,2]       [,3]       [,4]       [,5]       [,6]</span></span>
-<span><span class="co">#&gt; [1,] 9.0286270 3.2910355 6.04727443 1.06850270 1.85464212 0.11062572</span></span>
-<span><span class="co">#&gt; [2,] 3.2910355 5.9646020 1.33637565 2.17610068 0.49999123 0.26547703</span></span>
-<span><span class="co">#&gt; [3,] 6.0472744 1.3363757 3.94065914 0.40263458 1.46245649 0.07080814</span></span>
-<span><span class="co">#&gt; [4,] 1.0685027 2.1761007 0.40263458 0.82166374 0.14089332 0.07793391</span></span>
-<span><span class="co">#&gt; [5,] 1.8546421 0.4999912 1.46245649 0.14089332 0.54121406 0.02263218</span></span>
-<span><span class="co">#&gt; [6,] 0.1106257 0.2654770 0.07080814 0.07793391 0.02263218 0.02940543</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="introduction-of-covariates">Introduction of covariates<a class="anchor" aria-label="anchor" href="#introduction-of-covariates"></a>
+<p>We now plot the matrix reordered according to the memberships estimated in the SBM, next to the corresponding graphon. The entries are now counts, represented in gray levels, and the background of each block corresponds to the estimated mean number of shared fungi <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mover><mi>λ</mi><mo accent="true">̂</mo></mover><mrow><mi>q</mi><mi>l</mi></mrow></msub><annotation encoding="application/x-tex">\widehat{\lambda}_{ql}</annotation></semantics></math> between the blocks <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math> and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>l</mi><annotation encoding="application/x-tex">l</annotation></semantics></math>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mySimpleSBMPoisson</span>, type <span class="op">=</span> <span class="st">"data"</span>, plotOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>rowNames <span class="op">=</span> <span class="cn">TRUE</span>, colNames <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">|</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mySimpleSBMPoisson</span>, type <span class="op">=</span> <span class="st">"graphon"</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure><p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBMfitPoisson%20plot1-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The graphon can also be drawn as a network, in a mesoscopic view: each block is a node whose area is proportional to the block proportion <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mover><mi>π</mi><mo accent="true">̂</mo></mover><mi>q</mi></msub><annotation encoding="application/x-tex">\widehat{\pi}_q</annotation></semantics></math>, and the mean number of shared fungi <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mover><mi>λ</mi><mo accent="true">̂</mo></mover><mrow><mi>q</mi><mi>l</mi></mrow></msub><annotation encoding="application/x-tex">\widehat{\lambda}_{ql}</annotation></semantics></math> between two blocks is represented by an edge whose width and color grow with <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mover><mi>λ</mi><mo accent="true">̂</mo></mover><mrow><mi>q</mi><mi>l</mi></mrow></msub><annotation encoding="application/x-tex">\widehat{\lambda}_{ql}</annotation></semantics></math>, with the same colors as the graphon. The connectivity within a block, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mover><mi>λ</mi><mo accent="true">̂</mo></mover><mrow><mi>q</mi><mi>q</mi></mrow></msub><annotation encoding="application/x-tex">\widehat{\lambda}_{qq}</annotation></semantics></math>, is represented by a loop. The layout being random, it is fixed with the option <code>seed</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mySimpleSBMPoisson</span>, type <span class="op">=</span> <span class="st">"meso"</span>, plotOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>seed <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure><p><img src="SBM_fungus_tree_network_files/figure-html/simpleSBMfitPoisson%20plotmeso-1.png" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The composition of the clusters can now be scrutinized:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu">clusterComposition</span><span class="op">(</span><span class="va">mySimpleSBMPoisson</span><span class="op">$</span><span class="va">memberships</span>, <span class="va">treeNames</span><span class="op">)</span>,</span>
+<span>      caption <span class="op">=</span> <span class="st">"Tree clusters (Poisson SBM)"</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<table class="table caption-top">
+<caption>Tree clusters (Poisson SBM)</caption>
+<colgroup>
+<col style="width: 18%">
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 19%">
+<col style="width: 15%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">Cluster 1</th>
+<th style="text-align: left;">Cluster 2</th>
+<th style="text-align: left;">Cluster 3</th>
+<th style="text-align: left;">Cluster 4</th>
+<th style="text-align: left;">Cluster 5</th>
+<th style="text-align: left;">Cluster 6</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Abies alba</td>
+<td style="text-align: left;">Large Maples</td>
+<td style="text-align: left;">Abies nordmanniana</td>
+<td style="text-align: left;">Small Maples</td>
+<td style="text-align: left;">Cupressus sempervirens</td>
+<td style="text-align: left;">Betulus spp</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Abies grandis</td>
+<td style="text-align: left;">Fagus silvatica</td>
+<td style="text-align: left;">Larix kaempferi</td>
+<td style="text-align: left;">Alnus glutinosa</td>
+<td style="text-align: left;">Pinus brutia</td>
+<td style="text-align: left;">Carpinus betulus</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Cedrus spp</td>
+<td style="text-align: left;">Fraxinus spp</td>
+<td style="text-align: left;">Picea sitchensis</td>
+<td style="text-align: left;">Castanea sativa</td>
+<td style="text-align: left;">Pinus cembra</td>
+<td style="text-align: left;">Populus tremula</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Larix decidua</td>
+<td style="text-align: left;">Juglans spp</td>
+<td style="text-align: left;">Pinus halepensis</td>
+<td style="text-align: left;">Quercus ilex</td>
+<td style="text-align: left;">Pinus pinea</td>
+<td style="text-align: left;">Quercus pyrenaica</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Picea excelsa</td>
+<td style="text-align: left;">Cultivated Poplars</td>
+<td style="text-align: left;">Pinus nigra nigra</td>
+<td style="text-align: left;">Quercus pubescens</td>
+<td style="text-align: left;">Pinus radiata</td>
+<td style="text-align: left;">Sorbus aucuparia</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Pinus nigra laricio</td>
+<td style="text-align: left;">Prunus avium</td>
+<td style="text-align: left;">Pinus strobus</td>
+<td style="text-align: left;">Quercus suber</td>
+<td style="text-align: left;">Pinus taeda</td>
+<td style="text-align: left;">Sorbus domestica</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Pinus pinaster</td>
+<td style="text-align: left;">Quercus petraea</td>
+<td style="text-align: left;">Pinus uncinata</td>
+<td style="text-align: left;">Sorbus aria</td>
+<td style="text-align: left;">Platanus hybrida</td>
+<td style="text-align: left;">Taxus baccata</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Pinus sylvestris</td>
+<td style="text-align: left;">Quercus robur</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Tilia spp</td>
+<td style="text-align: left;">Tsuga heterophylla</td>
+<td style="text-align: left;">Thuja plicata</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Pseudotsuga menziesii</td>
+<td style="text-align: left;">Quercus rubra</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Ulmus spp</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Sorbus torminalis</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<section class="level4"><h4 id="comparison-of-the-binary-and-weighted-clusterings">Comparison of the binary and weighted clusterings<a class="anchor" aria-label="anchor" href="#comparison-of-the-binary-and-weighted-clusterings"></a>
+</h4>
+<p>We compare the clusterings obtained on the binary network (Bernoulli SBM) and on the weighted network (Poisson SBM) with an alluvial plot, the stripes being colored according to the clusters of the Bernoulli SBM.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotAlluvial.html">plotAlluvial</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Bernoulli <span class="op">=</span> <span class="va">mySimpleSBM</span><span class="op">$</span><span class="va">memberships</span>,</span>
+<span>                  Poisson   <span class="op">=</span> <span class="va">mySimpleSBMPoisson</span><span class="op">$</span><span class="va">memberships</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure><p><img src="SBM_fungus_tree_network_files/figure-html/alluvial%20bernoulli%20poisson-1.png" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The most connected cluster of the Bernoulli SBM is cluster 1: its 17 trees share at least one fungus with 37 other trees on average (out of 50), and the probability of connection within the cluster is <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>α</mi><mo accent="true">̂</mo></mover><mrow><mn>1</mn><mn>1</mn></mrow></msub><mo>=</mo></mrow><annotation encoding="application/x-tex">\widehat{\alpha}_{1 1} =</annotation></semantics></math> 0.98. In the binary network, these trees are almost all connected to each other, so the network cannot distinguish them any further. The weighted network, which counts the shared fungi, reveals a finer structure: this cluster is split by the Poisson SBM into</p>
+<ul>
+<li>9 trees (Poisson cluster 1) sharing on average <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>λ</mi><mo accent="true">̂</mo></mover><mo>=</mo></mrow><annotation encoding="application/x-tex">\widehat{\lambda} =</annotation></semantics></math> 9 fungi with each other: Abies alba, Abies grandis, Cedrus spp, Larix decidua, Picea excelsa, Pinus nigra laricio, Pinus pinaster, Pinus sylvestris, Pseudotsuga menziesii;</li>
+<li>5 trees (Poisson cluster 3) sharing fewer fungi with each other (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>λ</mi><mo accent="true">̂</mo></mover><mo>=</mo></mrow><annotation encoding="application/x-tex">\widehat{\lambda} =</annotation></semantics></math> 3.9): Abies nordmanniana, Larix kaempferi, Picea sitchensis, Pinus nigra nigra, Pinus uncinata;</li>
+<li>and 3 trees moving to other clusters: Juglans spp, Sorbus aria, Pinus brutia.</li>
+</ul>
+<p>Both main parts are made of conifers: the binary network gathers the conifers, and the weighted network separates those sharing many fungi from those sharing fewer.</p>
+</section></section><section class="level3"><h3 id="introduction-of-covariates">2.3 Introduction of covariates<a class="anchor" aria-label="anchor" href="#introduction-of-covariates"></a>
 </h3>
-<p>We have on each pair of trees 3 covariates, namely the genetic
-distance, the taxonomic distance and the geographic distance. Each
-covariate has to be introduced as a matrix:
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>X</mi><mrow><mi>i</mi><mi>j</mi></mrow><mi>k</mi></msubsup><annotation encoding="application/x-tex">X^k_{ij}</annotation></semantics></math>
-corresponds to the value of the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>-th
-covariate describing the couple
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>i</mi><mo>,</mo><mi>j</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(i,j)</annotation></semantics></math>.</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<p>We have on each pair of trees 3 covariates, namely the genetic distance, the taxonomic distance and the geographic distance. Each covariate has to be introduced as a matrix: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>X</mi><mrow><mi>i</mi><mi>j</mi></mrow><mi>k</mi></msubsup><annotation encoding="application/x-tex">X^k_{ij}</annotation></semantics></math> corresponds to the value of the <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>-th covariate describing the couple <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>i</mi><mo>,</mo><mi>j</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(i,j)</annotation></semantics></math>.</p>
+<div>
+<blockquote>
+<p><strong>The Poisson SBM with covariates on the edges</strong></p>
+<p>Let <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>=</mo><mo stretchy="false" form="prefix">(</mo><msubsup><mi>X</mi><mrow><mi>i</mi><mi>j</mi></mrow><mn>1</mn></msubsup><mo>,</mo><mi>…</mi><mo>,</mo><msubsup><mi>X</mi><mrow><mi>i</mi><mi>j</mi></mrow><mi>p</mi></msubsup><msup><mo stretchy="false" form="postfix">)</mo><mi>⊤</mi></msup><mo>∈</mo><msup><mi mathvariant="double-struck">ℝ</mi><mi>p</mi></msup></mrow><annotation encoding="application/x-tex">x_{ij} = (X^1_{ij}, \dots, X^p_{ij})^\top \in \mathbb{R}^p</annotation></semantics></math> be the vector of the <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">p = 3</annotation></semantics></math> covariates of the pair <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>i</mi><mo>,</mo><mi>j</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(i,j)</annotation></semantics></math>. The covariates act on the mean of the edges, through a regression parameter <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>β</mi><mo>∈</mo><msup><mi mathvariant="double-struck">ℝ</mi><mi>p</mi></msup></mrow><annotation encoding="application/x-tex">\beta \in \mathbb{R}^p</annotation></semantics></math> common to all the pairs: <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mo stretchy="false" form="prefix">(</mo><msub><mi>Z</mi><mi>i</mi></msub><msub><mo stretchy="false" form="postfix">)</mo><mi>i</mi></msub><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> i.i.d.</mtext></mrow><mspace width="2.0em"></mspace></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mi mathvariant="double-struck">ℙ</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>Z</mi><mi>i</mi></msub><mo>=</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msub><mi>π</mi><mi>q</mi></msub><mo>,</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mo stretchy="false" form="prefix">(</mo><msub><mi>Y</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><msub><mo stretchy="false" form="postfix">)</mo><mrow><mi>i</mi><mo>&lt;</mo><mi>j</mi></mrow></msub><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> indep.</mtext></mrow><mo>∣</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>Z</mi><mi>i</mi></msub><msub><mo stretchy="false" form="postfix">)</mo><mi>i</mi></msub><mspace width="2.0em"></mspace></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><msub><mi>Y</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>∣</mo><msub><mi>Z</mi><mi>i</mi></msub><mo>=</mo><mi>q</mi><mo>,</mo><msub><mi>Z</mi><mi>j</mi></msub><mo>=</mo><mi>l</mi><mo>∼</mo><mi mathvariant="script">𝒫</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>λ</mi><mrow><mi>q</mi><mi>l</mi></mrow></msub><mi mathvariant="normal">exp</mi><mo stretchy="false" form="prefix">(</mo><msubsup><mi>x</mi><mrow><mi>i</mi><mi>j</mi></mrow><mi>⊤</mi></msubsup><mi>β</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{align*}
+ (Z_i)_{i} \text{ i.i.d.} \qquad &amp; \mathbb{P}(Z_i = q) = \pi_q, \\
+ (Y_{ij})_{i&lt;j} \text{ indep.} \mid (Z_i)_{i} \qquad &amp; Y_{ij} \mid Z_i = q, Z_j = l \sim \mathcal{P}\left(\lambda_{ql} \exp(x_{ij}^\top \beta)\right).
+\end{align*}</annotation></semantics></math> The blocks now capture the structure of the network which is not explained by the covariates.</p>
+</blockquote>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mySimpleSBMCov</span><span class="op">&lt;-</span> </span>
 <span>  <span class="va">tree_tree</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/estimateSimpleSBM.html">estimateSimpleSBM</a></span><span class="op">(</span></span>
@@ -452,141 +576,1051 @@ covariate describing the couple
 <span>    covariates  <span class="op">=</span> <span class="va">fungusTreeNetwork</span><span class="op">$</span><span class="va">covar_tree</span>, </span>
 <span>    estimOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>verbosity <span class="op">=</span> <span class="fl">0</span>, plot <span class="op">=</span> <span class="cn">FALSE</span>, nbCores <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
+</div>
 <ul>
-<li>We select the best number of clusters (with respect to the ICL
-criteria)</li>
+<li>We select the best number of clusters (with respect to the ICL criteria)</li>
 </ul>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mySimpleSBMCov</span><span class="op">$</span><span class="va">nbBlocks</span></span>
 <span><span class="co">#&gt; [1] 4</span></span></code></pre></div>
+</div>
 <ul>
-<li>We can now extract the parameters of interest, namely
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation encoding="application/x-tex">\lambda</annotation></semantics></math>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>π</mi><annotation encoding="application/x-tex">\pi</annotation></semantics></math>)
-and the clustering of the nodes.</li>
+<li>We can now extract the parameters of interest, namely (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation encoding="application/x-tex">\lambda</annotation></semantics></math>, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>π</mi><annotation encoding="application/x-tex">\pi</annotation></semantics></math>) and the clustering of the nodes.</li>
 </ul>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mySimpleSBMCov</span><span class="op">$</span><span class="va">connectParam</span></span>
 <span><span class="co">#&gt; $mean</span></span>
 <span><span class="co">#&gt;           [,1]       [,2]      [,3]      [,4]</span></span>
-<span><span class="co">#&gt; [1,] 28.237364 14.9123989 5.9710575 1.2411734</span></span>
-<span><span class="co">#&gt; [2,] 14.912399  9.5781954 3.7996812 0.4108239</span></span>
-<span><span class="co">#&gt; [3,]  5.971058  3.7996812 1.6214148 0.3849639</span></span>
-<span><span class="co">#&gt; [4,]  1.241173  0.4108239 0.3849639 0.1895998</span></span>
+<span><span class="co">#&gt; [1,] 28.207064 14.8964888 5.9617522 1.2396157</span></span>
+<span><span class="co">#&gt; [2,] 14.896489  9.5664171 3.7941904 0.4110826</span></span>
+<span><span class="co">#&gt; [3,]  5.961752  3.7941904 1.6183797 0.3842726</span></span>
+<span><span class="co">#&gt; [4,]  1.239616  0.4110826 0.3842726 0.1893782</span></span>
 <span><span class="va">mySimpleSBMCov</span><span class="op">$</span><span class="va">blockProp</span></span>
-<span><span class="co">#&gt; [1] 0.3715916 0.2159544 0.2354110 0.1770430</span></span>
+<span><span class="co">#&gt; [1] 0.3715916 0.2159544 0.2354116 0.1770425</span></span>
 <span><span class="va">mySimpleSBMCov</span><span class="op">$</span><span class="va">memberships</span></span>
 <span><span class="co">#&gt;  [1] 1 1 2 1 2 2 4 4 2 1 3 1 1 1 1 2 1 2 3 3 2 1 2 1 3 3 2 1 3 2 3 1 4 1 1 3 1 3</span></span>
 <span><span class="co">#&gt; [39] 4 1 1 3 2 4 4 1 4 4 3 3 4</span></span>
 <span><span class="va">mySimpleSBMCov</span><span class="op">$</span><span class="va">covarParam</span></span>
 <span><span class="co">#&gt;            [,1]</span></span>
-<span><span class="co">#&gt; [1,]  0.1969432</span></span>
-<span><span class="co">#&gt; [2,] -2.0553752</span></span>
-<span><span class="co">#&gt; [3,] -0.3599907</span></span></code></pre></div>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<span><span class="co">#&gt; [1,]  0.1975175</span></span>
+<span><span class="co">#&gt; [2,] -2.0552576</span></span>
+<span><span class="co">#&gt; [3,] -0.3586006</span></span></code></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">mySimpleSBMCov</span>, <span class="st">'covariates'</span><span class="op">)</span></span>
 <span><span class="co">#&gt;            [,1]</span></span>
-<span><span class="co">#&gt; [1,]  0.1969432</span></span>
-<span><span class="co">#&gt; [2,] -2.0553752</span></span>
-<span><span class="co">#&gt; [3,] -0.3599907</span></span></code></pre></div>
-<p>S3 methods are also available for fit and prediction (results hidden
-here)</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<span><span class="co">#&gt; [1,]  0.1975175</span></span>
+<span><span class="co">#&gt; [2,] -2.0552576</span></span>
+<span><span class="co">#&gt; [3,] -0.3586006</span></span></code></pre></div>
+</div>
+<p>S3 methods are also available for fit and prediction (results hidden here)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#fitted(mySimpleSBMCov)</span></span>
 <span><span class="co">#predict(mySimpleSBMCov)</span></span>
 <span><span class="co">#predict(mySimpleSBMCov, fungusTreeNetwork$covar_tree)</span></span></code></pre></div>
 </div>
-</div>
-<div class="section level2">
-<h2 id="analysis-of-the-treefungi-data">Analysis of the tree/fungi data<a class="anchor" aria-label="anchor" href="#analysis-of-the-treefungi-data"></a>
+</section></section><section class="level2"><h2 id="analysis-of-the-treefungi-data">3. Analysis of the tree/fungi data<a class="anchor" aria-label="anchor" href="#analysis-of-the-treefungi-data"></a>
 </h2>
-<p>We now analyze the bipartite tree/fungi interactions. The incidence
-matrix can be plotted with the function </p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plotMyMatrix.html">plotMyMatrix</a></span><span class="op">(</span><span class="va">fungusTreeNetwork</span><span class="op">$</span><span class="va">fungus_tree</span>, dimLabels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>row <span class="op">=</span> <span class="st">'fungis'</span>, col<span class="op">=</span> <span class="st">'tree'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SBM_fungus_tree_network_files/figure-html/plot%20incidence-1.png" class="r-plt" alt="" width="700"></p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<p>We now analyze the bipartite tree/fungi interactions. The incidence matrix <code>fungus_tree</code> has the fungi in rows and the trees in columns. To get a wide plot, we put the trees in rows and the fungi in columns by transposing it: the bipartite SBM treats rows and columns in the same way, so this does not change the model. The incidence matrix can be plotted with the function <code>plotMyMatrix</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tree_fungus</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">fungusTreeNetwork</span><span class="op">$</span><span class="va">fungus_tree</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">tree_fungus</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">treeNames</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">tree_fungus</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">fungusNames</span></span>
+<span><span class="fu"><a href="../reference/plotMyMatrix.html">plotMyMatrix</a></span><span class="op">(</span><span class="va">tree_fungus</span>, dimLabels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>row <span class="op">=</span> <span class="st">'tree'</span>, col <span class="op">=</span> <span class="st">'fungis'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure><p><img src="SBM_fungus_tree_network_files/figure-html/plot%20incidence-1.png" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+<div>
+<blockquote>
+<p><strong>The bipartite SBM</strong></p>
+<p>The <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>n</mi><mn>1</mn></msub><annotation encoding="application/x-tex">n_1</annotation></semantics></math> trees (in rows) are divided into <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Q</mi><mn>1</mn></msub><annotation encoding="application/x-tex">Q_1</annotation></semantics></math> blocks with proportions <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>π</mi><mn>1</mn></msup><annotation encoding="application/x-tex">\pi^1</annotation></semantics></math>, and the <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>n</mi><mn>2</mn></msub><annotation encoding="application/x-tex">n_2</annotation></semantics></math> fungi (in columns) into <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Q</mi><mn>2</mn></msub><annotation encoding="application/x-tex">Q_2</annotation></semantics></math> blocks with proportions <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>π</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\pi^2</annotation></semantics></math>. <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Y</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">Y_{ij} = 1</annotation></semantics></math> if fungus <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>j</mi><annotation encoding="application/x-tex">j</annotation></semantics></math> was observed on tree <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>, and <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mo stretchy="false" form="prefix">(</mo><msubsup><mi>Z</mi><mi>i</mi><mn>1</mn></msubsup><msub><mo stretchy="false" form="postfix">)</mo><mi>i</mi></msub><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> i.i.d.</mtext></mrow><mspace width="2.0em"></mspace></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mi mathvariant="double-struck">ℙ</mi><mo stretchy="false" form="prefix">(</mo><msubsup><mi>Z</mi><mi>i</mi><mn>1</mn></msubsup><mo>=</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msubsup><mi>π</mi><mi>q</mi><mn>1</mn></msubsup><mo>,</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mo stretchy="false" form="prefix">(</mo><msubsup><mi>Z</mi><mi>j</mi><mn>2</mn></msubsup><msub><mo stretchy="false" form="postfix">)</mo><mi>j</mi></msub><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> i.i.d.</mtext></mrow><mo>,</mo><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> indep. of </mtext><mspace width="0.333em"></mspace></mrow><mo stretchy="false" form="prefix">(</mo><msubsup><mi>Z</mi><mi>i</mi><mn>1</mn></msubsup><msub><mo stretchy="false" form="postfix">)</mo><mi>i</mi></msub><mspace width="2.0em"></mspace></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mi mathvariant="double-struck">ℙ</mi><mo stretchy="false" form="prefix">(</mo><msubsup><mi>Z</mi><mi>j</mi><mn>2</mn></msubsup><mo>=</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msubsup><mi>π</mi><mi>r</mi><mn>2</mn></msubsup><mo>,</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mo stretchy="false" form="prefix">(</mo><msub><mi>Y</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><msub><mo stretchy="false" form="postfix">)</mo><mrow><mi>i</mi><mo>,</mo><mi>j</mi></mrow></msub><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> indep.</mtext></mrow><mo>∣</mo><mo stretchy="false" form="prefix">(</mo><msubsup><mi>Z</mi><mi>i</mi><mn>1</mn></msubsup><msub><mo stretchy="false" form="postfix">)</mo><mi>i</mi></msub><mo>,</mo><mo stretchy="false" form="prefix">(</mo><msubsup><mi>Z</mi><mi>j</mi><mn>2</mn></msubsup><msub><mo stretchy="false" form="postfix">)</mo><mi>j</mi></msub><mspace width="2.0em"></mspace></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><msub><mi>Y</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>∣</mo><msubsup><mi>Z</mi><mi>i</mi><mn>1</mn></msubsup><mo>=</mo><mi>q</mi><mo>,</mo><msubsup><mi>Z</mi><mi>j</mi><mn>2</mn></msubsup><mo>=</mo><mi>r</mi><mo>∼</mo><mi mathvariant="script">ℬ</mi><mi>e</mi><mi>r</mi><mi>n</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>α</mi><mrow><mi>q</mi><mi>r</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo><mo>,</mo></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{align*}
+ (Z^1_i)_{i} \text{ i.i.d.} \qquad &amp; \mathbb{P}(Z^1_i = q) = \pi^1_q, \\
+ (Z^2_j)_{j} \text{ i.i.d.}, \text{ indep. of } (Z^1_i)_{i} \qquad &amp; \mathbb{P}(Z^2_j = r) = \pi^2_r, \\
+ (Y_{ij})_{i,j} \text{ indep.} \mid (Z^1_i)_{i}, (Z^2_j)_{j} \qquad &amp; Y_{ij} \mid Z^1_i = q, Z^2_j = r \sim \mathcal{B}ern(\alpha_{qr}),
+\end{align*}</annotation></semantics></math> with <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>α</mi><mrow><mi>q</mi><mi>r</mi></mrow></msub><annotation encoding="application/x-tex">\alpha_{qr}</annotation></semantics></math> the probability that a fungus of block <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math> is observed on a tree of block <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>.</p>
+</blockquote>
+</div>
+<p>The model is fitted with the function <code>estimateBipartiteSBM</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">myBipartiteSBM</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="va">fungusTreeNetwork</span><span class="op">$</span><span class="va">fungus_tree</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/estimateBipartiteSBM.html">estimateBipartiteSBM</a></span><span class="op">(</span>model <span class="op">=</span> <span class="st">'bernoulli'</span>, dimLabels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'fungis'</span>, <span class="st">'tree'</span><span class="op">)</span>,estimOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>verbosity <span class="op">=</span> <span class="fl">0</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<span>  <span class="va">tree_fungus</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="../reference/estimateBipartiteSBM.html">estimateBipartiteSBM</a></span><span class="op">(</span>model <span class="op">=</span> <span class="st">'bernoulli'</span>, dimLabels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'tree'</span>, <span class="st">'fungis'</span><span class="op">)</span>, estimOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>verbosity <span class="op">=</span> <span class="fl">0</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">myBipartiteSBM</span><span class="op">$</span><span class="va">nbNodes</span></span>
-<span><span class="co">#&gt; fungis   tree </span></span>
-<span><span class="co">#&gt;    154     51</span></span>
+<span><span class="co">#&gt;   tree fungis </span></span>
+<span><span class="co">#&gt;     51    154</span></span>
 <span><span class="va">myBipartiteSBM</span><span class="op">$</span><span class="va">nbBlocks</span></span>
-<span><span class="co">#&gt; fungis   tree </span></span>
+<span><span class="co">#&gt;   tree fungis </span></span>
 <span><span class="co">#&gt;      4      4</span></span>
 <span><span class="va">myBipartiteSBM</span><span class="op">$</span><span class="va">connectParam</span></span>
 <span><span class="co">#&gt; $mean</span></span>
-<span><span class="co">#&gt;            [,1]        [,2]        [,3]        [,4]</span></span>
-<span><span class="co">#&gt; [1,] 0.96813478 0.077538579 0.840370657 0.067563355</span></span>
-<span><span class="co">#&gt; [2,] 0.52055882 0.584398216 0.230893917 0.107930384</span></span>
-<span><span class="co">#&gt; [3,] 0.32450427 0.003624764 0.098526840 0.005780612</span></span>
-<span><span class="co">#&gt; [4,] 0.01834547 0.154334411 0.001330278 0.019219920</span></span>
+<span><span class="co">#&gt;            [,1]      [,2]        [,3]        [,4]</span></span>
+<span><span class="co">#&gt; [1,] 0.96798282 0.5281051 0.327457450 0.020134849</span></span>
+<span><span class="co">#&gt; [2,] 0.07714501 0.5896776 0.003883283 0.155064928</span></span>
+<span><span class="co">#&gt; [3,] 0.84173863 0.2393528 0.099918358 0.001333581</span></span>
+<span><span class="co">#&gt; [4,] 0.06797475 0.1119710 0.005829596 0.019186990</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">myBipartiteSBM</span>, <span class="st">'block'</span><span class="op">)</span></span>
-<span><span class="co">#&gt; $row</span></span>
-<span><span class="co">#&gt; [1] 0.02655516 0.05570334 0.31666508 0.60107642</span></span>
+<span><span class="co">#&gt; $tree</span></span>
+<span><span class="co">#&gt; [1] 0.1034934 0.1956584 0.2489919 0.4518563</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $col</span></span>
-<span><span class="co">#&gt; [1] 0.1050494 0.1963968 0.2477304 0.4508234</span></span>
+<span><span class="co">#&gt; $fungis</span></span>
+<span><span class="co">#&gt; [1] 0.02655516 0.05376727 0.31487519 0.60480238</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">myBipartiteSBM</span>, <span class="st">'connectivity'</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $mean</span></span>
-<span><span class="co">#&gt;            [,1]        [,2]        [,3]        [,4]</span></span>
-<span><span class="co">#&gt; [1,] 0.96813478 0.077538579 0.840370657 0.067563355</span></span>
-<span><span class="co">#&gt; [2,] 0.52055882 0.584398216 0.230893917 0.107930384</span></span>
-<span><span class="co">#&gt; [3,] 0.32450427 0.003624764 0.098526840 0.005780612</span></span>
-<span><span class="co">#&gt; [4,] 0.01834547 0.154334411 0.001330278 0.019219920</span></span></code></pre></div>
-<p>We can now plot the reorganized matrix.</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">myBipartiteSBM</span>, dimLabels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'fungis'</span>, <span class="st">'tree'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SBM_fungus_tree_network_files/figure-html/plot%20bipartite-1.png" class="r-plt" alt="" width="700"></p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">myBipartiteSBM</span>, type  <span class="op">=</span> <span class="st">'meso'</span>, </span>
-<span>     dimLabels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>row <span class="op">=</span> <span class="st">'fungis'</span>, col<span class="op">=</span> <span class="st">'tree'</span><span class="op">)</span>,</span>
-<span>     plotOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>edge.width <span class="op">=</span> <span class="fl">1</span>, vertex.size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SBM_fungus_tree_network_files/figure-html/plot%20bipartite%20meso-1.png" class="r-plt" alt="" width="700"></p>
+<span><span class="co">#&gt;            [,1]      [,2]        [,3]        [,4]</span></span>
+<span><span class="co">#&gt; [1,] 0.96798282 0.5281051 0.327457450 0.020134849</span></span>
+<span><span class="co">#&gt; [2,] 0.07714501 0.5896776 0.003883283 0.155064928</span></span>
+<span><span class="co">#&gt; [3,] 0.84173863 0.2393528 0.099918358 0.001333581</span></span>
+<span><span class="co">#&gt; [4,] 0.06797475 0.1119710 0.005829596 0.019186990</span></span></code></pre></div>
 </div>
-<div class="section level2 unnumbered">
-<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+<p>We can now plot the reorganized matrix (top). The row blocks (trees) and the column blocks (fungi) are separated by the red lines, the background of each block representing the estimated probability of connection <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mover><mi>α</mi><mo accent="true">̂</mo></mover><mrow><mi>q</mi><mi>r</mi></mrow></msub><annotation encoding="application/x-tex">\widehat{\alpha}_{qr}</annotation></semantics></math> between the tree block <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math> and the fungus block <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>. As in the simple case, the estimated connectivity can be represented as a graphon (bottom), the row and column blocks being sized by their estimated proportions. The plots being wide, we put them one above the other with <strong>patchwork</strong>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">myBipartiteSBM</span>, type <span class="op">=</span> <span class="st">"data"</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">myBipartiteSBM</span>, type <span class="op">=</span> <span class="st">"graphon"</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure><p><img src="SBM_fungus_tree_network_files/figure-html/plot%20bipartite-1.png" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In the mesoscopic view of a bipartite SBM, the blocks of trees (on top) and the blocks of fungi (at the bottom) are drawn with different colors, and each edge represents the probability of connection <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mover><mi>α</mi><mo accent="true">̂</mo></mover><mrow><mi>q</mi><mi>r</mi></mrow></msub><annotation encoding="application/x-tex">\widehat{\alpha}_{qr}</annotation></semantics></math> between a block of trees and a block of fungi:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">myBipartiteSBM</span>, type <span class="op">=</span> <span class="st">"meso"</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure><p><img src="SBM_fungus_tree_network_files/figure-html/plot%20bipartite%20meso-1.png" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The clusters of trees are:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu">clusterComposition</span><span class="op">(</span><span class="va">myBipartiteSBM</span><span class="op">$</span><span class="va">memberships</span><span class="op">$</span><span class="va">tree</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">tree_fungus</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>      caption <span class="op">=</span> <span class="st">"Tree clusters (bipartite SBM)"</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<table class="table caption-top">
+<caption>Tree clusters (bipartite SBM)</caption>
+<colgroup>
+<col style="width: 26%">
+<col style="width: 22%">
+<col style="width: 22%">
+<col style="width: 27%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">Cluster 1</th>
+<th style="text-align: left;">Cluster 2</th>
+<th style="text-align: left;">Cluster 3</th>
+<th style="text-align: left;">Cluster 4</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Picea excelsa</td>
+<td style="text-align: left;">Large Maples</td>
+<td style="text-align: left;">Abies alba</td>
+<td style="text-align: left;">Small Maples</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Pinus nigra laricio</td>
+<td style="text-align: left;">Castanea sativa</td>
+<td style="text-align: left;">Abies grandis</td>
+<td style="text-align: left;">Alnus glutinosa</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Pinus pinaster</td>
+<td style="text-align: left;">Fagus silvatica</td>
+<td style="text-align: left;">Abies nordmanniana</td>
+<td style="text-align: left;">Betulus spp</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Pinus sylvestris</td>
+<td style="text-align: left;">Fraxinus spp</td>
+<td style="text-align: left;">Cedrus spp</td>
+<td style="text-align: left;">Carpinus betulus</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Pseudotsuga menziesii</td>
+<td style="text-align: left;">Juglans spp</td>
+<td style="text-align: left;">Larix decidua</td>
+<td style="text-align: left;">Cupressus sempervirens</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Cultivated Poplars</td>
+<td style="text-align: left;">Larix kaempferi</td>
+<td style="text-align: left;">Pinus brutia</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Prunus avium</td>
+<td style="text-align: left;">Picea sitchensis</td>
+<td style="text-align: left;">Pinus cembra</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Quercus petraea</td>
+<td style="text-align: left;">Pinus halepensis</td>
+<td style="text-align: left;">Pinus radiata</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Quercus robur</td>
+<td style="text-align: left;">Pinus nigra nigra</td>
+<td style="text-align: left;">Platanus hybrida</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Quercus rubra</td>
+<td style="text-align: left;">Pinus pinea</td>
+<td style="text-align: left;">Populus tremula</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Pinus strobus</td>
+<td style="text-align: left;">Quercus ilex</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Pinus taeda</td>
+<td style="text-align: left;">Quercus pubescens</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Pinus uncinata</td>
+<td style="text-align: left;">Quercus pyrenaica</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Quercus suber</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Sorbus aria</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Sorbus aucuparia</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Sorbus domestica</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Sorbus torminalis</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Taxus baccata</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Thuja plicata</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Tilia spp</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Tsuga heterophylla</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Ulmus spp</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>and the clusters of fungi are:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu">clusterComposition</span><span class="op">(</span><span class="va">myBipartiteSBM</span><span class="op">$</span><span class="va">memberships</span><span class="op">$</span><span class="va">fungis</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">tree_fungus</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>      caption <span class="op">=</span> <span class="st">"Fungus clusters (bipartite SBM)"</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<table class="table caption-top" style="width:100%;">
+<caption>Fungus clusters (bipartite SBM)</caption>
+<colgroup>
+<col style="width: 20%">
+<col style="width: 25%">
+<col style="width: 28%">
+<col style="width: 25%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">Cluster 1</th>
+<th style="text-align: left;">Cluster 2</th>
+<th style="text-align: left;">Cluster 3</th>
+<th style="text-align: left;">Cluster 4</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Armillaria ostoyae</td>
+<td style="text-align: left;">Armillaria gallica</td>
+<td style="text-align: left;">Armillaria cepistipes</td>
+<td style="text-align: left;">Amphiporthe leiphaemia</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Heterobasidion annosum</td>
+<td style="text-align: left;">Armillaria mellea</td>
+<td style="text-align: left;">Caliciopsis pinea</td>
+<td style="text-align: left;">Apiognomonia errabunda</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Sphaeropsis sapinea</td>
+<td style="text-align: left;">Botrytis cinerea</td>
+<td style="text-align: left;">Cenangium ferruginosum</td>
+<td style="text-align: left;">Apiognomonia veneta</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sydowia polyspora</td>
+<td style="text-align: left;">Botryosphaeria stevensii</td>
+<td style="text-align: left;">Ceratocystis ips</td>
+<td style="text-align: left;">Asteroma tiliae</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Fomitopsis pinicola</td>
+<td style="text-align: left;">Ceratocystis minor</td>
+<td style="text-align: left;">Biscogniauxia mediterranea</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Haematonectria haematococca</td>
+<td style="text-align: left;">Chrysomyxa abietis</td>
+<td style="text-align: left;">Bjerkandera adusta</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Ophiostoma piceae</td>
+<td style="text-align: left;">Chrysomyxa ledi</td>
+<td style="text-align: left;">Blumeriella jaapii</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Phaeolus schweinitzii</td>
+<td style="text-align: left;">Coleosporium tussilaginis</td>
+<td style="text-align: left;">Botryosphaeria dothidea</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Cronartium flaccidum</td>
+<td style="text-align: left;">Ceratocystis platani</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Cronartium ribicola</td>
+<td style="text-align: left;">Chondrostereum purpureum</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Crumenulopsis sororia</td>
+<td style="text-align: left;">Colpoma quercinum</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Cyclaneusma minus</td>
+<td style="text-align: left;">Cristulariella depraedans</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Cyclaneusma niveum</td>
+<td style="text-align: left;">Cronartium quercuum</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Cylindrocarpon didymum</td>
+<td style="text-align: left;">Cryptodiaporthe castanea</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Delphinella abietis</td>
+<td style="text-align: left;">Cryptostroma corticale</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Gremmeniella abietina</td>
+<td style="text-align: left;">Cryptodiaporthe hystrix</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Herpotrichia juniperi</td>
+<td style="text-align: left;">Cryphonectria parasitica</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Lachnellula willkommii</td>
+<td style="text-align: left;">Cryptodiaporthe populea</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Leptographium lundbergii</td>
+<td style="text-align: left;">Daedaleopsis confragosa</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Leptographium procerum</td>
+<td style="text-align: left;">Dicarpella dryina</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Lirula macrospora</td>
+<td style="text-align: left;">Discella castanea</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Lirula nervisequia</td>
+<td style="text-align: left;">Drepanopeziza punctiformis</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Lophodermium conigenum</td>
+<td style="text-align: left;">Entoleuca mammata</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Lophodermium piceae</td>
+<td style="text-align: left;">Eutypa lata</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Lophodermium pinastri</td>
+<td style="text-align: left;">Fistulina hepatica</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Lophodermium seditiosum</td>
+<td style="text-align: left;">Fomes fomentarius</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Melampsorella caryophyllacearum</td>
+<td style="text-align: left;">Fomitopsis cytisina</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Melampsora populnea</td>
+<td style="text-align: left;">Fusarium oxysporum</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Mycosphaerella pini</td>
+<td style="text-align: left;">Fusicoccum quercus</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Nectria fuckeliana</td>
+<td style="text-align: left;">Ganoderma adspersum</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Ophiostoma serpens</td>
+<td style="text-align: left;">Ganoderma applanatum</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Pestalotiopsis funerea</td>
+<td style="text-align: left;">Ganoderma resinaceum</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Phacidium coniferarum</td>
+<td style="text-align: left;">Gnomonia leptostyla</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Phaeocryptopus gaeumannii</td>
+<td style="text-align: left;">Gymnopus fusipes</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Phellinus chrysoloma</td>
+<td style="text-align: left;">Hypoxylon fragiforme</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Phellinus hartigii</td>
+<td style="text-align: left;">Laetiporus sulphureus</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Phellinus pini</td>
+<td style="text-align: left;">Leucostoma persoonii</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Pucciniastrum epilobii</td>
+<td style="text-align: left;">Melampsora allii-populina</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Rhabdocline pseudotsugae</td>
+<td style="text-align: left;">Melampsora laricis-populina</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Rhizosphaera kalkhoffii</td>
+<td style="text-align: left;">Melanconis modonia</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Rhizosphaera macrospora</td>
+<td style="text-align: left;">Meripilus giganteus</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Rhizosphaera oudemansii</td>
+<td style="text-align: left;">Microsphaera alphitoides</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Rhizina undulata</td>
+<td style="text-align: left;">Microstroma juglandis</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Sarea resinae</td>
+<td style="text-align: left;">Monochaetia monochaeta</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Sirococcus strobilinus</td>
+<td style="text-align: left;">Mycosphaerella castaneicola</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Sparassis crispa</td>
+<td style="text-align: left;">Mycosphaerella dearnessii</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Stereum sanguinolentum</td>
+<td style="text-align: left;">Mycosphaerella microsora</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Truncatella hartigii</td>
+<td style="text-align: left;">Nectria cinnabarina</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Valsa kunzei</td>
+<td style="text-align: left;">Nectria coccinea</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Zythiostroma pinastri</td>
+<td style="text-align: left;">Nectria ditissima</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Nectria veuillotiana</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Neonectria galligena</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Ophiostoma ulmi</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Oudemansiella mucida</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Oxyporus populinus</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Pezicula cinnamomea</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Phellinus igniarius</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Phellinus robustus</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Phloeospora aceris</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Phomopsis juniperivora</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Phomopsis quercella</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Phyllosticta aceris</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Phyllactinia guttata</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Pleurotus ostreatus</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Pleuroceras pseudoplatani</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Podosphaera clandestina</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Pollaccia radiosa</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Polyporus squamosus</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Pseudoinonotus dryadeus</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Rhytisma acerinum</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Rosellinia necatrix</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Sawadaea tulasnei</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Schizophyllum commune</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Seiridium cardinale</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Septotis podophyllina</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Septoria quercicola</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Stegonsporium pyriforme</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Stereum hirsutum</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Stigmina carpophila</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Taphrina betulina</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Taphrina caerulescens</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Taphrina cerasi</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Taphrina populina</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Titaeosporina tremulae</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Trametes gibbosa</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Trametes versicolor</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Valsa ambiens</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Valsa nivea</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Valsa sordida</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Venturia fraxini</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Venturia inaequalis</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Verticillium dahliae</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section><section class="level2 unnumbered"><h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references csl-bib-body hanging-indent">
-<div id="ref-blockmodels" class="csl-entry">
-Leger, Jean-Benoist. 2016. <span>“Blockmodels: A r-Package for
-Estimating in Latent Block Model and Stochastic Block Model, with
-Various Probability Functions, with or Without Covariates.”</span>
-<em>arXiv Preprint arXiv:1602.07587</em>.
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-legervacher" class="csl-entry" role="listitem">
+Jean-Benoist Leger, Corinne Vacher, Jean-Jacques Daudin. 2015. <span>“Clustering Methods Differ in Their Ability to Detect Patterns in Ecological Networks.”</span> <em>Methods in Ecology and Evolution</em>.
 </div>
-<div id="ref-tree_fungus_network" class="csl-entry">
-Vacher, Corinne, Dominique Piou, and Marie-Laure Desprez-Loustau. 2008.
-<span>“Architecture of an Antagonistic Tree/Fungus Network: The
-Asymmetric Influence of Past Evolutionary History.”</span> <em>PloS
-One</em> 3 (3): e1740.
+<div id="ref-blockmodels" class="csl-entry" role="listitem">
+Leger, Jean-Benoist. 2016. <span>“Blockmodels: A r-Package for Estimating in Latent Block Model and Stochastic Block Model, with Various Probability Functions, with or Without Covariates.”</span> <em>arXiv Preprint arXiv:1602.07587</em>.
+</div>
+<div id="ref-tree_fungus_network" class="csl-entry" role="listitem">
+Vacher, Corinne, Dominique Piou, and Marie-Laure Desprez-Loustau. 2008. <span>“Architecture of an Antagonistic Tree/Fungus Network: The Asymmetric Influence of Past Evolutionary History.”</span> <em>PloS One</em> 3 (3): e1740.
 </div>
 </div>
+</section><script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'light-border',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config);
+    }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script></main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside>
 </div>
-  </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-      </div>
-
+    <footer><div class="pkgdown-footer-left">
+  <p>Developed by Julien Chiquet, Sophie Donnet, Pierre Barbillon.</p>
 </div>
 
-
-
-      <footer><div class="copyright">
-  <p></p>
-<p>Developed by Julien Chiquet, Sophie Donnet, Pierre Barbillon.</p>
+<div class="pkgdown-footer-right">
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
-<div class="pkgdown">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
+    </footer>
 </div>
-
-      </footer>
-</div>
-
 
 
 

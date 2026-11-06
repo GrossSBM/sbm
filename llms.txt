@@ -1,0 +1,152 @@
+# sbm
+
+The goal of the package `sbm` is to regroup into a unique framework
+tools for estimating and manipulating variants of the stochastic
+blockmodel.
+
+## Installation
+
+The last stable version is available on
+[CRAN](https://CRAN.R-project.org/package=sbm) with:
+
+``` r
+
+install.packages("sbm")
+```
+
+You can install the development version from
+[GitHub](https://github.com/) with:
+
+``` r
+
+# install.packages("devtools")
+devtools::install_github("GrossSBM/sbm")
+```
+
+# Package index
+
+## Simple SBM
+
+Set of classes and functions for manipulating simple stochastic block
+models
+
+- [`SimpleSBM`](https://grosssbm.github.io/sbm/reference/SimpleSBM.md) :
+  R6 class for Simple SBM
+- [`SimpleSBM_fit`](https://grosssbm.github.io/sbm/reference/SimpleSBM_fit.md)
+  : R6 Class definition of a Simple SBM fit
+- [`sampleSimpleSBM()`](https://grosssbm.github.io/sbm/reference/sampleSimpleSBM.md)
+  : Sampling of Simple SBMs
+- [`estimateSimpleSBM()`](https://grosssbm.github.io/sbm/reference/estimateSimpleSBM.md)
+  : Estimation of Simple SBMs
+
+## Bipartite Stochastic block models
+
+Set of classes and functions for manipulating bipartite stochastic block
+models
+
+- [`BipartiteSBM`](https://grosssbm.github.io/sbm/reference/BipartiteSBM.md)
+  : R6 class for Bipartite SBM
+- [`BipartiteSBM_fit`](https://grosssbm.github.io/sbm/reference/BipartiteSBM_fit.md)
+  : R6 Class definition of an Bipartite SBM fit
+- [`sampleBipartiteSBM()`](https://grosssbm.github.io/sbm/reference/sampleBipartiteSBM.md)
+  : Sampling of Bipartite SBMs
+- [`estimateBipartiteSBM()`](https://grosssbm.github.io/sbm/reference/estimateBipartiteSBM.md)
+  : Estimation of Bipartite SBMs
+
+## Multipartite Stochastic block models
+
+Set of classes and functions for manipulating multipartite stochastic
+block models
+
+- [`MultipartiteSBM`](https://grosssbm.github.io/sbm/reference/MultipartiteSBM.md)
+  : R6 Class definition of a Multipartite SBM
+- [`MultipartiteSBM_fit`](https://grosssbm.github.io/sbm/reference/MultipartiteSBM_fit.md)
+  : R6 Class definition of a Multipartite SBM fit
+- [`MultiplexSBM_fit`](https://grosssbm.github.io/sbm/reference/MultiplexSBM_fit.md)
+  : R6 Class definition of a Multiplex SBM fit
+- [`sampleMultipartiteSBM()`](https://grosssbm.github.io/sbm/reference/sampleMultipartiteSBM.md)
+  : Sampling of Multipartite SBMs
+- [`estimateMultipartiteSBM()`](https://grosssbm.github.io/sbm/reference/estimateMultipartiteSBM.md)
+  : Estimation for multipartite SBM
+
+## Multilayer (aka Multiplex) Stochastic block models
+
+Set of classes and functions for manipulating multiplex stochastic block
+models
+
+- [`MultiplexSBM_fit`](https://grosssbm.github.io/sbm/reference/MultiplexSBM_fit.md)
+  : R6 Class definition of a Multiplex SBM fit
+- [`sampleMultiplexSBM()`](https://grosssbm.github.io/sbm/reference/sampleMultiplexSBM.md)
+  : Sampling of Multiplex SBMs
+- [`estimateMultiplexSBM()`](https://grosssbm.github.io/sbm/reference/estimateMultiplexSBM.md)
+  : Estimation for Multiplex SBM
+- [`plotMyMultiplexMatrix()`](https://grosssbm.github.io/sbm/reference/plotMyMultiplexMatrix.md)
+  : Plot the matrices corresponding to a Multiplex Network
+
+## Methods common to all SBM
+
+Set of classes and functions for manipulating stochastic block models
+
+- [`is_SBM()`](https://grosssbm.github.io/sbm/reference/is_SBM.md) :
+  Auxiliary function to check the given class of an object
+- [`plot(`*`<SBM>`*`)`](https://grosssbm.github.io/sbm/reference/plot.SBM.md)
+  : SBM Plot
+- [`predict(`*`<SBM>`*`)`](https://grosssbm.github.io/sbm/reference/predict.SBM.md)
+  : Model Predictions
+- [`coef(`*`<SBM>`*`)`](https://grosssbm.github.io/sbm/reference/coef.SBM.md)
+  : Extract model coefficients
+- [`fitted(`*`<SBM>`*`)`](https://grosssbm.github.io/sbm/reference/fitted.SBM.md)
+  : Extract model fitted values
+- [`defineSBM()`](https://grosssbm.github.io/sbm/reference/defineSBM.md)
+  : Define a network
+- [`plotMyMatrix()`](https://grosssbm.github.io/sbm/reference/plotMyMatrix.md)
+  : Plot an adjacency or incidence Matrix
+- [`plotMyGraphon()`](https://grosssbm.github.io/sbm/reference/plotMyGraphon.md)
+  : Plot the graphon of a Stochastic Block Model
+- [`plotMyMultipartiteMatrix()`](https://grosssbm.github.io/sbm/reference/plotMyMultipartiteMatrix.md)
+  : Plot the matrices corresponding to a Multipartite Network
+
+## Data sets
+
+Sets of data available
+
+- [`fungusTreeNetwork`](https://grosssbm.github.io/sbm/reference/fungusTreeNetwork.md)
+  : fungus-tree interaction network
+- [`multipartiteEcologicalNetwork`](https://grosssbm.github.io/sbm/reference/multipartiteEcologicalNetwork.md)
+  : Ecological multipartite interaction network
+- [`war`](https://grosssbm.github.io/sbm/reference/war.md) : War data
+  set
+
+## Others
+
+Miscellaneous
+
+- [`plotAlluvial()`](https://grosssbm.github.io/sbm/reference/plotAlluvial.md)
+  : Plot an alluvial plot between clusterings
+
+## Virtual methods
+
+Comprehensive list of remaning classes and methods used internally
+
+- [`SBM`](https://grosssbm.github.io/sbm/reference/SBM.md) : R6 virtual
+  class for SBM representation (mother class of SimpleSBM, BipartiteSBM,
+  MultipartiteSBM)
+- [`plotAlluvial()`](https://grosssbm.github.io/sbm/reference/plotAlluvial.md)
+  : Plot an alluvial plot between clusterings
+
+# Articles
+
+### All vignettes
+
+- [Multipartite Stochastic Block
+  Models](https://grosssbm.github.io/sbm/articles/Multipartite_EcologicalNetwork.md):
+- [Stochastic Block Models for Multiplex networks:
+  application](https://grosssbm.github.io/sbm/articles/Multiplex_allianceNwar_case_study.md):
+- [Stochastic Block Models for Multiplex networks:
+  principle](https://grosssbm.github.io/sbm/articles/MultiplexNetwork_principle.md):
+- [Simple and Bipartite Stochastic Block
+  Models](https://grosssbm.github.io/sbm/articles/SBM_fungus_tree_network.md):
+- [Stochastic Block Models with covariates on
+  nodes](https://grosssbm.github.io/sbm/articles/SBM_nodes_covariates.md):
+- [Stochastic Block Models: principle and
+  illustration](https://grosssbm.github.io/sbm/articles/SBM_principle.md):

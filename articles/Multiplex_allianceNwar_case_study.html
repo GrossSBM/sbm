@@ -4,466 +4,890 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Stochastic Block Models for Multiplex networks • sbm</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
-<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Stochastic Block Models for Multiplex networks">
-<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Stochastic Block Models for Multiplex networks: application • sbm</title>
+<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><script src="Multiplex_allianceNwar_case_study_files/libs/quarto-html/popper.min.js"></script><script src="Multiplex_allianceNwar_case_study_files/libs/quarto-html/tippy.umd.min.js"></script><link href="Multiplex_allianceNwar_case_study_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Multiplex_allianceNwar_case_study_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Stochastic Block Models for Multiplex networks: application">
 </head>
-<body data-spy="scroll" data-target="#toc">
+<body>
+    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
-    <div class="container template-article">
-      <header><div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">sbm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.7</span>
-      </span>
-    </div>
+    <nav class="navbar navbar-expand-lg fixed-top bg-primary" data-bs-theme="dark" aria-label="Site navigation"><div class="container">
 
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-<li>
-  <a>
-    <span class="fa fa-home"></span>
+    <a class="navbar-brand me-2" href="../index.html">sbm</a>
 
-  </a>
-</li>
-<li>
-  <a href="../index.html">Home</a>
-</li>
-<li>
-  <a href="../reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Vignettes
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="../articles/SBM_fungus_tree_network.html">Fungus-tree interaction with simple and bipartite SBM</a>
-    </li>
-    <li>
-      <a href="../articles/Multipartite_EcologicalNetwork.html">Mutualistic ecological network with multipartite SBM</a>
-    </li>
-    <li>
-      <a href="../articles/MultiplexNetwork_principle.html">Multiplex SBM: Principle and illustration</a>
-    </li>
-    <li>
-      <a href="../articles/Multiplex_allianceNwar_case_study.html">Multiplex SBM: War and Alliance case study</a>
-    </li>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse ms-3">
+      <ul class="navbar-nav me-auto">
+<li class="nav-item"><a class="nav-link" href="../index.html" aria-label="Home"><span class="fa fa-house"></span></a></li>
+<li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+<li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="active nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-vignettes" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Vignettes</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-vignettes">
+<li><a class="dropdown-item" href="../articles/SBM_principle.html">Simple and bipartite SBM: principle and illustration</a></li>
+    <li><a class="dropdown-item" href="../articles/SBM_fungus_tree_network.html">Fungus-tree interaction with simple and bipartite SBM</a></li>
+    <li><a class="dropdown-item" href="../articles/SBM_nodes_covariates.html">SBM with covariates on nodes</a></li>
+    <li><a class="dropdown-item" href="../articles/Multipartite_EcologicalNetwork.html">Mutualistic ecological network with multipartite SBM</a></li>
+    <li><a class="dropdown-item" href="../articles/MultiplexNetwork_principle.html">Multiplex SBM: Principle and illustration</a></li>
+    <li><a class="dropdown-item" href="../articles/Multiplex_allianceNwar_case_study.html">Multiplex SBM: War and Alliance case study</a></li>
   </ul>
 </li>
-<li>
-  <a href="../news/index.html">Changelog</a>
-</li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/GrossSBM/GSBM" class="external-link">
-    <span class="fa fa-github"></span>
-
-  </a>
-</li>
+<ul class="navbar-nav">
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/GrossSBM/sbm" aria-label="GitHub"><span class="fa fa-github"></span></a></li>
       </ul>
 </div>
-<!--/.nav-collapse -->
+
+
   </div>
-<!--/.container -->
-</div>
-<!--/.navbar -->
+</nav><div class="container template-quarto">
+<div class="row">
+  <main id="main" class="col-md-9"><div class="page-header">
 
+      <h1>Stochastic Block Models for Multiplex networks: application</h1>
+      <p class="subtitle">War and Alliance case study</p>
+      <p class="author">team großBM</p>
+      <p class="date">2026-11-06</p>
 
-
-      </header><div class="row">
-  <div class="col-md-9 contents">
-    <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Stochastic Block Models for Multiplex
-networks</h1>
-            <h3 data-toc-skip class="subtitle">War and Alliance case
-study</h3>
-                        <h4 data-toc-skip class="author">team
-großBM</h4>
-            
-            <h4 data-toc-skip class="date">2026-07-20</h4>
-      
-      <small class="dont-index">Source: <a href="https://github.com/GrossSBM/sbm/blob/master/vignettes/Multiplex_allianceNwar_case_study.Rmd" class="external-link"><code>vignettes/Multiplex_allianceNwar_case_study.Rmd</code></a></small>
-      <div class="hidden name"><code>Multiplex_allianceNwar_case_study.Rmd</code></div>
-
+      <small class="dont-index">Source: <a href="https://github.com/GrossSBM/sbm/blob/master/vignettes/Multiplex_allianceNwar_case_study.qmd" class="external-link"><code>vignettes/Multiplex_allianceNwar_case_study.qmd</code></a></small>
+      <div class="d-none name"><code></code></div>
     </div>
 
-    
-    
-<div class="section level3">
-<h3 id="preliminaries">Preliminaries<a class="anchor" aria-label="anchor" href="#preliminaries"></a>
-</h3>
-<p>This vignette illustrates the use of the
-<code>estimateMultiplexSBM</code> function and the methods accompanying
-the R6 classes <code>multiplexSBMfit</code> on the <code>war</code> data
-set.</p>
-<div class="section level4">
-<h4 id="requirements">Requirements<a class="anchor" aria-label="anchor" href="#requirements"></a>
-</h4>
-<p>The packages required for the analysis are <strong>sbm</strong> plus
-some others for data manipulation and representation:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://grosssbm.github.io/sbm/" class="external-link">sbm</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r.igraph.org/" class="external-link">igraph</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jchiquet/aricode" class="external-link">aricode</a></span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level4">
-<h4 id="data-set">Data set<a class="anchor" aria-label="anchor" href="#data-set"></a>
-</h4>
-<p>The <code>war</code> data set comes in the <code>sbm</code>
-package:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"war"</span><span class="op">)</span></span></code></pre></div>
-<p>This data set contains a list of two networks
-(<code>belligerent</code> and <code>alliance</code>) where the nodes are
-countries; an edge in the network <code>belligerent</code> means that
-the two countries have been at war at least once between years 1816 to
-2007; an edge in network <code>alliance</code> means that the two
-countries have had a formal alliance between years 1816 and 2012. The
-network <code>belligerent</code> have less nodes since countries which
-have not been at war at all are not considered.</p>
-<p>These two networks were extracted from <a href="https://correlatesofwar.org/" class="external-link">https://correlatesofwar.org/</a>
-(see <span class="citation">Sarkees and Wayman (<a href="#ref-sarkees2010resort">2010</a>)</span> for war data, and <span class="citation">Gibler (<a href="#ref-gibler2008international">2008</a>)</span> for formal
-alliance). Version 4.0 was used for war data and version 4.1 for formal
-alliance.</p>
-</div>
-</div>
-<div class="section level2">
-<h2 id="data-manipulation">Data manipulation<a class="anchor" aria-label="anchor" href="#data-manipulation"></a>
+
+
+
+
+
+    <section class="level2"><h2 id="preliminaries">1. Preliminaries<a class="anchor" aria-label="anchor" href="#preliminaries"></a>
 </h2>
-<p>Since they don’t have the same size, we choose to only consider nodes
-(countries) which were at war with at least one other country. This
-corresponds to the first 83 nodes in the Alliance network.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">A</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://r.igraph.org/reference/get.adjacency.html" class="external-link">get.adjacency</a></span><span class="op">(</span><span class="va">war</span><span class="op">$</span><span class="va">alliance</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: `get.adjacency()` was deprecated in igraph 2.0.0.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please use `as_adjacency_matrix()` instead.</span></span>
-<span><span class="co">#&gt; <span style="color: #555555;">This warning is displayed once per session.</span></span></span>
-<span><span class="co">#&gt; <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
-<span><span class="co">#&gt; <span style="color: #555555;">generated.</span></span></span>
-<span><span class="co">#&gt; This graph was created by an old(er) igraph version.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Call `igraph::upgrade_graph()` on it to use with the current igraph version.</span></span>
-<span><span class="co">#&gt; For now we convert it on the fly...</span></span>
+<p>This vignette illustrates the use of the <code>estimateMultiplexSBM</code> function and the methods accompanying the R6 class <code>MultiplexSBM_fit</code> on the <code>war</code> data set. The models are described in the vignette <em>Stochastic Block Models for Multiplex networks: principle</em>.</p>
+<p>The packages required for the analysis are <strong>sbm</strong> plus some others for data manipulation and representation:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://grosssbm.github.io/sbm/">sbm</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r.igraph.org/" class="external-link">igraph</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jchiquet/aricode" class="external-link">aricode</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://yihui.org/knitr/" class="external-link">knitr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com" class="external-link">patchwork</a></span><span class="op">)</span> <span class="co"># to put figures side by side</span></span></code></pre></div>
+</div>
+<p>To display the composition of the clusters, we use the following function, which gives a table with the names of the nodes of each cluster in a column:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">clusterComposition</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">memberships</span>, <span class="va">nodeNames</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">clusters</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">nodeNames</span>, <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">memberships</span>, levels <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">memberships</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">maxSize</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lengths.html" class="external-link">lengths</a></span><span class="op">(</span><span class="va">clusters</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">tab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">clusters</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">""</span>, <span class="va">maxSize</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">tab</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"Cluster"</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">clusters</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">tab</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+</div>
+</section><section class="level2"><h2 id="data-set">2. Data set<a class="anchor" aria-label="anchor" href="#data-set"></a>
+</h2>
+<section class="level3"><h3 id="description-of-the-data">2.1 Description of the data<a class="anchor" aria-label="anchor" href="#description-of-the-data"></a>
+</h3>
+<p>The <code>war</code> data set comes in the <code>sbm</code> package:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"war"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<p>This data set contains a list of two networks (<code>belligerent</code> and <code>alliance</code>) where the nodes are countries; an edge in the network <code>belligerent</code> means that the two countries have been at war at least once between years 1816 to 2007; an edge in network <code>alliance</code> means that the two countries have had a formal alliance between years 1816 and 2012. The network <code>belligerent</code> has less nodes since countries which have not been at war at all are not considered.</p>
+<p>These two networks were extracted from <a href="https://correlatesofwar.org/" class="external-link">https://correlatesofwar.org/</a> (see <span class="citation" data-cites="sarkees2010resort">Sarkees and Wayman (<a href="#ref-sarkees2010resort" role="doc-biblioref">2010</a>)</span> for war data, and <span class="citation" data-cites="gibler2008international">Gibler (<a href="#ref-gibler2008international" role="doc-biblioref">2008</a>)</span> for formal alliance). Version 4.0 was used for war data and version 4.1 for formal alliance.</p>
+</section><section class="level3"><h3 id="data-manipulation">2.2 Data manipulation<a class="anchor" aria-label="anchor" href="#data-manipulation"></a>
+</h3>
+<p>Since they don’t have the same size, we choose to only consider nodes (countries) which were at war with at least one other country. This corresponds to the first 83 nodes in the Alliance network.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">A</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r.igraph.org/reference/as_adjacency_matrix.html" class="external-link">as_adjacency_matrix</a></span><span class="op">(</span><span class="va">war</span><span class="op">$</span><span class="va">alliance</span>, sparse <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">A</span> <span class="op">&lt;-</span> <span class="va">A</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">83</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">83</span><span class="op">]</span></span>
-<span><span class="va">B</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://r.igraph.org/reference/get.adjacency.html" class="external-link">get.adjacency</a></span><span class="op">(</span><span class="va">war</span><span class="op">$</span><span class="va">belligerent</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; This graph was created by an old(er) igraph version.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Call `igraph::upgrade_graph()` on it to use with the current igraph version.</span></span>
-<span><span class="co">#&gt; For now we convert it on the fly...</span></span></code></pre></div>
+<span><span class="va">B</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r.igraph.org/reference/as_adjacency_matrix.html" class="external-link">as_adjacency_matrix</a></span><span class="op">(</span><span class="va">war</span><span class="op">$</span><span class="va">belligerent</span>, sparse <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+</div>
 <p>We can start with a plot of this multiplex network:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">netA</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/defineSBM.html">defineSBM</a></span><span class="op">(</span><span class="va">A</span>, model <span class="op">=</span> <span class="st">"bernoulli"</span>, dimLabels <span class="op">=</span> <span class="st">"country"</span><span class="op">)</span></span>
 <span><span class="va">netB</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/defineSBM.html">defineSBM</a></span><span class="op">(</span><span class="va">B</span>, model <span class="op">=</span> <span class="st">"bernoulli"</span>, dimLabels <span class="op">=</span> <span class="st">"country"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/plotMyMultiplexMatrix.html">plotMyMultiplexMatrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">netA</span>, <span class="va">netB</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Multiplex_allianceNwar_case_study_files/figure-html/unnamed-chunk-2-1.png" class="r-plt" alt="" width="700"></p>
+<span><span class="va">listNet</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Alliance <span class="op">=</span> <span class="va">netA</span>, Belligerence <span class="op">=</span> <span class="va">netB</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/plotMyMultiplexMatrix.html">plotMyMultiplexMatrix</a></span><span class="op">(</span><span class="va">listNet</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure><p><img src="Multiplex_allianceNwar_case_study_files/figure-html/plot%20data-1.png" width="672"></p>
+</figure>
 </div>
-<div class="section level2">
-<h2 id="fitting-a-multiplex-sbm-model-where-the-two-layers-are-assumed-to-be-independent">Fitting a multiplex SBM model where the two layers are assumed to be
-independent<a class="anchor" aria-label="anchor" href="#fitting-a-multiplex-sbm-model-where-the-two-layers-are-assumed-to-be-independent"></a>
+</div>
+</div>
+</section></section><section class="level2"><h2 id="multiplex-sbm-with-independent-layers">3. Multiplex SBM with independent layers<a class="anchor" aria-label="anchor" href="#multiplex-sbm-with-independent-layers"></a>
 </h2>
-<p>We run the estimation of this multiplex model. By setting
-<code>dependent=FALSE</code>, we declare that we consider the two layers
-to be independent conditionally on the latent block variables.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">MultiplexFitIndep</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/estimateMultiplexSBM.html">estimateMultiplexSBM</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">netA</span>, <span class="va">netB</span><span class="op">)</span>, dependent <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<p>We run the estimation of this multiplex model. By setting <code>dependent = FALSE</code>, we declare that we consider the two layers to be independent conditionally on the latent block variables.</p>
+<div>
+<blockquote>
+<p><strong>The multiplex SBM with independent layers</strong></p>
+<p>Denoting <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>Y</mi><mn>1</mn></msup><annotation encoding="application/x-tex">Y^1</annotation></semantics></math> the alliance network and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>Y</mi><mn>2</mn></msup><annotation encoding="application/x-tex">Y^2</annotation></semantics></math> the war network, the <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>83</mn></mrow><annotation encoding="application/x-tex">n = 83</annotation></semantics></math> countries are divided into <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Q</mi><annotation encoding="application/x-tex">Q</annotation></semantics></math> blocks with proportions <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>π</mi><annotation encoding="application/x-tex">\pi</annotation></semantics></math> and, for <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ℓ</mi><mo>=</mo><mn>1</mn><mo>,</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">\ell = 1, 2</annotation></semantics></math>, <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>Y</mi><mrow><mi>i</mi><mi>j</mi></mrow><mi>ℓ</mi></msubsup><mo>∣</mo><msub><mi>Z</mi><mi>i</mi></msub><mo>=</mo><mi>q</mi><mo>,</mo><msub><mi>Z</mi><mi>j</mi></msub><mo>=</mo><mi>r</mi><msub><mo>∼</mo><mrow><mi>i</mi><mi>n</mi><mi>d</mi></mrow></msub><mi mathvariant="script">ℬ</mi><mi>e</mi><mi>r</mi><mi>n</mi><mo stretchy="false" form="prefix">(</mo><msubsup><mi>α</mi><mrow><mi>q</mi><mi>r</mi></mrow><mi>ℓ</mi></msubsup><mo stretchy="false" form="postfix">)</mo><mi>.</mi></mrow><annotation encoding="application/x-tex"> Y^\ell_{ij} \mid Z_i = q, Z_j = r \sim_{ind} \mathcal{B}ern(\alpha^\ell_{qr}).</annotation></semantics></math></p>
+</blockquote>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">MultiplexFitIndep</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/estimateMultiplexSBM.html">estimateMultiplexSBM</a></span><span class="op">(</span><span class="va">listNet</span>, dependent <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>    estimOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>verbosity <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>We can retrieve the clustering</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+</div>
+<p>We can retrieve the clustering:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">clust_country_indep</span> <span class="op">&lt;-</span> <span class="va">MultiplexFitIndep</span><span class="op">$</span><span class="va">memberships</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="va">clust_country_indep</span><span class="op">)</span></span>
-<span><span class="co">#&gt;       United States of America                         Canada </span></span>
-<span><span class="co">#&gt;                              1                              1 </span></span>
-<span><span class="co">#&gt;                         Belize                    El Salvador </span></span>
-<span><span class="co">#&gt;                              2                              2 </span></span>
-<span><span class="co">#&gt;                       Colombia                        Ecuador </span></span>
-<span><span class="co">#&gt;                              2                              2 </span></span>
-<span><span class="co">#&gt;                        Bolivia                        Uruguay </span></span>
-<span><span class="co">#&gt;                              2                              2 </span></span>
-<span><span class="co">#&gt;                        Bahamas                           Cuba </span></span>
-<span><span class="co">#&gt;                              3                              3 </span></span>
-<span><span class="co">#&gt;                          Haiti             Dominican Republic </span></span>
-<span><span class="co">#&gt;                              3                              3 </span></span>
-<span><span class="co">#&gt;                        Jamaica            Trinidad and Tobago </span></span>
-<span><span class="co">#&gt;                              3                              3 </span></span>
-<span><span class="co">#&gt;                       Barbados                       Dominica </span></span>
-<span><span class="co">#&gt;                              3                              3 </span></span>
-<span><span class="co">#&gt;                        Grenada                      St. Lucia </span></span>
-<span><span class="co">#&gt;                              3                              3 </span></span>
-<span><span class="co">#&gt; St. Vincent and the Grenadines              Antigua &amp; Barbuda </span></span>
-<span><span class="co">#&gt;                              3                              3 </span></span>
-<span><span class="co">#&gt;            St. Kitts and Nevis                         Mexico </span></span>
-<span><span class="co">#&gt;                              3                              3 </span></span>
-<span><span class="co">#&gt;                      Guatemala                       Honduras </span></span>
-<span><span class="co">#&gt;                              3                              3 </span></span>
-<span><span class="co">#&gt;                      Nicaragua                     Costa Rica </span></span>
-<span><span class="co">#&gt;                              3                              3 </span></span>
-<span><span class="co">#&gt;                         Panama                      Venezuela </span></span>
-<span><span class="co">#&gt;                              3                              3 </span></span>
-<span><span class="co">#&gt;                         Guyana                       Suriname </span></span>
-<span><span class="co">#&gt;                              3                              3 </span></span>
-<span><span class="co">#&gt;                           Peru                         Brazil </span></span>
-<span><span class="co">#&gt;                              3                              3 </span></span>
-<span><span class="co">#&gt;                       Paraguay                          Chile </span></span>
-<span><span class="co">#&gt;                              3                              3 </span></span>
-<span><span class="co">#&gt;                      Argentina                 United Kingdom </span></span>
-<span><span class="co">#&gt;                              3                              4 </span></span>
-<span><span class="co">#&gt;                    Netherlands                        Belgium </span></span>
-<span><span class="co">#&gt;                              4                              4 </span></span>
-<span><span class="co">#&gt;                     Luxembourg                         France </span></span>
-<span><span class="co">#&gt;                              4                              4 </span></span>
-<span><span class="co">#&gt;                          Spain                       Portugal </span></span>
-<span><span class="co">#&gt;                              4                              4 </span></span>
-<span><span class="co">#&gt;                        Germany        German Federal Republic </span></span>
-<span><span class="co">#&gt;                              4                              4 </span></span>
-<span><span class="co">#&gt;                         Poland                        Hungary </span></span>
-<span><span class="co">#&gt;                              4                              4 </span></span>
-<span><span class="co">#&gt;                 Czech Republic                          Italy </span></span>
-<span><span class="co">#&gt;                              4                              4 </span></span>
-<span><span class="co">#&gt;                         Greece                         Norway </span></span>
-<span><span class="co">#&gt;                              4                              4 </span></span>
-<span><span class="co">#&gt;                        Denmark                        Iceland </span></span>
-<span><span class="co">#&gt;                              4                              4 </span></span>
-<span><span class="co">#&gt;                        Bavaria     German Democratic Republic </span></span>
-<span><span class="co">#&gt;                              5                              5 </span></span>
-<span><span class="co">#&gt;                          Baden                   Wuerttemburg </span></span>
-<span><span class="co">#&gt;                              5                              5 </span></span>
-<span><span class="co">#&gt;                Austria-Hungary                        Austria </span></span>
-<span><span class="co">#&gt;                              5                              5 </span></span>
-<span><span class="co">#&gt;                 Czechoslovakia                       Slovakia </span></span>
-<span><span class="co">#&gt;                              5                              5 </span></span>
-<span><span class="co">#&gt;                          Malta                        Albania </span></span>
-<span><span class="co">#&gt;                              5                              5 </span></span>
-<span><span class="co">#&gt;                        Croatia                     Yugoslavia </span></span>
-<span><span class="co">#&gt;                              5                              5 </span></span>
-<span><span class="co">#&gt;         Bosnia and Herzegovina                         Cyprus </span></span>
-<span><span class="co">#&gt;                              5                              5 </span></span>
-<span><span class="co">#&gt;                       Bulgaria                        Moldova </span></span>
-<span><span class="co">#&gt;                              5                              5 </span></span>
-<span><span class="co">#&gt;                        Romania                         Russia </span></span>
-<span><span class="co">#&gt;                              5                              5 </span></span>
-<span><span class="co">#&gt;                        Estonia                         Latvia </span></span>
-<span><span class="co">#&gt;                              5                              5 </span></span>
-<span><span class="co">#&gt;                      Lithuania                        Ukraine </span></span>
-<span><span class="co">#&gt;                              5                              5 </span></span>
-<span><span class="co">#&gt;                        Belarus                        Armenia </span></span>
-<span><span class="co">#&gt;                              5                              5 </span></span>
-<span><span class="co">#&gt;                        Georgia                     Azerbaijan </span></span>
-<span><span class="co">#&gt;                              5                              5 </span></span>
-<span><span class="co">#&gt;                        Finland                         Sweden </span></span>
-<span><span class="co">#&gt;                              5                              5 </span></span>
-<span><span class="co">#&gt;                     Cape Verde          Sao Tome and Principe </span></span>
-<span><span class="co">#&gt;                              5                              5 </span></span>
-<span><span class="co">#&gt;                  Guinea-Bissau </span></span>
-<span><span class="co">#&gt;                              5</span></span></code></pre></div>
-<p>And we can plot the reorganized adjacency matrices or the
-corresponding expectations:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">MultiplexFitIndep</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Multiplex_allianceNwar_case_study_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" alt="" width="700"></p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">MultiplexFitIndep</span>, type <span class="op">=</span> <span class="st">"expected"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Multiplex_allianceNwar_case_study_files/figure-html/unnamed-chunk-6-2.png" class="r-plt" alt="" width="700"></p>
+<span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu">clusterComposition</span><span class="op">(</span><span class="va">clust_country_indep</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>      caption <span class="op">=</span> <span class="st">"Country clusters (independent layers)"</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<table class="table caption-top" style="width:100%;">
+<caption>Country clusters (independent layers)</caption>
+<colgroup>
+<col style="width: 21%">
+<col style="width: 10%">
+<col style="width: 26%">
+<col style="width: 20%">
+<col style="width: 22%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">Cluster 1</th>
+<th style="text-align: left;">Cluster 2</th>
+<th style="text-align: left;">Cluster 3</th>
+<th style="text-align: left;">Cluster 4</th>
+<th style="text-align: left;">Cluster 5</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">United States of America</td>
+<td style="text-align: left;">Belize</td>
+<td style="text-align: left;">Bahamas</td>
+<td style="text-align: left;">United Kingdom</td>
+<td style="text-align: left;">Bavaria</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Canada</td>
+<td style="text-align: left;">El Salvador</td>
+<td style="text-align: left;">Cuba</td>
+<td style="text-align: left;">Netherlands</td>
+<td style="text-align: left;">German Democratic Republic</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Colombia</td>
+<td style="text-align: left;">Haiti</td>
+<td style="text-align: left;">Belgium</td>
+<td style="text-align: left;">Baden</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Ecuador</td>
+<td style="text-align: left;">Dominican Republic</td>
+<td style="text-align: left;">Luxembourg</td>
+<td style="text-align: left;">Wuerttemburg</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Bolivia</td>
+<td style="text-align: left;">Jamaica</td>
+<td style="text-align: left;">France</td>
+<td style="text-align: left;">Austria-Hungary</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Uruguay</td>
+<td style="text-align: left;">Trinidad and Tobago</td>
+<td style="text-align: left;">Spain</td>
+<td style="text-align: left;">Austria</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Barbados</td>
+<td style="text-align: left;">Portugal</td>
+<td style="text-align: left;">Czechoslovakia</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Dominica</td>
+<td style="text-align: left;">Germany</td>
+<td style="text-align: left;">Slovakia</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Grenada</td>
+<td style="text-align: left;">German Federal Republic</td>
+<td style="text-align: left;">Malta</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">St. Lucia</td>
+<td style="text-align: left;">Poland</td>
+<td style="text-align: left;">Albania</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">St. Vincent and the Grenadines</td>
+<td style="text-align: left;">Hungary</td>
+<td style="text-align: left;">Croatia</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Antigua &amp; Barbuda</td>
+<td style="text-align: left;">Czech Republic</td>
+<td style="text-align: left;">Yugoslavia</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">St. Kitts and Nevis</td>
+<td style="text-align: left;">Italy</td>
+<td style="text-align: left;">Bosnia and Herzegovina</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Mexico</td>
+<td style="text-align: left;">Greece</td>
+<td style="text-align: left;">Cyprus</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Guatemala</td>
+<td style="text-align: left;">Norway</td>
+<td style="text-align: left;">Bulgaria</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Honduras</td>
+<td style="text-align: left;">Denmark</td>
+<td style="text-align: left;">Moldova</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Nicaragua</td>
+<td style="text-align: left;">Iceland</td>
+<td style="text-align: left;">Romania</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Costa Rica</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Russia</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Panama</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Estonia</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Venezuela</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Latvia</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Guyana</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Lithuania</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Suriname</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Ukraine</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Peru</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Belarus</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Brazil</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Armenia</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Paraguay</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Georgia</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Chile</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Azerbaijan</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Argentina</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Finland</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Sweden</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Cape Verde</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Sao Tome and Principe</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Guinea-Bissau</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div class="section level2">
-<h2 id="fitting-a-multiplex-sbm-model-where-the-two-layers-are-assumed-to-be-dependent">Fitting a multiplex SBM model where the two layers are assumed to be
-dependent<a class="anchor" aria-label="anchor" href="#fitting-a-multiplex-sbm-model-where-the-two-layers-are-assumed-to-be-dependent"></a>
+</div>
+<p>And we can plot the reorganized adjacency matrices, or the graphon, i.e. the estimated connectivities <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mover><mi>α</mi><mo accent="true">̂</mo></mover><mrow><mi>q</mi><mi>r</mi></mrow><mi>ℓ</mi></msubsup><annotation encoding="application/x-tex">\widehat{\alpha}^\ell_{qr}</annotation></semantics></math> alone: each block is represented by an interval whose length is its estimated proportion <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mover><mi>π</mi><mo accent="true">̂</mo></mover><mi>q</mi></msub><annotation encoding="application/x-tex">\widehat{\pi}_q</annotation></semantics></math>, and the rectangle <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>×</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">q \times r</annotation></semantics></math> of the layer <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ℓ</mi><annotation encoding="application/x-tex">\ell</annotation></semantics></math> is colored according to <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mover><mi>α</mi><mo accent="true">̂</mo></mover><mrow><mi>q</mi><mi>r</mi></mrow><mi>ℓ</mi></msubsup><annotation encoding="application/x-tex">\widehat{\alpha}^\ell_{qr}</annotation></semantics></math>, the two layers sharing the same color scale. The graphon is close to the plot of the expectations (<code>type = "expected"</code>), which colors each pair of countries <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>i</mi><mo>,</mo><mi>j</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(i,j)</annotation></semantics></math> with <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>∑</mo><mrow><mi>q</mi><mo>,</mo><mi>r</mi></mrow></msub><msub><mover><mi>τ</mi><mo accent="true">̂</mo></mover><mrow><mi>i</mi><mi>q</mi></mrow></msub><msub><mover><mi>τ</mi><mo accent="true">̂</mo></mover><mrow><mi>j</mi><mi>r</mi></mrow></msub><msubsup><mover><mi>α</mi><mo accent="true">̂</mo></mover><mrow><mi>q</mi><mi>r</mi></mrow><mi>ℓ</mi></msubsup></mrow><annotation encoding="application/x-tex">\sum_{q,r} \widehat{\tau}_{iq}\widehat{\tau}_{jr}\widehat{\alpha}^\ell_{qr}</annotation></semantics></math>, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mover><mi>τ</mi><mo accent="true">̂</mo></mover><mrow><mi>i</mi><mi>q</mi></mrow></msub><annotation encoding="application/x-tex">\widehat{\tau}_{iq}</annotation></semantics></math> being the estimated probability that country <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math> belongs to block <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>: the two plots coincide when the clustering is clear-cut, but the graphon only depends on the parameters, not on the nodes.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">MultiplexFitIndep</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure><p><img src="Multiplex_allianceNwar_case_study_files/figure-html/plot%20indep-1.png" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">MultiplexFitIndep</span>, type <span class="op">=</span> <span class="st">"graphon"</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure><p><img src="Multiplex_allianceNwar_case_study_files/figure-html/plot%20indep-2.png" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section class="level2"><h2 id="multiplex-sbm-with-dependent-layers">4. Multiplex SBM with dependent layers<a class="anchor" aria-label="anchor" href="#multiplex-sbm-with-dependent-layers"></a>
 </h2>
-<p>Now we assume that the two layers are dependent conditionally to the
-latent block variables. We then set <code>dependent = TRUE</code></p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">MultiplexFitdep</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/estimateMultiplexSBM.html">estimateMultiplexSBM</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">netA</span>, <span class="va">netB</span><span class="op">)</span>, dependent <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<p>Now we assume that the two layers are dependent conditionally to the latent block variables. We then set <code>dependent = TRUE</code>.</p>
+<div>
+<blockquote>
+<p><strong>The multiplex SBM with dependent layers</strong></p>
+<p>Conditionally to the blocks, the pair <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><msubsup><mi>Y</mi><mrow><mi>i</mi><mi>j</mi></mrow><mn>1</mn></msubsup><mo>,</mo><msubsup><mi>Y</mi><mrow><mi>i</mi><mi>j</mi></mrow><mn>2</mn></msubsup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(Y^1_{ij}, Y^2_{ij})</annotation></semantics></math> follows a bivariate Bernoulli distribution: for any <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ω</mi><mo>=</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>ω</mi><mn>1</mn></msub><mo>,</mo><msub><mi>ω</mi><mn>2</mn></msub><mo stretchy="false" form="postfix">)</mo><mo>∈</mo><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><msup><mo stretchy="false" form="postfix">}</mo><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">\omega = (\omega_1, \omega_2) \in \{0,1\}^2</annotation></semantics></math>, <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="double-struck">ℙ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><msubsup><mi>Y</mi><mrow><mi>i</mi><mi>j</mi></mrow><mn>1</mn></msubsup><mo>,</mo><msubsup><mi>Y</mi><mrow><mi>i</mi><mi>j</mi></mrow><mn>2</mn></msubsup><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>ω</mi><mo>∣</mo><msub><mi>Z</mi><mi>i</mi></msub><mo>=</mo><mi>q</mi><mo>,</mo><msub><mi>Z</mi><mi>j</mi></msub><mo>=</mo><mi>r</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msubsup><mi>α</mi><mrow><mi>q</mi><mi>r</mi></mrow><mi>ω</mi></msubsup><mo>,</mo></mrow><annotation encoding="application/x-tex"> \mathbb{P}\left((Y^1_{ij}, Y^2_{ij}) = \omega \mid Z_i = q, Z_j = r\right) = \alpha^{\omega}_{qr},</annotation></semantics></math> with <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>α</mi><mrow><mi>q</mi><mi>r</mi></mrow><mn>00</mn></msubsup><mo>+</mo><msubsup><mi>α</mi><mrow><mi>q</mi><mi>r</mi></mrow><mn>01</mn></msubsup><mo>+</mo><msubsup><mi>α</mi><mrow><mi>q</mi><mi>r</mi></mrow><mn>10</mn></msubsup><mo>+</mo><msubsup><mi>α</mi><mrow><mi>q</mi><mi>r</mi></mrow><mn>11</mn></msubsup><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\alpha^{00}_{qr} + \alpha^{01}_{qr} + \alpha^{10}_{qr} + \alpha^{11}_{qr} = 1</annotation></semantics></math>. These probabilities are stored in <code>connectParam$prob00</code>, <code>connectParam$prob01</code>, <code>connectParam$prob10</code> and <code>connectParam$prob11</code>.</p>
+</blockquote>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">MultiplexFitdep</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/estimateMultiplexSBM.html">estimateMultiplexSBM</a></span><span class="op">(</span><span class="va">listNet</span>, dependent <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>    estimOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>verbosity <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>We can retrieve the clustering and compare it to the one obtained in
-the independent case.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+</div>
+<p>We can retrieve the clustering and compare it to the one obtained in the independent case.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">clust_country_dep</span> <span class="op">&lt;-</span> <span class="va">MultiplexFitdep</span><span class="op">$</span><span class="va">memberships</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="va">clust_country_indep</span><span class="op">)</span></span>
-<span><span class="co">#&gt;       United States of America                         Canada </span></span>
-<span><span class="co">#&gt;                              1                              1 </span></span>
-<span><span class="co">#&gt;                         Belize                    El Salvador </span></span>
-<span><span class="co">#&gt;                              2                              2 </span></span>
-<span><span class="co">#&gt;                       Colombia                        Ecuador </span></span>
-<span><span class="co">#&gt;                              2                              2 </span></span>
-<span><span class="co">#&gt;                        Bolivia                        Uruguay </span></span>
-<span><span class="co">#&gt;                              2                              2 </span></span>
-<span><span class="co">#&gt;                        Bahamas                           Cuba </span></span>
-<span><span class="co">#&gt;                              3                              3 </span></span>
-<span><span class="co">#&gt;                          Haiti             Dominican Republic </span></span>
-<span><span class="co">#&gt;                              3                              3 </span></span>
-<span><span class="co">#&gt;                        Jamaica            Trinidad and Tobago </span></span>
-<span><span class="co">#&gt;                              3                              3 </span></span>
-<span><span class="co">#&gt;                       Barbados                       Dominica </span></span>
-<span><span class="co">#&gt;                              3                              3 </span></span>
-<span><span class="co">#&gt;                        Grenada                      St. Lucia </span></span>
-<span><span class="co">#&gt;                              3                              3 </span></span>
-<span><span class="co">#&gt; St. Vincent and the Grenadines              Antigua &amp; Barbuda </span></span>
-<span><span class="co">#&gt;                              3                              3 </span></span>
-<span><span class="co">#&gt;            St. Kitts and Nevis                         Mexico </span></span>
-<span><span class="co">#&gt;                              3                              3 </span></span>
-<span><span class="co">#&gt;                      Guatemala                       Honduras </span></span>
-<span><span class="co">#&gt;                              3                              3 </span></span>
-<span><span class="co">#&gt;                      Nicaragua                     Costa Rica </span></span>
-<span><span class="co">#&gt;                              3                              3 </span></span>
-<span><span class="co">#&gt;                         Panama                      Venezuela </span></span>
-<span><span class="co">#&gt;                              3                              3 </span></span>
-<span><span class="co">#&gt;                         Guyana                       Suriname </span></span>
-<span><span class="co">#&gt;                              3                              3 </span></span>
-<span><span class="co">#&gt;                           Peru                         Brazil </span></span>
-<span><span class="co">#&gt;                              3                              3 </span></span>
-<span><span class="co">#&gt;                       Paraguay                          Chile </span></span>
-<span><span class="co">#&gt;                              3                              3 </span></span>
-<span><span class="co">#&gt;                      Argentina                 United Kingdom </span></span>
-<span><span class="co">#&gt;                              3                              4 </span></span>
-<span><span class="co">#&gt;                    Netherlands                        Belgium </span></span>
-<span><span class="co">#&gt;                              4                              4 </span></span>
-<span><span class="co">#&gt;                     Luxembourg                         France </span></span>
-<span><span class="co">#&gt;                              4                              4 </span></span>
-<span><span class="co">#&gt;                          Spain                       Portugal </span></span>
-<span><span class="co">#&gt;                              4                              4 </span></span>
-<span><span class="co">#&gt;                        Germany        German Federal Republic </span></span>
-<span><span class="co">#&gt;                              4                              4 </span></span>
-<span><span class="co">#&gt;                         Poland                        Hungary </span></span>
-<span><span class="co">#&gt;                              4                              4 </span></span>
-<span><span class="co">#&gt;                 Czech Republic                          Italy </span></span>
-<span><span class="co">#&gt;                              4                              4 </span></span>
-<span><span class="co">#&gt;                         Greece                         Norway </span></span>
-<span><span class="co">#&gt;                              4                              4 </span></span>
-<span><span class="co">#&gt;                        Denmark                        Iceland </span></span>
-<span><span class="co">#&gt;                              4                              4 </span></span>
-<span><span class="co">#&gt;                        Bavaria     German Democratic Republic </span></span>
-<span><span class="co">#&gt;                              5                              5 </span></span>
-<span><span class="co">#&gt;                          Baden                   Wuerttemburg </span></span>
-<span><span class="co">#&gt;                              5                              5 </span></span>
-<span><span class="co">#&gt;                Austria-Hungary                        Austria </span></span>
-<span><span class="co">#&gt;                              5                              5 </span></span>
-<span><span class="co">#&gt;                 Czechoslovakia                       Slovakia </span></span>
-<span><span class="co">#&gt;                              5                              5 </span></span>
-<span><span class="co">#&gt;                          Malta                        Albania </span></span>
-<span><span class="co">#&gt;                              5                              5 </span></span>
-<span><span class="co">#&gt;                        Croatia                     Yugoslavia </span></span>
-<span><span class="co">#&gt;                              5                              5 </span></span>
-<span><span class="co">#&gt;         Bosnia and Herzegovina                         Cyprus </span></span>
-<span><span class="co">#&gt;                              5                              5 </span></span>
-<span><span class="co">#&gt;                       Bulgaria                        Moldova </span></span>
-<span><span class="co">#&gt;                              5                              5 </span></span>
-<span><span class="co">#&gt;                        Romania                         Russia </span></span>
-<span><span class="co">#&gt;                              5                              5 </span></span>
-<span><span class="co">#&gt;                        Estonia                         Latvia </span></span>
-<span><span class="co">#&gt;                              5                              5 </span></span>
-<span><span class="co">#&gt;                      Lithuania                        Ukraine </span></span>
-<span><span class="co">#&gt;                              5                              5 </span></span>
-<span><span class="co">#&gt;                        Belarus                        Armenia </span></span>
-<span><span class="co">#&gt;                              5                              5 </span></span>
-<span><span class="co">#&gt;                        Georgia                     Azerbaijan </span></span>
-<span><span class="co">#&gt;                              5                              5 </span></span>
-<span><span class="co">#&gt;                        Finland                         Sweden </span></span>
-<span><span class="co">#&gt;                              5                              5 </span></span>
-<span><span class="co">#&gt;                     Cape Verde          Sao Tome and Principe </span></span>
-<span><span class="co">#&gt;                              5                              5 </span></span>
-<span><span class="co">#&gt;                  Guinea-Bissau </span></span>
-<span><span class="co">#&gt;                              5</span></span>
-<span><span class="fu">aricode</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/aricode/man/ARI.html" class="external-link">ARI</a></span><span class="op">(</span><span class="va">clust_country_indep</span>, <span class="va">clust_country_dep</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.8886699</span></span></code></pre></div>
-<p>On top of the clustering comparison, we can compare the ICL criterion
-to see which of the dependent or independent models is a best fit:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu">clusterComposition</span><span class="op">(</span><span class="va">clust_country_dep</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>      caption <span class="op">=</span> <span class="st">"Country clusters (dependent layers)"</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<table class="table caption-top">
+<caption>Country clusters (dependent layers)</caption>
+<colgroup>
+<col style="width: 23%">
+<col style="width: 28%">
+<col style="width: 22%">
+<col style="width: 25%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">Cluster 1</th>
+<th style="text-align: left;">Cluster 2</th>
+<th style="text-align: left;">Cluster 3</th>
+<th style="text-align: left;">Cluster 4</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">United States of America</td>
+<td style="text-align: left;">Bahamas</td>
+<td style="text-align: left;">United Kingdom</td>
+<td style="text-align: left;">Bavaria</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Canada</td>
+<td style="text-align: left;">Cuba</td>
+<td style="text-align: left;">Netherlands</td>
+<td style="text-align: left;">German Democratic Republic</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Haiti</td>
+<td style="text-align: left;">Belgium</td>
+<td style="text-align: left;">Baden</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Dominican Republic</td>
+<td style="text-align: left;">Luxembourg</td>
+<td style="text-align: left;">Wuerttemburg</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Jamaica</td>
+<td style="text-align: left;">France</td>
+<td style="text-align: left;">Austria-Hungary</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Trinidad and Tobago</td>
+<td style="text-align: left;">Spain</td>
+<td style="text-align: left;">Austria</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Barbados</td>
+<td style="text-align: left;">Portugal</td>
+<td style="text-align: left;">Czechoslovakia</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Dominica</td>
+<td style="text-align: left;">Germany</td>
+<td style="text-align: left;">Slovakia</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Grenada</td>
+<td style="text-align: left;">German Federal Republic</td>
+<td style="text-align: left;">Malta</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">St. Lucia</td>
+<td style="text-align: left;">Poland</td>
+<td style="text-align: left;">Albania</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">St. Vincent and the Grenadines</td>
+<td style="text-align: left;">Hungary</td>
+<td style="text-align: left;">Croatia</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Antigua &amp; Barbuda</td>
+<td style="text-align: left;">Czech Republic</td>
+<td style="text-align: left;">Yugoslavia</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">St. Kitts and Nevis</td>
+<td style="text-align: left;">Italy</td>
+<td style="text-align: left;">Bosnia and Herzegovina</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Mexico</td>
+<td style="text-align: left;">Greece</td>
+<td style="text-align: left;">Cyprus</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Belize</td>
+<td style="text-align: left;">Norway</td>
+<td style="text-align: left;">Bulgaria</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Guatemala</td>
+<td style="text-align: left;">Denmark</td>
+<td style="text-align: left;">Moldova</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Honduras</td>
+<td style="text-align: left;">Iceland</td>
+<td style="text-align: left;">Romania</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">El Salvador</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Russia</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Nicaragua</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Estonia</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Costa Rica</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Latvia</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Panama</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Lithuania</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Colombia</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Ukraine</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Venezuela</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Belarus</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Guyana</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Armenia</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Suriname</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Georgia</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Ecuador</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Azerbaijan</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Peru</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Finland</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Brazil</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Sweden</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Bolivia</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Cape Verde</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Paraguay</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Sao Tome and Principe</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Chile</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Guinea-Bissau</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Argentina</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Uruguay</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/plotAlluvial.html">plotAlluvial</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>independent <span class="op">=</span> <span class="va">clust_country_indep</span>, dependent <span class="op">=</span> <span class="va">clust_country_dep</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure><p><img src="Multiplex_allianceNwar_case_study_files/figure-html/clust%20dep-1.png" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>From independent to dependent, the model gathers blocks 3 and 2, i.e put together all the countries of Latino and south America.</p>
+<p>On top of the clustering comparison, we can compare the ICL criterion to see which of the dependent or independent models is a best fit:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">MultiplexFitdep</span><span class="op">$</span><span class="va">ICL</span></span>
 <span><span class="co">#&gt; [1] -1470.276</span></span>
 <span><span class="va">MultiplexFitIndep</span><span class="op">$</span><span class="va">ICL</span></span>
 <span><span class="co">#&gt; [1] -1434.602</span></span></code></pre></div>
-<p>We can do the same plots for the reorganized matrices and the
-corresponding expectations. Note that the expectations correspond to the
-marginal expectation of each layer and it may be relevant to have a look
-at the conditional expectations.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+</div>
+<p>We can do the same plots for the reorganized matrices and the graphon. Note that the graphon represents the marginal connectivity of each layer, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mover><mi>α</mi><mo accent="true">̂</mo></mover><mrow><mi>q</mi><mi>r</mi></mrow><mn>10</mn></msubsup><mo>+</mo><msubsup><mover><mi>α</mi><mo accent="true">̂</mo></mover><mrow><mi>q</mi><mi>r</mi></mrow><mn>11</mn></msubsup></mrow><annotation encoding="application/x-tex">\widehat{\alpha}^{10}_{qr} + \widehat{\alpha}^{11}_{qr}</annotation></semantics></math> for the alliances and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mover><mi>α</mi><mo accent="true">̂</mo></mover><mrow><mi>q</mi><mi>r</mi></mrow><mn>01</mn></msubsup><mo>+</mo><msubsup><mover><mi>α</mi><mo accent="true">̂</mo></mover><mrow><mi>q</mi><mi>r</mi></mrow><mn>11</mn></msubsup></mrow><annotation encoding="application/x-tex">\widehat{\alpha}^{01}_{qr} + \widehat{\alpha}^{11}_{qr}</annotation></semantics></math> for the wars, and it may be relevant to have a look at the conditional probabilities.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">MultiplexFitdep</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Multiplex_allianceNwar_case_study_files/figure-html/unnamed-chunk-10-1.png" class="r-plt" alt="" width="700"></p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">MultiplexFitdep</span>, type <span class="op">=</span> <span class="st">"expected"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in self$predict(): provided expectations are the marginal expectations</span></span>
-<span><span class="co">#&gt; in the dependent case</span></span></code></pre></div>
-<p><img src="Multiplex_allianceNwar_case_study_files/figure-html/unnamed-chunk-10-2.png" class="r-plt" alt="" width="700"></p>
-<p>For instance, we may want to compare the marginal distribution for
-two countries in their given blocks to have being at war while they are
-allied at some point (before or after):</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="cell-output-display">
+<div>
+<figure><p><img src="Multiplex_allianceNwar_case_study_files/figure-html/plot%20dep-1.png" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">MultiplexFitdep</span>, type <span class="op">=</span> <span class="st">"graphon"</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure><p><img src="Multiplex_allianceNwar_case_study_files/figure-html/plot%20dep-2.png" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>For instance, we may want to compare, for two countries in given blocks, the probability of having been at war while being allied at some point (before or after), <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>α</mi><mrow><mi>q</mi><mi>r</mi></mrow><mn>11</mn></msubsup><mi>/</mi><mo stretchy="false" form="prefix">(</mo><msubsup><mi>α</mi><mrow><mi>q</mi><mi>r</mi></mrow><mn>11</mn></msubsup><mo>+</mo><msubsup><mi>α</mi><mrow><mi>q</mi><mi>r</mi></mrow><mn>10</mn></msubsup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\alpha^{11}_{qr} / (\alpha^{11}_{qr} + \alpha^{10}_{qr})</annotation></semantics></math>, to the marginal probability of having been at war, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>α</mi><mrow><mi>q</mi><mi>r</mi></mrow><mn>11</mn></msubsup><mo>+</mo><msubsup><mi>α</mi><mrow><mi>q</mi><mi>r</mi></mrow><mn>01</mn></msubsup></mrow><annotation encoding="application/x-tex">\alpha^{11}_{qr} + \alpha^{01}_{qr}</annotation></semantics></math>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p11</span> <span class="op">&lt;-</span> <span class="va">MultiplexFitdep</span><span class="op">$</span><span class="va">connectParam</span><span class="op">$</span><span class="va">prob11</span></span>
 <span><span class="va">p01</span> <span class="op">&lt;-</span> <span class="va">MultiplexFitdep</span><span class="op">$</span><span class="va">connectParam</span><span class="op">$</span><span class="va">prob01</span></span>
 <span><span class="va">p10</span> <span class="op">&lt;-</span> <span class="va">MultiplexFitdep</span><span class="op">$</span><span class="va">connectParam</span><span class="op">$</span><span class="va">prob10</span></span>
-<span><span class="co"># conditional probabilities of being at war while having been or will</span></span>
-<span><span class="co"># be allied</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">p11</span><span class="op">/</span><span class="op">(</span><span class="va">p11</span> <span class="op">+</span> <span class="va">p10</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      [,1] [,2] [,3] [,4]</span></span>
-<span><span class="co">#&gt; [1,] 0.09 0.10 0.03 0.43</span></span>
-<span><span class="co">#&gt; [2,] 0.10 0.11 0.09 0.14</span></span>
+<span><span class="co">#&gt; [1,] 0.01 0.14 0.03 0.43</span></span>
+<span><span class="co">#&gt; [2,] 0.14 0.11 0.09 0.10</span></span>
 <span><span class="co">#&gt; [3,] 0.03 0.09 0.05 0.03</span></span>
-<span><span class="co">#&gt; [4,] 0.43 0.14 0.03 0.01</span></span>
-<span><span class="co"># marginal probabilities of being at war</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">p11</span> <span class="op">+</span> <span class="va">p01</span>, <span class="fl">2</span><span class="op">)</span></span>
-<span><span class="co">#&gt;      [,1] [,2] [,3] [,4]</span></span>
-<span><span class="co">#&gt; [1,] 0.07 0.04 0.03 0.14</span></span>
-<span><span class="co">#&gt; [2,] 0.04 0.10 0.04 0.13</span></span>
-<span><span class="co">#&gt; [3,] 0.03 0.04 0.05 0.03</span></span>
-<span><span class="co">#&gt; [4,] 0.14 0.13 0.03 0.02</span></span></code></pre></div>
-<div class="section level3">
-<h3 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
-</h3>
-<div id="refs" class="references csl-bib-body hanging-indent">
-<div id="ref-gibler2008international" class="csl-entry">
-Gibler, Douglas M. 2008. <em>International Military Alliances,
-1648-2008</em>. CQ Press.
+<span><span class="co">#&gt; [4,] 0.43 0.10 0.03 0.09</span></span></code></pre></div>
 </div>
-<div id="ref-sarkees2010resort" class="csl-entry">
-Sarkees, Meredith Reid, and Frank Whelon Wayman. 2010. <em>Resort to
-War: A Data Guide to Inter-State, Extra-State, Intra-State, and
-Non-State Wars, 1816-2007</em>. Cq Pr.
-</div>
-</div>
+<p>These two matrices can be represented as graphons, side by side with <strong>patchwork</strong>, on the same color scale:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">pCond</span> <span class="op">&lt;-</span> <span class="va">p11</span><span class="op">/</span><span class="op">(</span><span class="va">p11</span> <span class="op">+</span> <span class="va">p10</span><span class="op">)</span> <span class="co"># conditional probabilities of being at war while having been or will</span></span>
+<span><span class="co"># be allied</span></span>
+<span><span class="va">pMarg</span> <span class="op">&lt;-</span> <span class="va">p11</span> <span class="op">+</span> <span class="va">p01</span> <span class="co"># marginal probabilities of being at war</span></span>
+<span><span class="va">limits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">pCond</span>, <span class="va">pMarg</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">optGraphon</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="va">limits</span>, legend <span class="op">=</span> <span class="cn">TRUE</span>, legend.title <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">gCond</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotMyGraphon.html">plotMyGraphon</a></span><span class="op">(</span><span class="va">pCond</span>, <span class="va">MultiplexFitdep</span><span class="op">$</span><span class="va">blockProp</span>, nbNodes <span class="op">=</span> <span class="fl">83</span>, dimLabels <span class="op">=</span> <span class="st">"country"</span>,</span>
+<span>  plotOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">optGraphon</span>, title <span class="op">=</span> <span class="st">"P(war | alliance)"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">gMarg</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotMyGraphon.html">plotMyGraphon</a></span><span class="op">(</span><span class="va">pMarg</span>, <span class="va">MultiplexFitdep</span><span class="op">$</span><span class="va">blockProp</span>, nbNodes <span class="op">=</span> <span class="fl">83</span>, dimLabels <span class="op">=</span> <span class="st">"country"</span>,</span>
+<span>  plotOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">optGraphon</span>, title <span class="op">=</span> <span class="st">"P(war)"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">(</span><span class="va">gCond</span> <span class="op">|</span> <span class="va">gMarg</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html" class="external-link">plot_layout</a></span><span class="op">(</span>guides <span class="op">=</span> <span class="st">"collect"</span><span class="op">)</span> <span class="op">&amp;</span> </span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"Probability"</span><span class="op">)</span> <span class="op">&amp;</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure><p><img src="Multiplex_allianceNwar_case_study_files/figure-html/conditional%20probabilities%20graphon-1.png" width="768"></p>
+</figure>
 </div>
 </div>
-  </div>
-
-  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-
-      </div>
-
+</div>
+</section><section class="level2 unnumbered"><h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-gibler2008international" class="csl-entry" role="listitem">
+Gibler, Douglas M. 2008. <em>International Military Alliances, 1648-2008</em>. CQ Press.
+</div>
+<div id="ref-sarkees2010resort" class="csl-entry" role="listitem">
+Sarkees, Meredith Reid, and Frank Whelon Wayman. 2010. <em>Resort to War: A Data Guide to Inter-State, Extra-State, Intra-State, and Non-State Wars, 1816-2007</em>. Cq Pr.
+</div>
+</div>
+</section><script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'light-border',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config);
+    }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script></main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
-
-      <footer><div class="copyright">
-  <p></p>
-<p>Developed by Julien Chiquet, Sophie Donnet, Pierre Barbillon.</p>
+    <footer><div class="pkgdown-footer-left">
+  <p>Developed by Julien Chiquet, Sophie Donnet, Pierre Barbillon.</p>
 </div>
 
-<div class="pkgdown">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
+<div class="pkgdown-footer-right">
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
-      </footer>
+    </footer>
 </div>
-
 
 
 

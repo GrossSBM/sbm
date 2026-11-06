@@ -1,0 +1,153 @@
+# Sampling of Multiplex SBMs
+
+This function samples a Multiplex Stochastic Block Models, with various
+model for the distribution of the edges: Bernoulli, Poisson, or Gaussian
+models
+
+## Usage
+
+``` r
+sampleMultiplexSBM(
+  nbNodes,
+  blockProp,
+  nbLayers,
+  connectParam,
+  model,
+  type = c("directed", "undirected", "bipartite"),
+  dependent = FALSE,
+  dimLabels = NULL,
+  seed = NULL
+)
+```
+
+## Arguments
+
+- nbNodes:
+
+  number of nodes in each functional group involved in the Multiplex
+  network
+
+- blockProp:
+
+  a vector for block proportion if the networks are simple, a list of
+  parameters for block proportions for both functional groups if the
+  networks are bipartite
+
+- nbLayers:
+
+  a matrix with two columns and nbNetworks lines, each line specifying
+  the index of the functional groups in interaction.
+
+- connectParam:
+
+  list of parameters for connectivity (of length nbNetworks). Each
+  element is a list of one or two elements: a matrix of means 'mean' and
+  an optional matrix of variances 'var', the sizes of which must match
+  `blockProp` length
+
+- model:
+
+  a vector of characters describing the model for each network of the
+  Multiplex relation between nodes (`'bernoulli'`, `'poisson'`,
+  `'gaussian'`, ...). Default is `'bernoulli'`.
+
+- type:
+
+  a string of character indicating whether the networks are directed,
+  undirected or bipartite
+
+- dependent:
+
+  connection parameters in each network
+
+- dimLabels:
+
+  an optional list of labels for functional group involved in the
+  network
+
+- seed:
+
+  numeric to set the seed.
+
+## Value
+
+a list of two elements : `simulatedMemberships` are the clustering of
+each node in each Functional Group, `MultiplexNetwork` is the list of
+the simulated networks (each one being a simple or bipartite network)
+
+## Examples
+
+``` r
+nbLayers <- 2
+
+## MultiplexSBM without dependence between layers
+Nnodes <- 40
+blockProp <- c(.4,.6)
+connectParam <- list(list(mean=matrix(rbeta(4,.5,.5),2,2)),list(mean=matrix(rexp(4,.5),2,2)))
+model <- c("bernoulli","poisson")
+type <- "directed"
+mySampleMultiplexSBM <-
+   sampleMultiplexSBM(
+   nbNodes = Nnodes,
+    blockProp = blockProp,
+   nbLayers = nbLayers,
+   connectParam = connectParam,
+   model=model,
+   type=type)
+#> [1] "use of sampleMultipartite"
+listSBM <- mySampleMultiplexSBM$listSBM
+
+## MultiplexSBM Gaussian with dependence
+Q <- 3
+nbLayers <- 2
+connectParam <- list()
+connectParam$mu <- vector("list",nbLayers)
+connectParam$mu[[1]] <-  matrix(.1,Q,Q) + diag(1:Q)
+connectParam$mu[[2]] <- matrix(-2,Q,Q) + diag(rev(Q:1))
+connectParam$Sigma <- matrix(c(2,1,1,4),nbLayers,nbLayers)
+model <- rep("gaussian",2)
+type <- "directed"
+Nnodes <- 80
+blockProp <- c(.3,.3,.4)
+mySampleMultiplexSBM <-
+  sampleMultiplexSBM(
+     nbNodes = Nnodes,
+     blockProp = blockProp,
+     nbLayers = nbLayers,
+     connectParam = connectParam,
+     model=model,
+     type="undirected",
+     dependent=TRUE)
+listSBM <- mySampleMultiplexSBM$listSBM
+## MultiplexSBM Bernoulli with dependence
+Q <- 2
+P00<-matrix(runif(Q*Q),Q,Q)
+P10<-matrix(runif(Q*Q),Q,Q)
+P01<-matrix(runif(Q*Q),Q,Q)
+P11<-matrix(runif(Q*Q),Q,Q)
+SumP<-P00+P10+P01+P11
+P00<-P00/SumP
+P01<-P01/SumP
+P10<-P10/SumP
+P11<-P11/SumP
+connectParam <- list()
+connectParam$prob00 <- P00
+connectParam$prob01 <- P01
+connectParam$prob10 <- P10
+connectParam$prob11 <- P11
+model <- rep("bernoulli",2)
+type <- "directed"
+nbLayers <- 2
+Nnodes <- 40
+blockProp <- c(.6,.4)
+mySampleMultiplexSBM <-
+   sampleMultiplexSBM(
+     nbNodes = Nnodes,
+     blockProp = blockProp,
+     nbLayers = nbLayers,
+     connectParam = connectParam,
+     model=model,
+     type=type,
+     dependent=TRUE)
+listSBM_BB <- mySampleMultiplexSBM$listSBM
+```

@@ -4,308 +4,155 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Stochastic Block Models for Multiplex  networks • sbm</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
-<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Stochastic Block Models for Multiplex  networks">
-<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Stochastic Block Models for Multiplex networks: principle • sbm</title>
+<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><script src="MultiplexNetwork_principle_files/libs/quarto-html/popper.min.js"></script><script src="MultiplexNetwork_principle_files/libs/quarto-html/tippy.umd.min.js"></script><link href="MultiplexNetwork_principle_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="MultiplexNetwork_principle_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Stochastic Block Models for Multiplex networks: principle">
 </head>
-<body data-spy="scroll" data-target="#toc">
+<body>
+    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
-    <div class="container template-article">
-      <header><div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">sbm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.7</span>
-      </span>
-    </div>
+    <nav class="navbar navbar-expand-lg fixed-top bg-primary" data-bs-theme="dark" aria-label="Site navigation"><div class="container">
 
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-<li>
-  <a>
-    <span class="fa fa-home"></span>
+    <a class="navbar-brand me-2" href="../index.html">sbm</a>
 
-  </a>
-</li>
-<li>
-  <a href="../index.html">Home</a>
-</li>
-<li>
-  <a href="../reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Vignettes
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="../articles/SBM_fungus_tree_network.html">Fungus-tree interaction with simple and bipartite SBM</a>
-    </li>
-    <li>
-      <a href="../articles/Multipartite_EcologicalNetwork.html">Mutualistic ecological network with multipartite SBM</a>
-    </li>
-    <li>
-      <a href="../articles/MultiplexNetwork_principle.html">Multiplex SBM: Principle and illustration</a>
-    </li>
-    <li>
-      <a href="../articles/Multiplex_allianceNwar_case_study.html">Multiplex SBM: War and Alliance case study</a>
-    </li>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse ms-3">
+      <ul class="navbar-nav me-auto">
+<li class="nav-item"><a class="nav-link" href="../index.html" aria-label="Home"><span class="fa fa-house"></span></a></li>
+<li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+<li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="active nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-vignettes" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Vignettes</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-vignettes">
+<li><a class="dropdown-item" href="../articles/SBM_principle.html">Simple and bipartite SBM: principle and illustration</a></li>
+    <li><a class="dropdown-item" href="../articles/SBM_fungus_tree_network.html">Fungus-tree interaction with simple and bipartite SBM</a></li>
+    <li><a class="dropdown-item" href="../articles/SBM_nodes_covariates.html">SBM with covariates on nodes</a></li>
+    <li><a class="dropdown-item" href="../articles/Multipartite_EcologicalNetwork.html">Mutualistic ecological network with multipartite SBM</a></li>
+    <li><a class="dropdown-item" href="../articles/MultiplexNetwork_principle.html">Multiplex SBM: Principle and illustration</a></li>
+    <li><a class="dropdown-item" href="../articles/Multiplex_allianceNwar_case_study.html">Multiplex SBM: War and Alliance case study</a></li>
   </ul>
 </li>
-<li>
-  <a href="../news/index.html">Changelog</a>
-</li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/GrossSBM/GSBM" class="external-link">
-    <span class="fa fa-github"></span>
-
-  </a>
-</li>
+<ul class="navbar-nav">
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/GrossSBM/sbm" aria-label="GitHub"><span class="fa fa-github"></span></a></li>
       </ul>
 </div>
-<!--/.nav-collapse -->
+
+
   </div>
-<!--/.container -->
-</div>
-<!--/.navbar -->
+</nav><div class="container template-quarto">
+<div class="row">
+  <main id="main" class="col-md-9"><div class="page-header">
 
+      <h1>Stochastic Block Models for Multiplex networks: principle</h1>
+      <p class="subtitle">Principle and illustration</p>
+      <p class="author">team großBM</p>
+      <p class="date">2026-11-06</p>
 
-
-      </header><div class="row">
-  <div class="col-md-9 contents">
-    <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Stochastic Block Models for Multiplex
-networks</h1>
-            <h3 data-toc-skip class="subtitle">Principle and
-illustration</h3>
-                        <h4 data-toc-skip class="author">team
-großBM</h4>
-            
-            <h4 data-toc-skip class="date">2026-07-20</h4>
-      
-      <small class="dont-index">Source: <a href="https://github.com/GrossSBM/sbm/blob/master/vignettes/MultiplexNetwork_principle.Rmd" class="external-link"><code>vignettes/MultiplexNetwork_principle.Rmd</code></a></small>
-      <div class="hidden name"><code>MultiplexNetwork_principle.Rmd</code></div>
-
+      <small class="dont-index">Source: <a href="https://github.com/GrossSBM/sbm/blob/master/vignettes/MultiplexNetwork_principle.qmd" class="external-link"><code>vignettes/MultiplexNetwork_principle.qmd</code></a></small>
+      <div class="d-none name"><code></code></div>
     </div>
 
-    
-    
-<div class="section level2">
-<h2 id="preliminaries">Preliminaries<a class="anchor" aria-label="anchor" href="#preliminaries"></a>
+
+
+
+
+
+    <section class="level2"><h2 id="preliminaries">1. Preliminaries<a class="anchor" aria-label="anchor" href="#preliminaries"></a>
 </h2>
-<p>This vignette illustrates the use of the
-<code>estimateMultiplexSBM</code> function and the methods accompanying
-the R6 classes <code>multiplexSBMfit</code>.</p>
-<div class="section level3">
-<h3 id="requirements">Requirements<a class="anchor" aria-label="anchor" href="#requirements"></a>
+<p>This vignette illustrates the use of the <code>estimateMultiplexSBM</code> function and the methods accompanying the R6 class <code>MultiplexSBM_fit</code>.</p>
+<p>The only package required for the analysis is <strong>sbm</strong>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://grosssbm.github.io/sbm/">sbm</a></span><span class="op">)</span></span></code></pre></div>
+</div>
+</section><section class="level2"><h2 id="multiplex-network-data">2. Multiplex network data<a class="anchor" aria-label="anchor" href="#multiplex-network-data"></a>
+</h2>
+<p>Multiplex networks refer to a collection of networks involving the same sets of nodes, each network corresponding to a given type of interaction. Each network may also be referred as a layer. Such a network is studied in <span class="citation" data-cites="multiplexSBM">Barbillon et al. (<a href="#ref-multiplexSBM" role="doc-biblioref">2017</a>)</span> where the nodes are researchers and two networks are provided:</p>
+<ul>
+<li>a network representing the relations of advices between researchers,</li>
+<li>a network representing the exchanges between the laboratories the researchers belong to.</li>
+</ul>
+<p>In <span class="citation" data-cites="multiplexKefi">Kéfi (<a href="#ref-multiplexKefi" role="doc-biblioref">2016</a>)</span>, the nodes are species and each network corresponds to a type of ecological relation, namely trophic links, negative non trophic links and positive non trophic links.</p>
+</section><section class="level2"><h2 id="stochastic-block-models-for-multiplex-networks">3. Stochastic Block models for multiplex networks<a class="anchor" aria-label="anchor" href="#stochastic-block-models-for-multiplex-networks"></a>
+</h2>
+<section class="level3"><h3 id="general-formulation-of-the-model">3.1 General formulation of the model<a class="anchor" aria-label="anchor" href="#general-formulation-of-the-model"></a>
 </h3>
-<p>The only package required for the analysis is
-<strong>sbm</strong>.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://grosssbm.github.io/sbm/" class="external-link">sbm</a></span><span class="op">)</span></span></code></pre></div>
+<p>We give here a few details on Stochastic Block Models (SBM) for multiplex networks.</p>
+<p>Assume that one studies <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math> nodes and observes <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math> types of links, resulting into <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math> matrices <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><msubsup><mi>Y</mi><mrow><mi>i</mi><mi>j</mi></mrow><mi>ℓ</mi></msubsup><msub><mo stretchy="false" form="postfix">)</mo><mrow><mi>i</mi><mo>,</mo><mi>j</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>n</mi></mrow></msub></mrow><annotation encoding="application/x-tex">(Y^\ell_{ij})_{i,j = 1,\dots,n}</annotation></semantics></math>, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ℓ</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>L</mi></mrow><annotation encoding="application/x-tex">\ell = 1, \dots, L</annotation></semantics></math>.</p>
+<div>
+<blockquote>
+<p><strong>The multiplex SBM</strong></p>
+<p>The <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math> nodes are divided into <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Q</mi><annotation encoding="application/x-tex">Q</annotation></semantics></math> blocks with proportions <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mo>=</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>π</mi><mn>1</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>π</mi><mi>Q</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\pi = (\pi_1, \dots, \pi_Q)</annotation></semantics></math>, this clustering being encoded into the latent variables <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>Z</mi><mi>i</mi></msub><msub><mo stretchy="false" form="postfix">)</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>n</mi></mrow></msub></mrow><annotation encoding="application/x-tex">(Z_i)_{i=1,\dots,n}</annotation></semantics></math> such that <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Z</mi><mi>i</mi></msub><mo>=</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">Z_i = q</annotation></semantics></math> if node <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math> belongs to block <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>. The relations between nodes <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math> and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>j</mi><annotation encoding="application/x-tex">j</annotation></semantics></math> are driven by the blocks they belong to: <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mo stretchy="false" form="prefix">(</mo><msub><mi>Z</mi><mi>i</mi></msub><msub><mo stretchy="false" form="postfix">)</mo><mi>i</mi></msub><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> i.i.d.</mtext></mrow><mspace width="2.0em"></mspace></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mi mathvariant="double-struck">ℙ</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>Z</mi><mi>i</mi></msub><mo>=</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msub><mi>π</mi><mi>q</mi></msub><mo>,</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mo stretchy="false" form="prefix">(</mo><msubsup><mi>Y</mi><mrow><mi>i</mi><mi>j</mi></mrow><mn>1</mn></msubsup><mo>,</mo><mi>…</mi><mo>,</mo><msubsup><mi>Y</mi><mrow><mi>i</mi><mi>j</mi></mrow><mi>L</mi></msubsup><msub><mo stretchy="false" form="postfix">)</mo><mrow><mi>i</mi><mo>≠</mo><mi>j</mi></mrow></msub><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> indep.</mtext></mrow><mo>∣</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>Z</mi><mi>i</mi></msub><msub><mo stretchy="false" form="postfix">)</mo><mi>i</mi></msub><mspace width="2.0em"></mspace></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo stretchy="false" form="prefix">(</mo><msubsup><mi>Y</mi><mrow><mi>i</mi><mi>j</mi></mrow><mn>1</mn></msubsup><mo>,</mo><mi>…</mi><mo>,</mo><msubsup><mi>Y</mi><mrow><mi>i</mi><mi>j</mi></mrow><mi>L</mi></msubsup><mo stretchy="false" form="postfix">)</mo><mo>∣</mo><msub><mi>Z</mi><mi>i</mi></msub><mo>=</mo><mi>q</mi><mo>,</mo><msub><mi>Z</mi><mi>j</mi></msub><mo>=</mo><mi>r</mi><mo>∼</mo><mi mathvariant="script">ℱ</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>α</mi><mrow><mi>q</mi><mi>r</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo><mo>,</mo></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{align*}
+ (Z_i)_{i} \text{ i.i.d.} \qquad &amp; \mathbb{P}(Z_i = q) = \pi_q, \\
+ (Y^1_{ij}, \dots,Y^L_{ij})_{i \neq j} \text{ indep.} \mid (Z_i)_{i} \qquad &amp; (Y^1_{ij}, \dots,Y^L_{ij}) \mid Z_i = q, Z_j = r \sim \mathcal{F}(\alpha_{qr}),
+\end{align*}</annotation></semantics></math> where <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">ℱ</mi><annotation encoding="application/x-tex">\mathcal{F}</annotation></semantics></math> is a <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math> dimensional probability distribution adapted to the data.</p>
+</blockquote>
 </div>
-</div>
-<div class="section level2">
-<h2 id="multiplex-network-data">Multiplex network data<a class="anchor" aria-label="anchor" href="#multiplex-network-data"></a>
-</h2>
-<p>Multiplex networks refer to a collection of networks involving the
-same sets of nodes, each network corresponding to a given type of
-interaction. Each network may also be referred as a layer. Such a
-network is studied in <span class="citation">Barbillon et al. (<a href="#ref-multiplexSBM">2017</a>)</span> where the nodes are
-researchers and two networks are provided:</p>
-<pre><code>* a network representing the relations of advices between researchers,
-* a network representing the exchanges between the laboratories the researchers belong to. </code></pre>
-<p>In <span class="citation">Kéfi (<a href="#ref-multiplexKefi">2016</a>)</span>, the nodes are species and
-each network corresponds to a type of ecological relation, namely
-trophic links, negative non trophic links and positive non trophic
-links.</p>
-</div>
-<div class="section level2">
-<h2 id="stochastic-block-models-for-multiplex-networks">Stochastic Block models for multiplex networks<a class="anchor" aria-label="anchor" href="#stochastic-block-models-for-multiplex-networks"></a>
-</h2>
-<div class="section level3">
-<h3 id="general-formulation-of-the-model">General formulation of the model<a class="anchor" aria-label="anchor" href="#general-formulation-of-the-model"></a>
-</h3>
-<p>We give here a few details on Stochastic Block Models (SBM) for
-multiplex networks.</p>
-<p>Assume that one studies
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
-nodes and observes
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math>
-types of links, resulting into
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math>
-matrices
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><msubsup><mi>X</mi><mrow><mi>i</mi><mi>j</mi></mrow><mi>ℓ</mi></msubsup><msub><mo stretchy="false" form="postfix">)</mo><mrow><mi>i</mi><mo>,</mo><mi>j</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>n</mi></mrow></msub></mrow><annotation encoding="application/x-tex">(X^\ell_{ij})_{i,j = 1,\dots,n}</annotation></semantics></math>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ℓ</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>L</mi></mrow><annotation encoding="application/x-tex">\ell = 1, \dots, L</annotation></semantics></math>.
-Block models assume that the nodes are divided into
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>K</mi><annotation encoding="application/x-tex">K</annotation></semantics></math>
-clusters, this clustering being encoded into the latent variables
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>Z</mi><mi>i</mi></msub><msub><mo stretchy="false" form="postfix">)</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>n</mi></mrow></msub></mrow><annotation encoding="application/x-tex">(Z_i)_{i=1,\dots,n}</annotation></semantics></math>
-such that
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Z</mi><mi>i</mi></msub><mo>=</mo><mi>k</mi></mrow><annotation encoding="application/x-tex">Z_i = k</annotation></semantics></math>
-if node
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>
-belongs to cluster
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>.</p>
-<p>The relations between nodes
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>j</mi><annotation encoding="application/x-tex">j</annotation></semantics></math>
-are driven by the clusters they belong to :</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><msubsup><mi>X</mi><mrow><mi>i</mi><mi>j</mi></mrow><mn>1</mn></msubsup><mo>,</mo><mi>…</mi><mo>,</mo><msubsup><mi>X</mi><mrow><mi>i</mi><mi>j</mi></mrow><mi>L</mi></msubsup><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">|</mo><msub><mi>Z</mi><mi>i</mi></msub><mo>=</mo><mi>q</mi><mo>,</mo><msub><mi>Z</mi><mi>j</mi></msub><mo>=</mo><mi>r</mi><msub><mo>∼</mo><mrow><mi>i</mi><mi>n</mi><mi>d</mi></mrow></msub><mi>ℱ</mi><mo stretchy="false" form="prefix">(</mo><mi>⋅</mi><mo>;</mo><msub><mi>θ</mi><mrow><mi>q</mi><mi>r</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex"> (X^1_{ij}, \dots,X^L_{ij})  | Z_i = q, Z_j = r \sim_{ind} \mathcal{F}(\cdot;\theta_{qr})</annotation></semantics></math>
-where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ℱ</mi><annotation encoding="application/x-tex">\mathcal{F}</annotation></semantics></math>
-is a
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math>
-dimensional probability distribution adapted to the data.</p>
 <p><em>Examples</em></p>
 <ul>
-<li>If all the networks are binary
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>X</mi><mrow><mi>i</mi><mi>j</mi></mrow><mi>ℓ</mi></msubsup><mo>∈</mo><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">X^\ell_{ij} \in \{0,1\}</annotation></semantics></math>)
-then
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ℱ</mi><annotation encoding="application/x-tex">\mathcal{F}</annotation></semantics></math>
-is a
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math>-variate
-Bernoulli distribution and
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>θ</mi><mrow><mi>q</mi><mi>r</mi></mrow></msub><mo>=</mo><mo stretchy="false" form="prefix">(</mo><msubsup><mi>p</mi><mrow><mi>q</mi><mi>r</mi></mrow><mi>ω</mi></msubsup><mo>,</mo><mi>ω</mi><mo>∈</mo><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><msup><mo stretchy="false" form="postfix">}</mo><mi>L</mi></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex"> \theta_{qr} = (p^{\omega}_{qr}, \omega \in \{0,1\}^L)</annotation></semantics></math>
-with
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>p</mi><mrow><mi>q</mi><mi>r</mi></mrow><msub><mi>ω</mi><mi>ℓ</mi></msub></msubsup><mo>∈</mo><mo stretchy="false" form="prefix">[</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">p^{\omega_\ell}_{qr} \in [0,1]</annotation></semantics></math>.<br>
-</li>
-<li>If all the networks are weighted with real values
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>X</mi><mrow><mi>i</mi><mi>j</mi></mrow><mi>ℓ</mi></msubsup><mo>∈</mo><mi>ℝ</mi></mrow><annotation encoding="application/x-tex">X^\ell_{ij} \in \mathbb{R}</annotation></semantics></math>)
-then
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ℱ</mi><annotation encoding="application/x-tex">\mathcal{F}</annotation></semantics></math>
-could be a
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math>-dimensional
-Gaussian distribution and
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>θ</mi><mrow><mi>q</mi><mi>r</mi></mrow></msub><mo>=</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>μ</mi><mrow><mi>q</mi><mi>r</mi></mrow></msub><mo>,</mo><msub><mi mathvariant="normal">Σ</mi><mrow><mi>q</mi><mi>r</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex"> \theta_{qr} = (\mu_{qr},\Sigma_{qr})</annotation></semantics></math>
-with
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>μ</mi><mrow><mi>q</mi><mi>r</mi></mrow></msub><mo>∈</mo><msup><mi>ℝ</mi><mi>L</mi></msup></mrow><annotation encoding="application/x-tex">\mu_{qr} \in \mathbb{R}^L</annotation></semantics></math>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi mathvariant="normal">Σ</mi><mrow><mi>q</mi><mi>r</mi></mrow></msub><annotation encoding="application/x-tex">\Sigma_{qr}</annotation></semantics></math>
-a
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math>
-covariance matrix.</li>
+<li>If all the networks are binary (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>Y</mi><mrow><mi>i</mi><mi>j</mi></mrow><mi>ℓ</mi></msubsup><mo>∈</mo><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">Y^\ell_{ij} \in \{0,1\}</annotation></semantics></math>) then <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">ℱ</mi><annotation encoding="application/x-tex">\mathcal{F}</annotation></semantics></math> is a <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math>-variate Bernoulli distribution and <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>α</mi><mrow><mi>q</mi><mi>r</mi></mrow></msub><mo>=</mo><mo stretchy="false" form="prefix">(</mo><msubsup><mi>α</mi><mrow><mi>q</mi><mi>r</mi></mrow><mi>ω</mi></msubsup><mo>,</mo><mi>ω</mi><mo>∈</mo><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><msup><mo stretchy="false" form="postfix">}</mo><mi>L</mi></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex"> \alpha_{qr} = (\alpha^{\omega}_{qr}, \omega \in \{0,1\}^L)</annotation></semantics></math> with <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>α</mi><mrow><mi>q</mi><mi>r</mi></mrow><mi>ω</mi></msubsup><mo>=</mo><mi mathvariant="double-struck">ℙ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><msubsup><mi>Y</mi><mrow><mi>i</mi><mi>j</mi></mrow><mn>1</mn></msubsup><mo>,</mo><mi>…</mi><mo>,</mo><msubsup><mi>Y</mi><mrow><mi>i</mi><mi>j</mi></mrow><mi>L</mi></msubsup><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>ω</mi><mo>∣</mo><msub><mi>Z</mi><mi>i</mi></msub><mo>=</mo><mi>q</mi><mo>,</mo><msub><mi>Z</mi><mi>j</mi></msub><mo>=</mo><mi>r</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>∈</mo><mo stretchy="false" form="prefix">[</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">\alpha^{\omega}_{qr} = \mathbb{P}\left((Y^1_{ij}, \dots,Y^L_{ij}) = \omega \mid Z_i = q, Z_j = r\right) \in [0,1]</annotation></semantics></math>.</li>
+<li>If all the networks are weighted with real values (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>Y</mi><mrow><mi>i</mi><mi>j</mi></mrow><mi>ℓ</mi></msubsup><mo>∈</mo><mi mathvariant="double-struck">ℝ</mi></mrow><annotation encoding="application/x-tex">Y^\ell_{ij} \in \mathbb{R}</annotation></semantics></math>) then <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">ℱ</mi><annotation encoding="application/x-tex">\mathcal{F}</annotation></semantics></math> could be a <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math>-dimensional Gaussian distribution and <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>α</mi><mrow><mi>q</mi><mi>r</mi></mrow></msub><mo>=</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>μ</mi><mrow><mi>q</mi><mi>r</mi></mrow></msub><mo>,</mo><msub><mi mathvariant="normal">Σ</mi><mrow><mi>q</mi><mi>r</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex"> \alpha_{qr} = (\mu_{qr},\Sigma_{qr})</annotation></semantics></math> with <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>μ</mi><mrow><mi>q</mi><mi>r</mi></mrow></msub><mo>∈</mo><msup><mi mathvariant="double-struck">ℝ</mi><mi>L</mi></msup></mrow><annotation encoding="application/x-tex">\mu_{qr} \in \mathbb{R}^L</annotation></semantics></math>, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi mathvariant="normal">Σ</mi><mrow><mi>q</mi><mi>r</mi></mrow></msub><annotation encoding="application/x-tex">\Sigma_{qr}</annotation></semantics></math> a <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo>×</mo><mi>L</mi></mrow><annotation encoding="application/x-tex">L \times L</annotation></semantics></math> covariance matrix.</li>
 </ul>
-<p>Note that these two models assume that the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math>
-interactions are dependent <strong>conditionally to the
-clustering</strong>. The integration against the latent variables
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Z</mi><annotation encoding="application/x-tex">Z</annotation></semantics></math>
-(clustering) implies that the interactions between two pairs of nodes
-are also dependent.</p>
-<p>A collection of models are implemented in our package
-<code>sbm</code>. These models can be classified into two groups :
-either the layers are dependent conditionally to
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Z</mi><annotation encoding="application/x-tex">Z</annotation></semantics></math>
-or not.</p>
-</div>
-<div class="section level3">
-<h3 id="dependent-and-independent-layers-conditionally-to-z">Dependent and independent layers conditionally to
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Z</mi><annotation encoding="application/x-tex">Z</annotation></semantics></math><a class="anchor" aria-label="anchor" href="#dependent-and-independent-layers-conditionally-to-z"></a>
+<p>Note that these two models assume that the <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math> interactions are dependent <strong>conditionally to the clustering</strong>. The integration against the latent variables <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Z</mi><annotation encoding="application/x-tex">Z</annotation></semantics></math> (clustering) implies that the interactions between two pairs of nodes are also dependent.</p>
+<p>A collection of models are implemented in our package <code>sbm</code>. These models can be classified into two groups: either the layers are dependent conditionally to <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Z</mi><annotation encoding="application/x-tex">Z</annotation></semantics></math> or not.</p>
+</section><section class="level3"><h3 id="dependent-and-independent-layers-conditionally-to-z">3.2 Dependent and independent layers conditionally to <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Z</mi><annotation encoding="application/x-tex">Z</annotation></semantics></math><a class="anchor" aria-label="anchor" href="#dependent-and-independent-layers-conditionally-to-z"></a>
 </h3>
-<p>We consider conditional dependence in a few numbers of models :</p>
+<p>We consider conditional dependence in a few numbers of models:</p>
 <ul>
-<li><p>for
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">L=2</annotation></semantics></math>
-Binary networks (Bernoulli)</p></li>
-<li><p>For any number
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math>
-of layers with Gaussian multivariate distributions but restricted to
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="normal">Σ</mi><mrow><mi>q</mi><mi>r</mi></mrow></msub><mo>=</mo><mi mathvariant="normal">Σ</mi></mrow><annotation encoding="application/x-tex">\Sigma_{qr} = \Sigma</annotation></semantics></math>
-(same covariance in any blocks).</p></li>
+<li>for <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">L=2</annotation></semantics></math> binary networks (Bernoulli);</li>
+<li>for any number <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math> of layers with Gaussian multivariate distributions but restricted to <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="normal">Σ</mi><mrow><mi>q</mi><mi>r</mi></mrow></msub><mo>=</mo><mi mathvariant="normal">Σ</mi></mrow><annotation encoding="application/x-tex">\Sigma_{qr} = \Sigma</annotation></semantics></math> (same covariance in any blocks).</li>
 </ul>
-<p>In the Binary case, the number of parameters of dependent layers
-explodes with the number of layers
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math>
-and the results become difficult to understand. As a consequence, we
-also implemented inference methods for independent layers conditionally
-to the clusterings for any number of layers.</p>
-<p>In the case of independent layers conditionally to the clusters, we
-assume that for any
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ℓ</mi><mo>,</mo><mi>i</mi><mo>,</mo><mi>j</mi></mrow><annotation encoding="application/x-tex">\ell,i,j</annotation></semantics></math>,
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>X</mi><mrow><mi>i</mi><mi>j</mi></mrow><mi>ℓ</mi></msubsup><mo stretchy="false" form="prefix">|</mo><msub><mi>Z</mi><mi>i</mi></msub><mo>=</mo><mi>q</mi><mo>,</mo><msub><mi>Z</mi><mi>j</mi></msub><mo>=</mo><mi>r</mi><msub><mo>∼</mo><mrow><mi>i</mi><mi>n</mi><mi>d</mi></mrow></msub><msub><mi>ℱ</mi><mi>ℓ</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>⋅</mi><mo>;</mo><msubsup><mi>θ</mi><mrow><mi>q</mi><mi>r</mi></mrow><mi>ℓ</mi></msubsup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex"> X^\ell_{ij}  | Z_i = q, Z_j = r \sim_{ind} \mathcal{F}_\ell(\cdot;\theta^\ell_{qr})</annotation></semantics></math>
-where any
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ℱ</mi><mi>ℓ</mi></msub><annotation encoding="application/x-tex">\mathcal{F}_\ell</annotation></semantics></math>
-can be Bernoulli, Poisson, Gaussian or Zero Inflated Gaussian.</p>
+<p>In the binary case, the number of parameters of dependent layers explodes with the number of layers <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math> and the results become difficult to understand. As a consequence, we also implemented inference methods for independent layers conditionally to the clusterings for any number of layers.</p>
+<div>
+<blockquote>
+<p><strong>The multiplex SBM with independent layers</strong></p>
+<p>The clustering <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>Z</mi><mi>i</mi></msub><msub><mo stretchy="false" form="postfix">)</mo><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">(Z_i)_{i}</annotation></semantics></math> is the same as above but, conditionally to the clusters, the layers are independent: for any <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ℓ</mi><mo>,</mo><mi>i</mi><mo>,</mo><mi>j</mi></mrow><annotation encoding="application/x-tex">\ell,i,j</annotation></semantics></math>, <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>Y</mi><mrow><mi>i</mi><mi>j</mi></mrow><mi>ℓ</mi></msubsup><mo>∣</mo><msub><mi>Z</mi><mi>i</mi></msub><mo>=</mo><mi>q</mi><mo>,</mo><msub><mi>Z</mi><mi>j</mi></msub><mo>=</mo><mi>r</mi><msub><mo>∼</mo><mrow><mi>i</mi><mi>n</mi><mi>d</mi></mrow></msub><msub><mi mathvariant="script">ℱ</mi><mi>ℓ</mi></msub><mo stretchy="false" form="prefix">(</mo><msubsup><mi>α</mi><mrow><mi>q</mi><mi>r</mi></mrow><mi>ℓ</mi></msubsup><mo stretchy="false" form="postfix">)</mo><mo>,</mo></mrow><annotation encoding="application/x-tex"> Y^\ell_{ij} \mid Z_i = q, Z_j = r \sim_{ind} \mathcal{F}_\ell(\alpha^\ell_{qr}),</annotation></semantics></math> where any <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi mathvariant="script">ℱ</mi><mi>ℓ</mi></msub><annotation encoding="application/x-tex">\mathcal{F}_\ell</annotation></semantics></math> can be Bernoulli, Poisson, Gaussian or Zero Inflated Gaussian.</p>
+</blockquote>
 </div>
-<div class="section level3">
-<h3 id="bipartite-multiplex-networks">Bipartite multiplex networks<a class="anchor" aria-label="anchor" href="#bipartite-multiplex-networks"></a>
+</section><section class="level3"><h3 id="bipartite-multiplex-networks">3.3 Bipartite multiplex networks<a class="anchor" aria-label="anchor" href="#bipartite-multiplex-networks"></a>
 </h3>
-<p>All the previous models can be extended to bipartite networks
-(i.e. when the nodes in row are different from the nodes in column). In
-that case, two clusterings are introduced. Assume that the row
-(respectively column) nodes are divided into
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>K</mi><mn>1</mn></msub><annotation encoding="application/x-tex">K_1</annotation></semantics></math>
-(resp.
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>K</mi><mn>2</mn></msub><annotation encoding="application/x-tex">K_2</annotation></semantics></math>)
-clusters, and denote
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><msubsup><mi>Z</mi><mi>i</mi><mn>1</mn></msubsup><msub><mo stretchy="false" form="postfix">)</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>n</mi></mrow></msub></mrow><annotation encoding="application/x-tex">(Z^1_i)_{i=1,\dots,n}</annotation></semantics></math>
-(resp.
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><msubsup><mi>Z</mi><mi>j</mi><mn>2</mn></msubsup><msub><mo stretchy="false" form="postfix">)</mo><mrow><mi>i</mi><mo>=</mo><mi>j</mi><mo>,</mo><mi>…</mi><mo>,</mo><mi>p</mi></mrow></msub></mrow><annotation encoding="application/x-tex">(Z^2_j)_{i=j,\dots,p}</annotation></semantics></math>
-) the row (resp. col) clusterings.</p>
-<p>The relations between nodes
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>j</mi><annotation encoding="application/x-tex">j</annotation></semantics></math>
-are driven by the clusters they belong to :</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><msubsup><mi>X</mi><mrow><mi>i</mi><mi>j</mi></mrow><mn>1</mn></msubsup><mo>,</mo><mi>…</mi><mo>,</mo><msubsup><mi>X</mi><mrow><mi>i</mi><mi>j</mi></mrow><mi>L</mi></msubsup><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">|</mo><msubsup><mi>Z</mi><mi>i</mi><mn>1</mn></msubsup><mo>=</mo><mi>q</mi><mo>,</mo><msubsup><mi>Z</mi><mi>j</mi><mn>2</mn></msubsup><mo>=</mo><mi>r</mi><msub><mo>∼</mo><mrow><mi>i</mi><mi>n</mi><mi>d</mi></mrow></msub><mi>ℱ</mi><mo stretchy="false" form="prefix">(</mo><mi>⋅</mi><mo>;</mo><msub><mi>θ</mi><mrow><mi>q</mi><mi>r</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex"> (X^1_{ij}, \dots,X^L_{ij})  | Z^1_i = q, Z^2_j = r \sim_{ind} \mathcal{F}(\cdot;\theta_{qr})</annotation></semantics></math></p>
+<p>All the previous models can be extended to bipartite networks (i.e. when the nodes in row are different from the nodes in column). In that case, two clusterings are introduced.</p>
+<div>
+<blockquote>
+<p><strong>The bipartite multiplex SBM</strong></p>
+<p>The <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>n</mi><mn>1</mn></msub><annotation encoding="application/x-tex">n_1</annotation></semantics></math> row nodes are divided into <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Q</mi><mn>1</mn></msub><annotation encoding="application/x-tex">Q_1</annotation></semantics></math> blocks with proportions <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>π</mi><mn>1</mn></msup><annotation encoding="application/x-tex">\pi^1</annotation></semantics></math> and the <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>n</mi><mn>2</mn></msub><annotation encoding="application/x-tex">n_2</annotation></semantics></math> column nodes into <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Q</mi><mn>2</mn></msub><annotation encoding="application/x-tex">Q_2</annotation></semantics></math> blocks with proportions <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>π</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\pi^2</annotation></semantics></math>, encoded into the row and column clusterings <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><msubsup><mi>Z</mi><mi>i</mi><mn>1</mn></msubsup><msub><mo stretchy="false" form="postfix">)</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>n</mi><mn>1</mn></msub></mrow></msub></mrow><annotation encoding="application/x-tex">(Z^1_i)_{i=1,\dots,n_1}</annotation></semantics></math> and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><msubsup><mi>Z</mi><mi>j</mi><mn>2</mn></msubsup><msub><mo stretchy="false" form="postfix">)</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>n</mi><mn>2</mn></msub></mrow></msub></mrow><annotation encoding="application/x-tex">(Z^2_j)_{j=1,\dots,n_2}</annotation></semantics></math>: <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mo stretchy="false" form="prefix">(</mo><msubsup><mi>Z</mi><mi>i</mi><mn>1</mn></msubsup><msub><mo stretchy="false" form="postfix">)</mo><mi>i</mi></msub><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> i.i.d.</mtext></mrow><mspace width="2.0em"></mspace></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mi mathvariant="double-struck">ℙ</mi><mo stretchy="false" form="prefix">(</mo><msubsup><mi>Z</mi><mi>i</mi><mn>1</mn></msubsup><mo>=</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msubsup><mi>π</mi><mi>q</mi><mn>1</mn></msubsup><mo>,</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mo stretchy="false" form="prefix">(</mo><msubsup><mi>Z</mi><mi>j</mi><mn>2</mn></msubsup><msub><mo stretchy="false" form="postfix">)</mo><mi>j</mi></msub><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> i.i.d.</mtext></mrow><mo>,</mo><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> indep. of </mtext><mspace width="0.333em"></mspace></mrow><mo stretchy="false" form="prefix">(</mo><msubsup><mi>Z</mi><mi>i</mi><mn>1</mn></msubsup><msub><mo stretchy="false" form="postfix">)</mo><mi>i</mi></msub><mspace width="2.0em"></mspace></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mi mathvariant="double-struck">ℙ</mi><mo stretchy="false" form="prefix">(</mo><msubsup><mi>Z</mi><mi>j</mi><mn>2</mn></msubsup><mo>=</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msubsup><mi>π</mi><mi>r</mi><mn>2</mn></msubsup><mo>,</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mo stretchy="false" form="prefix">(</mo><msubsup><mi>Y</mi><mrow><mi>i</mi><mi>j</mi></mrow><mn>1</mn></msubsup><mo>,</mo><mi>…</mi><mo>,</mo><msubsup><mi>Y</mi><mrow><mi>i</mi><mi>j</mi></mrow><mi>L</mi></msubsup><msub><mo stretchy="false" form="postfix">)</mo><mrow><mi>i</mi><mo>,</mo><mi>j</mi></mrow></msub><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> indep.</mtext></mrow><mo>∣</mo><mo stretchy="false" form="prefix">(</mo><msubsup><mi>Z</mi><mi>i</mi><mn>1</mn></msubsup><msub><mo stretchy="false" form="postfix">)</mo><mi>i</mi></msub><mo>,</mo><mo stretchy="false" form="prefix">(</mo><msubsup><mi>Z</mi><mi>j</mi><mn>2</mn></msubsup><msub><mo stretchy="false" form="postfix">)</mo><mi>j</mi></msub><mspace width="2.0em"></mspace></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo stretchy="false" form="prefix">(</mo><msubsup><mi>Y</mi><mrow><mi>i</mi><mi>j</mi></mrow><mn>1</mn></msubsup><mo>,</mo><mi>…</mi><mo>,</mo><msubsup><mi>Y</mi><mrow><mi>i</mi><mi>j</mi></mrow><mi>L</mi></msubsup><mo stretchy="false" form="postfix">)</mo><mo>∣</mo><msubsup><mi>Z</mi><mi>i</mi><mn>1</mn></msubsup><mo>=</mo><mi>q</mi><mo>,</mo><msubsup><mi>Z</mi><mi>j</mi><mn>2</mn></msubsup><mo>=</mo><mi>r</mi><mo>∼</mo><mi mathvariant="script">ℱ</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>α</mi><mrow><mi>q</mi><mi>r</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo><mo>,</mo></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{align*}
+ (Z^1_i)_{i} \text{ i.i.d.} \qquad &amp; \mathbb{P}(Z^1_i = q) = \pi^1_q, \\
+ (Z^2_j)_{j} \text{ i.i.d.}, \text{ indep. of } (Z^1_i)_{i} \qquad &amp; \mathbb{P}(Z^2_j = r) = \pi^2_r, \\
+ (Y^1_{ij}, \dots,Y^L_{ij})_{i,j} \text{ indep.} \mid (Z^1_i)_{i}, (Z^2_j)_{j} \qquad &amp; (Y^1_{ij}, \dots,Y^L_{ij}) \mid Z^1_i = q, Z^2_j = r \sim \mathcal{F}(\alpha_{qr}),
+\end{align*}</annotation></semantics></math> with the same distributions <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">ℱ</mi><annotation encoding="application/x-tex">\mathcal{F}</annotation></semantics></math> as above (or independent layers <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>Y</mi><mrow><mi>i</mi><mi>j</mi></mrow><mi>ℓ</mi></msubsup><mo>∣</mo><msubsup><mi>Z</mi><mi>i</mi><mn>1</mn></msubsup><mo>=</mo><mi>q</mi><mo>,</mo><msubsup><mi>Z</mi><mi>j</mi><mn>2</mn></msubsup><mo>=</mo><mi>r</mi><mo>∼</mo><msub><mi mathvariant="script">ℱ</mi><mi>ℓ</mi></msub><mo stretchy="false" form="prefix">(</mo><msubsup><mi>α</mi><mrow><mi>q</mi><mi>r</mi></mrow><mi>ℓ</mi></msubsup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">Y^\ell_{ij} \mid Z^1_i = q, Z^2_j = r \sim \mathcal{F}_\ell(\alpha^\ell_{qr})</annotation></semantics></math>).</p>
+</blockquote>
 </div>
-<div class="section level3">
-<h3 id="inference">Inference<a class="anchor" aria-label="anchor" href="#inference"></a>
+</section><section class="level3"><h3 id="inference">3.4 Inference<a class="anchor" aria-label="anchor" href="#inference"></a>
 </h3>
-<p>The maximization of the likelihood is obtained via a Variational
-version of the Expectation- Maximization algorithm. The number of blocks
-is chosen via a penalized likelihood criterion (ICL).<br>
-See <span class="citation">Barbillon et al. (<a href="#ref-multiplexSBM">2017</a>)</span> for details.</p>
-<p>Note that, in the case of dependent networks, the inference is
-performed via the <code>blockmodels</code> package, while the
-<code>GREMLINS</code> package is used in the case of independent
-networks. As a consequence, the <code>estimOptions</code> arguments are
-slightly different.</p>
-</div>
-</div>
-<div class="section level2">
-<h2 id="implementation">Implementation<a class="anchor" aria-label="anchor" href="#implementation"></a>
+<p>The maximization of the likelihood is obtained via a Variational version of the Expectation-Maximization algorithm. The number of blocks is chosen via a penalized likelihood criterion (ICL). See <span class="citation" data-cites="multiplexSBM">Barbillon et al. (<a href="#ref-multiplexSBM" role="doc-biblioref">2017</a>)</span> for details.</p>
+<p>Note that, in the case of dependent networks, the inference is performed via the <code>blockmodels</code> package, while the <code>GREMLINS</code> package is used in the case of independent networks. As a consequence, the <code>estimOptions</code> arguments are slightly different.</p>
+</section></section><section class="level2"><h2 id="data-simulation">4. Data simulation<a class="anchor" aria-label="anchor" href="#data-simulation"></a>
 </h2>
-<div class="section level3">
-<h3 id="data-simulation">Data simulation<a class="anchor" aria-label="anchor" href="#data-simulation"></a>
-</h3>
-<p>The function <code>mySampleMultiplexSBM</code> supplies a method to
-simulate multiplex networks. The argument <code>dependent</code> is set
-to <code>FALSE</code> by default (assuming independent layers
-conditionally to the clusterings).</p>
-<p>We simulate hereafter
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>2</mn><annotation encoding="application/x-tex">2</annotation></semantics></math>
-simple (i.e. non bipartite) layers. The corresponding matrices can be
-plotted using the function <code>plotMyMultiplexMatrix</code>.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<p>The function <code>sampleMultiplexSBM</code> supplies a method to simulate multiplex networks. The argument <code>dependent</code> is set to <code>FALSE</code> by default (assuming independent layers conditionally to the clusterings).</p>
+<p>We simulate hereafter <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>2</mn><annotation encoding="application/x-tex">2</annotation></semantics></math> layers. The corresponding matrices can be plotted using the function <code>plotMyMultiplexMatrix</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">nbLayers</span> <span class="op">&lt;-</span> <span class="fl">2</span></span></code></pre></div>
-<p><strong>Examples</strong></p>
-<ul>
-<li>2 directed Layers : one Poisson, one Bernoulli and two clusters</li>
-</ul>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+</div>
+<section class="level3"><h3 id="two-independent-directed-layers-one-bernoulli-one-poisson-two-clusters">4.1 Two independent directed layers: one Bernoulli, one Poisson, two clusters<a class="anchor" aria-label="anchor" href="#two-independent-directed-layers-one-bernoulli-one-poisson-two-clusters"></a>
+</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Nnodes</span> <span class="op">&lt;-</span> <span class="fl">40</span></span>
 <span><span class="va">blockProp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.4</span>,<span class="fl">.6</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
@@ -324,25 +171,31 @@ plotted using the function <code>plotMyMultiplexMatrix</code>.</p>
 <span>   seed <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "use of sampleMultipartite"</span></span>
 <span><span class="va">listSBM_PB</span> <span class="op">&lt;-</span> <span class="va">mySampleMultiplexSBM_PB</span><span class="op">$</span><span class="va">listSBM</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">listSBM_PB</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Bernoulli"</span>,<span class="st">"Poisson"</span><span class="op">)</span>  </span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">listSBM_PB</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Bernoulli"</span>,<span class="st">"Poisson"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plotMyMultiplexMatrix.html">plotMyMultiplexMatrix</a></span><span class="op">(</span><span class="va">listSBM_PB</span><span class="op">)</span></span></code></pre></div>
-<p><img src="MultiplexNetwork_principle_files/figure-html/Independant%20Poisson%20bernoulli-1.png" class="r-plt" alt="" width="700"></p>
-<p>The resulting object is a list of SBM objects (of the SBM class). To
-build such an object from an observed matrix use the function
-<code>defineSBM</code>.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="cell-output-display">
+<div>
+<figure><p><img src="MultiplexNetwork_principle_files/figure-html/Independant%20Poisson%20bernoulli-1.png" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The resulting object is a list of SBM objects (of the SBM class). To build such an object from an observed matrix use the function <code>defineSBM</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">listSBM_PB</span></span>
 <span><span class="co">#&gt; $Bernoulli</span></span>
 <span><span class="co">#&gt; Fit of a Simple Stochastic Block Model -- bernoulli variant</span></span>
 <span><span class="co">#&gt; =====================================================================</span></span>
-<span><span class="co">#&gt; Dimension = ( 40 ) - ( 0 ) blocks and no covariate(s).</span></span>
+<span><span class="co">#&gt; Dimension = ( 40 ) - ( 1 ) blocks.  No  edge covariate(s). No  node covariate(s). </span></span>
 <span><span class="co">#&gt; =====================================================================</span></span>
 <span><span class="co">#&gt; * Useful fields </span></span>
 <span><span class="co">#&gt;   $nbNodes, $modelName, $dimLabels, $nbBlocks, $nbCovariates, $nbDyads</span></span>
 <span><span class="co">#&gt;   $blockProp, $connectParam, $covarParam, $covarList, $covarEffect </span></span>
+<span><span class="co">#&gt;   $nbNodesCovariates, $nodesCovariates, $nodesCovariatesParam </span></span>
 <span><span class="co">#&gt;   $expectation, $indMemberships, $memberships </span></span>
 <span><span class="co">#&gt; * R6 and S3 methods </span></span>
-<span><span class="co">#&gt;   $rNetwork, $rMemberships, $rEdges, plot, print, coef </span></span>
+<span><span class="co">#&gt;   $rNetwork, $rMemberships, $rEdges, plot(obj), print(obj), coef(obj) </span></span>
 <span><span class="co">#&gt; * Additional fields</span></span>
 <span><span class="co">#&gt;   $probMemberships, $loglik, $ICL, $storedModels, </span></span>
 <span><span class="co">#&gt; * Additional methods </span></span>
@@ -351,22 +204,24 @@ build such an object from an observed matrix use the function
 <span><span class="co">#&gt; $Poisson</span></span>
 <span><span class="co">#&gt; Fit of a Simple Stochastic Block Model -- poisson variant</span></span>
 <span><span class="co">#&gt; =====================================================================</span></span>
-<span><span class="co">#&gt; Dimension = ( 40 ) - ( 0 ) blocks and no covariate(s).</span></span>
+<span><span class="co">#&gt; Dimension = ( 40 ) - ( 1 ) blocks.  No  edge covariate(s). No  node covariate(s). </span></span>
 <span><span class="co">#&gt; =====================================================================</span></span>
 <span><span class="co">#&gt; * Useful fields </span></span>
 <span><span class="co">#&gt;   $nbNodes, $modelName, $dimLabels, $nbBlocks, $nbCovariates, $nbDyads</span></span>
 <span><span class="co">#&gt;   $blockProp, $connectParam, $covarParam, $covarList, $covarEffect </span></span>
+<span><span class="co">#&gt;   $nbNodesCovariates, $nodesCovariates, $nodesCovariatesParam </span></span>
 <span><span class="co">#&gt;   $expectation, $indMemberships, $memberships </span></span>
 <span><span class="co">#&gt; * R6 and S3 methods </span></span>
-<span><span class="co">#&gt;   $rNetwork, $rMemberships, $rEdges, plot, print, coef </span></span>
+<span><span class="co">#&gt;   $rNetwork, $rMemberships, $rEdges, plot(obj), print(obj), coef(obj) </span></span>
 <span><span class="co">#&gt; * Additional fields</span></span>
 <span><span class="co">#&gt;   $probMemberships, $loglik, $ICL, $storedModels, </span></span>
 <span><span class="co">#&gt; * Additional methods </span></span>
 <span><span class="co">#&gt;   predict, fitted, $setModel, $reorder</span></span></code></pre></div>
-<ul>
-<li>2 Bipartite Gaussian dependent Layers and three clusters</li>
-</ul>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+</div>
+</section><section class="level3"><h3 id="two-dependent-bipartite-gaussian-layers-three-row-clusters-two-column-clusters">4.2 Two dependent bipartite Gaussian layers: three row clusters, two column clusters<a class="anchor" aria-label="anchor" href="#two-dependent-bipartite-gaussian-layers-three-row-clusters-two-column-clusters"></a>
+</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">blockProp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.3</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">Q</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">blockProp</span>, <span class="kw">function</span><span class="op">(</span><span class="va">p</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">nbNodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">80</span>, <span class="fl">30</span><span class="op">)</span></span>
@@ -391,11 +246,17 @@ build such an object from an observed matrix use the function
 <span>     seed <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="va">listSBM_GG</span> <span class="op">&lt;-</span> <span class="va">mySampleMultiplexSBM_GG</span><span class="op">$</span><span class="va">listSBM</span></span>
 <span><span class="fu"><a href="../reference/plotMyMultiplexMatrix.html">plotMyMultiplexMatrix</a></span><span class="op">(</span><span class="va">listSBM_GG</span><span class="op">)</span></span></code></pre></div>
-<p><img src="MultiplexNetwork_principle_files/figure-html/unnamed-chunk-3-1.png" class="r-plt" alt="" width="700"></p>
-<ul>
-<li>2 Bernoulli dependent Layers and 2 clusters</li>
-</ul>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="cell-output-display">
+<div>
+<figure><p><img src="MultiplexNetwork_principle_files/figure-html/Dependent%20Gaussian%20bipartite-1.png" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section class="level3"><h3 id="two-dependent-directed-bernoulli-layers-two-clusters">4.3 Two dependent directed Bernoulli layers: two clusters<a class="anchor" aria-label="anchor" href="#two-dependent-directed-bernoulli-layers-two-clusters"></a>
+</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## MultiplexSBM Bernoulli with dependence</span></span>
 <span><span class="va">Q</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">94</span><span class="op">)</span></span>
@@ -430,132 +291,296 @@ build such an object from an observed matrix use the function
 <span>     seed <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="va">listSBM_BB</span> <span class="op">&lt;-</span> <span class="va">mySampleMultiplexSBM</span><span class="op">$</span><span class="va">listSBM</span></span>
 <span><span class="fu"><a href="../reference/plotMyMultiplexMatrix.html">plotMyMultiplexMatrix</a></span><span class="op">(</span><span class="va">listSBM_BB</span><span class="op">)</span></span></code></pre></div>
-<p><img src="MultiplexNetwork_principle_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" alt="" width="700"></p>
+<div class="cell-output-display">
+<div>
+<figure><p><img src="MultiplexNetwork_principle_files/figure-html/Dependent%20Bernoulli-1.png" width="672"></p>
+</figure>
 </div>
-<div class="section level3">
-<h3 id="inference-1">Inference<a class="anchor" aria-label="anchor" href="#inference-1"></a>
+</div>
+</div>
+</section></section><section class="level2"><h2 id="inference-1">5. Inference<a class="anchor" aria-label="anchor" href="#inference-1"></a>
+</h2>
+<p>We are now able to perform inference on the multiplex network (search of the “best” number of clusters in terms of ICL). To do so, we have to chose the model, i.e. the distribution used in each matrix and the dependence or independence between matrices conditionally to the clusters.</p>
+<section class="level3"><h3 id="two-independent-directed-layers-one-bernoulli-one-poisson">5.1 Two independent directed layers: one Bernoulli, one Poisson<a class="anchor" aria-label="anchor" href="#two-independent-directed-layers-one-bernoulli-one-poisson"></a>
 </h3>
-<p>We are now able to perform inference on the multiplex network (search
-of the “best” number of clusters in terms of ICL). To do so, we have to
-chose the model, i.e. the distribution used in each matrix and the
-dependence or independence between matrices conditionally to the
-clusters.</p>
-<ul>
-<li>2 directed Layers : one Poisson, one Bernoulli and two clusters</li>
-</ul>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">res_PB</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/estimateMultiplexSBM.html">estimateMultiplexSBM</a></span><span class="op">(</span><span class="va">listSBM_PB</span><span class="op">)</span></span>
-<span><span class="va">res_PB</span><span class="op">$</span><span class="va">storedModels</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt;   indexModel nbParams nbBlocks       ICL    loglik</span></span>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">res_PB</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/estimateMultiplexSBM.html">estimateMultiplexSBM</a></span><span class="op">(</span><span class="va">listSBM_PB</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">res_PB</span><span class="op">$</span><span class="va">storedModels</span></span>
+<span><span class="co">#&gt;   indexModel nbParams nbBlocks       ICL    loglik</span></span>
 <span><span class="co">#&gt; 1          1        9        2 -1926.202 -1894.847</span></span>
-<span><span class="co">#&gt; 2          2        2        1 -2362.585 -2355.207</span></span></code></pre>
-<p>One can now plot the reorganized matrices and the predicted
-values.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<span><span class="co">#&gt; 2          2        2        1 -2362.585 -2355.207</span></span></code></pre></div>
+</div>
+<p>One can now plot the reorganized matrices and the predicted values.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res_PB</span><span class="op">)</span></span></code></pre></div>
-<p><img src="MultiplexNetwork_principle_files/figure-html/unnamed-chunk-8-1.png" class="r-plt" alt="" width="700"></p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="cell-output-display">
+<div>
+<figure><p><img src="MultiplexNetwork_principle_files/figure-html/plot%20PB-1.png" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res_PB</span>, type <span class="op">=</span> <span class="st">'expected'</span><span class="op">)</span></span></code></pre></div>
-<p><img src="MultiplexNetwork_principle_files/figure-html/unnamed-chunk-9-1.png" class="r-plt" alt="" width="700"></p>
-<p>One can also compare the estimated clusters to the simulated
-clusters. We recover the clusters perfectly.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">All</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotAlluvial.html">plotAlluvial</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>simulated  <span class="op">=</span> <span class="va">mySampleMultiplexSBM_PB</span><span class="op">$</span><span class="va">memberships</span><span class="op">$</span><span class="va">Individuals</span>, estim <span class="op">=</span> <span class="va">res_PB</span><span class="op">$</span><span class="va">memberships</span><span class="op">$</span><span class="va">Individuals</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="MultiplexNetwork_principle_files/figure-html/unnamed-chunk-10-1.png" class="r-plt" alt="" width="700"></p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">All</span></span>
-<span><span class="co">#&gt; $plotOptions</span></span>
-<span><span class="co">#&gt; $plotOptions$curvy</span></span>
-<span><span class="co">#&gt; [1] 0.3</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $plotOptions$alpha</span></span>
-<span><span class="co">#&gt; [1] 0.8</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $plotOptions$gap.width</span></span>
-<span><span class="co">#&gt; [1] 0.1</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $plotOptions$col</span></span>
-<span><span class="co">#&gt; [1] "darkolivegreen3"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $plotOptions$border</span></span>
-<span><span class="co">#&gt; [1] "white"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $tableFreq</span></span>
-<span><span class="co">#&gt;   simulated estim Freq</span></span>
-<span><span class="co">#&gt; 2         2     1   25</span></span>
-<span><span class="co">#&gt; 3         1     2   15</span></span></code></pre></div>
-<pre><code>-  2  Gaussian bipartite dependent Layers with 3 row clusters and 3 col clusters. </code></pre>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">res_GG</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/estimateMultiplexSBM.html">estimateMultiplexSBM</a></span><span class="op">(</span><span class="va">listSBM_GG</span>, dependent <span class="op">=</span> <span class="cn">TRUE</span>, estimOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>plot <span class="op">=</span> <span class="cn">FALSE</span>, verbosity <span class="op">=</span> <span class="fl">0</span> <span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">res_GG</span><span class="op">$</span><span class="va">storedModels</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt;   indexModel nbParams rowBlocks colBlocks nbBlocks       ICL    loglik</span></span>
-<span><span class="co">#&gt; 5          5       18         3         2        5 -9467.993 -9394.099</span></span>
-<span><span class="co">#&gt; 6          6       23         4         2        6 -9489.056 -9396.019</span></span>
-<span><span class="co">#&gt; 7          7       28         5         2        7 -9509.624 -9397.443</span></span>
-<span><span class="co">#&gt; 8          8       33         6         2        8 -9530.222 -9398.897</span></span>
-<span><span class="co">#&gt; 4          4       13         2         2        4 -9543.194 -9488.444</span></span>
-<span><span class="co">#&gt; 3          3        8         2         1        3 -9584.737 -9548.641</span></span>
+<div class="cell-output-display">
+<div>
+<figure><p><img src="MultiplexNetwork_principle_files/figure-html/plot%20PB%20expected-1.png" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>or the graphon, i.e. the estimated connectivities alone, each block being represented by an interval whose length is its estimated proportion. The two layers following different distributions, the connectivities of each layer are divided by their maximum to be represented on the same color scale.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res_PB</span>, type <span class="op">=</span> <span class="st">'graphon'</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure><p><img src="MultiplexNetwork_principle_files/figure-html/plot%20PB%20graphon-1.png" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>One can also compare the estimated clusters to the simulated clusters:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">mySampleMultiplexSBM_PB</span><span class="op">$</span><span class="va">memberships</span><span class="op">$</span><span class="va">Individuals</span>, <span class="va">res_PB</span><span class="op">$</span><span class="va">memberships</span><span class="op">$</span><span class="va">Individuals</span><span class="op">)</span></span>
+<span><span class="co">#&gt;    </span></span>
+<span><span class="co">#&gt;      1  2</span></span>
+<span><span class="co">#&gt;   1  0 15</span></span>
+<span><span class="co">#&gt;   2 25  0</span></span></code></pre></div>
+</div>
+<p>We recover the clusters perfectly, up to the label switching of the blocks.</p>
+</section><section class="level3"><h3 id="two-dependent-bipartite-gaussian-layers">5.2 Two dependent bipartite Gaussian layers<a class="anchor" aria-label="anchor" href="#two-dependent-bipartite-gaussian-layers"></a>
+</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">res_GG</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/estimateMultiplexSBM.html">estimateMultiplexSBM</a></span><span class="op">(</span><span class="va">listSBM_GG</span>, dependent <span class="op">=</span> <span class="cn">TRUE</span>, estimOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>plot <span class="op">=</span> <span class="cn">FALSE</span>, verbosity <span class="op">=</span> <span class="fl">0</span> <span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">res_GG</span><span class="op">$</span><span class="va">storedModels</span></span>
+<span><span class="co">#&gt;   indexModel nbParams rowBlocks colBlocks nbBlocks       ICL    loglik</span></span>
+<span><span class="co">#&gt; 5          5       18         3         2        5 -9467.992 -9394.098</span></span>
+<span><span class="co">#&gt; 6          6       23         4         2        6 -9487.963 -9394.926</span></span>
+<span><span class="co">#&gt; 7          7       28         5         2        7 -9510.706 -9398.524</span></span>
+<span><span class="co">#&gt; 8          8       33         6         2        8 -9534.096 -9402.771</span></span>
+<span><span class="co">#&gt; 4          4       13         2         2        4 -9542.572 -9487.822</span></span>
+<span><span class="co">#&gt; 3          3        8         2         1        3 -9584.782 -9548.686</span></span>
 <span><span class="co">#&gt; 2          2        5         1         1        2 -9667.705 -9642.276</span></span>
-<span><span class="co">#&gt; 1          0       NA         0         0        0        NA        NA</span></span></code></pre>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<span><span class="co">#&gt; 1          0       NA         0         0        0        NA        NA</span></span></code></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res_GG</span><span class="op">)</span></span></code></pre></div>
-<p><img src="MultiplexNetwork_principle_files/figure-html/unnamed-chunk-13-1.png" class="r-plt" alt="" width="700"></p>
-<ul>
-<li>2 Bernoulli dependent Layers</li>
-</ul>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">res_BB</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/estimateMultiplexSBM.html">estimateMultiplexSBM</a></span><span class="op">(</span><span class="va">listSBM_BB</span>,dependent <span class="op">=</span>  <span class="cn">TRUE</span>, estimOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>plot <span class="op">=</span> <span class="cn">FALSE</span>, verbosity <span class="op">=</span> <span class="fl">0</span> <span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">res_BB</span><span class="op">$</span><span class="va">storedModels</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt;   indexModel nbParams nbBlocks       ICL    loglik</span></span>
+<div class="cell-output-display">
+<div>
+<figure><p><img src="MultiplexNetwork_principle_files/figure-html/plot%20GG-1.png" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res_GG</span>, type <span class="op">=</span> <span class="st">'graphon'</span>, plotOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>legend <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure><p><img src="MultiplexNetwork_principle_files/figure-html/plot%20GG%20graphon-1.png" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section class="level3"><h3 id="two-dependent-directed-bernoulli-layers">5.3 Two dependent directed Bernoulli layers<a class="anchor" aria-label="anchor" href="#two-dependent-directed-bernoulli-layers"></a>
+</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">res_BB</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/estimateMultiplexSBM.html">estimateMultiplexSBM</a></span><span class="op">(</span><span class="va">listSBM_BB</span>,dependent <span class="op">=</span>  <span class="cn">TRUE</span>, estimOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>plot <span class="op">=</span> <span class="cn">FALSE</span>, verbosity <span class="op">=</span> <span class="fl">0</span> <span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">res_BB</span><span class="op">$</span><span class="va">storedModels</span></span>
+<span><span class="co">#&gt;   indexModel nbParams nbBlocks       ICL    loglik</span></span>
 <span><span class="co">#&gt; 2          2       13        2 -1836.174 -1786.056</span></span>
 <span><span class="co">#&gt; 3          3       29        3 -1890.421 -1778.117</span></span>
 <span><span class="co">#&gt; 4          4       51        4 -1963.078 -1764.451</span></span>
-<span><span class="co">#&gt; 1          1        3        1 -2061.409 -2049.340</span></span></code></pre>
+<span><span class="co">#&gt; 1          1        3        1 -2061.409 -2049.340</span></span></code></pre></div>
 </div>
-</div>
-<div class="section level2 unnumbered">
-<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</section></section><section class="level2 unnumbered"><h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references csl-bib-body hanging-indent">
-<div id="ref-multiplexSBM" class="csl-entry">
-Barbillon, Pierre, Sophie Donnet, Emmanuel Lazega, and Avner Bar-Hen.
-2017. <span>“<span class="nocase">Stochastic block models for multiplex
-networks: an application to a multilevel network of
-researchers</span>.”</span> <em>Journal of the Royal Statistical Society
-Series A</em> 180 (1): 295–314. <a href="https://ideas.repec.org/a/bla/jorssa/v180y2017i1p295-314.html" class="external-link">https://ideas.repec.org/a/bla/jorssa/v180y2017i1p295-314.html</a>.
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-multiplexSBM" class="csl-entry" role="listitem">
+Barbillon, Pierre, Sophie Donnet, Emmanuel Lazega, and Avner Bar-Hen. 2017. <span>“<span class="nocase">Stochastic block models for multiplex networks: an application to a multilevel network of researchers</span>.”</span> <em>Journal of the Royal Statistical Society Series A</em> 180 (1): 295–314. <a href="https://ideas.repec.org/a/bla/jorssa/v180y2017i1p295-314.html" class="external-link">https://ideas.repec.org/a/bla/jorssa/v180y2017i1p295-314.html</a>.
 </div>
-<div id="ref-multiplexKefi" class="csl-entry">
-Kéfi, Vincent AND Wieters, Sonia AND Miele. 2016. <span>“How Structured
-Is the Entangled Bank? The Surprisingly Simple Organization of Multiplex
-Ecological Networks Leads to Increased Persistence and
-Resilience.”</span> <em>PLOS Biology</em> 14 (8): 1–21. <a href="https://doi.org/10.1371/journal.pbio.1002527" class="external-link">https://doi.org/10.1371/journal.pbio.1002527</a>.
+<div id="ref-multiplexKefi" class="csl-entry" role="listitem">
+Kéfi, Vincent AND Wieters, Sonia AND Miele. 2016. <span>“How Structured Is the Entangled Bank? The Surprisingly Simple Organization of Multiplex Ecological Networks Leads to Increased Persistence and Resilience.”</span> <em>PLOS Biology</em> 14 (8): 1–21. <a href="https://doi.org/10.1371/journal.pbio.1002527" class="external-link">https://doi.org/10.1371/journal.pbio.1002527</a>.
 </div>
 </div>
+</section><script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'light-border',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config);
+    }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script></main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside>
 </div>
-  </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-      </div>
-
+    <footer><div class="pkgdown-footer-left">
+  <p>Developed by Julien Chiquet, Sophie Donnet, Pierre Barbillon.</p>
 </div>
 
-
-
-      <footer><div class="copyright">
-  <p></p>
-<p>Developed by Julien Chiquet, Sophie Donnet, Pierre Barbillon.</p>
+<div class="pkgdown-footer-right">
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
-<div class="pkgdown">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
+    </footer>
 </div>
-
-      </footer>
-</div>
-
 
 
 

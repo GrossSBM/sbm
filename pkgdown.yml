@@ -6,4 +6,9 @@ articles:
   Multiplex_allianceNwar_case_study: Multiplex_allianceNwar_case_study.html
   MultiplexNetwork_principle: MultiplexNetwork_principle.html
   SBM_fungus_tree_network: SBM_fungus_tree_network.html
-last_built: 2026-07-20T11:20Z
+  SBM_nodes_covariates: SBM_nodes_covariates.html
+  SBM_principle: SBM_principle.html
+last_built: 2026-11-06T17:51Z
+urls:
+  reference: https://grosssbm.github.io/sbm/reference
+  article: https://grosssbm.github.io/sbm/articles
