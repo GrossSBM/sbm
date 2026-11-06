@@ -55,9 +55,9 @@ SimpleSBM_fit <-
         isBinary <- all(.na2zero(adjacencyMatrix) %in% c(0, 1))
         anyRealnumber <- any(.na2zero(adjacencyMatrix)%%1!=0)
 
-        if((isBinary)&(model!="bernoulli")){stop('Choose the bernoulli distribution for your binary data')}
-        if((!isBinary)&(model=="bernoulli")){stop('The bernoulli distribution is not adatped to your non binary data')}
-        if(anyRealnumber&(model %in% c("poisson","bernoulli"))){stop('Choose a distribution adapted to real numbers')}
+        if (isBinary & model %in% c("poisson", "gaussian")) warning("The network is binary: the bernoulli model is usually more appropriate than the ", model, " model.", call. = FALSE)
+        if (!isBinary & model == "bernoulli") stop("The bernoulli model requires a binary network (0/1 entries).", call. = FALSE)
+        if (anyRealnumber & model == "poisson") stop("The poisson model requires a network with integer entries.", call. = FALSE)
 
 
 

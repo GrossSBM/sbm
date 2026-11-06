@@ -22,7 +22,7 @@ test_that("Inference for Multiplex networks", {
     expect_equal(MultiplexSBM_fit$new(list(netA,netB), TRUE)$dependentNetwork,TRUE)
     expect_error(MultiplexSBM_fit$new(list(netA,netC), TRUE))
     expect_error(MultiplexSBM_fit$new(list(netA,netB,netB), TRUE))
-    expect_error(defineSBM(B,"poisson",type = "simple",dimLabels=c("Actor")))
+    expect_warning(defineSBM(B,"poisson",type = "simple",dimLabels=c("Actor")), "binary")
 
 
     currentOptions <- list(

@@ -201,7 +201,12 @@ SimpleSBM <-
            return(mask)
       },
       #' @field nbBlocks number of blocks
-      nbBlocks    = function(value) {if(is.null(private$Z)){return(1)}else{return(ncol(private$Z))}},
+      nbBlocks    = function(value) {
+        if (!is.null(private$Z)) return(ncol(private$Z))
+        ## no memberships yet (sampler): the dimension of the connectivity
+        if (length(private$theta$mean) > 0) return(ncol(private$theta$mean))
+        1
+      },
       #' @field nbDyads number of dyads (potential edges in the network)
       nbDyads     = function(value) {
         if (is.null(private$Y)){

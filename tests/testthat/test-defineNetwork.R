@@ -11,9 +11,9 @@ test_that("Model versus data", {
   A <- matrix(rbinom(100,1,.2),10,10)
   type <- "simple"
   netA <- defineSBM(A,"bernoulli",type,directed=TRUE,dimLabels=c("Actor"))
-  expect_error(defineSBM(A,"poisson",type,directed=TRUE,dimLabels=c("Actor")))
+  expect_warning(defineSBM(A,"poisson",type,directed=TRUE,dimLabels=c("Actor")), "binary")
   expect_error(defineSBM(A*5,"bernoulli",type,directed=TRUE,dimLabels=c("Actor")))
-  expect_error(defineSBM(A,"gaussian",type,directed=TRUE,dimLabels=c("Actor")))
+  expect_warning(defineSBM(A,"gaussian",type,directed=TRUE,dimLabels=c("Actor")), "binary")
   expect_error(defineSBM(A*0.4,"poisson",type,directed=TRUE,dimLabels=c("Actor")))
   expect_error(defineSBM(A*0.4,"bernoulli",type,directed=TRUE,dimLabels=c("Actor")))
 })

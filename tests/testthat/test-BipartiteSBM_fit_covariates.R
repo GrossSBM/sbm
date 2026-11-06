@@ -53,9 +53,8 @@ if (Sys.info()['sysname'] != "Windows") {
 
     ## Estimation-----------------------------------------------------------------
     BM_out <- mySBM$optimize(estimOptions  = list(verbosity = 0, plot = FALSE, fast = TRUE))
-    w = which((mySBM$storedModels$nbRowBlocks==nbBlocks[1])&(mySBM$storedModels$nbColBlocks ==nbBlocks[2]))
-    ind_w <- mySBM$storedModels[,1][w]
-    mySBM$setModel(ind_w)
+    w <- which(mySBM$storedModels$rowBlocks == nbBlocks[1] & mySBM$storedModels$colBlocks == nbBlocks[2])
+    mySBM$setModel(w)
 
     ## Expectation
     expect_equal(dim(mySBM$expectation), nbNodes)
@@ -79,9 +78,9 @@ if (Sys.info()['sysname'] != "Windows") {
     expect_error(predict(mySBM, covarList))
 
     ## prediction wrt BM
-    for (Q in mySBM$storedModels$indexModel) {
-      pred_bm  <- BM_out$prediction(Q = Q)
-      mySBM$setModel(Q)
+    for (k in seq_len(nrow(mySBM$storedModels))) {
+      pred_bm  <- BM_out$prediction(Q = mySBM$storedModels$indexModel[k])
+      mySBM$setModel(k)
       pred_sbm <- predict(mySBM)
       expect_lt( rmse(pred_bm, pred_sbm), 1e-12)
     }
@@ -128,9 +127,8 @@ if (Sys.info()['sysname'] != "Windows") {
 
     ## Estimation-----------------------------------------------------------------
     BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0, plot = FALSE))
-    w = which((mySBM$storedModels$nbRowBlocks==nbBlocks[1])&(mySBM$storedModels$nbColBlocks ==nbBlocks[2]))
-    ind_w <- mySBM$storedModels[,1][w]
-    mySBM$setModel(ind_w)
+    w <- which(mySBM$storedModels$rowBlocks == nbBlocks[1] & mySBM$storedModels$colBlocks == nbBlocks[2])
+    mySBM$setModel(w)
 
     ## Expectation
     expect_equal(dim(mySBM$expectation), nbNodes)
@@ -158,9 +156,9 @@ if (Sys.info()['sysname'] != "Windows") {
     expect_error(predict(mySBM, covarList[1]))
 
     ## prediction wrt BM
-    for (Q in mySBM$storedModels$indexModel) {
-      pred_bm  <- BM_out$prediction(Q = Q)
-      mySBM$setModel(Q)
+    for (k in seq_len(nrow(mySBM$storedModels))) {
+      pred_bm  <- BM_out$prediction(Q = mySBM$storedModels$indexModel[k])
+      mySBM$setModel(k)
       pred_sbm <- predict(mySBM)
       expect_lt( rmse(pred_bm, pred_sbm), 1e-12)
     }
@@ -208,9 +206,8 @@ if (Sys.info()['sysname'] != "Windows") {
 
     ## Estimation-----------------------------------------------------------------
     BM_out <- mySBM$optimize(estimOptions=list(verbosity = 0, plot = FALSE))
-    w = which((mySBM$storedModels$nbRowBlocks==nbBlocks[1])&(mySBM$storedModels$nbColBlocks ==nbBlocks[2]))
-    ind_w <- mySBM$storedModels[,1][w]
-    mySBM$setModel(ind_w)
+    w <- which(mySBM$storedModels$rowBlocks == nbBlocks[1] & mySBM$storedModels$colBlocks == nbBlocks[2])
+    mySBM$setModel(w)
 
     ## Expectation
     expect_equal(dim(mySBM$expectation), nbNodes)
@@ -236,9 +233,9 @@ if (Sys.info()['sysname'] != "Windows") {
     expect_lt(1 - aricode::ARI(mySBM$memberships[[2]], mySampler$memberships[[2]]), 2e-1)
 
     ## prediction wrt BM
-    for (Q in mySBM$storedModels$indexModel) {
-      pred_bm  <- BM_out$prediction(Q = Q)
-      mySBM$setModel(Q)
+    for (k in seq_len(nrow(mySBM$storedModels))) {
+      pred_bm  <- BM_out$prediction(Q = mySBM$storedModels$indexModel[k])
+      mySBM$setModel(k)
       pred_sbm <- predict(mySBM)
       expect_lt( rmse(pred_bm, pred_sbm), 1e-12)
     }

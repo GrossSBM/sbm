@@ -86,7 +86,7 @@ test_that("BipartiteSBM_fit 'Bernoulli' model, with nodes covariates (row and co
 
     ## Estimation
     BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0, plot = FALSE, fast = TRUE, nbCores = 1))
-    mySBM$setModel(4)
+    mySBM$setModel(which(mySBM$storedModels$indexModel == 4))
 
     ## Expectation
     expect_equal(dim(mySBM$expectation), nbNodes)
@@ -146,7 +146,7 @@ test_that("BipartiteSBM_fit 'Bernoulli' model, with nodes covariates (row only)"
 
     ## Estimation
     BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0, plot = FALSE, fast = TRUE, nbCores = 1))
-    mySBM$setModel(2)
+    mySBM$setModel(which(mySBM$storedModels$indexModel == 2))
 
     ## Expectation
     expect_equal(dim(mySBM$expectation), nbNodes)
@@ -182,7 +182,7 @@ test_that("BipartiteSBM_fit 'Poisson' model, with nodes covariates", {
 
     ## Estimation
     BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0, plot = FALSE, fast = TRUE, nbCores = 1))
-    mySBM$setModel(2)
+    mySBM$setModel(which(mySBM$storedModels$indexModel == 2))
 
     ## Expectation
     expect_equal(dim(mySBM$expectation), nbNodes)
@@ -218,7 +218,7 @@ test_that("BipartiteSBM_fit 'Gaussian' model, with nodes covariates", {
 
     ## Estimation
     BM_out <- mySBM$optimize(estimOptions = list(verbosity = 0, plot = FALSE, fast = TRUE, nbCores = 1))
-    mySBM$setModel(2)
+    mySBM$setModel(which(mySBM$storedModels$indexModel == 2))
 
     ## Expectation
     expect_equal(dim(mySBM$expectation), nbNodes)
@@ -284,6 +284,6 @@ test_that("BipartiteSBM_fit with nodes covariates on one side only, the other be
     expect_equal(unname(mySBM$nbNodesCovariates), c(nbNodesCovarRow, 0))
     expect_true(is.vector(mySBM$blockProp$col))
     expect_equal(length(mySBM$blockProp$col), unname(mySBM$nbBlocks["col"]))
-    mySBM$setModel(2)
+    mySBM$setModel(which(mySBM$storedModels$indexModel == 2))
     expect_equal(dim(mySBM$expectation), nbNodes)
 })
