@@ -26,6 +26,11 @@
 * the blocks of dependent multiplex fits are reordered as in the independent case (decreasing connectivity summed over the layers)
 * `estimateMultiplexSBM(dependent = TRUE)` accepts a named list of layers
 
+## Bug fixes
+
+* `predict()` and `fitted()` of Bernoulli models with covariates on the edges (simple and bipartite SBM) now return the expected network under the block memberships, i.e. the sum over the blocks (q,l) of Z[i,q] Z[j,l] logistic(logit(mean[q,l]) + covariates effect). The previous formula, logistic(Z logit(mean) Z' + covariates effect), was exact only for indicator memberships (#3). Consistent with **blockmodels** 1.2.1.
+* `predict()` now uses its argument `covarList`; it was ignored and the covariates of the fit were always used.
+
 ## Other changes
 
 * no ICL plot in `$optimize()` when `verbosity = 0`

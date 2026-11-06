@@ -26,6 +26,22 @@ as_clustering <- function(indicator) {
 .logistic <- function(x) {1/(1 + exp(-x))}
 .logit    <- function(x) {log(x/(1 - x))}
 
+## Expected network of a bernoulli SBM with covariates, under the block
+## memberships (or their posterior probabilities) Z1 (rows) and Z2 (columns):
+##   sum_{q,l} Z1[i,q] Z2[j,l] logistic(logit(mean[q,l]) + covarEffect[i,j])
+## As logistic(logit(m) + b) = 1/(1 + (1-m)/m * exp(-b)), exp() is computed once per entry.
+.bernoulli_covariates_expectation <- function(Z1, Z2, mean, covarEffect) {
+  expB <- exp(-covarEffect)
+  odds <- (1 - mean) / mean
+  res  <- matrix(0, nrow(covarEffect), ncol(covarEffect))
+  for (l in seq_len(ncol(Z2))) {
+    A <- 0
+    for (q in seq_len(ncol(Z1))) A <- A + Z1[, q] / (1 + odds[q, l] * expB)
+    res <- res + A * rep(Z2[, l], each = nrow(covarEffect))
+  }
+  res
+}
+
 .softmax <- function(x) {
   if(!is.matrix(x)){x1 = matrix(x,nrow=1)}else{x1=x}
   x_shift <- x1 - apply(x1, 1, max)
