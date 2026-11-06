@@ -34,5 +34,5 @@ Define a network
 }
 \examples{
 A <- matrix(rbinom(100,1,.2), 10, 10)
-myNet <- defineSBM(A, "poisson", "simple", TRUE, "Actor")
+myNet <- defineSBM(A, "bernoulli", "simple", TRUE, "Actor")
 }

@@ -10,6 +10,30 @@ MultiplexSBM_fit <-
     inherit = MultipartiteSBM_fit,
     # fields for internal use (referring to the mathematical notation)
     private = list(
+      # connectivity of each layer (marginal connectivity in the dependent case)
+      layerMeans = function() {
+        if (!private$dependent) return(unname(map(self$connectParam, "mean")))
+        if (self$modelName[1] == "bernoulli")
+          list(self$connectParam$prob10 + self$connectParam$prob11,
+               self$connectParam$prob01 + self$connectParam$prob11)
+        else self$connectParam$mean
+      },
+      # blocks ordered by decreasing connectivity summed over the layers (marginal connectivities),
+      # each layer weighted by the block proportions, as in the independent case (order_mbm)
+      reorder_BM = function() {
+        listPi <- if (is.list(private$pi)) private$pi else list(private$pi)
+        o <- order_mbm(private$layerMeans(), listPi, private$arch)
+        oRow <- o[[private$arch[1, 1]]]
+        oCol <- o[[private$arch[1, 2]]]
+        perm <- function(m) m[oRow, oCol, drop = FALSE]
+        if (private$BMobject$model_name == "gaussian_multivariate") {
+          private$theta$mean <- map(private$theta$mean, perm)
+        } else {
+          private$theta <- map(private$theta, perm)
+        }
+        private$Z  <- map2(private$Z, o, ~.x[, .y, drop = FALSE])
+        private$pi <- if (is.list(private$pi)) map2(private$pi, o, ~.x[.y]) else private$pi[o[[1]]]
+      },
       BMobject  = NULL,
       dependent = NULL,
       names_layers_  = NULL,
@@ -28,6 +52,7 @@ MultiplexSBM_fit <-
         names(listMemberships) <- self$dimLabels
         private$Z <- listMemberships
         private$pi  <- colMeans(private$Z[[1]])
+        private$reorder_BM()
       },
       import_from_BM_Bipartite  = function(index = which.max(private$BMobject$ICL)) {
         private$import_from_BM(index)
@@ -38,6 +63,7 @@ MultiplexSBM_fit <-
         names(listMemberships) <- self$dimLabels
         private$Z <- listMemberships
         private$pi  <- lapply(private$Z, colMeans)
+        private$reorder_BM()
       }
     ),
     #-----------------------------------------------
@@ -63,8 +89,8 @@ MultiplexSBM_fit <-
               stop("in the dependent case, all networks should be either directed or not directed")
           }
 
-          dBern  <- isTRUE(all.equal(self$modelName, rep("bernoulli", self$nbNetworks)))
-          dGauss <- isTRUE(all.equal(self$modelName, rep("gaussian" , self$nbNetworks)))
+          dBern  <- all(self$modelName == "bernoulli")
+          dGauss <- all(self$modelName == "gaussian")
           if (!(dGauss | (dBern&self$nbNetworks == 2)))
             stop("dependency in multiplex network is only handled for Gaussian distribution or a bivariate Bernoulli distribution")
         }
@@ -75,7 +101,7 @@ MultiplexSBM_fit <-
       #' @description estimation of multipartiteSBM via GREMLINS
       #' @param estimOptions options for MultipartiteBM
       #' @details The list of parameters \code{estimOptions} essentially tunes the optimization process and the variational EM algorithm, with the following parameters
-      #'  * "nbCores" integer for number of cores used.  Default is 2
+      #'  * "nbCores" integer for number of cores used.  Default is 2 (1 under Positron, which does not allow forking)
       #'  * "verbosity" integer for verbosity (0, 1). Default is 1
       #'  * "nbBlocksRange" List of length the number of functional groups, each element supplying the minimal and maximal number of blocks to be explored. The names of the list must be the names of the functional groups.  Default value is from 1 to 10)
       #'  * "initBM" Boolean. True if using simple and bipartite SBM as initialisations. Default value  = TRUE
@@ -91,10 +117,12 @@ MultiplexSBM_fit <-
             plot          = TRUE,
             explorFactor  = 1.5,
             nbBlocksRange = c(4,Inf),
-            nbCores       = 2,
+            nbCores       = .default_nbCores(),
             fast          = TRUE
           )
           currentOptions[names(estimOptions)] <- estimOptions
+          ## no plot when quiet, unless asked (as in estimate*SBM)
+          if (isTRUE(estimOptions$verbosity == 0) && is.null(estimOptions$plot)) {currentOptions$plot <- FALSE}
 
           ## Transform estimOptions to a suited for blockmodels list of options
           blockmodelsOptions <- list(
@@ -102,7 +130,7 @@ MultiplexSBM_fit <-
             plotting           = if(currentOptions$plot) character(0) else "",
             explore_min        = currentOptions$nbBlocksRange[1],
             explore_max        = currentOptions$nbBlocksRange[2],
-            ncores             = currentOptions$nbCores,
+            ncores             = .check_nbCores(currentOptions$nbCores),
             exploration_factor = currentOptions$explorFactor
           )
 
@@ -133,10 +161,10 @@ MultiplexSBM_fit <-
         }
       },
       #' @description plot Multiplex Network
-      #' @param type character for the type of plot: either 'data' (true connection), 'expected' (fitted connection). Default to 'data'.
+      #' @param type character for the type of plot: either 'data' (true connection), 'expected' (fitted connection) or 'graphon' (block connectivity of each layer on the unit square, blocks sized by the block proportions; the marginal connectivity of each layer in the dependent case). Default to 'data'.
       #' @param ordered TRUE is the matrices are plotted after reorganization with the blocks. Default value = TRUE
       #' @param plotOptions list of plot options for the matrix view
-      plot = function(type = c('data','expected'), ordered = TRUE, plotOptions = list()){
+      plot = function(type = c('data','expected','graphon'), ordered = TRUE, plotOptions = list()){
 
         if (ordered) clustering <- self$memberships else clustering <- NULL
 
@@ -155,9 +183,18 @@ MultiplexSBM_fit <-
                   plotMultipartiteMatrix(
                    expectations,
                    private$arch, private$dim, private$dimlab,private$names_layers_,
-                   private$model, clustering, plotOptions
+                   private$model, clustering,
+                   modifyList(list(blockBackground = FALSE, graphonColors = TRUE), plotOptions)
 
-                 )}
+                 )},
+               "graphon" = {
+                 means <- private$layerMeans()
+                 # layers of different models are not on the same scale: each one is divided by its maximum
+                 if (length(unique(private$model)) > 1) {means <- lapply(means, function(mu) mu / max(abs(mu)))}
+                 names(means) <- if (is.null(private$names_layers_)) paste0("Layer", seq_along(means)) else private$names_layers_
+                 blockProp <- if (length(private$dimlab) == 1) unlist(self$blockProp) else unname(self$blockProp)
+                 plotGraphon(means, blockProp, self$nbNodes, private$dimlab, plotOptions)
+               }
         )
       },
       #' @description show method
@@ -187,16 +224,7 @@ MultiplexSBM_fit <-
     if (private$dependent) {
       warning("provided expectations are the marginal expectations in the dependent case")
 
-      if (self$modelName[1]=="bernoulli")
-      {
-        lmu <- list(self$connectParam$prob10+self$connectParam$prob11,
-                   self$connectParam$prob01+self$connectParam$prob11)
-      }
-      if (self$modelName[1]=="gaussian")
-      {
-        lmu <- self$connectParam$mean
-      }
-
+      lmu <- private$layerMeans()
       if (length(self$dimLabels)==1)
       {Z <- self$probMemberships[[1]]
          pred <- lapply(lmu,function(mu){Z %*% mu %*% t(Z)})

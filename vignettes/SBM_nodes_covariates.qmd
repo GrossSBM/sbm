@@ -1,0 +1,684 @@
+---
+title: "Stochastic Block Models with covariates on nodes"
+author: "S. Donnet"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    html-math-method: mathml # rendered by the browsers, even when the vignette is self-contained
+bibliography: references.bib
+link-citations: true
+knitr:
+  opts_chunk:
+    collapse: true
+    comment: "#>"
+    fig.width: 5
+    fig.height: 5
+vignette: >
+  %\VignetteIndexEntry{Stochastic Block Models with covariates on nodes}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+## 1. Introduction
+
+In a standard Stochastic Block Model (SBM), the nodes are assigned to blocks
+independently, with the same prior probabilities $\pi = (\pi_1, \dots, \pi_Q)$
+for all nodes. When some characteristics of the nodes are known (age, size,
+species traits...), it is natural to let these characteristics drive the
+probability of belonging to each block.
+
+This vignette shows how to:
+
+1. simulate and fit simple and bipartite SBM in which the block memberships depend on
+   **covariates on nodes**;
+2. check that taking the covariates into account can improve the clustering,
+   especially when the network is noisy;
+3. use the Integrated Classification Likelihood (ICL) to decide whether a
+   covariate has an effect on the clustering.
+
+The inference relies on a variational EM algorithm implemented in the package
+**blockmodels** [@blockmodels].
+
+```{r setup, message = FALSE, warning = FALSE}
+library(sbm)
+library(ggplot2)
+library(knitr)
+theme_set(theme_bw())
+```
+
+We use the Adjusted Rand Index (ARI) from package **aricode** to compare an
+estimated clustering with the true one (ARI equals $1$ for a perfect
+recovery, and is close to $0$ for a random clustering).
+
+```{r ari}
+ARI <- aricode::ARI
+```
+
+```{r precomputed-fits, include = FALSE}
+# The fits are long: they are precomputed by dev/precompute_SBM_nodes_covariates.R
+# and loaded here. If the file is missing, all the fits are run in the vignette.
+fitsFile <- "SBM_nodes_covariates_fits.rda"
+runFits  <- !file.exists(fitsFile)
+if (!runFits) load(fitsFile)
+```
+
+## 2. Simple SBM with covariates on nodes
+
+### 2.1 The model
+
+Consider a network of $n$ nodes, described by the adjacency matrix
+$Y = (Y_{ij})_{1 \le i,j \le n}$. Each node $i$ is described by a vector of $p$
+covariates $x_i = (x_{i1}, \dots, x_{ip})^\top \in \mathbb{R}^p$. The first
+covariate is the intercept: $x_{i1} = 1$ for all $i$.
+
+Each node $i$ belongs to one block $Z_i \in \{1, \dots, Q\}$. The memberships
+are independent and follow a multinomial logistic regression on the
+covariates:
+$$
+\mathbb{P}(Z_i = q \mid x_i) = \pi_q(x_i) = \frac{\exp(x_i^\top \beta_q)}{\sum_{l=1}^{Q} \exp(x_i^\top \beta_l)},
+\qquad q = 1, \dots, Q,
+$$
+where $\beta_q \in \mathbb{R}^p$. For identifiability, the last block is the
+reference: $\beta_Q = 0$. The parameter is gathered in the $p \times Q$ matrix
+$B = (\beta_1, \dots, \beta_Q)$, whose last column is null. The coefficient
+$\beta_{kq}$ is the effect of covariate $k$ on the log-odds of belonging to
+block $q$ rather than to block $Q$:
+$$
+\log \frac{\pi_q(x_i)}{\pi_Q(x_i)} = x_i^\top \beta_q = \sum_{k=1}^p x_{ik} \beta_{kq}.
+$$
+
+Given the blocks, the edges are independent and their distribution only
+depends on the blocks of the nodes they involve. In the Bernoulli case:
+$$
+Y_{ij} \mid Z_i = q, Z_j = l \sim \mathcal{B}ern(\alpha_{ql}).
+$$
+Poisson and Gaussian emission distributions are also available, as in the
+standard SBM.
+
+::: {.callout-note}
+## The case with no covariates
+When the only covariate is the intercept ($p = 1$, $x_i = 1$), $\pi_q(x_i)$ no
+longer depends on $i$ and we recover the standard SBM with
+$\pi_q = \exp(\beta_{1q}) / \sum_l \exp(\beta_{1l})$. 
+:::
+
+### 2.2 Model selection: the ICL {#sec-icl}
+
+The parameters $\theta = (B, \alpha)$ are estimated with a variational EM
+algorithm, for a range of numbers of blocks $Q$. The number of blocks, and more
+generally the model, is selected with the Integrated Classification Likelihood
+(ICL). For a model with $Q$ blocks and $p$ covariates on nodes, the ICL
+computed by the package is
+$$
+\mathrm{ICL}(Q, p) = \mathbb{E}_{Z\sim p^{Var}}[\log p(Y, Z \mid X; \widehat{\theta})] - \frac{1}{2}\left[ Q^2 \log\big(n(n-1)\big) + p\,(Q-1) \log n \right],
+$$
+where:
+
+-  $\mathbb{E}_{Z\sim p^{Var}}[\log p(Y, Z \mid X; \widehat{\theta})]$  is the integrated 
+  complete-data log-likelihood where the latent variables $Z$ are integrated against to variational distribution $p^{Var}$.
+- 
+  $$
+  \log p(Y, Z \mid X; \theta) = \underbrace{\log p(Y \mid Z; \alpha)}_{\text{network}} + \underbrace{\log p(Z \mid X; B)}_{\text{memberships}};
+  $$
+- $Q^2$ is the number of connectivity parameters for a directed
+  Bernoulli SBM (would be $Q(Q+1)/2$ for an undirected one), penalized by the   logarithm of the number of dyads $\log (n(n-1))$ ($\log (n(n-1))/2$  for an undirected one);
+- $p(Q-1)$ is the number of free parameters in $B$, penalized by the
+  logarithm of the number of nodes $n$.
+
+Without covariates, $p = 1$ and we recover the usual ICL of the SBM. Adding
+covariates increases the penalty, so the ICL favors the model with covariates
+only if they increase $\mathbb{E}_{Z\sim p^{Var}}[\log p(Y, Z \mid X; \widehat{\theta})]$ enough, mainly through the term
+$\mathbb{E}_{Z\sim p^{Var}}[\log p(Z \mid X; \widehat{\theta})]$.  The number of blocks is chosen within each model, then
+the best model is the one with the highest ICL.
+
+### 2.3 Simulation of a directed network
+
+We simulate a directed binary network with $n = 120$ nodes, $Q = 4$ blocks and
+$p = 3$ covariates (the intercept and two Gaussian covariates).
+
+```{r simu-param}
+set.seed(3)
+n <- 120 # nodes
+Q <- 4   # blocks
+p <- 3   # covariates (including the intercept)
+
+X <- cbind(1, matrix(rnorm((p - 1) * n), ncol = p - 1))
+colnames(X) <- c("intercept", "x1", "x2")
+head(X)
+```
+
+The $p \times Q$ matrix $B$ of the effects of the covariates is defined with
+the last block as reference (null last column).
+
+```{r simu-B}
+B <- rbind(c(-0.01, 3,   4,  2),
+           c( 5,    0.4, -2,  0),
+           c(-0.7,  6,   0, -3))
+B <- B - B[, Q]    # last block as reference
+B <- B[, order(colSums(abs(B)), decreasing = TRUE)]
+rownames(B) <- colnames(X)
+B
+```
+
+**For this trial**, the connectivity matrix $\alpha$ is drawn at random. The network is then
+simulated with `sampleSimpleSBM`, passing the covariates and their effects
+through the arguments `nodesCovariates` and `nodesCovariatesParam`. 
+
+::: {.callout-note}
+`blockProp` is not given: the block proportions are driven by the covariates.
+::: 
+
+```{r simu-sbm}
+alpha <- matrix(rbeta(Q * Q, 1, 8), Q, Q)
+round(alpha, 2)
+
+mySampler <- sampleSimpleSBM(
+  nbNodes              = n,
+  connectParam         = list(mean = alpha),
+  model                = "bernoulli",
+  directed             = TRUE,
+  nodesCovariates      = X,
+  nodesCovariatesParam = B
+)
+Z <- mySampler$memberships
+Y <- mySampler$networkData
+table(Z)
+```
+
+```{r simu-plot}
+plot(mySampler)
+```
+
+To assess the methods in a more difficult setting, we also build a noisy
+version of the network, in which each entry of $Y$ is flipped with probability
+$\varepsilon = 0.1$. The noisy network is still an SBM, with connectivity
+$(1 - \varepsilon) \alpha_{ql} + \varepsilon (1 - \alpha_{ql})$: the blocks
+are less contrasted, hence harder to recover from the network only.
+
+```{r simu-noisy}
+epsilon <- 0.1
+Noise <- matrix(rbinom(n * n, 1, epsilon), n, n)
+Ynoisy <- Y * (1 - Noise) + (1 - Y) * Noise
+```
+
+### 2.4 Estimation by VEM
+
+The SBM with covariates on nodes is fitted with `estimateSimpleSBM` and the
+argument `nodesCovariates`.
+
+::: {.callout-note}
+## Intercept
+The matrix of covariates must contain the column of ones if an intercept is
+wanted: it is **not** added automatically.
+:::
+
+```{r fit-covar}
+#| eval: !expr exists("runFits") && runFits
+estimOptions <- list(verbosity = 0, plot = FALSE)
+
+fitCovar <- estimateSimpleSBM(
+  Y, model = "bernoulli", directed = TRUE,
+  nodesCovariates = X,
+  estimOptions    = estimOptions
+)
+```
+
+```{r print-fit-covar}
+fitCovar
+```
+
+For comparison, we fit the standard SBM, without covariates.
+
+```{r fit-no-covar}
+#| eval: !expr exists("runFits") && runFits
+fitNoCovar <- estimateSimpleSBM(
+  Y, model = "bernoulli", directed = TRUE,
+  estimOptions = estimOptions
+)
+```
+
+As usual, the number of blocks is selected with the ICL:
+
+```{r nb-blocks}
+c(noCovar = fitNoCovar$nbBlocks, covar = fitCovar$nbBlocks)
+```
+
+and the estimated clusterings can be compared to the true one:
+
+```{r table-clustering}
+table(estimated = fitNoCovar$memberships, true = Z)
+table(estimated = fitCovar$memberships, true = Z)
+```
+
+
+For this particular case, the clusters are nearly perfectly recovered up to a label switching of the blocks. 
+
+### 2.5  Estimated effects of the covariates
+
+The estimated matrix $\widehat{B}$ is given by the field
+`nodesCovariatesParam`, with the last block as reference.
+
+```{r B-hat}
+round(fitCovar$nodesCovariatesParam, 2)
+```
+
+::: {.callout-note}
+## Label switching
+The blocks being defined up to a permutation, the columns of $\widehat{B}$ are
+not in the same order as those of the true $B$ (used to simulate the data), and the reference block may differ. To
+compare them, we match each true block to its estimated counterpart, reorder
+the columns of $\widehat{B}$ accordingly and take the same reference block as
+in the simulation.
+::: 
+
+```{r align-B}
+matchBlocks <- function(estimated, true) {
+  apply(table(estimated, true), 2, which.max)
+}
+perm <- matchBlocks(fitCovar$memberships, Z)
+Bhat <- fitCovar$nodesCovariatesParam[, perm]
+Bhat <- Bhat - Bhat[, Q]
+rownames(Bhat) <- colnames(X)
+round(Bhat, 2)
+B
+```
+
+We can now compare the resulting  probabilities
+$\widehat{\mathbb{P}}(Z_i=q) = \widehat{\pi}_q(x_i)$ with their true values $\pi_q(x_i)$.
+
+```{r plot-pi}
+softmax <- function(eta) {
+  eta <- eta - apply(eta, 1, max)
+  exp(eta) / rowSums(exp(eta))
+}
+probs <- data.frame(
+  true      = c(softmax(X %*% B)),
+  estimated = c(softmax(X %*% Bhat)),
+  block     = factor(rep(1:Q, each = n))
+)
+ggplot(probs) + aes(x = true, y = estimated, color = block) +
+  geom_point(alpha = 0.6) + geom_abline(intercept = 0, slope = 1) +
+  labs(x = expression(pi[q](x[i])), y = expression(hat(pi)[q](x[i])))
+```
+
+### 2.6 Are the covariates selected?
+
+On this network, the clusterings obtained with and without covariates are
+almost identical: the network alone is enough to recover the blocks. We still can check if the ICL favors the model with covariates.  To check it, we also fit a model
+with two covariates drawn independently of everything else, hence unrelated to
+the blocks.
+
+```{r fit-useless}
+#| eval: !expr exists("runFits") && runFits
+set.seed(123)
+Xuseless <- cbind(1, matrix(rnorm(2 * n), ncol = 2))
+fitUseless <- estimateSimpleSBM(
+  Y, model = "bernoulli", directed = TRUE,
+  nodesCovariates = Xuseless,
+  estimOptions    = estimOptions
+)
+```
+
+```{r res-useless}
+resClean <- data.frame(
+  covariates = c("none", "x1 + x2", "two useless covariates"),
+  nbBlocks   = c(fitNoCovar$nbBlocks, fitCovar$nbBlocks, fitUseless$nbBlocks),
+  ARI        = c(ARI(fitNoCovar$memberships, Z), ARI(fitCovar$memberships, Z),
+                 ARI(fitUseless$memberships, Z)),
+  ICL        = c(fitNoCovar$ICL, fitCovar$ICL, fitUseless$ICL)
+)
+kable(resClean, digits = 2)
+```
+
+Although the clustering is not improved, the ICL clearly selects the model with
+$x_1$ and $x_2$, whereas the useless covariates are not selected. To
+understand why, recall that the ICL ([see above](#sec-icl)) is based on
+$\log p(Y, Z \mid X)$, which contains the term $\log p(Z \mid X)$:
+without covariates it is $\sum_i \sum_q \hat{\tau}^{VE}_{iq} \log \widehat{\pi}_{q}$, with
+covariates it is $\sum_i \sum_q \hat{\tau}^{VE}_{iq} \log \widehat{\pi}_{q}(x_i)$.
+
+```{r logpZ}
+ElogpZ <- c(
+  none      = sum(fitNoCovar$probMemberships%*%log(fitNoCovar$blockProp)),
+  "x1 + x2" = sum(fitCovar$probMemberships*log(softmax(X %*% fitCovar$nodesCovariatesParam)))
+)
+ElogpZ
+```
+
+The blocks being well predicted by the covariates, this term increases by
+`r round(diff(ElogpZ), 1)`, much more than the additional penalty
+$\frac{1}{2}(p-1)(Q-1)\log n =$ `r round(0.5 * (p - 1) * (fitCovar$nbBlocks - 1) * log(n), 1)`
+due to the $(p-1)(Q-1)$ additional parameters.
+
+::: {.callout-important}
+## What the ICL selects
+The ICL selects the covariates that **predict** the block memberships, even when
+they do not **improve** the clustering, as here. Conversely, covariates
+unrelated to the blocks are not selected. Comparing the ICL of models with and
+without covariates therefore assesses whether the covariates explain the
+memberships, not whether they change the clustering.
+:::
+
+### 2.7 Gain in clustering
+
+We now fit both models on the noisy network and compare the ARI of the four
+estimated clusterings. The aim is to illustrate the fact that, if the covariates drive the blocks, they can help to recover the topology of the network. 
+
+```{r fit-noisy}
+#| eval: !expr exists("runFits") && runFits
+fitNoCovarNoisy <- estimateSimpleSBM(
+  Ynoisy, model = "bernoulli", directed = TRUE,
+  estimOptions = estimOptions
+)
+fitCovarNoisy <- estimateSimpleSBM(
+  Ynoisy, model = "bernoulli", directed = TRUE,
+  nodesCovariates = X,
+  estimOptions    = estimOptions
+)
+```
+
+```{r ARI-simple}
+resSimple <- data.frame(
+  network  = rep(c("original", "noisy"), each = 2),
+  model    = rep(c("without covariates", "with covariates"), 2),
+  nbBlocks = c(fitNoCovar$nbBlocks, fitCovar$nbBlocks,
+               fitNoCovarNoisy$nbBlocks, fitCovarNoisy$nbBlocks),
+  ARI      = c(ARI(fitNoCovar$memberships, Z), ARI(fitCovar$memberships, Z),
+               ARI(fitNoCovarNoisy$memberships, Z), ARI(fitCovarNoisy$memberships, Z))
+)
+kable(resSimple, digits = 2)
+```
+
+On the original network, the structure is strong enough to be recovered from
+the network alone, and both models give similar clusterings. On the noisy
+network, the network alone does not carry enough information: the standard SBM
+selects only `r fitNoCovarNoisy$nbBlocks` blocks and the ARI drops to
+`r round(ARI(fitNoCovarNoisy$memberships, Z), 2)`. The covariates bring the
+missing information and the SBM with covariates still recovers the
+`r fitCovarNoisy$nbBlocks` blocks (ARI = `r round(ARI(fitCovarNoisy$memberships, Z), 2)`).
+
+### 2.8 Testing the effect of covariates with the ICL
+
+We now illustrate the fact that the ICL defined [above](#sec-icl) can also be used to select the covariates that are involved in the block assignation. 
+
+
+We compare four models on the noisy network: no covariate (intercept only),
+$x_1$ only, $x_2$ only, and both. We also add a covariate $x_3$, drawn
+independently of everything else, which has no effect on the clustering.
+
+```{r test-covar}
+#| eval: !expr exists("runFits") && runFits
+x3 <- rnorm(n)
+covarSets <- list(
+  "none"          = NULL,
+  "x1"            = X[, c("intercept", "x1")],
+  "x2"            = X[, c("intercept", "x2")],
+  "x1 + x2"       = X,
+  "x1 + x2 + x3"  = cbind(X, x3 = x3)
+)
+fits <- lapply(covarSets, function(covar) {
+  if (is.null(covar)) {
+    estimateSimpleSBM(Ynoisy, model = "bernoulli", directed = TRUE,
+                      estimOptions = estimOptions)
+  } else {
+    estimateSimpleSBM(Ynoisy, model = "bernoulli", directed = TRUE,
+                      nodesCovariates = covar, estimOptions = estimOptions)
+  }
+})
+```
+
+```{r res-test-covar}
+resICL <- data.frame(
+  covariates = names(fits),
+  nbBlocks   = sapply(fits, function(f) f$nbBlocks),
+  ICL        = sapply(fits, function(f) f$ICL),
+  ARI        = sapply(fits, function(f) ARI(f$memberships, Z))
+)
+resICL$deltaICL <- resICL$ICL - resICL$ICL[1]
+kable(resICL, digits = 2, row.names = FALSE)
+```
+
+`deltaICL` is the difference of ICL with the model without covariates: a
+positive value means that the covariates are useful to explain the
+clustering. Here, each of $x_1$ and $x_2$ has an effect on its own, and the
+best model (highest ICL) is the one with both of them, which is the true
+model. Adding the irrelevant covariate $x_3$ decreases the ICL: its small gain
+in fit does not compensate for the $Q - 1$ additional parameters.
+
+::: {.callout-note}
+The ICL is not a statistical test in the strict sense (it does not provide a
+$p$-value), but a model selection criterion that compares models of different
+complexities fitted on the same data.
+:::
+
+## 3. Bipartite SBM with covariates on nodes
+
+The same model and inference can be considered on bipartite models when covariates are provided, describing one or the two types of nodes. 
+
+### 3.1  The model
+
+A bipartite network links $n_1$ nodes in rows to $n_2$ nodes in columns,
+through an incidence matrix $Y = (Y_{ij})_{1 \le i \le n_1, 1 \le j \le n_2}$.
+Each row node $i$ (resp. column node $j$) belongs to a block
+$Z^1_i \in \{1, \dots, Q_1\}$ (resp. $Z^2_j \in \{1, \dots, Q_2\}$). Rows and
+columns can have their own covariates, $x_i \in \mathbb{R}^{p_1}$ and
+$w_j \in \mathbb{R}^{p_2}$, acting through two multinomial logistic
+regressions:
+$$
+\mathbb{P}(Z^1_i = q \mid x_i) = \frac{\exp(x_i^\top \beta_q)}{\sum_{l=1}^{Q_1} \exp(x_i^\top \beta_l)},
+\qquad
+\mathbb{P}(Z^2_j = r \mid w_j) = \frac{\exp(w_j^\top \gamma_r)}{\sum_{s=1}^{Q_2} \exp(w_j^\top \gamma_s)},
+$$
+with $\beta_{Q_1} = 0$ and $\gamma_{Q_2} = 0$. All the memberships are
+independent and, given the blocks, the entries of $Y$ are independent with
+$$
+Y_{ij} \mid Z^1_i = q, Z^2_j = r \sim \mathcal{B}(\alpha_{qr}).
+$$
+
+### 3.2  Simulation
+
+We simulate a bipartite network with $n_1 = 120$ rows in $Q_1 = 4$ blocks
+(with the same covariates design as before) and $n_2 = 100$ columns in
+$Q_2 = 3$ blocks, described by an intercept and one Gaussian covariate. In the
+bipartite case, the covariates and their effects are given as lists of two
+matrices (rows, then columns).
+
+```{r simu-bipartite}
+set.seed(4)
+n1 <- 120; Q1 <- 4
+n2 <- 100; Q2 <- 3
+
+X1 <- cbind(1, matrix(rnorm(2 * n1), ncol = 2))  # row covariates
+X2 <- cbind(1, rnorm(n2))                       # column covariates
+
+B1 <- rbind(c(-0.01, 3,   4,  2),
+            c( 5,    0.4, -2,  0),
+            c(-0.7,  6,   0, -3))
+B1 <- B1 - B1[, Q1]
+B1 <- B1[, order(colSums(abs(B1)), decreasing = TRUE)]
+
+B2 <- rbind(c(0, 1, 1),
+            c(2, 0, 0.4))
+B2 <- B2 - B2[, Q2]
+B2 <- B2[, order(colSums(abs(B2)), decreasing = TRUE)]
+
+alphaBip <- matrix(0, Q1 , Q2)
+alphaBip[,1] = c(0.2,0.4,0.5,0.05)
+alphaBip[,2] = c(0.5,0.2,0.05,0.05)
+alphaBip[,3] = c(0.1,0.2,0.05,0.3)
+
+myBipSampler <- sampleBipartiteSBM(
+  nbNodes              = c(n1, n2),
+  connectParam         = list(mean = alphaBip),
+  model                = "bernoulli",
+  dimLabels            = c("row", "col"),
+  nodesCovariates      = list(X1, X2),
+  nodesCovariatesParam = list(B1, B2)
+)
+Zbip <- myBipSampler$memberships
+Ybip <- myBipSampler$networkData
+lapply(Zbip, table)
+```
+
+```{r simu-bipartite-plot}
+plot(myBipSampler)
+```
+
+### 3.3  Missing data
+
+On the bipartite network, instead of flipping the entries, we degrade the
+network by removing some of them: each entry of $Y$ is set to `NA`
+independently with probability $\varepsilon$. We consider four levels of
+missing data: $\varepsilon = 10\%$, $30\%$, $60\%$ and $80\%$.
+
+::: {.callout-note}
+## Missing data in SBM
+Missing entries are handled natively by the inference: the likelihood
+$\log p(Y \mid Z; \alpha)$ only involves the observed entries. Since here the
+entries are missing at random, independently of the blocks and of the
+network, the observed entries still follow the same SBM: the missing data do
+not bias the estimation, but they reduce the information available to recover
+the blocks.
+:::
+
+```{r simu-bipartite-NA}
+epsilonNA <- c(0.1, 0.3, 0.6,0.8)
+YbipNA <- lapply(epsilonNA, function(eps) {
+  Yna <- Ybip
+  Yna[matrix(rbinom(n1 * n2, 1, eps), n1, n2) == 1] <- NA
+  Yna
+})
+names(YbipNA) <- paste0(100 * epsilonNA, "% NA")
+sapply(YbipNA, function(Yna) mean(is.na(Yna)))
+```
+
+
+We plot the partially observed matrix where the non observed edges are plotted in white. 
+```{r simu-plot-bipartite-noise}
+plotMyMatrix(YbipNA[[3]],clustering=Zbip)
+```
+
+### 3.4 Estimation and gain in clustering
+
+The bipartite SBM with covariates on nodes is fitted with
+`estimateBipartiteSBM`, giving the list of row and column covariates in
+`nodesCovariates`. We fit the models with and without covariates on the
+original network and on each of the networks with missing data.
+
+```{r fit-bipartite}
+#| eval: !expr exists("runFits") && runFits
+networksBip <- c(list(original = Ybip), YbipNA)
+fitBip <- lapply(networksBip, function(Yobs) {
+  list(
+    noCovar = estimateBipartiteSBM(
+      Yobs, model = "bernoulli", dimLabels = c("row", "col"),
+      estimOptions = estimOptions),
+    covar = estimateBipartiteSBM(
+      Yobs, model = "bernoulli", dimLabels = c("row", "col"),
+      nodesCovariates = list(X1, X2), estimOptions = estimOptions)
+  )
+})
+```
+
+```{r print-fit-bipartite}
+fitBip$original$covar
+```
+
+The estimated effects of the covariates are given, for rows and columns, by
+`nodesCovariatesParam`:
+
+```{r bipartite-B-hat}
+lapply(fitBip$original$covar$nodesCovariatesParam, round, 2)
+```
+
+```{r ARI-bipartite}
+resBip <- do.call(rbind, lapply(names(fitBip), function(net) {
+  data.frame(
+    network     = net,
+    model       = c("without covariates", "with covariates"),
+    nbRowBlocks = sapply(fitBip[[net]], function(f) f$nbBlocks[1]),
+    nbColBlocks = sapply(fitBip[[net]], function(f) f$nbBlocks[2]),
+    ARIrow      = sapply(fitBip[[net]], function(f) ARI(f$memberships[[1]], Zbip[[1]])),
+    ARIcol      = sapply(fitBip[[net]], function(f) ARI(f$memberships[[2]], Zbip[[2]])),
+    deltaICL    = sapply(fitBip[[net]], function(f) f$ICL - fitBip[[net]]$noCovar$ICL)
+  )
+}))
+kable(resBip, digits = 2, row.names = FALSE)
+```
+
+`deltaICL` is the difference of ICL with the model without covariates fitted
+on the same network.
+
+::: {.callout-note}
+The ICL can only be compared between models fitted on the same network: with
+more missing entries, the likelihood involves fewer terms, so the ICL is not
+comparable across levels of missing data.
+:::
+
+```{r ARI-bipartite-summary, include = FALSE}
+ARIrowBip <- function(net, mod) resBip$ARIrow[resBip$network == net & resBip$model == mod]
+ARIcolBip <- function(net, mod) resBip$ARIcol[resBip$network == net & resBip$model == mod]
+lab <- names(YbipNA)
+```
+
+On the original network, the structure is strong enough to be recovered from
+the network alone: both models find the $Q_1 = 4$ row blocks and the
+$Q_2 = 3$ column blocks with almost perfect clusterings. As in the simple case,
+the covariates do not improve the clustering, but the ICL still selects them,
+since they predict the memberships.
+
+The SBM without covariates is robust to moderate levels of missing data: with
+`r 100 * epsilonNA[1]`% and `r 100 * epsilonNA[2]`% of missing entries, the
+clusterings are nearly unchanged. With `r 100 * epsilonNA[3]`% of missing
+entries, the network alone is no longer informative enough: the standard SBM
+selects `r fitBip[[lab[3]]]$noCovar$nbBlocks[1]` row blocks
+(ARI = `r round(ARIrowBip(lab[3], "without covariates"), 2)`), whereas the SBM
+with covariates still recovers the
+`r fitBip[[lab[3]]]$covar$nbBlocks[1]` row blocks
+(ARI = `r round(ARIrowBip(lab[3], "with covariates"), 2)`). With
+`r 100 * epsilonNA[4]`% of missing entries, the network alone does not reveal
+any structure
+(`r fitBip[[lab[4]]]$noCovar$nbBlocks[1]` $\times$ `r fitBip[[lab[4]]]$noCovar$nbBlocks[2]`
+block), while the covariates still allow a partial recovery of the row and
+column blocks (ARI = `r round(ARIrowBip(lab[4], "with covariates"), 2)` and
+`r round(ARIcolBip(lab[4], "with covariates"), 2)`). The more entries are
+missing, the more the information brought by the covariates matters. For all
+the networks, the ICL selects the model with covariates.
+
+### 3.5 Covariates on one type of nodes only
+
+Covariates can be given for only one type of nodes, by setting an empty matrix
+for the other one. The column blocks then follow a standard multinomial
+distribution with proportions $\pi^2 = (\pi^2_1, \dots, \pi^2_{Q_2})$.
+
+We illustrate it on the network with `r 100 * epsilonNA[3]`% of missing
+entries, for which the covariates improve the clustering.
+
+```{r fit-bipartite-row-only}
+#| eval: !expr exists("runFits") && runFits
+fitBipRowOnly <- estimateBipartiteSBM(
+  YbipNA[[lab[3]]], model = "bernoulli", dimLabels = c("row", "col"),
+  nodesCovariates = list(X1, matrix(0, 0, 0)),
+  estimOptions    = estimOptions
+)
+```
+
+```{r nb-blocks-row-only}
+fitBipRowOnly$nbBlocks
+```
+
+The ICL can then be used, as in the simple case, to decide which covariates
+are useful:
+
+```{r ICL-bipartite}
+c(none        = fitBip[[lab[3]]]$noCovar$ICL,
+  rowsOnly    = fitBipRowOnly$ICL,
+  rowsAndCols = fitBip[[lab[3]]]$covar$ICL)
+```
+
+Here the highest ICL is obtained with covariates on both rows and columns.
+
+## References

@@ -16,3 +16,6 @@
 ^CRAN-SUBMISSION$
 ^rstudio$
 AUTHORS
+^\.vscode$
+^dev$
+^vignettes/\.quarto$

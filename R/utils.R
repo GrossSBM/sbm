@@ -26,9 +26,36 @@ as_clustering <- function(indicator) {
 .logistic <- function(x) {1/(1 + exp(-x))}
 .logit    <- function(x) {log(x/(1 - x))}
 
+## Expected network of a bernoulli SBM with covariates, under the block
+## memberships (or their posterior probabilities) Z1 (rows) and Z2 (columns):
+##   sum_{q,l} Z1[i,q] Z2[j,l] logistic(logit(mean[q,l]) + covarEffect[i,j])
+## As logistic(logit(m) + b) = 1/(1 + (1-m)/m * exp(-b)), exp() is computed once per entry.
+.bernoulli_covariates_expectation <- function(Z1, Z2, mean, covarEffect) {
+  expB <- exp(-covarEffect)
+  odds <- (1 - mean) / mean
+  res  <- matrix(0, nrow(covarEffect), ncol(covarEffect))
+  for (l in seq_len(ncol(Z2))) {
+    A <- 0
+    for (q in seq_len(ncol(Z1))) A <- A + Z1[, q] / (1 + odds[q, l] * expB)
+    res <- res + A * rep(Z2[, l], each = nrow(covarEffect))
+  }
+  res
+}
+
 .softmax <- function(x) {
-  b <- max(x)
-  exp(x - b) / sum(exp(x - b))
+  if(!is.matrix(x)){x1 = matrix(x,nrow=1)}else{x1=x}
+  x_shift <- x1 - apply(x1, 1, max)
+  ex <- exp(x_shift)
+  res <- ex / rowSums(ex)
+  if(!is.matrix(x)){res = as.vector(res)}
+  return(res)
+}
+
+## check that 'model' is a single character among the possible models
+## (by default, the models for which the inference is implemented in estimateSimpleSBM / estimateBipartiteSBM)
+.check_model <- function(model, possible_models = c('bernoulli', 'poisson', 'gaussian')) {
+  if (!(is.character(model) && length(model) == 1 && model %in% possible_models))
+    stop("The argument model must belong to: ", paste(possible_models, collapse = ", "), call. = FALSE)
 }
 
 .na2zero <- function(x) {
@@ -75,3 +102,17 @@ computeNbConnectParams_MBM <- function(nbBlocks,distrib,E,directed){
 }
 
 
+
+##-------------------------------- Parallel computing
+## Positron forbids forking the R session (used by parallel::mclapply in blockmodels and GREMLINS)
+.in_positron <- function() nzchar(Sys.getenv("POSITRON"))
+
+.default_nbCores <- function() if (.in_positron()) 1 else 2
+
+.check_nbCores <- function(nbCores) {
+  if (.in_positron() && nbCores > 1) {
+    warning("Positron does not allow forking the R session: 'nbCores' is set to 1.", call. = FALSE)
+    nbCores <- 1
+  }
+  nbCores
+}

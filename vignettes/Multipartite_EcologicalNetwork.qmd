@@ -1,0 +1,216 @@
+---
+title: "Multipartite Stochastic Block Models"
+subtitle: "An illustration on a mutualistic ecological network"
+author: "team großBM"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    html-math-method: mathml # rendered by the browsers, even when the vignette is self-contained
+bibliography: references.bib
+link-citations: true
+knitr:
+  opts_chunk:
+    collapse: true
+    comment: "#>"
+vignette: >
+  %\VignetteIndexEntry{Multipartite Stochastic Block Models}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+---
+
+## 1. Preliminaries
+
+This vignette illustrates the use of the `estimateMultipartiteSBM` function and the methods accompanying the R6 class `MultipartiteSBM_fit`.
+
+
+The only package required for the analysis is **sbm**:
+
+```{r setup, message=FALSE, warning=FALSE}
+library(sbm)
+```
+
+```{r precomputed-fits, include = FALSE}
+# The fit is precomputed by dev/precompute_Multipartite_EcologicalNetwork.R and
+# loaded here. If the file is missing, the fit is run in the vignette.
+fitsFile <- "Multipartite_EcologicalNetwork_fits.rda"
+runFits  <- !file.exists(fitsFile)
+if (!runFits) load(fitsFile)
+```
+
+## 2. Dataset
+
+### 2.1 Description of the data
+We apply our methodology to an ecological mutualistic multipartite network.
+The dataset --compiled and conducted by @Dattilo at Centro de Investigaciones Costeras La Mancha (CICOLMA), located on the central coast of the Gulf of Mexico, Veracruz, Mexico--
+involves three general types of plant-animal mutualistic interaction:
+pollination, seed dispersal by frugivorous birds, and protective mutualisms between ants and plants with extrafloral nectaries.
+
+The dataset --which is one of the largest compiled so far with respect
+to species richness, number of interactions and sampling effort-- includes 4 functional groups (FG), namely plants, pollinator species (referred as floral visitors), ant species and frugivorous bird species. Three binary bipartite networks have been collected representing interactions between 1/ plants and florals visitor, 2/ plants and ants, and 3/ plants and seed dispersal birds, resulting into three bipartite networks.
+
+The FG are of respective sizes: $n_1 = 141$ plant species, $n_2 = 173$ pollinator species, $n_3 = 46$ frugivorous bird species and $n_4 = 30$ ant species.
+
+The 3 networks contain $753$ observed interactions of which $55\%$ are plant-pollinator interactions, $17\%$ are plant-birds interactions and $28\%$ are plant-ant interactions.
+
+```{r loading dataset}
+data(multipartiteEcologicalNetwork)
+str(multipartiteEcologicalNetwork)
+names(multipartiteEcologicalNetwork)
+```
+
+### 2.2 Formatting the data
+
+We format the data to be able to use our functions, i.e. we transform each matrix into an object containing *the matrix*, *its type* (`bipartite` for an incidence matrix, `simple` for an adjacency matrix, which can be directed or not), the model and the names of the functional groups in row and in column.
+
+To do so, we use the function `defineSBM`.
+
+```{r transform dataset}
+Net <- multipartiteEcologicalNetwork
+type = "bipartite"
+model = "bernoulli"
+directed = FALSE
+PlantFlovis <- defineSBM(Net$Inc_plant_flovis, model, type, directed, dimLabels = c("Plants",
+    "Flovis"))
+PlantAnt <- defineSBM(Net$Inc_plant_ant, model, type, directed, dimLabels = c("Plants",
+    "Ants"))
+PlantBird <- defineSBM(Net$Inc_plant_bird, model, type, directed, dimLabels = c("Plants",
+    "Birds"))
+```
+
+If one wants to keep a track of the names of the species, they should be used as rownames and colnames in the matrices.
+
+```{r example of dataset}
+PlantFlovis$networkData[1:2, 1:2]
+```
+
+A plot of the data can be obtained with the following command: 
+
+```{r plot data}
+#| fig-width: 8
+#| fig-height: 4
+plotMyMultipartiteMatrix(list(PlantFlovis, PlantAnt, PlantBird))
+```
+
+## 3. Multipartite SBM
+
+### 3.1 Mathematical background
+
+See @multipartite for details.
+
+### 3.2 Inference
+
+The model selection and the estimation are performed with the function `estimateMultipartiteSBM`.
+
+```{r MBM}
+#| eval: !expr exists("runFits") && runFits
+estimOptions = list(initBM = FALSE)
+listSBM <- list(PlantFlovis, PlantAnt, PlantBird)
+myMSBM <- estimateMultipartiteSBM(listSBM, estimOptions)
+```
+
+`myMSBM` contains the estimated parameters of the models we run through during the search of the better numbers of blocks.
+
+```{r MBM what}
+myMSBM
+```
+
+The best model has the following numbers of blocks:
+
+```{r MBM v_K}
+myMSBM$nbBlocks
+```
+
+To see the parameters estimated for the better model we use the following command `myMSBM$connectParam` or `myMSBM$blockProp`:
+
+```{r MBM param}
+myMSBM$blockProp
+myMSBM$connectParam
+```
+
+The clusterings supplied by the better model are in `myMSBM$memberships$***`.
+
+```{r MBM Z}
+table(myMSBM$memberships$Plants)
+table(myMSBM$memberships$Ants)
+```
+
+```{r storedmodels}
+myMSBM$storedModels
+```
+
+## 4. Plots
+
+We can either plot the reorganized matrices, the background of each block being colored
+according to its density:
+
+```{r plot}
+#| fig-width: 8
+#| fig-height: 4
+plot(myMSBM)
+```
+
+the expected connections:
+
+```{r plot expected}
+#| fig-width: 8
+#| fig-height: 4
+plot(myMSBM, type = "expected")
+```
+
+or the mesoscopic view, where each block is a node and each connectivity an edge.
+The functional groups are distinguished by the colors of the nodes, and the labels
+of the blocks start with the name of their functional group (`P` for plants, `F`
+for floral visitors...). Within each functional group, the area of the nodes is
+proportional to the block proportions. The width and the color of the edges grow with
+the probability of connection between the blocks. The blocks are placed according to
+their connections (blocks strongly connected are close), whatever their functional
+group; this layout being random, it is fixed with the option `seed`.
+
+```{r plot meso}
+#| fig-width: 6
+#| fig-height: 5
+plot(myMSBM, type = "meso", plotOptions = list(seed = 1))
+```
+
+Many connectivities are close to zero. They can be removed with
+`edge.threshold`, which makes the structure clearer: the plants of blocks 2, 3
+and 4 interact with the ants, the plants of blocks 3, 5 and 7 with the floral visitors, and the plants
+of blocks 1 and 6 with the birds.
+
+```{r plot meso threshold}
+#| fig-width: 6
+#| fig-height: 5
+plot(myMSBM, type = "meso", plotOptions = list(seed = 1, edge.threshold = 0.05))
+```
+
+The blocks can also be arranged with one row per functional group
+(`layout = "groups"`), and the colors of the functional groups chosen with
+`vertex.color`:
+
+```{r plot meso groups}
+#| fig-width: 6
+#| fig-height: 5
+plot(myMSBM, type = "meso",
+     plotOptions = list(layout = "groups", edge.threshold = 0.05,
+                        vertex.color = c("darkolivegreen3", "darkgoldenrod2", "mediumpurple2", "cadetblue2")))
+```
+
+Finally, the coordinates of the blocks are returned in the attribute `blockLayout`
+of the plot. They can be modified (here, the block F2 is moved next to F1) and given back with
+the option `layout`:
+
+```{r plot meso layout}
+#| fig-width: 6
+#| fig-height: 5
+g <- plot(myMSBM, type = "meso", plotOptions = list(seed = 1, edge.threshold = 0.05))
+myLayout <- attr(g, "blockLayout")
+head(myLayout)
+myLayout["F2", ] <- myLayout["F1", ] - c(1, 0)
+plot(myMSBM, type = "meso", plotOptions = list(layout = myLayout, edge.threshold = 0.05))
+```
+
+All the options are described in `?plot.SBM`.
+
+## References
