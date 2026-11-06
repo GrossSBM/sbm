@@ -28,6 +28,7 @@
 
 ## Bug fixes
 
+* the model is checked against the network data when fitting an SBM: the bernoulli model requires a binary network and the poisson model integer entries (error); fitting a poisson or gaussian model on a binary network gives a warning
 * `predict()` and `fitted()` of Bernoulli models with covariates on the edges (simple and bipartite SBM) now return the expected network under the block memberships, i.e. the sum over the blocks (q,l) of Z[i,q] Z[j,l] logistic(logit(mean[q,l]) + covariates effect). The previous formula, logistic(Z logit(mean) Z' + covariates effect), was exact only for indicator memberships (#3). Consistent with **blockmodels** 1.2.1.
 * `predict()` now uses its argument `covarList`; it was ignored and the covariates of the fit were always used.
 

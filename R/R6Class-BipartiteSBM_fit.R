@@ -73,9 +73,9 @@ BipartiteSBM_fit <-
         isBinary <- all(.na2zero(incidenceMatrix) %in% c(0, 1))
         anyRealnumber <- any(.na2zero(incidenceMatrix)%%1!=0)
 
-        if((isBinary)&(model!="bernoulli")){stop('Choose the bernoulli distribution for your binary data')}
-        if((!isBinary)&(model=="bernoulli")){stop('The bernoulli distribution is not adatped to your non binary data')}
-        if(anyRealnumber&(model %in% c("poisson","bernoulli"))){stop('Choose a distribution adapted to real numbers')}
+        if (isBinary & model %in% c("poisson", "gaussian")) warning("The network is binary: the bernoulli model is usually more appropriate than the ", model, " model.", call. = FALSE)
+        if (!isBinary & model == "bernoulli") stop("The bernoulli model requires a binary network (0/1 entries).", call. = FALSE)
+        if (anyRealnumber & model == "poisson") stop("The poisson model requires a network with integer entries.", call. = FALSE)
 
 
 
@@ -165,8 +165,9 @@ BipartiteSBM_fit <-
       #' @param index integer, the index of the model to be selected (row number in storedModels)
       setModel = function(index) {
         stopifnot(!is.null(private$BMobject))
-        stopifnot(index %in% self$storedModels$indexModel)
-        private$import_from_BM(index)
+        models <- self$storedModels
+        stopifnot(index %in% seq.int(nrow(models)))
+        private$import_from_BM(models$indexModel[index])
         self$reorder()
       },
       #' @description permute group labels by order of decreasing probability
@@ -266,7 +267,8 @@ BipartiteSBM_fit <-
       storedModels = function(value) {
         ## blockmodels stores the LBM models at index Q1 + Q2: index 1 is empty (NULL).
         ## We go through all the indices, with NA when no model is stored, so that
-        ## indexModel is always the position used by import_from_BM(index)
+        ## indexModel is always the index of the model in blockmodels, used by
+        ## import_from_BM(); setModel() takes a row number of this table
         BM  <- private$BMobject
         idx <- seq_along(BM$ICL)
         extract <- function(lst, f) vapply(idx, function(i) {
@@ -278,8 +280,9 @@ BipartiteSBM_fit <-
         U <- data.frame(
           indexModel = idx,
           nbParams = nbConnectParam + max(1,self$nbNodesCovariates[1])*(rowBlocks-1) + max(1,self$nbNodesCovariates[2])*(colBlocks - 1),
-          nbRowBlocks = rowBlocks,
-          nbColBlocks = colBlocks,
+          rowBlocks = rowBlocks,
+          colBlocks = colBlocks,
+          nbBlocks = rowBlocks + colBlocks,
           ICL = c(BM$ICL),
           loglik = c(BM$PL)
         )
