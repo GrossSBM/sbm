@@ -30,7 +30,7 @@ Authors:
 Other contributors:
 \itemize{
   \item Jean-Benoist Leger \email{jbleger@hds.utc.fr} [contributor]
-  \item Julie Aubert [contributor]
+  \item Julie Aubert \email{julie.aubert@inrae.fr} (\href{https://orcid.org/0000-0001-5203-5748}{ORCID}) [contributor]
   \item großBM team [contributor]
 }
 
