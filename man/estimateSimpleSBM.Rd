@@ -76,7 +76,7 @@ adjacencyMatrix <- mySampler$networkData
 
 ## Estimation
 mySimpleSBM <-
-  estimateSimpleSBM(adjacencyMatrix, 'bernoulli', estimOptions = list(plot = FALSE))
+  estimateSimpleSBM(adjacencyMatrix, 'bernoulli', estimOptions = list(plot = FALSE, nbCores = 1))
 plot(mySimpleSBM, 'data', ordered = FALSE)
 plot(mySimpleSBM, 'data')
 plot(mySimpleSBM, 'expected', ordered = FALSE)
@@ -96,7 +96,7 @@ adjacencyMatrix <- mySampler$networkData
 
 ## Estimation
 mySimpleSBM <- estimateSimpleSBM(adjacencyMatrix, 'poisson',
-   estimOptions = list(plot = FALSE))
+   estimOptions = list(plot = FALSE, nbCores = 1))
 plot(mySimpleSBM, 'data', ordered = FALSE)
 plot(mySimpleSBM, 'data')
 plot(mySimpleSBM, 'expected', ordered = FALSE)
@@ -114,7 +114,7 @@ mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam, model = "gaussian
 
 ## Estimation
 mySimpleSBM <-
-   estimateSimpleSBM(mySampler$networkData, 'gaussian', estimOptions = list(plot = FALSE))
+   estimateSimpleSBM(mySampler$networkData, 'gaussian', estimOptions = list(plot = FALSE, nbCores = 1))
 plot(mySimpleSBM, 'data', ordered = FALSE)
 plot(mySimpleSBM, 'data')
 plot(mySimpleSBM, 'expected', ordered = FALSE)
