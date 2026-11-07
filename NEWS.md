@@ -36,7 +36,7 @@
 ## Other changes
 
 * new option `explorationDirection` in `estimOptions` of `estimateBipartiteSBM()`, passed to **blockmodels** to drive the exploration of the numbers of blocks towards a given pair (row, col) (#20, Louis Lacoste)
-* Louis Lacoste joins the authors
+* Louis Lacoste joins the authors; Jean-Benoist Leger and Julie Aubert are credited as contributors
 * no ICL plot in `$optimize()` when `verbosity = 0`
 * vignettes rewritten with **quarto**: new vignette *Stochastic Block Models: principle and illustration*, the vignette *SBM_with_covariates* replaced by the fungus/tree case study, models recalled in callouts with a common notation; the fits are precomputed (scripts in `dev/`)
 * pkgdown site with Bootstrap 5, README rewritten

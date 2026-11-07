@@ -29,6 +29,8 @@ Authors:
 
 Other contributors:
 \itemize{
+  \item Jean-Benoist Leger \email{jbleger@hds.utc.fr} [contributor]
+  \item Julie Aubert [contributor]
   \item großBM team [contributor]
 }
 
