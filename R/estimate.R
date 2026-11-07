@@ -86,7 +86,8 @@
 #'
 #' ## Estimation
 #' mySimpleSBM <-
-#'    estimateSimpleSBM(mySampler$networkData, 'gaussian', estimOptions = list(plot = FALSE, nbCores = 1))
+#'    estimateSimpleSBM(mySampler$networkData, 'gaussian',
+#'      estimOptions = list(plot = FALSE, nbCores = 1))
 #' plot(mySimpleSBM, 'data', ordered = FALSE)
 #' plot(mySimpleSBM, 'data')
 #' plot(mySimpleSBM, 'expected', ordered = FALSE)
@@ -169,7 +170,8 @@ estimateSimpleSBM <- function(netMat,
 #' mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'bernoulli')
 #'
 #' ## Estimation
-#' myBipartiteSBM <- estimateBipartiteSBM(mySampler$networkData, estimOptions = list(plot = FALSE, nbCores = 1))
+#' myBipartiteSBM <- estimateBipartiteSBM(mySampler$networkData,
+#'   estimOptions = list(plot = FALSE, nbCores = 1))
 #' plot(myBipartiteSBM, 'expected')
 #'
 #' ### =======================================
@@ -184,7 +186,8 @@ estimateSimpleSBM <- function(netMat,
 #'
 #' ## Estimation
 #' myBipartiteSBM <-
-#'   estimateBipartiteSBM(mySampler$networkData, 'poisson', estimOptions = list(plot = FALSE, nbCores = 1))
+#'   estimateBipartiteSBM(mySampler$networkData, 'poisson',
+#'     estimOptions = list(plot = FALSE, nbCores = 1))
 #' plot(myBipartiteSBM, 'expected')
 #'
 #' ### =======================================
@@ -198,7 +201,8 @@ estimateSimpleSBM <- function(netMat,
 #'
 #' ## Estimation
 #' myBipartiteSBM <-
-#'   estimateBipartiteSBM(mySampler$networkData, 'gaussian', estimOptions = list(plot = FALSE, nbCores = 1))
+#'   estimateBipartiteSBM(mySampler$networkData, 'gaussian',
+#'     estimOptions = list(plot = FALSE, nbCores = 1))
 #' plot(myBipartiteSBM, 'expected')
 #'
 #' @export
