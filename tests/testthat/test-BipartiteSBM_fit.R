@@ -352,3 +352,18 @@ test_that("BipartiteSBM_fit 'Bernoulli' model, undirected, no covariate", {
     expect_lt(rmse(pred_bm, pred_sbm), 1e-12)
   }
 })
+
+test_that("BipartiteSBM_fit: explorationDirection is passed to blockmodels and drives the exploration", {
+  set.seed(1)
+  net <- sampleBipartiteSBM(c(60, 40), list(c(.5, .5), c(.5, .5)), list(mean = matrix(c(.7, .1, .2, .6), 2)))
+  options <- list(verbosity = 0, plot = FALSE, nbCores = 1)
+
+  fit_default <- estimateBipartiteSBM(net$networkData, estimOptions = options)
+  expect_length(fit_default$.__enclos_env__$private$BMobject$exploration_direction, 0)
+  expect_true(any(fit_default$storedModels$rowBlocks > 1))
+
+  ## exploring towards 1 row block: the row nodes are never split
+  fit_direction <- estimateBipartiteSBM(net$networkData, estimOptions = c(options, list(explorationDirection = c(1, 6))))
+  expect_equal(fit_direction$.__enclos_env__$private$BMobject$exploration_direction, c(1, 6))
+  expect_true(all(fit_direction$storedModels$rowBlocks == 1))
+})
