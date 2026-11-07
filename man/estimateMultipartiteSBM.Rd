@@ -28,6 +28,13 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 \item "maxiterVE" Number of max. number of iterations in  the VE. Default value  = 100
 }
 }
+\section{Missing values}{
+
+The networks may contain missing values (\code{NA}): the corresponding dyads are
+considered as not observed and are ignored in the inference (performed by the package
+\pkg{GREMLINS}). This assumes that the dyads are missing at random.
+}
+
 \examples{
 \dontrun{
 ## About the Parts/Functional Groups (FG)

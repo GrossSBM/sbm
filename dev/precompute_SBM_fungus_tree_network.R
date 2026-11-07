@@ -24,4 +24,4 @@ for (name in c("mySimpleSBMPoisson", "mySimpleSBMCov", "myBipartiteSBM")) {
 }
 
 save(list = c("mySimpleSBM", "mySimpleSBMPoisson", "mySimpleSBMCov", "myBipartiteSBM"),
-     envir = env, file = fitsFile)
+     envir = env, file = fitsFile, compress = "xz")

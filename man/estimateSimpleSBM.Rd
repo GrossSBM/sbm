@@ -47,8 +47,21 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 \item "exploreMax" Stop exploration at exploreMax  even if the exploration factor rule is not achieved. Default Inf. See the package blockmodels for details.
 \item "nbBlocksRange" minimal and maximal number or blocks explored
 \item "fast" logical: should approximation be used for Bernoulli model with covariates. Default to \code{TRUE}
+\item "explorationDirection" (only used for BipartiteSBM) a vector of two integers which controls the
+exploration direction for groups number. When provided, the exploring
+strategy is made to explore the provided group number. The two integer
+value representing the row group number and the column group number.
 }
 }
+\section{Missing values}{
+
+The network \code{netMat} may contain missing values (\code{NA}): the corresponding dyads
+are considered as not observed. They are ignored in the likelihood, in the estimation of
+the parameters and in the ICL, whose penalty only counts the observed dyads. This assumes
+that the dyads are missing at random; for other sampling designs, see the package
+\pkg{missSBM}. The diagonal of the adjacency matrix of a simple network is ignored.
+}
+
 \examples{
 ### =======================================
 ### SIMPLE BINARY SBM (Bernoulli model)
@@ -63,7 +76,7 @@ adjacencyMatrix <- mySampler$networkData
 
 ## Estimation
 mySimpleSBM <-
-  estimateSimpleSBM(adjacencyMatrix, 'bernoulli', estimOptions = list(plot = FALSE))
+  estimateSimpleSBM(adjacencyMatrix, 'bernoulli', estimOptions = list(plot = FALSE, nbCores = 1))
 plot(mySimpleSBM, 'data', ordered = FALSE)
 plot(mySimpleSBM, 'data')
 plot(mySimpleSBM, 'expected', ordered = FALSE)
@@ -83,7 +96,7 @@ adjacencyMatrix <- mySampler$networkData
 
 ## Estimation
 mySimpleSBM <- estimateSimpleSBM(adjacencyMatrix, 'poisson',
-   estimOptions = list(plot = FALSE))
+   estimOptions = list(plot = FALSE, nbCores = 1))
 plot(mySimpleSBM, 'data', ordered = FALSE)
 plot(mySimpleSBM, 'data')
 plot(mySimpleSBM, 'expected', ordered = FALSE)
@@ -101,7 +114,8 @@ mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam, model = "gaussian
 
 ## Estimation
 mySimpleSBM <-
-   estimateSimpleSBM(mySampler$networkData, 'gaussian', estimOptions = list(plot = FALSE))
+   estimateSimpleSBM(mySampler$networkData, 'gaussian',
+     estimOptions = list(plot = FALSE, nbCores = 1))
 plot(mySimpleSBM, 'data', ordered = FALSE)
 plot(mySimpleSBM, 'data')
 plot(mySimpleSBM, 'expected', ordered = FALSE)

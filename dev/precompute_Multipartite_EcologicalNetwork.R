@@ -15,4 +15,4 @@ knitr::opts_chunk$set(fig.path = file.path(tempdir(), "figure/"))
 knitr::knit("vignettes/Multipartite_EcologicalNetwork.qmd", output = tempfile(fileext = ".md"),
             envir = env, quiet = TRUE)
 
-save(list = "myMSBM", envir = env, file = fitsFile)
+save(list = "myMSBM", envir = env, file = fitsFile, compress = "xz")

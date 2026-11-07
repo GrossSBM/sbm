@@ -1,49 +1,29 @@
+## Submission
 
-# Next version (in progress, branch `nodescovariates`)
+This is an update of sbm (0.4.7, September 2024) to version 1.0.0.
 
-## TO DO before the CRAN submission (then remove this section)
+* It requires blockmodels (>= 1.2.1), which was published on CRAN just before this
+  submission. blockmodels 1.2.1 fixes the predictions of its Bernoulli models with
+  covariates, which made a test of sbm 0.4.7 fail; sbm 1.0.0 fixes its own predictions
+  accordingly.
+* New features: covariates on the nodes, missing values in the network, new graphics
+  (all plots are now ggplot2 objects), vignettes rewritten with Quarto.
+* Bug fixes, some of which change the results (see NEWS.md).
+* New authors and contributors.
 
-* wait for `blockmodels` with nodes covariates and NA support to be on CRAN
-  (CRAN has 1.1.5, `GrossSBM/blockmodels` master is 1.2.1, release in GrossSBM/blockmodels#10)
-* remove the `Remotes: GrossSBM/blockmodels` line in DESCRIPTION
-* check that `blockmodels (>= 1.2.1)` in DESCRIPTION matches the version actually published
-* run `R CMD check --as-cran`
+## Test environments
 
-## Changes
+* local: Ubuntu 24.04, R 4.6.2
+* GitHub Actions: ubuntu-latest (R devel, release, oldrel-1), macos-latest (release),
+  windows-latest (release)
+* win-builder: R devel and release
 
-* nodes covariates (Simple and Bipartite SBM) and NA support in the network data
-* `reorder()`: block proportions `pi` permuted on the blocks (columns), not on the nodes
-* Bipartite fit: nodes covariates on one side only can be given as `NULL`
-* Simple fit: `setModel()` to the one-block model no longer keeps the previous nodes covariates parameters
-* Bipartite `storedModels`: rows always aligned with the index of the stored model
-* validation of the `model` argument in a single helper; `defineSBM()` accepts `ZIgaussian` again
-* exploratory scripts moved from `inst/` to `dev/` (excluded from the build)
+## R CMD check results
 
-# sbm 0.4.7
+0 errors | 0 warnings | 0 notes
 
-* remove spelling.out file causing NOTE on CRAN
-* un-naming `$penalty` for bipartite
-* updating arXiv links in DESCRIPTION
+## Reverse dependencies
 
-* tested locally on Ubuntu Linux 24.04 LTS, R-release, GCC
-
-* tested remotely with R-winbuilder 
-  - Windows Old release, unstable, unstable
-
-* tested remotely with github-action
-  - Linux Ubuntu 22.04, R-release, R-oldrel , R-devel 
-  - Windows Server 2022, R-release, 64 bit
-  - macOS Big Sur 11, R-release
-
-## R CMD check results (local)
-
-── R CMD check results ────────────────────────────────────────── sbm 0.4.7 ────
-Duration: 2m 52s
-
-0 errors ✓ | 0 warnings ✓ | 0 notes ✓
-
-R CMD check succeeded
-
-## R CMD check results (CRAN setup)
-
-For a couple of platforms, a note due to the presence of large components (armadillo library)
+We checked the 3 reverse dependencies on CRAN (missSBM, normalblockr, shinySbm), comparing
+R CMD check results with the CRAN versions of sbm (0.4.7) and blockmodels (1.1.5), and with
+this version of sbm and blockmodels 1.2.1: no new problem.

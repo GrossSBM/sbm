@@ -36,6 +36,19 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 \item "fast" logical: should approximation be used for Bernoulli model with covariates. Default to \code{TRUE}. For dependent networks
 }
 }
+\section{Missing values}{
+
+The handling of missing values (\code{NA}) in the networks depends on \code{dependent}:
+\itemize{
+\item \code{dependent = FALSE}: the corresponding dyads are considered as not observed and
+are ignored in the inference (performed by the package \pkg{GREMLINS}), as for multipartite networks.
+\item \code{dependent = TRUE}: missing values are not supported by the underlying models of
+\pkg{blockmodels}. They are replaced by 0, i.e. considered as observed absences of
+edges (or observed zero values for the Gaussian model), which biases the estimation.
+Remove or impute them beforehand, or use \code{dependent = FALSE}.
+}
+}
+
 \examples{
 \dontrun{
 ### =======================================
