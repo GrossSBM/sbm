@@ -113,6 +113,7 @@ BipartiteSBM_fit <-
           exploreMin = 4,
           exploreMax = Inf,
           nbBlocksRange = c(4, Inf),
+          explorationDirection = numeric(0),
           nbCores = .default_nbCores(),
           fast = TRUE
         )
@@ -127,7 +128,8 @@ BipartiteSBM_fit <-
           explore_min        = currentOptions$exploreMin,
           explore_max        = currentOptions$exploreMax,
           ncores             = .check_nbCores(currentOptions$nbCores),
-          exploration_factor = currentOptions$exploreFactor
+          exploration_factor = currentOptions$exploreFactor,
+          exploration_direction = currentOptions$explorationDirection
         )
         fast <- currentOptions$fast
 

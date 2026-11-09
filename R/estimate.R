@@ -20,6 +20,17 @@
 #' * "exploreMax" Stop exploration at exploreMax  even if the exploration factor rule is not achieved. Default Inf. See the package blockmodels for details.
 #' * "nbBlocksRange" minimal and maximal number or blocks explored
 #' * "fast" logical: should approximation be used for Bernoulli model with covariates. Default to \code{TRUE}
+#' * "explorationDirection" (only used for BipartiteSBM) a vector of two integers which controls the
+#' exploration direction for groups number. When provided, the exploring
+#' strategy is made to explore the provided group number. The two integer
+#' value representing the row group number and the column group number.
+#'
+#' @section Missing values:
+#' The network \code{netMat} may contain missing values (\code{NA}): the corresponding dyads
+#' are considered as not observed. They are ignored in the likelihood, in the estimation of
+#' the parameters and in the ICL, whose penalty only counts the observed dyads. This assumes
+#' that the dyads are missing at random; for other sampling designs, see the package
+#' \pkg{missSBM}. The diagonal of the adjacency matrix of a simple network is ignored.
 #'
 #' @return  a list with the estimated parameters. See details...
 #'
@@ -37,7 +48,7 @@
 #'
 #' ## Estimation
 #' mySimpleSBM <-
-#'   estimateSimpleSBM(adjacencyMatrix, 'bernoulli', estimOptions = list(plot = FALSE))
+#'   estimateSimpleSBM(adjacencyMatrix, 'bernoulli', estimOptions = list(plot = FALSE, nbCores = 1))
 #' plot(mySimpleSBM, 'data', ordered = FALSE)
 #' plot(mySimpleSBM, 'data')
 #' plot(mySimpleSBM, 'expected', ordered = FALSE)
@@ -57,7 +68,7 @@
 #'
 #' ## Estimation
 #' mySimpleSBM <- estimateSimpleSBM(adjacencyMatrix, 'poisson',
-#'    estimOptions = list(plot = FALSE))
+#'    estimOptions = list(plot = FALSE, nbCores = 1))
 #' plot(mySimpleSBM, 'data', ordered = FALSE)
 #' plot(mySimpleSBM, 'data')
 #' plot(mySimpleSBM, 'expected', ordered = FALSE)
@@ -75,7 +86,8 @@
 #'
 #' ## Estimation
 #' mySimpleSBM <-
-#'    estimateSimpleSBM(mySampler$networkData, 'gaussian', estimOptions = list(plot = FALSE))
+#'    estimateSimpleSBM(mySampler$networkData, 'gaussian',
+#'      estimOptions = list(plot = FALSE, nbCores = 1))
 #' plot(mySimpleSBM, 'data', ordered = FALSE)
 #' plot(mySimpleSBM, 'data')
 #' plot(mySimpleSBM, 'expected', ordered = FALSE)
@@ -140,6 +152,7 @@ estimateSimpleSBM <- function(netMat,
 #' @param estimOptions a list of parameters controlling the inference algorithm and model selection. See details.
 #'
 #' @inherit estimateSimpleSBM details
+#' @inheritSection estimateSimpleSBM Missing values
 #'
 #' @return  a list with the estimated parameters. See details...
 #'
@@ -157,7 +170,8 @@ estimateSimpleSBM <- function(netMat,
 #' mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'bernoulli')
 #'
 #' ## Estimation
-#' myBipartiteSBM <- estimateBipartiteSBM(mySampler$networkData, estimOptions = list(plot = FALSE))
+#' myBipartiteSBM <- estimateBipartiteSBM(mySampler$networkData,
+#'   estimOptions = list(plot = FALSE, nbCores = 1))
 #' plot(myBipartiteSBM, 'expected')
 #'
 #' ### =======================================
@@ -172,7 +186,8 @@ estimateSimpleSBM <- function(netMat,
 #'
 #' ## Estimation
 #' myBipartiteSBM <-
-#'   estimateBipartiteSBM(mySampler$networkData, 'poisson', estimOptions = list(plot = FALSE))
+#'   estimateBipartiteSBM(mySampler$networkData, 'poisson',
+#'     estimOptions = list(plot = FALSE, nbCores = 1))
 #' plot(myBipartiteSBM, 'expected')
 #'
 #' ### =======================================
@@ -186,7 +201,8 @@ estimateSimpleSBM <- function(netMat,
 #'
 #' ## Estimation
 #' myBipartiteSBM <-
-#'   estimateBipartiteSBM(mySampler$networkData, 'gaussian', estimOptions = list(plot = FALSE))
+#'   estimateBipartiteSBM(mySampler$networkData, 'gaussian',
+#'     estimOptions = list(plot = FALSE, nbCores = 1))
 #' plot(myBipartiteSBM, 'expected')
 #'
 #' @export
@@ -242,6 +258,11 @@ estimateBipartiteSBM <- function(netMat,
 #' * "initBM" Boolean. True if using simple and bipartite SBM as initialisations. Default value  = TRUE
 #' * "maxiterVEM" Number of max. number of iterations in  the VEM. Default value  = 100
 #' * "maxiterVE" Number of max. number of iterations in  the VE. Default value  = 100
+#'
+#' @section Missing values:
+#' The networks may contain missing values (\code{NA}): the corresponding dyads are
+#' considered as not observed and are ignored in the inference (performed by the package
+#' \pkg{GREMLINS}). This assumes that the dyads are missing at random.
 #'
 #' @return a MultipartiteSBM_fit object with the estimated parameters and the blocks in each Functional Group
 #' @export
@@ -319,6 +340,15 @@ estimateMultipartiteSBM <- function(listSBM,
 #' * "exploreMax" Stop exploration at exploreMax  even if the exploration factor rule is not achieved. Default Inf. See the package blockmodels for details. For dependent networks
 #' * "nbBlocksRange" minimal and maximal number or blocks explored. For dependent networks
 #' * "fast" logical: should approximation be used for Bernoulli model with covariates. Default to \code{TRUE}. For dependent networks
+#'
+#' @section Missing values:
+#' The handling of missing values (\code{NA}) in the networks depends on \code{dependent}:
+#' * \code{dependent = FALSE}: the corresponding dyads are considered as not observed and
+#'   are ignored in the inference (performed by the package \pkg{GREMLINS}), as for multipartite networks.
+#' * \code{dependent = TRUE}: missing values are not supported by the underlying models of
+#'   \pkg{blockmodels}. They are replaced by 0, i.e. considered as observed absences of
+#'   edges (or observed zero values for the Gaussian model), which biases the estimation.
+#'   Remove or impute them beforehand, or use \code{dependent = FALSE}.
 #'
 #' @return a MultiplexSBM_fit object with the estimated parameters and the blocks
 #' @export

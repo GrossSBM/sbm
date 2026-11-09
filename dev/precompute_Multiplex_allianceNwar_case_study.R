@@ -15,4 +15,4 @@ knitr::opts_chunk$set(fig.path = file.path(tempdir(), "figure/"))
 knitr::knit("vignettes/Multiplex_allianceNwar_case_study.qmd", output = tempfile(fileext = ".md"),
             envir = env, quiet = TRUE)
 
-save(list = c("MultiplexFitIndep", "MultiplexFitdep"), envir = env, file = fitsFile)
+save(list = c("MultiplexFitIndep", "MultiplexFitdep"), envir = env, file = fitsFile, compress = "xz")

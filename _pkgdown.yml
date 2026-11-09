@@ -2,39 +2,26 @@ url: https://grosssbm.github.io/sbm/
 
 template:
   bootstrap: 5
-  bootswatch: cosmo
+  light-switch: true
 
 navbar:
-  title: "GroßBM"
-  bg: primary
-  left:
-    - icon: fa-house
-      href: index.html
-      aria-label: Home
-    - text: "Home"
-      href: index.html
-    - text: "Reference"
-      href: "reference/index.html"
-    - text: "Vignettes"
-      menu:
-      - text: "Simple and bipartite SBM: principle and illustration"
-        href: articles/SBM_principle.html
-      - text: "Fungus-tree interaction with simple and bipartite SBM"
-        href: articles/SBM_fungus_tree_network.html
-      - text: "SBM with covariates on nodes"
-        href: articles/SBM_nodes_covariates.html
-      - text: "Mutualistic ecological network with multipartite SBM"
-        href: articles/Multipartite_EcologicalNetwork.html
-      - text: "Multiplex SBM: Principle and illustration"
-        href: articles/MultiplexNetwork_principle.html
-      - text: "Multiplex SBM: War and Alliance case study"
-        href: articles/Multiplex_allianceNwar_case_study.html
-    - text: "Changelog"
-      href: news/index.html
-  right:
-    - icon: fa-github
-      href: https://github.com/GrossSBM/sbm
-      aria-label: GitHub
+  structure:
+    left: [reference, articles, news]
+    right: [search, github, lightswitch]
+
+articles:
+- title: Simple and bipartite SBM
+  navbar: Simple and bipartite SBM
+  contents:
+  - SBM_principle
+  - SBM_fungus_tree_network
+  - SBM_nodes_covariates
+- title: Multipartite and multiplex SBM
+  navbar: Multipartite and multiplex SBM
+  contents:
+  - Multipartite_EcologicalNetwork
+  - MultiplexNetwork_principle
+  - Multiplex_allianceNwar_case_study
 
 reference:
 - title: 'Simple SBM'
@@ -45,7 +32,7 @@ reference:
     - '`SimpleSBM_fit`'
     - '`sampleSimpleSBM`'
     - '`estimateSimpleSBM`'
-- title: 'Bipartite Stochastic block models'
+- title: 'Bipartite SBM'
   desc: >
     Set of classes and functions for manipulating bipartite stochastic block models
   contents:
@@ -53,16 +40,15 @@ reference:
     - '`BipartiteSBM_fit`'
     - '`sampleBipartiteSBM`'
     - '`estimateBipartiteSBM`'
-- title: 'Multipartite Stochastic block models'
+- title: 'Multipartite SBM'
   desc: >
     Set of classes and functions for manipulating multipartite stochastic block models
   contents:
     - '`MultipartiteSBM`'
     - '`MultipartiteSBM_fit`'
-    - '`MultiplexSBM_fit`'
     - '`sampleMultipartiteSBM`'
     - '`estimateMultipartiteSBM`'
-- title: 'Multilayer (aka Multiplex) Stochastic block models'
+- title: 'Multiplex (aka multilayer) SBM'
   desc: >
     Set of classes and functions for manipulating multiplex stochastic block models
   contents:
@@ -97,7 +83,6 @@ reference:
     - '`plotAlluvial`'
 - title: 'Virtual methods'
   desc: >
-    Comprehensive list of remaning classes and methods used internally
+    Comprehensive list of remaining classes and methods used internally
   contents:
     - '`SBM`'
-    - '`plotAlluvial`'

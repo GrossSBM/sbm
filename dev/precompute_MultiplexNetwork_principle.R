@@ -15,4 +15,4 @@ knitr::opts_chunk$set(fig.path = file.path(tempdir(), "figure/"))
 knitr::knit("vignettes/MultiplexNetwork_principle.qmd", output = tempfile(fileext = ".md"),
             envir = env, quiet = TRUE)
 
-save(list = c("res_PB", "res_GG", "res_BB"), envir = env, file = fitsFile)
+save(list = c("res_PB", "res_GG", "res_BB"), envir = env, file = fitsFile, compress = "xz")

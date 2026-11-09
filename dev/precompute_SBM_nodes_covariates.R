@@ -33,4 +33,4 @@ save(list = c("estimOptions",
               "fitNoCovarNoisy", "fitCovarNoisy",
               "x3", "covarSets", "fits",
               "networksBip", "fitBip", "fitBipRowOnly"),
-     envir = env, file = fitsFile)
+     envir = env, file = fitsFile, compress = "xz")
