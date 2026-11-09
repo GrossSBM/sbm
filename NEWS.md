@@ -1,4 +1,4 @@
-# sbm 1.0.0 [2026-11-07]
+# sbm 1.0.0 [2026-11-09]
 
 ## Covariates on the nodes
 
