@@ -47,6 +47,13 @@ process and the variational EM algorithm, with the following parameters
 - "maxiterVE" Number of max. number of iterations in the VE. Default
   value = 100
 
+## Missing values
+
+The networks may contain missing values (`NA`): the corresponding dyads
+are considered as not observed and are ignored in the inference
+(performed by the package GREMLINS). This assumes that the dyads are
+missing at random.
+
 ## Examples
 
 ``` r

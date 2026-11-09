@@ -89,6 +89,22 @@ process and the variational EM algorithm, with the following parameters
 - "fast" logical: should approximation be used for Bernoulli model with
   covariates. Default to `TRUE`
 
+- "explorationDirection" (only used for BipartiteSBM) a vector of two
+  integers which controls the exploration direction for groups number.
+  When provided, the exploring strategy is made to explore the provided
+  group number. The two integer value representing the row group number
+  and the column group number.
+
+## Missing values
+
+The network `netMat` may contain missing values (`NA`): the
+corresponding dyads are considered as not observed. They are ignored in
+the likelihood, in the estimation of the parameters and in the ICL,
+whose penalty only counts the observed dyads. This assumes that the
+dyads are missing at random; for other sampling designs, see the package
+missSBM. The diagonal of the adjacency matrix of a simple network is
+ignored.
+
 ## Examples
 
 ``` r
@@ -105,7 +121,7 @@ adjacencyMatrix <- mySampler$networkData
 
 ## Estimation
 mySimpleSBM <-
-  estimateSimpleSBM(adjacencyMatrix, 'bernoulli', estimOptions = list(plot = FALSE))
+  estimateSimpleSBM(adjacencyMatrix, 'bernoulli', estimOptions = list(plot = FALSE, nbCores = 1))
 #> -> Estimation for 1 groups
 #> -> Computation of eigen decomposition used for initalizations
 #> -> Pass 1
@@ -162,7 +178,7 @@ adjacencyMatrix <- mySampler$networkData
 
 ## Estimation
 mySimpleSBM <- estimateSimpleSBM(adjacencyMatrix, 'poisson',
-   estimOptions = list(plot = FALSE))
+   estimOptions = list(plot = FALSE, nbCores = 1))
 #> -> Estimation for 1 groups
 #> -> Computation of eigen decomposition used for initalizations
 #> -> Pass 1
@@ -206,7 +222,8 @@ mySampler <- sampleSimpleSBM(nbNodes, blockProp, connectParam, model = "gaussian
 
 ## Estimation
 mySimpleSBM <-
-   estimateSimpleSBM(mySampler$networkData, 'gaussian', estimOptions = list(plot = FALSE))
+   estimateSimpleSBM(mySampler$networkData, 'gaussian',
+     estimOptions = list(plot = FALSE, nbCores = 1))
 #> -> Estimation for 1 groups
 #> -> Computation of eigen decomposition used for initalizations
 #> -> Pass 1

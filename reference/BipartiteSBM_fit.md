@@ -31,6 +31,12 @@ process and the variational EM algorithm, with the following parameters
 - "fast" logical: should approximation be used for Bernoulli model with
   covariates. Default to `TRUE`
 
+- "explorationDirection" (only used for BipartiteSBM) a vector of two
+  integers which controls the exploration direction for groups number.
+  When provided, the exploring strategy is made to explore the provided
+  group number. The two integer value representing the row group number
+  and the column group number.
+
 ## Super classes
 
 [`SBM`](https://grosssbm.github.io/sbm/reference/SBM.md) -\>

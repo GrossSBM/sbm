@@ -6,19 +6,19 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Stochastic Blockmodels • sbm</title>
-<script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<script src="lightswitch.js"></script><script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Stochastic Blockmodels">
-<meta name="description" content="A collection of tools and functions to adjust a variety of stochastic blockmodels (SBM). Supports at the moment Simple, Bipartite, Multipartite and Multiplex SBM (undirected or directed with Bernoulli, Poisson or Gaussian emission laws on the edges, and possibly covariate for Simple and Bipartite SBM). See Léger (2016) &lt;doi:10.48550/arXiv.1602.07587&gt;, Barbillon et al. (2020) &lt;doi:10.1111/rssa.12193&gt; and Bar-Hen et al. (2020) &lt;doi:10.48550/arXiv.1807.10138&gt;.">
-<meta property="og:description" content="A collection of tools and functions to adjust a variety of stochastic blockmodels (SBM). Supports at the moment Simple, Bipartite, Multipartite and Multiplex SBM (undirected or directed with Bernoulli, Poisson or Gaussian emission laws on the edges, and possibly covariate for Simple and Bipartite SBM). See Léger (2016) &lt;doi:10.48550/arXiv.1602.07587&gt;, Barbillon et al. (2020) &lt;doi:10.1111/rssa.12193&gt; and Bar-Hen et al. (2020) &lt;doi:10.48550/arXiv.1807.10138&gt;.">
+<meta name="description" content="A collection of tools and functions to adjust a variety of stochastic blockmodels (SBM). Supports at the moment Simple, Bipartite, Multipartite and Multiplex SBM (undirected or directed with Bernoulli, Poisson or Gaussian emission laws on the edges). For Simple and Bipartite SBM, covariates can be given on the edges, or on the nodes to drive the block memberships, and the network may contain missing values. See Léger (2016) &lt;doi:10.48550/arXiv.1602.07587&gt;, Barbillon et al. (2020) &lt;doi:10.1111/rssa.12193&gt; and Bar-Hen et al. (2020) &lt;doi:10.48550/arXiv.1807.10138&gt;.">
+<meta property="og:description" content="A collection of tools and functions to adjust a variety of stochastic blockmodels (SBM). Supports at the moment Simple, Bipartite, Multipartite and Multiplex SBM (undirected or directed with Bernoulli, Poisson or Gaussian emission laws on the edges). For Simple and Bipartite SBM, covariates can be given on the edges, or on the nodes to drive the block memberships, and the network may contain missing values. See Léger (2016) &lt;doi:10.48550/arXiv.1602.07587&gt;, Barbillon et al. (2020) &lt;doi:10.1111/rssa.12193&gt; and Bar-Hen et al. (2020) &lt;doi:10.48550/arXiv.1807.10138&gt;.">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
-    <nav class="navbar navbar-expand-lg fixed-top bg-primary" data-bs-theme="dark" aria-label="Site navigation"><div class="container">
+    <nav class="navbar navbar-expand-lg fixed-top " aria-label="Site navigation"><div class="container">
 
     <a class="navbar-brand me-2" href="index.html">sbm</a>
 
@@ -31,24 +31,37 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="active nav-item"><a class="nav-link" href="index.html" aria-label="Home"><span class="fa fa-house"></span></a></li>
-<li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-vignettes" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Vignettes</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-vignettes">
-<li><a class="dropdown-item" href="articles/SBM_principle.html">Simple and bipartite SBM: principle and illustration</a></li>
-    <li><a class="dropdown-item" href="articles/SBM_fungus_tree_network.html">Fungus-tree interaction with simple and bipartite SBM</a></li>
-    <li><a class="dropdown-item" href="articles/SBM_nodes_covariates.html">SBM with covariates on nodes</a></li>
-    <li><a class="dropdown-item" href="articles/Multipartite_EcologicalNetwork.html">Mutualistic ecological network with multipartite SBM</a></li>
-    <li><a class="dropdown-item" href="articles/MultiplexNetwork_principle.html">Multiplex SBM: Principle and illustration</a></li>
-    <li><a class="dropdown-item" href="articles/Multiplex_allianceNwar_case_study.html">Multiplex SBM: War and Alliance case study</a></li>
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Simple and bipartite SBM</h6></li>
+    <li><a class="dropdown-item" href="articles/SBM_principle.html">Stochastic Block Models: principle and illustration</a></li>
+    <li><a class="dropdown-item" href="articles/SBM_fungus_tree_network.html">Simple and Bipartite Stochastic Block Models</a></li>
+    <li><a class="dropdown-item" href="articles/SBM_nodes_covariates.html">Stochastic Block Models with covariates on nodes</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Multipartite and multiplex SBM</h6></li>
+    <li><a class="dropdown-item" href="articles/Multipartite_EcologicalNetwork.html">Multipartite Stochastic Block Models</a></li>
+    <li><a class="dropdown-item" href="articles/MultiplexNetwork_principle.html">Stochastic Block Models for Multiplex networks: principle</a></li>
+    <li><a class="dropdown-item" href="articles/Multiplex_allianceNwar_case_study.html">Stochastic Block Models for Multiplex networks: application</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/GrossSBM/sbm" aria-label="GitHub"><span class="fa fa-github"></span></a></li>
+<li class="nav-item"><form class="form-inline" role="search">
+ <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
+</form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/GrossSBM/sbm/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-lightswitch" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-label="Light switch"><span class="fa fa-sun"></span></button>
+  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-lightswitch">
+<li><button class="dropdown-item" data-bs-theme-value="light"><span class="fa fa-sun"></span> Light</button></li>
+    <li><button class="dropdown-item" data-bs-theme-value="dark"><span class="fa fa-moon"></span> Dark</button></li>
+    <li><button class="dropdown-item" data-bs-theme-value="auto"><span class="fa fa-adjust"></span> Auto</button></li>
+  </ul>
+</li>
       </ul>
 </div>
 
@@ -57,21 +70,119 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="sbm">sbm<a class="anchor" aria-label="anchor" href="#sbm"></a>
+<div class="page-header"><h1 id="sbm-stochastic-blockmodels">sbm: Stochastic Blockmodels<a class="anchor" aria-label="anchor" href="#sbm-stochastic-blockmodels"></a>
 </h1></div>
 <!-- badges: start -->
 
-<p>The goal of the package <code>sbm</code> is to regroup into a unique framework tools for estimating and manipulating variants of the stochastic blockmodel.</p>
+<p><strong>sbm</strong> gathers in a single framework the tools to simulate, estimate and represent a variety of <strong>stochastic block models</strong> (SBM), a family of models that cluster the nodes of a network into blocks sharing the same connectivity patterns.</p>
+<div class="section level2">
+<h2 id="supported-models">Supported models<a class="anchor" aria-label="anchor" href="#supported-models"></a>
+</h2>
+<table class="table">
+<colgroup>
+<col width="35%">
+<col width="20%">
+<col width="44%">
+</colgroup>
+<thead><tr>
+<th>Network</th>
+<th>Function</th>
+<th>Estimation engine</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Simple (one set of nodes, directed or not)</td>
+<td><code><a href="reference/estimateSimpleSBM.html">estimateSimpleSBM()</a></code></td>
+<td><a href="https://CRAN.R-project.org/package=blockmodels" class="external-link">blockmodels</a></td>
+</tr>
+<tr>
+<td>Bipartite (two sets of nodes)</td>
+<td><code><a href="reference/estimateBipartiteSBM.html">estimateBipartiteSBM()</a></code></td>
+<td><a href="https://CRAN.R-project.org/package=blockmodels" class="external-link">blockmodels</a></td>
+</tr>
+<tr>
+<td>Multipartite (several sets of nodes and networks)</td>
+<td><code><a href="reference/estimateMultipartiteSBM.html">estimateMultipartiteSBM()</a></code></td>
+<td><a href="https://CRAN.R-project.org/package=GREMLINS" class="external-link">GREMLINS</a></td>
+</tr>
+<tr>
+<td>Multiplex (several networks on the same nodes)</td>
+<td><code><a href="reference/estimateMultiplexSBM.html">estimateMultiplexSBM()</a></code></td>
+<td>GREMLINS (independent layers), blockmodels (dependent layers)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>
+<strong>Emission distributions</strong> on the edges: Bernoulli (binary networks), Poisson (counts) and Gaussian (weights).</li>
+<li>
+<strong>Covariates</strong>, for simple and bipartite SBM: on the <strong>edges</strong>, acting on the connectivity, or on the <strong>nodes</strong>, driving the block memberships.</li>
+<li>
+<strong>Missing values</strong> (<code>NA</code>) in the networks: the missing dyads are ignored in the inference (see the help pages for the details of each model).</li>
+<li>
+<strong>Model selection</strong> of the number of blocks with the Integrated Classification Likelihood (ICL).</li>
+<li>
+<strong>Graphics</strong> with ggplot2: reordered matrices, expected networks, graphons, mesoscopic views and alluvial plots.</li>
+<li>
+<strong>Simulation</strong> of networks with <code><a href="reference/sampleSimpleSBM.html">sampleSimpleSBM()</a></code>, <code><a href="reference/sampleBipartiteSBM.html">sampleBipartiteSBM()</a></code>, <code><a href="reference/sampleMultipartiteSBM.html">sampleMultipartiteSBM()</a></code> and <code><a href="reference/sampleMultiplexSBM.html">sampleMultiplexSBM()</a></code>.</li>
+</ul>
+</div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>The last stable version is available on <a href="https://CRAN.R-project.org/package=sbm" class="external-link">CRAN</a> with:</p>
+<p>The stable version is available on <a href="https://CRAN.R-project.org/package=sbm" class="external-link">CRAN</a>:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"sbm"</span><span class="op">)</span></span></code></pre></div>
-<p>You can install the development version from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<p>The development version can be installed from <a href="https://github.com/GrossSBM/sbm" class="external-link">GitHub</a>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"GrossSBM/sbm"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># install.packages("pak")</span></span>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"GrossSBM/sbm"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+</h2>
+<p>The data set <code>fungusTreeNetwork</code> records the interactions between 154 fungal species and 51 tree species. A bipartite SBM groups the fungi and the trees into blocks sharing the same interaction patterns, the number of blocks being chosen with the ICL.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://grosssbm.github.io/sbm/">sbm</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"fungusTreeNetwork"</span><span class="op">)</span></span>
+<span><span class="va">fungusTree</span> <span class="op">&lt;-</span> <span class="va">fungusTreeNetwork</span><span class="op">$</span><span class="va">fungus_tree</span></span>
+<span></span>
+<span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/estimateBipartiteSBM.html">estimateBipartiteSBM</a></span><span class="op">(</span></span>
+<span>  <span class="va">fungusTree</span>, model <span class="op">=</span> <span class="st">"bernoulli"</span>, dimLabels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>row <span class="op">=</span> <span class="st">"fungus"</span>, col <span class="op">=</span> <span class="st">"tree"</span><span class="op">)</span>,</span>
+<span>  estimOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>verbosity <span class="op">=</span> <span class="fl">0</span>, plot <span class="op">=</span> <span class="cn">FALSE</span>, nbCores <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">fit</span><span class="op">$</span><span class="va">nbBlocks</span></span>
+<span><span class="co">#&gt; fungus   tree </span></span>
+<span><span class="co">#&gt;      4      4</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com" class="external-link">patchwork</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fit</span>, type <span class="op">=</span> <span class="st">"data"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fit</span>, type <span class="op">=</span> <span class="st">"meso"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-example-plot-1.png" alt="Left: incidence matrix of the fungus-tree network, reordered by blocks. Right: mesoscopic view, the blocks of fungi and trees connected according to their probability of interaction." width="100%"></p>
+<p>The <a href="https://grosssbm.github.io/sbm/articles/">vignettes</a> go further: model principles, case studies on simple, bipartite, multipartite and multiplex networks, and covariates on the nodes.</p>
+</div>
+<div class="section level2">
+<h2 id="related-packages">Related packages<a class="anchor" aria-label="anchor" href="#related-packages"></a>
+</h2>
+<ul>
+<li>
+<a href="https://CRAN.R-project.org/package=blockmodels" class="external-link">blockmodels</a>: estimation of simple and bipartite SBM (and of dependent multiplex SBM), used by <strong>sbm</strong>.</li>
+<li>
+<a href="https://CRAN.R-project.org/package=GREMLINS" class="external-link">GREMLINS</a>: estimation of multipartite SBM, used by <strong>sbm</strong>.</li>
+<li>
+<a href="https://CRAN.R-project.org/package=missSBM" class="external-link">missSBM</a>: SBM for networks with missing data, under various sampling designs (missing at random or not).</li>
+<li>
+<a href="https://CRAN.R-project.org/package=shinySbm" class="external-link">shinySbm</a>: a Shiny application to fit SBM with <strong>sbm</strong>.</li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
+<ul>
+<li>Léger, J.-B. (2016). Blockmodels: A R-package for estimating in Latent Block Model and Stochastic Block Model, with various probability functions, with or without covariates. <a href="https://doi.org/10.48550/arXiv.1602.07587" class="external-link">arXiv:1602.07587</a>.</li>
+<li>Barbillon, P., Donnet, S., Lazega, E. and Bar-Hen, A. (2017). Stochastic block models for multiplex networks: an application to a multilevel network of researchers. <em>Journal of the Royal Statistical Society: Series A</em>, 180(1), 295–314. <a href="https://doi.org/10.1111/rssa.12193" class="external-link">doi:10.1111/rssa.12193</a>.</li>
+<li>Bar-Hen, A., Barbillon, P. and Donnet, S. (2022). Block models for generalized multipartite networks: Applications in ecology and ethnobiology. <em>Statistical Modelling</em>, 22(4), 273–296. <a href="https://doi.org/10.1177/1471082X20963254" class="external-link">doi:10.1177/1471082X20963254</a>.</li>
+</ul>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
@@ -105,6 +216,7 @@
 <li>Julien Chiquet <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-3629-3429" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
 <li>Sophie Donnet <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-4370-7316" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
 <li>Pierre Barbillon <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-7766-7693" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
+<li>Louis Lacoste <br><small class="roles"> Author </small>   </li>
 <li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
@@ -112,12 +224,11 @@
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://grosssbm.github.io/sbm/"><img src="https://github.com/GrossSBM/sbm/workflows/pkgdown/badge.svg" alt="website"></a></li>
-<li><a href="https://github.com/GrossSBM/sbm/actions/workflows/check-standard.yaml" class="external-link"><img src="https://github.com/GrossSBM/sbm/actions/workflows/check-standard.yaml/badge.svg" alt="R-CMD-check"></a></li>
 <li><a href="https://CRAN.R-project.org/package=sbm" class="external-link"><img src="https://www.r-pkg.org/badges/version/sbm" alt="CRAN status"></a></li>
-<li><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
-<li><a href="https://github.com/GrossSBM/sbm/commits/master" class="external-link"><img src="https://img.shields.io/github/last-commit/grossSBM/sbm.svg" alt="Last commit"></a></li>
+<li><a href="https://github.com/GrossSBM/sbm/actions/workflows/check-standard.yaml" class="external-link"><img src="https://github.com/GrossSBM/sbm/actions/workflows/check-standard.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://grosssbm.github.io/sbm/"><img src="https://github.com/GrossSBM/sbm/actions/workflows/pkgdown.yaml/badge.svg" alt="pkgdown"></a></li>
 <li><a href="https://app.codecov.io/gh/GrossSBM/sbm?branch=master" class="external-link"><img src="https://codecov.io/gh/GrossSBM/sbm/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://lifecycle.r-lib.org/articles/stages.html#stable" class="external-link"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="Lifecycle: stable"></a></li>
 </ul>
 </div>
 
@@ -126,7 +237,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Julien Chiquet, Sophie Donnet, Pierre Barbillon.</p>
+  <p>Developed by Julien Chiquet, Sophie Donnet, Pierre Barbillon, Louis Lacoste.</p>
 </div>
 
 <div class="pkgdown-footer-right">

@@ -14,7 +14,7 @@ models
 - [`estimateSimpleSBM()`](https://grosssbm.github.io/sbm/reference/estimateSimpleSBM.md)
   : Estimation of Simple SBMs
 
-## Bipartite Stochastic block models
+## Bipartite SBM
 
 Set of classes and functions for manipulating bipartite stochastic block
 models
@@ -28,7 +28,7 @@ models
 - [`estimateBipartiteSBM()`](https://grosssbm.github.io/sbm/reference/estimateBipartiteSBM.md)
   : Estimation of Bipartite SBMs
 
-## Multipartite Stochastic block models
+## Multipartite SBM
 
 Set of classes and functions for manipulating multipartite stochastic
 block models
@@ -37,14 +37,12 @@ block models
   : R6 Class definition of a Multipartite SBM
 - [`MultipartiteSBM_fit`](https://grosssbm.github.io/sbm/reference/MultipartiteSBM_fit.md)
   : R6 Class definition of a Multipartite SBM fit
-- [`MultiplexSBM_fit`](https://grosssbm.github.io/sbm/reference/MultiplexSBM_fit.md)
-  : R6 Class definition of a Multiplex SBM fit
 - [`sampleMultipartiteSBM()`](https://grosssbm.github.io/sbm/reference/sampleMultipartiteSBM.md)
   : Sampling of Multipartite SBMs
 - [`estimateMultipartiteSBM()`](https://grosssbm.github.io/sbm/reference/estimateMultipartiteSBM.md)
   : Estimation for multipartite SBM
 
-## Multilayer (aka Multiplex) Stochastic block models
+## Multiplex (aka multilayer) SBM
 
 Set of classes and functions for manipulating multiplex stochastic block
 models
@@ -101,10 +99,8 @@ Miscellaneous
 
 ## Virtual methods
 
-Comprehensive list of remaning classes and methods used internally
+Comprehensive list of remaining classes and methods used internally
 
 - [`SBM`](https://grosssbm.github.io/sbm/reference/SBM.md) : R6 virtual
   class for SBM representation (mother class of SimpleSBM, BipartiteSBM,
   MultipartiteSBM)
-- [`plotAlluvial()`](https://grosssbm.github.io/sbm/reference/plotAlluvial.md)
-  : Plot an alluvial plot between clusterings

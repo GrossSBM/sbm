@@ -1,6 +1,6 @@
 # Changelog
 
-## sbm 1.0.0 \[2026-10-16\]
+## sbm 1.0.0 \[2026-11-09\]
 
 ### Covariates on the nodes
 
@@ -18,6 +18,15 @@
 - simple and bipartite SBM handle missing values (`NA`) in the network:
   the missing dyads are not taken into account in the likelihood, nor in
   the penalty of the ICL
+- the help pages of
+  [`estimateSimpleSBM()`](https://grosssbm.github.io/sbm/reference/estimateSimpleSBM.md),
+  [`estimateBipartiteSBM()`](https://grosssbm.github.io/sbm/reference/estimateBipartiteSBM.md),
+  [`estimateMultipartiteSBM()`](https://grosssbm.github.io/sbm/reference/estimateMultipartiteSBM.md)
+  and
+  [`estimateMultiplexSBM()`](https://grosssbm.github.io/sbm/reference/estimateMultiplexSBM.md)
+  describe how missing values are handled: they are ignored (missing at
+  random) except for dependent multiplex SBM, where they are still
+  replaced by zeros
 - requires **blockmodels** (\>= 1.2.1)
 
 ### Graphics: all the plot methods return ggplot2 objects
@@ -84,13 +93,20 @@
 
 ### Other changes
 
+- new option `explorationDirection` in `estimOptions` of
+  [`estimateBipartiteSBM()`](https://grosssbm.github.io/sbm/reference/estimateBipartiteSBM.md),
+  passed to **blockmodels** to drive the exploration of the numbers of
+  blocks towards a given pair (row, col)
+  ([\#20](https://github.com/GrossSBM/sbm/issues/20), Louis Lacoste)
+- Louis Lacoste joins the authors; Jean-Benoist Leger and Julie Aubert
+  are credited as contributors
 - no ICL plot in `$optimize()` when `verbosity = 0`
 - vignettes rewritten with **quarto**: new vignette *Stochastic Block
   Models: principle and illustration*, the vignette
   *SBM_with_covariates* replaced by the fungus/tree case study, models
   recalled in callouts with a common notation; the fits are precomputed
   (scripts in `dev/`)
-- pkgdown site with Bootstrap 5
+- pkgdown site with Bootstrap 5, README rewritten
 
 ## sbm 0.4.7 \[2024-09-16\]
 

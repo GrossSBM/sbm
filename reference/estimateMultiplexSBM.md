@@ -71,6 +71,21 @@ process and the variational EM algorithm, with the following parameters
 - "fast" logical: should approximation be used for Bernoulli model with
   covariates. Default to `TRUE`. For dependent networks
 
+## Missing values
+
+The handling of missing values (`NA`) in the networks depends on
+`dependent`:
+
+- `dependent = FALSE`: the corresponding dyads are considered as not
+  observed and are ignored in the inference (performed by the package
+  GREMLINS), as for multipartite networks.
+
+- `dependent = TRUE`: missing values are not supported by the underlying
+  models of blockmodels. They are replaced by 0, i.e. considered as
+  observed absences of edges (or observed zero values for the Gaussian
+  model), which biases the estimation. Remove or impute them beforehand,
+  or use `dependent = FALSE`.
+
 ## Examples
 
 ``` r
