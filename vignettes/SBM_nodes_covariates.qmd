@@ -57,6 +57,18 @@ recovery, and is close to $0$ for a random clustering).
 ARI <- aricode::ARI
 ```
 
+```{r text-helpers, include = FALSE}
+# Helpers for the comments of the results: the text is generated from the
+# results, so that it stays consistent with a new simulation.
+fmt <- function(x, d = 2) format(round(x, d), nsmall = d)
+quality <- function(a) {
+  if (a > 0.95) "nearly perfectly" else if (a > 0.8) "well" else if (a > 0.5) "partially" else "poorly"
+}
+compare <- function(gain, cost) {
+  if (gain > 2 * cost) "much more than" else if (gain > cost) "more than" else "less than"
+}
+```
+
 ```{r precomputed-fits, include = FALSE}
 # The fits are long: they are precomputed by dev/precompute_SBM_nodes_covariates.R
 # and loaded here. If the file is missing, all the fits are run in the vignette.
@@ -253,8 +265,16 @@ table(estimated = fitNoCovar$memberships, true = Z)
 table(estimated = fitCovar$memberships, true = Z)
 ```
 
+```{r text-clean, include = FALSE}
+ariNoCovar <- ARI(fitNoCovar$memberships, Z)
+ariCovar   <- ARI(fitCovar$memberships, Z)
+sameClust  <- abs(ariCovar - ariNoCovar) < 0.05
+```
 
-For this particular case, the clusters are nearly perfectly recovered up to a label switching of the blocks. 
+For this particular case, the clusters are
+`r quality(min(ariNoCovar, ariCovar))` recovered, up to a label switching of
+the blocks (ARI = `r fmt(ariNoCovar)` without covariates and
+`r fmt(ariCovar)` with covariates).
 
 ### 2.5  Estimated effects of the covariates
 
@@ -307,7 +327,8 @@ ggplot(probs) + aes(x = true, y = estimated, color = block) +
 ### 2.6 Are the covariates selected?
 
 On this network, the clusterings obtained with and without covariates are
-almost identical: the network alone is enough to recover the blocks. We still can check if the ICL favors the model with covariates.  To check it, we also fit a model
+`r if (sameClust) "almost identical" else "different"``r if (sameClust && ariNoCovar > 0.9) ": the network alone is enough to recover the blocks" else ""`.
+We can check whether the ICL favors the model with covariates. To do so, we also fit a model
 with two covariates drawn independently of everything else, hence unrelated to
 the blocks.
 
@@ -333,9 +354,21 @@ resClean <- data.frame(
 kable(resClean, digits = 2)
 ```
 
-Although the clustering is not improved, the ICL clearly selects the model with
-$x_1$ and $x_2$, whereas the useless covariates are not selected. To
-understand why, recall that the ICL ([see above](#sec-icl)) is based on
+```{r text-useless, include = FALSE}
+dIclCovar   <- fitCovar$ICL - fitNoCovar$ICL
+dIclUseless <- fitUseless$ICL - fitNoCovar$ICL
+txtSelect <- paste0(
+  if (ariCovar - ariNoCovar < 0.05) "The covariates barely change the clustering. "
+  else "The covariates improve the clustering. ",
+  if (dIclCovar > 0) "The ICL selects" else "However, the ICL does not select",
+  " the model with $x_1$ and $x_2$ (difference of ICL with the model without covariates: ",
+  fmt(dIclCovar, 1), "), ",
+  if (dIclUseless > 0) "and the useless covariates are selected too" else "whereas the useless covariates are not selected",
+  " (difference of ICL: ", fmt(dIclUseless, 1), ")."
+)
+```
+
+`r txtSelect` To understand why, recall that the ICL ([see above](#sec-icl)) is based on
 $\log p(Y, Z \mid X)$, which contains the term $\log p(Z \mid X)$:
 without covariates it is $\sum_i \sum_q \hat{\tau}^{VE}_{iq} \log \widehat{\pi}_{q}$, with
 covariates it is $\sum_i \sum_q \hat{\tau}^{VE}_{iq} \log \widehat{\pi}_{q}(x_i)$.
@@ -348,15 +381,22 @@ ElogpZ <- c(
 ElogpZ
 ```
 
-The blocks being well predicted by the covariates, this term increases by
-`r round(diff(ElogpZ), 1)`, much more than the additional penalty
-$\frac{1}{2}(p-1)(Q-1)\log n =$ `r round(0.5 * (p - 1) * (fitCovar$nbBlocks - 1) * log(n), 1)`
+```{r text-logpZ, include = FALSE}
+gainZ <- unname(diff(ElogpZ))
+penZ  <- 0.5 * (p - 1) * (fitCovar$nbBlocks - 1) * log(n)
+```
+
+`r if (gainZ > penZ) "The blocks being well predicted by the covariates" else "The blocks being poorly predicted by the covariates"`,
+this term `r if (gainZ > 0) "increases" else "decreases"` by
+`r fmt(abs(gainZ), 1)`, `r if (gainZ > 0) compare(gainZ, penZ) else "while the ICL also pays"`
+the additional penalty
+$\frac{1}{2}(p-1)(Q-1)\log n =$ `r fmt(penZ, 1)`
 due to the $(p-1)(Q-1)$ additional parameters.
 
 ::: {.callout-important}
 ## What the ICL selects
 The ICL selects the covariates that **predict** the block memberships, even when
-they do not **improve** the clustering, as here. Conversely, covariates
+they do not **improve** the clustering`r if (sameClust && dIclCovar > 0) ", as here" else ""`. Conversely, covariates
 unrelated to the blocks are not selected. Comparing the ICL of models with and
 without covariates therefore assesses whether the covariates explain the
 memberships, not whether they change the clustering.
@@ -392,13 +432,29 @@ resSimple <- data.frame(
 kable(resSimple, digits = 2)
 ```
 
-On the original network, the structure is strong enough to be recovered from
-the network alone, and both models give similar clusterings. On the noisy
-network, the network alone does not carry enough information: the standard SBM
-selects only `r fitNoCovarNoisy$nbBlocks` blocks and the ARI drops to
-`r round(ARI(fitNoCovarNoisy$memberships, Z), 2)`. The covariates bring the
-missing information and the SBM with covariates still recovers the
-`r fitCovarNoisy$nbBlocks` blocks (ARI = `r round(ARI(fitCovarNoisy$memberships, Z), 2)`).
+```{r text-noisy, include = FALSE}
+ariNoCovarNoisy <- ARI(fitNoCovarNoisy$memberships, Z)
+ariCovarNoisy   <- ARI(fitCovarNoisy$memberships, Z)
+txtNoisy <- paste0(
+  if (sameClust && min(ariNoCovar, ariCovar) > 0.9)
+    "On the original network, the structure is strong enough to be recovered from the network alone, and both models give similar clusterings. "
+  else
+    sprintf("On the original network, the ARI is %s without covariates and %s with covariates. ",
+            fmt(ariNoCovar), fmt(ariCovar)),
+  sprintf("On the noisy network, the standard SBM selects %s%d blocks (ARI = %s)",
+          if (fitNoCovarNoisy$nbBlocks < Q) "only " else "",
+          fitNoCovarNoisy$nbBlocks, fmt(ariNoCovarNoisy)),
+  if (ariNoCovarNoisy < 0.8) ": the network alone does not carry enough information. " else ". ",
+  if (ariCovarNoisy > ariNoCovarNoisy + 0.05)
+    sprintf("The covariates bring the missing information: the SBM with covariates selects %d blocks (ARI = %s).",
+            fitCovarNoisy$nbBlocks, fmt(ariCovarNoisy))
+  else
+    sprintf("The SBM with covariates selects %d blocks (ARI = %s): here the covariates do not improve the clustering.",
+            fitCovarNoisy$nbBlocks, fmt(ariCovarNoisy))
+)
+```
+
+`r txtNoisy`
 
 ### 2.8 Testing the effect of covariates with the ICL
 
@@ -441,12 +497,34 @@ resICL$deltaICL <- resICL$ICL - resICL$ICL[1]
 kable(resICL, digits = 2, row.names = FALSE)
 ```
 
+```{r text-test-covar, include = FALSE}
+covarLabels <- c("none"         = "no covariate",
+                 "x1"           = "$x_1$ only",
+                 "x2"           = "$x_2$ only",
+                 "x1 + x2"      = "$x_1$ and $x_2$",
+                 "x1 + x2 + x3" = "$x_1$, $x_2$ and $x_3$")
+dICL  <- setNames(resICL$deltaICL, resICL$covariates)
+best  <- resICL$covariates[which.max(resICL$ICL)]
+alone <- dICL[c("x1", "x2")] > 0
+txtTest <- paste0(
+  if (all(alone)) "Here, each of $x_1$ and $x_2$ has an effect on its own"
+  else if (any(alone)) sprintf("Here, only $x_%d$ has an effect on its own", which(alone))
+  else "Here, neither $x_1$ nor $x_2$ improves the ICL on its own",
+  if (best == "x1 + x2")
+    ", and the best model (highest ICL) is the one with both of them, which is the true model. "
+  else
+    sprintf(", and the best model (highest ICL) is the one with %s, whereas the true model involves $x_1$ and $x_2$. ",
+            covarLabels[best]),
+  if (dICL["x1 + x2 + x3"] < dICL["x1 + x2"])
+    "Adding the irrelevant covariate $x_3$ decreases the ICL: its small gain in fit does not compensate for the $Q - 1$ additional parameters."
+  else
+    "Adding the irrelevant covariate $x_3$ increases the ICL here: by chance, it slightly helps to predict the memberships of this sample."
+)
+```
+
 `deltaICL` is the difference of ICL with the model without covariates: a
 positive value means that the covariates are useful to explain the
-clustering. Here, each of $x_1$ and $x_2$ has an effect on its own, and the
-best model (highest ICL) is the one with both of them, which is the true
-model. Adding the irrelevant covariate $x_3$ decreases the ICL: its small gain
-in fit does not compensate for the $Q - 1$ additional parameters.
+clustering. `r txtTest`
 
 ::: {.callout-note}
 The ICL is not a statistical test in the strict sense (it does not provide a
@@ -619,34 +697,79 @@ comparable across levels of missing data.
 :::
 
 ```{r ARI-bipartite-summary, include = FALSE}
-ARIrowBip <- function(net, mod) resBip$ARIrow[resBip$network == net & resBip$model == mod]
-ARIcolBip <- function(net, mod) resBip$ARIcol[resBip$network == net & resBip$model == mod]
 lab <- names(YbipNA)
+
+## comments of the results, generated from them
+nbB  <- function(net, mod) fitBip[[net]][[mod]]$nbBlocks
+ariB <- function(net, mod, side) ARI(fitBip[[net]][[mod]]$memberships[[side]], Zbip[[side]])
+blocksTxt <- function(nb) sprintf("%d $\\times$ %d block%s", nb[1], nb[2], if (prod(nb) > 1) "s" else "")
+pct <- function(i) paste0(100 * epsilonNA[i], "%")
+
+# original network
+ariOrig  <- c(ariB("original", "noCovar", 1), ariB("original", "noCovar", 2),
+              ariB("original", "covar", 1),   ariB("original", "covar", 2))
+trueNb   <- function(net) all(nbB(net, "noCovar") == c(Q1, Q2)) && all(nbB(net, "covar") == c(Q1, Q2))
+improved <- any(ariOrig[3:4] - ariOrig[1:2] > 0.05)
+dIclOrig <- fitBip$original$covar$ICL - fitBip$original$noCovar$ICL
+txtBipOrig <- paste0(
+  if (trueNb("original") && min(ariOrig) > 0.95)
+    "On the original network, the structure is strong enough to be recovered from the network alone: both models find the $Q_1 = 4$ row blocks and the $Q_2 = 3$ column blocks with almost perfect clusterings. "
+  else
+    sprintf("On the original network, the model without covariates finds %s (ARI = %s and %s for rows and columns), and the model with covariates %s (ARI = %s and %s). ",
+            blocksTxt(nbB("original", "noCovar")), fmt(ariOrig[1]), fmt(ariOrig[2]),
+            blocksTxt(nbB("original", "covar")),   fmt(ariOrig[3]), fmt(ariOrig[4])),
+  if (!improved && dIclOrig > 0) "The covariates do not improve the clustering, but the ICL still selects them, since they predict the memberships."
+  else if (!improved) "The covariates do not improve the clustering, and the ICL does not select them."
+  else if (dIclOrig > 0) "The covariates improve the clustering, and the ICL selects them."
+  else "The covariates improve the clustering, but the ICL does not select them."
+)
+
+# moderate levels of missing data
+ariNoCovRow <- sapply(lab, function(l) ariB(l, "noCovar", 1))
+ariCovRow   <- sapply(lab, function(l) ariB(l, "covar", 1))
+txtBipModerate <- if (all(ariNoCovRow[1:2] > 0.9) && min(ariOrig[1:2]) > 0.9)
+  sprintf("The SBM without covariates is robust to moderate levels of missing data: with %s and %s of missing entries, the clusterings are nearly unchanged (row ARI = %s and %s).",
+          pct(1), pct(2), fmt(ariNoCovRow[1]), fmt(ariNoCovRow[2])) else
+  sprintf("With %s and %s of missing entries, the SBM without covariates gives row ARI = %s and %s, and the SBM with covariates %s and %s.",
+          pct(1), pct(2), fmt(ariNoCovRow[1]), fmt(ariNoCovRow[2]), fmt(ariCovRow[1]), fmt(ariCovRow[2]))
+
+# high level of missing data
+txtBip3 <- paste0(
+  sprintf("With %s of missing entries, ", pct(3)),
+  if (ariNoCovRow[3] < 0.9) "the network alone is no longer informative enough: " else "",
+  sprintf("the standard SBM selects %d row blocks (ARI = %s)", nbB(lab[3], "noCovar")[1], fmt(ariNoCovRow[3])),
+  if (ariCovRow[3] > ariNoCovRow[3] + 0.05)
+    sprintf(", whereas the SBM with covariates finds %d row blocks (ARI = %s).", nbB(lab[3], "covar")[1], fmt(ariCovRow[3]))
+  else
+    sprintf(", and the SBM with covariates %d row blocks (ARI = %s).", nbB(lab[3], "covar")[1], fmt(ariCovRow[3]))
+)
+
+# very high level of missing data
+nb4 <- nbB(lab[4], "noCovar")
+txtBip4 <- paste0(
+  sprintf("With %s of missing entries, ", pct(4)),
+  if (all(nb4 == 1)) "the network alone does not reveal any structure (1 $\\times$ 1 block)"
+  else sprintf("the standard SBM finds %s (ARI = %s and %s)", blocksTxt(nb4), fmt(ariNoCovRow[4]), fmt(ariB(lab[4], "noCovar", 2))),
+  sprintf(", while the SBM with covariates finds %s (ARI = %s and %s for rows and columns).",
+          blocksTxt(nbB(lab[4], "covar")), fmt(ariCovRow[4]), fmt(ariB(lab[4], "covar", 2)))
+)
+
+# gain brought by the covariates and ICL
+gainRow  <- c(ariOrig[3] - ariOrig[1], ariCovRow - ariNoCovRow)
+dIclBip  <- sapply(names(fitBip), function(net) fitBip[[net]]$covar$ICL - fitBip[[net]]$noCovar$ICL)
+txtBipEnd <- paste0(
+  if (all(diff(gainRow) > -0.02) && gainRow[length(gainRow)] > gainRow[1] + 0.05)
+    "The more entries are missing, the more the information brought by the covariates matters. " else "",
+  if (all(dIclBip > 0)) "For all the networks, the ICL selects the model with covariates."
+  else if (all(dIclBip <= 0)) "For none of the networks does the ICL select the model with covariates."
+  else sprintf("The ICL selects the model with covariates only for the following networks: %s.",
+               paste(names(fitBip)[dIclBip > 0], collapse = ", "))
+)
 ```
 
-On the original network, the structure is strong enough to be recovered from
-the network alone: both models find the $Q_1 = 4$ row blocks and the
-$Q_2 = 3$ column blocks with almost perfect clusterings. As in the simple case,
-the covariates do not improve the clustering, but the ICL still selects them,
-since they predict the memberships.
+`r txtBipOrig`
 
-The SBM without covariates is robust to moderate levels of missing data: with
-`r 100 * epsilonNA[1]`% and `r 100 * epsilonNA[2]`% of missing entries, the
-clusterings are nearly unchanged. With `r 100 * epsilonNA[3]`% of missing
-entries, the network alone is no longer informative enough: the standard SBM
-selects `r fitBip[[lab[3]]]$noCovar$nbBlocks[1]` row blocks
-(ARI = `r round(ARIrowBip(lab[3], "without covariates"), 2)`), whereas the SBM
-with covariates still recovers the
-`r fitBip[[lab[3]]]$covar$nbBlocks[1]` row blocks
-(ARI = `r round(ARIrowBip(lab[3], "with covariates"), 2)`). With
-`r 100 * epsilonNA[4]`% of missing entries, the network alone does not reveal
-any structure
-(`r fitBip[[lab[4]]]$noCovar$nbBlocks[1]` $\times$ `r fitBip[[lab[4]]]$noCovar$nbBlocks[2]`
-block), while the covariates still allow a partial recovery of the row and
-column blocks (ARI = `r round(ARIrowBip(lab[4], "with covariates"), 2)` and
-`r round(ARIcolBip(lab[4], "with covariates"), 2)`). The more entries are
-missing, the more the information brought by the covariates matters. For all
-the networks, the ICL selects the model with covariates.
+`r txtBipModerate` `r txtBip3` `r txtBip4` `r txtBipEnd`
 
 ### 3.5 Covariates on one type of nodes only
 
@@ -655,7 +778,7 @@ for the other one. The column blocks then follow a standard multinomial
 distribution with proportions $\pi^2 = (\pi^2_1, \dots, \pi^2_{Q_2})$.
 
 We illustrate it on the network with `r 100 * epsilonNA[3]`% of missing
-entries, for which the covariates improve the clustering.
+entries`r if (ariCovRow[3] > ariNoCovRow[3] + 0.05) ", for which the covariates improve the clustering" else ""`.
 
 ```{r fit-bipartite-row-only}
 #| eval: !expr exists("runFits") && runFits
@@ -674,11 +797,12 @@ The ICL can then be used, as in the simple case, to decide which covariates
 are useful:
 
 ```{r ICL-bipartite}
-c(none        = fitBip[[lab[3]]]$noCovar$ICL,
-  rowsOnly    = fitBipRowOnly$ICL,
-  rowsAndCols = fitBip[[lab[3]]]$covar$ICL)
+iclBip <- c(none        = fitBip[[lab[3]]]$noCovar$ICL,
+            rowsOnly    = fitBipRowOnly$ICL,
+            rowsAndCols = fitBip[[lab[3]]]$covar$ICL)
+iclBip
 ```
 
-Here the highest ICL is obtained with covariates on both rows and columns.
+Here the highest ICL is obtained `r c(none = "without covariates", rowsOnly = "with covariates on the rows only", rowsAndCols = "with covariates on both rows and columns")[names(which.max(iclBip))]`.
 
 ## References
