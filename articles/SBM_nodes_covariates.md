@@ -296,8 +296,9 @@ table(estimated = fitCovar$memberships, true = Z)
 #>         4  0  0 28  0
 ```
 
-For this particular case, the clusters are nearly perfectly recovered up
-to a label switching of the blocks.
+For this particular case, the clusters are nearly perfectly recovered,
+up to a label switching of the blocks (ARI = 0.98 without covariates and
+1.00 with covariates).
 
 ### 2.5 Estimated effects of the covariates
 
@@ -369,8 +370,8 @@ ggplot(probs) + aes(x = true, y = estimated, color = block) +
 
 On this network, the clusterings obtained with and without covariates
 are almost identical: the network alone is enough to recover the blocks.
-We still can check if the ICL favors the model with covariates. To check
-it, we also fit a model with two covariates drawn independently of
+We can check whether the ICL favors the model with covariates. To do so,
+we also fit a model with two covariates drawn independently of
 everything else, hence unrelated to the blocks.
 
 ``` r
@@ -402,11 +403,12 @@ kable(resClean, digits = 2)
 | x1 + x2                |        4 | 1.00 | -4014.78 |
 | two useless covariates |        4 | 0.98 | -4117.72 |
 
-Although the clustering is not improved, the ICL clearly selects the
-model with $`x_1`$ and $`x_2`$, whereas the useless covariates are not
-selected. To understand why, recall that the ICL ([see above](#sec-icl))
-is based on $`\log p(Y, Z \mid X)`$, which contains the term
-$`\log p(Z \mid X)`$: without covariates it is
+The covariates barely change the clustering. The ICL selects the model
+with $`x_1`$ and $`x_2`$ (difference of ICL with the model without
+covariates: 91.9), whereas the useless covariates are not selected
+(difference of ICL: -11.0). To understand why, recall that the ICL ([see
+above](#sec-icl)) is based on $`\log p(Y, Z \mid X)`$, which contains
+the term $`\log p(Z \mid X)`$: without covariates it is
 $`\sum_i \sum_q \hat{\tau}^{VE}_{iq} \log \widehat{\pi}_{q}`$, with
 covariates it is
 $`\sum_i \sum_q \hat{\tau}^{VE}_{iq} \log \widehat{\pi}_{q}(x_i)`$.
@@ -478,10 +480,10 @@ kable(resSimple, digits = 2)
 
 On the original network, the structure is strong enough to be recovered
 from the network alone, and both models give similar clusterings. On the
-noisy network, the network alone does not carry enough information: the
-standard SBM selects only 2 blocks and the ARI drops to 0.2. The
-covariates bring the missing information and the SBM with covariates
-still recovers the 4 blocks (ARI = 0.94).
+noisy network, the standard SBM selects only 2 blocks (ARI = 0.20): the
+network alone does not carry enough information. The covariates bring
+the missing information: the SBM with covariates selects 4 blocks (ARI =
+0.94).
 
 ### 2.8 Testing the effect of covariates with the ICL
 
@@ -779,21 +781,21 @@ fitted on the same network.
 
 On the original network, the structure is strong enough to be recovered
 from the network alone: both models find the $`Q_1 = 4`$ row blocks and
-the $`Q_2 = 3`$ column blocks with almost perfect clusterings. As in the
-simple case, the covariates do not improve the clustering, but the ICL
-still selects them, since they predict the memberships.
+the $`Q_2 = 3`$ column blocks with almost perfect clusterings. The
+covariates do not improve the clustering, but the ICL still selects
+them, since they predict the memberships.
 
 The SBM without covariates is robust to moderate levels of missing data:
 with 10% and 30% of missing entries, the clusterings are nearly
-unchanged. With 60% of missing entries, the network alone is no longer
-informative enough: the standard SBM selects 3 row blocks (ARI = 0.69),
-whereas the SBM with covariates still recovers the 4 row blocks (ARI =
-0.97). With 80% of missing entries, the network alone does not reveal
-any structure (1 $`\times`$ 1 block), while the covariates still allow a
-partial recovery of the row and column blocks (ARI = 0.46 and 0.52). The
-more entries are missing, the more the information brought by the
-covariates matters. For all the networks, the ICL selects the model with
-covariates.
+unchanged (row ARI = 0.97 and 0.93). With 60% of missing entries, the
+network alone is no longer informative enough: the standard SBM selects
+3 row blocks (ARI = 0.69), whereas the SBM with covariates finds 4 row
+blocks (ARI = 0.97). With 80% of missing entries, the network alone does
+not reveal any structure (1 $`\times`$ 1 block), while the SBM with
+covariates finds 2 $`\times`$ 2 blocks (ARI = 0.46 and 0.52 for rows and
+columns). The more entries are missing, the more the information brought
+by the covariates matters. For all the networks, the ICL selects the
+model with covariates.
 
 ### 3.5 Covariates on one type of nodes only
 
@@ -826,9 +828,10 @@ covariates are useful:
 
 ``` r
 
-c(none        = fitBip[[lab[3]]]$noCovar$ICL,
-  rowsOnly    = fitBipRowOnly$ICL,
-  rowsAndCols = fitBip[[lab[3]]]$covar$ICL)
+iclBip <- c(none        = fitBip[[lab[3]]]$noCovar$ICL,
+            rowsOnly    = fitBipRowOnly$ICL,
+            rowsAndCols = fitBip[[lab[3]]]$covar$ICL)
+iclBip
 #>        none    rowsOnly rowsAndCols 
 #>   -2366.072   -2299.963   -2285.681
 ```
