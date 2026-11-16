@@ -117,32 +117,50 @@ mySampler <- sampleBipartiteSBM(nbNodes, blockProp, connectParam, model = 'berno
 myBipartiteSBM <- estimateBipartiteSBM(mySampler$networkData,
   estimOptions = list(plot = FALSE, nbCores = 1))
 #> -> Estimation for 2 groups (1+1)
-#> -> Computation of eigen decomposition used for initalizations
+#> 
+-> Computation of eigen decomposition used for initalizations
 #>     -> for rows
 #>     -> for cols
 #> -> Pass 1
 #>     -> With ascending number of groups
 #>         -> For 3 groups
-#>         -> For 4 groups
-#>         -> For 5 groups
-#>         -> For 6 groups
+#> 
+        -> For 4 groups
+#> 
+        -> For 5 groups
+#> 
+        -> For 6 groups
+#> 
+        -> For 7 groups
+#> 
+
+        -> For 8 groups
+#> 
+
+    -> With descending number of groups
 #>         -> For 7 groups
-#>         -> For 8 groups
-#>     -> With descending number of groups
-#>         -> For 7 groups
-#>         -> For 6 groups
-#>         -> For 5 groups
-#>         -> For 4 groups
-#>         -> For 3 groups
-#> -> Pass 2
+#> 
+
+        -> For 6 groups
+#> 
+
+        -> For 5 groups
+#> 
+        -> For 4 groups
+#> 
+        -> For 3 groups
+#> 
+-> Pass 2
 #>     -> With ascending number of groups
 #>         -> For 3 groups
 #>         -> For 4 groups
 #>         -> For 5 groups
 #>         -> For 6 groups
 #>         -> For 7 groups
-#>         -> For 8 groups
-#>     -> With descending number of groups
+#> 
+        -> For 8 groups
+#> 
+    -> With descending number of groups
 #>         -> For 7 groups
 #>         -> For 6 groups
 #>         -> For 5 groups
@@ -166,24 +184,39 @@ myBipartiteSBM <-
   estimateBipartiteSBM(mySampler$networkData, 'poisson',
     estimOptions = list(plot = FALSE, nbCores = 1))
 #> -> Estimation for 2 groups (1+1)
-#> -> Computation of eigen decomposition used for initalizations
+#> 
+-> Computation of eigen decomposition used for initalizations
 #>     -> for rows
 #>     -> for cols
 #> -> Pass 1
 #>     -> With ascending number of groups
 #>         -> For 3 groups
-#>         -> For 4 groups
-#>         -> For 5 groups
-#>         -> For 6 groups
+#> 
+        -> For 4 groups
+#> 
+        -> For 5 groups
+#> 
+        -> For 6 groups
+#> 
+        -> For 7 groups
+#> 
+
+        -> For 8 groups
+#> 
+
+    -> With descending number of groups
 #>         -> For 7 groups
-#>         -> For 8 groups
-#>     -> With descending number of groups
-#>         -> For 7 groups
-#>         -> For 6 groups
-#>         -> For 5 groups
-#>         -> For 4 groups
-#>         -> For 3 groups
-#> -> Pass 2
+#> 
+        -> For 6 groups
+#> 
+
+        -> For 5 groups
+#> 
+        -> For 4 groups
+#> 
+        -> For 3 groups
+#> 
+-> Pass 2
 #>     -> With ascending number of groups
 #>         -> For 3 groups
 #>         -> For 4 groups
@@ -214,24 +247,39 @@ myBipartiteSBM <-
   estimateBipartiteSBM(mySampler$networkData, 'gaussian',
     estimOptions = list(plot = FALSE, nbCores = 1))
 #> -> Estimation for 2 groups (1+1)
-#> -> Computation of eigen decomposition used for initalizations
+#> 
+-> Computation of eigen decomposition used for initalizations
 #>     -> for rows
 #>     -> for cols
 #> -> Pass 1
 #>     -> With ascending number of groups
 #>         -> For 3 groups
-#>         -> For 4 groups
-#>         -> For 5 groups
-#>         -> For 6 groups
+#> 
+        -> For 4 groups
+#> 
+        -> For 5 groups
+#> 
+        -> For 6 groups
+#> 
+        -> For 7 groups
+#> 
+
+        -> For 8 groups
+#> 
+
+    -> With descending number of groups
 #>         -> For 7 groups
-#>         -> For 8 groups
-#>     -> With descending number of groups
-#>         -> For 7 groups
-#>         -> For 6 groups
-#>         -> For 5 groups
-#>         -> For 4 groups
-#>         -> For 3 groups
-#> -> Pass 2
+#> 
+
+        -> For 6 groups
+#> 
+        -> For 5 groups
+#> 
+        -> For 4 groups
+#> 
+        -> For 3 groups
+#> 
+-> Pass 2
 #>     -> With ascending number of groups
 #>         -> For 3 groups
 #>         -> For 4 groups

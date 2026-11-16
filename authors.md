@@ -22,7 +22,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/GrossSBM/sbm/blob/master/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/GrossSBM/sbm/blob/v1.0.0/DESCRIPTION)
 
 Chiquet J, Donnet S, Barbillon P, Lacoste L (2026). *sbm: Stochastic
 Blockmodels*. R package version 1.0.0,

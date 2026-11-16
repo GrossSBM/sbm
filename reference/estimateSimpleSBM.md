@@ -123,24 +123,34 @@ adjacencyMatrix <- mySampler$networkData
 mySimpleSBM <-
   estimateSimpleSBM(adjacencyMatrix, 'bernoulli', estimOptions = list(plot = FALSE, nbCores = 1))
 #> -> Estimation for 1 groups
-#> -> Computation of eigen decomposition used for initalizations
+#> 
+-> Computation of eigen decomposition used for initalizations
 #> -> Pass 1
 #>     -> With ascending number of groups
 #>         -> For 2 groups
-#>         -> For 3 groups
+#> 
+        -> For 3 groups
+#> 
+        -> For 4 groups
+#> 
+        -> For 5 groups
+#> 
+    -> With descending number of groups
 #>         -> For 4 groups
-#>         -> For 5 groups
-#>     -> With descending number of groups
-#>         -> For 4 groups
-#>         -> For 3 groups
-#>         -> For 2 groups
-#> -> Pass 2
+#> 
+
+        -> For 3 groups
+#> 
+        -> For 2 groups
+#> 
+-> Pass 2
 #>     -> With ascending number of groups
 #>         -> For 2 groups
 #>         -> For 3 groups
 #>         -> For 4 groups
 #>         -> For 5 groups
-#>     -> With descending number of groups
+#> 
+    -> With descending number of groups
 #>         -> For 4 groups
 #>         -> For 3 groups
 #>         -> For 2 groups
@@ -180,18 +190,27 @@ adjacencyMatrix <- mySampler$networkData
 mySimpleSBM <- estimateSimpleSBM(adjacencyMatrix, 'poisson',
    estimOptions = list(plot = FALSE, nbCores = 1))
 #> -> Estimation for 1 groups
-#> -> Computation of eigen decomposition used for initalizations
+#> 
+-> Computation of eigen decomposition used for initalizations
 #> -> Pass 1
 #>     -> With ascending number of groups
 #>         -> For 2 groups
-#>         -> For 3 groups
+#> 
+        -> For 3 groups
+#> 
+        -> For 4 groups
+#> 
+        -> For 5 groups
+#> 
+    -> With descending number of groups
 #>         -> For 4 groups
-#>         -> For 5 groups
-#>     -> With descending number of groups
-#>         -> For 4 groups
-#>         -> For 3 groups
-#>         -> For 2 groups
-#> -> Pass 2
+#> 
+
+        -> For 3 groups
+#> 
+        -> For 2 groups
+#> 
+-> Pass 2
 #>     -> With ascending number of groups
 #>         -> For 2 groups
 #>         -> For 3 groups
@@ -225,18 +244,27 @@ mySimpleSBM <-
    estimateSimpleSBM(mySampler$networkData, 'gaussian',
      estimOptions = list(plot = FALSE, nbCores = 1))
 #> -> Estimation for 1 groups
-#> -> Computation of eigen decomposition used for initalizations
+#> 
+-> Computation of eigen decomposition used for initalizations
 #> -> Pass 1
 #>     -> With ascending number of groups
 #>         -> For 2 groups
-#>         -> For 3 groups
+#> 
+        -> For 3 groups
+#> 
+        -> For 4 groups
+#> 
+        -> For 5 groups
+#> 
+    -> With descending number of groups
 #>         -> For 4 groups
-#>         -> For 5 groups
-#>     -> With descending number of groups
-#>         -> For 4 groups
-#>         -> For 3 groups
-#>         -> For 2 groups
-#> -> Pass 2
+#> 
+
+        -> For 3 groups
+#> 
+        -> For 2 groups
+#> 
+-> Pass 2
 #>     -> With ascending number of groups
 #>         -> For 2 groups
 #>         -> For 3 groups

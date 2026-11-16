@@ -2,6 +2,8 @@
 
 ## sbm 1.0.0 \[2026-11-09\]
 
+CRAN release: 2026-11-10
+
 ### Covariates on the nodes
 
 - [`estimateSimpleSBM()`](https://grosssbm.github.io/sbm/reference/estimateSimpleSBM.md)
