@@ -161,10 +161,10 @@ MultiplexSBM_fit <-
         }
       },
       #' @description plot Multiplex Network
-      #' @param type character for the type of plot: either 'data' (true connection), 'expected' (fitted connection) or 'graphon' (block connectivity of each layer on the unit square, blocks sized by the block proportions; the marginal connectivity of each layer in the dependent case). Default to 'data'.
+      #' @param type character for the type of plot: either 'data' (true connection), 'expected' (fitted connection) or 'graphon' (block connectivity of each layer on the unit square, blocks sized by the block proportions; the marginal connectivity of each layer in the dependent case) or 'parameters' (connectivity matrix of each layer as a heat map, block proportions as bars on the side). Default to 'data'.
       #' @param ordered TRUE is the matrices are plotted after reorganization with the blocks. Default value = TRUE
       #' @param plotOptions list of plot options for the matrix view
-      plot = function(type = c('data','expected','graphon'), ordered = TRUE, plotOptions = list()){
+      plot = function(type = c('data','expected','graphon','parameters'), ordered = TRUE, plotOptions = list()){
 
         if (ordered) clustering <- self$memberships else clustering <- NULL
 
@@ -194,6 +194,15 @@ MultiplexSBM_fit <-
                  names(means) <- if (is.null(private$names_layers_)) paste0("Layer", seq_along(means)) else private$names_layers_
                  blockProp <- if (length(private$dimlab) == 1) unlist(self$blockProp) else unname(self$blockProp)
                  plotGraphon(means, blockProp, self$nbNodes, private$dimlab, plotOptions)
+               },
+               "parameters" = {
+                 # the values are those of each layer; with layers of different models, the colors
+                 # of each layer are given by its connectivities divided by their maximum
+                 means <- private$layerMeans()
+                 names(means) <- if (is.null(private$names_layers_)) paste0("Layer", seq_along(means)) else private$names_layers_
+                 blockProp <- if (length(private$dimlab) == 1) unlist(self$blockProp) else unname(self$blockProp)
+                 plotParameters(means, blockProp, private$dimlab, plotOptions,
+                                normalize = length(unique(private$model)) > 1)
                }
         )
       },

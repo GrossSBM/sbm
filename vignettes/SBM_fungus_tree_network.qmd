@@ -156,6 +156,14 @@ coef(mySimpleSBM, 'block')
 coef(mySimpleSBM, 'connectivity')
 ```
 
+or plotted with `type = "parameters"`: the connectivity matrix is drawn as a heat map, with the estimated probability of connection $\widehat{\alpha}_{ql}$ in each cell, and the estimated block proportions $\widehat{\pi}_q$ as bars on the left and on top. Contrary to the graphon, all the cells have the same size, so that the connectivities of the small blocks remain readable.
+
+```{r simpleSBMfit parameters}
+#| fig-width: 6
+#| fig-height: 5
+plot(mySimpleSBM, type = "parameters")
+```
+
 
 #### About model selection and choice of the number of blocks
 
@@ -334,6 +342,14 @@ mySimpleSBMCov$memberships
 mySimpleSBMCov$covarParam
 ```
 
+The connectivities $\widehat{\lambda}_{ql}$ represent the residual structure of the network, which is not explained by the covariates. They can be plotted with `type = "parameters"`:
+
+```{r simpleSBMfitPoisson covar parameters}
+#| fig-width: 6
+#| fig-height: 5
+plot(mySimpleSBMCov, type = "parameters", plotOptions = list(values = FALSE))
+```
+
 
 ```{r simpleSBMfitPoisson covar coef}
 coef(mySimpleSBMCov, 'covariates')
@@ -387,6 +403,14 @@ myBipartiteSBM$nbBlocks
 myBipartiteSBM$connectParam
 coef(myBipartiteSBM, 'block')
 coef(myBipartiteSBM, 'connectivity')
+```
+
+These parameters can be plotted with `type = "parameters"`: the probabilities of connection $\widehat{\alpha}_{qr}$ between the tree blocks (rows, labels starting with `t`) and the fungus blocks (columns, labels starting with `f`), with the proportions of the tree blocks on the left and those of the fungus blocks on top.
+
+```{r plot bipartite parameters}
+#| fig-width: 7
+#| fig-height: 5
+plot(myBipartiteSBM, type = "parameters")
 ```
 
 We can now plot the reorganized matrix (top). The row blocks (trees) and the column blocks (fungi) are separated by the red lines, the background of each block representing the estimated probability of connection $\widehat{\alpha}_{qr}$ between the tree block $q$ and the fungus block $r$. As in the simple case, the estimated connectivity can be represented as a graphon (bottom), the row and column blocks being sized by their estimated proportions. The plots being wide, we put them one above the other with **patchwork**.

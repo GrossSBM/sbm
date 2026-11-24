@@ -485,7 +485,7 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG,namesLayers, dist
   melted_Mat$names_row <- factor(melted_Mat$names_row, levels = melted_Mat$names_row[melted_Mat$index_col == 1][n1:1])
   melted_Mat$FG_row <- as.factor(rep(FGRow, each = n2))
   melted_Mat$FG_col <- as.factor(rep(FGCol,  n1))
-  range_melted <- range(c(melted_Mat$link))
+  range_melted <- range(c(melted_Mat$link), na.rm = TRUE)
   if (binary) { melted_Mat$link <- as.factor(melted_Mat$link)}
 
 
@@ -583,9 +583,9 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG,namesLayers, dist
       sepColl <- sepColl[-length(sepColl)]
       sepColl}))
     nbSep <- length(separate)
-
-
-
+  }
+  # no separator to draw when all the functional groups have a single block
+  if (reordered && nbSep > 0) {
     separCol <- data.frame(sepCol = c(separate + 0.5),#+ rep(c(0,cumsum(GCol*nbNodes)[-nbFG]),nbBlocks-1) + 0.5),
                            FG_col = rep(namesFG,nbBlocks-1),
                            FG_col_index = rep(1:nbFG,nbBlocks-1))
@@ -917,4 +917,231 @@ mesoLayoutFG <- function(arch, nbBlocks){
   maxQ <- max(tapply(nbBlocks, row, sum))
   gap <- max(1.5, 0.6 * maxQ)
   cbind(x = unlist(x), y = rep(row * gap, nbBlocks))
+}
+##################################################################################
+#----------------------------------------------------------------------------------
+# Parameters of an SBM: the connectivity matrices as heat maps (one cell per pair of
+# blocks, colored as the graphon, with its value), the block proportions as bars: on the
+# left for the row blocks, on top for the column blocks. All the elements are drawn in the
+# same ggplot (unit cells, block 1 in the top left corner).
+#
+# plotParametersGrid draws a grid of heat maps: the row bands (types of nodes in row) are
+# stacked vertically, the column bands side by side, each network being drawn at the
+# crossing of its row band and its column band (as plotMultipartiteMatrix).
+#   rowBands, colBands : lists of bands, each one a list with pi (block proportions), color
+#             (of its bars), prefix (of the labels of its blocks) and title (NULL: no title)
+#   nets    : list of networks, each one a list with row, col (indices of the bands) and mean
+#             (matrix of connectivities)
+#   axisTitles : titles of the axes (row, col), or NULL
+#   normalize : the colors of each network are given by its connectivities divided by their
+#             maximum (networks of different models), the values printed being unchanged
+#----------------------------------------------------------------------------------
+parametersOptions <- function(plotOptions, nbColors){
+  currentOptions = list(
+    legend = FALSE,
+    legend.title = FALSE,
+    legend.position = 'bottom',
+    title = NULL,
+    block.color = 'red',
+    blockAlpha.min = 0.1,
+    blockAlpha.max = 0.6,
+    limits = NULL,
+    values = TRUE,
+    values.digits = 2,
+    values.size = 3.5,
+    bar.color = mesoColors(nbColors),
+    bar.size = 0.3,
+    bar.max = NULL,
+    bar.labels = TRUE,
+    labels.size = 3,
+    vertex.label.name = NULL
+  )
+  currentOptions[names(plotOptions)] <- plotOptions
+  currentOptions
+}
+# prefixes of the labels of the blocks: as in the mesoscopic view, the shortest prefixes of the
+# labels of the types of nodes which distinguish them ('' for a single type of nodes)
+blockPrefixes <- function(dimLabels, vertex.label.name = NULL){
+  if (!is.null(vertex.label.name)) return(rep_len(unlist(vertex.label.name), length(dimLabels)))
+  if (length(unique(dimLabels)) == 1) return(rep('', length(dimLabels)))
+  i <- 1
+  prefix <- substr(dimLabels, 1, i)
+  while (anyDuplicated(prefix) && i < max(nchar(dimLabels))) {i <- i + 1; prefix <- substr(dimLabels, 1, i)}
+  if (anyDuplicated(prefix)) {prefix <- paste0('G', seq_along(dimLabels), '.')}
+  prefix
+}
+
+plotParametersGrid = function(rowBands, colBands, nets, currentOptions, axisTitles = NULL, normalize = FALSE){
+
+  K <- vapply(rowBands, function(b) length(b$pi), numeric(1))
+  L <- vapply(colBands, function(b) length(b$pi), numeric(1))
+  # position of the bands: separated by half a cell
+  bandGap <- 0.5
+  rowOffset <- c(0, cumsum(K + bandGap))[seq_along(K)]
+  colOffset <- c(0, cumsum(L + bandGap))[seq_along(L)]
+  H <- sum(K) + (length(K) - 1) * bandGap
+  W <- sum(L) + (length(L) - 1) * bandGap
+
+  # connectivity: one unit cell per pair of blocks
+  cells <- do.call(rbind, lapply(seq_along(nets), function(m) {
+    net <- nets[[m]]
+    mu <- as.matrix(net$mean)
+    b <- expand.grid(k = seq_len(K[net$row]), q = seq_len(L[net$col]))
+    b$value <- mu[cbind(b$k, b$q)]
+    b$fillValue <- if (normalize) b$value / max(abs(mu), na.rm = TRUE) else b$value
+    b$x <- colOffset[net$col] + b$q - 0.5
+    b$y <- -(rowOffset[net$row] + b$k - 0.5)
+    b$net <- m
+    b
+  }))
+  limits <- currentOptions$limits
+  if (is.null(limits)) {limits <- if (all(cells$fillValue >= 0, na.rm = TRUE)) c(0, max(cells$fillValue, na.rm = TRUE)) else range(cells$fillValue, na.rm = TRUE)}
+  cells$fillValue <- pmin(pmax(cells$fillValue, limits[1]), limits[2])
+
+  # bars: their maximal length is a fraction `bar.size` of the largest band
+  n <- max(K, L, 2)
+  barLength <- currentOptions$bar.size * n
+  barMax <- currentOptions$bar.max
+  if (is.null(barMax)) {barMax <- max(unlist(lapply(c(rowBands, colBands), function(b) b$pi)))}
+  gap <- 0.1
+  bars <- rbind(
+    do.call(rbind, lapply(seq_along(rowBands), function(r) {
+      p <- rowBands[[r]]$pi
+      data.frame(side = 'row', p = p, fill = rowBands[[r]]$color,
+                 xmin = -gap - barLength * p / barMax, xmax = -gap,
+                 ymin = -rowOffset[r] - seq_along(p) + 0.1, ymax = -rowOffset[r] - seq_along(p) + 0.9)})),
+    do.call(rbind, lapply(seq_along(colBands), function(c) {
+      p <- colBands[[c]]$pi
+      data.frame(side = 'col', p = p, fill = colBands[[c]]$color,
+                 xmin = colOffset[c] + seq_along(p) - 0.9, xmax = colOffset[c] + seq_along(p) - 0.1,
+                 ymin = gap, ymax = gap + barLength * p / barMax)})))
+  pct <- round(100 * bars$p)
+  bars$label <- ifelse(pct == 0 & bars$p > 0, '<1%', paste0(pct, '%'))
+
+  # room for the labels of the bars and for the titles of the bands
+  # (the bars of one side may be shorter than barLength, when the largest proportion is on the other side)
+  xLeft <- min(bars$xmin[bars$side == 'row']) - (if (currentOptions$bar.labels) 0.08 * n + 0.3 else 0.05 * n)
+  yTop  <- max(bars$ymax[bars$side == 'col']) + (if (currentOptions$bar.labels) 0.03 * n + 0.2 else 0.05 * n)
+  titleRoom <- 0.05 * n + 0.4
+  colTitles <- rowTitles <- NULL
+  if (any(!vapply(colBands, function(b) is.null(b$title), logical(1)))) {
+    colTitles <- data.frame(x = colOffset + L / 2, y = yTop,
+                            label = vapply(colBands, function(b) if (is.null(b$title)) '' else b$title, character(1)))
+    yTop <- yTop + titleRoom
+  }
+  if (any(!vapply(rowBands, function(b) is.null(b$title), logical(1)))) {
+    rowTitles <- data.frame(x = xLeft, y = -(rowOffset + K / 2),
+                            label = vapply(rowBands, function(b) if (is.null(b$title)) '' else b$title, character(1)))
+    xLeft <- xLeft - titleRoom
+  }
+
+  g <- ggplot() +
+    geom_tile(data = cells, aes(x = .data$x, y = .data$y, fill = .data$fillValue),
+              width = 1, height = 1, colour = 'white', linewidth = 1) +
+    scale_fill_gradient(low  = blendWhite(currentOptions$block.color, currentOptions$blockAlpha.min),
+                        high = blendWhite(currentOptions$block.color, currentOptions$blockAlpha.max),
+                        limits = limits) +
+    geom_rect(data = bars, aes(xmin = .data$xmin, xmax = .data$xmax, ymin = .data$ymin, ymax = .data$ymax),
+              fill = bars$fill)
+  if (currentOptions$values) {
+    g <- g + geom_text(data = cells, aes(x = .data$x, y = .data$y,
+                                         label = formatC(.data$value, format = 'f', digits = currentOptions$values.digits)),
+                       size = currentOptions$values.size)
+  }
+  if (currentOptions$bar.labels) {
+    g <- g +
+      geom_text(data = bars[bars$side == 'row', ], aes(x = .data$xmin - 0.05, y = (.data$ymin + .data$ymax) / 2, label = .data$label),
+                hjust = 1, size = currentOptions$labels.size) +
+      geom_text(data = bars[bars$side == 'col', ], aes(x = (.data$xmin + .data$xmax) / 2, y = .data$ymax + 0.05, label = .data$label),
+                vjust = 0, size = currentOptions$labels.size)
+  }
+  # titles of the bands: as the strips of the multiplex graphon
+  if (!is.null(colTitles)) {
+    g <- g + geom_text(data = colTitles, aes(x = .data$x, y = .data$y, label = .data$label), vjust = 0, size = 4.3)
+  }
+  if (!is.null(rowTitles)) {
+    g <- g + geom_text(data = rowTitles, aes(x = .data$x, y = .data$y, label = .data$label), vjust = 0, angle = 90, size = 4.3)
+  }
+
+  # labels of the blocks on the axes, colored as their bars when all the bands of an axis have the same color
+  axisColor <- function(bands) {cols <- unique(vapply(bands, function(b) b$color, character(1))); if (length(cols) == 1) cols else 'grey20'}
+  g <- g +
+    scale_x_continuous(breaks = unlist(lapply(seq_along(colBands), function(c) colOffset[c] + seq_len(L[c]) - 0.5)),
+                       labels = unlist(lapply(colBands, function(b) paste0(b$prefix, seq_along(b$pi)))), expand = c(0, 0)) +
+    scale_y_continuous(breaks = unlist(lapply(seq_along(rowBands), function(r) -(rowOffset[r] + seq_len(K[r]) - 0.5))),
+                       labels = unlist(lapply(rowBands, function(b) paste0(b$prefix, seq_along(b$pi)))), expand = c(0, 0),
+                       position = 'right') +
+    coord_fixed(xlim = c(xLeft, W), ylim = c(-H, yTop), clip = 'off') +
+    theme(axis.ticks = element_blank(),
+          axis.text.x = element_text(colour = axisColor(colBands), face = 'bold'),
+          axis.text.y = element_text(colour = axisColor(rowBands), face = 'bold'),
+          panel.grid = element_blank(), panel.background = element_rect(fill = 'white'),
+          panel.border = element_blank(), axis.line = element_blank(),
+          plot.title = element_text(hjust = 0.5))
+  if (is.null(axisTitles)) {
+    g <- g + labs(x = NULL, y = NULL)
+  } else {
+    # axis titles centered on the matrices, not on the whole panel (the y title is rotated by -90 degrees)
+    g <- g + labs(x = axisTitles[2], y = axisTitles[1]) +
+      theme(axis.title.x = element_text(hjust = (W / 2 - xLeft) / (W - xLeft)),
+            axis.title.y.right = element_text(hjust = 1 - (H / 2) / (H + yTop)))
+  }
+
+  if (!currentOptions$legend){g <- g + theme(legend.position = 'none')}else{
+    g <- g + theme(legend.position = currentOptions$legend.position)
+    if (!currentOptions$legend.title){g <- g + theme(legend.title = element_blank())}}
+  if (!is.null(currentOptions$title)){g <- g + ggtitle(currentOptions$title)}
+  g
+}
+
+#----------------------------------------------------------------------------------
+# Simple, bipartite and multiplex SBM
+#   thetaMean : a matrix of connectivities, or a named list of matrices (multiplex SBM):
+#               the layers are drawn side by side, each one with its column bars on top,
+#               the row bars being drawn once on the left
+#   pi        : a vector of block proportions (simple), a list of two vectors (bipartite)
+#----------------------------------------------------------------------------------
+plotParameters = function(thetaMean, pi, dimLabels, plotOptions = list(), normalize = FALSE){
+
+  bipartite <- is.list(pi)
+  if (!bipartite) {pi <- list(pi, pi)}
+  dimLabels <- rep_len(dimLabels, 2)
+  currentOptions <- parametersOptions(plotOptions, if (bipartite) 2 else 1)
+  barColor <- rep_len(currentOptions$bar.color, 2)
+  prefix <- if (bipartite) blockPrefixes(unname(dimLabels), currentOptions$vertex.label.name) else rep_len(blockPrefixes(dimLabels[1], currentOptions$vertex.label.name), 2)
+  if (bipartite && is.null(currentOptions$vertex.label.name) && prefix[1] == prefix[2]) {prefix <- c('R', 'C')}
+
+  multiplex <- is.list(thetaMean)
+  if (!multiplex) {thetaMean <- list(thetaMean)}
+  if (is.null(names(thetaMean))) {names(thetaMean) <- paste0("Layer", seq_along(thetaMean))}
+
+  rowBands <- list(list(pi = pi[[1]], color = barColor[1], prefix = prefix[1], title = NULL))
+  colBands <- lapply(names(thetaMean), function(layer)
+    list(pi = pi[[2]], color = barColor[2], prefix = prefix[2], title = if (multiplex) layer else NULL))
+  nets <- lapply(seq_along(thetaMean), function(m) list(row = 1, col = m, mean = thetaMean[[m]]))
+
+  plotParametersGrid(rowBands, colBands, nets, currentOptions, axisTitles = dimLabels, normalize = normalize)
+}
+
+#----------------------------------------------------------------------------------
+# Multipartite SBM: the functional groups in row of a network are stacked vertically,
+# those in column side by side (in the order of the functional groups), as for the data plot
+#   piList : list of the block proportions, one element per functional group
+#   E      : architecture (matrix with two columns: functional groups in row and col)
+#   listMean : list of the connectivity matrices, one per network
+#----------------------------------------------------------------------------------
+plotMultipartiteParameters = function(listMean, E, piList, namesFG, plotOptions = list(), normalize = FALSE){
+
+  nbFG <- length(piList)
+  currentOptions <- parametersOptions(plotOptions, nbFG)
+  barColor <- rep_len(currentOptions$bar.color, nbFG)
+  prefix <- blockPrefixes(unname(namesFG), currentOptions$vertex.label.name)
+
+  fgRow <- sort(unique(E[, 1]))
+  fgCol <- sort(unique(E[, 2]))
+  band <- function(fg) list(pi = piList[[fg]], color = barColor[fg], prefix = prefix[fg], title = unname(namesFG[fg]))
+  nets <- lapply(seq_len(nrow(E)), function(m)
+    list(row = match(E[m, 1], fgRow), col = match(E[m, 2], fgCol), mean = listMean[[m]]))
+
+  plotParametersGrid(lapply(fgRow, band), lapply(fgCol, band), nets, currentOptions, normalize = normalize)
 }

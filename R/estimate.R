@@ -258,6 +258,14 @@ estimateBipartiteSBM <- function(netMat,
 #' * "initBM" Boolean. True if using simple and bipartite SBM as initialisations. Default value  = TRUE
 #' * "maxiterVEM" Number of max. number of iterations in  the VEM. Default value  = 100
 #' * "maxiterVE" Number of max. number of iterations in  the VE. Default value  = 100
+#' * "classifInit" an initial clustering: a list with one vector of block labels per functional group, named with the names
+#'    of the functional groups (or in the order of \code{dimLabels}). The search of the numbers of blocks (or the estimation if
+#'    the numbers of blocks are fixed) starts from it, and \code{initBM} is then ignored. Default value = NULL
+#'
+#' @section Parallel computing:
+#' The variational EM runs are parallelized with the package \pkg{future}. If no plan has been set by the user,
+#' a \code{multisession} plan with \code{nbCores} workers is used during the estimation. To use another plan, set it
+#' before the call, for instance \code{future::plan(future::multisession, workers = 4)}.
 #'
 #' @section Missing values:
 #' The networks may contain missing values (\code{NA}): the corresponding dyads are
@@ -306,7 +314,8 @@ estimateMultipartiteSBM <- function(listSBM,
     nbCores       = .default_nbCores(),
     maxiterVE     = 100,
     maxiterVEM    = 100,
-    initBM = TRUE
+    initBM = TRUE,
+    classifInit = NULL
   )
 
   names(currentOptions$nbBlocksRange) <- myMSBM$dimLabels
