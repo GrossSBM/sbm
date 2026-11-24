@@ -13,9 +13,14 @@ MultiplexSBM_fit <-
       # connectivity of each layer (marginal connectivity in the dependent case)
       layerMeans = function() {
         if (!private$dependent) return(unname(map(self$connectParam, "mean")))
-        if (self$modelName[1] == "bernoulli")
-          list(self$connectParam$prob10 + self$connectParam$prob11,
-               self$connectParam$prob01 + self$connectParam$prob11)
+        if (self$modelName[1] == "bernoulli") {
+          # connectParam$probXXX: probability of the combination XXX of values over the
+          # layers, the k-th character being the value on the k-th layer. The marginal
+          # connectivity of layer k sums the combinations with a 1 in position k.
+          combis <- sub("^prob", "", names(self$connectParam))
+          lapply(seq_len(self$nbNetworks), function(k)
+            Reduce(`+`, self$connectParam[substr(combis, k, k) == "1"]))
+        }
         else self$connectParam$mean
       },
       # blocks ordered by decreasing connectivity summed over the layers (marginal connectivities),
@@ -43,8 +48,8 @@ MultiplexSBM_fit <-
         parameters    <- private$BMobject$model_parameters[[index]]
         private$theta <- switch(private$BMobject$model_name,
                 "gaussian_multivariate" = list(mean=parameters$mu,cov=parameters$Sigma),
-                "bernoulli_multiplex"   = list(prob00=parameters$pi$`00`,prob01=parameters$pi$`01`,
-                                               prob10=parameters$pi$`10`,prob11=parameters$pi$`11`)
+                # one matrix per combination of values over the layers: prob00, prob01, ...
+                "bernoulli_multiplex"   = setNames(parameters$pi, paste0("prob", names(parameters$pi)))
         )},
       import_from_BM_Simple = function(index = which.max(private$BMobject$ICL)) { # a function updating the Class
         private$import_from_BM(index)
@@ -91,8 +96,11 @@ MultiplexSBM_fit <-
 
           dBern  <- all(self$modelName == "bernoulli")
           dGauss <- all(self$modelName == "gaussian")
-          if (!(dGauss | (dBern&self$nbNetworks == 2)))
-            stop("dependency in multiplex network is only handled for Gaussian distribution or a bivariate Bernoulli distribution")
+          if (!(dGauss | dBern))
+            stop("dependency in multiplex network is only handled when all layers are Gaussian or all layers are Bernoulli")
+          if (dBern & self$nbNetworks > 10)
+            warning("the dependent Bernoulli model has 2^nbLayers - 1 connectivity parameters per pair of blocks: with ",
+                    self$nbNetworks, " layers the estimation may be very slow and memory-intensive")
         }
         private$dependent <- dependentNet
         # namesLayers
@@ -245,7 +253,22 @@ MultiplexSBM_fit <-
       }
     }
     else pred = map(private$Y, predict)
-    pred }
+    pred },
+  #' @description method to select a specific model among the ones fitted during the optimization.
+  #'  Fields of the current MultiplexSBM_fit will be updated accordingly.
+  #' @param index integer. In the dependent case, the \code{indexModel} of the model in \code{storedModels}
+  #'  (the number of blocks for simple networks, the sum of the numbers of row and column blocks for
+  #'  bipartite networks). In the independent case, the index of the model (row number in storedModels).
+  setModel = function(index) {
+    if (!private$dependent) return(super$setModel(index))
+    stopifnot(!is.null(private$BMobject))
+    if (!(index %in% self$storedModels$indexModel))
+      stop("index must be one of the values of storedModels$indexModel: ",
+           paste(sort(self$storedModels$indexModel), collapse = ", "))
+    if (length(self$dimLabels) == 1) private$import_from_BM_Simple(index)
+    else private$import_from_BM_Bipartite(index)
+    invisible(self)
+  }
   ),
   active = list(
     ### field with access only

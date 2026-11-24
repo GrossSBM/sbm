@@ -14,6 +14,11 @@
 * new vignette *Stochastic Block Models for Multipartite networks: principle*: the model, its inference and an illustration on simulated data (fixed numbers of blocks, initial clustering, missing data and prediction, parallel computing); moved from **GREMLINS**, which is to be used through **sbm**
 * reference to the published version of Bar-Hen, Barbillon and Donnet (2022), Statistical Modelling
 
+## Multiplex SBM
+
+* dependent Bernoulli multiplex SBM (`estimateMultiplexSBM(dependent = TRUE)` and `sampleMultiplexSBM(dependent = TRUE)`) with any number of layers, no more only two. The connectivity parameters are the probabilities of the 2^nbLayers combinations of values over the layers, `connectParam$prob000`, ..., `connectParam$prob111` for three layers (the k-th character being the value on the k-th layer). The marginal connectivity of each layer (used by `predict()` and by the plots) is the sum of the probabilities of the combinations with a 1 on this layer. A warning is given beyond 10 layers, the number of parameters growing as 2^nbLayers. With two layers, the parameters and the simulated networks are unchanged
+* `$setModel()` now works for dependent multiplex SBM (it failed, looking for a GREMLINS object): `index` is the `indexModel` of the model in `$storedModels`, i.e. the number of blocks for simple networks
+
 # sbm 1.0.0 [2026-11-09]
 
 ## Covariates on the nodes

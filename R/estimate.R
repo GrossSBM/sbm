@@ -334,7 +334,7 @@ estimateMultipartiteSBM <- function(listSBM,
 #' Estimation for Multiplex SBM
 #'
 #' @param listSBM list of networks that were defined by the \code{defineSBM} function
-#' @param dependent logical parameter indicating whether the networks in the multiplex structure are dependent beyond the latent variables,
+#' @param dependent logical parameter indicating whether the networks in the multiplex structure are dependent beyond the latent variables. Handled when all the layers are Gaussian, or all the layers are Bernoulli (any number of layers: the connectivity parameters \code{prob00...0}, ..., \code{prob11...1} are then the probabilities of the 2^nbLayers combinations of values over the layers, the k-th character giving the value on the k-th layer),
 #' @param estimOptions options for the inference procedure
 #' @details The list of parameters \code{estimOptions} essentially tunes the optimization process and the variational EM algorithm, with the following parameters
 #' * "nbCores" integer for number of cores used.  Default is 2 (1 under Positron, which does not allow forking)
