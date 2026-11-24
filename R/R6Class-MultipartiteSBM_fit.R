@@ -112,7 +112,8 @@ MultipartiteSBM_fit <-
           nbCores       = .default_nbCores(),
           maxiterVE     = 100,
           maxiterVEM    = 100,
-          initBM = TRUE
+          initBM = TRUE,
+          classifInit = NULL
         )
         names(currentOptions$nbBlocksRange) <- private$dimlab
         ## Current options are default expect for those passed by the user
@@ -135,16 +136,21 @@ MultipartiteSBM_fit <-
         v_Kmin  <- map_dbl(currentOptions$nbBlocksRange, 1)
         v_Kmax  <- map_dbl(currentOptions$nbBlocksRange, 2)
         verbose <- (currentOptions$verbosity > 0)
-        ## GREMLINS displays its progress bar with pbmcapply, which forks the session even on 1 core
-        if (verbose && .in_positron()) {
-          message("Positron does not allow forking the R session: GREMLINS progress bar is disabled.")
-          verbose <- FALSE
-        }
+        ## nbCores is used by blockmodels (initialisation), which forks the session
         nbCores <- .check_nbCores(currentOptions$nbCores)
         maxiterVE <- currentOptions$maxiterVE
         maxiterVEM <- currentOptions$maxiterVEM
         namesFG <- names(currentOptions$nbBlocksRange)
         initBM <- currentOptions$initBM
+        classifInit <- currentOptions$classifInit
+
+        ## GREMLINS parallelizes its VEM runs with future: if the user has not chosen
+        ## a plan, a multisession plan with nbCores workers is used during the fit
+        ## (multisession does not fork, so it also works on Windows and Positron)
+        if (nbCores > 1 && inherits(future::plan(), "sequential")) {
+          oplan <- future::plan(future::multisession, workers = nbCores)
+          on.exit(future::plan(oplan), add = TRUE)
+        }
 
 
         if (sum(abs(v_Kmin - v_Kmax)) > 0) {
@@ -160,14 +166,15 @@ MultipartiteSBM_fit <-
             verbose = verbose,
             nbCores = nbCores,
             maxiterVE =  maxiterVE ,
-            maxiterVEM =  maxiterVEM)
+            maxiterVEM =  maxiterVEM,
+            classifInit = classifInit)
         } else {
           private$GREMLINSobject <- GREMLINS::multipartiteBMFixedModel(
             list_Net = listNetG,
             v_distrib = vdistrib,
             namesFG = namesFG ,
             v_K = v_Kmax,
-            classifInit = NULL,
+            classifInit = classifInit,
             nbCores = nbCores,
             maxiterVE = maxiterVE,
             maxiterVEM = maxiterVEM,
@@ -205,10 +212,12 @@ MultipartiteSBM_fit <-
     storedModels = function(value) {
       fit <- private$GREMLINSobject$fittedModel
       nbModels <- length(fit)
-      Blocks <- as.data.frame(t(sapply(fit, function(m) m$paramEstim$v_K)))
+      ## GREMLINS gives v_K in its own order of the functional groups, named: reorder as dimLabels
+      vK <- function(m) m$paramEstim$v_K[private$dimlab]
+      Blocks <- as.data.frame(matrix(t(sapply(fit, vK)), nrow = nbModels))
       colnames(Blocks) <- paste('nbBlocks', private$dimlab)
       nbConnectParam <- sapply(fit, function(m){
-        computeNbConnectParams_MBM(m$paramEstim$v_K, private$model, private$arch, private$directed_)
+        computeNbConnectParams_MBM(vK(m), private$model, private$arch, private$directed_)
       })
       nbParams  <- nbConnectParam + rowSums(Blocks) - ncol(Blocks)
       indexModel <- 1:nbModels

@@ -48,11 +48,14 @@ Imports:
     Rcpp,
     igraph,
     ggplot2,
-    GREMLINS,
+    GREMLINS (>= 0.2.2),
+    future,
     rlang,
     reshape2,
     prodlim,
     grDevices
+Remotes:
+    GrossSBM/GREMLINS@dev/future-blockmodels
 Collate: 
     'R6Class-SBM.R'
     'R6Class-BipartiteSBM.R'
