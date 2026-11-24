@@ -1,6 +1,8 @@
 #' R6 Class definition of a Multiplex SBM fit
 #'
-#' This class is designed to give a representation and adjust a Multiplex SBM fitted with GREMLIN.
+#' This class is designed to give a representation and adjust a Multiplex SBM. The fit is performed by
+#' \pkg{blockmodels} for dependent layers, and for independent layers when all of them are Bernoulli
+#' with the same direction and without missing values; by \pkg{GREMLINS} otherwise.
 #'
 #' @import R6 GREMLINS
 #' @export
@@ -41,6 +43,49 @@ MultiplexSBM_fit <-
       },
       BMobject  = NULL,
       dependent = NULL,
+      # independent layers fitted by blockmodels: all Bernoulli, all directed or all undirected, no NA
+      # (missing values are only handled by GREMLINS)
+      independentBM = function() {
+        !private$dependent &&
+          all(private$model == "bernoulli") &&
+          (length(private$dimlab) == 2 || all(self$directed) || all(!self$directed)) &&
+          !any(map_lgl(private$Y, ~anyNA(.x$networkData)))
+      },
+      # independent layers fitted by blockmodels: one connectivity matrix per layer, stored in each
+      # network of the multiplex as for a GREMLINS fit
+      import_from_BM_independent = function(index = which.max(private$BMobject$ICL)) {
+        private$J    <- private$BMobject$PL[index]
+        private$vICL <- private$BMobject$ICL[index]
+        means <- private$BMobject$model_parameters[[index]]$pi
+        m <- private$BMobject$memberships[[index]]
+        Z <- if (length(private$dimlab) == 1) list(m$Z) else list(m$Z1, m$Z2)
+        names(Z) <- private$dimlab
+        pi <- lapply(Z, colMeans)
+        o  <- order_mbm(means, pi, private$arch)
+        Z  <- map2(Z, o, ~.x[, .y, drop = FALSE])
+        pi <- map2(pi, o, ~.x[.y])
+        oRow <- o[[private$arch[1, 1]]]
+        oCol <- o[[private$arch[1, 2]]]
+        for (s_ in seq_len(self$nbNetworks))
+          private$Y[[s_]]$connectParam <- list(mean = means[[s_]][oRow, oCol, drop = FALSE])
+        private$theta <- map(private$Y, "connectParam")
+        lapply(private$Y, function(net) {
+          if (inherits(net, "SimpleSBM_fit")) {
+            net$probMemberships <- Z[[net$dimLabels]]
+            net$blockProp       <- pi[[net$dimLabels]]
+          } else {
+            net$probMemberships <- unname(Z[net$dimLabels])
+            net$blockProp       <- unname(pi[net$dimLabels])
+          }
+        })
+        private$Z  <- Z
+        private$pi <- pi
+      },
+      import_BM = function(index = which.max(private$BMobject$ICL)) {
+        if (!private$dependent) private$import_from_BM_independent(index)
+        else if (length(private$dimlab) == 1) private$import_from_BM_Simple(index)
+        else private$import_from_BM_Bipartite(index)
+      },
       names_layers_  = NULL,
       import_from_BM  = function(index = which.max(private$BMobject$ICL)) {
         private$J     <- private$BMobject$PL[index]
@@ -106,8 +151,9 @@ MultiplexSBM_fit <-
         # namesLayers
         private$names_layers_ <- names(netList)
       },
-      #' @description estimation of multipartiteSBM via GREMLINS
-      #' @param estimOptions options for MultipartiteBM
+      #' @description estimation of the multiplex SBM, via blockmodels for dependent layers and for
+      #'  independent Bernoulli layers (all directed or all undirected, without missing values), via GREMLINS otherwise
+      #' @param estimOptions options for the estimation
       #' @details The list of parameters \code{estimOptions} essentially tunes the optimization process and the variational EM algorithm, with the following parameters
       #'  * "nbCores" integer for number of cores used.  Default is 2 (1 under Positron, which does not allow forking)
       #'  * "verbosity" integer for verbosity (0, 1). Default is 1
@@ -117,12 +163,16 @@ MultiplexSBM_fit <-
       #'  * "maxiterVE" Number of max. number of iterations in  the VE. Default value  = 100
       optimize = function(estimOptions) {
 
-        if (self$dependentNetwork == FALSE) {
+        if (!private$dependent && !private$independentBM()) {
+          ## independent layers not all Bernoulli (Poisson, Gaussian, mixed models...),
+          ## of different directions or with missing values: GREMLINS
+          private$BMobject <- NULL
           super$optimize(estimOptions)
         } else {
+          private$GREMLINSobject <- NULL
           currentOptions <- list(
             verbosity     = 3,
-            plot          = TRUE,
+            plot          = private$dependent,
             explorFactor  = 1.5,
             nbBlocksRange = c(4,Inf),
             nbCores       = .default_nbCores(),
@@ -131,19 +181,27 @@ MultiplexSBM_fit <-
           currentOptions[names(estimOptions)] <- estimOptions
           ## no plot when quiet, unless asked (as in estimate*SBM)
           if (isTRUE(estimOptions$verbosity == 0) && is.null(estimOptions$plot)) {currentOptions$plot <- FALSE}
+          if (!private$dependent && !is.null(currentOptions$classifInit))
+            warning("'classifInit' is only used by GREMLINS: it is ignored for independent Bernoulli layers, fitted by blockmodels")
+
+          ## nbBlocksRange given for each functional group (as for GREMLINS):
+          ## blockmodels explores the total number of blocks (sum over the rows and the columns)
+          range <- currentOptions$nbBlocksRange
+          if (is.list(range)) range <- c(sum(map_dbl(range, 1)), sum(map_dbl(range, 2)))
 
           ## Transform estimOptions to a suited for blockmodels list of options
           blockmodelsOptions <- list(
             verbosity          = currentOptions$verbosity,
             plotting           = if(currentOptions$plot) character(0) else "",
-            explore_min        = currentOptions$nbBlocksRange[1],
-            explore_max        = currentOptions$nbBlocksRange[2],
+            explore_min        = unname(range[1]),
+            explore_max        = unname(range[2]),
             ncores             = .check_nbCores(currentOptions$nbCores),
             exploration_factor = currentOptions$explorFactor
           )
 
-          if (self$modelName[1]=="bernoulli") {model_type="bernoulli_multiplex"}
-          if (self$modelName[1]=="gaussian") {model_type="gaussian_multivariate"}
+          if (!private$dependent) {model_type="bernoulli_multiplex_independent"}
+          else if (self$modelName[1]=="bernoulli") {model_type="bernoulli_multiplex"}
+          else {model_type="gaussian_multivariate"}
           ## generating arguments for blockmodels call
 
           # membership type
@@ -161,8 +219,8 @@ MultiplexSBM_fit <-
           private$BMobject <- do.call(paste0("BM_", model_type), args)
           ## performing estimation
           private$BMobject$estimate()
-          ## Exporting blockmodels output to simpleSBM_fit fields
-          if (type=="simple") private$import_from_BM_Simple() else private$import_from_BM_Bipartite()
+          ## Exporting blockmodels output to the fields of the fit
+          private$import_BM()
 
           invisible(private$BMobject)
 
@@ -256,17 +314,15 @@ MultiplexSBM_fit <-
     pred },
   #' @description method to select a specific model among the ones fitted during the optimization.
   #'  Fields of the current MultiplexSBM_fit will be updated accordingly.
-  #' @param index integer. In the dependent case, the \code{indexModel} of the model in \code{storedModels}
+  #' @param index integer. When fitted by blockmodels (dependent layers, independent Bernoulli layers), the \code{indexModel} of the model in \code{storedModels}
   #'  (the number of blocks for simple networks, the sum of the numbers of row and column blocks for
-  #'  bipartite networks). In the independent case, the index of the model (row number in storedModels).
+  #'  bipartite networks). When fitted by GREMLINS, the index of the model (row number in storedModels).
   setModel = function(index) {
-    if (!private$dependent) return(super$setModel(index))
-    stopifnot(!is.null(private$BMobject))
+    if (is.null(private$BMobject)) return(super$setModel(index))
     if (!(index %in% self$storedModels$indexModel))
       stop("index must be one of the values of storedModels$indexModel: ",
            paste(sort(self$storedModels$indexModel), collapse = ", "))
-    if (length(self$dimLabels) == 1) private$import_from_BM_Simple(index)
-    else private$import_from_BM_Bipartite(index)
+    private$import_BM(index)
     invisible(self)
   }
   ),
@@ -281,8 +337,7 @@ MultiplexSBM_fit <-
     storedModels = function(value) {
 
       type <- ifelse(length(self$nbNodes)==1,'Simple','Bipartite')
-      dep <- self$dependentNetwork
-      if (dep){
+      if (!is.null(private$BMobject)){
 
         nbConnectParam <- c(unlist(sapply(private$BMobject$model_parameters, function(param) param$n_parameters)))
         if(type == 'Simple'){

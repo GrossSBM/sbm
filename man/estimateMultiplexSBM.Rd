@@ -20,6 +20,13 @@ a MultiplexSBM_fit object with the estimated parameters and the blocks
 Estimation for Multiplex SBM
 }
 \details{
+Independent layers (\code{dependent = FALSE}) which are all Bernoulli, all directed or all undirected,
+and without missing values are fitted by \pkg{blockmodels} (as dependent layers): \code{nbBlocksRange} then bounds the
+total number of blocks (rows + columns for bipartite networks), and the options specific to \pkg{GREMLINS}
+("initBM", "maxiterVE", "maxiterVEM", "classifInit") are not used. The other independent layers (Poisson, Gaussian,
+mixed models, missing values) are fitted by \pkg{GREMLINS}. The \pkg{GREMLINS} fit of independent Bernoulli layers
+remains available with \code{estimateMultipartiteSBM()} on the same list of networks.
+
 The list of parameters \code{estimOptions} essentially tunes the optimization process and the variational EM algorithm, with the following parameters
 \itemize{
 \item "nbCores" integer for number of cores used.  Default is 2 (1 under Positron, which does not allow forking)
@@ -42,6 +49,7 @@ The handling of missing values (\code{NA}) in the networks depends on \code{depe
 \itemize{
 \item \code{dependent = FALSE}: the corresponding dyads are considered as not observed and
 are ignored in the inference (performed by the package \pkg{GREMLINS}), as for multipartite networks.
+Independent Bernoulli layers with missing values are thus fitted by \pkg{GREMLINS}.
 \item \code{dependent = TRUE}: missing values are not supported by the underlying models of
 \pkg{blockmodels}. They are replaced by 0, i.e. considered as observed absences of
 edges (or observed zero values for the Gaussian model), which biases the estimation.
