@@ -242,7 +242,7 @@ basic matrix plot method for SimpleSBM object or mesoscopic plot
 #### Usage
 
     SimpleSBM$plot(
-      type = c("data", "expected", "graphon", "meso"),
+      type = c("data", "expected", "graphon", "parameters", "meso"),
       ordered = TRUE,
       plotOptions = list()
     )
@@ -253,8 +253,9 @@ basic matrix plot method for SimpleSBM object or mesoscopic plot
 
   character for the type of plot: either 'data' (true connection),
   'expected' (fitted connection), 'graphon' (block connectivity on the
-  unit square, blocks sized by the block proportions) or 'meso'
-  (mesoscopic view). Default to 'data'.
+  unit square, blocks sized by the block proportions), 'parameters'
+  (connectivity matrix as a heat map, block proportions as bars on the
+  side) or 'meso' (mesoscopic view). Default to 'data'.
 
 - `ordered`:
 

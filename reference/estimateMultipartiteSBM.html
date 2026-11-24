@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">sbm</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -25,6 +25,7 @@
     <li><a class="dropdown-item" href="../articles/SBM_nodes_covariates.html">Stochastic Block Models with covariates on nodes</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Multipartite and multiplex SBM</h6></li>
+    <li><a class="dropdown-item" href="../articles/MultipartiteNetwork_principle.html">Stochastic Block Models for Multipartite networks: principle</a></li>
     <li><a class="dropdown-item" href="../articles/Multipartite_EcologicalNetwork.html">Multipartite Stochastic Block Models</a></li>
     <li><a class="dropdown-item" href="../articles/MultiplexNetwork_principle.html">Stochastic Block Models for Multiplex networks: principle</a></li>
     <li><a class="dropdown-item" href="../articles/Multiplex_allianceNwar_case_study.html">Stochastic Block Models for Multiplex networks: application</a></li>
@@ -48,7 +49,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Estimation for multipartite SBM</h1>
-      <small class="dont-index">Source: <a href="https://github.com/GrossSBM/sbm/blob/v1.0.0/R/estimate.R" class="external-link"><code>R/estimate.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/GrossSBM/sbm/blob/master/R/estimate.R" class="external-link"><code>R/estimate.R</code></a></small>
       <div class="d-none name"><code>estimateMultipartiteSBM.Rd</code></div>
     </div>
 
@@ -85,7 +86,18 @@
 <li><p>"initBM" Boolean. True if using simple and bipartite SBM as initialisations. Default value  = TRUE</p></li>
 <li><p>"maxiterVEM" Number of max. number of iterations in  the VEM. Default value  = 100</p></li>
 <li><p>"maxiterVE" Number of max. number of iterations in  the VE. Default value  = 100</p></li>
+<li><p>"classifInit" an initial clustering: a list with one vector of block labels per functional group, named with the names
+of the functional groups (or in the order of <code>dimLabels</code>). The search of the numbers of blocks (or the estimation if
+the numbers of blocks are fixed) starts from it, and <code>initBM</code> is then ignored. Default value = NULL</p></li>
 </ul></div>
+    <div class="section level2">
+    <h2 id="parallel-computing">Parallel computing<a class="anchor" aria-label="anchor" href="#parallel-computing"></a></h2>
+
+
+<p>The variational EM runs are parallelized with the package <span class="pkg">future</span>. If no plan has been set by the user,
+a <code>multisession</code> plan with <code>nbCores</code> workers is used during the estimation. To use another plan, set it
+before the call, for instance <code>future::plan(future::multisession, workers = 4)</code>.</p>
+    </div>
     <div class="section level2">
     <h2 id="missing-values">Missing values<a class="anchor" aria-label="anchor" href="#missing-values"></a></h2>
 

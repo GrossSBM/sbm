@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">sbm</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -25,6 +25,7 @@
     <li><a class="dropdown-item" href="../articles/SBM_nodes_covariates.html">Stochastic Block Models with covariates on nodes</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Multipartite and multiplex SBM</h6></li>
+    <li><a class="dropdown-item" href="../articles/MultipartiteNetwork_principle.html">Stochastic Block Models for Multipartite networks: principle</a></li>
     <li><a class="dropdown-item" href="../articles/Multipartite_EcologicalNetwork.html">Multipartite Stochastic Block Models</a></li>
     <li><a class="dropdown-item" href="../articles/MultiplexNetwork_principle.html">Stochastic Block Models for Multiplex networks: principle</a></li>
     <li><a class="dropdown-item" href="../articles/Multiplex_allianceNwar_case_study.html">Stochastic Block Models for Multiplex networks: application</a></li>
@@ -48,7 +49,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>SBM Plot</h1>
-      <small class="dont-index">Source: <a href="https://github.com/GrossSBM/sbm/blob/v1.0.0/R/R6Class-SBM.R" class="external-link"><code>R/R6Class-SBM.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/GrossSBM/sbm/blob/master/R/R6Class-SBM.R" class="external-link"><code>R/R6Class-SBM.R</code></a></small>
       <div class="d-none name"><code>plot.SBM.Rd</code></div>
     </div>
 
@@ -61,7 +62,7 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for class 'SBM'</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span></span>
 <span>  <span class="va">x</span>,</span>
-<span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"expected"</span>, <span class="st">"graphon"</span>, <span class="st">"meso"</span><span class="op">)</span>,</span>
+<span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"expected"</span>, <span class="st">"graphon"</span>, <span class="st">"parameters"</span>, <span class="st">"meso"</span><span class="op">)</span>,</span>
 <span>  ordered <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  plotOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
@@ -77,7 +78,7 @@
 
 
 <dt id="arg-type">type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>
-<dd><p>character for the type of plot: either 'data' (true connection),  'expected' (fitted connection), 'graphon' (block connectivity on the unit square, blocks sized by the block proportions) or 'meso' (mesoscopic). Default to 'data'. 'graphon' is available for simple, bipartite and multiplex SBM (one panel per layer).</p></dd>
+<dd><p>character for the type of plot: either 'data' (true connection),  'expected' (fitted connection), 'graphon' (block connectivity on the unit square, blocks sized by the block proportions), 'parameters' (connectivity matrix as a heat map, block proportions as bars on the side) or 'meso' (mesoscopic). Default to 'data'. 'graphon' is available for simple, bipartite and multiplex SBM (one panel per layer), 'parameters' for simple, bipartite, multiplex (the heat maps of the layers side by side) and multipartite SBM (one heat map per network, as for the data plot).</p></dd>
 
 
 <dt id="arg-ordered">ordered<a class="anchor" aria-label="anchor" href="#arg-ordered"></a></dt>
@@ -94,7 +95,7 @@
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>a ggplot2 object for the <code>'data'</code>, <code>'expected'</code> and <code>'graphon'</code>, and <code>'meso'</code>. For <code>'meso'</code>, the coordinates of the blocks are in the attribute <code>"blockLayout"</code> of the plot (a matrix with one row per block, named by the labels of the blocks): they can be modified and given back in <code>plotOptions$layout</code>, for instance <code>lay &lt;- attr(plot(mySBM, type = "meso"), "blockLayout")</code>, then <code>lay["P1", ] &lt;- c(0, 2)</code> and <code>plot(mySBM, type = "meso", plotOptions = list(layout = lay))</code></p>
+    <p>a ggplot2 object for the <code>'data'</code>, <code>'expected'</code>, <code>'graphon'</code> and <code>'parameters'</code>, and <code>'meso'</code>. For <code>'meso'</code>, the coordinates of the blocks are in the attribute <code>"blockLayout"</code> of the plot (a matrix with one row per block, named by the labels of the blocks): they can be modified and given back in <code>plotOptions$layout</code>, for instance <code>lay &lt;- attr(plot(mySBM, type = "meso"), "blockLayout")</code>, then <code>lay["P1", ] &lt;- c(0, 2)</code> and <code>plot(mySBM, type = "meso", plotOptions = list(layout = lay))</code></p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -272,7 +273,40 @@ The list of parameters <code>plotOptions</code> is</p><dl><dt>"legend", "legend.
 <dd><p>Numeric vector of length 2. Range of the connectivity values mapped to the colors. Default value is NULL: from 0 to the maximal value (or the range for negative values). Set it to compare several graphons on the same color scale, for instance c(0, 1) for Bernoulli models</p></dd>
 
 
-</dl><p>The graphon is drawn from the connectivity parameters only, without the effect of the covariates.</p>
+</dl><p>With covariates on the edges, the 'graphon', 'meso' and 'parameters' plots represent the connectivity parameters, i.e. the residual structure of the network which is not explained by the covariates.
+With covariates on the nodes, the block proportions are averaged over the nodes.
+For type = 'parameters', the connectivity matrix is drawn as a heat map (one cell per pair of blocks, with the colors of the graphon and the values),
+the proportions of the row blocks as bars on the left and those of the column blocks as bars on top. The list of parameters <code>plotOptions</code> is</p><dl><dt>"legend", "legend.title", "legend.position", "title", "block.color", "blockAlpha.min", "blockAlpha.max", "limits": </dt>
+<dd><p>As for the graphon</p></dd>
+
+<dt>"values": </dt>
+<dd><p>Boolean. Print the value of the connectivity in each cell. Default value is TRUE</p></dd>
+
+<dt>"values.digits", "values.size": </dt>
+<dd><p>Number of digits and size of the values. Default values are 2 and 3.5</p></dd>
+
+<dt>"bar.color": </dt>
+<dd><p>Colors of the bars and of the labels of the blocks, one per type of nodes. Default values are the colors of the mesoscopic view</p></dd>
+
+<dt>"bar.size": </dt>
+<dd><p>Length of the longest bar, as a fraction of the largest side of the matrix. Default value is 0.3</p></dd>
+
+<dt>"bar.max": </dt>
+<dd><p>Proportion corresponding to the longest bar. Default value is NULL: the largest proportion. Set it to 1 to compare several plots</p></dd>
+
+<dt>"bar.labels", "labels.size": </dt>
+<dd><p>Print the proportions (in percent) at the end of the bars, and their size. Default values are TRUE and 3</p></dd>
+
+<dt>"vertex.label.name": </dt>
+<dd><p>Prefix of the labels of the blocks, as for the mesoscopic view</p></dd>
+
+
+</dl><p>For multiplex SBM, the layers are drawn side by side, each with the proportions of the column blocks on top (the marginal connectivity of each layer in the dependent case).
+The values printed are those of each layer; when the layers follow different distributions, the colors of each layer are given by its connectivities divided by their maximum.
+For multipartite SBM, the functional groups in row of the networks are stacked vertically and those in column side by side, each network being drawn at their crossing (as for the 'data' plot),
+with the block proportions of each functional group on the side of its band and its name as title; the bars have the colors of the functional groups in the mesoscopic view (option "bar.color", one per functional group).
+The colors of each network are rescaled by its maximum when the networks follow different distributions.
+The parameters plot is also given by <code><a href="plotMyParameters.html">plotMyParameters</a></code>.</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

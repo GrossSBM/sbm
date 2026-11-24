@@ -8,7 +8,7 @@ Basic matrix plot method for SBM object or mesoscopic view
 # S3 method for class 'SBM'
 plot(
   x,
-  type = c("data", "expected", "graphon", "meso"),
+  type = c("data", "expected", "graphon", "parameters", "meso"),
   ordered = TRUE,
   plotOptions = list(),
   ...
@@ -25,9 +25,13 @@ plot(
 
   character for the type of plot: either 'data' (true connection),
   'expected' (fitted connection), 'graphon' (block connectivity on the
-  unit square, blocks sized by the block proportions) or 'meso'
-  (mesoscopic). Default to 'data'. 'graphon' is available for simple,
-  bipartite and multiplex SBM (one panel per layer).
+  unit square, blocks sized by the block proportions), 'parameters'
+  (connectivity matrix as a heat map, block proportions as bars on the
+  side) or 'meso' (mesoscopic). Default to 'data'. 'graphon' is
+  available for simple, bipartite and multiplex SBM (one panel per
+  layer), 'parameters' for simple, bipartite, multiplex (the heat maps
+  of the layers side by side) and multipartite SBM (one heat map per
+  network, as for the data plot).
 
 - ordered:
 
@@ -45,11 +49,11 @@ plot(
 
 ## Value
 
-a ggplot2 object for the `'data'`, `'expected'` and `'graphon'`, and
-`'meso'`. For `'meso'`, the coordinates of the blocks are in the
-attribute `"blockLayout"` of the plot (a matrix with one row per block,
-named by the labels of the blocks): they can be modified and given back
-in `plotOptions$layout`, for instance
+a ggplot2 object for the `'data'`, `'expected'`, `'graphon'` and
+`'parameters'`, and `'meso'`. For `'meso'`, the coordinates of the
+blocks are in the attribute `"blockLayout"` of the plot (a matrix with
+one row per block, named by the labels of the blocks): they can be
+modified and given back in `plotOptions$layout`, for instance
 `lay <- attr(plot(mySBM, type = "meso"), "blockLayout")`, then
 `lay["P1", ] <- c(0, 2)` and
 `plot(mySBM, type = "meso", plotOptions = list(layout = lay))`
@@ -349,5 +353,64 @@ list of parameters `plotOptions` is
   range for negative values). Set it to compare several graphons on the
   same color scale, for instance c(0, 1) for Bernoulli models
 
-The graphon is drawn from the connectivity parameters only, without the
-effect of the covariates.
+With covariates on the edges, the 'graphon', 'meso' and 'parameters'
+plots represent the connectivity parameters, i.e. the residual structure
+of the network which is not explained by the covariates. With covariates
+on the nodes, the block proportions are averaged over the nodes. For
+type = 'parameters', the connectivity matrix is drawn as a heat map (one
+cell per pair of blocks, with the colors of the graphon and the values),
+the proportions of the row blocks as bars on the left and those of the
+column blocks as bars on top. The list of parameters `plotOptions` is
+
+- "legend", "legend.title", "legend.position", "title", "block.color",
+  "blockAlpha.min", "blockAlpha.max", "limits": :
+
+  As for the graphon
+
+- "values": :
+
+  Boolean. Print the value of the connectivity in each cell. Default
+  value is TRUE
+
+- "values.digits", "values.size": :
+
+  Number of digits and size of the values. Default values are 2 and 3.5
+
+- "bar.color": :
+
+  Colors of the bars and of the labels of the blocks, one per type of
+  nodes. Default values are the colors of the mesoscopic view
+
+- "bar.size": :
+
+  Length of the longest bar, as a fraction of the largest side of the
+  matrix. Default value is 0.3
+
+- "bar.max": :
+
+  Proportion corresponding to the longest bar. Default value is NULL:
+  the largest proportion. Set it to 1 to compare several plots
+
+- "bar.labels", "labels.size": :
+
+  Print the proportions (in percent) at the end of the bars, and their
+  size. Default values are TRUE and 3
+
+- "vertex.label.name": :
+
+  Prefix of the labels of the blocks, as for the mesoscopic view
+
+For multiplex SBM, the layers are drawn side by side, each with the
+proportions of the column blocks on top (the marginal connectivity of
+each layer in the dependent case). The values printed are those of each
+layer; when the layers follow different distributions, the colors of
+each layer are given by its connectivities divided by their maximum. For
+multipartite SBM, the functional groups in row of the networks are
+stacked vertically and those in column side by side, each network being
+drawn at their crossing (as for the 'data' plot), with the block
+proportions of each functional group on the side of its band and its
+name as title; the bars have the colors of the functional groups in the
+mesoscopic view (option "bar.color", one per functional group). The
+colors of each network are rescaled by its maximum when the networks
+follow different distributions. The parameters plot is also given by
+[`plotMyParameters`](https://grosssbm.github.io/sbm/reference/plotMyParameters.md).

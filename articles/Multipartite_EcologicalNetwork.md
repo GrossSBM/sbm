@@ -111,7 +111,12 @@ plotMyMultipartiteMatrix(list(PlantFlovis, PlantAnt, PlantBird))
 
 ### 3.1 Mathematical background
 
-See Bar-Hen et al. ([2022](#ref-multipartite)) for details.
+The multipartite SBM is introduced in Bar-Hen et al.
+([2022](#ref-multipartite)). It is presented, with its inference and an
+illustration on simulated data (fixed numbers of blocks, initial
+clustering, missing data), in the vignette *Stochastic Block Models for
+Multipartite networks: principle*
+([`vignette("MultipartiteNetwork_principle", package = "sbm")`](https://grosssbm.github.io/sbm/articles/MultipartiteNetwork_principle.md)).
 
 ### 3.2 Inference
 
@@ -271,6 +276,20 @@ plot(myMSBM, type = "expected")
 ```
 
 ![](Multipartite_EcologicalNetwork_files/figure-html/plot%20expected-1.png)
+
+the estimated parameters: the connectivity of each network as a heat
+map, with the probability of connection $`\widehat{\alpha}_{kl}`$ in
+each cell, and the block proportions of each functional group as bars on
+the side of its band, in the colors of the functional groups of the
+mesoscopic view below. All the cells have the same size, so that the
+connectivities of the small blocks remain readable:
+
+``` r
+
+plot(myMSBM, type = "parameters")
+```
+
+![](Multipartite_EcologicalNetwork_files/figure-html/plot%20parameters-1.png)
 
 or the mesoscopic view, where each block is a node and each connectivity
 an edge. The functional groups are distinguished by the colors of the

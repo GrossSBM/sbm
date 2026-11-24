@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">sbm</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,6 +41,7 @@
     <li><a class="dropdown-item" href="../articles/SBM_nodes_covariates.html">Stochastic Block Models with covariates on nodes</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Multipartite and multiplex SBM</h6></li>
+    <li><a class="dropdown-item" href="../articles/MultipartiteNetwork_principle.html">Stochastic Block Models for Multipartite networks: principle</a></li>
     <li><a class="dropdown-item" href="../articles/Multipartite_EcologicalNetwork.html">Multipartite Stochastic Block Models</a></li>
     <li><a class="dropdown-item" href="../articles/MultiplexNetwork_principle.html">Stochastic Block Models for Multiplex networks: principle</a></li>
     <li><a class="dropdown-item" href="../articles/Multiplex_allianceNwar_case_study.html">Stochastic Block Models for Multiplex networks: application</a></li>
@@ -73,9 +74,9 @@
       <h1>Multipartite Stochastic Block Models</h1>
       <p class="subtitle">An illustration on a mutualistic ecological network</p>
       <p class="author">team großBM</p>
-      <p class="date">2026-11-16</p>
+      <p class="date">2026-11-24</p>
 
-      <small class="dont-index">Source: <a href="https://github.com/GrossSBM/sbm/blob/v1.0.0/vignettes/Multipartite_EcologicalNetwork.qmd" class="external-link"><code>vignettes/Multipartite_EcologicalNetwork.qmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/GrossSBM/sbm/blob/master/vignettes/Multipartite_EcologicalNetwork.qmd" class="external-link"><code>vignettes/Multipartite_EcologicalNetwork.qmd</code></a></small>
       <div class="d-none name"><code></code></div>
     </div>
 
@@ -160,7 +161,7 @@
 </h2>
 <section class="level3"><h3 id="mathematical-background">3.1 Mathematical background<a class="anchor" aria-label="anchor" href="#mathematical-background"></a>
 </h3>
-<p>See <span class="citation" data-cites="multipartite">Bar-Hen et al. (<a href="#ref-multipartite" role="doc-biblioref">2022</a>)</span> for details.</p>
+<p>The multipartite SBM is introduced in <span class="citation" data-cites="multipartite">Bar-Hen et al. (<a href="#ref-multipartite" role="doc-biblioref">2022</a>)</span>. It is presented, with its inference and an illustration on simulated data (fixed numbers of blocks, initial clustering, missing data), in the vignette <em>Stochastic Block Models for Multipartite networks: principle</em> (<code><a href="../articles/MultipartiteNetwork_principle.html">vignette("MultipartiteNetwork_principle", package = "sbm")</a></code>).</p>
 </section><section class="level3"><h3 id="inference">3.2 Inference<a class="anchor" aria-label="anchor" href="#inference"></a>
 </h3>
 <p>The model selection and the estimation are performed with the function <code>estimateMultipartiteSBM</code>.</p>
@@ -308,9 +309,20 @@
 </div>
 </div>
 </div>
-<p>or the mesoscopic view, where each block is a node and each connectivity an edge. The functional groups are distinguished by the colors of the nodes, and the labels of the blocks start with the name of their functional group (<code>P</code> for plants, <code>F</code> for floral visitors…). Within each functional group, the area of the nodes is proportional to the block proportions. The width and the color of the edges grow with the probability of connection between the blocks. The blocks are placed according to their connections (blocks strongly connected are close), whatever their functional group; this layout being random, it is fixed with the option <code>seed</code>.</p>
+<p>the estimated parameters: the connectivity of each network as a heat map, with the probability of connection <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mover><mi>α</mi><mo accent="true">̂</mo></mover><mrow><mi>k</mi><mi>l</mi></mrow></msub><annotation encoding="application/x-tex">\widehat{\alpha}_{kl}</annotation></semantics></math> in each cell, and the block proportions of each functional group as bars on the side of its band, in the colors of the functional groups of the mesoscopic view below. All the cells have the same size, so that the connectivities of the small blocks remain readable:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">myMSBM</span>, type <span class="op">=</span> <span class="st">"parameters"</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure><p><img src="Multipartite_EcologicalNetwork_files/figure-html/plot%20parameters-1.png" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>or the mesoscopic view, where each block is a node and each connectivity an edge. The functional groups are distinguished by the colors of the nodes, and the labels of the blocks start with the name of their functional group (<code>P</code> for plants, <code>F</code> for floral visitors…). Within each functional group, the area of the nodes is proportional to the block proportions. The width and the color of the edges grow with the probability of connection between the blocks. The blocks are placed according to their connections (blocks strongly connected are close), whatever their functional group; this layout being random, it is fixed with the option <code>seed</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">myMSBM</span>, type <span class="op">=</span> <span class="st">"meso"</span>, plotOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>seed <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output-display">
 <div>
@@ -321,7 +333,7 @@
 </div>
 <p>Many connectivities are close to zero. They can be removed with <code>edge.threshold</code>, which makes the structure clearer: the plants of blocks 2, 3 and 4 interact with the ants, the plants of blocks 3, 5 and 7 with the floral visitors, and the plants of blocks 1 and 6 with the birds.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">myMSBM</span>, type <span class="op">=</span> <span class="st">"meso"</span>, plotOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>seed <span class="op">=</span> <span class="fl">1</span>, edge.threshold <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output-display">
 <div>
@@ -332,7 +344,7 @@
 </div>
 <p>The blocks can also be arranged with one row per functional group (<code>layout = "groups"</code>), and the colors of the functional groups chosen with <code>vertex.color</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">myMSBM</span>, type <span class="op">=</span> <span class="st">"meso"</span>,</span>
 <span>     plotOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>layout <span class="op">=</span> <span class="st">"groups"</span>, edge.threshold <span class="op">=</span> <span class="fl">0.05</span>,</span>
 <span>                        vertex.color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"darkolivegreen3"</span>, <span class="st">"darkgoldenrod2"</span>, <span class="st">"mediumpurple2"</span>, <span class="st">"cadetblue2"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -345,7 +357,7 @@
 </div>
 <p>Finally, the coordinates of the blocks are returned in the attribute <code>blockLayout</code> of the plot. They can be modified (here, the block F2 is moved next to F1) and given back with the option <code>layout</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">g</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">myMSBM</span>, type <span class="op">=</span> <span class="st">"meso"</span>, plotOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>seed <span class="op">=</span> <span class="fl">1</span>, edge.threshold <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">myLayout</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">g</span>, <span class="st">"blockLayout"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">myLayout</span><span class="op">)</span></span>

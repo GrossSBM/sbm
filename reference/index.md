@@ -76,6 +76,8 @@ Set of classes and functions for manipulating stochastic block models
   : Plot an adjacency or incidence Matrix
 - [`plotMyGraphon()`](https://grosssbm.github.io/sbm/reference/plotMyGraphon.md)
   : Plot the graphon of a Stochastic Block Model
+- [`plotMyParameters()`](https://grosssbm.github.io/sbm/reference/plotMyParameters.md)
+  : Plot the parameters of a Stochastic Block Model
 - [`plotMyMultipartiteMatrix()`](https://grosssbm.github.io/sbm/reference/plotMyMultipartiteMatrix.md)
   : Plot the matrices corresponding to a Multipartite Network
 

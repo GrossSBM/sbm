@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">sbm</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,6 +41,7 @@
     <li><a class="dropdown-item" href="../articles/SBM_nodes_covariates.html">Stochastic Block Models with covariates on nodes</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Multipartite and multiplex SBM</h6></li>
+    <li><a class="dropdown-item" href="../articles/MultipartiteNetwork_principle.html">Stochastic Block Models for Multipartite networks: principle</a></li>
     <li><a class="dropdown-item" href="../articles/Multipartite_EcologicalNetwork.html">Multipartite Stochastic Block Models</a></li>
     <li><a class="dropdown-item" href="../articles/MultiplexNetwork_principle.html">Stochastic Block Models for Multiplex networks: principle</a></li>
     <li><a class="dropdown-item" href="../articles/Multiplex_allianceNwar_case_study.html">Stochastic Block Models for Multiplex networks: application</a></li>
@@ -73,9 +74,9 @@
       <h1>Stochastic Block Models: principle and illustration</h1>
 
       <p class="author">S. Donnet</p>
-      <p class="date">2026-11-16</p>
+      <p class="date">2026-11-24</p>
 
-      <small class="dont-index">Source: <a href="https://github.com/GrossSBM/sbm/blob/v1.0.0/vignettes/SBM_principle.qmd" class="external-link"><code>vignettes/SBM_principle.qmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/GrossSBM/sbm/blob/master/vignettes/SBM_principle.qmd" class="external-link"><code>vignettes/SBM_principle.qmd</code></a></small>
       <div class="d-none name"><code></code></div>
     </div>
 
@@ -373,9 +374,22 @@
 <span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">fitCore</span><span class="op">$</span><span class="va">blockProp</span>, <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 0.19 0.32 0.49</span></span></code></pre></div>
 </div>
-<p>which can be seen by comparing the true and estimated mesoscopic views. To compare them, the blocks are placed at the same positions with the option <code>layout</code> (one row of coordinates per block); here, the estimated blocks have the same numbers as the true ones (see the table above), otherwise the rows of the layout should be permuted accordingly.</p>
+<p>They can also be compared graphically with <code>type = "parameters"</code>: the connectivity matrix is drawn as a heat map, with the value of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>α</mi><mrow><mi>q</mi><mi>l</mi></mrow></msub><annotation encoding="application/x-tex">\alpha_{ql}</annotation></semantics></math> in each cell, and the block proportions <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>π</mi><mi>q</mi></msub><annotation encoding="application/x-tex">\pi_q</annotation></semantics></math> as bars on the left (row blocks) and on top (column blocks). With <code>limits = c(0, 1)</code> (the range of a probability) and <code>bar.max = 1</code> (a proportion of 100%), the two plots share the same scales.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sameScales</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, bar.max <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">corePeriphery</span>, type <span class="op">=</span> <span class="st">"parameters"</span>, plotOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">sameScales</span>, title <span class="op">=</span> <span class="st">"True"</span><span class="op">)</span><span class="op">)</span> <span class="op">|</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fitCore</span>, type <span class="op">=</span> <span class="st">"parameters"</span>, plotOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">sameScales</span>, title <span class="op">=</span> <span class="st">"Estimated"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure><p><img src="SBM_principle_files/figure-html/compare%20parameters-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The comparison is also possible with the true and estimated mesoscopic views. To compare them, the blocks are placed at the same positions with the option <code>layout</code> (one row of coordinates per block); here, the estimated blocks have the same numbers as the true ones (see the table above), otherwise the rows of the layout should be permuted accordingly.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">triangle</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">0.7</span>, <span class="op">-</span><span class="fl">0.7</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">corePeriphery</span>, type <span class="op">=</span> <span class="st">"meso"</span>, plotOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>layout <span class="op">=</span> <span class="va">triangle</span>, title <span class="op">=</span> <span class="st">"True"</span><span class="op">)</span><span class="op">)</span> <span class="op">|</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fitCore</span>, type <span class="op">=</span> <span class="st">"meso"</span>, plotOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>layout <span class="op">=</span> <span class="va">triangle</span>, title <span class="op">=</span> <span class="st">"Estimated"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -388,7 +402,7 @@
 </div>
 </section></section><section class="level2"><h2 id="the-plots-of-the-package">5. The plots of the package<a class="anchor" aria-label="anchor" href="#the-plots-of-the-package"></a>
 </h2>
-<p>The <code>plot</code> method is available for the simulated networks and the fitted models, both for simple and bipartite SBM. Its argument <code>type</code> gives the representation:</p>
+<p>The <code>plot</code> method is available for the simulated networks and the fitted models, both for simple and bipartite SBM (and for multiplex and multipartite SBM, see the corresponding vignettes). Its argument <code>type</code> gives the representation:</p>
 <table class="table caption-top">
 <colgroup>
 <col style="width: 46%">
@@ -412,6 +426,10 @@
 <td>the connectivity, each block being represented by an interval whose length is its proportion</td>
 </tr>
 <tr class="even">
+<td><code>"parameters"</code></td>
+<td>the connectivity matrix as a heat map, the block proportions as bars on the side</td>
+</tr>
+<tr class="odd">
 <td><code>"meso"</code></td>
 <td>the mesoscopic view: the graphon drawn as a network</td>
 </tr>
@@ -425,7 +443,7 @@
 </div>
 <p>All these plots are <code>ggplot2</code> objects, which can be modified or combined (here with <code>patchwork</code>).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fitCore</span>, type <span class="op">=</span> <span class="st">"data"</span><span class="op">)</span> <span class="op">|</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fitCore</span>, type <span class="op">=</span> <span class="st">"expected"</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output-display">
 <div>
@@ -446,7 +464,7 @@
 <code>vertex.color</code>, <code>vertex.size</code>, <code>vertex.label.name</code> change the colors, sizes and labels of the blocks.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fitCore</span>, type <span class="op">=</span> <span class="st">"meso"</span>, plotOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>seed <span class="op">=</span> <span class="fl">1</span>, withinBlock <span class="op">=</span> <span class="st">"fill"</span><span class="op">)</span><span class="op">)</span> <span class="op">|</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fitCore</span>, type <span class="op">=</span> <span class="st">"meso"</span>, plotOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>seed <span class="op">=</span> <span class="fl">1</span>, edge.threshold <span class="op">=</span> <span class="fl">0.1</span>,</span>
 <span>                                                  vertex.color <span class="op">=</span> <span class="st">"steelblue"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -457,7 +475,30 @@
 </div>
 </div>
 </div>
-<p>The matrix and the graphon of any network or connectivity can also be drawn directly with the functions <code>plotMyMatrix</code> and <code>plotMyGraphon</code>.</p>
+<p>The graphon and the parameters plot both represent the connectivity and the block proportions, but differently: in the graphon, each block is represented by an interval whose length is its proportion, so that the area of a rectangle is the share of the pairs of nodes it concerns and the graphon looks like the data plot; in the parameters plot, all the cells have the same size, the values are printed, and the proportions are given by the bars, so that the connectivities of the small blocks remain readable. Its main options are:</p>
+<ul>
+<li>
+<code>values = FALSE</code> removes the values from the cells, <code>values.digits</code> sets their number of digits;</li>
+<li>
+<code>bar.labels = FALSE</code> removes the percentages of the bars, <code>bar.size</code> sets the length of the longest bar and <code>bar.max</code> the proportion it corresponds to;</li>
+<li>
+<code>bar.color</code> and <code>vertex.label.name</code> change the colors of the bars and the labels of the blocks;</li>
+<li>
+<code>block.color</code>, <code>blockAlpha.min</code>, <code>blockAlpha.max</code> and <code>limits</code> set the colors of the cells, as for the graphon.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fitCore</span>, type <span class="op">=</span> <span class="st">"graphon"</span><span class="op">)</span> <span class="op">|</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fitCore</span>, type <span class="op">=</span> <span class="st">"parameters"</span>,</span>
+<span>       plotOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>bar.color <span class="op">=</span> <span class="st">"grey50"</span>, vertex.label.name <span class="op">=</span> <span class="st">"B"</span>, legend <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure><p><img src="SBM_principle_files/figure-html/graphon%20parameters-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The matrix, the graphon and the parameters of any network or connectivity can also be drawn directly with the functions <code>plotMyMatrix</code>, <code>plotMyGraphon</code> and <code>plotMyParameters</code>.</p>
 </section><section class="level2 unnumbered"><h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">

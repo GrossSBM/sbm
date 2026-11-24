@@ -11,6 +11,8 @@
 
 ### Multipartite and multiplex SBM
 
+- [Stochastic Block Models for Multipartite networks:
+  principle](https://grosssbm.github.io/sbm/articles/MultipartiteNetwork_principle.md):
 - [Multipartite Stochastic Block
   Models](https://grosssbm.github.io/sbm/articles/Multipartite_EcologicalNetwork.md):
 - [Stochastic Block Models for Multiplex networks:

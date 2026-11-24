@@ -47,6 +47,20 @@ process and the variational EM algorithm, with the following parameters
 - "maxiterVE" Number of max. number of iterations in the VE. Default
   value = 100
 
+- "classifInit" an initial clustering: a list with one vector of block
+  labels per functional group, named with the names of the functional
+  groups (or in the order of `dimLabels`). The search of the numbers of
+  blocks (or the estimation if the numbers of blocks are fixed) starts
+  from it, and `initBM` is then ignored. Default value = NULL
+
+## Parallel computing
+
+The variational EM runs are parallelized with the package future. If no
+plan has been set by the user, a `multisession` plan with `nbCores`
+workers is used during the estimation. To use another plan, set it
+before the call, for instance
+`future::plan(future::multisession, workers = 4)`.
+
 ## Missing values
 
 The networks may contain missing values (`NA`): the corresponding dyads

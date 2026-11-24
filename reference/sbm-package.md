@@ -10,8 +10,8 @@ See Léger (2016)
 [doi:10.48550/arXiv.1602.07587](https://doi.org/10.48550/arXiv.1602.07587)
 , 'Barbillon et al.' (2020)
 [doi:10.1111/rssa.12193](https://doi.org/10.1111/rssa.12193) and
-'Bar-Hen et al.' (2020)
-[doi:10.48550/arXiv.1807.10138](https://doi.org/10.48550/arXiv.1807.10138)
+'Bar-Hen et al.' (2022)
+[doi:10.1177/1471082X20963254](https://doi.org/10.1177/1471082X20963254)
 .
 
 ## See also

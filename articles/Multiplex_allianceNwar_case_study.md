@@ -178,6 +178,20 @@ plot(MultiplexFitIndep, type = "graphon")
 
 ![](Multiplex_allianceNwar_case_study_files/figure-html/plot%20indep-2.png)
 
+The same parameters can be displayed with `type = "parameters"`: the
+connectivity matrix of each layer is drawn as a heat map, with the value
+$`\widehat{\alpha}^\ell_{qr}`$ in each cell, and the estimated block
+proportions $`\widehat{\pi}_q`$ as bars on the side. All the cells have
+the same size, so that the connectivities of the small blocks remain
+readable.
+
+``` r
+
+plot(MultiplexFitIndep, type = "parameters")
+```
+
+![](Multiplex_allianceNwar_case_study_files/figure-html/plot%20indep%20parameters-1.png)
+
 ## 4. Multiplex SBM with dependent layers
 
 Now we assume that the two layers are dependent conditionally to the

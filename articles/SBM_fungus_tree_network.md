@@ -209,16 +209,30 @@ The parameters of the graphon can be displayed as follows:
 ``` r
 
 coef(mySimpleSBM, 'block')
-#> [1] 0.3320954 0.1766383 0.1378665 0.1766999 0.1766999
+#> [1] 0.2738962 0.2333079 0.1579027 0.1582211 0.1766722
 coef(mySimpleSBM, 'connectivity')
 #> $mean
 #>            [,1]      [,2]       [,3]       [,4]       [,5]
-#> [1,] 0.98230909 0.9828930 0.92749023 0.60851311 0.05994511
-#> [2,] 0.98289303 0.9937459 0.29390960 0.91904879 0.22617761
-#> [3,] 0.92749023 0.2939096 0.79890626 0.05802394 0.02169247
-#> [4,] 0.60851311 0.9190488 0.05802394 0.47209785 0.06626655
-#> [5,] 0.05994511 0.2261776 0.02169247 0.06626655 0.02899357
+#> [1,] 0.99642068 0.9960727 0.97583392 0.58471134 0.07116883
+#> [2,] 0.99607266 0.9664974 0.39233225 0.83062160 0.17287207
+#> [3,] 0.97583392 0.3923322 0.77629727 0.08952989 0.01974836
+#> [4,] 0.58471134 0.8306216 0.08952989 0.46427299 0.07330617
+#> [5,] 0.07116883 0.1728721 0.01974836 0.07330617 0.02896297
 ```
+
+or plotted with `type = "parameters"`: the connectivity matrix is drawn
+as a heat map, with the estimated probability of connection
+$`\widehat{\alpha}_{ql}`$ in each cell, and the estimated block
+proportions $`\widehat{\pi}_q`$ as bars on the left and on top. Contrary
+to the graphon, all the cells have the same size, so that the
+connectivities of the small blocks remain readable.
+
+``` r
+
+plot(mySimpleSBM, type = "parameters")
+```
+
+![](SBM_fungus_tree_network_files/figure-html/simpleSBMfit%20parameters-1.png)
 
 #### About model selection and choice of the number of blocks
 
@@ -236,13 +250,13 @@ mySimpleSBM$storedModels %>% kable()
 | indexModel | nbParams | nbBlocks |       ICL |    loglik |
 |-----------:|---------:|---------:|----------:|----------:|
 |          1 |        1 |        1 | -883.3334 | -879.7581 |
-|          2 |        4 |        2 | -619.0799 | -606.3880 |
-|          3 |        8 |        3 | -537.5179 | -512.1339 |
-|          4 |       13 |        4 | -540.6318 | -498.9806 |
-|          5 |       19 |        5 | -520.6645 | -459.1706 |
-|          6 |       26 |        6 | -530.6278 | -445.7159 |
-|          7 |       34 |        7 | -544.0191 | -432.1138 |
-|          8 |       43 |        8 | -562.1450 | -419.6710 |
+|          2 |        4 |        2 | -619.2053 | -606.5133 |
+|          3 |        8 |        3 | -537.9555 | -512.5716 |
+|          4 |       13 |        4 | -540.8180 | -499.1667 |
+|          5 |       19 |        5 | -522.2087 | -460.7148 |
+|          6 |       26 |        6 | -530.9627 | -446.0508 |
+|          7 |       34 |        7 | -544.1560 | -432.2507 |
+|          8 |       43 |        8 | -562.5508 | -420.0768 |
 
 We can then see what models are competitive in terms of model selection
 by checking the ICL:
@@ -430,24 +444,22 @@ plotAlluvial(list(Bernoulli = mySimpleSBM$memberships,
 
 ![](SBM_fungus_tree_network_files/figure-html/alluvial%20bernoulli%20poisson-1.png)
 
-The most connected cluster of the Bernoulli SBM is cluster 1: its 17
-trees share at least one fungus with 37 other trees on average (out of
+The most connected cluster of the Bernoulli SBM is cluster 1: its 14
+trees share at least one fungus with 38 other trees on average (out of
 50), and the probability of connection within the cluster is
-$`\widehat{\alpha}_{1 1} =`$ 0.98. In the binary network, these trees
-are almost all connected to each other, so the network cannot
-distinguish them any further. The weighted network, which counts the
-shared fungi, reveals a finer structure: this cluster is split by the
-Poisson SBM into
+$`\widehat{\alpha}_{1 1} =`$ 1. In the binary network, these trees are
+almost all connected to each other, so the network cannot distinguish
+them any further. The weighted network, which counts the shared fungi,
+reveals a finer structure: this cluster is split by the Poisson SBM into
 
 - 9 trees (Poisson cluster 1) sharing on average $`\widehat{\lambda} =`$
   9 fungi with each other: Abies alba, Abies grandis, Cedrus spp, Larix
   decidua, Picea excelsa, Pinus nigra laricio, Pinus pinaster, Pinus
   sylvestris, Pseudotsuga menziesii;
 - 5 trees (Poisson cluster 3) sharing fewer fungi with each other
-  ($`\widehat{\lambda} =`$ 3.9): Abies nordmanniana, Larix kaempferi,
+  ($`\widehat{\lambda} =`$ 4): Abies nordmanniana, Larix kaempferi,
   Picea sitchensis, Pinus nigra nigra, Pinus uncinata;
-- and 3 trees moving to other clusters: Juglans spp, Sorbus aria, Pinus
-  brutia.
+- and 0 trees moving to other clusters: .
 
 Both main parts are made of conifers: the binary network gathers the
 conifers, and the weighted network separates those sharing many fungi
@@ -505,29 +517,40 @@ mySimpleSBMCov$nbBlocks
 mySimpleSBMCov$connectParam
 #> $mean
 #>           [,1]       [,2]      [,3]      [,4]
-#> [1,] 28.207064 14.8964888 5.9617522 1.2396157
-#> [2,] 14.896489  9.5664171 3.7941904 0.4110826
-#> [3,]  5.961752  3.7941904 1.6183797 0.3842726
-#> [4,]  1.239616  0.4110826 0.3842726 0.1893782
+#> [1,] 28.187799 14.8841357 5.9472426 1.2284233
+#> [2,] 14.884136  9.5562635 3.7825464 0.4046264
+#> [3,]  5.947243  3.7825464 1.6078247 0.3873473
+#> [4,]  1.228423  0.4046264 0.3873473 0.1821678
 mySimpleSBMCov$blockProp
-#> [1] 0.3715916 0.2159544 0.2354116 0.1770425
+#> [1] 0.3714620 0.2161419 0.2364507 0.1759454
 mySimpleSBMCov$memberships
 #>  [1] 1 1 2 1 2 2 4 4 2 1 3 1 1 1 1 2 1 2 3 3 2 1 2 1 3 3 2 1 3 2 3 1 4 1 1 3 1 3
 #> [39] 4 1 1 3 2 4 4 1 4 4 3 3 4
 mySimpleSBMCov$covarParam
 #>            [,1]
-#> [1,]  0.1975175
-#> [2,] -2.0552576
-#> [3,] -0.3586006
+#> [1,]  0.1992953
+#> [2,] -2.0565142
+#> [3,] -0.3564821
 ```
+
+The connectivities $`\widehat{\lambda}_{ql}`$ represent the residual
+structure of the network, which is not explained by the covariates. They
+can be plotted with `type = "parameters"`:
+
+``` r
+
+plot(mySimpleSBMCov, type = "parameters", plotOptions = list(values = FALSE))
+```
+
+![](SBM_fungus_tree_network_files/figure-html/simpleSBMfitPoisson%20covar%20parameters-1.png)
 
 ``` r
 
 coef(mySimpleSBMCov, 'covariates')
 #>            [,1]
-#> [1,]  0.1975175
-#> [2,] -2.0552576
-#> [3,] -0.3586006
+#> [1,]  0.1992953
+#> [2,] -2.0565142
+#> [3,] -0.3564821
 ```
 
 S3 methods are also available for fit and prediction (results hidden
@@ -613,6 +636,19 @@ coef(myBipartiteSBM, 'connectivity')
 #> [3,] 0.84173863 0.2393528 0.099918358 0.001333581
 #> [4,] 0.06797475 0.1119710 0.005829596 0.019186990
 ```
+
+These parameters can be plotted with `type = "parameters"`: the
+probabilities of connection $`\widehat{\alpha}_{qr}`$ between the tree
+blocks (rows, labels starting with `t`) and the fungus blocks (columns,
+labels starting with `f`), with the proportions of the tree blocks on
+the left and those of the fungus blocks on top.
+
+``` r
+
+plot(myBipartiteSBM, type = "parameters")
+```
+
+![](SBM_fungus_tree_network_files/figure-html/plot%20bipartite%20parameters-1.png)
 
 We can now plot the reorganized matrix (top). The row blocks (trees) and
 the column blocks (fungi) are separated by the red lines, the background

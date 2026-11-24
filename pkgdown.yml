@@ -3,12 +3,13 @@ pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
   Multipartite_EcologicalNetwork: Multipartite_EcologicalNetwork.html
+  MultipartiteNetwork_principle: MultipartiteNetwork_principle.html
   Multiplex_allianceNwar_case_study: Multiplex_allianceNwar_case_study.html
   MultiplexNetwork_principle: MultiplexNetwork_principle.html
   SBM_fungus_tree_network: SBM_fungus_tree_network.html
   SBM_nodes_covariates: SBM_nodes_covariates.html
   SBM_principle: SBM_principle.html
-last_built: 2026-11-16T08:01Z
+last_built: 2026-11-24T14:50Z
 urls:
   reference: https://grosssbm.github.io/sbm/reference
   article: https://grosssbm.github.io/sbm/articles

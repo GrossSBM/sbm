@@ -22,16 +22,16 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/GrossSBM/sbm/blob/v1.0.0/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/GrossSBM/sbm/blob/master/DESCRIPTION)
 
 Chiquet J, Donnet S, Barbillon P, Lacoste L (2026). *sbm: Stochastic
-Blockmodels*. R package version 1.0.0,
+Blockmodels*. R package version 1.0.0.9000,
 <https://grosssbm.github.io/sbm/>.
 
     @Manual{,
       title = {sbm: Stochastic Blockmodels},
       author = {Julien Chiquet and Sophie Donnet and Pierre Barbillon and Louis Lacoste},
       year = {2026},
-      note = {R package version 1.0.0},
+      note = {R package version 1.0.0.9000},
       url = {https://grosssbm.github.io/sbm/},
     }

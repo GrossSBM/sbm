@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">sbm</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,6 +41,7 @@
     <li><a class="dropdown-item" href="../articles/SBM_nodes_covariates.html">Stochastic Block Models with covariates on nodes</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Multipartite and multiplex SBM</h6></li>
+    <li><a class="dropdown-item" href="../articles/MultipartiteNetwork_principle.html">Stochastic Block Models for Multipartite networks: principle</a></li>
     <li><a class="dropdown-item" href="../articles/Multipartite_EcologicalNetwork.html">Multipartite Stochastic Block Models</a></li>
     <li><a class="dropdown-item" href="../articles/MultiplexNetwork_principle.html">Stochastic Block Models for Multiplex networks: principle</a></li>
     <li><a class="dropdown-item" href="../articles/Multiplex_allianceNwar_case_study.html">Stochastic Block Models for Multiplex networks: application</a></li>
@@ -73,9 +74,9 @@
       <h1>Stochastic Block Models for Multiplex networks: application</h1>
       <p class="subtitle">War and Alliance case study</p>
       <p class="author">team großBM</p>
-      <p class="date">2026-11-16</p>
+      <p class="date">2026-11-24</p>
 
-      <small class="dont-index">Source: <a href="https://github.com/GrossSBM/sbm/blob/v1.0.0/vignettes/Multiplex_allianceNwar_case_study.qmd" class="external-link"><code>vignettes/Multiplex_allianceNwar_case_study.qmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/GrossSBM/sbm/blob/master/vignettes/Multiplex_allianceNwar_case_study.qmd" class="external-link"><code>vignettes/Multiplex_allianceNwar_case_study.qmd</code></a></small>
       <div class="d-none name"><code></code></div>
     </div>
 
@@ -419,6 +420,17 @@
 </div>
 </div>
 </div>
+<p>The same parameters can be displayed with <code>type = "parameters"</code>: the connectivity matrix of each layer is drawn as a heat map, with the value <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mover><mi>α</mi><mo accent="true">̂</mo></mover><mrow><mi>q</mi><mi>r</mi></mrow><mi>ℓ</mi></msubsup><annotation encoding="application/x-tex">\widehat{\alpha}^\ell_{qr}</annotation></semantics></math> in each cell, and the estimated block proportions <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mover><mi>π</mi><mo accent="true">̂</mo></mover><mi>q</mi></msub><annotation encoding="application/x-tex">\widehat{\pi}_q</annotation></semantics></math> as bars on the side. All the cells have the same size, so that the connectivities of the small blocks remain readable.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">MultiplexFitIndep</span>, type <span class="op">=</span> <span class="st">"parameters"</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure><p><img src="Multiplex_allianceNwar_case_study_files/figure-html/plot%20indep%20parameters-1.png" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
 </section><section class="level2"><h2 id="multiplex-sbm-with-dependent-layers">4. Multiplex SBM with dependent layers<a class="anchor" aria-label="anchor" href="#multiplex-sbm-with-dependent-layers"></a>
 </h2>
 <p>Now we assume that the two layers are dependent conditionally to the latent block variables. We then set <code>dependent = TRUE</code>.</p>
@@ -429,13 +441,13 @@
 </blockquote>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">MultiplexFitdep</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/estimateMultiplexSBM.html">estimateMultiplexSBM</a></span><span class="op">(</span><span class="va">listNet</span>, dependent <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>    estimOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>verbosity <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <p>We can retrieve the clustering and compare it to the one obtained in the independent case.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">clust_country_dep</span> <span class="op">&lt;-</span> <span class="va">MultiplexFitdep</span><span class="op">$</span><span class="va">memberships</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu">clusterComposition</span><span class="op">(</span><span class="va">clust_country_dep</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>      caption <span class="op">=</span> <span class="st">"Country clusters (dependent layers)"</span><span class="op">)</span></span></code></pre></div>
@@ -656,7 +668,7 @@
 </tbody>
 </table>
 </div>
-<div class="sourceCode cell-code" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/plotAlluvial.html">plotAlluvial</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>independent <span class="op">=</span> <span class="va">clust_country_indep</span>, dependent <span class="op">=</span> <span class="va">clust_country_dep</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -670,7 +682,7 @@
 <p>From independent to dependent, the model gathers blocks 3 and 2, i.e put together all the countries of Latino and south America.</p>
 <p>On top of the clustering comparison, we can compare the ICL criterion to see which of the dependent or independent models is a best fit:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">MultiplexFitdep</span><span class="op">$</span><span class="va">ICL</span></span>
 <span><span class="co">#&gt; [1] -1470.276</span></span>
 <span><span class="va">MultiplexFitIndep</span><span class="op">$</span><span class="va">ICL</span></span>
@@ -678,7 +690,7 @@
 </div>
 <p>We can do the same plots for the reorganized matrices and the graphon. Note that the graphon represents the marginal connectivity of each layer, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mover><mi>α</mi><mo accent="true">̂</mo></mover><mrow><mi>q</mi><mi>r</mi></mrow><mn>10</mn></msubsup><mo>+</mo><msubsup><mover><mi>α</mi><mo accent="true">̂</mo></mover><mrow><mi>q</mi><mi>r</mi></mrow><mn>11</mn></msubsup></mrow><annotation encoding="application/x-tex">\widehat{\alpha}^{10}_{qr} + \widehat{\alpha}^{11}_{qr}</annotation></semantics></math> for the alliances and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mover><mi>α</mi><mo accent="true">̂</mo></mover><mrow><mi>q</mi><mi>r</mi></mrow><mn>01</mn></msubsup><mo>+</mo><msubsup><mover><mi>α</mi><mo accent="true">̂</mo></mover><mrow><mi>q</mi><mi>r</mi></mrow><mn>11</mn></msubsup></mrow><annotation encoding="application/x-tex">\widehat{\alpha}^{01}_{qr} + \widehat{\alpha}^{11}_{qr}</annotation></semantics></math> for the wars, and it may be relevant to have a look at the conditional probabilities.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">MultiplexFitdep</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output-display">
 <div>
@@ -686,7 +698,7 @@
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">MultiplexFitdep</span>, type <span class="op">=</span> <span class="st">"graphon"</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output-display">
 <div>
@@ -697,7 +709,7 @@
 </div>
 <p>For instance, we may want to compare, for two countries in given blocks, the probability of having been at war while being allied at some point (before or after), <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>α</mi><mrow><mi>q</mi><mi>r</mi></mrow><mn>11</mn></msubsup><mi>/</mi><mo stretchy="false" form="prefix">(</mo><msubsup><mi>α</mi><mrow><mi>q</mi><mi>r</mi></mrow><mn>11</mn></msubsup><mo>+</mo><msubsup><mi>α</mi><mrow><mi>q</mi><mi>r</mi></mrow><mn>10</mn></msubsup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\alpha^{11}_{qr} / (\alpha^{11}_{qr} + \alpha^{10}_{qr})</annotation></semantics></math>, to the marginal probability of having been at war, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>α</mi><mrow><mi>q</mi><mi>r</mi></mrow><mn>11</mn></msubsup><mo>+</mo><msubsup><mi>α</mi><mrow><mi>q</mi><mi>r</mi></mrow><mn>01</mn></msubsup></mrow><annotation encoding="application/x-tex">\alpha^{11}_{qr} + \alpha^{01}_{qr}</annotation></semantics></math>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p11</span> <span class="op">&lt;-</span> <span class="va">MultiplexFitdep</span><span class="op">$</span><span class="va">connectParam</span><span class="op">$</span><span class="va">prob11</span></span>
 <span><span class="va">p01</span> <span class="op">&lt;-</span> <span class="va">MultiplexFitdep</span><span class="op">$</span><span class="va">connectParam</span><span class="op">$</span><span class="va">prob01</span></span>
 <span><span class="va">p10</span> <span class="op">&lt;-</span> <span class="va">MultiplexFitdep</span><span class="op">$</span><span class="va">connectParam</span><span class="op">$</span><span class="va">prob10</span></span>
@@ -710,7 +722,7 @@
 </div>
 <p>These two matrices can be represented as graphons, side by side with <strong>patchwork</strong>, on the same color scale:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pCond</span> <span class="op">&lt;-</span> <span class="va">p11</span><span class="op">/</span><span class="op">(</span><span class="va">p11</span> <span class="op">+</span> <span class="va">p10</span><span class="op">)</span> <span class="co"># conditional probabilities of being at war while having been or will</span></span>
 <span><span class="co"># be allied</span></span>
 <span><span class="va">pMarg</span> <span class="op">&lt;-</span> <span class="va">p11</span> <span class="op">+</span> <span class="va">p01</span> <span class="co"># marginal probabilities of being at war</span></span>

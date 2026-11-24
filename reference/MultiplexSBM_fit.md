@@ -119,7 +119,7 @@ plot Multiplex Network
 #### Usage
 
     MultiplexSBM_fit$plot(
-      type = c("data", "expected", "graphon"),
+      type = c("data", "expected", "graphon", "parameters"),
       ordered = TRUE,
       plotOptions = list()
     )
@@ -131,8 +131,9 @@ plot Multiplex Network
   character for the type of plot: either 'data' (true connection),
   'expected' (fitted connection) or 'graphon' (block connectivity of
   each layer on the unit square, blocks sized by the block proportions;
-  the marginal connectivity of each layer in the dependent case).
-  Default to 'data'.
+  the marginal connectivity of each layer in the dependent case) or
+  'parameters' (connectivity matrix of each layer as a heat map, block
+  proportions as bars on the side). Default to 'data'.
 
 - `ordered`:
 

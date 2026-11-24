@@ -1,6 +1,7 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://grosssbm.github.io/sbm/404.html</loc></url>
 <url><loc>https://grosssbm.github.io/sbm/LICENSE.html</loc></url>
+<url><loc>https://grosssbm.github.io/sbm/articles/MultipartiteNetwork_principle.html</loc></url>
 <url><loc>https://grosssbm.github.io/sbm/articles/Multipartite_EcologicalNetwork.html</loc></url>
 <url><loc>https://grosssbm.github.io/sbm/articles/MultiplexNetwork_principle.html</loc></url>
 <url><loc>https://grosssbm.github.io/sbm/articles/Multiplex_allianceNwar_case_study.html</loc></url>
@@ -37,6 +38,7 @@
 <url><loc>https://grosssbm.github.io/sbm/reference/plotMyMatrix.html</loc></url>
 <url><loc>https://grosssbm.github.io/sbm/reference/plotMyMultipartiteMatrix.html</loc></url>
 <url><loc>https://grosssbm.github.io/sbm/reference/plotMyMultiplexMatrix.html</loc></url>
+<url><loc>https://grosssbm.github.io/sbm/reference/plotMyParameters.html</loc></url>
 <url><loc>https://grosssbm.github.io/sbm/reference/predict.SBM.html</loc></url>
 <url><loc>https://grosssbm.github.io/sbm/reference/sampleBipartiteSBM.html</loc></url>
 <url><loc>https://grosssbm.github.io/sbm/reference/sampleMultipartiteSBM.html</loc></url>

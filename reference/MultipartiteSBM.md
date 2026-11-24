@@ -152,7 +152,7 @@ plot Multipartite Network
 #### Usage
 
     MultipartiteSBM$plot(
-      type = c("data", "expected", "meso"),
+      type = c("data", "expected", "parameters", "meso"),
       ordered = TRUE,
       plotOptions = list()
     )
@@ -162,8 +162,9 @@ plot Multipartite Network
 - `type`:
 
   character for the type of plot: either 'data' (true connection),
-  'expected' (fitted connection) or 'meso' (mesoscopic view). Default to
-  'data'.
+  'expected' (fitted connection), 'parameters' (connectivity matrix of
+  each network as a heat map, block proportions as bars on the side) or
+  'meso' (mesoscopic view). Default to 'data'.
 
 - `ordered`:
 
