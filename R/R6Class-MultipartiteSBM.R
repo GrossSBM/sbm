@@ -59,10 +59,10 @@ MultipartiteSBM <-
       #' @description print method
       print = function() self$show(),
       #' @description plot Multipartite Network
-      #' @param type character for the type of plot: either 'data' (true connection), 'expected' (fitted connection) or 'meso' (mesoscopic view). Default to 'data'.
+      #' @param type character for the type of plot: either 'data' (true connection), 'expected' (fitted connection), 'parameters' (connectivity matrix of each network as a heat map, block proportions as bars on the side) or 'meso' (mesoscopic view). Default to 'data'.
       #' @param ordered TRUE is the matrices are plotted after reorganization with the blocks. Default value = TRUE
       #' @param plotOptions list of plot options for the mesoscopic view or matrix view
-      plot = function(type = c('data','expected','meso'), ordered = TRUE, plotOptions = list()){
+      plot = function(type = c('data','expected','parameters','meso'), ordered = TRUE, plotOptions = list()){
 
         if (ordered) clustering <- self$memberships else clustering <- NULL
         switch(match.arg(type),
@@ -87,6 +87,14 @@ MultipartiteSBM <-
               private$arch, private$dim, private$dimlab, NULL,
               private$model, clustering,
               modifyList(list(blockBackground = FALSE, graphonColors = TRUE), plotOptions)
+            ),
+          "parameters" =
+            # with networks of different models, the colors of each network are given by its
+            # connectivities divided by their maximum
+            plotMultipartiteParameters(
+              map(self$connectParam, "mean"),
+              private$arch, unname(private$pi), private$dimlab, plotOptions,
+              normalize = length(unique(private$model)) > 1
             )
         )
       }

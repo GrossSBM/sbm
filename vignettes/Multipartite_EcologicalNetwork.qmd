@@ -161,6 +161,18 @@ the expected connections:
 plot(myMSBM, type = "expected")
 ```
 
+the estimated parameters: the connectivity of each network as a heat map, with the
+probability of connection $\widehat{\alpha}_{kl}$ in each cell, and the block proportions
+of each functional group as bars on the side of its band, in the colors of the functional
+groups of the mesoscopic view below. All the cells have the same size, so that the
+connectivities of the small blocks remain readable:
+
+```{r plot parameters}
+#| fig-width: 8
+#| fig-height: 5
+plot(myMSBM, type = "parameters")
+```
+
 or the mesoscopic view, where each block is a node and each connectivity an edge.
 The functional groups are distinguished by the colors of the nodes, and the labels
 of the blocks start with the name of their functional group (`P` for plants, `F`

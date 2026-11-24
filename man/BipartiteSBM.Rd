@@ -180,7 +180,7 @@ R6 class for Bipartite SBM
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{BipartiteSBM$plot(
-  type = c("data", "expected", "graphon", "meso"),
+  type = c("data", "expected", "graphon", "parameters", "meso"),
   ordered = TRUE,
   plotOptions = list()
 )}
@@ -189,7 +189,7 @@ R6 class for Bipartite SBM
   \subsection{Arguments}{
     \if{html}{\out{<div class="arguments">}}
     \describe{
-      \item{\code{type}}{character for the type of plot: either 'data' (true connection), 'expected' (fitted connection), 'graphon' (block connectivity on the unit square, blocks sized by the block proportions) or 'meso' (mesoscopic view). Default to 'data'.}
+      \item{\code{type}}{character for the type of plot: either 'data' (true connection), 'expected' (fitted connection), 'graphon' (block connectivity on the unit square, blocks sized by the block proportions), 'parameters' (connectivity matrix as a heat map, block proportions as bars on the side) or 'meso' (mesoscopic view). Default to 'data'.}
       \item{\code{ordered}}{logical: should the rows and columns be reordered according to the clustering? Default to \code{TRUE}.}
       \item{\code{plotOptions}}{list with the parameters for the plot. See help of the corresponding S3 method for details.}
     }

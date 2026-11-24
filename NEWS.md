@@ -1,5 +1,10 @@
 # sbm (development version)
 
+## Graphics
+
+* new plot type `type = 'parameters'` for simple, bipartite, multiplex and multipartite SBM: the connectivity matrix as a heat map (one cell per pair of blocks, with its value and the colors of the graphon), the row block proportions as bars on the left and the column block proportions as bars on top. For multiplex SBM, the heat maps of the layers are side by side (the marginal connectivity of each layer in the dependent case); with layers of different models, the colors of each layer are rescaled by its maximum, the printed values being unchanged. For multipartite SBM, one heat map per network, arranged as in the data plot, with the block proportions of each functional group on the side of its band (in the colors of the functional groups of the mesoscopic view)
+* new function `plotMyParameters()` to draw this plot from the parameters of an SBM
+
 ## Multipartite SBM
 
 * new option `classifInit` in `estimOptions` of `estimateMultipartiteSBM()`: an initial clustering (a list named with the functional groups), from which the search of the numbers of blocks starts; with fixed numbers of blocks, it is the starting point of the variational EM algorithm

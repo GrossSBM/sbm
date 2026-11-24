@@ -69,6 +69,7 @@ reference:
     - '`defineSBM`'
     - '`plotMyMatrix`'
     - '`plotMyGraphon`'
+    - '`plotMyParameters`'
     - '`plotMyMultipartiteMatrix`'
 - title: 'Data sets'
   desc: >

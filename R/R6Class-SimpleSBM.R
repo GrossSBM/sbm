@@ -99,12 +99,12 @@ SimpleSBM <-
       #' @param type character used to specify the type of SBM
       show = function(type = "Simple Stochastic Block Model") {super$show(type)},
       #' @description basic matrix plot method for SimpleSBM object or mesoscopic plot
-      #' @param type character for the type of plot: either 'data' (true connection), 'expected' (fitted connection), 'graphon' (block connectivity on the unit square, blocks sized by the block proportions) or 'meso' (mesoscopic view). Default to 'data'.
+      #' @param type character for the type of plot: either 'data' (true connection), 'expected' (fitted connection), 'graphon' (block connectivity on the unit square, blocks sized by the block proportions), 'parameters' (connectivity matrix as a heat map, block proportions as bars on the side) or 'meso' (mesoscopic view). Default to 'data'.
       #' @param ordered logical: should the rows and columns be reordered according to the clustering? Default to \code{TRUE}.
       #' @param plotOptions list with the parameters for the plot. See help of the corresponding S3 method for details.
       #' @return a ggplot2 object
       #' @import ggplot2
-      plot = function(type = c('data','expected','graphon','meso'), ordered = TRUE, plotOptions = list()) {
+      plot = function(type = c('data','expected','graphon','parameters','meso'), ordered = TRUE, plotOptions = list()) {
 
         if(is.null(self$memberships)) {ordered <- FALSE; type <- 'data'}
         if (ordered & !is.null(self$memberships))
@@ -136,6 +136,12 @@ SimpleSBM <-
               thetaMean   = self$connectParam$mean,
               pi          = self$blockProp,
               nbNodes     = self$nbNodes,
+              dimLabels   = private$dimlab,
+              plotOptions = plotOptions),
+          "parameters" =
+            plotParameters(
+              thetaMean   = self$connectParam$mean,
+              pi          = self$blockProp,
               dimLabels   = private$dimlab,
               plotOptions = plotOptions)
         )
