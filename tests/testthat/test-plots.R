@@ -9,7 +9,7 @@ bipartiteSampler <- sampleBipartiteSBM(nbNodes = c(30, 50),
 
 test_that("matrix plots work for all types", {
   for (mySampler in list(simpleSampler, bipartiteSampler)) {
-    for (type in c("data", "expected", "graphon")) {
+    for (type in c("data", "expected", "graphon", "parameters")) {
       expect_s3_class(plot(mySampler, type = type), "ggplot")
     }
     expect_s3_class(plot(mySampler, type = "data", ordered = FALSE), "ggplot")
@@ -39,6 +39,33 @@ test_that("plotMyGraphon works for simple and bipartite SBM", {
   ## the blocks cover the whole network
   expect_equal(max(g$data$xmax), unname(bipartiteSampler$nbNodes[2]))
   expect_equal(min(g$data$ymin), -unname(bipartiteSampler$nbNodes[1]))
+})
+
+test_that("plotMyParameters works for simple and bipartite SBM", {
+  geoms <- function(g) unname(sapply(g$layers, function(l) class(l$geom)[1]))
+  g <- plotMyParameters(simpleSampler$connectParam, simpleSampler$blockProp, dimLabels = "node")
+  expect_s3_class(g, "ggplot")
+  ## one cell per pair of blocks, one bar per block on each side
+  expect_equal(nrow(g$layers[[1]]$data), 4)
+  expect_equal(sort(g$layers[[1]]$data$value), sort(c(simpleSampler$connectParam$mean)))
+  expect_equal(nrow(g$layers[[which(geoms(g) == "GeomRect")]]$data), 4)
+
+  g <- plot(bipartiteSampler, type = "parameters", plotOptions = list(legend = TRUE, values = FALSE, bar.labels = FALSE))
+  expect_s3_class(g, "ggplot")
+  expect_equal(nrow(g$layers[[1]]$data), 6)
+  bars <- g$layers[[which(geoms(g) == "GeomRect")]]$data
+  expect_equal(bars$p, unname(unlist(bipartiteSampler$blockProp)))
+  expect_false("GeomText" %in% geoms(g))
+
+  expect_error(plotMyParameters(matrix(.5, 2, 3), blockProp = list(c(.5, .5), c(.5, .5))), "do not match")
+
+  ## multiplex: the layers side by side, the column bars repeated above each layer
+  g <- plotMyParameters(list(a = matrix(c(.6, .1, .1, .3), 2, 2), b = matrix(c(.05, .2, .2, .01), 2, 2)),
+                        blockProp = c(.4, .6), dimLabels = "country")
+  expect_equal(nrow(g$layers[[1]]$data), 8)
+  expect_equal(nrow(g$layers[[which(geoms(g) == "GeomRect")]]$data), 2 + 2 * 2)
+  expect_true("b" %in% unlist(lapply(g$layers, function(l) l$data$label)))
+  expect_error(plotMyParameters(list(matrix(.5, 2, 2), matrix(.5, 3, 3)), blockProp = c(.5, .5)), "do not match")
 })
 
 test_that("plotMyGraphon checks the dimensions", {

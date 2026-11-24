@@ -331,7 +331,22 @@ round(fitCore$connectParam$mean, 2)
 round(fitCore$blockProp, 2)
 ```
 
-which can be seen by comparing the true and estimated mesoscopic views. To
+They can also be compared graphically with `type = "parameters"`: the
+connectivity matrix is drawn as a heat map, with the value of
+$\alpha_{ql}$ in each cell, and the block proportions $\pi_q$ as bars on the
+left (row blocks) and on top (column blocks). With `limits = c(0, 1)` (the
+range of a probability) and `bar.max = 1` (a proportion of 100%), the two plots
+share the same scales.
+
+```{r compare parameters}
+#| fig-width: 10
+#| fig-height: 4.5
+sameScales <- list(limits = c(0, 1), bar.max = 1)
+plot(corePeriphery, type = "parameters", plotOptions = c(sameScales, title = "True")) |
+  plot(fitCore, type = "parameters", plotOptions = c(sameScales, title = "Estimated"))
+```
+
+The comparison is also possible with the true and estimated mesoscopic views. To
 compare them, the blocks are placed at the same positions with the option
 `layout` (one row of coordinates per block); here, the estimated blocks have
 the same numbers as the true ones (see the table above), otherwise the rows of
@@ -347,7 +362,8 @@ plot(corePeriphery, type = "meso", plotOptions = list(layout = triangle, title =
 ## 5. The plots of the package
 
 The `plot` method is available for the simulated networks and the fitted
-models, both for simple and bipartite SBM. Its argument `type` gives the
+models, both for simple and bipartite SBM (and for multiplex and multipartite
+SBM, see the corresponding vignettes). Its argument `type` gives the
 representation:
 
 | `type`       | Representation |
@@ -355,6 +371,7 @@ representation:
 | `"data"`     | the adjacency matrix, the nodes being ordered by block (option `ordered = FALSE` to keep the original order). The background of each block is colored according to its mean value |
 | `"expected"` | the expected value of each edge under the model |
 | `"graphon"`  | the connectivity, each block being represented by an interval whose length is its proportion |
+| `"parameters"` | the connectivity matrix as a heat map, the block proportions as bars on the side |
 | `"meso"`     | the mesoscopic view: the graphon drawn as a network |
 
 
@@ -391,7 +408,29 @@ plot(fitCore, type = "meso", plotOptions = list(seed = 1, withinBlock = "fill"))
                                                   vertex.color = "steelblue"))
 ```
 
-The matrix and the graphon of any network or connectivity can also be drawn
-directly with the functions `plotMyMatrix` and `plotMyGraphon`.
+The graphon and the parameters plot both represent the connectivity and the
+block proportions, but differently: in the graphon, each block is represented
+by an interval whose length is its proportion, so that the area of a rectangle
+is the share of the pairs of nodes it concerns and the graphon looks like the
+data plot; in the parameters plot, all the cells have the same size, the values
+are printed, and the proportions are given by the bars, so that the
+connectivities of the small blocks remain readable. Its main options are:
+
+- `values = FALSE` removes the values from the cells, `values.digits` sets their number of digits;
+- `bar.labels = FALSE` removes the percentages of the bars, `bar.size` sets the length of the longest bar and `bar.max` the proportion it corresponds to;
+- `bar.color` and `vertex.label.name` change the colors of the bars and the labels of the blocks;
+- `block.color`, `blockAlpha.min`, `blockAlpha.max` and `limits` set the colors of the cells, as for the graphon.
+
+```{r graphon parameters}
+#| fig-width: 10
+#| fig-height: 4.5
+plot(fitCore, type = "graphon") |
+  plot(fitCore, type = "parameters",
+       plotOptions = list(bar.color = "grey50", vertex.label.name = "B", legend = TRUE))
+```
+
+The matrix, the graphon and the parameters of any network or connectivity can
+also be drawn directly with the functions `plotMyMatrix`, `plotMyGraphon` and
+`plotMyParameters`.
 
 ## References

@@ -75,6 +75,7 @@ Collate:
     'plotMyMatrix.R'
     'plotMyMultipartiteMatrix.R'
     'plotMyMultiplexMatrix.R'
+    'plotMyParameters.R'
     'sample.R'
     'sbm-package.R'
     'utils-pipe.R'

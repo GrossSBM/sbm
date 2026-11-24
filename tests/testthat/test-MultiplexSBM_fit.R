@@ -40,6 +40,13 @@ test_that("Inference for Multiplex networks", {
 
     expect_equal(length(myMultiplexFitindep$connectParam),3)
 
+    ## parameters plot: one heat map per layer, the colors of each layer rescaled (different models)
+    g <- plot(myMultiplexFitindep, type = "parameters")
+    expect_s3_class(g, "ggplot")
+    Q <- unname(myMultiplexFitindep$nbBlocks)
+    expect_equal(nrow(g$layers[[1]]$data), 3 * Q^2)
+    expect_equal(max(g$layers[[1]]$data$fillValue), 1)
+
     myMultiplexFitdep <- MultiplexSBM_fit$new(list(netA,netB),dependentNet = TRUE)
     currentOptions <- list(
       verbosity     = 0,
@@ -57,6 +64,7 @@ test_that("Inference for Multiplex networks", {
 
     expect_equal(length(myMultiplexFitdep$connectParam),4)
     expect_equal(myMultiplexFitdep$dependentNetwork,TRUE)
+    expect_s3_class(plot(myMultiplexFitdep, type = "parameters"), "ggplot")
 
 
     set.seed(2)

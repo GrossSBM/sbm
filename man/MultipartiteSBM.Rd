@@ -121,7 +121,7 @@ R6 Class definition of a Multipartite SBM
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{MultipartiteSBM$plot(
-  type = c("data", "expected", "meso"),
+  type = c("data", "expected", "parameters", "meso"),
   ordered = TRUE,
   plotOptions = list()
 )}
@@ -130,7 +130,7 @@ R6 Class definition of a Multipartite SBM
   \subsection{Arguments}{
     \if{html}{\out{<div class="arguments">}}
     \describe{
-      \item{\code{type}}{character for the type of plot: either 'data' (true connection), 'expected' (fitted connection) or 'meso' (mesoscopic view). Default to 'data'.}
+      \item{\code{type}}{character for the type of plot: either 'data' (true connection), 'expected' (fitted connection), 'parameters' (connectivity matrix of each network as a heat map, block proportions as bars on the side) or 'meso' (mesoscopic view). Default to 'data'.}
       \item{\code{ordered}}{TRUE is the matrices are plotted after reorganization with the blocks. Default value = TRUE}
       \item{\code{plotOptions}}{list of plot options for the mesoscopic view or matrix view}
     }

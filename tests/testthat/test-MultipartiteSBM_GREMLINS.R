@@ -25,6 +25,14 @@ test_that("multipartite fit: numbers of blocks are correctly labelled", {
   expect_equal(unlist(fit$storedModels[best, paste("nbBlocks", c("A", "B", "C"))], use.names = FALSE), c(1, 2, 3))
   # nbParams = connectivity parameters (3x1 + 2x3) + block proportions (0 + 1 + 2)
   expect_equal(fit$storedModels$nbParams[best], 3 + 6 + 3)
+
+  # parameters plot: one cell per pair of blocks of each network (C x A and B x C), one bar per
+  # block of each functional group in row (C, B) and in column (C, A)
+  g <- plot(fit, type = "parameters")
+  expect_equal(nrow(g$layers[[1]]$data), 3 * 1 + 2 * 3)
+  expect_equal(nrow(g$layers[[2]]$data), (3 + 2) + (3 + 1))
+  titles <- unlist(lapply(g$layers, function(l) if (!is.null(l$data$label)) l$data$label))
+  expect_true(all(c("A", "B", "C") %in% titles))
 })
 
 test_that("multipartite fit: classifInit (named, any order) is used", {
@@ -62,5 +70,5 @@ test_that("plots of a multipartite fit with a simple network and single blocks",
   netAB <- defineSBM(matrix(rpois(600, 2), 30, 20), "poisson", "bipartite", dimLabels = c("A", "B"))
   fit <- estimateMultipartiteSBM(list(netAA, netAB), list(verbosity = 0, nbCores = 1, initBM = FALSE))
   expect_equal(unname(fit$nbBlocks), c(1, 1))
-  for (type in c("data", "expected", "meso")) expect_s3_class(plot(fit, type = type), "ggplot")
+  for (type in c("data", "expected", "parameters", "meso")) expect_s3_class(plot(fit, type = type), "ggplot")
 })
