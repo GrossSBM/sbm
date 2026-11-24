@@ -19,6 +19,7 @@ articles:
 - title: Multipartite and multiplex SBM
   navbar: Multipartite and multiplex SBM
   contents:
+  - MultipartiteNetwork_principle
   - Multipartite_EcologicalNetwork
   - MultiplexNetwork_principle
   - Multiplex_allianceNwar_case_study

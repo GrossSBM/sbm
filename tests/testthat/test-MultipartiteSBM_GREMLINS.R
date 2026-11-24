@@ -55,3 +55,12 @@ test_that("multipartite fit in parallel restores the future plan of the user", {
   expect_true(inherits(future::plan(), "sequential"))
   expect_equal(unname(fit$nbBlocks[c("A", "B", "C")]), c(1, 2, 3))
 })
+
+test_that("plots of a multipartite fit with a simple network and single blocks", {
+  set.seed(1)
+  netAA <- defineSBM(matrix(rbinom(900, 1, 0.3), 30, 30), "bernoulli", "simple", directed = TRUE, dimLabels = "A")
+  netAB <- defineSBM(matrix(rpois(600, 2), 30, 20), "poisson", "bipartite", dimLabels = c("A", "B"))
+  fit <- estimateMultipartiteSBM(list(netAA, netAB), list(verbosity = 0, nbCores = 1, initBM = FALSE))
+  expect_equal(unname(fit$nbBlocks), c(1, 1))
+  for (type in c("data", "expected", "meso")) expect_s3_class(plot(fit, type = type), "ggplot")
+})

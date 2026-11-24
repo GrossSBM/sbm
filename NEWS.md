@@ -1,3 +1,14 @@
+# sbm (development version)
+
+## Multipartite SBM
+
+* new option `classifInit` in `estimOptions` of `estimateMultipartiteSBM()`: an initial clustering (a list named with the functional groups), from which the search of the numbers of blocks starts; with fixed numbers of blocks, it is the starting point of the variational EM algorithm
+* parallel computing with **future** (**GREMLINS** >= 0.2.2): if no plan is set by the user, a `multisession` plan with `nbCores` workers is used during the estimation, and the plan of the user is restored afterwards. It works on all the platforms (no forking); the GREMLINS progress bar is no more disabled under Positron
+* `$storedModels`: the numbers of blocks of the functional groups (and the number of parameters) were wrongly assigned when **GREMLINS** orders the functional groups differently from `dimLabels`
+* `plot(type = "expected")` failed for multipartite networks including simple networks (missing values on the diagonal)
+* new vignette *Stochastic Block Models for Multipartite networks: principle*: the model, its inference and an illustration on simulated data (fixed numbers of blocks, initial clustering, missing data and prediction, parallel computing); moved from **GREMLINS**, which is to be used through **sbm**
+* reference to the published version of Bar-Hen, Barbillon and Donnet (2022), Statistical Modelling
+
 # sbm 1.0.0 [2026-11-09]
 
 ## Covariates on the nodes

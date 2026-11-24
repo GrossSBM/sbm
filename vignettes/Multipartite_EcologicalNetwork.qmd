@@ -97,7 +97,9 @@ plotMyMultipartiteMatrix(list(PlantFlovis, PlantAnt, PlantBird))
 
 ### 3.1 Mathematical background
 
-See @multipartite for details.
+The multipartite SBM is introduced in @multipartite. It is presented, with its inference and an illustration on simulated data
+(fixed numbers of blocks, initial clustering, missing data), in the vignette *Stochastic Block Models for Multipartite networks: principle*
+(`vignette("MultipartiteNetwork_principle", package = "sbm")`).
 
 ### 3.2 Inference
 

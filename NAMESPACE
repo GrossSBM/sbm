@@ -34,6 +34,11 @@ import(dplyr)
 import(ggplot2)
 import(purrr)
 importFrom(Rcpp,sourceCpp)
+importFrom(future,
+  multisession,
+  plan,
+  sequential
+)
 importFrom(graphics,plot)
 importFrom(magrittr,"%>%")
 importFrom(prodlim,row.match)

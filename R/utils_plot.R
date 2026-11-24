@@ -485,7 +485,7 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG,namesLayers, dist
   melted_Mat$names_row <- factor(melted_Mat$names_row, levels = melted_Mat$names_row[melted_Mat$index_col == 1][n1:1])
   melted_Mat$FG_row <- as.factor(rep(FGRow, each = n2))
   melted_Mat$FG_col <- as.factor(rep(FGCol,  n1))
-  range_melted <- range(c(melted_Mat$link))
+  range_melted <- range(c(melted_Mat$link), na.rm = TRUE)
   if (binary) { melted_Mat$link <- as.factor(melted_Mat$link)}
 
 
@@ -583,9 +583,9 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG,namesLayers, dist
       sepColl <- sepColl[-length(sepColl)]
       sepColl}))
     nbSep <- length(separate)
-
-
-
+  }
+  # no separator to draw when all the functional groups have a single block
+  if (reordered && nbSep > 0) {
     separCol <- data.frame(sepCol = c(separate + 0.5),#+ rep(c(0,cumsum(GCol*nbNodes)[-nbFG]),nbBlocks-1) + 0.5),
                            FG_col = rep(namesFG,nbBlocks-1),
                            FG_col_index = rep(1:nbFG,nbBlocks-1))
