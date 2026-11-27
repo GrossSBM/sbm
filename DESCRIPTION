@@ -67,6 +67,7 @@ Collate:
     'R6Class-SimpleSBM.R'
     'R6Class-SimpleSBM_fit.R'
     'RcppExports.R'
+    'classifInit.R'
     'defineSBM.R'
     'estimate.R'
     'fungusTreeNetwork.R'
