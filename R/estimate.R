@@ -347,9 +347,16 @@ estimateMultipartiteSBM <- function(listSBM,
 #' Estimation for Multiplex SBM
 #'
 #' @param listSBM list of networks that were defined by the \code{defineSBM} function
-#' @param dependent logical parameter indicating whether the networks in the multiplex structure are dependent beyond the latent variables,
+#' @param dependent logical parameter indicating whether the networks in the multiplex structure are dependent beyond the latent variables. Handled when all the layers are Gaussian, or all the layers are Bernoulli (any number of layers: the connectivity parameters \code{prob00...0}, ..., \code{prob11...1} are then the probabilities of the 2^nbLayers combinations of values over the layers, the k-th character giving the value on the k-th layer),
 #' @param estimOptions options for the inference procedure
-#' @details The list of parameters \code{estimOptions} essentially tunes the optimization process and the variational EM algorithm, with the following parameters
+#' @details Independent layers (\code{dependent = FALSE}) which are all Bernoulli, all directed or all undirected,
+#' and without missing values are fitted by \pkg{blockmodels} (as dependent layers): \code{nbBlocksRange} then bounds the
+#' total number of blocks (rows + columns for bipartite networks), and the options specific to \pkg{GREMLINS}
+#' ("initBM", "maxiterVE", "maxiterVEM", "classifInit") are not used. The other independent layers (Poisson, Gaussian,
+#' mixed models, missing values) are fitted by \pkg{GREMLINS}. The \pkg{GREMLINS} fit of independent Bernoulli layers
+#' remains available with \code{estimateMultipartiteSBM()} on the same list of networks.
+#'
+#' The list of parameters \code{estimOptions} essentially tunes the optimization process and the variational EM algorithm, with the following parameters
 #' * "nbCores" integer for number of cores used.  Default is 2 (1 under Positron, which does not allow forking)
 #' * "verbosity" integer for verbosity (0, 1). Default is 1
 #' * "nbBlocksRange" List of length the number of functional groups, each element supplying the minimal and maximal number of blocks to be explored. The names of the list must be the names of the functional groups.  Default value is from 1 to 10)
@@ -367,6 +374,7 @@ estimateMultipartiteSBM <- function(listSBM,
 #' The handling of missing values (\code{NA}) in the networks depends on \code{dependent}:
 #' * \code{dependent = FALSE}: the corresponding dyads are considered as not observed and
 #'   are ignored in the inference (performed by the package \pkg{GREMLINS}), as for multipartite networks.
+#'   Independent Bernoulli layers with missing values are thus fitted by \pkg{GREMLINS}.
 #' * \code{dependent = TRUE}: missing values are not supported by the underlying models of
 #'   \pkg{blockmodels}. They are replaced by 0, i.e. considered as observed absences of
 #'   edges (or observed zero values for the Gaussian model), which biases the estimation.

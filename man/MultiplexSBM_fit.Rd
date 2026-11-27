@@ -4,7 +4,9 @@
 \alias{MultiplexSBM_fit}
 \title{R6 Class definition of a Multiplex SBM fit}
 \description{
-This class is designed to give a representation and adjust a Multiplex SBM fitted with GREMLIN.
+This class is designed to give a representation and adjust a Multiplex SBM. The fit is performed by
+\pkg{blockmodels} for dependent layers, and for independent layers when all of them are Bernoulli
+with the same direction and without missing values; by \pkg{GREMLINS} otherwise.
 
 The list of parameters \code{estimOptions} essentially tunes the optimization process and the variational EM algorithm, with the following parameters
 \itemize{
@@ -40,6 +42,7 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
     \item \href{#method-MultiplexSBM_fit-plot}{\code{MultiplexSBM_fit$plot()}}
     \item \href{#method-MultiplexSBM_fit-show}{\code{MultiplexSBM_fit$show()}}
     \item \href{#method-MultiplexSBM_fit-predict}{\code{MultiplexSBM_fit$predict()}}
+    \item \href{#method-MultiplexSBM_fit-setModel}{\code{MultiplexSBM_fit$setModel()}}
     \item \href{#method-MultiplexSBM_fit-clone}{\code{MultiplexSBM_fit$clone()}}
   }
 }
@@ -47,7 +50,6 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 <ul>
   <li><span class="pkg-link" data-pkg="sbm" data-topic="SBM" data-id="rNetwork"><a href='../../sbm/html/SBM.html#method-SBM-rNetwork'><code>SBM$rNetwork()</code></a></span></li>
   <li><span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM" data-id="print"><a href='../../sbm/html/MultipartiteSBM.html#method-MultipartiteSBM-print'><code>MultipartiteSBM$print()</code></a></span></li>
-  <li><span class="pkg-link" data-pkg="sbm" data-topic="MultipartiteSBM_fit" data-id="setModel"><a href='../../sbm/html/MultipartiteSBM_fit.html#method-MultipartiteSBM_fit-setModel'><code>MultipartiteSBM_fit$setModel()</code></a></span></li>
 </ul>
 </details>}}
 \if{html}{\out{<hr>}}
@@ -74,7 +76,8 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 \if{html}{\out{<a id="method-MultiplexSBM_fit-optimize"></a>}}
 \if{latex}{\out{\hypertarget{method-MultiplexSBM_fit-optimize}{}}}
 \subsection{\code{MultiplexSBM_fit$optimize()}}{
-  estimation of multipartiteSBM via GREMLINS
+  estimation of the multiplex SBM, via blockmodels for dependent layers and for
+independent Bernoulli layers (all directed or all undirected, without missing values), via GREMLINS otherwise
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{MultiplexSBM_fit$optimize(estimOptions)}
@@ -83,7 +86,7 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
   \subsection{Arguments}{
     \if{html}{\out{<div class="arguments">}}
     \describe{
-      \item{\code{estimOptions}}{options for MultipartiteBM}
+      \item{\code{estimOptions}}{options for the estimation}
     }
     \if{html}{\out{</div>}}
   }
@@ -145,6 +148,28 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
   }
   \subsection{Returns}{
     a list of matrices matrix of expected values for each dyad
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-MultiplexSBM_fit-setModel"></a>}}
+\if{latex}{\out{\hypertarget{method-MultiplexSBM_fit-setModel}{}}}
+\subsection{\code{MultiplexSBM_fit$setModel()}}{
+  method to select a specific model among the ones fitted during the optimization.
+Fields of the current MultiplexSBM_fit will be updated accordingly.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MultiplexSBM_fit$setModel(index)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{index}}{integer. When fitted by blockmodels (dependent layers, independent Bernoulli layers), the \code{indexModel} of the model in \code{storedModels}
+(the number of blocks for simple networks, the sum of the numbers of row and column blocks for
+bipartite networks). When fitted by GREMLINS, the index of the model (row number in storedModels).}
+    }
+    \if{html}{\out{</div>}}
   }
 }
 

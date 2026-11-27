@@ -21,7 +21,7 @@ test_that("Inference for Multiplex networks", {
     expect_equal(myMultiplex$dependentNetwork,FALSE)
     expect_equal(MultiplexSBM_fit$new(list(netA,netB), TRUE)$dependentNetwork,TRUE)
     expect_error(MultiplexSBM_fit$new(list(netA,netC), TRUE))
-    expect_error(MultiplexSBM_fit$new(list(netA,netB,netB), TRUE))
+    expect_equal(MultiplexSBM_fit$new(list(netA,netB,netB), TRUE)$dependentNetwork, TRUE)
     expect_warning(defineSBM(B,"poisson",type = "simple",dimLabels=c("Actor")), "binary")
 
 
@@ -96,4 +96,133 @@ test_that("Inference for Multiplex networks", {
 
   }
 
+})
+
+test_that("Dependent Bernoulli multiplex with more than two layers", {
+
+  if (Sys.info()['sysname'] != "Windows") {
+
+    set.seed(3)
+    Q <- 2 ; d <- 3
+    combis <- c("000","001","010","011","100","101","110","111")
+    ## probabilities of the 8 combinations, for each pair of blocks
+    W <- array(rexp(Q * Q * 8), c(Q, Q, 8))
+    W[1, 1, ] <- W[1, 1, ] * c(1, 1, 1, 1, 1, 1, 1, 20) # block 1 densely connected in all layers
+    W <- sweep(W, 1:2, apply(W, 1:2, sum), "/")
+    connectParam <- setNames(lapply(1:8, function(c) W[, , c]), paste0("prob", combis))
+
+    sim <- sampleMultiplexSBM(nbNodes = 60, blockProp = c(.5, .5), nbLayers = d,
+                              connectParam = connectParam, model = rep("bernoulli", d),
+                              type = "directed", dependent = TRUE)
+    expect_length(sim$listSBM, d)
+
+    ## errors on incomplete or non-normalized parameters
+    expect_error(sampleMultiplexSBM(nbNodes = 60, blockProp = c(.5, .5), nbLayers = d,
+                                    connectParam = connectParam[-1], model = rep("bernoulli", d),
+                                    type = "directed", dependent = TRUE), "prob000")
+    bad <- connectParam ; bad$prob000 <- bad$prob000 + .1
+    expect_error(sampleMultiplexSBM(nbNodes = 60, blockProp = c(.5, .5), nbLayers = d,
+                                    connectParam = bad, model = rep("bernoulli", d),
+                                    type = "directed", dependent = TRUE), "sum to one")
+
+    fit <- estimateMultiplexSBM(sim$listSBM, dependent = TRUE,
+                                estimOptions = list(verbosity = 0, plot = FALSE, nbCores = 1,
+                                                    nbBlocksRange = c(3, 3)))
+    expect_true(fit$dependentNetwork)
+    expect_equal(names(fit$connectParam), paste0("prob", combis))
+    Qhat <- unname(fit$nbBlocks)
+    expect_equal(Qhat, Q)
+    ## the probabilities of the combinations sum to one for each pair of blocks
+    expect_equal(Reduce(`+`, fit$connectParam), matrix(1, Qhat, Qhat))
+    ## marginal connectivity of layer k: sum over the combinations with a 1 in position k
+    pred <- suppressWarnings(fit$predict())
+    expect_length(pred, d)
+    marg2 <- Reduce(`+`, fit$connectParam[substr(combis, 2, 2) == "1"])
+    Z <- fit$probMemberships[[1]]
+    expect_equal(pred[[2]], Z %*% marg2 %*% t(Z))
+    expect_s3_class(plot(fit, type = "parameters"), "ggplot")
+    expect_s3_class(plot(fit, type = "graphon"), "ggplot")
+  }
+})
+
+test_that("setModel in the dependent multiplex case", {
+
+  if (Sys.info()['sysname'] != "Windows") {
+    set.seed(4)
+    Q <- 2
+    W <- array(rexp(Q * Q * 4), c(Q, Q, 4)); W[1, 1, 4] <- 10 * W[1, 1, 4]
+    W <- sweep(W, 1:2, apply(W, 1:2, sum), "/")
+    connectParam <- setNames(lapply(1:4, function(c) W[, , c]), c("prob00", "prob01", "prob10", "prob11"))
+    sim <- sampleMultiplexSBM(nbNodes = 50, blockProp = c(.5, .5), nbLayers = 2,
+                              connectParam = connectParam, model = rep("bernoulli", 2),
+                              type = "directed", dependent = TRUE)
+    fit <- estimateMultiplexSBM(sim$listSBM, dependent = TRUE,
+                                estimOptions = list(verbosity = 0, plot = FALSE, nbCores = 1,
+                                                    nbBlocksRange = c(4, 4)))
+    best <- unname(fit$nbBlocks)
+    fit$setModel(4)
+    expect_equal(unname(fit$nbBlocks), 4)
+    expect_equal(dim(fit$connectParam$prob11), c(4, 4))
+    expect_equal(fit$ICL, fit$storedModels$ICL[fit$storedModels$indexModel == 4])
+    expect_length(unique(fit$memberships[[1]]), 4)
+    fit$setModel(best)
+    expect_equal(unname(fit$nbBlocks), best)
+    expect_error(fit$setModel(99), "indexModel")
+  }
+})
+
+test_that("Independent Bernoulli multiplex: blockmodels, and GREMLINS through estimateMultipartiteSBM", {
+  set.seed(3)
+  Q <- 3; npc <- 30; n <- Q * npc
+  Z <- diag(Q) %x% matrix(1, npc, 1)
+  P1 <- matrix(c(.8, .1, .1, .1, .6, .2, .1, .2, .5), 3)
+  P2 <- matrix(c(.1, .7, .7, .7, .1, .7, .7, .7, .1), 3)
+  A <- 1 * (matrix(runif(n * n), n, n) < Z %*% P1 %*% t(Z))
+  B <- 1 * (matrix(runif(n * n), n, n) < Z %*% P2 %*% t(Z))
+  listSBM <- list(defineSBM(A, "bernoulli", dimLabels = "Actor"),
+                  defineSBM(B, "bernoulli", dimLabels = "Actor"))
+  opts <- list(verbosity = 0, nbCores = 1)
+
+  fitBM <- estimateMultiplexSBM(listSBM, estimOptions = opts)
+  expect_false(is.null(fitBM$.__enclos_env__$private$BMobject))
+  expect_null(fitBM$.__enclos_env__$private$GREMLINSobject)
+  expect_equal(unname(fitBM$nbBlocks), 3)
+  expect_length(fitBM$connectParam, 2)
+  expect_equal(dim(fitBM$connectParam[[2]]$mean), c(3, 3))
+  expect_equal(length(fitBM$predict()), 2)
+  expect_s3_class(plot(fitBM, type = "expected"), "ggplot")
+  # blocks ordered by decreasing connectivity, as with GREMLINS
+  fitG <- estimateMultipartiteSBM(listSBM, estimOptions = opts)
+  expect_equal(unname(fitG$nbBlocks), 3)
+  expect_equal(max(table(fitBM$memberships$Actor, fitG$memberships$Actor)), npc)
+  expect_equal(unname(fitBM$memberships$Actor), unname(fitG$memberships$Actor))
+  expect_lt(max(abs(fitBM$connectParam[[1]]$mean - fitG$connectParam[[1]]$mean)), 0.05)
+
+  # setModel with the indexModel of storedModels
+  expect_true(all(c(2, 3) %in% fitBM$storedModels$indexModel))
+  fitBM$setModel(2)
+  expect_equal(unname(fitBM$nbBlocks), 2)
+  expect_equal(dim(fitBM$connectParam[[1]]$mean), c(2, 2))
+
+  # Poisson layer, or missing values: still GREMLINS
+  listP <- list(listSBM[[1]], defineSBM(3 * B, "poisson", dimLabels = "Actor"))
+  fitP <- estimateMultiplexSBM(listP, estimOptions = opts)
+  expect_null(fitP$.__enclos_env__$private$BMobject)
+  expect_false(is.null(fitP$.__enclos_env__$private$GREMLINSobject))
+  Bna <- B; Bna[1, 2] <- NA
+  fitNA <- estimateMultiplexSBM(list(listSBM[[1]], defineSBM(Bna, "bernoulli", dimLabels = "Actor")),
+                                estimOptions = opts)
+  expect_null(fitNA$.__enclos_env__$private$BMobject)
+
+  # bipartite
+  Z2 <- diag(2) %x% matrix(1, 40, 1)
+  C <- 1 * (matrix(runif(n * 80), n, 80) < Z %*% matrix(c(.8, .2, .1, .3, .6, .9), 3) %*% t(Z2))
+  D <- 1 * (matrix(runif(n * 80), n, 80) < Z %*% matrix(c(.1, .5, .7, .6, .2, .3), 3) %*% t(Z2))
+  listB <- list(defineSBM(C, "bernoulli", type = "bipartite", dimLabels = c("R", "C")),
+                defineSBM(D, "bernoulli", type = "bipartite", dimLabels = c("R", "C")))
+  fitB <- estimateMultiplexSBM(listB, estimOptions = opts)
+  expect_false(is.null(fitB$.__enclos_env__$private$BMobject))
+  expect_equal(unname(fitB$nbBlocks), c(3, 2))
+  expect_equal(dim(fitB$connectParam[[2]]$mean), c(3, 2))
+  expect_named(fitB$blockProp, c("R", "C"))
 })
