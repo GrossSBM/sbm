@@ -483,8 +483,10 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG,namesLayers, dist
   melted_Mat$names_col <- factor(melted_Mat$names_col, levels = melted_Mat$names_col[melted_Mat$index_row == 1])
   melted_Mat$names_row <- as.factor(melted_Mat$names_row)
   melted_Mat$names_row <- factor(melted_Mat$names_row, levels = melted_Mat$names_row[melted_Mat$index_col == 1][n1:1])
-  melted_Mat$FG_row <- as.factor(rep(FGRow, each = n2))
-  melted_Mat$FG_col <- as.factor(rep(FGCol,  n1))
+  # keep the order of the functional groups / layers (as.factor would sort them alphabetically,
+  # and the panels would not be in the same order as in the other plots)
+  melted_Mat$FG_row <- factor(rep(FGRow, each = n2), levels = unique(FGRow))
+  melted_Mat$FG_col <- factor(rep(FGCol,  n1), levels = unique(FGCol))
   range_melted <- range(c(melted_Mat$link), na.rm = TRUE)
   if (binary) { melted_Mat$link <- as.factor(melted_Mat$link)}
 
@@ -496,6 +498,9 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG,namesLayers, dist
   # with a block background, low values are transparent so that the background shows
   low.color <- if (withBackground) "transparent" else "white"
   if (withBackground) {
+    # same facet levels as melted_Mat: with character columns, ggplot2 sorts the panels alphabetically
+    blocks$FG_row <- factor(blocks$FG_row, levels = levels(melted_Mat$FG_row))
+    blocks$FG_col <- factor(blocks$FG_col, levels = levels(melted_Mat$FG_col))
     g <- g + geom_rect(data = blocks, inherit.aes = FALSE,
                        aes(xmin = .data$xmin, xmax = .data$xmax, ymin = .data$ymin, ymax = .data$ymax, alpha = .data$alpha),
                        fill = currentOptions$block.color) +
@@ -610,6 +615,11 @@ plotMultipartiteMatrix = function(listMat, E, nbNodes, namesFG,namesLayers, dist
     testRow <- vapply(1:(nbSep*nbFG),function(i){1*(G[separRow$FG_row_index[i],separRow$FG_col_index[i]]==1)},1)
     separRow <- separRow[testRow==1,]
 
+    # same facet levels as melted_Mat (see blocks above)
+    separCol$FG_row <- factor(separCol$FG_row, levels = levels(melted_Mat$FG_row))
+    separCol$FG_col <- factor(separCol$FG_col, levels = levels(melted_Mat$FG_col))
+    separRow$FG_row <- factor(separRow$FG_row, levels = levels(melted_Mat$FG_row))
+    separRow$FG_col <- factor(separRow$FG_col, levels = levels(melted_Mat$FG_col))
     g <- g + geom_vline(data= separCol, aes(xintercept =  .data$sepCol), linewidth = currentOptions$line.width, col=currentOptions$line.color)
     g <- g + geom_hline(data= separRow, aes(yintercept = .data$sepRow), linewidth = currentOptions$line.width, col=currentOptions$line.color)
   }

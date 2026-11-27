@@ -97,7 +97,8 @@ SimpleSBM_fit <-
           exploreMax  = Inf,
           nbBlocksRange = c(4,Inf),
           nbCores       = .default_nbCores(),
-          fast          = TRUE
+          fast          = TRUE,
+          classifInit   = NULL
         )
         currentOptions[names(estimOptions)] <- estimOptions
         ## no plot when quiet, unless asked (as in estimate*SBM)
@@ -130,6 +131,10 @@ SimpleSBM_fit <-
 
         ## performing estimation
         private$BMobject$estimate()
+
+        ## additional initializations (k-means or clusterings supplied by the user)
+        if (!is.null(currentOptions$classifInit))
+          .classifInit_simple(currentOptions$classifInit, private$BMobject, private$Y, private$directed_)
 
         ## Exporting blockmodels output to simpleSBM_fit fields
         private$import_from_BM()

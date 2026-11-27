@@ -23,7 +23,7 @@ sampleMultiplexSBM(
 
 \item{nbLayers}{a matrix with two columns and nbNetworks lines, each line specifying the index of the functional groups in interaction.}
 
-\item{connectParam}{list of parameters for connectivity (of length nbNetworks). Each element is a list of one or two elements: a matrix of means 'mean' and an optional matrix of variances 'var', the sizes of which must match \code{blockProp} length}
+\item{connectParam}{list of parameters for connectivity (of length nbNetworks). Each element is a list of one or two elements: a matrix of means 'mean' and an optional matrix of variances 'var', the sizes of which must match \code{blockProp} length. In the dependent Gaussian case, a list with the list of mean matrices \code{mu} and the covariance matrix \code{Sigma}. In the dependent Bernoulli case, a list of the 2^nbLayers matrices \code{prob00...0}, ..., \code{prob11...1} giving the probability of each combination of values over the layers (the k-th character is the value on the k-th layer), summing to one for each pair of blocks}
 
 \item{model}{a vector of characters describing the model for  each network of the Multiplex relation between nodes (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'}, ...). Default is \code{'bernoulli'}.}
 

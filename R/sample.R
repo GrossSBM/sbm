@@ -292,7 +292,7 @@ sampleMultipartiteSBM <- function(nbNodes,
 #' @param nbNodes number of nodes in each functional group involved in the Multiplex network
 #' @param blockProp a vector for block proportion if the networks are simple, a list of parameters for block proportions for both functional groups if the networks are bipartite
 #' @param nbLayers a matrix with two columns and nbNetworks lines, each line specifying the index of the functional groups in interaction.
-#' @param connectParam list of parameters for connectivity (of length nbNetworks). Each element is a list of one or two elements: a matrix of means 'mean' and an optional matrix of variances 'var', the sizes of which must match \code{blockProp} length
+#' @param connectParam list of parameters for connectivity (of length nbNetworks). Each element is a list of one or two elements: a matrix of means 'mean' and an optional matrix of variances 'var', the sizes of which must match \code{blockProp} length. In the dependent Gaussian case, a list with the list of mean matrices \code{mu} and the covariance matrix \code{Sigma}. In the dependent Bernoulli case, a list of the 2^nbLayers matrices \code{prob00...0}, ..., \code{prob11...1} giving the probability of each combination of values over the layers (the k-th character is the value on the k-th layer), summing to one for each pair of blocks
 #' @param model a vector of characters describing the model for  each network of the Multiplex relation between nodes (\code{'bernoulli'}, \code{'poisson'}, \code{'gaussian'}, ...). Default is \code{'bernoulli'}.
 #' @param type a string of character indicating whether the networks are directed, undirected or bipartite
 #' @param dependent connection parameters in each network
@@ -413,46 +413,55 @@ sampleMultiplexSBM <- function(nbNodes,
 
     dBern  <- isTRUE(all.equal(model, rep("bernoulli", length(model))))
     dGauss <- isTRUE(all.equal(model, rep("gaussian" , length(model))))
-    if (!(dGauss | (dBern&length(model) == 2)))
-      stop("dependency in multiplex network is only handled for Gaussian distribution or a bivariate Bernoulli distribution")
+    if (!(dGauss | dBern))
+      stop("dependency in multiplex network is only handled when all layers are Gaussian or all layers are Bernoulli")
 
     if (dBern)
     {
-      P00 <- connectParam$prob00
-      P01 <- connectParam$prob01
-      P10 <- connectParam$prob10
-      P11 <- connectParam$prob11
+      ## connectParam$probXXX: probability of the combination XXX of values over the layers
+      ## (the k-th character is the value on the k-th layer), for the 2^nbLayers combinations
+      d <- length(model)
+      combis <- apply(as.matrix(expand.grid(rep(list(0:1), d))[, d:1, drop = FALSE]), 1, paste, collapse = "")
+      if (!all(paste0("prob", combis) %in% names(connectParam)))
+        stop("in the dependent Bernoulli case, connectParam must contain the ", 2^d, " matrices ",
+             paste0("prob", combis[1]), ", ..., ", paste0("prob", combis[2^d]))
+      Pcombis <- connectParam[paste0("prob", combis)]
+      if (any(abs(Reduce(`+`, Pcombis) - 1) > 1e-8))
+        stop("the probabilities of the combinations over the layers must sum to one")
 
       if (type == "bipartite")
       {
         Z1 <- t(rmultinom(nbNodes[1], size = 1, prob = blockProp[[1]]))
         Z2 <- t(rmultinom(nbNodes[2], size = 1, prob = blockProp[[2]]))
-        MU <-matrix(runif(prod(nbNodes)),nbNodes[1],nbNodes[2])
-        M1 <-1*(MU>Z1%*%(P00+P01)%*%t(Z2))
-        M2 <-1*(((MU>Z1%*%(P00)%*%t(Z2)) & (MU<Z1%*%(P00+P01)%*%t(Z2))) | (MU>Z1%*%(1-P11)%*%t(Z2)))
-        memberships <- list(as_clustering(Z1),as_clustering(Z2))
+        MU <- matrix(runif(prod(nbNodes)), nbNodes[1], nbNodes[2])
+        memberships <- list(as_clustering(Z1), as_clustering(Z2))
       }
       else {
         if (!is.list(blockProp)) blockProp = list(blockProp)
-        Z <- t(rmultinom(nbNodes[1], size = 1, prob = blockProp[[1]]))
-        MU <-matrix(runif((nbNodes)**2),nbNodes,nbNodes)
-        M1 <-1*(MU>Z%*%(P00+P01)%*%t(Z))
-        M2 <-1*(((MU>Z%*%(P00)%*%t(Z)) & (MU<Z%*%(P00+P01)%*%t(Z))) | (MU>Z%*%(1-P11)%*%t(Z)))
-        memberships <- list(as_clustering(Z))
-      if (type== "undirected")
-      {
-        if (any(!sapply(connectParam,isSymmetric))) stop("Non symmetric parameters")
-        MU[lower.tri(MU)]<-t(MU)[lower.tri(MU)]
-        M1 <-1*(MU>Z%*%(P00+P01)%*%t(Z))
-        M2 <-1*(((MU>Z%*%(P00)%*%t(Z)) & (MU<Z%*%(P00+P01)%*%t(Z))) | (MU>Z%*%(1-P11)%*%t(Z)))
-      }
+        Z1 <- Z2 <- t(rmultinom(nbNodes[1], size = 1, prob = blockProp[[1]]))
+        MU <- matrix(runif((nbNodes)**2), nbNodes, nbNodes)
+        memberships <- list(as_clustering(Z1))
+        if (type == "undirected")
+        {
+          if (any(!sapply(Pcombis, isSymmetric))) stop("Non symmetric parameters")
+          MU[lower.tri(MU)] <- t(MU)[lower.tri(MU)]
+        }
       }
 
-      listNetworks <- list()
+      ## each dyad takes the combination whose interval of cumulated probabilities contains MU
+      M <- rep(list(0 * MU), d)
+      cumP <- 0 * MU
+      for (c in seq_along(combis)) {
+        upper <- cumP + Z1 %*% Pcombis[[c]] %*% t(Z2)
+        sel <- (MU > cumP) & (MU <= upper)
+        for (k in which(strsplit(combis[c], "")[[1]] == "1")) M[[k]][sel] <- 1
+        cumP <- upper
+      }
+
       names(memberships) <- dimLabels
       type_l <- ifelse(type=="bipartite","bipartite","simple")
-      listNetworks[[1]] <- defineSBM(netMat  = M1, model = model[1], type = type_l,dimLabels =  dimLabels)
-      listNetworks[[2]] <- defineSBM(netMat  = M2, model = model[2], type = type_l,dimLabels =  dimLabels)
+      listNetworks <- lapply(seq_len(d), function(k)
+        defineSBM(netMat = M[[k]], model = model[k], type = type_l, dimLabels = dimLabels))
 
     }
     if (dGauss)

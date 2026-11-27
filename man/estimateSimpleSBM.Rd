@@ -51,7 +51,22 @@ The list of parameters \code{estimOptions} essentially tunes the optimization pr
 exploration direction for groups number. When provided, the exploring
 strategy is made to explore the provided group number. The two integer
 value representing the row group number and the column group number.
+\item "classifInit" additional initializations of the variational EM algorithm. Default \code{NULL}: only the
+default exploration of blockmodels, which starts from one block and splits or merges blocks (with spectral
+clustering initializations). This exploration may miss a partition that requires several blocks to be split at
+the same time (e.g. two compartments in a food web, in which the consumers and their resources must be
+separated together). Possible values:
+\itemize{
+\item \code{"kmeans"}: k-means clustering of the nodes according to their connections (for a directed network, the
+row and the column of each node; for a bipartite network, the rows and the columns separately), for every
+number of blocks explored. k-means uses random starts: set the seed for reproducible results;
+\item an initial clustering supplied by the user (a vector of block labels for a simple SBM; a list of two vectors,
+rows then columns, for a bipartite SBM), or a list of such clusterings.
 }
+}
+
+The VEM algorithm is run from these initializations, and blocks are then split and merged again from the new
+solutions. All the models are kept in \code{$storedModels} and the model is selected with the ICL as usual.
 }
 \section{Missing values}{
 

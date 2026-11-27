@@ -1,5 +1,9 @@
 # sbm (development version)
 
+## Initialization of simple and bipartite SBM
+
+* new option `classifInit` in `estimOptions` of `estimateSimpleSBM()` and `estimateBipartiteSBM()`: additional initializations of the variational EM algorithm, on top of the default exploration of **blockmodels**. `classifInit = "kmeans"` adds k-means clusterings of the nodes according to their connections (row and column of each node for a directed network; rows and columns separately for a bipartite network) for every number of blocks explored; a clustering supplied by the user (vector, or list of two vectors for a bipartite SBM), or a list of such clusterings, can also be given. Blocks are then split and merged again from the new solutions. This helps when the default exploration, which splits one block at a time, misses a partition requiring several blocks to be split together (e.g. compartments of a food web)
+
 ## Graphics
 
 * new plot type `type = 'parameters'` for simple, bipartite, multiplex and multipartite SBM: the connectivity matrix as a heat map (one cell per pair of blocks, with its value and the colors of the graphon), the row block proportions as bars on the left and the column block proportions as bars on top. For multiplex SBM, the heat maps of the layers are side by side (the marginal connectivity of each layer in the dependent case); with layers of different models, the colors of each layer are rescaled by its maximum, the printed values being unchanged. For multipartite SBM, one heat map per network, arranged as in the data plot, with the block proportions of each functional group on the side of its band (in the colors of the functional groups of the mesoscopic view)
@@ -13,6 +17,13 @@
 * `plot(type = "expected")` failed for multipartite networks including simple networks (missing values on the diagonal)
 * new vignette *Stochastic Block Models for Multipartite networks: principle*: the model, its inference and an illustration on simulated data (fixed numbers of blocks, initial clustering, missing data and prediction, parallel computing); moved from **GREMLINS**, which is to be used through **sbm**
 * reference to the published version of Bar-Hen, Barbillon and Donnet (2022), Statistical Modelling
+
+## Multiplex SBM
+
+* dependent Bernoulli multiplex SBM (`estimateMultiplexSBM(dependent = TRUE)` and `sampleMultiplexSBM(dependent = TRUE)`) with any number of layers, no more only two. The connectivity parameters are the probabilities of the 2^nbLayers combinations of values over the layers, `connectParam$prob000`, ..., `connectParam$prob111` for three layers (the k-th character being the value on the k-th layer). The marginal connectivity of each layer (used by `predict()` and by the plots) is the sum of the probabilities of the combinations with a 1 on this layer. A warning is given beyond 10 layers, the number of parameters growing as 2^nbLayers. With two layers, the parameters and the simulated networks are unchanged
+* independent Bernoulli multiplex SBM (`estimateMultiplexSBM(dependent = FALSE)` with all the layers Bernoulli, all directed or all undirected, and without missing values) are now fitted by **blockmodels** (`BM_bernoulli_multiplex_independent`, requires blockmodels >= 1.2.1.9000) instead of **GREMLINS**, which is much faster. The other independent multiplex (Poisson or Gaussian layers, mixed models, missing values) are still fitted by **GREMLINS**, as are multipartite networks: `estimateMultipartiteSBM()` on the same list of networks gives the GREMLINS fit, for comparison. With blockmodels, `nbBlocksRange` bounds the total number of blocks (rows + columns for bipartite networks), `classifInit`, `initBM`, `maxiterVE` and `maxiterVEM` are not used, and the `index` of `$setModel()` is the `indexModel` of `$storedModels` (as in the dependent case)
+* ICL of the multiplex SBM fitted by **blockmodels** (dependent layers, and independent Bernoulli layers): with the development version of **blockmodels**, the penalty on the connectivity parameters uses `log(number of dyads)` instead of `log(nbLayers * number of dyads)`, each dyad carrying a vector of `nbLayers` values. The ICL values change and so may the selected numbers of blocks. For Gaussian multivariate layers, `nbParams` in `$storedModels` now counts `nbLayers(nbLayers+1)/2` parameters for the symmetric covariance matrix (instead of `nbLayers^2`). The multiplex SBM fitted by **GREMLINS** are not affected
+* `$setModel()` now works for dependent multiplex SBM (it failed, looking for a GREMLINS object): `index` is the `indexModel` of the model in `$storedModels`, i.e. the number of blocks for simple networks
 
 # sbm 1.0.0 [2026-11-09]
 

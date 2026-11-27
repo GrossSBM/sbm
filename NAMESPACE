@@ -47,6 +47,7 @@ importFrom(reshape2,melt)
 importFrom(rlang,.data)
 importFrom(stats,
   fitted,
+  kmeans,
   predict,
   rmultinom,
   rnorm,

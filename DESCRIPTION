@@ -43,7 +43,7 @@ Imports:
     magrittr,
     dplyr,
     purrr,
-    blockmodels (>= 1.2.1),
+    blockmodels (>= 1.2.1.9000),
     R6,
     Rcpp,
     igraph,
@@ -55,7 +55,8 @@ Imports:
     prodlim,
     grDevices
 Remotes:
-    GrossSBM/GREMLINS@dev/future-blockmodels
+    GrossSBM/GREMLINS@dev/future-blockmodels,
+    GrossSBM/blockmodels@feat/independant_multiplex
 Collate: 
     'R6Class-SBM.R'
     'R6Class-BipartiteSBM.R'
@@ -66,6 +67,7 @@ Collate:
     'R6Class-SimpleSBM.R'
     'R6Class-SimpleSBM_fit.R'
     'RcppExports.R'
+    'classifInit.R'
     'defineSBM.R'
     'estimate.R'
     'fungusTreeNetwork.R'
