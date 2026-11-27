@@ -115,7 +115,8 @@ BipartiteSBM_fit <-
           nbBlocksRange = c(4, Inf),
           explorationDirection = numeric(0),
           nbCores = .default_nbCores(),
-          fast = TRUE
+          fast = TRUE,
+          classifInit = NULL
         )
         currentOptions[names(estimOptions)] <- estimOptions
         ## no plot when quiet, unless asked (as in estimate*SBM)
@@ -156,6 +157,10 @@ BipartiteSBM_fit <-
 
         ## performing estimation
         private$BMobject$estimate()
+
+        ## additional initializations (k-means or clusterings supplied by the user)
+        if (!is.null(currentOptions$classifInit))
+          .classifInit_bipartite(currentOptions$classifInit, private$BMobject, private$Y)
 
         ## Exporting blockmodels output to BipartiteSBM_fit fields
         private$import_from_BM()

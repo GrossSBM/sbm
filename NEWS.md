@@ -1,5 +1,9 @@
 # sbm (development version)
 
+## Initialization of simple and bipartite SBM
+
+* new option `classifInit` in `estimOptions` of `estimateSimpleSBM()` and `estimateBipartiteSBM()`: additional initializations of the variational EM algorithm, on top of the default exploration of **blockmodels**. `classifInit = "kmeans"` adds k-means clusterings of the nodes according to their connections (row and column of each node for a directed network; rows and columns separately for a bipartite network) for every number of blocks explored; a clustering supplied by the user (vector, or list of two vectors for a bipartite SBM), or a list of such clusterings, can also be given. Blocks are then split and merged again from the new solutions. This helps when the default exploration, which splits one block at a time, misses a partition requiring several blocks to be split together (e.g. compartments of a food web)
+
 ## Graphics
 
 * new plot type `type = 'parameters'` for simple, bipartite, multiplex and multipartite SBM: the connectivity matrix as a heat map (one cell per pair of blocks, with its value and the colors of the graphon), the row block proportions as bars on the left and the column block proportions as bars on top. For multiplex SBM, the heat maps of the layers are side by side (the marginal connectivity of each layer in the dependent case); with layers of different models, the colors of each layer are rescaled by its maximum, the printed values being unchanged. For multipartite SBM, one heat map per network, arranged as in the data plot, with the block proportions of each functional group on the side of its band (in the colors of the functional groups of the mesoscopic view)
